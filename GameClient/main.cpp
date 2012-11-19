@@ -2,5 +2,5 @@
 
 int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCmdLine, int _nCmdShow)
 {
-	//tyhis is a fucking comment
+	//this is a comment
 }
