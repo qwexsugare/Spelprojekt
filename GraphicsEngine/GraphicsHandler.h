@@ -1,5 +1,3 @@
-#include "GraphicsHandler.h"
-//AFAFAFFAFAFA
 #ifndef GRAPHICS_HANDLER
 #define GRAPHICS_HANDLER
 
