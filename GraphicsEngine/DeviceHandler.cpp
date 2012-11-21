@@ -4,8 +4,8 @@ DeviceHandler::DeviceHandler(HWND _hWnd)
 {
 	RECT rc;
 	GetClientRect(_hWnd, &rc);
-	this->m_screenSize.x = rc.right - rc.left;
-	this->m_screenSize.y = rc.bottom - rc.top;
+	this->m_screenSize.x = (float)(rc.right - rc.left);
+	this->m_screenSize.y = (float)(rc.bottom - rc.top);
 
 	this->m_device = NULL;
 	this->m_swapChain = NULL;
@@ -28,8 +28,8 @@ DeviceHandler::DeviceHandler(HWND _hWnd)
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory( &sd, sizeof(sd) );
 	sd.BufferCount = 1;
-	sd.BufferDesc.Width = this->m_screenSize.x;
-	sd.BufferDesc.Height = this->m_screenSize.y;
+	sd.BufferDesc.Width = (int)this->m_screenSize.x;
+	sd.BufferDesc.Height = (int)this->m_screenSize.y;
 	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	sd.BufferDesc.RefreshRate.Numerator = 60;
 	sd.BufferDesc.RefreshRate.Denominator = 1;
@@ -102,4 +102,9 @@ HRESULT DeviceHandler::present()const
 	}
 
 	return S_OK;
+}
+
+D3DXVECTOR2 DeviceHandler::getScreenSize()
+{
+	return this->m_screenSize;
 }

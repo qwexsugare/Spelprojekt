@@ -8,7 +8,7 @@
 class World
 {
 private:
-	Camera m_camera;
+	Camera *m_camera;
 	EffectFile m_forwardRendering;
 	EffectFile m_deferredRendering;
 	DeviceHandler* m_deviceHandler;
@@ -23,4 +23,6 @@ public:
 
 	void addModel(Model *_model);
 	bool removeModel(Model *_model);
+
+	Camera *getCamera();
 };
