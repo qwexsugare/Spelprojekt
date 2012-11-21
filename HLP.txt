@@ -1,0 +1,6 @@
+//då marcus gört nåtgot knasigt
+git fetch --all
+git reset --hard origin/master
+
+//för att gå tillbaka en commit
+git reset --hard HEAD~1

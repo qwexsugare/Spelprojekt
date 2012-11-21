@@ -10,6 +10,7 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd)
 	this->m_deviceHandler = new DeviceHandler(_hWnd);
 	this->m_world = new World(this->m_deviceHandler);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
+	this->m_configFile = ConfigFile();
 }
 
 GraphicsHandler::~GraphicsHandler()
