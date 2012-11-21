@@ -17,7 +17,7 @@ Model* GraphicsHandler::createModel(string _filename)
 	Model* model;
 
 	model = new Model(this->m_resourceHolder.getMesh(_filename));
-	int 
+	int asdfdasf;
 	return model;
 }
 
