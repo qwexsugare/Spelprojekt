@@ -29,7 +29,7 @@ Model* GraphicsHandler::createModel(string _filename)
 		model = new Model(mesh);
 		this->m_world->addModel(model);
 	}
-
+	int asdfasd;
 	return model;
 }
 
