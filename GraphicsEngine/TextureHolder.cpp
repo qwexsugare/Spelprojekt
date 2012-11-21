@@ -4,6 +4,7 @@
 TextureHolder::TextureHolder(ID3D10Device *_device)
 {
 	this->m_device = _device;
+	this->m_textures = map<string, ID3D10ShaderResourceView*>();
 }
 
 TextureHolder::~TextureHolder(void)

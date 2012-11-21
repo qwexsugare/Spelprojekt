@@ -2,7 +2,7 @@
 
 EffectFile::EffectFile()
 {
-	
+	this->m_effect = NULL;
 }
 
 EffectFile::EffectFile(ID3D10Device* _device, string _filename)
@@ -17,6 +17,8 @@ EffectFile::EffectFile(ID3D10Device* _device, string _filename)
 
 EffectFile::~EffectFile()
 {
-	this->m_effect->Release();
-	//delete m_effect;
+	if(this->m_effect)
+	{
+		this->m_effect->Release();
+	}
 }

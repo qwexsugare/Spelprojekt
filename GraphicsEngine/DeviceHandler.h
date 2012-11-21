@@ -10,10 +10,13 @@ private:
 	IDXGISwapChain*	m_swapChain;
 	HWND m_hWnd;
 	D3DXVECTOR2 m_screenSize;
+
 public:
 	DeviceHandler(HWND _hWnd);
 	~DeviceHandler();
 
 	ID3D10Device* getDevice()const;
 	HRESULT present()const;
+
+	D3DXVECTOR2 getScreenSize();
 };
