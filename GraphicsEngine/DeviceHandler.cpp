@@ -50,6 +50,28 @@ DeviceHandler::DeviceHandler(HWND _hWnd)
 			break;
 		}
 	}
+
+	//Create rendertarget
+	this->m_renderTarget = this->createRenderTargetView();
+
+	//Vertex layout
+	const D3D10_INPUT_ELEMENT_DESC lineVertexLayout[] =
+	{
+		{ "POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(D3DXVECTOR3), D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "UVCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(D3DXVECTOR3) * 2 , D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(D3DXVECTOR3) * 2 + sizeof(D3DXVECTOR2) , D3D10_INPUT_PER_VERTEX_DATA, 0 }
+	};
+
+	D3D10_PASS_DESC PassDesc;
+	g_pTechRenderLine->GetPassByIndex(0)->GetDesc(&PassDesc);
+
+	//Create Input Layout (== Vertex Declaration)
+	g_pd3dDevice->CreateInputLayout(lineVertexLayout,
+		sizeof(lineVertexLayout) / sizeof(D3D10_INPUT_ELEMENT_DESC),
+		PassDesc.pIAInputSignature,
+		PassDesc.IAInputSignatureSize,
+		&g_pVertexLayout );
 }
 
 DeviceHandler::~DeviceHandler()
@@ -70,29 +92,17 @@ ID3D10Device* DeviceHandler::getDevice()const
 }
 
 
-/*HRESULT DeviceHandler::createRenderTargetView(ID3D10RenderTargetView** renderTarget)
+ID3D10RenderTargetView *DeviceHandler::createRenderTargetView()
 {
 	// Create a render target view
-	HRESULT hr;
-
 	ID3D10Texture2D* pBackBuffer;
-	hr = this->m_swapChain->GetBuffer( 0, __uuidof( ID3D10Texture2D ), (LPVOID*)&pBackBuffer );
-
-	if(FAILED(hr))
-	{
-		return hr;
-	}
-
-	hr = this->m_device->CreateRenderTargetView( pBackBuffer, NULL, renderTarget );
+	ID3D10RenderTargetView *renderTarget = NULL;
+	this->m_swapChain->GetBuffer( 0, __uuidof( ID3D10Texture2D ), (LPVOID*)&pBackBuffer );
+	this->m_device->CreateRenderTargetView( pBackBuffer, NULL, &renderTarget );
 	pBackBuffer->Release();
 
-	if(FAILED(hr))
-	{
-		return hr;
-	}
-
-	return S_OK;
-}*/
+	return renderTarget;
+}
 
 HRESULT DeviceHandler::present()const
 {

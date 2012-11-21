@@ -11,6 +11,9 @@ private:
 	HWND m_hWnd;
 	D3DXVECTOR2 m_screenSize;
 
+	ID3D10RenderTargetView *m_renderTarget;
+
+	ID3D10RenderTargetView *createRenderTargetView();
 public:
 	DeviceHandler(HWND _hWnd);
 	~DeviceHandler();

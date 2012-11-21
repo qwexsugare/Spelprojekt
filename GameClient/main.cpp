@@ -39,7 +39,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		}
 		else
 		{
-			//Handle input
+			graphicsHandler->render();
 		}
 	}
 
@@ -68,7 +68,7 @@ HWND InitWindow( HINSTANCE hInstance, int nCmdShow, int width, int height )
 	wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
 	wcex.lpszMenuName   = NULL;
-	wcex.lpszClassName  = "D3DLines";
+	wcex.lpszClassName  = "Spelprojekt";
 	wcex.hIconSm        = 0;
 
 	RegisterClassEx(&wcex);
@@ -78,8 +78,8 @@ HWND InitWindow( HINSTANCE hInstance, int nCmdShow, int width, int height )
 	RECT rc = { 0, 0, 1024, 768 };
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	
-	hWnd = CreateWindow(	"D3DLines",
-							"Direct3D 10 : Line Drawing",
+	hWnd = CreateWindow(	"Spelprojekt",
+							"Spelprojekt",
 							WS_OVERLAPPEDWINDOW,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,

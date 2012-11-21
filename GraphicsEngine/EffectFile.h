@@ -4,7 +4,7 @@
 
 class EffectFile
 {
-private:
+protected:
 	ID3D10Effect* m_effect;
 public:
 	EffectFile();

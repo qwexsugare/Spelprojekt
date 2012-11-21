@@ -1,16 +1,19 @@
 #pragma once
 
 #include "EffectFile.h"
+#include "ForwardRenderingEffectFile.h"
 #include "Camera.h"
 #include "DeviceHandler.h"
 #include "Model.h"
+#include "VertexStructs.h"
 
 class World
 {
 private:
 	Camera *m_camera;
-	EffectFile m_forwardRendering;
+	ForwardRenderingEffectFile* m_forwardRendering;
 	EffectFile m_deferredRendering;
+	ID3D10InputLayout *m_vertexLayout;
 	DeviceHandler* m_deviceHandler;
 
 	vector<Model*> m_models;
