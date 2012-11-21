@@ -34,3 +34,8 @@ void ForwardRenderingEffectFile::setProjectionMatrix(D3DXMATRIX _matrix)
 {
 	this->m_projectionMatrix->SetMatrix((float*)_matrix);
 }
+
+ID3D10EffectTechnique *ForwardRenderingEffectFile::getTechniqueRenderModelForward()
+{
+	return this->m_renderModelForward;
+}

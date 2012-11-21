@@ -17,5 +17,7 @@ public:
 	void setModelMatrix(D3DXMATRIX _matrix);
 	void setViewMatrix(D3DXMATRIX _matrix);
 	void setProjectionMatrix(D3DXMATRIX _matrix);
+
+	ID3D10EffectTechnique *getTechniqueRenderModelForward();
 };
 

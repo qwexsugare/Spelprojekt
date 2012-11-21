@@ -32,27 +32,31 @@ void World::render()
 
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
-	g_pd3dDevice->IASetInputLayout( g_pVertexLayout );
-	g_pd3dDevice->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	
+	this->m_deviceHandler->setInputLayout(this->m_vertexLayout);
 
 	//clear render target
-	g_pd3dDevice->ClearRenderTargetView( g_pRenderTargetView, ClearColor );
-
-	//clear depth info
-	g_pd3dDevice->ClearDepthStencilView( g_pDepthStencilView, D3D10_CLEAR_DEPTH, 1.0f, 0 );
-
-	for(int i = 0; i < this->m_models.size(); i++)
-	{
-		g_pd3dDevice->IASetVertexBuffers( 0, 1, &g_pVB, &stride, &offset );
-	}
-
-
+	this->m_deviceHandler->getDevice()->ClearRenderTargetView( this->m_deviceHandler->getForwardRenderTarget(), ClearColor );
+	this->m_deviceHandler->getDevice()->ClearDepthStencilView( this->m_deviceHandler->getForwardDepthStencil(), D3D10_CLEAR_DEPTH, 1.0f, 0 );
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_deviceHandler->getForwardRenderTarget(), this->m_deviceHandler->getForwardDepthStencil());
 
 	//Render all models
+	for(int i = 0; i < this->m_models.size(); i++)
+	{
+		this->m_deviceHandler->getDevice()->IASetVertexBuffers(0, 1, &this->m_models[i]->getMesh()->buffer, &stride, &offset);
 
+		D3D10_TECHNIQUE_DESC techDesc;
+		this->m_forwardRendering->getTechniqueRenderModelForward()->GetDesc( &techDesc );
+
+		for( UINT p = 0; p < techDesc.Passes; p++ )
+		{
+			this->m_forwardRendering->getTechniqueRenderModelForward()->GetPassByIndex( p )->Apply(0);
+			this->m_deviceHandler->getDevice()->Draw(this->m_models[i]->getMesh()->nrOfVertices, 0);
+		}
+	}
 
 	//Finish render
+	this->m_deviceHandler->present();
 }
 
 void World::addModel(Model *_model)
