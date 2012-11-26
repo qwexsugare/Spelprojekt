@@ -56,13 +56,14 @@ DeviceHandler::DeviceHandler(HWND _hWnd, bool _windowed)
 
 DeviceHandler::~DeviceHandler()
 {
+	if(this->m_swapChain)
+	{
+		this->m_swapChain->SetFullscreenState(false, NULL);
+		this->m_swapChain->Release();
+	}
 	if(this->m_device)
 	{
 		this->m_device->Release();
-	}
-	if(this->m_swapChain)
-	{
-		this->m_swapChain->Release();
 	}
 }
 
