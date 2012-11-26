@@ -51,27 +51,10 @@ DeviceHandler::DeviceHandler(HWND _hWnd)
 		}
 	}
 
-	//Create rendertarget
+	this->m_device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
+
 	this->m_renderTarget = this->createRenderTargetView();
-
-	//Vertex layout
-	const D3D10_INPUT_ELEMENT_DESC lineVertexLayout[] =
-	{
-		{ "POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(D3DXVECTOR3), D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "UVCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(D3DXVECTOR3) * 2 , D3D10_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, sizeof(D3DXVECTOR3) * 2 + sizeof(D3DXVECTOR2) , D3D10_INPUT_PER_VERTEX_DATA, 0 }
-	};
-
-	D3D10_PASS_DESC PassDesc;
-	g_pTechRenderLine->GetPassByIndex(0)->GetDesc(&PassDesc);
-
-	//Create Input Layout (== Vertex Declaration)
-	g_pd3dDevice->CreateInputLayout(lineVertexLayout,
-		sizeof(lineVertexLayout) / sizeof(D3D10_INPUT_ELEMENT_DESC),
-		PassDesc.pIAInputSignature,
-		PassDesc.IAInputSignatureSize,
-		&g_pVertexLayout );
+	this->m_depthStencilView = this->createDepthStencilView(this->m_screenSize);
 }
 
 DeviceHandler::~DeviceHandler()
@@ -104,6 +87,35 @@ ID3D10RenderTargetView *DeviceHandler::createRenderTargetView()
 	return renderTarget;
 }
 
+ID3D10DepthStencilView *DeviceHandler::createDepthStencilView(D3DXVECTOR2 size)
+{
+	// Create depth stencil texture
+	ID3D10Texture2D* stencilBuffer;
+	ID3D10DepthStencilView *depthStencil = NULL;
+	D3D10_TEXTURE2D_DESC descDepth;
+	descDepth.Width = size.x;
+	descDepth.Height = size.y;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D10_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D10_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+	this->m_device->CreateTexture2D( &descDepth, NULL, &stencilBuffer );
+
+	// Create the depth stencil view
+	D3D10_DEPTH_STENCIL_VIEW_DESC descDSV;
+	descDSV.Format = descDepth.Format;
+	descDSV.ViewDimension = D3D10_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0;
+	this->m_device->CreateDepthStencilView( stencilBuffer, &descDSV, &depthStencil);
+
+	return depthStencil;
+}
+
 HRESULT DeviceHandler::present()const
 {
 	if(FAILED(this->m_swapChain->Present(0, 0)))
@@ -117,4 +129,19 @@ HRESULT DeviceHandler::present()const
 D3DXVECTOR2 DeviceHandler::getScreenSize()
 {
 	return this->m_screenSize;
+}
+
+ID3D10RenderTargetView *DeviceHandler::getForwardRenderTarget()
+{
+	return this->m_renderTarget;
+}
+
+ID3D10DepthStencilView *DeviceHandler::getForwardDepthStencil()
+{
+	return this->m_depthStencilView;
+}
+
+void DeviceHandler::setInputLayout(ID3D10InputLayout *inputLayout)
+{
+	this->m_device->IASetInputLayout(inputLayout);
 }

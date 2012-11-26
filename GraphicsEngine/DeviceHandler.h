@@ -10,10 +10,11 @@ private:
 	IDXGISwapChain*	m_swapChain;
 	HWND m_hWnd;
 	D3DXVECTOR2 m_screenSize;
-
 	ID3D10RenderTargetView *m_renderTarget;
+	ID3D10DepthStencilView *m_depthStencilView;
 
 	ID3D10RenderTargetView *createRenderTargetView();
+	ID3D10DepthStencilView *createDepthStencilView(D3DXVECTOR2 size);
 public:
 	DeviceHandler(HWND _hWnd);
 	~DeviceHandler();
@@ -22,4 +23,8 @@ public:
 	HRESULT present()const;
 
 	D3DXVECTOR2 getScreenSize();
+	ID3D10RenderTargetView *getForwardRenderTarget();
+	ID3D10DepthStencilView *getForwardDepthStencil();
+
+	void setInputLayout(ID3D10InputLayout *inputLayout);
 };
