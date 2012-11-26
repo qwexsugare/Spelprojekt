@@ -35,7 +35,7 @@ void World::render()
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	
-	this->m_deviceHandler->setInputLayout(this->m_vertexLayout);
+	//this->m_deviceHandler->setInputLayout(this->m_vertexLayout);
 
 	//clear render target
 	this->m_forwardRenderTarget->clear(this->m_deviceHandler->getDevice());
