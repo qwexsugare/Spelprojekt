@@ -52,5 +52,14 @@ void Camera::moveStatic(float forward, float right, float up)
 
 void Camera::rotate(float x, float y, float z)
 {
+	D3DXMATRIX rotationMatrix;
+	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, x, y, z);
 
+	D3DXVECTOR4 tmp;
+	D3DXVec3Transform(&tmp, &this->m_up, &rotationMatrix);
+	this->m_up = D3DXVECTOR3(tmp.x, tmp.y, tmp.z);
+	D3DXVec3Transform(&tmp, &this->m_right, &rotationMatrix);
+	this->m_right = D3DXVECTOR3(tmp.x, tmp.y, tmp.z);
+	D3DXVec3Transform(&tmp, &this->m_forward, &rotationMatrix);
+	this->m_forward = D3DXVECTOR3(tmp.x, tmp.y, tmp.z);
 }
