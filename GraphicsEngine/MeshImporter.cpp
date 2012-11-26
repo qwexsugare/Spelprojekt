@@ -3,6 +3,7 @@
 Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHolder, string _filename)
 {
 	Mesh* result = NULL;
+	string filepath = "./models/";
 
 	vector<D3DXVECTOR3> positions;
 	vector<D3DXVECTOR3> normals;
@@ -72,8 +73,19 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 			char polygonGroup[100];
 			sscanf(buf, "g %s", polygonGroup);
 		}
+		else if(strcmp(key, "mtllib") == 0) // Material file.
+		{
+			char tempMtllib[100];
+			sscanf(buf, "mtllib %s", tempMtllib);
+			mtllib = string(tempMtllib);
+		}
+		else if(strcmp(key, "usemtl") == 0) // Use material.
+		{
+			char tempMtl[100];
+			sscanf(buf, "usemtl %s", tempMtl);
+			currentMaterial = string(tempMtl);
+		}
 	}
-
 	stream.close();
 	
 	//Create the vertex buffer
@@ -112,6 +124,53 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	}
 	 
 	buffer->Unmap();
+
+	vector<string> newMaterials;
+	struct MATERIAL
+	{
+		ID3D10ShaderResourceView* texture;
+		string name;
+	};
+	vector<MATERIAL> materials;
+	ID3D10ShaderResourceView* texture = NULL;
+	
+	// Open and read the mtl file.
+	stream.open(filepath+mtllib);
+	while(!stream.eof())
+	{
+		char buf[1024];
+		char key[100];
+		stream.getline(buf, 1024);
+		sscanf(buf, "%s", key);
+		if(strcmp(key, "newmtl") == 0) // New material.
+		{
+			char newMaterial[100];
+			sscanf(buf, "newmtl %s", newMaterial);
+			newMaterials.push_back(string(newMaterial));
+
+			// Check if a complete new material has been defined.
+			if((int)newMaterials.size() > 1)
+			{
+				MATERIAL mat;
+				mat.name = newMaterials[(int)newMaterials.size()-2];
+				mat.texture = texture;
+				materials.push_back(mat);
+				texture = NULL;
+			}
+		}
+		else if(strcmp(key, "map_Kd") == 0) // Texture map.
+		{
+			char textureFilename[100];
+			sscanf(buf, "map_Kd %s", textureFilename);
+			texture = textureHolder->getTexture(string(textureFilename));
+		}
+	}
+	stream.close();
+	// Add one last complete new material.
+	MATERIAL matlol;
+	matlol.name = newMaterials[(int)newMaterials.size()-2];
+	matlol.texture = texture;
+	materials.push_back(matlol);
 
 	result = new Mesh(buffer, faceVertexPos1.size()*3);
 
