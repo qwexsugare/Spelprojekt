@@ -53,7 +53,7 @@ void Model::updateModelMatrix()
 		0.0f, 0.0f, this->m_scale.z, 0.0f,
 		this->m_position.x, this->m_position.y, this->m_position.z, 1.0f);
 
-	D3DXMatrixMultiply(&this->m_modelMatrix, &this->m_modelMatrix, &rotationMatrix);
+	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
 }
 
 void Model::setPosition(float x, float y, float z)

@@ -1,0 +1,57 @@
+newmtl Skepp1_4_1:lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Ship4Texture.dds
+map_Kd Ship4Texture_1.dds
+map_Kd Ship4Texture_2.dds
+map_Kd Ship4Texture_3.dds
+map_Kd Ship4Texture_4.dds
+Ni 1.00
+newmtl initialShadingGroup
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl pasted__blinn1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd outUVPlasma.dds
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl pasted__blinn2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd outUVRocketlauncher2.dds
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl pasted__blinn3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd outUVLaser.dds
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl pasted__blinn4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd outUVFlamer.dds
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl pasted__blinn6SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd outUVChockbeam.dds
+Ni 1.00
+Ks 0.50 0.50 0.50

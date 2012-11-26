@@ -25,7 +25,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 
 	// Open and read the obj file.
 	ifstream stream;
-	stream.open(_filename);
+	stream.open(filepath+_filename+".obj");
 	while(!stream.eof())
 	{
 		char buf[1024];
@@ -124,7 +124,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	}
 	 
 	buffer->Unmap();
-
+	/*
 	vector<string> newMaterials;
 	struct MATERIAL
 	{
@@ -171,7 +171,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	matlol.name = newMaterials[(int)newMaterials.size()-2];
 	matlol.texture = texture;
 	materials.push_back(matlol);
-
+	*/
 	result = new Mesh(buffer, faceVertexPos1.size()*3);
 
 	return result;

@@ -30,8 +30,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	}
 
 	graphicsHandler = new GraphicsHandler(hwnd, &configFile);
-	Model *m = graphicsHandler->createModel("palm3");
-	m->setPosition(0.0f, 0.0f, 100.0f);
+	Model *m = graphicsHandler->createModel("ArrowHead");
+	m->setPosition(0.0f, 0.0f, 5.0f);
+
+	float r = 0.0f;
 
 	// Main message loop
 	MSG msg = {0};
@@ -44,6 +46,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		}
 		else
 		{
+			r = r + 0.001;
+			m->setRotation(D3DXVECTOR3(r, r, 0.0f));
 			graphicsHandler->render();
 		}
 	}
