@@ -3,6 +3,7 @@
 #include "GraphicsHandler.h"
 #include "ConfigFile.h"
 #include "Model.h"
+#include "Camera.h"
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -31,6 +32,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 	graphicsHandler = new GraphicsHandler(hwnd, &configFile);
 	Model *m = graphicsHandler->createModel("ArrowHead");
+	Camera *c = graphicsHandler->getCamera();
 
 	float r = 0.0f;
 	m->setPosition(0.0f, 0.0f, 5.0f);
@@ -46,9 +48,17 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		}
 		else
 		{
-			r = r + 0.001;
-			m->setRotation(D3DXVECTOR3(r, r, 0.0f));
+			r = r + 0.0005;
+			m->setRotation(D3DXVECTOR3(r, -0.3f, 0.0f));
 			graphicsHandler->render();
+		}
+		if(msg.wParam == VK_LEFT)
+		{
+			c->moveStatic(0.1f, 0.0f, 0.0f);
+		}
+		if(msg.wParam == VK_RIGHT)
+		{
+			c->moveStatic(-0.1f, 0.0f, 0.0f);
 		}
 	}
 

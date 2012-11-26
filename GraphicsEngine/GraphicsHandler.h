@@ -7,6 +7,7 @@
 #include "ResourceHolder.h"
 #include "Model.h"
 #include "ConfigFile.h"
+#include "Camera.h"
 
 class DECLDIR GraphicsHandler
 {
@@ -18,6 +19,8 @@ public:
 	GraphicsHandler();
 	GraphicsHandler(HWND _hWnd, ConfigFile* _configFile);
 	~GraphicsHandler();
+
+	Camera *getCamera();
 
 	Model* createModel(string _filename);
 	bool removeModel(Model* _model);

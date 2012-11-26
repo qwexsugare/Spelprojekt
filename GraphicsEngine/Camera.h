@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 
-class Camera
+class DECLDIR Camera
 {
 private:
 	D3DXVECTOR3 m_position;

@@ -122,7 +122,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 		vertexData[i * 3 + 2].texCoord = texCoords[faceVertexTexCoord3[i]-1];
 		vertexData[i * 3 + 2].normal = normals[faceVertexNormal3[i]-1];
 	}
-	 
+	
 	buffer->Unmap();
 	
 	vector<string> newMaterials;

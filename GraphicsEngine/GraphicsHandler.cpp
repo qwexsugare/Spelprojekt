@@ -19,6 +19,11 @@ GraphicsHandler::~GraphicsHandler()
 	delete this->m_deviceHandler;
 }
 
+Camera *GraphicsHandler::getCamera()
+{
+	return this->m_world->getCamera();
+}
+
 Model* GraphicsHandler::createModel(string _filename)
 {
 	Model* model = NULL;
