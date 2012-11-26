@@ -41,6 +41,11 @@ RenderTarget::RenderTarget(ID3D10Device *device, D3DXVECTOR2 _size)
 	device->CreateShaderResourceView(this->m_texture, &srvDesc, &this->m_shaderResource);
 }
 
+RenderTarget::RenderTarget(ID3D10Device *device, ID3D10Texture2D *backBuffer)
+{
+	device->CreateRenderTargetView( backBuffer, NULL, &this->m_renderTargetView );
+}
+
 RenderTarget::~RenderTarget()
 {
 	this->m_shaderResource->Release();

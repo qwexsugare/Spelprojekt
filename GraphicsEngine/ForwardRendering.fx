@@ -44,6 +44,19 @@ DepthStencilState EnableDepth
     DepthWriteMask = ALL;
 };
 
+RasterizerState rs
+{
+	FillMode = Solid;
+	CullMode = Front;
+};
+
+BlendState NoBlend
+{
+	BlendEnable[0] = FALSE;
+};
+
+
+
 //-----------------------------------------------------------------------------------------
 // Calculate the light intensity for a given point
 //-----------------------------------------------------------------------------------------
@@ -86,10 +99,10 @@ PSSceneIn VSScene(VSSceneIn input)
 
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
-	float3 texColor = tex2D.Sample(linearSampler, input.UVCoord);
+	//float3 texColor = tex2D.Sample(linearSampler, input.UVCoord);
 	//float3 li = calcLight(input.EyeCoord, input.Normal);
 
-	return float4(texColor, 1.0f);
+	return float4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 technique10 RenderModelForward
@@ -101,5 +114,6 @@ technique10 RenderModelForward
         SetPixelShader( CompileShader( ps_4_0, PSScene() ) );
 
 	    SetDepthStencilState( EnableDepth, 0 );
+	    SetRasterizerState( rs );
     }  
 }

@@ -51,7 +51,10 @@ DeviceHandler::DeviceHandler(HWND _hWnd, bool _windowed)
 		}
 	}
 
-	this->m_device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
+	this->m_device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
+	this->setupViewPort(&this->m_viewport, this->m_screenSize.x, this->m_screenSize.y);
+	this->m_device->RSSetViewports( 1, &this->m_viewport );
 }
 
 DeviceHandler::~DeviceHandler()
@@ -65,6 +68,20 @@ DeviceHandler::~DeviceHandler()
 	{
 		this->m_device->Release();
 	}
+}
+
+ID3D10InputLayout* DeviceHandler::createInputLayout(D3D10_PASS_DESC _passDescription)
+{
+	ID3D10InputLayout* inputLayout;
+	HRESULT hr;
+
+	hr = this->m_device->CreateInputLayout(vertexLayout,
+		sizeof(vertexLayout) / sizeof(D3D10_INPUT_ELEMENT_DESC),
+		_passDescription.pIAInputSignature,
+		_passDescription.IAInputSignatureSize,
+		&inputLayout);
+
+	return inputLayout;
 }
 
 ID3D10Device* DeviceHandler::getDevice()const
@@ -90,4 +107,27 @@ D3DXVECTOR2 DeviceHandler::getScreenSize()
 void DeviceHandler::setInputLayout(ID3D10InputLayout *inputLayout)
 {
 	this->m_device->IASetInputLayout(inputLayout);
+}
+
+void DeviceHandler::setupViewPort(D3D10_VIEWPORT *_viewPort, UINT _width, UINT _height, float _minDepth, float _maxDepth, int _topLeftX, int _topLeftY)
+{
+	_viewPort->Width = _width;
+	_viewPort->Height = _height;
+	_viewPort->MinDepth = _minDepth;
+	_viewPort->MaxDepth = _maxDepth;
+	_viewPort->TopLeftX = _topLeftX;
+	_viewPort->TopLeftY = _topLeftX;
+}
+
+D3D10_VIEWPORT DeviceHandler::getViewport()
+{
+	return this->m_viewport;
+}
+
+ID3D10Texture2D* DeviceHandler::getBackBuffer()
+{
+	ID3D10Texture2D* backBuffer;
+	this->m_swapChain->GetBuffer( 0, __uuidof( ID3D10Texture2D ), (LPVOID*)&backBuffer );
+
+	return backBuffer;
 }

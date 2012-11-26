@@ -11,8 +11,14 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_models = vector<Model*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
-	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
 	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	
+	// Create default vertex layout
+	D3D10_PASS_DESC passDescription;
+	this->m_forwardRendering->getTechniqueRenderModelForward()->GetPassByIndex(0)->GetDesc(&passDescription);
+	this->m_vertexLayout = this->m_deviceHandler->createInputLayout(passDescription);
+	D3DX10CreateFontA(this->m_deviceHandler->getDevice(), 30, 0, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"), &this->m_fpsFont);
 }
 
 World::~World()
@@ -32,22 +38,25 @@ void World::render()
 	this->m_forwardRendering->setViewMatrix(this->m_camera->getViewMatrix());
 	this->m_forwardRendering->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 
-	static float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	
-	//this->m_deviceHandler->setInputLayout(this->m_vertexLayout);
+	this->m_deviceHandler->setInputLayout(this->m_vertexLayout);
 
 	//clear render target
 	this->m_forwardRenderTarget->clear(this->m_deviceHandler->getDevice());
 	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
 
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
+
 	//Render all models
 	for(int i = 0; i < this->m_models.size(); i++)
 	{
 		this->m_deviceHandler->getDevice()->IASetVertexBuffers(0, 1, &this->m_models[i]->getMesh()->buffer, &stride, &offset);
+
+		this->m_forwardRendering->setModelMatrix(this->m_models[i]->getModelMatrix());
 
 		D3D10_TECHNIQUE_DESC techDesc;
 		this->m_forwardRendering->getTechniqueRenderModelForward()->GetDesc( &techDesc );
@@ -58,6 +67,14 @@ void World::render()
 			this->m_deviceHandler->getDevice()->Draw(this->m_models[i]->getMesh()->nrOfVertices, 0);
 		}
 	}
+
+	string str  = "KHJHWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWSK";
+	RECT rc;
+	rc.bottom = 100;
+	rc.top = 200;
+	rc.left = 400;
+	rc.right = 500;
+	this->m_fpsFont->DrawTextA(NULL, str.c_str(), -1, &rc, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 
 	//Finish render
 	this->m_deviceHandler->present();

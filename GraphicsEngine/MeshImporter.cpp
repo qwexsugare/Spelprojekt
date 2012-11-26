@@ -75,16 +75,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	}
 
 	stream.close();
-
-	vector<Vertex> vertices;
-	// Loop through each face and add it to a mesh.
-	for(int i = 0; i < (int)faceVertexPos1.size(); i++)
-	{
-
-		vertices.push_back(Vertex(positions[faceVertexPos2[i]-1], texCoords[faceVertexTexCoord2[i]-1], normals[faceVertexNormal2[i]-1]));
-		vertices.push_back(Vertex(positions[faceVertexPos3[i]-1], texCoords[faceVertexTexCoord3[i]-1], normals[faceVertexNormal3[i]-1]));
-	}
-
+	
 	//Create the vertex buffer
 	ID3D10Buffer* buffer;
 	D3D10_BUFFER_DESC bd;
@@ -105,28 +96,24 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	Vertex *vertexData = NULL;
 	buffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
 
-	for(int i = 0; i < (int)faceVertexPos1.size() * 3; i++)
+	for(int i = 0; i < (int)faceVertexPos1.size(); i++)
 	{
-		vertexData[i].pos = positions[faceVertexPos1[i]-1];
-		vertexData[i].texCoord = texCoords[faceVertexTexCoord1[i]-1];
-		vertexData[i].normal = normals[faceVertexNormal1[i]-1];
+		vertexData[i * 3].pos = positions[faceVertexPos1[i]-1];
+		vertexData[i * 3].texCoord = texCoords[faceVertexTexCoord1[i]-1];
+		vertexData[i * 3].normal = normals[faceVertexNormal1[i]-1];
 
-		i++;
+		vertexData[i * 3 + 1].pos = positions[faceVertexPos2[i]-1];
+		vertexData[i * 3 + 1].texCoord = texCoords[faceVertexTexCoord2[i]-1];
+		vertexData[i * 3 + 1].normal = normals[faceVertexNormal2[i]-1];
 
-		vertexData[i].pos = positions[faceVertexPos1[i]-1];
-		vertexData[i].texCoord = texCoords[faceVertexTexCoord1[i]-1];
-		vertexData[i].normal = normals[faceVertexNormal1[i]-1];
-
-		i++;
-
-		vertexData[i].pos = positions[faceVertexPos1[i]-1];
-		vertexData[i].texCoord = texCoords[faceVertexTexCoord1[i]-1];
-		vertexData[i].normal = normals[faceVertexNormal1[i]-1];
+		vertexData[i * 3 + 2].pos = positions[faceVertexPos3[i]-1];
+		vertexData[i * 3 + 2].texCoord = texCoords[faceVertexTexCoord3[i]-1];
+		vertexData[i * 3 + 2].normal = normals[faceVertexNormal3[i]-1];
 	}
-
+	 
 	buffer->Unmap();
 
-	result = new Mesh(buffer, (int)faceVertexPos1.size() * 3);
+	result = new Mesh(buffer, 3);
 
 	return result;
 }

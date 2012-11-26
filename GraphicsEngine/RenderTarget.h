@@ -12,6 +12,7 @@ private:
 	ID3D10ShaderResourceView *m_shaderResource;
 public:
 	RenderTarget(ID3D10Device *device, D3DXVECTOR2 _size);
+	RenderTarget(ID3D10Device *device, ID3D10Texture2D *backBuffer);
 	~RenderTarget();
 	ID3D10RenderTargetView **getRenderTargetView();
 	ID3D10Texture2D *getTexture();

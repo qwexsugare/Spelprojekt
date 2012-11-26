@@ -12,6 +12,7 @@
 class World
 {
 private:
+	ID3DX10Font* m_fpsFont;
 	Camera *m_camera;
 	ForwardRenderingEffectFile* m_forwardRendering;
 	RenderTarget *m_forwardRenderTarget;

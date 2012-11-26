@@ -26,7 +26,7 @@ Model* GraphicsHandler::createModel(string _filename)
 
 	if(mesh != NULL)
 	{
-		model = new Model(mesh);
+		model = new Model(mesh, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		this->m_world->addModel(model);
 	}
 
