@@ -11,7 +11,7 @@ private:
 	HWND m_hWnd;
 	D3DXVECTOR2 m_screenSize;
 public:
-	DeviceHandler(HWND _hWnd);
+	DeviceHandler(HWND _hWnd, bool _windowed);
 	~DeviceHandler();
 
 	ID3D10Device* getDevice()const;

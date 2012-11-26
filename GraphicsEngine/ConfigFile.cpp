@@ -9,7 +9,18 @@ ConfigFile::ConfigFile()
 
 ConfigFile::~ConfigFile()
 {
-	delete this->m_screenSize;
+	if(this->m_screenSize)
+		delete this->m_screenSize;
+}
+
+const D3DXVECTOR2* ConfigFile::getScreenSize()const
+{
+	return this->m_screenSize;
+}
+
+bool ConfigFile::getWindowed()const
+{
+	return this->m_windowed;
 }
 
 void ConfigFile::load()
@@ -33,7 +44,10 @@ void ConfigFile::load()
 			}
 			else if(strcmp(key, "resolution") == 0)
 			{
-				sscanf(buf, "resolution %d %d", &this->m_screenSize->x, &this->m_screenSize->y);
+				int x, y;
+				sscanf(buf, "resolution %d %d", &x, &y);
+				this->m_screenSize->x = x;
+				this->m_screenSize->y = y;
 			}
 		}
 	}
