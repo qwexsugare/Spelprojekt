@@ -13,6 +13,14 @@ ConfigFile::~ConfigFile()
 
 }
 
+const D3DXVECTOR2* ConfigFile::getScreenSize()const
+{
+	return this->m_screenSize;
+}
+
+bool ConfigFile::getWindowed()const
+{ return this->m_windowed; }
+
 void ConfigFile::load()
 {
 	// Open and read config file

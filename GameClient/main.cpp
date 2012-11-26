@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------------
 // Forward declarations
 //--------------------------------------------------------------------------------------
-HWND	            InitWindow( HINSTANCE hInstance, int nCmdShow, int width, int height );
+HWND	            InitWindow(HINSTANCE _hInstance, int _nCmdShow, const D3DXVECTOR2* _screenSize);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
 GraphicsHandler *graphicsHandler;
@@ -23,8 +23,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	configFile.load();
 
 	HWND hwnd = 0;
-
-	if((hwnd = InitWindow(hInstance, nCmdShow, configFile.getScreenSize()->x, configFile.getScreenSize()->y)) == 0)
+	if((hwnd = InitWindow(hInstance, nCmdShow, configFile.getScreenSize())) == 0)
 	{
 		return 0;
 	}
@@ -55,7 +54,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 //--------------------------------------------------------------------------------------
 // Register class and create window
 //--------------------------------------------------------------------------------------
-HWND InitWindow( HINSTANCE hInstance, int nCmdShow, int width, int height )
+HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, const D3DXVECTOR2* _screenSize)
 {
 	HWND hWnd;
 
@@ -66,7 +65,7 @@ HWND InitWindow( HINSTANCE hInstance, int nCmdShow, int width, int height )
 	wcex.lpfnWndProc    = WndProc;
 	wcex.cbClsExtra     = 0;
 	wcex.cbWndExtra     = 0;
-	wcex.hInstance      = hInstance;
+	wcex.hInstance      = _hInstance;
 	wcex.hIcon          = 0;
 	wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
@@ -77,23 +76,21 @@ HWND InitWindow( HINSTANCE hInstance, int nCmdShow, int width, int height )
 	RegisterClassEx(&wcex);
 
 	// Create window
-	HINSTANCE g_hInst = hInstance; 
 	RECT rc = { 0, 0, 1024, 768 };
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
-	
 	hWnd = CreateWindow(	"Spelprojekt",
 							"Spelprojekt",
 							WS_OVERLAPPEDWINDOW,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
-							rc.right - rc.left,
-							rc.bottom - rc.top,
+							_screenSize->x,
+							_screenSize->y,
 							NULL,
 							NULL,
-							hInstance,
+							_hInstance,
 							NULL);
 
-	ShowWindow( hWnd, nCmdShow );
+	ShowWindow( hWnd, _nCmdShow );
 
 	return hWnd;
 }
