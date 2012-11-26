@@ -4,8 +4,7 @@
 ConfigFile::ConfigFile()
 {
 	this->m_windowed = DEFAULT_WINDOWED;
-	this->m_screenSize->x = DEFAULT_SCREEN_WIDTH;
-	this->m_screenSize->y = DEFAULT_SCREEN_HEIGHT;
+	this->m_screenSize = new D3DXVECTOR2(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 }
 
 ConfigFile::~ConfigFile()
