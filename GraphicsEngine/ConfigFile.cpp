@@ -9,7 +9,8 @@ ConfigFile::ConfigFile()
 
 ConfigFile::~ConfigFile()
 {
-
+	if(this->m_screenSize)
+		delete this->m_screenSize;
 }
 
 const D3DXVECTOR2* ConfigFile::getScreenSize()const

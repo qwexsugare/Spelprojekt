@@ -28,7 +28,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		return 0;
 	}
 
-	graphicsHandler = new GraphicsHandler(hwnd, configFile);
+	graphicsHandler = new GraphicsHandler(hwnd, &configFile);
 
 	// Main message loop
 	MSG msg = {0};
