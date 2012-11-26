@@ -13,7 +13,7 @@ private:
 	D3DXVECTOR3 m_rotation;
 public:
 	Model();
-	Model(Mesh* _mesh);
+	Model(Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation);
 	~Model();
 	
 	D3DXVECTOR3 getPosition()const;
@@ -24,4 +24,5 @@ public:
 	void setPosition(D3DXVECTOR3 _position);
 	void setScale(D3DXVECTOR3 _scale);
 	void setRotation(D3DXVECTOR3 _rotation);
+	void updateModelMatrix();
 };
