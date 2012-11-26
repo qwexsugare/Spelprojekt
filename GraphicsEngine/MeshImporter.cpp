@@ -124,7 +124,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	}
 	 
 	buffer->Unmap();
-	/*
+	
 	vector<string> newMaterials;
 	struct MATERIAL
 	{
@@ -162,17 +162,18 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 		{
 			char textureFilename[100];
 			sscanf(buf, "map_Kd %s", textureFilename);
-			texture = textureHolder->getTexture(string(textureFilename));
+			texture = textureHolder->getTexture(string(filepath+textureFilename));
 		}
 	}
 	stream.close();
 	// Add one last complete new material.
 	MATERIAL matlol;
 	matlol.name = newMaterials[(int)newMaterials.size()-2];
-	matlol.texture = texture;
+	matlol.texture = materials[(int)newMaterials.size()-2].texture;
 	materials.push_back(matlol);
-	*/
+	
 	result = new Mesh(buffer, faceVertexPos1.size()*3);
+	result->m_texture = matlol.texture;
 
 	return result;
 }

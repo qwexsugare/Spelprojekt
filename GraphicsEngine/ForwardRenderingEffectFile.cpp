@@ -11,6 +11,8 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 	this->m_viewMatrix = this->m_effect->GetVariableByName("viewMatrix")->AsMatrix();
 	this->m_projectionMatrix = this->m_effect->GetVariableByName("projectionMatrix")->AsMatrix();
 
+	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
+
 	this->m_renderModelForward = this->m_effect->GetTechniqueByName("RenderModelForward");
 }
 
@@ -33,6 +35,11 @@ void ForwardRenderingEffectFile::setViewMatrix(D3DXMATRIX _matrix)
 void ForwardRenderingEffectFile::setProjectionMatrix(D3DXMATRIX _matrix)
 {
 	this->m_projectionMatrix->SetMatrix((float*)_matrix);
+}
+
+void ForwardRenderingEffectFile::setTexture(ID3D10ShaderResourceView *_texture)
+{
+	this->m_texture->SetResource(_texture);
 }
 
 ID3D10EffectTechnique *ForwardRenderingEffectFile::getTechniqueRenderModelForward()

@@ -30,10 +30,16 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	}
 
 	graphicsHandler = new GraphicsHandler(hwnd, &configFile);
+<<<<<<< HEAD
 	Model *m = graphicsHandler->createModel("ArrowHead");
+	m->setPosition(0.0f, 0.0f, 5.0f);
 
 	float r = 0.0f;
-	m->setPosition(0.0f, 0.0f, 5.0f);
+=======
+	Model *m = graphicsHandler->createModel("palm3");
+	Model *m = graphicsHandler->createModel("hero.obj");
+	m->setPosition(0.0f, 0.0f, 100.0f);
+>>>>>>> a7f26c3c38b028ab2996837c25f9b12a19877d9c
 
 	// Main message loop
 	MSG msg = {0};

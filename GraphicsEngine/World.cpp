@@ -62,6 +62,7 @@ void World::render()
 		this->m_deviceHandler->getDevice()->IASetVertexBuffers(0, 1, &this->m_models[i]->getMesh()->buffer, &stride, &offset);
 
 		this->m_forwardRendering->setModelMatrix(this->m_models[i]->getModelMatrix());
+		this->m_forwardRendering->setTexture(this->m_models[i]->getMesh()->m_texture);
 
 		D3D10_TECHNIQUE_DESC techDesc;
 		this->m_forwardRendering->getTechniqueRenderModelForward()->GetDesc( &techDesc );
