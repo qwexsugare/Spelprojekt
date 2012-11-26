@@ -16,4 +16,8 @@ public:
 
 	ConfigFile();
 	~ConfigFile();
+
+	bool getWindowed()const { return this->m_windowed; }
+	D3DXVECTOR2 getScreenSize()const { return this->m_screenSize; }
+	void load();
 };
