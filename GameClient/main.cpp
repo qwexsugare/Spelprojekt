@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <iostream>
 #include "GraphicsHandler.h"
+#include "ConfigFile.h"
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -10,7 +11,6 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
 GraphicsHandler *graphicsHandler;
 
-
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
 // loop. Idle time is used to render the scene.
@@ -19,14 +19,17 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
+	ConfigFile configFile;
+	configFile.load();
+
 	HWND hwnd = 0;
 
-	if((hwnd = InitWindow(hInstance, nCmdShow, 800, 800)) == 0)
+	if((hwnd = InitWindow(hInstance, nCmdShow, configFile.getScreenSize()->x, configFile.getScreenSize()->y)) == 0)
 	{
 		return 0;
 	}
 
-	graphicsHandler = new GraphicsHandler(hwnd);
+	graphicsHandler = new GraphicsHandler(hwnd, configFile);
 
 	// Main message loop
 	MSG msg = {0};

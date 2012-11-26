@@ -5,7 +5,7 @@ GraphicsHandler::GraphicsHandler()
 
 }
 
-GraphicsHandler::GraphicsHandler(HWND _hWnd)
+GraphicsHandler::GraphicsHandler(HWND _hWnd, const ConfigFile& _configFile)
 {
 	this->m_deviceHandler = new DeviceHandler(_hWnd);
 	this->m_world = new World(this->m_deviceHandler);

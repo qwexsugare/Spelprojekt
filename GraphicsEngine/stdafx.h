@@ -5,3 +5,9 @@
 #include <vector>
 #include <string>
 using namespace std;
+
+#if defined DLL_EXPORT
+#define DECLDIR __declspec(dllexport)
+#else
+#define DECLDIR __declspec(dllimport)
+#endif

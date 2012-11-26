@@ -1,12 +1,6 @@
 #ifndef GRAPHICS_HANDLER
 #define GRAPHICS_HANDLER
 
-#if defined DLL_EXPORT
-#define DECLDIR __declspec(dllexport)
-#else
-#define DECLDIR __declspec(dllimport)
-#endif
-
 #include "stdafx.h"
 #include "World.h"
 #include "DeviceHandler.h"
@@ -23,7 +17,7 @@ private:
 	ConfigFile m_configFile;
 public:
 	GraphicsHandler();
-	GraphicsHandler(HWND _hWnd);
+	GraphicsHandler(HWND _hWnd, const ConfigFile& _configFile);
 	~GraphicsHandler();
 
 	Model* createModel(string _filename);
