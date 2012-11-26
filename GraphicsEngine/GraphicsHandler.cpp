@@ -10,7 +10,7 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd, const ConfigFile& _configFile)
 	this->m_deviceHandler = new DeviceHandler(_hWnd);
 	this->m_world = new World(this->m_deviceHandler);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
-	this->m_configFile = ConfigFile();
+	this->m_configFile = _configFile;
 }
 
 GraphicsHandler::~GraphicsHandler()
@@ -30,7 +30,7 @@ Model* GraphicsHandler::createModel(string _filename)
 		model = new Model(mesh);
 		this->m_world->addModel(model);
 	}
-	int asdfasd;
+
 	return model;
 }
 

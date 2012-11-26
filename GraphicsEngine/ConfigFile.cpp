@@ -9,7 +9,7 @@ ConfigFile::ConfigFile()
 
 ConfigFile::~ConfigFile()
 {
-
+	delete this->m_screenSize;
 }
 
 void ConfigFile::load()

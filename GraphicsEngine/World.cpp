@@ -18,6 +18,8 @@ World::World(DeviceHandler* _deviceHandler)
 World::~World()
 {
 	delete this->m_forwardRendering;
+	delete this->m_forwardRenderTarget;
+	delete this->m_forwardDepthStencil;
 	delete this->m_camera;
 }
 
