@@ -7,7 +7,7 @@ GraphicsHandler::GraphicsHandler()
 
 GraphicsHandler::GraphicsHandler(HWND _hWnd, const ConfigFile& _configFile)
 {
-	this->m_deviceHandler = new DeviceHandler(_hWnd);
+	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile.getWindowed());
 	this->m_world = new World(this->m_deviceHandler);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
 	this->m_configFile = ConfigFile();

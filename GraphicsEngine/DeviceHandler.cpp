@@ -1,6 +1,6 @@
 #include "DeviceHandler.h"
 
-DeviceHandler::DeviceHandler(HWND _hWnd)
+DeviceHandler::DeviceHandler(HWND _hWnd, bool _windowed)
 {
 	RECT rc;
 	GetClientRect(_hWnd, &rc);
@@ -37,7 +37,7 @@ DeviceHandler::DeviceHandler(HWND _hWnd)
 	sd.OutputWindow = _hWnd;
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
-	sd.Windowed = true;
+	sd.Windowed = _windowed;
 
 	UINT numDriverTypes = sizeof(driverTypes) / sizeof(driverTypes[0]);
 	for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
