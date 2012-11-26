@@ -4,8 +4,8 @@
 ConfigFile::ConfigFile()
 {
 	this->m_windowed = DEFAULT_WINDOWED;
-	this->m_screenSize.x = DEFAULT_SCREEN_WIDTH;
-	this->m_screenSize.y = DEFAULT_SCREEN_HEIGHT;
+	this->m_screenSize->x = DEFAULT_SCREEN_WIDTH;
+	this->m_screenSize->y = DEFAULT_SCREEN_HEIGHT;
 }
 
 ConfigFile::~ConfigFile()
@@ -34,7 +34,7 @@ void ConfigFile::load()
 			}
 			else if(strcmp(key, "resolution") == 0)
 			{
-				sscanf(buf, "resolution %d %d", &this->m_screenSize.x, &this->m_screenSize.y);
+				sscanf(buf, "resolution %d %d", &this->m_screenSize->x, &this->m_screenSize->y);
 			}
 		}
 	}

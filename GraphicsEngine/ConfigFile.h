@@ -4,11 +4,11 @@
 
 #include "stdafx.h"
 
-class ConfigFile
+class DECLDIR ConfigFile
 {
 private:
 	bool m_windowed;
-	D3DXVECTOR2 m_screenSize;
+	D3DXVECTOR2* m_screenSize;
 public:
 	static const int DEFAULT_SCREEN_WIDTH = 1920;
 	static const int DEFAULT_SCREEN_HEIGHT = 1080;
@@ -18,6 +18,6 @@ public:
 	~ConfigFile();
 
 	bool getWindowed()const { return this->m_windowed; }
-	D3DXVECTOR2 getScreenSize()const { return this->m_screenSize; }
+	const D3DXVECTOR2* getScreenSize()const { return this->m_screenSize; }
 	void load();
 };
