@@ -30,7 +30,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	}
 
 	graphicsHandler = new GraphicsHandler(hwnd, &configFile);
-	Model *m = graphicsHandler->createModel("ferocious_boar.obj");
+
+	Model *m = graphicsHandler->createModel("hero.obj");
 	m->setPosition(0.0f, 0.0f, 100.0f);
 
 	// Main message loop

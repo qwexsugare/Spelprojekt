@@ -75,38 +75,6 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	}
 
 	stream.close();
-
-	/*
-	//Create the vertex buffer
-	ID3D10Buffer* buffer;
-	D3D10_BUFFER_DESC bd;
-	bd.Usage = D3D10_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof( Vertex ) * 3;
-	bd.BindFlags = D3D10_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-	bd.MiscFlags = 0;
-
-	HRESULT hr = _device->CreateBuffer( &bd, 0, &buffer);
-
-	if(FAILED(hr))
-	{
-		MessageBox( 0, "Unable to create Vertex Buffer", "VB Error", 0 );
-	}
-	
-	//Load vertices
-	Vertex *vertexData = NULL;
-	buffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
-	
-	vertexData[0].pos = D3DXVECTOR3(0.0f, 0.0f, 5.0f);
-	vertexData[1].pos = D3DXVECTOR3(0.0f, 0.0f, 5.0f);
-	vertexData[2].pos = D3DXVECTOR3(1.0f, 1.0f, 5.0f);
-	vertexData[0].normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	vertexData[1].normal = D3DXVECTOR3(0.0f, 0.0f, 5.0f);
-	vertexData[2].normal = D3DXVECTOR3(3.0f, 5.0f, 0.0f);
-	vertexData[0].texCoord = D3DXVECTOR2(0.0f, 0.0f);
-	vertexData[1].texCoord = D3DXVECTOR2(0.0f, 0.0f);
-	vertexData[2].texCoord = D3DXVECTOR2(0.0f, 0.0f);
-	*/
 	
 	//Create the vertex buffer
 	ID3D10Buffer* buffer;

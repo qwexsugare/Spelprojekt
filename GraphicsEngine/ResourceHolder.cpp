@@ -13,6 +13,14 @@ ResourceHolder::ResourceHolder(ID3D10Device* _device)
 
 ResourceHolder::~ResourceHolder()
 {
+	map<string, Mesh*>::iterator m = this->m_meshes.begin();
+
+	while(m != this->m_meshes.end())
+	{
+		delete (*m).second;
+		m++;
+	}
+
 	delete this->m_textureHolder;
 }
 

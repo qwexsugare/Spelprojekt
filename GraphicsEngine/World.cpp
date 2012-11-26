@@ -23,6 +23,11 @@ World::World(DeviceHandler* _deviceHandler)
 
 World::~World()
 {
+	for(int i = 0; i < this->m_models.size(); i++)
+	{
+		delete this->m_models[i];
+	}
+
 	delete this->m_forwardRendering;
 	delete this->m_forwardRenderTarget;
 	delete this->m_forwardDepthStencil;
