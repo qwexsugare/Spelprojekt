@@ -14,3 +14,8 @@ Model::~Model()
 {
 
 }
+
+Mesh *Model::getMesh() const
+{
+	return this->m_mesh;
+}

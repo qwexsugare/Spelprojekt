@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConfigFile.h" />
+    <ClInclude Include="DepthStencil.h" />
     <ClInclude Include="DeviceHandler.h" />
     <ClInclude Include="EffectFile.h" />
     <ClInclude Include="ForwardRenderingEffectFile.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshImporter.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ResourceHolder.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureHolder.h" />
@@ -100,12 +102,14 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
+    <ClCompile Include="DepthStencil.cpp" />
     <ClCompile Include="DeviceHandler.cpp" />
     <ClCompile Include="EffectFile.cpp" />
     <ClCompile Include="ForwardRenderingEffectFile.cpp" />
     <ClCompile Include="GraphicsHandler.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceHolder.cpp" />
     <ClCompile Include="TextureHolder.cpp" />
     <ClCompile Include="World.cpp" />

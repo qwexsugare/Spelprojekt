@@ -11,6 +11,8 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_models = vector<Model*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
+	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 }
 
 World::~World()
@@ -36,9 +38,9 @@ void World::render()
 	this->m_deviceHandler->setInputLayout(this->m_vertexLayout);
 
 	//clear render target
-	this->m_deviceHandler->getDevice()->ClearRenderTargetView( this->m_deviceHandler->getForwardRenderTarget(), ClearColor );
-	this->m_deviceHandler->getDevice()->ClearDepthStencilView( this->m_deviceHandler->getForwardDepthStencil(), D3D10_CLEAR_DEPTH, 1.0f, 0 );
-	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_deviceHandler->getForwardRenderTarget(), this->m_deviceHandler->getForwardDepthStencil());
+	this->m_forwardRenderTarget->clear(this->m_deviceHandler->getDevice());
+	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
 
 	//Render all models
 	for(int i = 0; i < this->m_models.size(); i++)
