@@ -10,7 +10,6 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_models = vector<Model*>();
 	this->m_sprites = vector<Sprite*>();
-	this->m_texts = vector<Text*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
 	this->m_texts.push_back(new Text(this->m_deviceHandler->createFont(), "olles kkaviar", INT2(100, 500)));
 	this->m_texts.push_back(new Text(this->m_deviceHandler->createFont(), "MARIAS SCHLAGERKAKA", INT2(500, 300)));
@@ -25,7 +24,14 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+<<<<<<< HEAD
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
+	
+	// Create a font
+	D3DX10CreateFontA(this->m_deviceHandler->getDevice(), 30, 0, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"), &this->m_fpsFont);
+=======
+	this->m_deferredPlane = new Sprite(this->m_deviceHandler->getDevice(), D3DXVECTOR2(-1.0f, -1.0f), D3DXVECTOR2(2.0f, 0.0f), D3DXVECTOR2(0.0f, 2.0f), NULL);
+>>>>>>> 512dc5c146a56997c00ad8d5f5a8efde4bf43d77
 }
 
 World::~World()
@@ -38,11 +44,6 @@ World::~World()
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		delete this->m_sprites[i];
-	}
-
-	for(int i = 0; i < this->m_texts.size(); i++)
-	{
-		delete this->m_texts[i];
 	}
 
 	delete this->m_forwardRendering;

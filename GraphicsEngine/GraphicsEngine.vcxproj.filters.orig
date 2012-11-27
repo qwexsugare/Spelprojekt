@@ -66,7 +66,6 @@
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -74,9 +73,16 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DeferredSamplerEffectFile.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="DataStructures.h">
->>>>>>> 54aad5a57df24c476c8c3902caa0b5dbc8d4f7dc
+      <Filter>Header Files</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="FullScreenPlane.h">
+=======
+    <ClInclude Include="Text.h">
+>>>>>>> 512dc5c146a56997c00ad8d5f5a8efde4bf43d77
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,6 +133,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DeferredSamplerEffectFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="FullScreenPlane.cpp">
+=======
+    <ClCompile Include="Text.cpp">
+>>>>>>> 512dc5c146a56997c00ad8d5f5a8efde4bf43d77
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
