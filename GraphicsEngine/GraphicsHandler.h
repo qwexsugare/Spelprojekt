@@ -25,6 +25,9 @@ public:
 	Model* createModel(string _filename);
 	bool removeModel(Model* _model);
 
+	Sprite *createSprite(string filename);
+	bool remove(Sprite *sprite);
+
 	void render();
 	void update(float dt);
 };

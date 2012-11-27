@@ -91,6 +91,7 @@
     <ClInclude Include="DeviceHandler.h" />
     <ClInclude Include="EffectFile.h" />
     <ClInclude Include="ForwardRenderingEffectFile.h" />
+    <ClInclude Include="FullScreenPlane.h" />
     <ClInclude Include="GraphicsHandler.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshImporter.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="DeviceHandler.cpp" />
     <ClCompile Include="EffectFile.cpp" />
     <ClCompile Include="ForwardRenderingEffectFile.cpp" />
+    <ClCompile Include="FullScreenPlane.cpp" />
     <ClCompile Include="GraphicsHandler.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="Model.cpp" />

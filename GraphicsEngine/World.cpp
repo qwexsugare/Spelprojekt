@@ -9,6 +9,7 @@ World::World(DeviceHandler* _deviceHandler)
 {
 	this->m_deviceHandler = _deviceHandler;
 	this->m_models = vector<Model*>();
+	this->m_sprites = vector<Sprite*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
@@ -20,7 +21,7 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
-	this->m_deferredPlane = new Sprite(this->m_deviceHandler->getDevice(), D3DXVECTOR2(-1.0f, -1.0f), D3DXVECTOR2(2.0f, 0.0f), D3DXVECTOR2(0.0f, 2.0f), NULL);
+	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 	
 	// Create a font
 	D3DX10CreateFontA(this->m_deviceHandler->getDevice(), 30, 0, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"), &this->m_fpsFont);
@@ -31,6 +32,11 @@ World::~World()
 	for(int i = 0; i < this->m_models.size(); i++)
 	{
 		delete this->m_models[i];
+	}
+
+	for(int i = 0; i < this->m_sprites.size(); i++)
+	{
+		delete this->m_sprites[i];
 	}
 
 	delete this->m_forwardRendering;
@@ -149,6 +155,28 @@ bool World::removeModel(Model *_model)
 		{
 			delete this->m_models[i];
 			this->m_models.erase(this->m_models.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addSprite(Sprite *sprite)
+{
+	this->m_sprites.push_back(sprite);	
+}
+
+bool World::removeSprite(Sprite *sprite)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_sprites.size() && !found; i++)
+	{
+		if(this->m_sprites[i] == sprite)
+		{
+			delete this->m_sprites[i];
+			this->m_sprites.erase(this->m_sprites.begin()+i);
 			found = true;
 		}
 	}

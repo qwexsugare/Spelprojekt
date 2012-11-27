@@ -43,6 +43,19 @@ bool GraphicsHandler::removeModel(Model* _model)
 	return this->m_world->removeModel(_model);
 }
 
+Sprite *GraphicsHandler::createSprite(string filename)
+{
+	Sprite *sprite = NULL;
+	//sprite = new Sprite(
+
+	return sprite;
+}
+
+bool GraphicsHandler::remove(Sprite *sprite)
+{
+	return this->m_world->removeSprite(sprite);
+}
+
 void GraphicsHandler::render()
 {
 	this->m_world->render();

@@ -1,9 +1,9 @@
-#include "Sprite.h"
+#include "FullScreenPlane.h"
 
-Sprite::Sprite(ID3D10Device *device, D3DXVECTOR2 position, D3DXVECTOR2 size,ID3D10Texture2D *_texture)
+FullScreenPlane::FullScreenPlane(ID3D10Device *device, ID3D10Texture2D *_texture)
 {
-	this->m_texture = _texture;
 	this->m_mesh = new Mesh(NULL, 6);
+	this->m_texture = _texture;
 
 	//Create the vertex buffer
 	D3D10_BUFFER_DESC bd;
@@ -22,6 +22,9 @@ Sprite::Sprite(ID3D10Device *device, D3DXVECTOR2 position, D3DXVECTOR2 size,ID3D
 
 	//Load vertices
 	Vertex *vertexData = NULL;
+	D3DXVECTOR2 position = D3DXVECTOR2(-1.0f, -1.0f);
+	D3DXVECTOR2 size = D3DXVECTOR2(2.0f, 2.0f);
+
 	this->m_mesh->buffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
 
 	vertexData[0].pos = D3DXVECTOR3(position.x, position.y, 0.0f);
@@ -45,22 +48,17 @@ Sprite::Sprite(ID3D10Device *device, D3DXVECTOR2 position, D3DXVECTOR2 size,ID3D
 	this->m_mesh->buffer->Unmap();
 }
 
-Sprite::~Sprite()
+FullScreenPlane::~FullScreenPlane()
 {
 	delete this->m_mesh;
-
-	if(this->m_texture != NULL)
-	{
-		this->m_texture->Release();
-	}
 }
 
-Mesh *Sprite::getMesh()
+Mesh *FullScreenPlane::getMesh()
 {
 	return this->m_mesh;
 }
 
-ID3D10Texture2D *Sprite::getTexture()
+ID3D10Texture2D *FullScreenPlane::getTexture()
 {
 	return this->m_texture;
 }

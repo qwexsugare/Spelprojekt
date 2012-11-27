@@ -11,6 +11,7 @@
 #include "RenderTarget.h"
 #include "DepthStencil.h"
 #include "Sprite.h"
+#include "FullScreenPlane.h"
 
 class World
 {
@@ -29,11 +30,12 @@ private:
 	RenderTarget *m_positionBuffer;
 	RenderTarget *m_normalBuffer;
 	RenderTarget *m_diffuseBuffer;
-	Sprite *m_deferredPlane;
+	FullScreenPlane *m_deferredPlane;
 
 	DeviceHandler* m_deviceHandler;
 
 	vector<Model*> m_models;
+	vector<Sprite*> m_sprites;
 public:
 	World();
 	World(DeviceHandler* _deviceHandler);
@@ -43,6 +45,9 @@ public:
 
 	void addModel(Model *_model);
 	bool removeModel(Model *_model);
+
+	void addSprite(Sprite *sprite);
+	bool removeSprite(Sprite *sprite);
 
 	Camera *getCamera();
 };

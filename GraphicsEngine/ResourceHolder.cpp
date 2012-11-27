@@ -42,3 +42,8 @@ Mesh* ResourceHolder::getMesh(string filename)
 
 	return result;
 }
+
+TextureHolder *ResourceHolder::getTextureHolder()
+{
+	return this->m_textureHolder;
+}

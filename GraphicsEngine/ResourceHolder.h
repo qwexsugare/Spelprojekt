@@ -18,4 +18,5 @@ public:
 	~ResourceHolder();
 
 	Mesh* getMesh(string filename);
+	TextureHolder *getTextureHolder();
 };
