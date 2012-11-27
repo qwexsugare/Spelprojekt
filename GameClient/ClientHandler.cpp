@@ -114,11 +114,11 @@ void ClientHandler::update(float _dt)
 	}
 	if(this->m_mouse->getPos().y >= this->m_configFile->getScreenSize().y-2)
 	{
-		this->m_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -1.0f*_dt);
+		this->m_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, 1.0f*_dt);
 	}
 	else if(this->m_mouse->getPos().y == 0)
 	{
-		this->m_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, 1.0f*_dt);
+		this->m_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -1.0f*_dt);
 	}
 
 	this->m_mouse->update(); // Must be last!
