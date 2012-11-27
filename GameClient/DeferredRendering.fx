@@ -1,4 +1,6 @@
-Texture2D tex2D;
+Texture2D positionTexture;
+Texture2D normalTexture;
+Texture2D diffuseTexture;
 
 SamplerState linearSampler 
 {
@@ -11,24 +13,21 @@ struct VSSceneIn
 {
 	float3 Pos	: POS;
 	float2 UVCoord : UVCOORD;
-	float3 Normal : NORMAL;
 };
 
 struct PSSceneIn
 {
 	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
 	float2 UVCoord : UVCOORD;
-	float4 EyeCoord : EYE_COORD;
-	float3 Normal : NORMAL;
 };
 
 //Variables that updated often
 cbuffer cbEveryFrame
 {
 	//Transformation matrices
-	matrix viewMatrix;
-	matrix projectionMatrix;
-	matrix modelMatrix;
+	//matrix viewMatrix;
+	//matrix projectionMatrix;
+	//matrix modelMatrix;
 };
 
 // State Structures
@@ -98,28 +97,23 @@ PSSceneIn VSScene(VSSceneIn input)
 {
 	PSSceneIn output = (PSSceneIn)0;
 
-	matrix worldViewProjection = mul(viewMatrix, projectionMatrix);
-	
 	// transform the point into view space
-	output.Pos = mul( float4(input.Pos,1.0), mul(modelMatrix,worldViewProjection) );
+	output.Pos = float4(input.Pos,1.0);
 	output.UVCoord = input.UVCoord;
-
-	//variables needed for lighting
-	output.Normal = input.Normal;
-	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
 
 	return output;
 }
 
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
-	float3 texColor = tex2D.Sample(linearSampler, input.UVCoord);
-	float3 li = calcLight(input.EyeCoord, input.Normal);
+	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
+	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
+	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord); 
 
-	return float4(texColor, 1.0f);
+	return diffuse;
 }
 
-technique10 RenderModelForward
+technique10 RenderModelDeferred
 {
     pass p0
     {

@@ -66,6 +66,9 @@
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DeferredRenderingEffectFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -107,9 +110,15 @@
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DeferredRenderingEffectFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ForwardRendering.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\DeferredRendering.fx">
       <Filter>Shader files</Filter>
     </FxCompile>
   </ItemGroup>

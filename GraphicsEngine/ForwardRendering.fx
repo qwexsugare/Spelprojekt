@@ -91,7 +91,7 @@ float3 calcLight(float3 eyeCoord, float3 normal)
 	
 	return (ambient + diffuse + specular);*/
 
-	return float(1.0f, 1.0f, 1.0f, 1.0f);
+	return float4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 PSSceneIn VSScene(VSSceneIn input)
