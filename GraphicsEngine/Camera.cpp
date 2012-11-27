@@ -63,3 +63,13 @@ void Camera::rotate(float x, float y, float z)
 	D3DXVec3Transform(&tmp, &this->m_forward, &rotationMatrix);
 	this->m_forward = D3DXVECTOR3(tmp.x, tmp.y, tmp.z);
 }
+
+void Camera::set(FLOAT3 _position, FLOAT3 _forward, FLOAT3 _up, FLOAT3 _right)
+{
+	this->m_position = D3DXVECTOR3(_position.x, _position.y, _position.z);
+	this->m_forward = D3DXVECTOR3(_forward.x, _forward.y, _forward.z);
+	this->m_up = D3DXVECTOR3(_up.x, _up.y, _up.z);
+	this->m_right = D3DXVECTOR3(_right.x, _right.y, _right.z);
+
+	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+}

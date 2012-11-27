@@ -30,6 +30,26 @@ Mesh *Model::getMesh() const
 	return this->m_mesh;
 }
 
+FLOAT3 Model::getPosition()const
+{
+	return FLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+}
+
+void Model::move(FLOAT3 _distance)
+{
+	this->m_position.x += _distance.x;
+	this->m_position.y += _distance.y;
+	this->m_position.z += _distance.z;
+	this->updateModelMatrix();
+}
+
+void Model::rotate(float _yaw, float _pitch, float _roll)
+{
+	D3DXMATRIX rotationMatrix;
+	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, _yaw, _pitch, _roll);
+	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
+}
+
 void Model::setAlpha(float _alpha)
 {
 	this->m_alpha = _alpha;

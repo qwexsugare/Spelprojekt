@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "stdafx.h"
+#include "DataStructures.h"
 
 class DECLDIR Camera
 {
@@ -26,6 +27,7 @@ public:
 	void moveRelative(float forward, float right, float up);	//Move based on the forward vector
 	void moveStatic(float forward, float right, float up);
 	void rotate(float x, float y, float z);
+	void set(FLOAT3 _position, FLOAT3 _forward, FLOAT3 _up, FLOAT3 _right);
 };
 
 #endif

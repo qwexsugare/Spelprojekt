@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Mesh.h"
+#include "DataStructures.h"
 
 class DECLDIR Model
 {
@@ -18,11 +19,13 @@ public:
 	~Model();
 	
 	float getAlpha()const;
-	D3DXVECTOR3 getPosition()const;
+	FLOAT3 getPosition()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	Mesh* getMesh()const;
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
+	void move(FLOAT3 _distance);
+	void rotate(float _yaw, float _pitch, float _roll);
 	void setAlpha(float _alpha);
 	void setPosition(D3DXVECTOR3 _position);
 	void setScale(D3DXVECTOR3 _scale);
