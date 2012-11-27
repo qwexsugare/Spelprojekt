@@ -56,9 +56,7 @@ void World::render()
 	
 	this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
  	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
-	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
 	
-	/*
 	//clear render target
 	this->m_positionBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBuffer->clear(this->m_deviceHandler->getDevice());
@@ -71,9 +69,9 @@ void World::render()
 	renderTargets[2] = *this->m_diffuseBuffer->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
-	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());*/
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
-	/*
+	
 	//Render all models
 	for(int i = 0; i < this->m_models.size(); i++)
 	{
@@ -115,25 +113,6 @@ void World::render()
 	{
 		this->m_deferredRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
-	}
-	*/
-	//Render all models
-	for(int i = 0; i < this->m_models.size(); i++)
-	{
-		this->m_deviceHandler->getDevice()->IASetVertexBuffers(0, 1, &this->m_models[i]->getMesh()->buffer, &stride, &offset);
-
-		this->m_forwardRendering->setModelMatrix(this->m_models[i]->getModelMatrix());
-		this->m_forwardRendering->setTexture(this->m_models[i]->getMesh()->m_texture);
-		this->m_forwardRendering->setModelAlpha(this->m_models[i]->getAlpha());
-
-		D3D10_TECHNIQUE_DESC techDesc;
-		this->m_forwardRendering->getTechniqueRenderModelForward()->GetDesc( &techDesc );
-
-		for( UINT p = 0; p < techDesc.Passes; p++ )
-		{
-			this->m_forwardRendering->getTechniqueRenderModelForward()->GetPassByIndex( p )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(this->m_models[i]->getMesh()->nrOfVertices, 0);
-		}
 	}
 
 	string str  = "KHJHWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWSK";
