@@ -7,6 +7,7 @@ private:
 	ID3D10EffectMatrixVariable* m_modelMatrix;
 	ID3D10EffectMatrixVariable* m_viewMatrix;
 	ID3D10EffectMatrixVariable* m_projectionMatrix;
+	ID3D10EffectScalarVariable* m_modelAlpha;
 
 	ID3D10EffectShaderResourceVariable* m_texture;
 
@@ -17,6 +18,7 @@ public:
 	ForwardRenderingEffectFile(ID3D10Device* _device);
 	~ForwardRenderingEffectFile();
 
+	void setModelAlpha(float _modelAlpha);
 	void setModelMatrix(D3DXMATRIX _matrix);
 	void setViewMatrix(D3DXMATRIX _matrix);
 	void setProjectionMatrix(D3DXMATRIX _matrix);

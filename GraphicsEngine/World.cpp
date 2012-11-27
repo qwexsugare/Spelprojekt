@@ -59,6 +59,7 @@ void World::render()
 
 		this->m_forwardRendering->setModelMatrix(this->m_models[i]->getModelMatrix());
 		this->m_forwardRendering->setTexture(this->m_models[i]->getMesh()->m_texture);
+		this->m_forwardRendering->setModelAlpha(this->m_models[i]->getAlpha());
 
 		D3D10_TECHNIQUE_DESC techDesc;
 		this->m_forwardRendering->getTechniqueRenderModelForward()->GetDesc( &techDesc );
