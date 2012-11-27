@@ -4,27 +4,17 @@
 ConfigFile::ConfigFile()
 {
 	this->m_windowed = DEFAULT_WINDOWED;
-	this->m_screenSize = new D3DXVECTOR2(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
+	this->m_screenSize = INT2(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 }
 
 ConfigFile::~ConfigFile()
 {
-	delete this->m_screenSize;
+	//delete this->m_screenSize;
 }
 
-const D3DXVECTOR2* ConfigFile::getScreenSize()const
+INT2 ConfigFile::getScreenSize()const
 {
 	return this->m_screenSize;
-}
-
-int ConfigFile::getScreenSizeX()const
-{
-	return int(this->m_screenSize->x);
-}
-
-int ConfigFile::getScreenSizeY()const
-{
-	return int(this->m_screenSize->y);
 }
 
 bool ConfigFile::getWindowed()const
@@ -55,8 +45,8 @@ void ConfigFile::load()
 			{
 				int x, y;
 				sscanf(buf, "resolution %d %d", &x, &y);
-				this->m_screenSize->x = x;
-				this->m_screenSize->y = y;
+				this->m_screenSize.x = x;
+				this->m_screenSize.y = y;
 			}
 		}
 	}

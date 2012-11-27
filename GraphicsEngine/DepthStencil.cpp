@@ -1,13 +1,13 @@
 #include "DepthStencil.h"
 
-DepthStencil::DepthStencil(ID3D10Device *device, D3DXVECTOR2 _size)
+DepthStencil::DepthStencil(ID3D10Device *device, INT2 _size)
 {
 	this->m_size = _size;
 
 	//Create the depth stencil texture
 	D3D10_TEXTURE2D_DESC shadowDescDepth;
-	shadowDescDepth.Width = (int)this->m_size.x;
-	shadowDescDepth.Height = (int)this->m_size.y;
+	shadowDescDepth.Width = this->m_size.x;
+	shadowDescDepth.Height = this->m_size.y;
 	shadowDescDepth.MipLevels = 1;
 	shadowDescDepth.ArraySize = 1;
 	shadowDescDepth.Format = DXGI_FORMAT_R32_TYPELESS;

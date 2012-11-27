@@ -11,6 +11,8 @@ private:
 	ConfigFile* m_configFile;
 	GraphicsHandler* m_graphicsEngine;
 	vector<MSG> m_messages;
+
+	Model* m_testModel;
 public:
 	ClientHandler();
 	~ClientHandler();

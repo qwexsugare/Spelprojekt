@@ -15,15 +15,14 @@ ClientHandler::~ClientHandler()
 
 INT2 ClientHandler::getScreenSize()const
 {
-	return INT2(this->m_configFile->getScreenSizeX(), this->m_configFile->getScreenSizeY());
+	return this->m_configFile->getScreenSize();
 }
 
 void ClientHandler::initGraphicsEngine(HWND _hWnd)
 {
 	this->m_graphicsEngine = new GraphicsHandler(_hWnd, this->m_configFile);
+	this->m_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 10.0f, 0.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	this->m_mouse = new Mouse(500, 500, _hWnd);
-
-	Camera *c = this->m_graphicsEngine->getCamera();
 }
 
 HRESULT ClientHandler::run()
@@ -94,4 +93,33 @@ void ClientHandler::update(float _dt)
 		}
 	}
 	this->m_messages.clear();
+	
+	if(this->m_mouse->isLButtonPressed())
+	{
+		this->m_testModel = this->m_graphicsEngine->createModel("ArrowHead");
+		this->m_testModel->setPosition(0.0f, 0.0f, 0.0f);
+	}
+	if(this->m_mouse->isRButtonDown())
+	{
+		this->m_testModel->rotate(0.0025f, 0.0f, 0.0f);
+	}
+	
+	if(this->m_mouse->getPos().x >= this->m_configFile->getScreenSize().x-2)
+	{
+		this->m_graphicsEngine->getCamera()->moveRelative(0.0f, 1.0f*_dt, 0.0f);
+	}
+	else if(this->m_mouse->getPos().x == 0)
+	{
+		this->m_graphicsEngine->getCamera()->moveRelative(0.0f, -1.0f*_dt, 0.0f);
+	}
+	if(this->m_mouse->getPos().y >= this->m_configFile->getScreenSize().y-2)
+	{
+		this->m_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, 1.0f*_dt);
+	}
+	else if(this->m_mouse->getPos().y == 0)
+	{
+		this->m_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -1.0f*_dt);
+	}
+
+	this->m_mouse->update(); // Must be last!
 }

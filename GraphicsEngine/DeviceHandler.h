@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "DataStructures.h"
 
 class DeviceHandler
 {
@@ -9,12 +10,12 @@ private:
 	ID3D10Device* m_device;
 	IDXGISwapChain*	m_swapChain;
 	HWND m_hWnd;
-	D3DXVECTOR2 m_screenSize;
+	INT2 m_screenSize;
 	D3D10_VIEWPORT m_viewport;
 
 	void setupViewPort(D3D10_VIEWPORT *viewPort, UINT width, UINT height, float minDepth = 0.0f, float maxDepth = 1.0f, int topLeftX = 0, int topLeftY = 0);
 public:
-	DeviceHandler(HWND _hWnd, bool _windowed);
+	DeviceHandler(HWND _hWnd, bool _windowed, INT2 _screenSize);
 	~DeviceHandler();
 
 	ID3D10Texture2D* getBackBuffer();
@@ -22,7 +23,7 @@ public:
 	ID3D10Device* getDevice()const;
 	HRESULT present()const;
 
-	D3DXVECTOR2 getScreenSize();
+	INT2 getScreenSize();
 
 	void setInputLayout(ID3D10InputLayout *inputLayout);
 };

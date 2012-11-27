@@ -44,8 +44,5 @@
     <ClInclude Include="ClientHandler.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="DataStructures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
