@@ -21,7 +21,8 @@ public:
 	~GraphicsHandler();
 
 	Camera *getCamera();
-
+	
+	Text* createText();
 	Model* createModel(string _filename);
 	bool removeModel(Model* _model);
 

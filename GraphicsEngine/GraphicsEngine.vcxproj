@@ -99,6 +99,7 @@
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ResourceHolder.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TextureHolder.h" />
     <ClInclude Include="VertexStructs.h" />
     <ClInclude Include="World.h" />
@@ -118,6 +119,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceHolder.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureHolder.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
