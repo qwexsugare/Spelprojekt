@@ -5,8 +5,9 @@ Model::Model()
 
 }
 
-Model::Model(Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation)
+Model::Model(Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
 {
+	this->m_alpha = _alpha;
 	this->m_mesh = _mesh;
 	this->m_position = _position;
 	this->m_scale = _scale;
@@ -19,9 +20,19 @@ Model::~Model()
 
 }
 
+float Model::getAlpha()const
+{
+	return this->m_alpha;
+}
+
 Mesh *Model::getMesh() const
 {
 	return this->m_mesh;
+}
+
+void Model::setAlpha(float _alpha)
+{
+	this->m_alpha = _alpha;
 }
 
 void Model::setPosition(D3DXVECTOR3 _position)
@@ -44,22 +55,11 @@ void Model::setRotation(D3DXVECTOR3 _rotation)
 
 void Model::updateModelMatrix()
 {
-	/*D3DXMATRIX rotationMatrix;
-	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, this->m_rotation.x, this->m_rotation.y, this->m_rotation.z);
-
-	this->m_modelMatrix = D3DXMATRIX(
-		this->m_scale.x, 0.0f, 0.0f, 0.0f,
-		0.0f, this->m_scale.y, 0.0f, 0.0f,
-		0.0f, 0.0f, this->m_scale.z, 0.0f,
-		this->m_position.x, this->m_position.y, this->m_position.z, 1.0f);
-
-	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);*/
-	
 	D3DXMATRIX rotationMatrix;
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, this->m_rotation.x, this->m_rotation.y, this->m_rotation.z);
 	
 	D3DXMATRIX scalingMatrix;
-	::D3DXMatrixScaling(&scalingMatrix, this->m_scale.x, this->m_scale.y, this->m_scale.z);
+	D3DXMatrixScaling(&scalingMatrix, this->m_scale.x, this->m_scale.y, this->m_scale.z);
 
 	this->m_modelMatrix = D3DXMATRIX(
 		this->m_scale.x, 0.0f, 0.0f, 0.0f,

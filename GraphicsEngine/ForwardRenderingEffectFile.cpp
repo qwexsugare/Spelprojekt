@@ -10,6 +10,7 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 	this->m_modelMatrix = this->m_effect->GetVariableByName("modelMatrix")->AsMatrix();
 	this->m_viewMatrix = this->m_effect->GetVariableByName("viewMatrix")->AsMatrix();
 	this->m_projectionMatrix = this->m_effect->GetVariableByName("projectionMatrix")->AsMatrix();
+	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
 
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
 
@@ -37,6 +38,11 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 ForwardRenderingEffectFile::~ForwardRenderingEffectFile(void)
 {
 
+}
+
+void ForwardRenderingEffectFile::setModelAlpha(float _modelAlpha)
+{
+	this->m_modelAlpha->SetFloat(_modelAlpha);
 }
 
 void ForwardRenderingEffectFile::setModelMatrix(D3DXMATRIX _matrix)

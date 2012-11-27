@@ -31,15 +31,15 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	}
 
 	graphicsHandler = new GraphicsHandler(hwnd, &configFile);
-	Model *m = graphicsHandler->createModel("ArrowHead");
 	Model *m2 = graphicsHandler->createModel("ArrowHead");
 	m2->setPosition(0.0f, 0.0f, 10.0f);
 	Camera *c = graphicsHandler->getCamera();
 
 	float r = 1.0f;
+	Model *m = graphicsHandler->createModel("ArrowHead");
 	m->setPosition(0.0f, 0.0f, 5.0f);
 
-			m->setRotation(D3DXVECTOR3(-0.5f, -0.3f, 0.0f));
+	m->setRotation(D3DXVECTOR3(-0.5f, -0.3f, 0.0f));
 
 	// Main message loop
 	MSG msg = {0};
@@ -52,7 +52,11 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		}
 		else
 		{
-
+			static float a = 0.0f;
+			a+= 0.0001f;
+			if(a >= 1.0f)
+				a = 0.0f;
+			m->setAlpha(a);
 			graphicsHandler->render();
 		}
 		if(msg.wParam == 'Q')

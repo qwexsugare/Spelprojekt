@@ -109,7 +109,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ForwardRendering.fx">
+    <FxCompile Include="..\GameClient\ForwardRendering.fx">
       <Filter>Shader files</Filter>
     </FxCompile>
   </ItemGroup>

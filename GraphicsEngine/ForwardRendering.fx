@@ -29,6 +29,8 @@ cbuffer cbEveryFrame
 	matrix viewMatrix;
 	matrix projectionMatrix;
 	matrix modelMatrix;
+
+	float modelAlpha;
 };
 
 // State Structures
@@ -91,7 +93,7 @@ float3 calcLight(float3 eyeCoord, float3 normal)
 	
 	return (ambient + diffuse + specular);*/
 
-	return float(1.0f, 1.0f, 1.0f, 1.0f);
+	return float3(1.0f, 1.0f, 1.0f);
 }
 
 PSSceneIn VSScene(VSSceneIn input)
@@ -113,10 +115,12 @@ PSSceneIn VSScene(VSSceneIn input)
 
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
-	float3 texColor = tex2D.Sample(linearSampler, input.UVCoord);
+	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
+	color.w *= modelAlpha;
+
 	float3 li = calcLight(input.EyeCoord, input.Normal);
 
-	return float4(texColor, 1.0f);
+	return color;
 }
 
 technique10 RenderModelForward
