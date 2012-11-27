@@ -1,6 +1,4 @@
-Texture2D positionTexture;
-Texture2D normalTexture;
-Texture2D diffuseTexture;
+Texture2D tex2D;
 
 SamplerState linearSampler 
 {
@@ -13,21 +11,33 @@ struct VSSceneIn
 {
 	float3 Pos	: POS;
 	float2 UVCoord : UVCOORD;
+	float3 Normal : NORMAL;
 };
 
 struct PSSceneIn
 {
 	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
 	float2 UVCoord : UVCOORD;
+	float4 EyeCoord : EYE_COORD;
+	float3 Normal : NORMAL;
+};
+
+struct PSSceneOut
+{
+	float4 Pos : SV_TARGET0;
+	float4 Normal : SV_TARGET1;
+	float4 Diffuse : SV_TARGET2;
 };
 
 //Variables that updated often
 cbuffer cbEveryFrame
 {
 	//Transformation matrices
-	//matrix viewMatrix;
-	//matrix projectionMatrix;
-	//matrix modelMatrix;
+	matrix viewMatrix;
+	matrix projectionMatrix;
+	matrix modelMatrix;
+
+	float modelAlpha;
 };
 
 // State Structures
@@ -66,56 +76,36 @@ BlendState SrcAlphaBlend
    RenderTargetWriteMask[0] = 0x0F;
 };
 
-
-
-//-----------------------------------------------------------------------------------------
-// Calculate the light intensity for a given point
-//-----------------------------------------------------------------------------------------
-float3 calcLight(float3 eyeCoord, float3 normal)
-{
-	//Variables
-	/*float3 n = normalize(mul(normal, mul(modelMatrix,viewMatrix)));
-	float3 s = normalize(lightPos - eyeCoord);
-	float3 r = -1 * s + 2 * dot(s,n) * n;
-	float3 v = -eyeCoord;
-
-	//Ambient light
-	float3 ambient = la * ka;
-
-	//Diffuse light
-	float3 diffuse = max(dot(s,n), 0) * ld * kd;
-
-	//Specular light
-	float3 specular = ls * ks * pow(max(dot(r,v), 0), f);
-	
-	return (ambient + diffuse + specular);*/
-
-	return float4(1.0f, 1.0f, 1.0f, 1.0f);
-}
-
 PSSceneIn VSScene(VSSceneIn input)
 {
 	PSSceneIn output = (PSSceneIn)0;
 
+	matrix worldViewProjection = mul(viewMatrix, projectionMatrix);
+	
 	// transform the point into view space
-	output.Pos = float4(input.Pos,1.0);
+	output.Pos = mul( float4(input.Pos,1.0), mul(modelMatrix,worldViewProjection) );
 	output.UVCoord = input.UVCoord;
+
+	//variables needed for lighting
+	output.Normal = input.Normal;
+	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
 
 	return output;
 }
 
-float4 PSScene(PSSceneIn input) : SV_Target
+PSSceneOut PSScene(PSSceneIn input) : SV_Target
 {	
-	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
-	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
-	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord); 
+	PSSceneOut output = (PSSceneOut)0;
+	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 
-	return float4(diffuse.xyz, 1.0f);
+	output.Pos = input.Pos;
+	output.Normal = float4(input.Normal, 1.0f);
+	output.Diffuse = color;
 
-	//return float4(0.0f, 0.0f, 1.0f, 1.0f);
+	return output;
 }
 
-technique10 RenderModelDeferred
+technique10 DeferredSample
 {
     pass p0
     {

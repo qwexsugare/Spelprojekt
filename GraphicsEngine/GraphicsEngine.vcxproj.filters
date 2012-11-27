@@ -66,7 +66,13 @@
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="DeferredRenderingEffectFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredSamplerEffectFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,7 +116,13 @@
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="DeferredRenderingEffectFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredSamplerEffectFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,6 +131,9 @@
       <Filter>Shader files</Filter>
     </FxCompile>
     <FxCompile Include="..\GameClient\DeferredRendering.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\DeferredSampler.fx">
       <Filter>Shader files</Filter>
     </FxCompile>
   </ItemGroup>

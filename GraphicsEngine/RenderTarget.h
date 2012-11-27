@@ -16,6 +16,7 @@ public:
 	~RenderTarget();
 	ID3D10RenderTargetView **getRenderTargetView();
 	ID3D10Texture2D *getTexture();
+	ID3D10ShaderResourceView *getShaderResource();
 	void clear(ID3D10Device *device);
 };
 

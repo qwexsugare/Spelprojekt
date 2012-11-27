@@ -46,6 +46,7 @@ RenderTarget::RenderTarget(ID3D10Device *device, ID3D10Texture2D *backBuffer)
 	this->m_shaderResource = NULL;
 	this->m_texture = backBuffer;
 	device->CreateRenderTargetView( backBuffer, NULL, &this->m_renderTargetView );
+	device->CreateShaderResourceView( backBuffer, NULL, &this->m_shaderResource );
 }
 
 RenderTarget::~RenderTarget()
@@ -68,6 +69,12 @@ ID3D10Texture2D *RenderTarget::getTexture()
 {
 	return this->m_texture;
 }
+
+ID3D10ShaderResourceView *RenderTarget::getShaderResource()
+{
+	return this->m_shaderResource;
+}
+
 void RenderTarget::clear(ID3D10Device *device)
 {
 	const FLOAT clearColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};

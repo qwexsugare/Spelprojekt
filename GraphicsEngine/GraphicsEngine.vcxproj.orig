@@ -85,7 +85,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="DeferredRenderingEffectFile.h" />
-    <ClInclude Include="DeferredSamplerEffectFile.h" />
     <ClInclude Include="DepthStencil.h" />
     <ClInclude Include="DeviceHandler.h" />
     <ClInclude Include="EffectFile.h" />
@@ -94,7 +93,6 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshImporter.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="Sprite.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ResourceHolder.h" />
     <ClInclude Include="stdafx.h" />
@@ -106,7 +104,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="DeferredRenderingEffectFile.cpp" />
-    <ClCompile Include="DeferredSamplerEffectFile.cpp" />
     <ClCompile Include="DepthStencil.cpp" />
     <ClCompile Include="DeviceHandler.cpp" />
     <ClCompile Include="EffectFile.cpp" />
@@ -114,26 +111,28 @@
     <ClCompile Include="GraphicsHandler.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceHolder.cpp" />
     <ClCompile Include="TextureHolder.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <FxCompile Include="..\GameClient\DeferredRendering.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="..\GameClient\DeferredSampler.fx">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="ForwardRendering.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+=======
     <FxCompile Include="..\GameClient\ForwardRendering.fx">
+>>>>>>> ecf2360a1df1490fb5e5b2221a5bddd0c2b5995a
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>

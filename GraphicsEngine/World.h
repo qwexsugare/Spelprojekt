@@ -3,12 +3,14 @@
 #include "EffectFile.h"
 #include "ForwardRenderingEffectFile.h"
 #include "DeferredRenderingEffectFile.h"
+#include "DeferredSamplerEffectFile.h"
 #include "Camera.h"
 #include "DeviceHandler.h"
 #include "Model.h"
 #include "VertexStructs.h"
 #include "RenderTarget.h"
 #include "DepthStencil.h"
+#include "Sprite.h"
 
 class World
 {
@@ -21,13 +23,14 @@ private:
 	RenderTarget *m_forwardRenderTarget;
 	DepthStencil *m_forwardDepthStencil;
 
-	//Deferred rendering
+	//Deferred sampling
+	DeferredSamplerEffectFile *m_deferredSampler;
 	DeferredRenderingEffectFile* m_deferredRendering;
 	RenderTarget *m_positionBuffer;
 	RenderTarget *m_normalBuffer;
 	RenderTarget *m_diffuseBuffer;
+	Sprite *m_deferredPlane;
 
-	EffectFile m_deferredRendering;
 	DeviceHandler* m_deviceHandler;
 
 	vector<Model*> m_models;

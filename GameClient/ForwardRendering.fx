@@ -69,8 +69,6 @@ BlendState SrcAlphaBlend
    RenderTargetWriteMask[0] = 0x0F;
 };
 
-	return float4(1.0f, 1.0f, 1.0f, 1.0f);
-}
 PSSceneIn VSScene(VSSceneIn input)
 {
 	PSSceneIn output = (PSSceneIn)0;

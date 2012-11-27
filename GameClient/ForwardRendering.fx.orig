@@ -1,6 +1,4 @@
-Texture2D positionTexture;
-Texture2D normalTexture;
-Texture2D diffuseTexture;
+Texture2D tex2D;
 
 SamplerState linearSampler 
 {
@@ -13,21 +11,26 @@ struct VSSceneIn
 {
 	float3 Pos	: POS;
 	float2 UVCoord : UVCOORD;
+	float3 Normal : NORMAL;
 };
 
 struct PSSceneIn
 {
 	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
 	float2 UVCoord : UVCOORD;
+	float4 EyeCoord : EYE_COORD;
+	float3 Normal : NORMAL;
 };
 
 //Variables that updated often
 cbuffer cbEveryFrame
 {
 	//Transformation matrices
-	//matrix viewMatrix;
-	//matrix projectionMatrix;
-	//matrix modelMatrix;
+	matrix viewMatrix;
+	matrix projectionMatrix;
+	matrix modelMatrix;
+
+	float modelAlpha;
 };
 
 // State Structures
@@ -66,6 +69,7 @@ BlendState SrcAlphaBlend
    RenderTargetWriteMask[0] = 0x0F;
 };
 
+<<<<<<< HEAD
 
 
 //-----------------------------------------------------------------------------------------
@@ -93,33 +97,43 @@ float3 calcLight(float3 eyeCoord, float3 normal)
 	return float4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
+=======
+>>>>>>> ecf2360a1df1490fb5e5b2221a5bddd0c2b5995a
 PSSceneIn VSScene(VSSceneIn input)
 {
 	PSSceneIn output = (PSSceneIn)0;
 
+	matrix worldViewProjection = mul(viewMatrix, projectionMatrix);
+	
 	// transform the point into view space
-	output.Pos = float4(input.Pos,1.0);
+	output.Pos = mul( float4(input.Pos,1.0), mul(modelMatrix,worldViewProjection) );
 	output.UVCoord = input.UVCoord;
+
+	//variables needed for lighting
+	output.Normal = input.Normal;
+	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
 
 	return output;
 }
 
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
-	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
-	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
-	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord); 
+<<<<<<< HEAD
+	float3 texColor = tex2D.Sample(linearSampler, input.UVCoord);
+	float3 li = calcLight(input.EyeCoord, input.Normal);
+=======
+	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
+	color.w *= modelAlpha;
+>>>>>>> ecf2360a1df1490fb5e5b2221a5bddd0c2b5995a
 
-	return float4(diffuse.xyz, 1.0f);
-
-	//return float4(0.0f, 0.0f, 1.0f, 1.0f);
+	return color;
 }
 
-technique10 RenderModelDeferred
+technique10 RenderModelForward
 {
     pass p0
     {
-		SetBlendState( NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSScene() ) );
         SetGeometryShader( NULL );
