@@ -11,6 +11,9 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_models = vector<Model*>();
 	this->m_sprites = vector<Sprite*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
+	this->m_texts.push_back(new Text(this->m_deviceHandler->createFont(), "olles kkaviar", INT2(100, 500)));
+	this->m_texts.push_back(new Text(this->m_deviceHandler->createFont(), "MARIAS SCHLAGERKAKA", INT2(500, 300)));
+	this->m_texts.push_back(new Text(this->m_deviceHandler->createFont(), "simons kkaviar och SCHLAGERKAKA", INT2(800, 200)));
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -22,9 +25,6 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_normalBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
-	
-	// Create a font
-	D3DX10CreateFontA(this->m_deviceHandler->getDevice(), 30, 0, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"), &this->m_fpsFont);
 }
 
 World::~World()
@@ -128,13 +128,9 @@ void World::render()
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
 
-	string str  = "KHJHWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWSK";
-	RECT rc;
-	rc.bottom = 100;
-	rc.top = 200;
-	rc.left = 400;
-	rc.right = 500;
-	this->m_fpsFont->DrawTextA(NULL, str.c_str(), -1, &rc, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	// Render texts
+	for(int i = 0; i < this->m_texts.size(); i++)
+		this->m_texts[i]->render();
 
 	//Finish render
 	this->m_deviceHandler->present();

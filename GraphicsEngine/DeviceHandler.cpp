@@ -64,6 +64,15 @@ DeviceHandler::~DeviceHandler()
 	}
 }
 
+ID3DX10Font* DeviceHandler::createFont()
+{
+	ID3DX10Font* font;
+	
+	D3DX10CreateFontA(this->m_device, 30, 0, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"), &font);
+
+	return font;
+}
+
 ID3D10Device* DeviceHandler::getDevice()const
 {
 	return this->m_device;

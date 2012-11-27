@@ -12,11 +12,11 @@
 #include "DepthStencil.h"
 #include "Sprite.h"
 #include "FullScreenPlane.h"
+#include "Text.h"
 
 class World
 {
 private:
-	ID3DX10Font* m_fpsFont;
 	Camera *m_camera;
 
 	//Forward rendering
@@ -34,6 +34,7 @@ private:
 
 	DeviceHandler* m_deviceHandler;
 
+	vector<Text*> m_texts;
 	vector<Model*> m_models;
 	vector<Sprite*> m_sprites;
 public:
