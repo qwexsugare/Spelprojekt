@@ -1,7 +1,8 @@
 #include "Sprite.h"
 
-Sprite::Sprite(ID3D10Device *device, D3DXVECTOR2 position, D3DXVECTOR2 v1, D3DXVECTOR2 v2,ID3D10Texture2D *m_texture)
+Sprite::Sprite(ID3D10Device *device, D3DXVECTOR2 position, D3DXVECTOR2 v1, D3DXVECTOR2 v2,ID3D10Texture2D *_texture)
 {
+	this->m_texture = _texture;
 	this->m_mesh = new Mesh(NULL, 6);
 
 	//Create the vertex buffer
@@ -46,7 +47,12 @@ Sprite::Sprite(ID3D10Device *device, D3DXVECTOR2 position, D3DXVECTOR2 v1, D3DXV
 
 Sprite::~Sprite()
 {
+	delete this->m_mesh;
 
+	if(this->m_texture != NULL)
+	{
+		this->m_texture->Release();
+	}
 }
 
 Mesh *Sprite::getMesh()
