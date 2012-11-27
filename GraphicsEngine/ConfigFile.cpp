@@ -17,6 +17,16 @@ const D3DXVECTOR2* ConfigFile::getScreenSize()const
 	return this->m_screenSize;
 }
 
+int ConfigFile::getScreenSizeX()const
+{
+	return int(this->m_screenSize->x);
+}
+
+int ConfigFile::getScreenSizeY()const
+{
+	return int(this->m_screenSize->y);
+}
+
 bool ConfigFile::getWindowed()const
 {
 	return this->m_windowed;

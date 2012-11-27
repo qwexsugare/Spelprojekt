@@ -19,5 +19,7 @@ public:
 
 	bool getWindowed()const;
 	const D3DXVECTOR2* getScreenSize()const;
+	int getScreenSizeX()const;
+	int getScreenSizeY()const;
 	void load();
 };
