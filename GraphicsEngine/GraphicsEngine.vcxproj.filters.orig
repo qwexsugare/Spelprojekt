@@ -66,6 +66,7 @@
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,9 +74,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DeferredSamplerEffectFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="DataStructures.h">
+>>>>>>> 54aad5a57df24c476c8c3902caa0b5dbc8d4f7dc
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

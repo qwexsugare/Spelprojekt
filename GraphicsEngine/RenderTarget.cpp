@@ -1,6 +1,6 @@
 #include "RenderTarget.h"
 
-RenderTarget::RenderTarget(ID3D10Device *device, D3DXVECTOR2 _size)
+RenderTarget::RenderTarget(ID3D10Device *device, INT2 _size)
 {
 	this->m_size = _size;
 
@@ -8,8 +8,8 @@ RenderTarget::RenderTarget(ID3D10Device *device, D3DXVECTOR2 _size)
 
 	// Create the render targets
 	D3D10_TEXTURE2D_DESC renderTargetDesc;
-	renderTargetDesc.Width = (int)this->m_size.x;
-	renderTargetDesc.Height = (int)this->m_size.y;
+	renderTargetDesc.Width = this->m_size.x;
+	renderTargetDesc.Height = this->m_size.y;
 	renderTargetDesc.MipLevels = 1;
 	renderTargetDesc.ArraySize = 1;
 	renderTargetDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;

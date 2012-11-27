@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConfigFile.h" />
+    <ClInclude Include="DataStructures.h" />
     <ClInclude Include="DeferredRenderingEffectFile.h" />
     <ClInclude Include="DeferredSamplerEffectFile.h" />
     <ClInclude Include="DepthStencil.h" />

@@ -2,16 +2,17 @@
 #define RENDER_TARGET_H
 
 #include "stdafx.h"
+#include "DataStructures.h"
 
 class RenderTarget
 {
 private:
-	D3DXVECTOR2 m_size;
+	INT2 m_size;
 	ID3D10RenderTargetView *m_renderTargetView;
 	ID3D10Texture2D *m_texture;
 	ID3D10ShaderResourceView *m_shaderResource;
 public:
-	RenderTarget(ID3D10Device *device, D3DXVECTOR2 _size);
+	RenderTarget(ID3D10Device *device, INT2 _size);
 	RenderTarget(ID3D10Device *device, ID3D10Texture2D *backBuffer);
 	~RenderTarget();
 	ID3D10RenderTargetView **getRenderTargetView();
