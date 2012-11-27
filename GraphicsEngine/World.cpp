@@ -20,7 +20,7 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
-	this->m_deferredPlane = new Sprite(this->m_deviceHandler->getDevice(), D3DXVECTOR2(-0.5f, -0.5f), D3DXVECTOR2(1.0f, 0.0f), D3DXVECTOR2(0.0f, 1.0f), NULL);
+	this->m_deferredPlane = new Sprite(this->m_deviceHandler->getDevice(), D3DXVECTOR2(-1.0f, -1.0f), D3DXVECTOR2(2.0f, 0.0f), D3DXVECTOR2(0.0f, 2.0f), NULL);
 	
 	// Create a font
 	D3DX10CreateFontA(this->m_deviceHandler->getDevice(), 30, 0, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"), &this->m_fpsFont);
@@ -48,15 +48,19 @@ void World::render()
 	this->m_forwardRendering->setViewMatrix(this->m_camera->getViewMatrix());
 	this->m_forwardRendering->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 
+	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
+	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
+
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	
-	this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputLayout());
+	this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
 
 	//clear render target
 	this->m_positionBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBuffer->clear(this->m_deviceHandler->getDevice());
+	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 
 	ID3D10RenderTargetView *renderTargets[3];
 	renderTargets[0] = *this->m_positionBuffer->getRenderTargetView();
@@ -89,10 +93,12 @@ void World::render()
 	//clear render target
 	this->m_forwardRenderTarget->clear(this->m_deviceHandler->getDevice());
 	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
+
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 
+	this->m_deviceHandler->setInputLayout(this->m_deferredRendering->getVertexLayout());
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBuffer->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
