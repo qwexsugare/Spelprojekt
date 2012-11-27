@@ -14,10 +14,7 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
 	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	
-	// Create default vertex layout
-	D3D10_PASS_DESC passDescription;
-	this->m_forwardRendering->getTechniqueRenderModelForward()->GetPassByIndex(0)->GetDesc(&passDescription);
-	this->m_vertexLayout = this->m_deviceHandler->createInputLayout(passDescription);
+	// Create a font
 	D3DX10CreateFontA(this->m_deviceHandler->getDevice(), 30, 0, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Arial"), &this->m_fpsFont);
 }
 
@@ -46,7 +43,7 @@ void World::render()
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	
-	this->m_deviceHandler->setInputLayout(this->m_vertexLayout);
+	this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputLayout());
 
 	//clear render target
 	this->m_forwardRenderTarget->clear(this->m_deviceHandler->getDevice());
@@ -54,7 +51,6 @@ void World::render()
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
-
 
 	//Render all models
 	for(int i = 0; i < this->m_models.size(); i++)
@@ -93,8 +89,19 @@ void World::addModel(Model *_model)
 
 bool World::removeModel(Model *_model)
 {
-	// we do not know HOW to write this code
-	return true;
+	bool found = false;
+
+	for(int i = 0; i < this->m_models.size() && !found; i++)
+	{
+		if(this->m_models[i] == _model)
+		{
+			delete this->m_models[i];
+			this->m_models.erase(this->m_models.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
 }
 
 Camera *World::getCamera()

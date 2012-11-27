@@ -70,20 +70,6 @@ DeviceHandler::~DeviceHandler()
 	}
 }
 
-ID3D10InputLayout* DeviceHandler::createInputLayout(D3D10_PASS_DESC _passDescription)
-{
-	ID3D10InputLayout* inputLayout;
-	HRESULT hr;
-
-	hr = this->m_device->CreateInputLayout(vertexLayout,
-		sizeof(vertexLayout) / sizeof(D3D10_INPUT_ELEMENT_DESC),
-		_passDescription.pIAInputSignature,
-		_passDescription.IAInputSignatureSize,
-		&inputLayout);
-
-	return inputLayout;
-}
-
 ID3D10Device* DeviceHandler::getDevice()const
 {
 	return this->m_device;

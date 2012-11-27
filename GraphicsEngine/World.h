@@ -19,7 +19,6 @@ private:
 	DepthStencil *m_forwardDepthStencil;
 
 	EffectFile m_deferredRendering;
-	ID3D10InputLayout *m_vertexLayout;
 	DeviceHandler* m_deviceHandler;
 
 	vector<Model*> m_models;

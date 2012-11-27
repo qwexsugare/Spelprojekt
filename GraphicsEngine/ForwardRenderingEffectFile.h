@@ -11,6 +11,7 @@ private:
 	ID3D10EffectShaderResourceVariable* m_texture;
 
 	ID3D10EffectTechnique *m_renderModelForward;
+	ID3D10InputLayout *m_vertexLayout;
 public:
 	ForwardRenderingEffectFile();
 	ForwardRenderingEffectFile(ID3D10Device* _device);
@@ -21,6 +22,7 @@ public:
 	void setProjectionMatrix(D3DXMATRIX _matrix);
 
 	void setTexture(ID3D10ShaderResourceView *_texture);
+	ID3D10InputLayout *getInputLayout()const;
 
 	ID3D10EffectTechnique *getTechniqueRenderModelForward();
 };

@@ -72,25 +72,27 @@ BlendState SrcAlphaBlend
 //-----------------------------------------------------------------------------------------
 // Calculate the light intensity for a given point
 //-----------------------------------------------------------------------------------------
-//float3 calcLight(float3 eyeCoord, float3 normal)
-//{
-//	//Variables
-//	float3 n = normalize(mul(normal, mul(modelMatrix,viewMatrix)));
-//	float3 s = normalize(lightPos - eyeCoord);
-//	float3 r = -1 * s + 2 * dot(s,n) * n;
-//	float3 v = -eyeCoord;
-//
-//	//Ambient light
-//	float3 ambient = la * ka;
-//
-//	//Diffuse light
-//	float3 diffuse = max(dot(s,n), 0) * ld * kd;
-//
-//	//Specular light
-//	float3 specular = ls * ks * pow(max(dot(r,v), 0), f);
-//
-//	return (ambient + diffuse + specular);
-//}
+float3 calcLight(float3 eyeCoord, float3 normal)
+{
+	//Variables
+	/*float3 n = normalize(mul(normal, mul(modelMatrix,viewMatrix)));
+	float3 s = normalize(lightPos - eyeCoord);
+	float3 r = -1 * s + 2 * dot(s,n) * n;
+	float3 v = -eyeCoord;
+
+	//Ambient light
+	float3 ambient = la * ka;
+
+	//Diffuse light
+	float3 diffuse = max(dot(s,n), 0) * ld * kd;
+
+	//Specular light
+	float3 specular = ls * ks * pow(max(dot(r,v), 0), f);
+	
+	return (ambient + diffuse + specular);*/
+
+	return float(1.0f, 1.0f, 1.0f, 1.0f);
+}
 
 PSSceneIn VSScene(VSSceneIn input)
 {
@@ -112,7 +114,7 @@ PSSceneIn VSScene(VSSceneIn input)
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
 	float3 texColor = tex2D.Sample(linearSampler, input.UVCoord);
-	//float3 li = calcLight(input.EyeCoord, input.Normal);
+	float3 li = calcLight(input.EyeCoord, input.Normal);
 
 	return float4(texColor, 1.0f);
 }

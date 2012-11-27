@@ -24,6 +24,5 @@ public:
 
 	D3DXVECTOR2 getScreenSize();
 
-	ID3D10InputLayout* createInputLayout(D3D10_PASS_DESC _passDescription);
 	void setInputLayout(ID3D10InputLayout *inputLayout);
 };
