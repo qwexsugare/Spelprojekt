@@ -36,6 +36,14 @@ World::~World()
 	delete this->m_forwardRendering;
 	delete this->m_forwardRenderTarget;
 	delete this->m_forwardDepthStencil;
+
+	delete this->m_deferredPlane;
+	delete this->m_deferredSampler;
+	delete this->m_deferredRendering;
+	delete this->m_positionBuffer;
+	delete this->m_normalBuffer;
+	delete this->m_diffuseBuffer;
+
 	delete this->m_camera;
 }
 
@@ -44,10 +52,6 @@ void World::render()
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
 
-	// Set variables
-	this->m_forwardRendering->setViewMatrix(this->m_camera->getViewMatrix());
-	this->m_forwardRendering->setProjectionMatrix(this->m_camera->getProjectionMatrix());
-	
 	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
 	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 
@@ -91,7 +95,10 @@ void World::render()
 		}
 	}
 
-	//clear render target
+	//Deferred
+	this->m_forwardRendering->setViewMatrix(this->m_camera->getViewMatrix());
+	this->m_forwardRendering->setProjectionMatrix(this->m_camera->getProjectionMatrix());
+
 	this->m_forwardRenderTarget->clear(this->m_deviceHandler->getDevice());
 	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 

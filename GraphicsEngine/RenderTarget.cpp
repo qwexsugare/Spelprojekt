@@ -46,7 +46,8 @@ RenderTarget::RenderTarget(ID3D10Device *device, ID3D10Texture2D *backBuffer)
 	this->m_shaderResource = NULL;
 	this->m_texture = backBuffer;
 	device->CreateRenderTargetView( backBuffer, NULL, &this->m_renderTargetView );
-	device->CreateShaderResourceView( backBuffer, NULL, &this->m_shaderResource );
+	//device->CreateShaderResourceView( backBuffer, NULL, &this->m_shaderResource );
+	this->m_shaderResource = NULL;
 }
 
 RenderTarget::~RenderTarget()
