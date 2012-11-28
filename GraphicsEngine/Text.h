@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "DataStructures.h"
 
-class Text
+class DECLDIR Text
 {
 private:
 	ID3DX10Font* m_font;
@@ -15,4 +15,5 @@ public:
 	~Text();
 
 	void render();
+	void setString(string _str);
 };

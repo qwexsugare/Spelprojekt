@@ -22,6 +22,7 @@ void ClientHandler::initGraphicsEngine(HWND _hWnd)
 {
 	this->m_graphicsEngine = new GraphicsHandler(_hWnd, this->m_configFile);
 	this->m_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 10.0f, 0.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	this->m_fpsText = this->m_graphicsEngine->createText("10", INT2(50, 100));
 	this->m_mouse = new Mouse(500, 500, _hWnd);
 }
 
@@ -62,6 +63,8 @@ HRESULT ClientHandler::run()
 
 void ClientHandler::update(float _dt)
 {
+	this->m_fpsText->setString("asdfasdfdfas");
+
 	// Update controls
 	for(int i = 0; i < this->m_messages.size(); i++)
 	{

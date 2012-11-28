@@ -19,6 +19,15 @@ GraphicsHandler::~GraphicsHandler()
 	delete this->m_deviceHandler;
 }
 
+Text* GraphicsHandler::createText(string _text, INT2 _pos)
+{
+	Text* text = new Text(this->m_deviceHandler->createFont(), _text, _pos);
+
+	this->m_world->addText(text);
+
+	return text;
+}
+
 Camera *GraphicsHandler::getCamera()
 {
 	return this->m_world->getCamera();

@@ -27,3 +27,8 @@ void Text::render()
 
 	this->m_font->DrawTextA(NULL, this->m_str.c_str(), -1, &rc, DT_NOCLIP, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 }
+
+void Text::setString(string _str)
+{
+	this->m_str = _str;
+}

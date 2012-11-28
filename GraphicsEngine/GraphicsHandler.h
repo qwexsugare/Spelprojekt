@@ -22,7 +22,7 @@ public:
 
 	Camera *getCamera();
 	
-	Text* createText();
+	Text* createText(string _text, INT2 _pos);
 	Model* createModel(string _filename);
 	bool removeModel(Model* _model);
 

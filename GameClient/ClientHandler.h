@@ -3,6 +3,9 @@
 #include "GraphicsHandler.h"
 #include "DataStructures.h"
 #include "Mouse.h"
+#include "Text.h"
+#include <string>
+using namespace std;
 
 class ClientHandler
 {
@@ -13,6 +16,7 @@ private:
 	vector<MSG> m_messages;
 
 	Model* m_testModel;
+	Text* m_fpsText;
 public:
 	ClientHandler();
 	~ClientHandler();

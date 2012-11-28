@@ -43,12 +43,15 @@ public:
 	~World();
 
 	void render();
-
+	
 	void addModel(Model *_model);
 	bool removeModel(Model *_model);
 
 	void addSprite(Sprite *sprite);
 	bool removeSprite(Sprite *sprite);
+
+	void addText(Text* _text);
+	bool removeText(Text* _text);
 
 	Camera *getCamera();
 };

@@ -12,9 +12,6 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_sprites = vector<Sprite*>();
 	this->m_texts = vector<Text*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
-	this->m_texts.push_back(new Text(this->m_deviceHandler->createFont(), "olles kkaviar", INT2(100, 500)));
-	this->m_texts.push_back(new Text(this->m_deviceHandler->createFont(), "MARIAS SCHLAGERKAKA", INT2(500, 300)));
-	this->m_texts.push_back(new Text(this->m_deviceHandler->createFont(), "simons kkaviar och SCHLAGERKAKA", INT2(800, 200)));
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -179,6 +176,28 @@ bool World::removeSprite(Sprite *sprite)
 		{
 			delete this->m_sprites[i];
 			this->m_sprites.erase(this->m_sprites.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addText(Text* _text)
+{
+	this->m_texts.push_back(_text);
+}
+
+bool World::removeText(Text* _text)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_texts.size() && !found; i++)
+	{
+		if(this->m_texts[i] == _text)
+		{
+			delete this->m_texts[i];
+			this->m_texts.erase(this->m_texts.begin()+i);
 			found = true;
 		}
 	}
