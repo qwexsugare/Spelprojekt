@@ -13,6 +13,8 @@ private:
 	INT2 m_screenSize;
 	D3D10_VIEWPORT m_viewport;
 
+
+
 	void setupViewPort(D3D10_VIEWPORT *viewPort, UINT width, UINT height, float minDepth = 0.0f, float maxDepth = 1.0f, int topLeftX = 0, int topLeftY = 0);
 public:
 	DeviceHandler(HWND _hWnd, bool _windowed, INT2 _screenSize);

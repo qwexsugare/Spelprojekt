@@ -124,6 +124,11 @@ void World::render()
 		}
 	}
 
+	//clear render target
+	this->m_positionBufferTransparant->clear(this->m_deviceHandler->getDevice());
+	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
+	this->m_diffuseBufferTransparant->clear(this->m_deviceHandler->getDevice());
+
 	renderTargets[0] = *this->m_positionBufferTransparant->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBufferTransparant->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBufferTransparant->getRenderTargetView();

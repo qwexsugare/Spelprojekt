@@ -1,4 +1,5 @@
 #include "ClientHandler.h"
+#include <sstream>
 
 ClientHandler::ClientHandler()
 {
@@ -67,7 +68,9 @@ HRESULT ClientHandler::run()
 
 void ClientHandler::update(float _dt)
 {
-	this->m_fpsText->setString("asdfasdfdfas");
+	stringstream ss;
+	ss << "FPS: " << 1.0f/_dt;
+	this->m_fpsText->setString(ss.str());
 
 	// Update controls
 	for(int i = 0; i < this->m_messages.size(); i++)
