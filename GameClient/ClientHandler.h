@@ -14,15 +14,16 @@ private:
 	ConfigFile* m_configFile;
 	GraphicsHandler* m_graphicsEngine;
 	vector<MSG> m_messages;
-
+	
+	// Developing/test stuff
 	Model* m_testModel;
 	Text* m_fpsText;
-public:
-	ClientHandler();
-	~ClientHandler();
 
-	INT2 getScreenSize()const;
-	void initGraphicsEngine(HWND _hWnd);
+public:
+	ClientHandler(HWND _hWnd, ConfigFile* _configFile);
+	~ClientHandler();
+	
+	void initGame();
 	HRESULT run();
 	void update(float _dt);
 };

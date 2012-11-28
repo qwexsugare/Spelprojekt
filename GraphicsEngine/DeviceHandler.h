@@ -22,7 +22,7 @@ public:
 	DeviceHandler(HWND _hWnd, bool _windowed, INT2 _screenSize);
 	~DeviceHandler();
 
-	ID3DX10Font* createFont();
+	ID3DX10Font* createFont(int _size);
 	ID3D10Texture2D* getBackBuffer();
 	D3D10_VIEWPORT getViewport();
 	ID3D10Device* getDevice()const;

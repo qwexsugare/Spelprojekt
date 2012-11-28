@@ -21,9 +21,9 @@ GraphicsHandler::~GraphicsHandler()
 	delete this->m_deviceHandler;
 }
 
-Text* GraphicsHandler::createText(string _text, INT2 _pos)
+Text* GraphicsHandler::createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color)
 {
-	Text* text = new Text(this->m_deviceHandler->createFont(), _text, _pos);
+	Text* text = new Text(this->m_deviceHandler->createFont(_size), _text, _pos, _color);
 
 	this->m_world->addText(text);
 
@@ -72,7 +72,7 @@ void GraphicsHandler::render()
 	this->m_world->render();
 }
 
-void update(float dt)
+void GraphicsHandler::update(float dt)
 {
 	//Uppdatera animationer?
 }

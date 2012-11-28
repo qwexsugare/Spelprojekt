@@ -100,6 +100,7 @@ void World::render()
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	vector<Model*> transparantModels = vector<Model*>();
 
@@ -139,6 +140,7 @@ void World::render()
 	renderTargets[2] = *this->m_diffuseBufferTransparant->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	for(int i = 0; i < transparantModels.size(); i++)
 	{
@@ -165,6 +167,7 @@ void World::render()
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	this->m_deviceHandler->setInputLayout(this->m_deferredRendering->getVertexLayout());
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBuffer->getShaderResource());
