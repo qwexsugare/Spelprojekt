@@ -29,6 +29,15 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_diffuseBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
+
+	D3DX10CreateSprite(this->m_deviceHandler->getDevice(), 100, &this->m_spriteBuffer);
+
+	D3DXMATRIX projection;
+	D3DXMatrixOrthoOffCenterLH(&projection, 0, (float)this->m_deviceHandler->getScreenSize().x, 0, (float)this->m_deviceHandler->getScreenSize().y, 0, 1);
+	this->m_spriteBuffer->SetProjectionTransform(&projection);
+
+	D3D10_RASTERIZER_DESC rasterizerDesc = { D3D10_FILL_SOLID, D3D10_CULL_NONE, FALSE, 0, 0.0f, 0.0f,TRUE, FALSE, FALSE, FALSE};
+	this->m_deviceHandler->getDevice()->CreateRasterizerState(&rasterizerDesc, &this->m_spriteRasterizerState);
 }
 
 World::~World()
@@ -74,12 +83,9 @@ void World::render()
 
 	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
 	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
-
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
 	
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
- 	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 	
 	//clear render target
 	this->m_positionBuffer->clear(this->m_deviceHandler->getDevice());
@@ -94,7 +100,6 @@ void World::render()
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
-	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 
 	vector<Model*> transparantModels = vector<Model*>();
 
@@ -107,7 +112,7 @@ void World::render()
 		}
 		else
 		{
-			this->m_deviceHandler->getDevice()->IASetVertexBuffers(0, 1, &this->m_models[i]->getMesh()->buffer, &stride, &offset);
+			this->m_deviceHandler->setVertexBuffer(this->m_models[i]->getMesh()->buffer);
 
 			this->m_deferredSampler->setModelMatrix(this->m_models[i]->getModelMatrix());
 			this->m_deferredSampler->setTexture(this->m_models[i]->getMesh()->m_texture);
@@ -134,11 +139,10 @@ void World::render()
 	renderTargets[2] = *this->m_diffuseBufferTransparant->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
-	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 
 	for(int i = 0; i < transparantModels.size(); i++)
 	{
-		this->m_deviceHandler->getDevice()->IASetVertexBuffers(0, 1, &transparantModels[i]->getMesh()->buffer, &stride, &offset);
+		this->m_deviceHandler->setVertexBuffer(transparantModels[i]->getMesh()->buffer);
 
 		this->m_deferredSampler->setModelMatrix(transparantModels[i]->getModelMatrix());
 		this->m_deferredSampler->setTexture(transparantModels[i]->getMesh()->m_texture);
@@ -161,14 +165,13 @@ void World::render()
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
-	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 
 	this->m_deviceHandler->setInputLayout(this->m_deferredRendering->getVertexLayout());
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBuffer->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
 
-	this->m_deviceHandler->getDevice()->IASetVertexBuffers(0, 1, &this->m_deferredPlane->getMesh()->buffer, &stride, &offset);
+	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer);
 
 	D3D10_TECHNIQUE_DESC techDesc;
 	this->m_deferredRendering->getTechnique()->GetDesc( &techDesc );
@@ -189,9 +192,25 @@ void World::render()
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
 
+	//Sprites
+	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
+	this->m_deviceHandler->getDevice()->RSSetState(this->m_spriteRasterizerState);
+
+	this->m_spriteBuffer->Begin(0);
+	
+	for(int i = 0; i < this->m_sprites.size(); i++)
+	{
+		m_spriteBuffer->DrawSpritesBuffered(&this->m_sprites[i]->getSprite(), 1);
+	}
+
+	this->m_spriteBuffer->Flush();
+	this->m_spriteBuffer->End();
+
 	// Render texts
 	for(int i = 0; i < this->m_texts.size(); i++)
+	{
 		this->m_texts[i]->render();
+	}
 
 	//Finish render
 	this->m_deviceHandler->present();

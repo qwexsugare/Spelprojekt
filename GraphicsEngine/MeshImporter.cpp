@@ -49,7 +49,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 		{
 			float x, y, z;
 			sscanf(buf, "vn %f %f %f", &x, &y, &z);
-			normals.push_back(D3DXVECTOR3(x, y, -z));
+			normals.push_back(D3DXVECTOR3(x, y, z));
 		}
 		else if(strcmp(key, "f") == 0) // Mesh.
 		{

@@ -43,6 +43,9 @@ private:
 	vector<Text*> m_texts;
 	vector<Model*> m_models;
 	vector<Sprite*> m_sprites;
+
+	ID3DX10Sprite *m_spriteBuffer;
+	ID3D10RasterizerState* m_spriteRasterizerState;
 public:
 	World();
 	World(DeviceHandler* _deviceHandler);

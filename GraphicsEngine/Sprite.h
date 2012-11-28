@@ -8,12 +8,12 @@
 class Sprite
 {
 private:
-	LPD3DX10SPRITE *m_sprite;
+	D3DX10_SPRITE m_sprite;
 public:
-	Sprite(ID3D10Device *device, D3DXVECTOR2 position, D3DXVECTOR2 size,ID3D10Texture2D *_texture);
+	Sprite(D3DXVECTOR2 position, D3DXVECTOR2 size,ID3D10ShaderResourceView *_texture);
 	~Sprite();
 
-	D3DX10_SPRITE *getSprite();
+	D3DX10_SPRITE getSprite();
 
 	void setPosition(D3DXVECTOR2 position);
 	void setSize(D3DXVECTOR2 size);

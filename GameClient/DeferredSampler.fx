@@ -56,7 +56,7 @@ DepthStencilState EnableDepth
 RasterizerState rs
 {
 	//FillMode = Solid;
-	CullMode = NONE;
+	CullMode = FRONT;
 };
 
 BlendState NoBlend
