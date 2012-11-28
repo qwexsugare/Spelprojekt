@@ -110,7 +110,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord); 
 
-	return float4(diffuse.xyz, 1.0f);
+	return float4(diffuse);
 
 	//return float4(0.0f, 0.0f, 1.0f, 1.0f);
 }
@@ -119,13 +119,13 @@ technique10 RenderModelDeferred
 {
     pass p0
     {
-		SetBlendState( NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSScene() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSScene() ) );
 
-	    SetDepthStencilState( EnableDepth, 0 );
+	    SetDepthStencilState( DisableDepth, 0 );
 	    SetRasterizerState( rs );
     }  
 }

@@ -27,6 +27,10 @@ void ClientHandler::initGraphicsEngine(HWND _hWnd)
 
 HRESULT ClientHandler::run()
 {
+	Model *m1 = this->m_graphicsEngine->createModel("ArrowHead");
+	m1->setPosition(0.0f, 3.0f, 0.0f);
+	m1->setAlpha(0.5f);
+
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
 	float secsPerCnt = 1.0f / (float)cntsPerSec;

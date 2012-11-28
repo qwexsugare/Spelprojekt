@@ -97,6 +97,7 @@ PSSceneOut PSScene(PSSceneIn input) : SV_Target
 {	
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
+	color.w = modelAlpha;
 
 	output.Pos = input.Pos;
 	output.Normal = float4(input.Normal, 1.0f);
@@ -109,7 +110,7 @@ technique10 DeferredSample
 {
     pass p0
     {
-		SetBlendState( NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSScene() ) );
         SetGeometryShader( NULL );
