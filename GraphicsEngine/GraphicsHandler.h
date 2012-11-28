@@ -22,7 +22,7 @@ public:
 
 	Camera *getCamera();
 	
-	Text* createText(string _text, INT2 _pos);
+	Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
 	Model* createModel(string _filename);
 	bool removeModel(Model* _model);
 
@@ -31,6 +31,7 @@ public:
 
 	void render();
 	void update(float dt);
+	HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 };
 
 #endif

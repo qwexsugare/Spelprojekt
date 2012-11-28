@@ -12,16 +12,24 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
-	ClientHandler clientHandler;
+	// Load config into config file class
+	ConfigFile* configFile = new ConfigFile();
+	configFile->load();
 
+	// Init window
 	HWND hwnd = 0;
-	if((hwnd = InitWindow(hInstance, nCmdShow, clientHandler.getScreenSize())) == 0)
+	if((hwnd = InitWindow(hInstance, nCmdShow, configFile->getScreenSize())) == 0)
 	{
 		return 0;
 	}
+	
+	// Init the clienthandler with the window and config file
+	ClientHandler clientHandler(hwnd, configFile);
+	// Forget the config file, the clienthandler is responsible for it now.
+	configFile = NULL;
 
-	clientHandler.initGraphicsEngine(hwnd);
-
+	// Init game content and run that bitch!
+	clientHandler.initGame();
 	return clientHandler.run();
 }
 
