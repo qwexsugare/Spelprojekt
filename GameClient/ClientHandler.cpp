@@ -68,9 +68,15 @@ HRESULT ClientHandler::run()
 
 void ClientHandler::update(float _dt)
 {
-	stringstream ss;
-	ss << "FPS: " << 1.0f/_dt;
-	this->m_fpsText->setString(ss.str());
+	static float lol = 0.0f;
+	lol += _dt;
+	if(lol > 0.0f)
+	{
+		lol = -0.5f;
+		stringstream ss;
+		ss << "FPS: " << 1.0f/_dt;
+		this->m_fpsText->setString(ss.str());
+	}
 
 	// Update controls
 	for(int i = 0; i < this->m_messages.size(); i++)
