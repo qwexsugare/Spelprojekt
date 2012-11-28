@@ -27,9 +27,15 @@ private:
 	//Deferred sampling
 	DeferredSamplerEffectFile *m_deferredSampler;
 	DeferredRenderingEffectFile* m_deferredRendering;
+
 	RenderTarget *m_positionBuffer;
 	RenderTarget *m_normalBuffer;
 	RenderTarget *m_diffuseBuffer;
+
+	RenderTarget *m_positionBufferTransparant;
+	RenderTarget *m_normalBufferTransparant;
+	RenderTarget *m_diffuseBufferTransparant;
+
 	FullScreenPlane *m_deferredPlane;
 
 	DeviceHandler* m_deviceHandler;
