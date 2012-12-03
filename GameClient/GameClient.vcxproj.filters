@@ -11,6 +11,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{8c5a5e28-3dac-491c-a23a-ae025e5a3cde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\States">
+      <UniqueIdentifier>{e980c2ff-cb9e-4da4-a09c-2fa960368ced}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Keyboard.cpp">
@@ -25,6 +28,12 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Core\States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Core\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Keyboard.h">
@@ -35,6 +44,18 @@
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Core\States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Core\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

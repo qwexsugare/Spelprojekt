@@ -5,6 +5,10 @@
 #include "Camera.h"
 #include "ClientHandler.h"
 
+GraphicsHandler* g_graphicsEngine;
+Keyboard* g_keyboard;
+Mouse* g_mouse;
+
 HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
