@@ -8,7 +8,7 @@
 HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
+int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCmdLine, int _nCmdShow)
 {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
@@ -18,7 +18,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 	// Init window
 	HWND hwnd = 0;
-	if((hwnd = InitWindow(hInstance, nCmdShow, configFile->getScreenSize())) == 0)
+	if((hwnd = InitWindow(_hInstance, _nCmdShow, configFile->getScreenSize())) == 0)
 	{
 		return 0;
 	}
@@ -28,8 +28,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	// Forget the config file, the clienthandler is responsible for it now.
 	configFile = NULL;
 
-	// Init game content and run that bitch!
-	clientHandler.initGame();
 	return clientHandler.run();
 }
 
@@ -58,15 +56,15 @@ HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize)
 	RegisterClassEx(&wcex);
 
 	// Create window
-	RECT rc = { 0, 0, 1024, 768 };
-	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
+	RECT rc = {0, 0, _screenSize.x, _screenSize.y};
+	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	hWnd = CreateWindow(	"Spelprojekt",
 							"Spelprojekt",
 							WS_OVERLAPPEDWINDOW,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
-							_screenSize.x,
-							_screenSize.y,
+							rc.right-rc.left,
+							rc.bottom-rc.top,
 							NULL,
 							NULL,
 							_hInstance,

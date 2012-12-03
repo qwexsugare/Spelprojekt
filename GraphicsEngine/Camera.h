@@ -19,6 +19,7 @@ public:
 	Camera(float width, float height);
 	~Camera();
 
+	D3DXVECTOR3 getPos()const;
 	D3DXMATRIX getViewMatrix();
 	D3DXMATRIX getProjectionMatrix();
 
