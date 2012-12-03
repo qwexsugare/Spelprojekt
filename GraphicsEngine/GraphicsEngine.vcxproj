@@ -99,6 +99,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ResourceHolder.h" />
+    <ClInclude Include="SpriteEffectFile.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextureHolder.h" />
@@ -121,6 +122,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceHolder.cpp" />
+    <ClCompile Include="SpriteEffectFile.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureHolder.cpp" />
     <ClCompile Include="World.cpp" />
@@ -155,6 +157,12 @@
       </EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\SpriteRendering.fx">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -30,14 +30,7 @@ World::World(DeviceHandler* _deviceHandler)
 
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 
-	D3DX10CreateSprite(this->m_deviceHandler->getDevice(), 100, &this->m_spriteBuffer);
-
-	D3DXMATRIX projection;
-	D3DXMatrixOrthoOffCenterLH(&projection, 0, (float)this->m_deviceHandler->getScreenSize().x, 0, (float)this->m_deviceHandler->getScreenSize().y, 0, 1);
-	this->m_spriteBuffer->SetProjectionTransform(&projection);
-
-	D3D10_RASTERIZER_DESC rasterizerDesc = { D3D10_FILL_SOLID, D3D10_CULL_NONE, FALSE, 0, 0.0f, 0.0f,TRUE, FALSE, FALSE, FALSE};
-	this->m_deviceHandler->getDevice()->CreateRasterizerState(&rasterizerDesc, &this->m_spriteRasterizerState);
+	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
 }
 
 World::~World()
@@ -60,6 +53,7 @@ World::~World()
 	delete this->m_forwardRendering;
 	delete this->m_forwardRenderTarget;
 	delete this->m_forwardDepthStencil;
+	delete this->m_spriteRendering;
 
 	delete this->m_deferredPlane;
 	delete this->m_deferredSampler;
@@ -196,18 +190,22 @@ void World::render()
 	}
 
 	//Sprites
-	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
-	this->m_deviceHandler->getDevice()->RSSetState(this->m_spriteRasterizerState);
-
-	this->m_spriteBuffer->Begin(0);
-	
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
-		m_spriteBuffer->DrawSpritesBuffered(&this->m_sprites[i]->getSprite(), 1);
-	}
+		this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer());
 
-	this->m_spriteBuffer->Flush();
-	this->m_spriteBuffer->End();
+		this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
+		this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
+
+		D3D10_TECHNIQUE_DESC techDesc;
+		this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
+
+		for( UINT p = 0; p < techDesc.Passes; p++ )
+		{
+			this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+			this->m_deviceHandler->getDevice()->Draw(m_sprites[i]->getNrOfVertices(), 0);
+		}
+	}
 
 	// Render texts
 	for(int i = 0; i < this->m_texts.size(); i++)

@@ -11,7 +11,7 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 	this->m_world = new World(this->m_deviceHandler);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
 
-	this->m_world->addSprite(new Sprite(D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1.0f, 1.0f), this->m_resourceHolder->getTextureHolder()->getTexture("Ship4Texture.dds")));
+	this->m_world->addSprite(new Sprite(this->m_deviceHandler->getDevice(), D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1.0f, 1.0f), this->m_resourceHolder->getTextureHolder()->getTexture("Ship4Texture.dds")));
 }
 
 GraphicsHandler::~GraphicsHandler()

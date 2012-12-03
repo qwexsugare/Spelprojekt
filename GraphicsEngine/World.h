@@ -4,6 +4,7 @@
 #include "ForwardRenderingEffectFile.h"
 #include "DeferredRenderingEffectFile.h"
 #include "DeferredSamplerEffectFile.h"
+#include "SpriteEffectFile.h"
 #include "Camera.h"
 #include "DeviceHandler.h"
 #include "Model.h"
@@ -35,17 +36,16 @@ private:
 	RenderTarget *m_positionBufferTransparant;
 	RenderTarget *m_normalBufferTransparant;
 	RenderTarget *m_diffuseBufferTransparant;
-
 	FullScreenPlane *m_deferredPlane;
+
+	//2D rendering
+	SpriteEffectFile *m_spriteRendering;
 
 	DeviceHandler* m_deviceHandler;
 
 	vector<Text*> m_texts;
 	vector<Model*> m_models;
 	vector<Sprite*> m_sprites;
-
-	ID3DX10Sprite *m_spriteBuffer;
-	ID3D10RasterizerState* m_spriteRasterizerState;
 public:
 	World();
 	World(DeviceHandler* _deviceHandler);
