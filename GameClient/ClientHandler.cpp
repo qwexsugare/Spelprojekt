@@ -24,7 +24,7 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	this->m_state->nextState();
+	//this->m_state->nextState(); 
 	Model *m1 = g_graphicsEngine->createModel("ArrowHead");
 	m1->setPosition(0.0f, 3.0f, 0.0f);
 	m1->setAlpha(0.5f);
