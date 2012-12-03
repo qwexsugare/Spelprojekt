@@ -1,29 +1,25 @@
 #pragma once
 
-#include "GraphicsHandler.h"
 #include "DataStructures.h"
 #include "Mouse.h"
 #include "Text.h"
+#include "Camera.h"
+#include "Keyboard.h"
+#include "GameState.h"
 #include <string>
 using namespace std;
 
 class ClientHandler
 {
 private:
-	Mouse* m_mouse;
+	State* m_state;
 	ConfigFile* m_configFile;
-	GraphicsHandler* m_graphicsEngine;
 	vector<MSG> m_messages;
-	
-	// Developing/test stuff
-	Model* m_testModel;
-	Text* m_fpsText;
-
+	Camera* m_camera;
 public:
 	ClientHandler(HWND _hWnd, ConfigFile* _configFile);
 	~ClientHandler();
 	
-	void initGame();
 	HRESULT run();
 	void update(float _dt);
 };
