@@ -1,0 +1,24 @@
+#pragma once
+
+#include "State.h"
+#include "Entity.h"
+#include "Graphics.h"
+
+class GameState : public State
+{
+private:
+	Text* m_fpsText;
+<<<<<<< HEAD
+	vector<Entity*> m_entities;
+=======
+	Sprite *m_testSprite;
+	float m_rotation;
+>>>>>>> e0c118334181463d027ff4dfa60ec82174fcf31a
+public:
+	GameState();
+	~GameState();
+
+	void update(float _dt);
+	bool done();
+	State* nextState();
+};

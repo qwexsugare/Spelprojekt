@@ -93,6 +93,9 @@
     <ClInclude Include="QuadTree.h">
       <Filter>QuadTree</Filter>
     </ClInclude>
+    <ClInclude Include="QuadTreeNode.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
