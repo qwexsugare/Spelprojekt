@@ -20,6 +20,7 @@ public:
 	
 	float getAlpha()const;
 	FLOAT3 getPosition()const;
+	D3DXVECTOR2 getPosition2D()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	Mesh* getMesh()const;
@@ -32,7 +33,7 @@ public:
 	void setRotation(D3DXVECTOR3 _rotation);
 	void updateModelMatrix();
 
-	void setPosition(float x, float y, float z);
+	void setPosition(FLOAT3 _position);
 	void setScale(float x, float y, float z);
 	void setRotation(float x, float y, float z);
 };

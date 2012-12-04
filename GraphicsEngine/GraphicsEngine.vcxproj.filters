@@ -16,6 +16,9 @@
     <Filter Include="Shader files">
       <UniqueIdentifier>{6bff85c8-c989-43d5-a10b-2941c2de9c32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="QuadTree">
+      <UniqueIdentifier>{80b91d78-1707-4c06-963c-35ae1e92356a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHandler.h">
@@ -84,6 +87,12 @@
     <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QuadTreeNode.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -139,6 +148,12 @@
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTreeNode.cpp">
+      <Filter>QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>QuadTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

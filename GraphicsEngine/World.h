@@ -13,6 +13,7 @@
 #include "Sprite.h"
 #include "FullScreenPlane.h"
 #include "Text.h"
+#include "QuadTree.h"
 
 class World
 {
@@ -41,7 +42,7 @@ private:
 	DeviceHandler* m_deviceHandler;
 
 	vector<Text*> m_texts;
-	vector<Model*> m_models;
+	QuadTree* m_quadTree;
 	vector<Sprite*> m_sprites;
 
 	ID3DX10Sprite *m_spriteBuffer;

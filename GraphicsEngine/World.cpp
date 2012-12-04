@@ -8,10 +8,10 @@ World::World()
 World::World(DeviceHandler* _deviceHandler)
 {
 	this->m_deviceHandler = _deviceHandler;
-	this->m_models = vector<Model*>();
 	this->m_sprites = vector<Sprite*>();
 	this->m_texts = vector<Text*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
+	this->m_quadTree = new QuadTree(4, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1000.0f, 1000.0f));
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -42,11 +42,6 @@ World::World(DeviceHandler* _deviceHandler)
 
 World::~World()
 {
-	for(int i = 0; i < this->m_models.size(); i++)
-	{
-		delete this->m_models[i];
-	}
-
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		delete this->m_sprites[i];
@@ -74,6 +69,7 @@ World::~World()
 	delete this->m_diffuseBufferTransparant;
 
 	delete this->m_camera;
+	delete this->m_quadTree;
 }
 
 void World::render()
@@ -102,22 +98,24 @@ void World::render()
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
-	vector<Model*> transparantModels = vector<Model*>();
+	stack<Model*> transparantModels;
 
 	//Render all models
-	for(int i = 0; i < this->m_models.size(); i++)
+	stack<Model*> models = this->m_quadTree->getModels();
+	while(!models.empty())
 	{
-		if(this->m_models[i]->getAlpha() < 1.0f)
+		if(models.top()->getAlpha() < 1.0f)
 		{
-			transparantModels.push_back(this->m_models[i]);
+			transparantModels.push(models.top());
+			models.pop();
 		}
 		else
 		{
-			this->m_deviceHandler->setVertexBuffer(this->m_models[i]->getMesh()->buffer);
+			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
 
-			this->m_deferredSampler->setModelMatrix(this->m_models[i]->getModelMatrix());
-			this->m_deferredSampler->setTexture(this->m_models[i]->getMesh()->m_texture);
-			this->m_deferredSampler->setModelAlpha(this->m_models[i]->getAlpha());
+			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
+			this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
+			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 
 			D3D10_TECHNIQUE_DESC techDesc;
 			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
@@ -125,8 +123,10 @@ void World::render()
 			for( UINT p = 0; p < techDesc.Passes; p++ )
 			{
 				this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(this->m_models[i]->getMesh()->nrOfVertices, 0);
+				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
 			}
+
+			models.pop();
 		}
 	}
 
@@ -142,13 +142,13 @@ void World::render()
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
-	for(int i = 0; i < transparantModels.size(); i++)
+	while(!transparantModels.empty())
 	{
-		this->m_deviceHandler->setVertexBuffer(transparantModels[i]->getMesh()->buffer);
+		this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->buffer);
 
-		this->m_deferredSampler->setModelMatrix(transparantModels[i]->getModelMatrix());
-		this->m_deferredSampler->setTexture(transparantModels[i]->getMesh()->m_texture);
-		this->m_deferredSampler->setModelAlpha(transparantModels[i]->getAlpha());
+		this->m_deferredSampler->setModelMatrix(transparantModels.top()->getModelMatrix());
+		this->m_deferredSampler->setTexture(transparantModels.top()->getMesh()->m_texture);
+		this->m_deferredSampler->setModelAlpha(transparantModels.top()->getAlpha());
 
 		D3D10_TECHNIQUE_DESC techDesc;
 		this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
@@ -156,8 +156,10 @@ void World::render()
 		for( UINT p = 0; p < techDesc.Passes; p++ )
 		{
 			this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(transparantModels[i]->getMesh()->nrOfVertices, 0);
+			this->m_deviceHandler->getDevice()->Draw(transparantModels.top()->getMesh()->nrOfVertices, 0);
 		}
+		
+		transparantModels.pop();
 	}
 
 	//Deferred
@@ -221,14 +223,14 @@ void World::render()
 
 void World::addModel(Model *_model)
 {
-	this->m_models.push_back(_model);
+	this->m_quadTree->addModel(_model);
 }
 
 bool World::removeModel(Model *_model)
 {
 	bool found = false;
 
-	for(int i = 0; i < this->m_models.size() && !found; i++)
+	/*for(int i = 0; i < this->m_models.size() && !found; i++)
 	{
 		if(this->m_models[i] == _model)
 		{
@@ -236,7 +238,7 @@ bool World::removeModel(Model *_model)
 			this->m_models.erase(this->m_models.begin()+i);
 			found = true;
 		}
-	}
+	}*/
 
 	return found;
 }

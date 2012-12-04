@@ -35,6 +35,11 @@ FLOAT3 Model::getPosition()const
 	return FLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 }
 
+D3DXVECTOR2 Model::getPosition2D()const
+{
+	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
+}
+
 void Model::move(FLOAT3 _distance)
 {
 	this->m_position.x += _distance.x;
@@ -91,9 +96,9 @@ void Model::updateModelMatrix()
 	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
 }
 
-void Model::setPosition(float x, float y, float z)
+void Model::setPosition(FLOAT3 _position)
 {
-	this->m_position = D3DXVECTOR3(x, y, z);
+	this->m_position = D3DXVECTOR3(_position.x, _position.y, _position.z);
 	this->updateModelMatrix();
 }
 

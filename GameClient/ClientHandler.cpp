@@ -4,12 +4,13 @@
 
 ClientHandler::ClientHandler(HWND _hWnd, ConfigFile* _configFile)
 {
-	this->m_configFile = _configFile;
-	g_graphicsEngine = new GraphicsHandler(_hWnd, this->m_configFile);
+	// Init globals for the people
+	g_graphicsEngine = new GraphicsHandler(_hWnd, _configFile);
 	g_mouse = new Mouse(500, 500, _hWnd);
-
 	g_keyboard = new Keyboard();
-	this->m_state = new GameState();
+
+
+	this->m_configFile = _configFile;
 	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 10.0f, 0.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 }
 
@@ -24,10 +25,7 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	this->m_state->nextState();
-	Model *m1 = g_graphicsEngine->createModel("ArrowHead");
-	m1->setPosition(0.0f, 3.0f, 0.0f);
-	m1->setAlpha(0.5f);
+	this->m_state = new GameState();
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
