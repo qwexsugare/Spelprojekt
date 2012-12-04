@@ -8,6 +8,8 @@ class GameState : public State
 private:
 	Model* m_testModel;
 	Text* m_fpsText;
+	Sprite *m_testSprite;
+	float m_rotation;
 public:
 	GameState();
 	~GameState();

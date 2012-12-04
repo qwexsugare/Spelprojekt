@@ -4,21 +4,24 @@
 #include "stdafx.h"
 #include "Mesh.h"
 #include "VertexStructs.h"
+#include "DeviceHandler.h"
+#include "DataStructures.h"
 
 class Sprite
 {
 private:
+	DeviceHandler *m_deviceHandler;
 	ID3D10Buffer* m_buffer;
 	int m_nrOfVertices;
 	ID3D10ShaderResourceView* m_texture;	
 	D3DXMATRIX m_modelMatrix;
 public:
-	Sprite(ID3D10Device *device, D3DXVECTOR2 position, D3DXVECTOR2 size,ID3D10ShaderResourceView *_texture);
+	Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D10ShaderResourceView *_texture);
 	~Sprite();
 
-	void setPosition(D3DXVECTOR2 position);
-	void setSize(D3DXVECTOR2 size);
-	void setRotation(float rotation);
+	DECLDIR void setPosition(FLOAT2 position);
+	DECLDIR void setSize(FLOAT2 size);
+	DECLDIR void setRotation(float rotation);
 
 	ID3D10Buffer *getBuffer();
 	int getNrOfVertices();

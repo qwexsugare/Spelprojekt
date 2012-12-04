@@ -9,29 +9,29 @@
 #include "ConfigFile.h"
 #include "Camera.h"
 
-class DECLDIR GraphicsHandler
+class GraphicsHandler
 {
 private:
 	World *m_world;
 	DeviceHandler* m_deviceHandler;
 	ResourceHolder *m_resourceHolder;
 public:
-	GraphicsHandler();
-	GraphicsHandler(HWND _hWnd, ConfigFile* _configFile);
-	~GraphicsHandler();
+	DECLDIR GraphicsHandler();
+	DECLDIR GraphicsHandler(HWND _hWnd, ConfigFile* _configFile);
+	DECLDIR ~GraphicsHandler();
 
-	Camera *getCamera();
+	DECLDIR Camera *getCamera();
 	
-	Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
-	Model* createModel(string _filename);
-	bool removeModel(Model* _model);
+	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
+	DECLDIR Model* createModel(string _filename);
+	DECLDIR bool removeModel(Model* _model);
 
-	Sprite *createSprite(string filename);
-	bool remove(Sprite *sprite);
+	DECLDIR Sprite *createSprite(string filename, FLOAT2 position, FLOAT2 size);
+	DECLDIR bool remove(Sprite *sprite);
 
-	void render();
-	void update(float dt);
-	HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
+	DECLDIR void render();
+	DECLDIR void update(float dt);
+	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 };
 
 #endif

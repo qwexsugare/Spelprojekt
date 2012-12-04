@@ -10,8 +10,6 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile->getWindowed(), _configFile->getScreenSize());
 	this->m_world = new World(this->m_deviceHandler);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
-
-	this->m_world->addSprite(new Sprite(this->m_deviceHandler->getDevice(), D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1.0f, 1.0f), this->m_resourceHolder->getTextureHolder()->getTexture("Ship4Texture.dds")));
 }
 
 GraphicsHandler::~GraphicsHandler()
@@ -54,10 +52,10 @@ bool GraphicsHandler::removeModel(Model* _model)
 	return this->m_world->removeModel(_model);
 }
 
-Sprite *GraphicsHandler::createSprite(string filename)
+Sprite *GraphicsHandler::createSprite(string filename, FLOAT2 position, FLOAT2 size)
 {
-	Sprite *sprite = NULL;
-	//sprite = new Sprite(
+	Sprite *sprite = new Sprite(this->m_deviceHandler, position, size, this->m_resourceHolder->getTextureHolder()->getTexture(filename));
+	this->m_world->addSprite(sprite);
 
 	return sprite;
 }
