@@ -1,6 +1,7 @@
 #pragma once
+#include "stdafx.h"
 
-struct FLOAT2
+struct DECLDIR FLOAT2
 {
 	float x;
 	float y;
@@ -17,7 +18,7 @@ struct FLOAT2
 	}
 };
 
-struct FLOAT3
+struct DECLDIR FLOAT3
 {
 	float x;
 	float y;
@@ -36,7 +37,7 @@ struct FLOAT3
 	}
 };
 
-struct INT2
+struct DECLDIR INT2
 {
 	int x;
 	int y;

@@ -87,8 +87,8 @@
     <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTreeNode.h">
-      <Filter>QuadTree</Filter>
+    <ClInclude Include="SpriteEffectFile.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QuadTree.h">
       <Filter>QuadTree</Filter>
@@ -155,6 +155,9 @@
     <ClCompile Include="QuadTree.cpp">
       <Filter>QuadTree</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteEffectFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\GameClient\ForwardRendering.fx">
@@ -164,6 +167,9 @@
       <Filter>Shader files</Filter>
     </FxCompile>
     <FxCompile Include="..\GameClient\DeferredSampler.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\SpriteRendering.fx">
       <Filter>Shader files</Filter>
     </FxCompile>
   </ItemGroup>

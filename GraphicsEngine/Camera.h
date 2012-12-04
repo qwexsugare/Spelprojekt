@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "DataStructures.h"
 
-class DECLDIR Camera
+class Camera
 {
 private:
 	D3DXVECTOR3 m_position;
@@ -19,16 +19,16 @@ public:
 	Camera(float width, float height);
 	~Camera();
 
-	D3DXVECTOR3 getPos()const;
+	DECLDIR D3DXVECTOR3 getPos()const;
 	D3DXMATRIX getViewMatrix();
 	D3DXMATRIX getProjectionMatrix();
 
 	void updateViewMatrix();
 
-	void moveRelative(float forward, float right, float up);	//Move based on the forward vector
-	void moveStatic(float forward, float right, float up);
-	void rotate(float x, float y, float z);
-	void set(FLOAT3 _position, FLOAT3 _forward, FLOAT3 _up, FLOAT3 _right);
+	DECLDIR void moveRelative(float forward, float right, float up);	//Move based on the forward vector
+	DECLDIR void moveStatic(float forward, float right, float up);
+	DECLDIR void rotate(float x, float y, float z);
+	DECLDIR void set(FLOAT3 _position, FLOAT3 _forward, FLOAT3 _up, FLOAT3 _right);
 };
 
 #endif

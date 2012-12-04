@@ -4,7 +4,7 @@
 #include "Mesh.h"
 #include "DataStructures.h"
 
-class DECLDIR Model
+class Model
 {
 private:
 	Mesh* m_mesh;
@@ -18,22 +18,22 @@ public:
 	Model(Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f), float _alpha = 1.0f);
 	~Model();
 	
-	float getAlpha()const;
-	FLOAT3 getPosition()const;
+	DECLDIR float getAlpha()const;
+	DECLDIR FLOAT3 getPosition()const;
 	D3DXVECTOR2 getPosition2D()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	Mesh* getMesh()const;
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
-	void move(FLOAT3 _distance);
-	void rotate(float _yaw, float _pitch, float _roll);
-	void setAlpha(float _alpha);
+	DECLDIR void move(FLOAT3 _distance);
+	DECLDIR void rotate(float _yaw, float _pitch, float _roll);
+	DECLDIR void setAlpha(float _alpha);
 	void setPosition(D3DXVECTOR3 _position);
 	void setScale(D3DXVECTOR3 _scale);
 	void setRotation(D3DXVECTOR3 _rotation);
 	void updateModelMatrix();
 
 	void setPosition(FLOAT3 _position);
-	void setScale(float x, float y, float z);
-	void setRotation(float x, float y, float z);
+	DECLDIR void setScale(float x, float y, float z);
+	DECLDIR void setRotation(float x, float y, float z);
 };
