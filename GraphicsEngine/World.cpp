@@ -245,23 +245,34 @@ void World::addSprite(SpriteBase *sprite)
 
 int World::findSpriteLayer(int startPos,int endPos, int layer)
 {
-	if(endPos - startPos > 0)
+	if(endPos - startPos > 1)
 	{
 		int i = startPos + (endPos - startPos) / 2;
 		if(this->m_sprites[i]->getLayer() > layer)
 		{
-			endPos = i;
+			startPos = i;
 		}
 		else
 		{
-			startPos = i;
+			endPos = i;
 		}
 
 		return findSpriteLayer(startPos, endPos, layer);
 	}
+	else if(endPos - startPos == 0)
+	{
+		return 0;
+	}
 	else
 	{
-		return endPos;
+		if(this->m_sprites[0]->getLayer() > layer)
+		{
+			return 0;
+		}
+		else
+		{
+			return this->m_sprites.size();
+		}
 	}
 }
 
