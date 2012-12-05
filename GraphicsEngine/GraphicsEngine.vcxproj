@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="DataStructures.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoundingSphere.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="DeferredRenderingEffectFile.cpp" />

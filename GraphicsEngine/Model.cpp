@@ -2,10 +2,10 @@
 
 Model::Model()
 {
-
+	this->m_obb = NULL;
 }
 
-Model::Model(Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
+Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
 {
 	this->m_alpha = _alpha;
 	this->m_mesh = _mesh;
@@ -13,17 +13,23 @@ Model::Model(Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3
 	this->m_scale = _scale;
 	this->m_rotation = _rotation;
 	this->updateModelMatrix();
-	this->m_obb = Obb(D3DXVECTOR2(_position.x, _position.z), 1.0, 1.0, 0.0);
+	this->m_obb = new Obb(_device, D3DXVECTOR2(_position.x, _position.z), 3.0, 3.0, _rotation.y);
 }
 
 Model::~Model()
 {
-
+	if(this->m_obb)
+		delete this->m_obb;
 }
 
 float Model::getAlpha()const
 {
 	return this->m_alpha;
+}
+
+Obb* Model::getObb()const
+{
+	return this->m_obb;
 }
 
 Mesh *Model::getMesh() const
@@ -43,7 +49,12 @@ D3DXVECTOR2 Model::getPosition2D()const
 
 bool Model::intersects(const Obb& _obb)const
 {
-	return this->m_obb.intersects(_obb);
+	return this->m_obb->intersects(_obb);
+}
+
+bool Model::intersects(const Model& _model)const
+{
+	return this->m_obb->intersects(*_model.getObb());
 }
 
 void Model::move(FLOAT3 _distance)
@@ -59,6 +70,7 @@ void Model::rotate(float _yaw, float _pitch, float _roll)
 	D3DXMATRIX rotationMatrix;
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, _yaw, _pitch, _roll);
 	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
+	this->m_obb->setAngle(this->m_obb->getAngle()-_yaw);
 }
 
 void Model::setAlpha(float _alpha)

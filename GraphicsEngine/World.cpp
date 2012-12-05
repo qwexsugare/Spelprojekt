@@ -11,7 +11,7 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
-	this->m_quadTree = new QuadTree(5, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(10.0f, 10.0f));
+	this->m_quadTree = new QuadTree(this->m_deviceHandler->getDevice(), 2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(10.0f, 10.0f));
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -74,7 +74,6 @@ void World::render()
 	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
 	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 	
-	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
 	
 	//clear render target
@@ -105,6 +104,21 @@ void World::render()
 		}
 		else
 		{
+			this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
+			this->m_deviceHandler->setVertexBuffer(models.top()->getObb()->getMesh()->buffer);
+
+			this->m_deferredSampler->setModelMatrix(models.top()->getObb()->getModelMatrix());
+
+			D3D10_TECHNIQUE_DESC techDesc2;
+			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc2 );
+
+			for( UINT p = 0; p < techDesc2.Passes; p++ )
+			{
+				this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(models.top()->getObb()->getMesh()->nrOfVertices, 0);
+			}
+			
+			this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
 
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
@@ -119,7 +133,7 @@ void World::render()
 				this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
 				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
 			}
-
+			
 			models.pop();
 		}
 	}
@@ -225,7 +239,7 @@ void World::update(float dt)
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		this->m_sprites[i]->update(dt);
-	}	
+	}
 }
 
 void World::addModel(Model *_model)

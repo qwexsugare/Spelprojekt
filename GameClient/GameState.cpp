@@ -11,7 +11,7 @@ GameState::GameState()
 	this->m_testSprite = g_graphicsEngine->createSpriteSheet("test.png", INT2(550, 550), INT2(100, 100), INT2(4, 2), 2);
 	this->m_testSprite->setCurrentFrame(INT2(3,0));
 	Sprite *s = g_graphicsEngine->createSprite("test.png", INT2(600, 600), INT2(100, 100), 1);
-	this->m_rotation = 0.0f;
+	this->m_rotation = 0.0f;*/
 }
 
 GameState::~GameState()
@@ -35,16 +35,13 @@ void GameState::update(float _dt)
 
 	if(g_mouse->isLButtonPressed())
 	{
-
 		this->m_entities.push_back(new Entity(
 			g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z))));
 	}
-	
-	/*if(g_mouse->isRButtonDown())
+	if(g_mouse->isLButtonDown())
 	{
-		if(this->m_testModel)
-			this->m_testModel->rotate(0.0025f, 0.0f, 0.0f);
-	}*/
+		this->m_entities[0]->m_model->rotate(_dt, 0.0f, 0.0f);
+	}
 }
 
 bool GameState::done()
