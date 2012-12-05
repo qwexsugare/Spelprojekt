@@ -54,3 +54,23 @@ struct DECLDIR INT2
 	}
 };
 
+struct DECLDIR INT3
+{
+	int x;
+	int y;
+	int z;
+
+	INT3()
+	{
+
+	}
+
+	INT3(int _x, int _y,  int _z)
+	{
+		this->x = _x;
+		this->y = _y;
+		this->z = _z;
+	}
+};
+
+

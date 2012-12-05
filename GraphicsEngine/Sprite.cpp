@@ -1,10 +1,11 @@
 #include "Sprite.h"
 
-Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D10ShaderResourceView *_texture)
+Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D10ShaderResourceView *_texture, int _layer)
 {
 	this->m_deviceHandler = _deviceHandler;
 	this->m_texture = _texture;
 	this->m_nrOfVertices = 6;
+	this->m_layer = _layer;
 
 	//Convert the position and size to projection space
 	position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
@@ -37,24 +38,6 @@ Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D1
 	Vertex *vertexData = NULL;
 
 	this->m_buffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
-
-	//vertexData[2].pos = D3DXVECTOR3(pos.x, pos.y, 0.0f);
-	//vertexData[2].texCoord = D3DXVECTOR2(0.0f, 0.0f);
-
-	//vertexData[1].pos = D3DXVECTOR3(pos.x + size.x, pos.y, 0.0f);
-	//vertexData[1].texCoord = D3DXVECTOR2(1.0f, 0.0f);
-
-	//vertexData[0].pos = D3DXVECTOR3(pos.x, pos.y + size.y, 0.0f);
-	//vertexData[0].texCoord = D3DXVECTOR2(0.0f, 1.0f);
-
-	//vertexData[5].pos = D3DXVECTOR3(pos.x + size.x, pos.y + size.y, 0.0f);
-	//vertexData[5].texCoord = D3DXVECTOR2(1.0f, 1.0f);
-
-	//vertexData[4].pos = D3DXVECTOR3(pos.x, pos.y + size.y, 0.0f);
-	//vertexData[4].texCoord = D3DXVECTOR2(0.0f, 1.0f);
-
-	//vertexData[3].pos = D3DXVECTOR3(pos.x + size.x, pos.y, 0.0f);
-	//vertexData[3].texCoord = D3DXVECTOR2(1.0f, 0.0f);
 
 	vertexData[0].pos = D3DXVECTOR3(pos.x, pos.y + size.y, 0.0f);
 	vertexData[0].texCoord = D3DXVECTOR2(0.0f, 0.0f);
@@ -149,6 +132,11 @@ int Sprite::getNrOfVertices()
 	return this->m_nrOfVertices;
 }
 
+int Sprite::getStartIndex()
+{
+	return 0;
+}
+
 ID3D10ShaderResourceView *Sprite::getTexture()
 {
 	return this->m_texture;
@@ -157,4 +145,14 @@ ID3D10ShaderResourceView *Sprite::getTexture()
 D3DXMATRIX Sprite::getModelMatrix()
 {
 	return this->m_modelMatrix;
+}
+
+int Sprite::getLayer()
+{
+	return this->m_layer;
+}
+
+void Sprite::update(float dt)
+{
+	//Inget att uppdatera
 }

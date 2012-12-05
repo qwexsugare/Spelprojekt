@@ -26,8 +26,11 @@ public:
 	DECLDIR Model* createModel(string _filename, FLOAT3 _position);
 	DECLDIR bool removeModel(Model* _model);
 
-	DECLDIR Sprite *createSprite(string filename, FLOAT2 position, FLOAT2 size);
+	DECLDIR Sprite *createSprite(string filename, INT2 position, INT2 size, int layer);
 	DECLDIR bool removeSprite(Sprite *sprite);
+
+	DECLDIR SpriteSheet *createSpriteSheet(string filename, INT2 position, INT2 size, INT2 nrOfFrames, int layer);
+	DECLDIR bool removeSpriteSheet(SpriteSheet *spriteSheet);
 
 	DECLDIR void render();
 	DECLDIR void update(float dt);

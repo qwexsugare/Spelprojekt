@@ -2,12 +2,13 @@
 #define SPRITE_SHEET_H
 
 #include "stdafx.h"
+#include "SpriteBase.h"
 #include "VertexStructs.h"
 #include "DataStructures.h"
 #include "DeviceHandler.h"
 #include "SpriteEffectFile.h"
 
-class SpriteSheet
+class SpriteSheet : public SpriteBase
 {
 private:
 	ID3D10Buffer* m_buffer;
@@ -24,21 +25,24 @@ private:
 
 	FLOAT2 m_size;
 	FLOAT2 m_position;
+	int m_layer;
 public:
-	SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, INT2 _position, INT2 _size, INT2 _nrOfFrames);
+	SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, INT2 _position, INT2 _size, INT2 _nrOfFrames, int _layer);
 
 	ID3D10Buffer *getBuffer();
 	ID3D10ShaderResourceView *getTexture();
 	D3DXMATRIX getModelMatrix();
 	int getStartIndex();
 	int getNrOfVertices();
+	int getLayer();
 
-	void setPosition(INT2 _position);
-	void setSize(INT2 _size);
+	DECLDIR void setPosition(INT2 _position);
+	DECLDIR void setSize(INT2 _size);
 
-	void setCurrentFrame(INT2 _currentFrame);
-	void playAnimation(INT2 _startFrame, INT2 _endFrame, bool _loop, int _framesPerSecond);
-	void stopAnimation();
+	DECLDIR void setCurrentFrame(INT2 _currentFrame);
+	DECLDIR INT2 getCurrentFrame();
+	DECLDIR void playAnimation(INT2 _startFrame, INT2 _endFrame, bool _loop, int _framesPerSecond);
+	DECLDIR void stopAnimation();
 
 	void update(float dt);
 };

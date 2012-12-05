@@ -87,16 +87,22 @@
     <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="QuadTreeNode.h">
-      <Filter>QuadTree</Filter>
+    <ClInclude Include="SpriteEffectFile.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QuadTree.h">
       <Filter>QuadTree</Filter>
-=======
-    <ClInclude Include="SpriteEffectFile.h">
+    </ClInclude>
+    <ClInclude Include="QuadTreeNode.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="SpriteSheet.h">
       <Filter>Header Files</Filter>
->>>>>>> e0c118334181463d027ff4dfa60ec82174fcf31a
+=======
+    <ClInclude Include="Obb.h">
+      <Filter>QuadTree</Filter>
+>>>>>>> 0c9b68fdc7d3bcdb4bc0f19059fc8a6171d35285
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,16 +160,22 @@
     <ClCompile Include="Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="QuadTreeNode.cpp">
       <Filter>QuadTree</Filter>
     </ClCompile>
     <ClCompile Include="QuadTree.cpp">
       <Filter>QuadTree</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="SpriteEffectFile.cpp">
       <Filter>Source Files</Filter>
->>>>>>> e0c118334181463d027ff4dfa60ec82174fcf31a
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="SpriteSheet.cpp">
+      <Filter>Source Files</Filter>
+=======
+    <ClCompile Include="Obb.cpp">
+      <Filter>QuadTree</Filter>
+>>>>>>> 0c9b68fdc7d3bcdb4bc0f19059fc8a6171d35285
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

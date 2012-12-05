@@ -16,6 +16,7 @@
 #include "Text.h"
 #include "QuadTree.h"
 #include "SpriteSheet.h"
+#include "SpriteBase.h"
 
 class World
 {
@@ -47,8 +48,9 @@ private:
 
 	vector<Text*> m_texts;
 	QuadTree* m_quadTree;
-	vector<Sprite*> m_sprites;
-	vector<SpriteSheet*> m_spriteSheets;
+	vector<SpriteBase*> m_sprites;
+
+	int findSpriteLayer(int startPos,int endPos, int layer);
 public:
 	World();
 	World(DeviceHandler* _deviceHandler);
@@ -60,14 +62,11 @@ public:
 	void addModel(Model *_model);
 	bool removeModel(Model *_model);
 
-	void addSprite(Sprite *sprite);
-	bool removeSprite(Sprite *sprite);
+	void addSprite(SpriteBase *sprite);
+	bool removeSprite(SpriteBase *sprite);
 
 	void addText(Text* _text);
 	bool removeText(Text* _text);
-
-	void addSpriteSheet(SpriteSheet *_spriteSheet);
-	bool removeSpriteSheet(SpriteSheet *_spriteSheet);
 
 	Camera *getCamera();
 };
