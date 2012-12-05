@@ -96,6 +96,9 @@
     <ClInclude Include="QuadTreeNode.h">
       <Filter>QuadTree</Filter>
     </ClInclude>
+    <ClInclude Include="Obb.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="SpriteEffectFile.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Obb.cpp">
+      <Filter>QuadTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

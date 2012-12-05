@@ -11,7 +11,7 @@ QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
 	this->m_min = _min;
 	this->m_max = _max;
 
-	if(_levels > 0)
+	if(_levels > 1)
 	{
 		this->m_children[0] = new QuadTreeNode(_levels-1, _min, (_max+_min)/2.0f);
 		this->m_children[1] = new QuadTreeNode(_levels-1, D3DXVECTOR2((_max.x+_min.x)/2.0f, _min.y), D3DXVECTOR2(_max.x, (_max.y+_min.y)/2.0f));
@@ -30,55 +30,100 @@ QuadTreeNode::~QuadTreeNode()
 	for(int i = 0; i < 4; i++)
 		if(this->m_children[i])
 			delete this->m_children[i];
+
+	for(int i = 0; i < this->m_models.size(); i++)
+		delete this->m_models[i];
 }
 
 void QuadTreeNode::addModel(Model* _model)
 {
-	// If i have no kids i must to add the model
 	if(!this->m_children[0])
 	{
 		this->m_models.push_back(_model);
 	}
-	// If I have kids I might pass the model on to them
-	else
+	else if(this->intersects(_model))
 	{
-		bool done = false;
-		for(int i = 0; i < 4 && !done; i++)
+		int fittIndex = -1;
+		int fittCounter = 0;
+		for(int i = 0; i < 4; i++)
 		{
-			// Check if child can fit the model inside his belly.
-			if(this->m_children[i]->fits(_model->getPosition2D()))
+			if(this->m_children[i]->intersects(_model))
 			{
-				// This fucker is now my child's problem!!!! IM FREE!!!!111
-				this->m_children[i]->addModel(_model);
-				done = true;
+				fittIndex = i;
+				fittCounter++;
 			}
 		}
 
-		// If no children could fit the model I must take care of it :'(
-		if(!done)
+		if(fittCounter > 1)
 		{
 			this->m_models.push_back(_model);
+		}
+		else
+		{
+			// This fucker is now my child's problem!!!! IM FREE!!!!111
+			this->m_children[fittIndex]->addModel(_model);
 		}
 	}
 }
 
-bool QuadTreeNode::fits(D3DXVECTOR2 _pos)
+bool QuadTreeNode::intersects(const Model* _model)const
 {
-	return (_pos.x >= this->m_min.x && _pos.x <= this->m_max.x && _pos.y >= this->m_min.y && _pos.y <= this->m_max.y);
+	Obb myObb = Obb((this->m_max+this->m_min)/2.0f, this->m_max.x-this->m_min.x, this->m_max.y-this->m_min.y, 0);
+	bool asdfas= _model->intersects(myObb);
+	return asdfas;
+	//D3DXVECTOR2 _pos = _model->getPosition2D();
+	//return (_pos.x >= this->m_min.x && _pos.x <= this->m_max.x && _pos.y >= this->m_min.y && _pos.y <= this->m_max.y);
 }
 
 void QuadTreeNode::getModels(stack<Model*>& _models)const
 {
 	if(this->m_children[0])
 	{
-		// ADD ALL CHILD MODELS TO VECTOR
+		// ADD ALL CHILD MODELS TO STACK
 		this->m_children[0]->getModels(_models);
 		this->m_children[1]->getModels(_models);
 		this->m_children[2]->getModels(_models);
 		this->m_children[3]->getModels(_models);
 	}
 	
-	// ADD MY MODELS TO VECTOR
+	// ADD MY MODELS TO STACK
 	for(int i = 0; i < this->m_models.size(); i++)
 		_models.push(this->m_models[i]);
+}
+
+bool QuadTreeNode::removeModel(Model* _model)
+{
+	bool removed = false;
+
+	if(this->m_children[0])
+	{
+		// ADD ALL CHILD MODELS TO VECTOR
+		removed = this->m_children[0]->removeModel(_model);
+		if(!removed)
+		{
+			removed = this->m_children[1]->removeModel(_model);
+			if(!removed)
+			{
+				removed = this->m_children[2]->removeModel(_model);
+				if(!removed)
+				{
+					removed = this->m_children[3]->removeModel(_model);
+				}
+			}
+		}
+	}
+	else
+	{
+		for(int i = 0; i < this->m_models.size() && !removed; i++)
+		{
+			if(this->m_models[i] == _model)
+			{
+				delete this->m_models[i];
+				this->m_models.erase(this->m_models.begin()+i);
+				removed = true;
+			}
+		}
+	}
+
+	return removed;
 }

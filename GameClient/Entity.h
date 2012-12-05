@@ -11,9 +11,8 @@ struct Entity
 		this->m_model = NULL;
 	}
 
-	Entity(Model* _model, FLOAT3 _position)
+	Entity(Model* _model)
 	{
 		this->m_model = _model;
-		this->m_model->setPosition(_position);
 	}
 };

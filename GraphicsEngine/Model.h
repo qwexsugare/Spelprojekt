@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "Mesh.h"
 #include "DataStructures.h"
+#include "Obb.h"
 
 class Model
 {
@@ -13,6 +14,7 @@ private:
 	D3DXVECTOR3 m_scale;
 	D3DXVECTOR3 m_rotation;
 	float m_alpha;
+	Obb m_obb;
 public:
 	Model();
 	Model(Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f), float _alpha = 1.0f);
@@ -25,6 +27,7 @@ public:
 	D3DXVECTOR3 getRotation()const;
 	Mesh* getMesh()const;
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
+	bool intersects(const Obb& _obb)const;
 	DECLDIR void move(FLOAT3 _distance);
 	DECLDIR void rotate(float _yaw, float _pitch, float _roll);
 	DECLDIR void setAlpha(float _alpha);

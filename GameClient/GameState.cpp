@@ -37,9 +37,7 @@ void GameState::update(float _dt)
 	{
 		this->m_testSprite->setPosition(FLOAT2(1000, 1000));
 		this->m_entities.push_back(new Entity(
-			g_graphicsEngine->createModel("ArrowHead"),
-			FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z))
-			);
+			g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z))));
 	}
 	
 	/*if(g_mouse->isRButtonDown())
