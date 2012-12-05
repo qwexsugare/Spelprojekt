@@ -44,7 +44,7 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 
 	if(mesh != NULL)
 	{
-		model = new Model(mesh, D3DXVECTOR3(_position.x, _position.y, _position.z));
+		model = new Model(this->m_deviceHandler->getDevice(), mesh, D3DXVECTOR3(_position.x, _position.y, _position.z));
 		this->m_world->addModel(model);
 	}
 

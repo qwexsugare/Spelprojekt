@@ -37,12 +37,6 @@ void GameState::update(float _dt)
 		this->m_entities.push_back(new Entity(
 			g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z))));
 	}
-	
-	/*if(g_mouse->isRButtonDown())
-	{
-		if(this->m_testModel)
-			this->m_testModel->rotate(0.0025f, 0.0f, 0.0f);
-	}*/
 }
 
 bool GameState::done()
