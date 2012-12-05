@@ -10,6 +10,10 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile->getWindowed(), _configFile->getScreenSize());
 	this->m_world = new World(this->m_deviceHandler);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
+
+	SpriteSheet *s = new SpriteSheet(this->m_deviceHandler, this->m_resourceHolder->getTextureHolder()->getTexture("test.png"), INT2(500, 500), INT2(100, 100), INT2(4, 2));
+	this->m_world->addSpriteSheet(s);
+	s->playAnimation(INT2(0,0), INT2(3,1), true, 2);
 }
 
 GraphicsHandler::~GraphicsHandler()
@@ -60,7 +64,7 @@ Sprite *GraphicsHandler::createSprite(string filename, FLOAT2 position, FLOAT2 s
 	return sprite;
 }
 
-bool GraphicsHandler::remove(Sprite *sprite)
+bool GraphicsHandler::removeSprite(Sprite *sprite)
 {
 	return this->m_world->removeSprite(sprite);
 }
@@ -73,4 +77,5 @@ void GraphicsHandler::render()
 void GraphicsHandler::update(float dt)
 {
 	//Uppdatera animationer?
+	this->m_world->update(dt);
 }

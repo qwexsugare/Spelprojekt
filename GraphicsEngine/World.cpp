@@ -9,6 +9,7 @@ World::World(DeviceHandler* _deviceHandler)
 {
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<Sprite*>();
+	this->m_spriteSheets = vector<SpriteSheet*>();
 	this->m_texts = vector<Text*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
 	this->m_quadTree = new QuadTree(4, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1000.0f, 1000.0f));
@@ -38,6 +39,11 @@ World::~World()
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		delete this->m_sprites[i];
+	}
+
+	for(int i = 0; i < this->m_spriteSheets.size(); i++)
+	{
+		delete this->m_spriteSheets[i];
 	}
 
 	for(int i = 0; i < this->m_texts.size(); i++)
@@ -209,6 +215,24 @@ void World::render()
 		}
 	}
 
+	//SpriteSheets
+	for(int i = 0; i < this->m_spriteSheets.size(); i++)
+	{
+		this->m_deviceHandler->setVertexBuffer(this->m_spriteSheets[i]->getBuffer());
+
+		this->m_spriteRendering->setModelMatrix(this->m_spriteSheets[i]->getModelMatrix());
+		this->m_spriteRendering->setTexture(this->m_spriteSheets[i]->getTexture());
+
+		D3D10_TECHNIQUE_DESC techDesc;
+		this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
+
+		for( UINT p = 0; p < techDesc.Passes; p++ )
+		{
+			this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+			this->m_deviceHandler->getDevice()->Draw(this->m_spriteSheets[i]->getNrOfVertices(), this->m_spriteSheets[i]->getStartIndex());
+		}
+	}
+
 	// Render texts
 	for(int i = 0; i < this->m_texts.size(); i++)
 	{
@@ -217,6 +241,15 @@ void World::render()
 
 	//Finish render
 	this->m_deviceHandler->present();
+}
+
+void World::update(float dt)
+{
+	//SpriteSheets
+	for(int i = 0; i < this->m_spriteSheets.size(); i++)
+	{
+		this->m_spriteSheets[i]->update(dt);
+	}	
 }
 
 void World::addModel(Model *_model)
@@ -288,4 +321,26 @@ bool World::removeText(Text* _text)
 Camera *World::getCamera()
 {
 	return this->m_camera;
+}
+
+void World::addSpriteSheet(SpriteSheet *_spriteSheet)
+{
+	this->m_spriteSheets.push_back(_spriteSheet);
+}
+
+bool World::removeSpriteSheet(SpriteSheet *_spriteSheet)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_spriteSheets.size() && !found; i++)
+	{
+		if(this->m_spriteSheets[i] == _spriteSheet)
+		{
+			delete this->m_spriteSheets[i];
+			this->m_spriteSheets.erase(this->m_spriteSheets.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
 }

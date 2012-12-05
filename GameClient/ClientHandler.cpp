@@ -51,6 +51,7 @@ HRESULT ClientHandler::run()
 			float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
 
 			this->update(dt);
+			g_graphicsEngine->update(dt);
 			g_graphicsEngine->render();
 			
 			prevTimeStamp = currTimeStamp;

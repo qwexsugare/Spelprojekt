@@ -135,6 +135,8 @@ void Sprite::setRotation(float rotation)
 	this->m_modelMatrix._12 = rotationMatrix._12;
 	this->m_modelMatrix._21 = rotationMatrix._21;
 	this->m_modelMatrix._22 = rotationMatrix._22;
+
+	//D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
 }
 
 ID3D10Buffer *Sprite::getBuffer()

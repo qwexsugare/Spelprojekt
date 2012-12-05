@@ -27,7 +27,7 @@ public:
 	DECLDIR bool removeModel(Model* _model);
 
 	DECLDIR Sprite *createSprite(string filename, FLOAT2 position, FLOAT2 size);
-	DECLDIR bool remove(Sprite *sprite);
+	DECLDIR bool removeSprite(Sprite *sprite);
 
 	DECLDIR void render();
 	DECLDIR void update(float dt);

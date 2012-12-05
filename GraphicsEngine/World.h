@@ -15,6 +15,7 @@
 #include "FullScreenPlane.h"
 #include "Text.h"
 #include "QuadTree.h"
+#include "SpriteSheet.h"
 
 class World
 {
@@ -47,12 +48,14 @@ private:
 	vector<Text*> m_texts;
 	QuadTree* m_quadTree;
 	vector<Sprite*> m_sprites;
+	vector<SpriteSheet*> m_spriteSheets;
 public:
 	World();
 	World(DeviceHandler* _deviceHandler);
 	~World();
 
 	void render();
+	void update(float dt);
 	
 	void addModel(Model *_model);
 	bool removeModel(Model *_model);
@@ -62,6 +65,9 @@ public:
 
 	void addText(Text* _text);
 	bool removeText(Text* _text);
+
+	void addSpriteSheet(SpriteSheet *_spriteSheet);
+	bool removeSpriteSheet(SpriteSheet *_spriteSheet);
 
 	Camera *getCamera();
 };

@@ -6,7 +6,7 @@ GameState::GameState()
 {
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(50, 100), 100, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 
-	this->m_testSprite = g_graphicsEngine->createSprite("test.png", FLOAT2(500, 500), FLOAT2(42, 37));
+	//this->m_testSprite = g_graphicsEngine->createSprite("test.png", FLOAT2(500, 500), FLOAT2(50, 50));
 	this->m_rotation = 0.0f;
 }
 
@@ -18,10 +18,6 @@ GameState::~GameState()
 
 void GameState::update(float _dt)
 {
-	this->m_testSprite->setRotation(m_rotation);
-	this->m_testSprite->setSize(FLOAT2(m_rotation, m_rotation));
-	this->m_rotation += _dt;
-
 	// Update FRAMES PER SECOND (FPS) text
 	static float lol = 0.0f;
 	lol += _dt;
@@ -35,7 +31,9 @@ void GameState::update(float _dt)
 
 	if(g_mouse->isLButtonPressed())
 	{
-		this->m_testSprite->setPosition(FLOAT2(1000, 1000));
+		//this->m_testSprite->setRotation(this->m_rotation);
+		this->m_rotation += 0.1;
+
 		this->m_entities.push_back(new Entity(
 			g_graphicsEngine->createModel("ArrowHead"),
 			FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z))
