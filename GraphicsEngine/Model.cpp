@@ -13,7 +13,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECT
 	this->m_scale = _scale;
 	this->m_rotation = _rotation;
 	this->updateModelMatrix();
-	this->m_obb = new Obb(_device, D3DXVECTOR2(_position.x, _position.z), 3.0, 3.0, 0.0f); // _rotation must be converted into an angle for the obb but its 2 hard
+	this->m_obb = new Obb(_device, D3DXVECTOR2(_position.x, _position.z), 3.0, 3.0, _rotation.y);
 }
 
 Model::~Model()
@@ -70,6 +70,7 @@ void Model::rotate(float _yaw, float _pitch, float _roll)
 	D3DXMATRIX rotationMatrix;
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, _yaw, _pitch, _roll);
 	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
+	this->m_obb->setAngle(this->m_obb->getAngle()-_yaw);
 }
 
 void Model::setAlpha(float _alpha)

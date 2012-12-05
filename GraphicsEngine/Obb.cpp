@@ -8,13 +8,16 @@ Obb::Obb()
    
 Obb::Obb(ID3D10Device* _device, D3DXVECTOR2 _center, double _w, double _h, double _angle)
 {
+	this->m_angle = _angle;
+	this->m_width = _w;
+	this->m_height = _h;
 	this->m_position = _center;
 
-	D3DXVECTOR2 X( cos(_angle), sin(_angle));
-    D3DXVECTOR2 Y(-sin(_angle), cos(_angle));
+	D3DXVECTOR2 X( cos(this->m_angle), sin(this->m_angle));
+    D3DXVECTOR2 Y(-sin(this->m_angle), cos(this->m_angle));
 
-    X *= _w / 2;
-    Y *= _h / 2;
+    X *= this->m_width / 2;
+    Y *= this->m_height / 2;
 
     this->m_corners[0] = - X - Y;
     this->m_corners[1] = X - Y;
@@ -113,7 +116,34 @@ bool Obb::intersects(const Obb& _obb)const
 	return (overlaps1Way(_obb) && _obb.overlaps1Way(*this));
 }
 
+void Obb::setAngle(double _angle)
+{
+	this->m_angle = _angle;
+
+	D3DXVECTOR2 X( cos(this->m_angle), sin(this->m_angle));
+    D3DXVECTOR2 Y(-sin(this->m_angle), cos(this->m_angle));
+
+    X *= this->m_width / 2;
+    Y *= this->m_height / 2;
+
+    this->m_corners[0] = - X - Y;
+    this->m_corners[1] = X - Y;
+    this->m_corners[2] = X + Y;
+    this->m_corners[3] = - X + Y;
+
+	this->computeAxes();
+	
+	Vertex *vertexData = NULL;
+	this->m_mesh->buffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
+	vertexData[0].pos = D3DXVECTOR3(this->m_corners[0].x, 0.0f, this->m_corners[0].y);
+	vertexData[1].pos = D3DXVECTOR3(this->m_corners[1].x, 0.0f, this->m_corners[1].y);
+	vertexData[2].pos = D3DXVECTOR3(this->m_corners[3].x, 0.0f, this->m_corners[3].y);
+	vertexData[3].pos = D3DXVECTOR3(this->m_corners[2].x, 0.0f, this->m_corners[2].y);
+	this->m_mesh->buffer->Unmap();
+}
+
 void Obb::setPosition(D3DXVECTOR2 _position)
 {
 	this->m_position = _position;
+	this->computeAxes();
 }
