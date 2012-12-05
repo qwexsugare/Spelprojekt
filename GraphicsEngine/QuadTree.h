@@ -13,4 +13,5 @@ public:
 
 	void addModel(Model* _model);
 	stack<Model*> getModels()const;
+	bool removeModel(Model* _model);
 };

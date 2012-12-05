@@ -37,14 +37,14 @@ Camera *GraphicsHandler::getCamera()
 	return this->m_world->getCamera();
 }
 
-Model* GraphicsHandler::createModel(string _filename)
+Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 {
 	Model* model = NULL;
 	Mesh* mesh = this->m_resourceHolder->getMesh(_filename);
 
 	if(mesh != NULL)
 	{
-		model = new Model(mesh, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		model = new Model(mesh, D3DXVECTOR3(_position.x, _position.y, _position.z));
 		this->m_world->addModel(model);
 	}
 

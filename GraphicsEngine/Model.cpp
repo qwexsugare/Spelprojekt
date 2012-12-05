@@ -13,6 +13,7 @@ Model::Model(Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3
 	this->m_scale = _scale;
 	this->m_rotation = _rotation;
 	this->updateModelMatrix();
+	this->m_obb = Obb(D3DXVECTOR2(_position.x, _position.z), 1.0, 1.0, 0.0);
 }
 
 Model::~Model()
@@ -38,6 +39,11 @@ FLOAT3 Model::getPosition()const
 D3DXVECTOR2 Model::getPosition2D()const
 {
 	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
+}
+
+bool Model::intersects(const Obb& _obb)const
+{
+	return this->m_obb.intersects(_obb);
 }
 
 void Model::move(FLOAT3 _distance)

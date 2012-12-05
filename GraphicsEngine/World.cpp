@@ -12,7 +12,7 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_spriteSheets = vector<SpriteSheet*>();
 	this->m_texts = vector<Text*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
-	this->m_quadTree = new QuadTree(4, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1000.0f, 1000.0f));
+	this->m_quadTree = new QuadTree(5, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(10.0f, 10.0f));
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -259,19 +259,7 @@ void World::addModel(Model *_model)
 
 bool World::removeModel(Model *_model)
 {
-	bool found = false;
-
-	/*for(int i = 0; i < this->m_models.size() && !found; i++)
-	{
-		if(this->m_models[i] == _model)
-		{
-			delete this->m_models[i];
-			this->m_models.erase(this->m_models.begin()+i);
-			found = true;
-		}
-	}*/
-
-	return found;
+	return this->m_quadTree->removeModel(_model);
 }
 
 void World::addSprite(Sprite *sprite)

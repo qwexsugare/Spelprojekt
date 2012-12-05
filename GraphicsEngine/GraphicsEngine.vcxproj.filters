@@ -96,8 +96,8 @@
     <ClInclude Include="QuadTreeNode.h">
       <Filter>QuadTree</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteSheet.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Obb.h">
+      <Filter>QuadTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="SpriteSheet.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Obb.cpp">
+      <Filter>QuadTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

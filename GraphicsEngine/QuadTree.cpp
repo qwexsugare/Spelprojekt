@@ -29,3 +29,8 @@ stack<Model*> QuadTree::getModels()const
 
 	return models;
 }
+
+bool QuadTree::removeModel(Model* _model)
+{
+	return this->m_parent->removeModel(_model);
+}
