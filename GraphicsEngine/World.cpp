@@ -255,29 +255,21 @@ bool World::removeModel(Model *_model)
 
 void World::addSprite(SpriteBase *sprite)
 {
-	this->m_sprites.insert(this->m_sprites.begin() + this->findSpriteLayer(0, this->m_sprites.size(), sprite->getLayer()), sprite);
-}
+        bool found = false;
 
-int World::findSpriteLayer(int startPos,int endPos, int layer)
-{
-	if(endPos - startPos > 0)
-	{
-		int i = startPos + (endPos - startPos) / 2;
-		if(this->m_sprites[i]->getLayer() > layer)
-		{
-			endPos = i;
-		}
-		else
-		{
-			startPos = i;
-		}
+        for(int i = 0; i < this->m_sprites.size() && found == false; i++)
+        {
+                if(this->m_sprites[i]->getLayer() > sprite->getLayer())
+                {
+                        this->m_sprites.insert(this->m_sprites.begin() + i, sprite);
+                        found = true;
+                }
+        }
 
-		return findSpriteLayer(startPos, endPos, layer);
-	}
-	else
-	{
-		return endPos;
-	}
+        if(found == false)
+        {
+                this->m_sprites.push_back(sprite);
+        }
 }
 
 bool World::removeSprite(SpriteBase *sprite)
