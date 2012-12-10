@@ -49,8 +49,6 @@ private:
 	vector<Text*> m_texts;
 	QuadTree* m_quadTree;
 	vector<SpriteBase*> m_sprites;
-
-	int findSpriteLayer(int startPos,int endPos, int layer);
 public:
 	World();
 	World(DeviceHandler* _deviceHandler);

@@ -10,7 +10,6 @@ GameState::GameState()
 	this->m_testSprite->setCurrentFrame(INT2(2,0));
 	this->m_testSprite = g_graphicsEngine->createSpriteSheet("test.png", INT2(550, 550), INT2(100, 100), INT2(4, 2), 2);
 	this->m_testSprite->setCurrentFrame(INT2(3,0));
-	Sprite *s = g_graphicsEngine->createSprite("test.png", INT2(600, 600), INT2(100, 100), 1);
 	this->m_rotation = 0.0f;
 }
 
