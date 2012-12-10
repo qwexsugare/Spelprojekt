@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Model.h"
-#include "Obb.h"
 #include <stack>
+#include <DirectXMath.h>
+#include <DirectXCollision.h>
+using namespace DirectX;
 
 class QuadTreeNode
 {
@@ -11,7 +13,7 @@ private:
 	D3DXVECTOR2 m_max;
 	vector<Model*> m_models;
 	QuadTreeNode* m_children[4];
-	Obb* m_obb;
+	BoundingOrientedBox* m_obb;
 public:
 	QuadTreeNode();
 	QuadTreeNode(ID3D10Device* _device, int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max);
@@ -22,4 +24,3 @@ public:
 	void getModels(stack<Model*>& _models)const;
 	bool removeModel(Model* _model);
 };
-
