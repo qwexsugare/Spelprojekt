@@ -47,6 +47,8 @@ QuadTreeNode::~QuadTreeNode()
 
 bool QuadTreeNode::addModel(Model* _model)
 {
+	bool success = true;
+
 	if(!this->m_children[0])
 	{
 		this->m_models.push_back(_model);
@@ -76,8 +78,10 @@ bool QuadTreeNode::addModel(Model* _model)
 	}
 	else
 	{
-		return false;
+		success = false;
 	}
+
+	return success;
 }
 
 bool QuadTreeNode::intersects(const Model* _model)const

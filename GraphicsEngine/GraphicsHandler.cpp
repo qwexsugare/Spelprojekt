@@ -27,6 +27,12 @@ Text* GraphicsHandler::createText(string _text, INT2 _pos, int _size, D3DXCOLOR 
 
 	return text;
 }
+	
+
+bool GraphicsHandler::removeText(Text* _text)
+{
+	return this->m_world->removeText(_text);
+}
 
 Camera *GraphicsHandler::getCamera()
 {

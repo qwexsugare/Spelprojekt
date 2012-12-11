@@ -2,7 +2,6 @@
 
 #include "State.h"
 #include "Entity.h"
-#include "Graphics.h"
 #include "NetworkClient.h"
 
 class GameState : public State
@@ -14,11 +13,11 @@ private:
 	float m_rotation;
 
 	NetworkClient *m_network;
+	void end();
 public:
 	GameState();
 	~GameState();
 
-	void update(float _dt);
-	bool done();
 	State* nextState();
+	void update(float _dt);
 };

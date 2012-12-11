@@ -1,10 +1,5 @@
 #pragma once
 
-#include "DataStructures.h"
-#include "Mouse.h"
-#include "Text.h"
-#include "Camera.h"
-#include "Keyboard.h"
 #include "GameState.h"
 #include "ServerThread.h"
 #include <string>
@@ -14,13 +9,12 @@ class ClientHandler
 {
 private:
 	State* m_state;
-	ConfigFile* m_configFile;
 	vector<MSG> m_messages;
 	Camera* m_camera;
 
 	ServerThread *m_serverThread;
 public:
-	ClientHandler(HWND _hWnd, ConfigFile* _configFile);
+	ClientHandler(HWND _hWnd);
 	~ClientHandler();
 	
 	HRESULT run();

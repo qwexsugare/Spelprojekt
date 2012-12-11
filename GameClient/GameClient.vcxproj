@@ -154,6 +154,7 @@
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Message.h" />
+    <ClInclude Include="LobbyState.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="Mouse.h" />

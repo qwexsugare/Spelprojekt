@@ -23,6 +23,8 @@ public:
 	DECLDIR Camera *getCamera();
 	
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
+	DECLDIR bool removeText(Text *text);
+
 	DECLDIR Model* createModel(string _filename, FLOAT3 _position);
 	DECLDIR bool removeModel(Model* _model);
 
