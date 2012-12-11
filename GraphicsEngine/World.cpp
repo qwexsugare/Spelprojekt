@@ -103,7 +103,7 @@ void World::render()
 			models.pop();
 		}
 		else
-		{
+		{			
 			this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
 
