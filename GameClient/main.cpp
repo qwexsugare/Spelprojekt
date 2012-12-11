@@ -1,4 +1,7 @@
-#include <windows.h>
+#define WIN32_LEAN_AND_MEAN
+#include <SFML\Network.hpp>
+#include <SFML\System.hpp>
+//#include <windows.h>
 #include <iostream>
 #include "DataStructures.h"
 #include "Model.h"

@@ -17,6 +17,8 @@ private:
 	ConfigFile* m_configFile;
 	vector<MSG> m_messages;
 	Camera* m_camera;
+
+	ServerThread *m_serverThread;
 public:
 	ClientHandler(HWND _hWnd, ConfigFile* _configFile);
 	~ClientHandler();

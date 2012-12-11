@@ -12,13 +12,12 @@ ClientHandler::ClientHandler(HWND _hWnd, ConfigFile* _configFile)
 	this->m_configFile = _configFile;
 	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 10.0f, 0.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 
-	ServerThread *sh;
-	//sh->Launch();
-	//int i = 0;
+	this->m_serverThread = new ServerThread();
 }
 
 ClientHandler::~ClientHandler()
 {
+	delete this->m_serverThread;
 	delete this->m_configFile;
 	delete g_graphicsEngine;
 	delete g_mouse;
@@ -28,6 +27,7 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
+	this->m_serverThread->Launch();
 	this->m_state = new GameState();
 
 	__int64 cntsPerSec = 0;

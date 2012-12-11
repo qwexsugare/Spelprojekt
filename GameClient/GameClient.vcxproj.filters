@@ -43,6 +43,21 @@
     <ClCompile Include="ServerThread.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkServer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkClient.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageQueue.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Keyboard.h">
@@ -70,6 +85,21 @@
       <Filter>Core\States\GameState</Filter>
     </ClInclude>
     <ClInclude Include="ServerThread.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkServer.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkClient.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageQueue.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageHandler.h">
       <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>

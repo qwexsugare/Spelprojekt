@@ -3,6 +3,7 @@
 #include "State.h"
 #include "Entity.h"
 #include "Graphics.h"
+#include "NetworkClient.h"
 
 class GameState : public State
 {
@@ -11,6 +12,8 @@ private:
 	vector<Entity*> m_entities;
 	SpriteSheet *m_testSprite;
 	float m_rotation;
+
+	NetworkClient *m_network;
 public:
 	GameState();
 	~GameState();
