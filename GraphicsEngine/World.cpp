@@ -103,22 +103,7 @@ void World::render()
 			models.pop();
 		}
 		else
-		{
-			/*this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
-			this->m_deviceHandler->setVertexBuffer(models.top()->getObb()->getMesh()->buffer);
-
-			this->m_deferredSampler->setModelMatrix(models.top()->getObb()->getModelMatrix());
-			//this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
-
-			D3D10_TECHNIQUE_DESC techDesc2;
-			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc2 );
-
-			for( UINT p = 0; p < techDesc2.Passes; p++ )
-			{
-				this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(models.top()->getObb()->getMesh()->nrOfVertices, 0);
-			}*/
-			
+		{			
 			this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
 
