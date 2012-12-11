@@ -15,12 +15,15 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECT
 	this->m_rotation = _rotation;
 	this->updateModelMatrix();
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_bs = NULL;
 }
 
 Model::~Model()
 {
 	if(this->m_obb)
 		delete this->m_obb;
+	if(this->m_bs)
+		delete this->m_bs;
 }
 
 float Model::getAlpha()const
@@ -92,6 +95,7 @@ void Model::rotate(float _yaw, float _pitch, float _roll)
 		
 		BoundingOrientedBox* box = new BoundingOrientedBox();
 		this->m_obb->Transform(*box, transform);
+		delete this->m_obb;
 		this->m_obb = box;
 	}
 }
