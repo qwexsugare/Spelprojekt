@@ -11,7 +11,7 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
-	this->m_quadTree = new QuadTree(this->m_deviceHandler->getDevice(), 2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(10.0f, 10.0f));
+	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(10.0f, 10.0f));
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -104,21 +104,6 @@ void World::render()
 		}
 		else
 		{
-			/*this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
-			this->m_deviceHandler->setVertexBuffer(models.top()->getObb()->getMesh()->buffer);
-
-			this->m_deferredSampler->setModelMatrix(models.top()->getObb()->getModelMatrix());
-			//this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
-
-			D3D10_TECHNIQUE_DESC techDesc2;
-			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc2 );
-
-			for( UINT p = 0; p < techDesc2.Passes; p++ )
-			{
-				this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(models.top()->getObb()->getMesh()->nrOfVertices, 0);
-			}*/
-			
 			this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
 
@@ -243,9 +228,9 @@ void World::update(float dt)
 	}
 }
 
-void World::addModel(Model *_model)
+bool World::addModel(Model *_model)
 {
-	this->m_quadTree->addModel(_model);
+	return this->m_quadTree->addModel(_model);
 }
 
 bool World::removeModel(Model *_model)

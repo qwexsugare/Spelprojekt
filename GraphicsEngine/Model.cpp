@@ -14,14 +14,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECT
 	this->m_scale = _scale;
 	this->m_rotation = _rotation;
 	this->updateModelMatrix();
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));  //new Obb(_device, D3DXVECTOR2(_position.x, _position.z), 3.0, 3.0, _rotation.y);
-	
-	/*point
-	direction
-
-	D3DXVECTOR2 B(10.0f, 10.0f);
-	D3DXVECTOR2 A(22.0f, 10.0f);
-	double lol = this->m_boundingSphere->pointToLineDistance(B, A);*/
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 }
 
 Model::~Model()
@@ -85,10 +78,22 @@ void Model::move(FLOAT3 _distance)
 
 void Model::rotate(float _yaw, float _pitch, float _roll)
 {
-	/*D3DXMATRIX rotationMatrix;
+	D3DXMATRIX rotationMatrix;
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, _yaw, _pitch, _roll);
 	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
-	this->m_obb->(this->m_obb->getAngle()-_yaw);*/
+
+	if(this->m_obb)
+	{
+		XMMATRIX transform = XMMATRIX(
+			rotationMatrix._11, rotationMatrix._12, rotationMatrix._13, rotationMatrix._14,
+			rotationMatrix._21, rotationMatrix._22, rotationMatrix._23, rotationMatrix._24,
+			rotationMatrix._31, rotationMatrix._32, rotationMatrix._33, rotationMatrix._34,
+			rotationMatrix._41, rotationMatrix._42, rotationMatrix._43, rotationMatrix._44);
+		
+		BoundingOrientedBox* box = new BoundingOrientedBox();
+		this->m_obb->Transform(*box, transform);
+		this->m_obb = box;
+	}
 }
 
 void Model::setAlpha(float _alpha)

@@ -57,7 +57,7 @@ public:
 	void render();
 	void update(float dt);
 	
-	void addModel(Model *_model);
+	bool addModel(Model *_model);
 	bool removeModel(Model *_model);
 
 	void addSprite(SpriteBase *sprite);

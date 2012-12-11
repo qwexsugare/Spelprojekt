@@ -8,7 +8,7 @@ QuadTreeNode::QuadTreeNode()
 	this->m_obb = NULL;
 }
 
-QuadTreeNode::QuadTreeNode(ID3D10Device* _device, int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
+QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
 {
 	this->m_min = _min;
 	this->m_max = _max;
@@ -20,10 +20,10 @@ QuadTreeNode::QuadTreeNode(ID3D10Device* _device, int _levels, D3DXVECTOR2 _min,
 	
 	if(_levels > 1)
 	{
-		this->m_children[0] = new QuadTreeNode(_device, _levels-1, _min, (_max+_min)/2.0f);
-		this->m_children[1] = new QuadTreeNode(_device, _levels-1, D3DXVECTOR2((_max.x+_min.x)/2.0f, _min.y), D3DXVECTOR2(_max.x, (_max.y+_min.y)/2.0f));
-		this->m_children[2] = new QuadTreeNode(_device, _levels-1, D3DXVECTOR2(_min.x, (_max.y+_min.y)/2.0f), D3DXVECTOR2((_max.x+_min.x)/2.0f, _max.y));
-		this->m_children[3] = new QuadTreeNode(_device, _levels-1, (_max+_min)/2.0f, _max);
+		this->m_children[0] = new QuadTreeNode(_levels-1, _min, (_max+_min)/2.0f);
+		this->m_children[1] = new QuadTreeNode(_levels-1, D3DXVECTOR2((_max.x+_min.x)/2.0f, _min.y), D3DXVECTOR2(_max.x, (_max.y+_min.y)/2.0f));
+		this->m_children[2] = new QuadTreeNode(_levels-1, D3DXVECTOR2(_min.x, (_max.y+_min.y)/2.0f), D3DXVECTOR2((_max.x+_min.x)/2.0f, _max.y));
+		this->m_children[3] = new QuadTreeNode(_levels-1, (_max+_min)/2.0f, _max);
 	}
 	else
 	{
@@ -45,7 +45,7 @@ QuadTreeNode::~QuadTreeNode()
 		delete this->m_obb;
 }
 
-void QuadTreeNode::addModel(Model* _model)
+bool QuadTreeNode::addModel(Model* _model)
 {
 	if(!this->m_children[0])
 	{
@@ -76,7 +76,7 @@ void QuadTreeNode::addModel(Model* _model)
 	}
 	else
 	{
-		delete _model;
+		return false;
 	}
 }
 

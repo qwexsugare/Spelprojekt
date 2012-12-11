@@ -8,10 +8,10 @@ private:
 	QuadTreeNode* m_parent;
 public:
 	QuadTree();
-	QuadTree(ID3D10Device* _device, int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max);
+	QuadTree(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max);
 	~QuadTree();
 
-	void addModel(Model* _model);
+	bool addModel(Model* _model);
 	stack<Model*> getModels()const;
 	bool removeModel(Model* _model);
 };

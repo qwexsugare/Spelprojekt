@@ -16,10 +16,10 @@ private:
 	BoundingOrientedBox* m_obb;
 public:
 	QuadTreeNode();
-	QuadTreeNode(ID3D10Device* _device, int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max);
+	QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max);
 	~QuadTreeNode();
 
-	void addModel(Model* _model);
+	bool addModel(Model* _model);
 	bool intersects(const Model* _model)const;
 	void getModels(stack<Model*>& _models)const;
 	bool removeModel(Model* _model);

@@ -41,7 +41,13 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 	if(mesh != NULL)
 	{
 		model = new Model(this->m_deviceHandler->getDevice(), mesh, D3DXVECTOR3(_position.x, _position.y, _position.z));
-		this->m_world->addModel(model);
+
+		// If the world failed to add the model, delete the model;
+		if(!this->m_world->addModel(model))
+		{
+			delete model;
+			model = NULL;
+		}
 	}
 
 	return model;

@@ -9,7 +9,6 @@ ClientHandler::ClientHandler(HWND _hWnd, ConfigFile* _configFile)
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
 
-
 	this->m_configFile = _configFile;
 	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 10.0f, 0.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 }

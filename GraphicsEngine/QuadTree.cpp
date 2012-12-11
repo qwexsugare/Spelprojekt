@@ -5,9 +5,9 @@ QuadTree::QuadTree()
 	this->m_parent = NULL;
 }
 
-QuadTree::QuadTree(ID3D10Device* _device, int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
+QuadTree::QuadTree(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
 {
-	this->m_parent = new QuadTreeNode(_device, _levels, _min, _max);
+	this->m_parent = new QuadTreeNode(_levels, _min, _max);
 }
 
 QuadTree::~QuadTree()
@@ -16,9 +16,9 @@ QuadTree::~QuadTree()
 		delete this->m_parent;
 }
 
-void QuadTree::addModel(Model* _model)
+bool QuadTree::addModel(Model* _model)
 {
-	this->m_parent->addModel(_model);
+	return this->m_parent->addModel(_model);
 }
 
 stack<Model*> QuadTree::getModels()const
