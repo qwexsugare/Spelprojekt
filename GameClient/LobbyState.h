@@ -9,6 +9,5 @@ public:
 	~LobbyState();
 
 	void update(float _dt);
-	bool done();
 	State* nextState();
 };

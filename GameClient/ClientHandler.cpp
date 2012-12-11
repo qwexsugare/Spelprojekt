@@ -94,9 +94,11 @@ void ClientHandler::update(float _dt)
 	
 	this->m_state->update(_dt);
 	
-	if(this->m_state->done())
+	if(this->m_state->isDone())
 	{
-		this->m_state = this->m_state->nextState();
+		State* tempState = this->m_state->nextState();
+		delete this->m_state;
+		this->m_state = tempState;
 	}
 
 	g_mouse->update(); // Must be last!

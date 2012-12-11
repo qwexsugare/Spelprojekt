@@ -14,11 +14,14 @@
     <Filter Include="Core\States">
       <UniqueIdentifier>{e980c2ff-cb9e-4da4-a09c-2fa960368ced}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\States\GameState">
-      <UniqueIdentifier>{575fb6a6-71cc-4c56-9a89-4d54d13bc7c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Server">
       <UniqueIdentifier>{19efcd04-6211-4104-8bbf-a981bcbc1aad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\States\LobbyState">
+      <UniqueIdentifier>{250463d3-2760-4fba-8a62-f1ab72df348a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\States\GameState">
+      <UniqueIdentifier>{575fb6a6-71cc-4c56-9a89-4d54d13bc7c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,7 +46,9 @@
     <ClCompile Include="ServerThread.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyState.cpp" />
+    <ClCompile Include="LobbyState.cpp">
+      <Filter>Core\States\LobbyState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Keyboard.h">
@@ -73,6 +78,8 @@
     <ClInclude Include="Entity.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="LobbyState.h" />
+    <ClInclude Include="LobbyState.h">
+      <Filter>Core\States\LobbyState</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

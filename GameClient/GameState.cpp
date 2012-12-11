@@ -21,9 +21,16 @@ GameState::~GameState()
 		delete this->m_entities[i];
 }
 
-bool GameState::done()
+void GameState::end()
 {
-	return false;
+	for(int i = 0; i < this->m_entities.size(); i++)
+	{
+		g_graphicsEngine->removeModel(this->m_entities[i]->m_model);
+	}
+	
+	g_graphicsEngine->removeText(this->m_fpsText);
+
+	this->setDone(true);
 }
 
 State* GameState::nextState()
@@ -74,9 +81,13 @@ void GameState::update(float _dt)
 			this->m_entities.push_back(new Entity(model));
 		}
 	}
-	if(g_mouse->isLButtonDown())
+	else if(g_mouse->isLButtonDown())
 	{
 		for(int i = 0; i < this->m_entities.size(); i++)
 			this->m_entities[i]->m_model->rotate(_dt, 0.0f, 0.0f);
+	}
+	else if(g_mouse->isRButtonPressed())
+	{
+		this->end();
 	}
 }

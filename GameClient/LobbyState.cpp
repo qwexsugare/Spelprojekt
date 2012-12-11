@@ -1,5 +1,6 @@
 #include "LobbyState.h"
 #include "GameState.h"
+#include "Input.h"
 
 LobbyState::LobbyState()
 {
@@ -11,11 +12,6 @@ LobbyState::~LobbyState()
 
 }
 
-bool LobbyState::done()
-{
-	return false;
-}
-
 State* LobbyState::nextState()
 {
 	return new GameState();
@@ -23,5 +19,8 @@ State* LobbyState::nextState()
 
 void LobbyState::update(float _dt)
 {
-	
+	if(g_mouse->isRButtonPressed())
+	{
+		this->setDone(true);
+	}
 }

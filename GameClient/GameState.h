@@ -10,11 +10,12 @@ private:
 	vector<Entity*> m_entities;
 	SpriteSheet *m_testSprite;
 	float m_rotation;
+
+	void end();
 public:
 	GameState();
 	~GameState();
 
-	void update(float _dt);
-	bool done();
 	State* nextState();
+	void update(float _dt);
 };
