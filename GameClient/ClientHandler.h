@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Keyboard.h"
 #include "GameState.h"
+#include "ServerThread.h"
 #include <string>
 using namespace std;
 

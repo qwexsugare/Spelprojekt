@@ -11,6 +11,10 @@ ClientHandler::ClientHandler(HWND _hWnd, ConfigFile* _configFile)
 
 	this->m_configFile = _configFile;
 	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 10.0f, 0.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+
+	ServerThread *sh;
+	//sh->Launch();
+	//int i = 0;
 }
 
 ClientHandler::~ClientHandler()

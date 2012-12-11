@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngine", "GraphicsE
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameClient", "GameClient\GameClient.vcxproj", "{8944B2CB-FB59-4718-B03A-2D3C7AC1B22C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "GameServer\GameServer.vcxproj", "{EAA95C27-EA4E-41E7-9E14-B6C0C23514AD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,10 +19,6 @@ Global
 		{8944B2CB-FB59-4718-B03A-2D3C7AC1B22C}.Debug|Win32.Build.0 = Debug|Win32
 		{8944B2CB-FB59-4718-B03A-2D3C7AC1B22C}.Release|Win32.ActiveCfg = Release|Win32
 		{8944B2CB-FB59-4718-B03A-2D3C7AC1B22C}.Release|Win32.Build.0 = Release|Win32
-		{EAA95C27-EA4E-41E7-9E14-B6C0C23514AD}.Debug|Win32.ActiveCfg = Debug|Win32
-		{EAA95C27-EA4E-41E7-9E14-B6C0C23514AD}.Debug|Win32.Build.0 = Debug|Win32
-		{EAA95C27-EA4E-41E7-9E14-B6C0C23514AD}.Release|Win32.ActiveCfg = Release|Win32
-		{EAA95C27-EA4E-41E7-9E14-B6C0C23514AD}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

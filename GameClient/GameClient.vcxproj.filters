@@ -17,6 +17,9 @@
     <Filter Include="Core\States\GameState">
       <UniqueIdentifier>{575fb6a6-71cc-4c56-9a89-4d54d13bc7c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{19efcd04-6211-4104-8bbf-a981bcbc1aad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Keyboard.cpp">
@@ -36,6 +39,9 @@
     </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Core\States\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerThread.cpp">
+      <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +68,9 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Core\States\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerThread.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
