@@ -13,7 +13,6 @@ private:
 	D3DXVECTOR3 m_right;
 	D3DXMATRIX m_viewMatrix;
 	D3DXMATRIX m_projectionMatrix;
-
 public:
 	Camera();
 	Camera(float width, float height);
