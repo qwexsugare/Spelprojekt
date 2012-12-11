@@ -2,7 +2,6 @@
 
 #include "State.h"
 #include "Entity.h"
-#include "Graphics.h"
 
 class GameState : public State
 {

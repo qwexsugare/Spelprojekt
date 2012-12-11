@@ -2,14 +2,13 @@
 #include "Input.h"
 #include "Graphics.h"
 
-ClientHandler::ClientHandler(HWND _hWnd, ConfigFile* _configFile)
+ClientHandler::ClientHandler(HWND _hWnd)
 {
 	// Init globals for the people
-	g_graphicsEngine = new GraphicsHandler(_hWnd, _configFile);
+	g_graphicsEngine = new GraphicsHandler(_hWnd, g_configFile);
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
 
-	this->m_configFile = _configFile;
 	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 10.0f, 0.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 
 	ServerThread *sh;
@@ -19,10 +18,10 @@ ClientHandler::ClientHandler(HWND _hWnd, ConfigFile* _configFile)
 
 ClientHandler::~ClientHandler()
 {
-	delete this->m_configFile;
 	delete g_graphicsEngine;
 	delete g_mouse;
 	delete g_keyboard;
+	delete g_configFile;
 	delete this->m_state;
 }
 
@@ -94,27 +93,10 @@ void ClientHandler::update(float _dt)
 	this->m_messages.clear();
 	
 	this->m_state->update(_dt);
-
-	static float CAMERA_SPEED = 2.0f;
-	if((g_mouse->getPos().x >= this->m_configFile->getScreenSize().x-10 && g_mouse->getPos().x <= this->m_configFile->getScreenSize().x)
-		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
+	
+	if(this->m_state->done())
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, CAMERA_SPEED*_dt, 0.0f);
-	}
-	else if((g_mouse->getPos().x <= 10 && g_mouse->getPos().x >= 0)
-		|| g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP)
-	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
-	}
-	if((g_mouse->getPos().y >= this->m_configFile->getScreenSize().y-10 && g_mouse->getPos().y <= this->m_configFile->getScreenSize().y)
-		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
-	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, CAMERA_SPEED*_dt);
-	}
-	else if((g_mouse->getPos().y <= 10 && g_mouse->getPos().y >= 0)
-		|| g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
-	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -(CAMERA_SPEED*_dt));
+		this->m_state = this->m_state->nextState();
 	}
 
 	g_mouse->update(); // Must be last!

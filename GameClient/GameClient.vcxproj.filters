@@ -43,6 +43,7 @@
     <ClCompile Include="ServerThread.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="LobbyState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Keyboard.h">
@@ -66,11 +67,12 @@
     <ClInclude Include="GameState.h">
       <Filter>Core\States\GameState</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Core\States\GameState</Filter>
-    </ClInclude>
     <ClInclude Include="ServerThread.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyState.h" />
   </ItemGroup>
 </Project>

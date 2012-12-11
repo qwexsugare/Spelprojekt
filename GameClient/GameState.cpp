@@ -1,5 +1,7 @@
 #include "GameState.h"
+#include "LobbyState.h"
 #include "Input.h"
+#include "Graphics.h"
 #include <sstream>
 
 GameState::GameState()
@@ -19,6 +21,16 @@ GameState::~GameState()
 		delete this->m_entities[i];
 }
 
+bool GameState::done()
+{
+	return false;
+}
+
+State* GameState::nextState()
+{
+	return new LobbyState();
+}
+
 void GameState::update(float _dt)
 {
 	// Update FRAMES PER SECOND (FPS) text
@@ -30,6 +42,28 @@ void GameState::update(float _dt)
 		stringstream ss;
 		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
 		this->m_fpsText->setString(ss.str());
+	}
+
+	static float CAMERA_SPEED = 2.0f;
+	if((g_mouse->getPos().x >= g_configFile->getScreenSize().x-10 && g_mouse->getPos().x <= g_configFile->getScreenSize().x)
+		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
+	{
+		g_graphicsEngine->getCamera()->moveRelative(0.0f, CAMERA_SPEED*_dt, 0.0f);
+	}
+	else if((g_mouse->getPos().x <= 10 && g_mouse->getPos().x >= 0)
+		|| g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP)
+	{
+		g_graphicsEngine->getCamera()->moveRelative(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
+	}
+	if((g_mouse->getPos().y >= g_configFile->getScreenSize().y-10 && g_mouse->getPos().y <= g_configFile->getScreenSize().y)
+		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
+	{
+		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, CAMERA_SPEED*_dt);
+	}
+	else if((g_mouse->getPos().y <= 10 && g_mouse->getPos().y >= 0)
+		|| g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
+	{
+		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -(CAMERA_SPEED*_dt));
 	}
 
 	if(g_mouse->isLButtonPressed())
@@ -45,14 +79,4 @@ void GameState::update(float _dt)
 		for(int i = 0; i < this->m_entities.size(); i++)
 			this->m_entities[i]->m_model->rotate(_dt, 0.0f, 0.0f);
 	}
-}
-
-bool GameState::done()
-{
-	return false;
-}
-
-State* GameState::nextState()
-{
-	return new GameState();
 }
