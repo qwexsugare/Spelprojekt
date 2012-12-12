@@ -13,6 +13,5 @@ void ServerThread::Run()
 	while(this->m_network->isRunning() == true)
 	{
 		this->m_network->broadcast("LOLOLOLOLOLOLOL");
-		Sleep(1000);
 	}*/
 }
