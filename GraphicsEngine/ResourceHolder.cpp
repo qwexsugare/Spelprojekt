@@ -20,7 +20,7 @@ ResourceHolder::~ResourceHolder()
 		delete (*m).second;
 		m++;
 	}
-
+	int lol = 0;
 	delete this->m_textureHolder;
 }
 
