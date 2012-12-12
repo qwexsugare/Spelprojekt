@@ -18,6 +18,7 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 
 	this->m_deferredSampler = new DeferredSamplerEffectFile(this->m_deviceHandler->getDevice());
+	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 	this->m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice());
 
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -72,7 +73,6 @@ void World::render()
 	this->m_camera->updateViewMatrix();
 
 	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
-	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 	
 	this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
 	
@@ -122,21 +122,21 @@ void World::render()
 		}
 		else
 		{
-			this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
 
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 			this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 			
-			D3D10_TECHNIQUE_DESC techDesc;
+			// ULTRA OPTIMIZATION COMMENTS AWAY SIMONS CODE
+			/*D3D10_TECHNIQUE_DESC techDesc;
 			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
 
 			for( UINT p = 0; p < techDesc.Passes; p++ )
-			{
-				this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
-			}
+			{*/
+			this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
+			this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
+			//}
 		}
 			
 		models.pop();

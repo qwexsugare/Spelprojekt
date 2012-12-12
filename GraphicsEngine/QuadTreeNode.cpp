@@ -76,6 +76,7 @@ bool QuadTreeNode::addModel(Model* _model)
 			this->m_children[fittIndex]->addModel(_model);
 		}
 	}
+	// Else the model is outside of the world tree and no one can take care of this poor sucker :(
 	else
 	{
 		success = false;

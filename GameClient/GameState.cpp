@@ -73,7 +73,6 @@ void GameState::update(float _dt)
 		if(found == false)
 		{
 			Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
-
 			if(model)
 			{
 				this->m_entities.push_back(new Entity(model, e.getId()));
@@ -82,22 +81,22 @@ void GameState::update(float _dt)
 	}
 
 	static float CAMERA_SPEED = 2.0f;
-	if((g_mouse->getPos().x >= g_configFile->getScreenSize().x-10 && g_mouse->getPos().x <= g_configFile->getScreenSize().x)
+	if((g_mouse->getPos().x >= g_configFile->getScreenSize().x-10)
 		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, CAMERA_SPEED*_dt, 0.0f);
 	}
-	else if((g_mouse->getPos().x <= 10 && g_mouse->getPos().x >= 0)
+	else if((g_mouse->getPos().x <= 10)
 		|| g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
 	}
-	if((g_mouse->getPos().y >= g_configFile->getScreenSize().y-10 && g_mouse->getPos().y <= g_configFile->getScreenSize().y)
+	if((g_mouse->getPos().y >= g_configFile->getScreenSize().y-10)
 		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, CAMERA_SPEED*_dt);
 	}
-	else if((g_mouse->getPos().y <= 10 && g_mouse->getPos().y >= 0)
+	else if((g_mouse->getPos().y <= 10)
 		|| g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -(CAMERA_SPEED*_dt));
