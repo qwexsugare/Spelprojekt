@@ -1,15 +1,15 @@
-#include "NetworkServer.h"
+#include "Server.h"
 
-NetworkServer::NetworkServer()
+Server::Server()
 {
 	this->clientArrPos=0;
 }
 
-NetworkServer::~NetworkServer()
+Server::~Server()
 {
 }
 
-bool NetworkServer::start(int port)
+bool Server::start(int port)
 {
 	//if the server cant listen to the port, return
 	if(!this->listener.Listen(port))
@@ -22,7 +22,7 @@ bool NetworkServer::start(int port)
 }
 
 //the selector is blocking, so runs in a thread
-void NetworkServer::goThroughSelector()
+void Server::goThroughSelector()
 {
 	unsigned int itemsInSelector= this->selector.Wait();
 	
@@ -48,10 +48,12 @@ void NetworkServer::goThroughSelector()
 			sf::Packet packet;
 			if (sock.Receive(packet) == sf::Socket::Done)
 			{
-				// Extract the message and display it
-				string message;
-				packet >> message;
-				cout << "A client says : \"" << message << "\"" << endl;
+				// Extract what type of data sent by the client
+				string prot;
+				packet >> prot;
+
+				//handles the protocols, what should be done if the server recives a MSG, ENT etc
+				this->handleClientInData(packet,prot);
 			}
 			else
 			{
@@ -73,7 +75,7 @@ void NetworkServer::goThroughSelector()
 	}
 }
 
-void NetworkServer::shutDown()
+void Server::shutDown()
 {
 	for(int i=0;i<this->clientArrPos;i++)
 	{
@@ -91,7 +93,7 @@ void NetworkServer::shutDown()
 	}
 }
 
-void NetworkServer::broadcast(string msg)
+void Server::broadcast(string msg)
 {
 	sf::Packet packet;
 	packet<<msg;
@@ -101,7 +103,27 @@ void NetworkServer::broadcast(string msg)
 	}
 }
 
-void NetworkServer::Run()
+void Server::broadcast(EntityMessage ent)
+{
+	sf::Packet packet;
+	packet<<ent;
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+}
+
+void Server::broadcast(Msg msg)
+{
+	sf::Packet packet;
+	packet<<msg;
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+}
+
+void Server::Run()
 {
 	while(this->listener.IsValid())
 	{
@@ -109,7 +131,29 @@ void NetworkServer::Run()
 	}
 }
 
-bool NetworkServer::isRunning()
+bool Server::isRunning()
 {
 	return this->listener.IsValid();
+}
+
+bool Server::handleClientInData(sf::Packet packet, string prot)
+{
+	bool protFound=false;
+
+	if(prot=="ENT")
+	{
+		EntityMessage ent;
+		packet >> ent;
+		cout<<ent.getPos().x<<endl;
+		protFound=true;
+	}
+	if(prot=="MSG")
+	{
+		Msg msg;
+		packet >> msg;
+		cout <<"inc mess"<<msg.getText()<<endl;
+		protFound=true;
+	}
+
+	return protFound;
 }

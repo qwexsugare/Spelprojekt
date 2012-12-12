@@ -16,7 +16,7 @@ private:
 public:
 	ClientHandler(HWND _hWnd);
 	~ClientHandler();
-	
+
 	HRESULT run();
 	void update(float _dt);
 };

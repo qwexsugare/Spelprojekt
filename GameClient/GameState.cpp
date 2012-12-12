@@ -14,9 +14,14 @@ GameState::GameState()
 	this->m_testSprite->setCurrentFrame(INT2(3,0));
 	this->m_rotation = 0.0f;
 
-	this->m_network = new NetworkClient();
-	this->m_network->Launch();
+	this->m_network = new Client();
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+
+	Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
+	if(model)
+	{
+		this->m_entities.push_back(new Entity(model));
+	}
 }
 
 GameState::~GameState()
@@ -57,11 +62,10 @@ void GameState::update(float _dt)
 	//	this->m_fpsText->setString(ss.str());
 	//}
 
-	string s = this->m_network->getMessage();
-
-	if(s != "")
+	while(this->m_network->entityQueueEmpty() == false)
 	{
-		this->m_fpsText->setString(s);
+		EntityMessage e = this->m_network->entityQueueFront();
+		this->m_entities[0]->m_model->setPosition(e.getPos());
 	}
 
 	static float CAMERA_SPEED = 2.0f;

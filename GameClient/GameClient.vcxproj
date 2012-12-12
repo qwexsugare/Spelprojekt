@@ -151,17 +151,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
+    <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Message.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="MessageQueue.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="NetworkClient.cpp" />
-    <ClCompile Include="NetworkServer.cpp" />
+    <ClCompile Include="Msg.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="State.cpp" />
   </ItemGroup>
@@ -171,8 +172,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="client.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityMessage.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
@@ -182,8 +185,8 @@
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="NetworkClient.h" />
-    <ClInclude Include="NetworkServer.h" />
+    <ClInclude Include="Msg.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>
