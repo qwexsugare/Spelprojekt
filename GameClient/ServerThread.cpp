@@ -8,7 +8,6 @@ ServerThread::ServerThread() : sf::Thread()
 
 void ServerThread::Run()
 {
-	int lol = 0;
 	/*this->m_network->start(1337);
 
 	while(this->m_network->isRunning() == true)
