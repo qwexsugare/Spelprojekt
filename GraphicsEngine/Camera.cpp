@@ -26,6 +26,11 @@ D3DXVECTOR3 Camera::getPos()const
 	return this->m_position;
 }
 
+D3DXVECTOR2 Camera::getPos2D()const
+{
+	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
+}
+
 D3DXMATRIX Camera::getViewMatrix()
 {
 	return this->m_viewMatrix;

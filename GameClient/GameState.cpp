@@ -75,19 +75,25 @@ void GameState::update(float _dt)
 
 	if(g_mouse->isLButtonPressed())
 	{
+
+	}
+	else if(g_mouse->isLButtonDown())
+	{
 		Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
+
+
+
+
 		if(model)
 		{
 			this->m_entities.push_back(new Entity(model));
 		}
 	}
-	else if(g_mouse->isLButtonDown())
-	{
-		for(int i = 0; i < this->m_entities.size(); i++)
-			this->m_entities[i]->m_model->rotate(_dt, 0.0f, 0.0f);
-	}
 	else if(g_mouse->isRButtonPressed())
 	{
 		this->end();
 	}
+	else
+		for(int i = 0; i < this->m_entities.size(); i++)
+			this->m_entities[i]->m_model->rotate(_dt/5.0f, 0.0f, 0.0f);
 }
