@@ -16,7 +16,7 @@ GameState::GameState()
 
 	this->m_network = new NetworkClient();
 	this->m_network->Launch();
-	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+	//this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
 }
 
 GameState::~GameState()
