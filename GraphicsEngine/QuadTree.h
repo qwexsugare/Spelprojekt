@@ -12,6 +12,6 @@ public:
 	~QuadTree();
 
 	bool addModel(Model* _model);
-	stack<Model*> getModels()const;
+	stack<Model*> getModels(D3DXVECTOR3 _cameraPos)const;
 	bool removeModel(Model* _model);
 };

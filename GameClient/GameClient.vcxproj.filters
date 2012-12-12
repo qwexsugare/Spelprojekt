@@ -6,34 +6,19 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="ServerThread.cpp">
       <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="MessageQueue.cpp">
       <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="MessageHandler.cpp">
       <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="LobbyState.cpp">
       <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
       <Filter>States</Filter>
-    </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>States</Filter>
-    </ClCompile>
     <ClCompile Include="client.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="EntityMessage.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Msg.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Server.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="ClientHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -43,38 +28,25 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="ServerThread.h">
       <Filter>Server</Filter>
-    </ClInclude>
+    <ClInclude Include="Message.h" />
     <ClInclude Include="MessageQueue.h">
       <Filter>Server</Filter>
-    </ClInclude>
+    <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="MessageHandler.h">
       <Filter>Server</Filter>
-    </ClInclude>
+    <ClInclude Include="NetworkServer.h" />
     <ClInclude Include="Message.h">
       <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="LobbyState.h">
       <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
       <Filter>States</Filter>
-    </ClInclude>
     <ClInclude Include="State.h">
       <Filter>States</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="client.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="EntityMessage.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="Msg.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="Server.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="ClientHandler.h" />
   </ItemGroup>
   <ItemGroup>

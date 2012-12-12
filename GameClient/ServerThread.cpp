@@ -8,7 +8,7 @@ ServerThread::ServerThread() : sf::Thread()
 
 void ServerThread::Run()
 {
-	this->m_network->start(1337);
+	/*this->m_network->start(1337);
 	EntityMessage e = EntityMessage();
 	FLOAT3 pos = FLOAT3(0.0f, 0.0f, 0.0f);
 	e.setPosition(pos);
@@ -20,5 +20,4 @@ void ServerThread::Run()
 		this->m_network->broadcast(e);
 		//Sleep(100);
 
-	}
 }

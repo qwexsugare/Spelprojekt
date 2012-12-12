@@ -14,7 +14,7 @@ QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
 	this->m_max = _max;
 	this->m_obb = new BoundingOrientedBox(
 		XMFLOAT3((this->m_min.x+this->m_max.x)/2.0f, 0.0f, (this->m_min.y+this->m_max.y)/2.0f),
-		XMFLOAT3((_max.x-_min.x)/2.0f, 5.0f, (_max.y-_min.y)/2.0f),
+		XMFLOAT3((_max.x-_min.x)/2.0f, 0.5f, (_max.y-_min.y)/2.0f),
 		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f)
 		);
 	
@@ -89,20 +89,42 @@ bool QuadTreeNode::intersects(const Model* _model)const
 	return _model->intersects(*this->m_obb);
 }
 
-void QuadTreeNode::getModels(stack<Model*>& _models)const
+void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const
 {
 	if(this->m_children[0])
 	{
 		// ADD ALL CHILD MODELS TO STACK
-		this->m_children[0]->getModels(_models);
-		this->m_children[1]->getModels(_models);
-		this->m_children[2]->getModels(_models);
-		this->m_children[3]->getModels(_models);
+		this->m_children[0]->getModels(_models, _cameraPos);
+		this->m_children[1]->getModels(_models, _cameraPos);
+		this->m_children[2]->getModels(_models, _cameraPos);
+		this->m_children[3]->getModels(_models, _cameraPos);
 	}
 	
 	// ADD MY MODELS TO STACK
 	for(int i = 0; i < this->m_models.size(); i++)
-		_models.push(this->m_models[i]);
+	{
+		// COMMENCE ADVANCED CHEAT CULLING
+
+		// Calculate models distance to camera and make it positive +
+		D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_models[i]->getPosition2D()-D3DXVECTOR2(_cameraPos.x, _cameraPos.z));
+		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
+		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
+		// Find the greatest extent of the model bounding box
+		float greatestExtent;
+		if(this->m_models[i]->getObb()->Extents.x > this->m_models[i]->getObb()->Extents.z)
+			greatestExtent = this->m_models[i]->getObb()->Extents.x;
+		else
+			greatestExtent = this->m_models[i]->getObb()->Extents.z;
+		// Subtract the greatest extent from the distance
+		modelDistanceToCamera.x -= greatestExtent;
+		modelDistanceToCamera.y -= greatestExtent;
+
+		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
+		if(modelDistanceToCamera.x < 15.0f && modelDistanceToCamera.y < 10.0f)
+			_models.push(this->m_models[i]);
+
+		// END ADVANCED CHEAT CULLING
+	}
 }
 
 bool QuadTreeNode::removeModel(Model* _model)

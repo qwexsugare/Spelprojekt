@@ -15,7 +15,7 @@ GameState::GameState()
 	this->m_rotation = 0.0f;
 
 	this->m_network = new Client();
-	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+	//this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
 
 	Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
 	if(model)
@@ -52,21 +52,23 @@ State* GameState::nextState()
 void GameState::update(float _dt)
 {
 	// Update FRAMES PER SECOND (FPS) text
-	//static float lol = 0.0f;
-	//lol += _dt;
-	//if(lol > 0.0f)
-	//{
-	//	lol = -0.5f;
-	//	stringstream ss;
-	//	ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
-	//	this->m_fpsText->setString(ss.str());
-	//}
-
+	static float lol = 0.0f;
+	lol += _dt;
+	if(lol > 0.0f)
 	while(this->m_network->entityQueueEmpty() == false)
 	{
 		EntityMessage e = this->m_network->entityQueueFront();
 		this->m_entities[0]->m_model->setPosition(e.getPos());
+		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
+		this->m_fpsText->setString(ss.str());
 	}
+
+	//string s = this->m_network->getMessage();
+
+	//if(s != "")
+	//{
+	//	this->m_fpsText->setString(s);
+	//}
 
 	static float CAMERA_SPEED = 2.0f;
 	if((g_mouse->getPos().x >= g_configFile->getScreenSize().x-10 && g_mouse->getPos().x <= g_configFile->getScreenSize().x)
@@ -92,19 +94,25 @@ void GameState::update(float _dt)
 
 	if(g_mouse->isLButtonPressed())
 	{
+
+	}
+	else if(g_mouse->isLButtonDown())
+	{
 		Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
+
+
+
+
 		if(model)
 		{
 			this->m_entities.push_back(new Entity(model));
 		}
 	}
-	else if(g_mouse->isLButtonDown())
-	{
-		for(int i = 0; i < this->m_entities.size(); i++)
-			this->m_entities[i]->m_model->rotate(_dt, 0.0f, 0.0f);
-	}
 	else if(g_mouse->isRButtonPressed())
 	{
 		this->end();
 	}
+	else
+		for(int i = 0; i < this->m_entities.size(); i++)
+			this->m_entities[i]->m_model->rotate(_dt/5.0f, 0.0f, 0.0f);
 }
