@@ -1,3 +1,7 @@
+#define WIN32_LEAN_AND_MEAN
+#include <SFML\Network.hpp>
+#include <SFML\System.hpp>
+//#include <windows.h>
 #include <windows.h>
 #include "ClientHandler.h"
 #include "Mouse.h"

@@ -2,6 +2,7 @@
 
 #include "State.h"
 #include "Entity.h"
+#include "NetworkClient.h"
 
 class GameState : public State
 {
@@ -11,6 +12,7 @@ private:
 	SpriteSheet *m_testSprite;
 	float m_rotation;
 
+	NetworkClient *m_network;
 	void end();
 public:
 	GameState();

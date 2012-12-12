@@ -13,12 +13,18 @@ GameState::GameState()
 	this->m_testSprite = g_graphicsEngine->createSpriteSheet("test.png", INT2(550, 550), INT2(100, 100), INT2(4, 2), 2);
 	this->m_testSprite->setCurrentFrame(INT2(3,0));
 	this->m_rotation = 0.0f;
+
+	this->m_network = new NetworkClient();
+	this->m_network->Launch();
+	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
 }
 
 GameState::~GameState()
 {
 	for(int i = 0; i < this->m_entities.size(); i++)
 		delete this->m_entities[i];
+
+	delete this->m_network;
 }
 
 void GameState::end()
@@ -41,14 +47,21 @@ State* GameState::nextState()
 void GameState::update(float _dt)
 {
 	// Update FRAMES PER SECOND (FPS) text
-	static float lol = 0.0f;
-	lol += _dt;
-	if(lol > 0.0f)
+	//static float lol = 0.0f;
+	//lol += _dt;
+	//if(lol > 0.0f)
+	//{
+	//	lol = -0.5f;
+	//	stringstream ss;
+	//	ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
+	//	this->m_fpsText->setString(ss.str());
+	//}
+
+	string s = this->m_network->getMessage();
+
+	if(s != "")
 	{
-		lol = -0.5f;
-		stringstream ss;
-		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
-		this->m_fpsText->setString(ss.str());
+		this->m_fpsText->setString(s);
 	}
 
 	static float CAMERA_SPEED = 2.0f;

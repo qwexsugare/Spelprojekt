@@ -1,3 +1,5 @@
+#include <SFML\Network.hpp>
+#include <SFML\System.hpp>
 #include <windows.h>
 #include <iostream>
 #include "ViewerHandler.h"
