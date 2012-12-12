@@ -8,11 +8,11 @@ ServerThread::ServerThread() : sf::Thread()
 
 void ServerThread::Run()
 {
-	this->m_network->start(1337);
+	/*this->m_network->start(1337);
 
 	while(this->m_network->isRunning() == true)
 	{
 		this->m_network->broadcast("LOLOLOLOLOLOLOL");
 		Sleep(1000);
-	}
+	}*/
 }
