@@ -6,11 +6,17 @@
 #include <iostream>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
+#include <queue>
 
 using namespace std;
 class Server : private sf::Thread
 {
 private:
+	sf::Mutex m_mutex;
+
+	queue<Msg> msgQueue;
+	queue<EntityMessage> entityQueue;
+
 	sf::SelectorTCP selector;
 	sf::SocketTCP listener;
 	sf::SocketTCP clients[4];
@@ -28,6 +34,10 @@ public:
 	void broadcast(Msg msg);
 	bool isRunning();
 
+	Msg msgQueueFront();
+	EntityMessage entityQueueFront();
+	bool msgQueueEmpty();
+	bool entityQueueEmpty();
 };
 
 #endif // SERVER_H

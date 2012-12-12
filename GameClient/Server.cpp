@@ -144,16 +144,61 @@ bool Server::handleClientInData(sf::Packet packet, string prot)
 	{
 		EntityMessage ent;
 		packet >> ent;
-		cout<<ent.getPos().x<<endl;
+		this->m_mutex.Lock();
+		this->entityQueue.push(ent);
+
+		if(this->entityQueue.size() > 1000)
+		{
+			this->entityQueue.pop();
+		}
+
+		this->m_mutex.Unlock();
+
 		protFound=true;
 	}
 	if(prot=="MSG")
 	{
 		Msg msg;
 		packet >> msg;
-		cout <<"inc mess"<<msg.getText()<<endl;
+		this->m_mutex.Lock();
+		this->msgQueue.push(msg);
+
+		if(this->msgQueue.size() > 1000)
+		{
+			this->msgQueue.pop();
+		}
+
+		this->m_mutex.Unlock();
 		protFound=true;
 	}
 
 	return protFound;
+}
+
+bool Server::msgQueueEmpty()
+{
+	return this->msgQueue.empty();
+}
+
+bool Server::entityQueueEmpty()
+{
+	return this->entityQueue.empty();
+}
+
+Msg Server::msgQueueFront()
+{
+	Msg ret = this->msgQueue.front();
+	this->msgQueue.pop();
+	return ret;
+}
+
+EntityMessage Server::entityQueueFront()
+{
+	this->m_mutex.Lock();
+
+	EntityMessage ret= this->entityQueue.front();
+	this->entityQueue.pop();
+
+	this->m_mutex.Unlock();
+	return ret;
 }
