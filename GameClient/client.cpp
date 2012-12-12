@@ -62,7 +62,7 @@ void Client::Run()
 				this->entityQueue.push(ent);
 
 				
-				if(this->entityQueue.size() > 10)
+				if(this->entityQueue.size() > 100)
 				{
 					this->entityQueue.pop();
 				}

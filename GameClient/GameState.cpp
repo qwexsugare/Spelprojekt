@@ -16,12 +16,6 @@ GameState::GameState()
 
 	this->m_network = new Client();
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
-
-	Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
-	if(model)
-	{
-		this->m_entities.push_back(new Entity(model));
-	}
 }
 
 GameState::~GameState()
@@ -65,8 +59,26 @@ void GameState::update(float _dt)
 	while(this->m_network->entityQueueEmpty() == false)
 	{
 		EntityMessage e = this->m_network->entityQueueFront();
-		this->m_entities[0]->m_model->setPosition(e.getPos());
+		bool found = false;
 
+		for(int i = 0; i < this->m_entities.size() && found == false; i++)
+		{
+			if(this->m_entities[i]->m_id == e.getId())
+			{
+				this->m_entities[i]->m_model->setPosition(e.getPos());
+				found = true;
+			}
+		}
+
+		if(found == false)
+		{
+			Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
+
+			if(model)
+			{
+				this->m_entities.push_back(new Entity(model, e.getId()));
+			}
+		}
 	}
 
 	static float CAMERA_SPEED = 2.0f;
@@ -100,12 +112,12 @@ void GameState::update(float _dt)
 	}
 	else if(g_mouse->isLButtonDown())
 	{
-		Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
+		//Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
 
-		if(model)
-		{
-			this->m_entities.push_back(new Entity(model));
-		}
+		//if(model)
+		//{
+		//	this->m_entities.push_back(new Entity(model));
+		//}
 	}
 	else if(g_mouse->isRButtonPressed())
 	{

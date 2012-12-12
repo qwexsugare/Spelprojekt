@@ -10,20 +10,15 @@ void ServerThread::Run()
 {
 	this->m_network->start(1337);
 	EntityMessage e = EntityMessage();
-	FLOAT3 pos = FLOAT3(0.0f, 0.0f, 0.0f);
-	e.setPosition(pos);
+	vector<Player*> players;
 
-	while(true)
+	while(this->m_network->isRunning())
 	{
-		if(this->m_network->entityQueueEmpty() == false)
+		players = this->m_network->getPlayers();
+
+		for(int i = 0; i < players.size(); i++)
 		{
-			this->m_network->entityQueueFront();
-			pos.x = 5.0f;
-		}
-		else
-		{
-			pos.x = pos.x + 0.00001f;
-			e.setPosition(pos);
+			e = players[i]->getUpdate();
 			this->m_network->broadcast(e);
 		}
 		//Sleep(100);
