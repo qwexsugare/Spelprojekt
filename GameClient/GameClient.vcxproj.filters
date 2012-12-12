@@ -1,114 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Controls">
-      <UniqueIdentifier>{94c1e8ac-de71-47c6-91fc-afb01791309a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{8c5a5e28-3dac-491c-a23a-ae025e5a3cde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\States">
-      <UniqueIdentifier>{e980c2ff-cb9e-4da4-a09c-2fa960368ced}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Server">
-      <UniqueIdentifier>{19efcd04-6211-4104-8bbf-a981bcbc1aad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\States\LobbyState">
-      <UniqueIdentifier>{250463d3-2760-4fba-8a62-f1ab72df348a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\States\GameState">
-      <UniqueIdentifier>{575fb6a6-71cc-4c56-9a89-4d54d13bc7c0}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="ClientHandler.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LobbyState.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MessageHandler.cpp" />
+    <ClCompile Include="MessageQueue.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="NetworkClient.cpp" />
+    <ClCompile Include="NetworkServer.cpp" />
+    <ClCompile Include="ServerThread.cpp" />
+    <ClCompile Include="State.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientHandler.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Core\States</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Core\States\GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerThread.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkServer.cpp">
-      <Filter>Server</Filter>
-    <ClCompile Include="LobbyState.cpp">
-      <Filter>Core\States\LobbyState</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkClient.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Message.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="MessageQueue.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="MessageHandler.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientHandler.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Core\States</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Core\States\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerThread.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkServer.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkClient.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageQueue.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageHandler.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="LobbyState.h">
-      <Filter>Core\States\LobbyState</Filter>
-    </ClInclude>
+    <ClInclude Include="ClientHandler.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Message.h" />
+    <ClInclude Include="LobbyState.h" />
+    <ClInclude Include="MessageHandler.h" />
+    <ClInclude Include="MessageQueue.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="NetworkClient.h" />
+    <ClInclude Include="NetworkServer.h" />
+    <ClInclude Include="ServerThread.h" />
+    <ClInclude Include="State.h" />
   </ItemGroup>
 </Project>
