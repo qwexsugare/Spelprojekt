@@ -47,22 +47,22 @@ State* GameState::nextState()
 void GameState::update(float _dt)
 {
 	// Update FRAMES PER SECOND (FPS) text
-	//static float lol = 0.0f;
-	//lol += _dt;
-	//if(lol > 0.0f)
-	//{
-	//	lol = -0.5f;
-	//	stringstream ss;
-	//	ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
-	//	this->m_fpsText->setString(ss.str());
-	//}
-
-	string s = this->m_network->getMessage();
-
-	if(s != "")
+	static float lol = 0.0f;
+	lol += _dt;
+	if(lol > 0.0f)
 	{
-		this->m_fpsText->setString(s);
+		lol = -0.5f;
+		stringstream ss;
+		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
+		this->m_fpsText->setString(ss.str());
 	}
+
+	//string s = this->m_network->getMessage();
+
+	//if(s != "")
+	//{
+	//	this->m_fpsText->setString(s);
+	//}
 
 	static float CAMERA_SPEED = 2.0f;
 	if((g_mouse->getPos().x >= g_configFile->getScreenSize().x-10 && g_mouse->getPos().x <= g_configFile->getScreenSize().x)

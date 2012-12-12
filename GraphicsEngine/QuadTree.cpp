@@ -21,11 +21,11 @@ bool QuadTree::addModel(Model* _model)
 	return this->m_parent->addModel(_model);
 }
 
-stack<Model*> QuadTree::getModels()const
+stack<Model*> QuadTree::getModels(D3DXVECTOR3 _cameraPos)const
 {
 	stack<Model*> models;
 
-	this->m_parent->getModels(models);
+	this->m_parent->getModels(models, _cameraPos);
 
 	return models;
 }
