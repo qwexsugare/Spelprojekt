@@ -33,6 +33,9 @@
     <ClCompile Include="Msg.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="EntityHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
@@ -70,6 +73,9 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Msg.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityHandler.h">
       <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
