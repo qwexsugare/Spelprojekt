@@ -9,9 +9,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="State.cpp" />
-    <ClCompile Include="EntityHandler.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="EntityMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
     <ClInclude Include="LobbyState.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="State.h" />
-    <ClInclude Include="EntityHandler.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="EntityMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
