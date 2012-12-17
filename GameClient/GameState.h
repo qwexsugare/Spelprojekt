@@ -2,7 +2,7 @@
 
 #include "State.h"
 #include "Entity.h"
-#include "Graphics.h"
+#include "Client.h"
 
 class GameState : public State
 {
@@ -11,11 +11,13 @@ private:
 	vector<Entity*> m_entities;
 	SpriteSheet *m_testSprite;
 	float m_rotation;
+
+	Client *m_network;
+	void end();
 public:
 	GameState();
 	~GameState();
 
-	void update(float _dt);
-	bool done();
 	State* nextState();
+	void update(float _dt);
 };

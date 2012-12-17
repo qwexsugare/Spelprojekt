@@ -1,4 +1,15 @@
+//*****************
+//	- 12-12-12 - Anders -
+//	- Added vector: subMeshes
+//	- Include SubMesh.h
+//	- 16-12-12 - Anders och Alve -
+//	- Added LoadFishMesh()
+//	- Added ReadMaterials()
+//*****************
+
 #include "MeshImporter.h"
+
+fstream MeshImporter::m_fStream;
 
 Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHolder, string _filename)
 {
@@ -176,4 +187,131 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	result->m_texture = matlol.texture;
 
 	return result;
+}
+
+Mesh* MeshImporter::LoadFishMesh(ID3D10Device* device, TextureHolder* textureHolder, string filename)
+{
+	Mesh* mesh = NULL;
+	string filepath = "./models/";
+	string line;
+	char in;
+	UINT numSkeletons = 0;
+	UINT numMaterials = 0;
+	UINT numGeometry = 0;
+
+	m_fStream.open(filepath + filename + ".fish", ios_base::in);
+	
+	m_fStream.get(in);
+	while(!m_fStream.eof())
+	{
+		switch( in )
+		{
+			case 's':
+				m_fStream >> numSkeletons;
+				getline(m_fStream, line);
+				for(UINT i = 0; i < numSkeletons; i++)
+					getline(m_fStream, line); //Store Skeleton
+				break;
+			case 'm':
+				m_fStream >> numMaterials;
+				getline(m_fStream, line);
+				for(UINT i = 0; i < numMaterials; i++)
+					mesh->materials.push_back(ReadMaterial(textureHolder));
+				break;
+			case 'g':
+				m_fStream >> numGeometry;
+				mesh->subMeshes.resize(numGeometry);
+				getline(m_fStream, line);
+				for(UINT i = 0; i < numGeometry; i++)
+					ReadGeometry(mesh, i, device);
+				break;
+			case'\n':
+				break;
+			default:
+				getline(m_fStream, line);
+				//filestream.get(in);
+				break;
+		}
+		m_fStream.get(in);
+	}
+	
+	//For Fun
+	mesh->buffer = mesh->subMeshes[0].buffer;
+	mesh->m_texture = mesh->materials[mesh->subMeshes[0].materialId].textures[0];
+
+	m_fStream.close();
+	return mesh;
+}
+
+Material MeshImporter::ReadMaterial(TextureHolder* textureHolder)
+{
+	Material material;
+	UINT numTextures = 0;
+	char in;
+	string path, type, line;
+	ID3D10ShaderResourceView* resource;
+	
+	if(m_fStream.is_open())
+	{
+		m_fStream >> numTextures;
+		for(int t = 0; t < numTextures; t++)
+		{
+			m_fStream >> path >> type;
+			getline(m_fStream, line);
+			resource = textureHolder->getTexture(path);
+			material.textures.insert(material.textures.end(), pair<string,ID3D10ShaderResourceView*>(type, resource));
+		}
+	}
+	return material;
+}
+void MeshImporter::ReadGeometry(Mesh* mesh, int meshId, ID3D10Device* device)
+{
+	string in;
+	vector<Vertex> verts;
+	D3DXVECTOR3 tangent;
+	D3DXVECTOR4 weights;
+	D3DXVECTOR4 boneIndex;
+
+	m_fStream >> in;
+	m_fStream >> mesh->subMeshes[meshId].skeletonId;
+	m_fStream >> in;
+	m_fStream >> mesh->subMeshes[meshId].numInfluences;
+	m_fStream >> in;
+	m_fStream >> mesh->subMeshes[meshId].numVerts;
+	m_fStream >> in;
+	m_fStream >> mesh->subMeshes[meshId].materialId;
+	getline(m_fStream, in);
+	for(int v = 0; v < mesh->subMeshes[meshId].numVerts; v++)
+	{
+		Vertex myVert;
+		m_fStream >> in;
+		m_fStream >> myVert.pos.x >> myVert.pos.y, myVert.pos.z;
+		m_fStream >> in;
+		m_fStream >> myVert.normal.x >> myVert.normal.y, myVert.normal.z;
+		m_fStream >> in;
+		m_fStream >> tangent.x >> tangent.y, tangent.z;
+		m_fStream >> in;
+		m_fStream >> myVert.texCoord.x >> myVert.texCoord.y;
+		for(int i = 0; i < mesh->subMeshes[meshId].numInfluences; i++)
+		{
+			m_fStream >> boneIndex[i] >> weights[i];
+		}
+	}
+
+	ID3D10Buffer* buffer;
+	D3D10_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D10_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof( Vertex ) * verts.size();
+	bd.BindFlags = D3D10_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	bd.MiscFlags = 0;
+
+	D3D10_SUBRESOURCE_DATA sd;
+	sd.pSysMem = &verts[0];
+
+	HRESULT hr = device->CreateBuffer( &bd, &sd, &buffer);
+	if(FAILED(hr))
+		hr;
+	mesh->subMeshes[meshId].buffer = buffer;
 }

@@ -1,6 +1,8 @@
 #ifndef STDAFX_H
 #define STDAFX_H
 
+#include <SFML\System.hpp>
+#include <SFML\Network.hpp>
 #include <Windows.h>
 #include <D3D10.h>
 #include <D3DX10.h>

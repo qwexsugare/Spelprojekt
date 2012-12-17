@@ -87,16 +87,23 @@ void Model::rotate(float _yaw, float _pitch, float _roll)
 
 	if(this->m_obb)
 	{
-		XMMATRIX transform = XMMATRIX(
-			rotationMatrix._11, rotationMatrix._12, rotationMatrix._13, rotationMatrix._14,
-			rotationMatrix._21, rotationMatrix._22, rotationMatrix._23, rotationMatrix._24,
-			rotationMatrix._31, rotationMatrix._32, rotationMatrix._33, rotationMatrix._34,
-			rotationMatrix._41, rotationMatrix._42, rotationMatrix._43, rotationMatrix._44);
-		
-		BoundingOrientedBox* box = new BoundingOrientedBox();
-		this->m_obb->Transform(*box, transform);
-		delete this->m_obb;
-		this->m_obb = box;
+		XMMATRIX transform = XMMatrixRotationRollPitchYaw(_pitch, _yaw, _roll);
+		XMVECTOR rot = XMLoadFloat3(&XMFLOAT3(_yaw, _pitch, _roll));
+		XMVECTOR transsexual = XMLoadFloat3(&XMFLOAT3(0.0f, 0.0f, 0.0f));
+
+		BoundingOrientedBox box;
+		this->m_obb->Transform(box, transform);
+		//this->m_obb = new BoundingOrientedBox(box);
+		this->m_obb->Center = box.Center;
+		this->m_obb->Orientation = box.Orientation;
+		this->m_obb->Extents = box.Extents;
+		float orientationNorm = sqrt(box.Orientation.x * box.Orientation.x + box.Orientation.y * box.Orientation.y +  box.Orientation.z * box.Orientation.z + box.Orientation.w * box.Orientation.w);
+		this->m_obb->Orientation.x = this->m_obb->Orientation.x / orientationNorm;
+		this->m_obb->Orientation.y = this->m_obb->Orientation.y / orientationNorm;
+		this->m_obb->Orientation.z = this->m_obb->Orientation.z / orientationNorm;
+		this->m_obb->Orientation.w = this->m_obb->Orientation.w / orientationNorm;
+
+		//this->m_obb->Transform(box, 1.0f, rot, transsexual);
 	}
 }
 

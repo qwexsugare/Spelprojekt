@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+<<<<<<< HEAD
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="ServerThread.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageQueue.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="client.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityMessage.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Msg.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="ServerThread.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageQueue.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageHandler.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyState.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="client.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityMessage.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Msg.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Server">
+      <UniqueIdentifier>{1fd04c87-e44d-4518-9f56-cec25ece50df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{0214b36f-e8bb-4928-b274-991e714a976d}</UniqueIdentifier>
+    </Filter>
+=======
+    <ClCompile Include="ClientHandler.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LobbyState.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MessageHandler.cpp" />
+    <ClCompile Include="MessageQueue.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="NetworkClient.cpp" />
+    <ClCompile Include="NetworkServer.cpp" />
+    <ClCompile Include="ServerThread.cpp" />
+    <ClCompile Include="State.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ClientHandler.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Message.h" />
+    <ClInclude Include="LobbyState.h" />
+    <ClInclude Include="MessageHandler.h" />
+    <ClInclude Include="MessageQueue.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="NetworkClient.h" />
+    <ClInclude Include="NetworkServer.h" />
+    <ClInclude Include="ServerThread.h" />
+    <ClInclude Include="State.h" />
+>>>>>>> a9700c52409ca69ac999f9cf5a22b967d89e5f5b
+  </ItemGroup>
+</Project>

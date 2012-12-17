@@ -1,10 +1,13 @@
+#define WIN32_LEAN_AND_MEAN
+#include <SFML\Network.hpp>
+#include <SFML\System.hpp>
+//#include <windows.h>
 #include <windows.h>
-#include <iostream>
-#include "DataStructures.h"
-#include "Model.h"
-#include "Camera.h"
 #include "ClientHandler.h"
+#include "Mouse.h"
+#include "Keyboard.h"
 
+ConfigFile* g_configFile;
 GraphicsHandler* g_graphicsEngine;
 Keyboard* g_keyboard;
 Mouse* g_mouse;
@@ -17,20 +20,17 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
 	// Load config into config file class
-	ConfigFile* configFile = new ConfigFile();
-	configFile->load();
+	g_configFile = new ConfigFile();
+	g_configFile->load();
 
 	// Init window
 	HWND hwnd = 0;
-	if((hwnd = InitWindow(_hInstance, _nCmdShow, configFile->getScreenSize())) == 0)
+	if((hwnd = InitWindow(_hInstance, _nCmdShow, g_configFile->getScreenSize())) == 0)
 	{
 		return 0;
 	}
 	
-	// Init the clienthandler with the window and config file
-	ClientHandler clientHandler(hwnd, configFile);
-	// Forget the config file, the clienthandler is responsible for it now.
-	configFile = NULL;
+	ClientHandler clientHandler(hwnd);
 
 	return clientHandler.run();
 }
