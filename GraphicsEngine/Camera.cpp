@@ -5,20 +5,50 @@ Camera::Camera()
 
 }
 
-Camera::Camera(float width, float height)
+Camera::Camera(int width, int height)
 {
 	this->m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	this->m_forward = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 	this->m_up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	this->m_right = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	this->m_width = width;
+	this->m_height = height;
 
-	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
-	D3DXMatrixPerspectiveLH(&this->m_projectionMatrix, (float)D3DX_PI * 0.8f /* 0.6f? */, (float)(width / height), 1.0f, 1000.0f);
+	this->updateViewMatrix();
+	D3DXMatrixPerspectiveLH(&this->m_projectionMatrix, (float)D3DX_PI * 0.8f /* 0.6f? */, float(m_width) / float(m_height), 1.0f, 1000.0f);
 }
 
 Camera::~Camera()
 {
 
+}
+
+void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 _mousePos)
+{
+	// Do stuff in a retard right handed world
+	D3DXMATRIX rhProjMat;
+	D3DXMatrixPerspectiveRH(&rhProjMat, (float)D3DX_PI * 0.8f /* 0.6f? */, float(m_width) / float(m_height), 1.0f, 1000.0f);
+	D3DXMATRIX rhViewMat;
+	D3DXMatrixLookAtRH(&rhViewMat, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+
+	// Compute the vector of the pick ray in screen space
+	D3DXVECTOR3 v;
+	v.x = ( ( ( 2.0f * float(_mousePos.x) ) / float(this->m_width) ) - 1.0f ) / rhProjMat._11;
+	v.y = -( ( ( 2.0f * float(_mousePos.y) ) / float(this->m_height) ) - 1.0f ) / rhProjMat._22;
+	v.z = 1.0f;
+
+	// Get the inverse view matrix
+	D3DXMATRIX m;
+	D3DXMatrixInverse(&m, NULL, &rhViewMat);
+
+	// Transform the screen space pick ray into 3D space
+	_pickDirOut.x = v.x * m._11 + v.y * m._21 + v.z * m._31;
+	_pickDirOut.y = v.x * m._12 + v.y * m._22 + v.z * m._32;
+	_pickDirOut.z = v.x * m._13 + v.y * m._23 + v.z * m._33;
+	D3DXVec3Normalize(&_pickDirOut, &_pickDirOut);
+	_pickOrigOut.x = m._41;
+	_pickOrigOut.y = m._42;
+	_pickOrigOut.z = m._43;
 }
 
 D3DXVECTOR3 Camera::getPos()const
