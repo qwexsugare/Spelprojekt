@@ -15,7 +15,7 @@ GameState::GameState()
 	this->m_rotation = 0.0f;
 
 	this->m_network = new Client();
-	//this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
 }
 
 GameState::~GameState()

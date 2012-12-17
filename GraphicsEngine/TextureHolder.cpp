@@ -23,9 +23,7 @@ ID3D10ShaderResourceView* TextureHolder::getTexture(string filename)
 		ID3D10ShaderResourceView* resource = NULL;
 		D3DX10_IMAGE_LOAD_INFO loadInfo;
 		ZeroMemory(&loadInfo, sizeof(D3DX10_IMAGE_LOAD_INFO));
-		loadInfo.BindFlags = D3D10_BIND_SHADER_RESOURCE;
-		loadInfo.Format = DXGI_FORMAT_BC1_UNORM;
-		D3DX10CreateShaderResourceViewFromFile(this->m_device, filename.c_str(), &loadInfo, NULL, &resource, NULL);
+		D3DX10CreateShaderResourceViewFromFile(this->m_device, filename.c_str(), NULL, NULL, &resource, NULL);
 
 		// Add the new texture to the texture vector
 		this->m_textures.insert(this->m_textures.begin(), pair<string, ID3D10ShaderResourceView*>(filename, resource));
