@@ -24,6 +24,8 @@ public:
 	DECLDIR Camera *getCamera();
 	DECLDIR INT2 getScreenSize();
 	
+	//DECLDIR Terrain* createTerrain
+
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
 	DECLDIR bool removeText(Text *text);
 

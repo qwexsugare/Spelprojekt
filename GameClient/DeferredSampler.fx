@@ -121,3 +121,48 @@ technique10 DeferredSample
 	    SetRasterizerState( rs );
     }  
 }
+
+PSSceneIn drawTerrainVs(VSSceneIn input)
+{
+	PSSceneIn output = (PSSceneIn)0;
+
+	matrix worldViewProjection = mul(viewMatrix, projectionMatrix);
+	
+	// transform the point into view space
+	output.Pos = mul( float4(input.Pos,1.0), mul(modelMatrix,worldViewProjection) );
+	output.UVCoord = input.UVCoord;
+
+	//variables needed for lighting
+	output.Normal = input.Normal;
+	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
+
+	return output;
+}
+
+PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
+{	
+	PSSceneOut output = (PSSceneOut)0;
+	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
+	color.w = modelAlpha;
+
+	output.Pos = input.Pos;
+	output.Normal = float4(input.Normal, 1.0f);
+	output.Diffuse = color;
+
+	return output;
+}
+
+technique10 RenderTerrain
+{
+    pass p0
+    {
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSScene() ) );
+
+	    SetDepthStencilState( EnableDepth, 0 );
+	    SetRasterizerState( rs );
+    }  
+}
