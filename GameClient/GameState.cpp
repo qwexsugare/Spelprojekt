@@ -67,6 +67,7 @@ void GameState::update(float _dt)
 			if(this->m_entities[i]->m_id == e.getId())
 			{
 				this->m_entities[i]->m_model->setPosition(e.getPos());
+				this->m_entities[i]->m_model->setRotation(e.getRotation());
 				found = true;
 			}
 		}
@@ -81,7 +82,7 @@ void GameState::update(float _dt)
 		}
 	}
 
-	static float CAMERA_SPEED = 2.0f;
+	static float CAMERA_SPEED = 4.0f;
 	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10)
 		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
 	{

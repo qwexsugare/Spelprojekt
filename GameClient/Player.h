@@ -5,6 +5,7 @@
 #include "EntityMessage.h"
 //#include "MessageQueue.h"
 #include "EntityHandler.h"
+#include "Hero.h"
 
 class Player
 {
@@ -12,7 +13,7 @@ private:
 	unsigned int m_id;
 
 	//MessageQueue *m_messageQueue;
-	ServerEntity *m_hero;
+	Hero *m_hero;
 public:
 	Player(unsigned int id);
 	~Player();

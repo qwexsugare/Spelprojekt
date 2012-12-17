@@ -1,0 +1,20 @@
+#ifndef HERO_H
+#define HERO_H
+
+#include "Datastructures.h"
+#include "ServerEntity.h"
+
+class Hero : public ServerEntity
+{
+private:
+	FLOAT3 m_nextPosition;
+	bool m_reachedPosition;
+	float m_movementSpeed;
+public:
+	Hero();
+
+	void update();
+	void setNextPosition(FLOAT3 _nextPosition);
+};
+
+#endif

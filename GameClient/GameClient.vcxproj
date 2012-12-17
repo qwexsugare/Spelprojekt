@@ -156,6 +156,7 @@
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="main.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="EntityMessage.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Hero.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LobbyState.h" />

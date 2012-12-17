@@ -14,9 +14,11 @@ ServerThread::~ServerThread()
 	this->Wait();
 
 	//delete this->m_messageHandler;
-
 	this->m_network->shutDown();
 	delete this->m_network;
+
+	this->m_entityHandler->removeAllEntities();
+	delete this->m_entityHandler;
 }
 
 void ServerThread::Run()

@@ -45,4 +45,5 @@ public:
 	DECLDIR void setPosition(FLOAT3 _position);
 	DECLDIR void setScale(float x, float y, float z);
 	DECLDIR void setRotation(float x, float y, float z);
+	DECLDIR void setRotation(FLOAT3 _rotation);
 };

@@ -7,9 +7,12 @@
 
 class ServerEntity
 {
-private:
+protected:
 	//MessageQueue *m_messageQueue;
+	unsigned int m_id;
+
 	FLOAT3 m_positon;
+	FLOAT3 m_rotation;
 	int m_modelId;
 public:
 	ServerEntity();
@@ -19,6 +22,7 @@ public:
 	//MessageQueue *getMessageQueue();
 	EntityMessage getUpdate();
 
+	void setId(unsigned int _id);
 	void setPosition(FLOAT3 _position);
 };
 
