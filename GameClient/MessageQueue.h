@@ -3,6 +3,8 @@
 #include "Message.h"
 #include <queue>
 
+using namespace std;
+
 class MessageQueue
 {
 private:

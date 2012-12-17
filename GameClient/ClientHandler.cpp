@@ -59,7 +59,7 @@ HRESULT ClientHandler::run()
 			prevTimeStamp = currTimeStamp;
 		}
 	}
-
+	
 	return msg.wParam;
 }
 

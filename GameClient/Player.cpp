@@ -3,31 +3,37 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_messageQueue = new MessageQueue();
+	//this->m_messageQueue = new MessageQueue();
+	this->m_hero = new ServerEntity();
+	
+	EntityHandler *test = new EntityHandler();
+	test->addEntity(m_hero);
 }
 
 Player::~Player()
 {
-	delete this->m_messageQueue;
+	//delete this->m_messageQueue;
 }
 
 void Player::handleEntityMessage(EntityMessage e)
 {
-	MoveMessage *m = new MoveMessage();
+	//MoveMessage *m = new MoveMessage();
 
-	m->position = e.getPos();
-	m->reciverId = 0;
-	m->type = 1;
+	//m->position = e.getPos();
+	//m->reciverId = 0;
+	//m->type = MessageTypes::MoveEntity;
 
-	this->m_messageQueue->pushOutgoingMessage(m);
+	//this->m_messageQueue->pushOutgoingMessage(m);
+
+	this->m_hero->setPosition(e.getPos());
 }
 
 void Player::update()
 {
 
 }
-
-MessageQueue *Player::getMessageQueue()
-{
-	return this->m_messageQueue;
-}
+//
+//MessageQueue *Player::getMessageQueue()
+//{
+//	return this->m_messageQueue;
+//}

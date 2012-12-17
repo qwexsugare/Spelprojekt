@@ -1,9 +1,9 @@
 #include "Server.h"
 
-Server::Server(MessageHandler *_messageHandler)
+Server::Server(/*MessageHandler *_messageHandler*/)
 {
 	this->clientArrPos=0;
-	this->m_messageHandler = _messageHandler;
+	//this->m_messageHandler = _messageHandler;
 }
 
 Server::~Server()
@@ -49,7 +49,7 @@ void Server::goThroughSelector()
 
 			Player *p = new Player(this->m_players.size());
 			this->m_players.push_back(p);
-			this->m_messageHandler->addQueue(p->getMessageQueue());
+			//this->m_messageHandler->addQueue(p->getMessageQueue());
 		}
 		//else its a client socket who wants to sent a message
 		else

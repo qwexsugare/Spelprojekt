@@ -5,6 +5,8 @@
 #include "Message.h"
 #include <map>
 
+using namespace std;
+
 class MessageHandler
 {
 private:
