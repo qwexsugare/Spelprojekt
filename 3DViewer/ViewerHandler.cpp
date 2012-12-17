@@ -23,6 +23,8 @@ ViewerHandler::~ViewerHandler()
 
 HRESULT ViewerHandler::run()
 {
+	Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(0.0f, 0.0f, 0.0f));
+
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
 	float secsPerCnt = 1.0f / (float)cntsPerSec;
@@ -107,8 +109,6 @@ void ViewerHandler::update(float _dt)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -(CAMERA_SPEED*_dt));
 	}
-
-	Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(0.0f, 0.0f, 0.0f));
 
 	g_mouse->update(); // Must be last!
 }
