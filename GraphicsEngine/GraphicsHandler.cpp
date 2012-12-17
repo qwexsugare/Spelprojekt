@@ -8,6 +8,9 @@ GraphicsHandler::GraphicsHandler()
 GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 {
 	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile->getWindowed(), _configFile->getScreenSize());
+	RECT rc;
+	GetWindowRect(_hWnd, &rc);
+	this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
 	this->m_world = new World(this->m_deviceHandler);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
 }
@@ -37,6 +40,11 @@ bool GraphicsHandler::removeText(Text* _text)
 Camera *GraphicsHandler::getCamera()
 {
 	return this->m_world->getCamera();
+}
+
+INT2 GraphicsHandler::getScreenSize()
+{
+	return this->m_realScreenSize;
 }
 
 Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)

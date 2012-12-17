@@ -14,8 +14,20 @@ GameState::GameState()
 	this->m_testSprite->setCurrentFrame(INT2(3,0));
 	this->m_rotation = 0.0f;
 
+<<<<<<< HEAD
 	this->m_network = new Client();
+	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+
+	Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
+	if(model)
+	{
+		this->m_entities.push_back(new Entity(model));
+	}
+=======
+	this->m_network = new NetworkClient();
+	this->m_network->Launch();
 	//this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+>>>>>>> a9700c52409ca69ac999f9cf5a22b967d89e5f5b
 }
 
 GameState::~GameState()
@@ -46,57 +58,57 @@ State* GameState::nextState()
 void GameState::update(float _dt)
 {
 	// Update FRAMES PER SECOND (FPS) text
-	static float lol = 0.0f;
-	lol += _dt;
-	if(lol > 1.0f)
-	{
-		stringstream ss;
-		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
-		this->m_fpsText->setString(ss.str());
-		lol = -0.5f;
-	}
+<<<<<<< HEAD
+	//static float lol = 0.0f;
+	//lol += _dt;
+	//if(lol > 0.0f)
+	//{
+	//	lol = -0.5f;
+	//	stringstream ss;
+	//	ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
+	//	this->m_fpsText->setString(ss.str());
+	//}
 
 	while(this->m_network->entityQueueEmpty() == false)
 	{
 		EntityMessage e = this->m_network->entityQueueFront();
-		bool found = false;
-
-		for(int i = 0; i < this->m_entities.size() && found == false; i++)
-		{
-			if(this->m_entities[i]->m_id == e.getId())
-			{
-				this->m_entities[i]->m_model->setPosition(e.getPos());
-				found = true;
-			}
-		}
-
-		if(found == false)
-		{
-			Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
-			if(model)
-			{
-				this->m_entities.push_back(new Entity(model, e.getId()));
-			}
-		}
+		this->m_entities[0]->m_model->setPosition(e.getPos());
+=======
+	static float lol = 0.0f;
+	lol += _dt;
+	if(lol > 0.0f)
+	{
+		lol = -0.5f;
+		stringstream ss;
+		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
+		this->m_fpsText->setString(ss.str());
+>>>>>>> a9700c52409ca69ac999f9cf5a22b967d89e5f5b
 	}
 
+	//string s = this->m_network->getMessage();
+
+	//if(s != "")
+	//{
+	//	this->m_fpsText->setString(s);
+	//}
+
 	static float CAMERA_SPEED = 2.0f;
-	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10)
+	if((g_mouse->getPos().x >= g_configFile->getScreenSize().x-10 && g_mouse->getPos().x <= g_configFile->getScreenSize().x)
 		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, CAMERA_SPEED*_dt, 0.0f);
 	}
-	else if((g_mouse->getPos().x <= 10)
+	else if((g_mouse->getPos().x <= 10 && g_mouse->getPos().x >= 0)
 		|| g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
 	}
-	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10)
+	if((g_mouse->getPos().y >= g_configFile->getScreenSize().y-10 && g_mouse->getPos().y <= g_configFile->getScreenSize().y)
 		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, CAMERA_SPEED*_dt);
 	}
-	else if((g_mouse->getPos().y <= 10)
+	else if((g_mouse->getPos().y <= 10 && g_mouse->getPos().y >= 0)
 		|| g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -(CAMERA_SPEED*_dt));
@@ -104,25 +116,25 @@ void GameState::update(float _dt)
 
 	if(g_mouse->isLButtonPressed())
 	{
-		EntityMessage e; 
-		e.setPosition(FLOAT3(5.0f, 0.0f, 0.0f));
 
-		this->m_network->sendEntity(e);
 	}
 	else if(g_mouse->isLButtonDown())
 	{
-		//Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
+		Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
 
-		//if(model)
-		//{
-		//	this->m_entities.push_back(new Entity(model));
-		//}
+
+
+
+		if(model)
+		{
+			this->m_entities.push_back(new Entity(model));
+		}
 	}
 	else if(g_mouse->isRButtonPressed())
 	{
 		this->end();
 	}
 	else
-		for(int i = 1; i < this->m_entities.size(); i++)
+		for(int i = 0; i < this->m_entities.size(); i++)
 			this->m_entities[i]->m_model->rotate(_dt/5.0f, 0.0f, 0.0f);
 }

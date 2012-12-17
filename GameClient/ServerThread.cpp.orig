@@ -1,0 +1,34 @@
+#include "ServerThread.h"
+
+ServerThread::ServerThread() : sf::Thread()
+{
+	this->m_network = new Server();
+
+}
+
+void ServerThread::Run()
+{
+<<<<<<< HEAD
+	this->m_network->start(1337);
+	EntityMessage e = EntityMessage();
+	FLOAT3 pos = FLOAT3(0.0f, 0.0f, 0.0f);
+	e.setPosition(pos);
+=======
+	/*this->m_network->start(1337);
+>>>>>>> a9700c52409ca69ac999f9cf5a22b967d89e5f5b
+
+	while(true)
+	{
+<<<<<<< HEAD
+		pos.x = pos.x + 0.00001f;
+		e.setPosition(pos);
+		this->m_network->broadcast(e);
+		//Sleep(100);
+
+	}
+=======
+		this->m_network->broadcast("LOLOLOLOLOLOLOL");
+		Sleep(1000);
+	}*/
+>>>>>>> a9700c52409ca69ac999f9cf5a22b967d89e5f5b
+}

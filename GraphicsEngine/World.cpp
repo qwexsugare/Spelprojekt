@@ -18,6 +18,7 @@ World::World(DeviceHandler* _deviceHandler)
 	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 
 	this->m_deferredSampler = new DeferredSamplerEffectFile(this->m_deviceHandler->getDevice());
+	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 	this->m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice());
 
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -72,7 +73,6 @@ void World::render()
 	this->m_camera->updateViewMatrix();
 
 	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
-	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 	
 	this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
 	
@@ -102,7 +102,7 @@ void World::render()
 		mat._31, mat._32, mat._33, mat._34,
 		mat._41, mat._42, mat._43, mat._44);
 	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);*/
-	stack<Model*> models = this->m_quadTree->getModels();
+	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
 	while(!models.empty())
 	{
 		/*XMFLOAT3 origin(this->m_camera->getPos().x, this->m_camera->getPos().y, this->m_camera->getPos().z);
@@ -116,35 +116,27 @@ void World::render()
 		BoundingFrustum bf = BoundingFrustum(origin, orientation, rightSlope, leftSlope, topSlope, bottomSlope, near_, far_);*/
 		//if(bf.Contains(*models.top()->getObb()) || bf.Intersects(*models.top()->getObb()))
 
-		// Calculate models distance to camera and make it positive +
-		D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(models.top()->getPosition2D()-this->m_camera->getPos2D());
-		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
-		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
-		// If the model is too far from the camera, cull it
-		if(modelDistanceToCamera.x < 15.0f && modelDistanceToCamera.y < 10.0f)
+		if(models.top()->getAlpha() < 1.0f)
 		{
-			if(models.top()->getAlpha() < 1.0f)
-			{
-				transparantModels.push(models.top());
-			}
-			else
-			{
-				this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
+			transparantModels.push(models.top());
+		}
+		else
+		{
+			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
 
-				this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-				this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
-				this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
+			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
+			this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
+			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
+			
+			// ULTRA OPTIMIZATION COMMENTS AWAY SIMONS CODE
+			/*D3D10_TECHNIQUE_DESC techDesc;
+			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
 
-				D3D10_TECHNIQUE_DESC techDesc;
-				this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
-
-				for( UINT p = 0; p < techDesc.Passes; p++ )
-				{
-					this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
-					this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
-				}
-			}
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{*/
+			this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
+			this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
+			//}
 		}
 			
 		models.pop();

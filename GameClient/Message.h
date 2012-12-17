@@ -1,8 +1,21 @@
 #pragma once
-class Message
+
+#include "DataStructures.h"
+#include <string>
+
+struct Message
 {
-public:
-	Message(void);
-	~Message(void);
+	int senderId;
+	int reciverId;
+
+	Message(int reciverId)
+	{
+		this->reciverId = reciverId;
+	}
+
+	~Message(void)
+	{
+
+	}
 };
 

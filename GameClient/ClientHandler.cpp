@@ -55,7 +55,7 @@ HRESULT ClientHandler::run()
 			this->update(dt);
 			g_graphicsEngine->update(dt);
 			g_graphicsEngine->render();
-			
+
 			prevTimeStamp = currTimeStamp;
 		}
 	}
@@ -91,9 +91,9 @@ void ClientHandler::update(float _dt)
 		}
 	}
 	this->m_messages.clear();
-	
+
 	this->m_state->update(_dt);
-	
+
 	if(this->m_state->isDone())
 	{
 		State* tempState = this->m_state->nextState();

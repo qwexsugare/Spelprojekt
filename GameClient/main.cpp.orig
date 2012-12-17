@@ -1,73 +1,51 @@
-#include <windows.h>
+<<<<<<< HEAD
+#define WIN32_LEAN_AND_MEAN
+#include <SFML\Network.hpp>
+#include <SFML\System.hpp>
+//#include <windows.h>
 #include <iostream>
-#include "GraphicsHandler.h"
-#include "ConfigFile.h"
+#include "DataStructures.h"
 #include "Model.h"
+#include "Camera.h"
+=======
+#include <windows.h>
+>>>>>>> ba976580346c572ba18defbdf978b465644ca9d7
+#include "ClientHandler.h"
+#include "Mouse.h"
+#include "Keyboard.h"
 
-//--------------------------------------------------------------------------------------
-// Forward declarations
-//--------------------------------------------------------------------------------------
-HWND	            InitWindow(HINSTANCE _hInstance, int _nCmdShow, const D3DXVECTOR2* _screenSize);
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+ConfigFile* g_configFile;
+GraphicsHandler* g_graphicsEngine;
+Keyboard* g_keyboard;
+Mouse* g_mouse;
 
-GraphicsHandler *graphicsHandler;
+HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-//--------------------------------------------------------------------------------------
-// Entry point to the program. Initializes everything and goes into a message processing 
-// loop. Idle time is used to render the scene.
-//--------------------------------------------------------------------------------------
-int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
+int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCmdLine, int _nCmdShow)
 {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
-	ConfigFile configFile;
-	configFile.load();
+	// Load config into config file class
+	g_configFile = new ConfigFile();
+	g_configFile->load();
 
+	// Init window
 	HWND hwnd = 0;
-	if((hwnd = InitWindow(hInstance, nCmdShow, configFile.getScreenSize())) == 0)
+	if((hwnd = InitWindow(_hInstance, _nCmdShow, g_configFile->getScreenSize())) == 0)
 	{
 		return 0;
 	}
+	
+	ClientHandler clientHandler(hwnd);
 
-	graphicsHandler = new GraphicsHandler(hwnd, &configFile);
-<<<<<<< HEAD
-	Model *m = graphicsHandler->createModel("ArrowHead");
-	m->setPosition(0.0f, 0.0f, 5.0f);
-
-	float r = 0.0f;
-=======
-	Model *m = graphicsHandler->createModel("palm3");
-	Model *m = graphicsHandler->createModel("hero.obj");
-	m->setPosition(0.0f, 0.0f, 100.0f);
->>>>>>> a7f26c3c38b028ab2996837c25f9b12a19877d9c
-
-	// Main message loop
-	MSG msg = {0};
-	while(WM_QUIT != msg.message)
-	{
-		if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE) )
-		{
-			TranslateMessage( &msg );
-			DispatchMessage( &msg );
-		}
-		else
-		{
-			r = r + 0.001;
-			m->setRotation(D3DXVECTOR3(r, r, 0.0f));
-			graphicsHandler->render();
-		}
-	}
-
-	delete graphicsHandler;
-
-	return (int) msg.wParam;
+	return clientHandler.run();
 }
-
 
 //--------------------------------------------------------------------------------------
 // Register class and create window
 //--------------------------------------------------------------------------------------
-HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, const D3DXVECTOR2* _screenSize)
+HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize)
 {
 	HWND hWnd;
 
@@ -89,15 +67,15 @@ HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, const D3DXVECTOR2* _screenS
 	RegisterClassEx(&wcex);
 
 	// Create window
-	RECT rc = { 0, 0, 1024, 768 };
-	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
+	RECT rc = {0, 0, _screenSize.x, _screenSize.y};
+	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	hWnd = CreateWindow(	"Spelprojekt",
 							"Spelprojekt",
 							WS_OVERLAPPEDWINDOW,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
-							_screenSize->x,
-							_screenSize->y,
+							rc.right-rc.left,
+							rc.bottom-rc.top,
 							NULL,
 							NULL,
 							_hInstance,
@@ -107,7 +85,6 @@ HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, const D3DXVECTOR2* _screenS
 
 	return hWnd;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
@@ -129,7 +106,6 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		break;
 
 	case WM_KEYDOWN:
-
 		switch(wParam)
 		{
 			case VK_ESCAPE:

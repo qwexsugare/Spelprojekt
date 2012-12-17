@@ -2,12 +2,14 @@
 #define SERVER_THREAD_H
 
 #include <SFML\System.hpp>
-#include "NetworkServer.h"
+#include "Server.h"
+#include "MessageHandler.h"
+#include "Player.h"
 
 class ServerThread : public sf::Thread
 {
 private:
-	NetworkServer *m_network;
+	Server *m_network;
 
 	void Run();
 public:
