@@ -5,17 +5,12 @@
 
 struct Message
 {
+	int type;
 	int senderId;
 	int reciverId;
-
-	Message(int reciverId)
-	{
-		this->reciverId = reciverId;
-	}
-
-	~Message(void)
-	{
-
-	}
 };
 
+struct MoveMessage : public Message
+{
+	FLOAT3 position;
+};

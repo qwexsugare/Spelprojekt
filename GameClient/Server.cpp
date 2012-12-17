@@ -1,12 +1,17 @@
 #include "Server.h"
 
-Server::Server()
+Server::Server(MessageHandler *_messageHandler)
 {
 	this->clientArrPos=0;
+	this->m_messageHandler = _messageHandler;
 }
 
 Server::~Server()
 {
+	for(int i = 0; i < this->m_players.size(); i++)
+	{
+		delete this->m_players[i];
+	}
 }
 
 bool Server::start(int port)
@@ -41,7 +46,10 @@ void Server::goThroughSelector()
 			//and add it to the selector
 			this->selector.Add(incSocket);
 			this->clients[this->clientArrPos++]=incSocket;
-			this->m_players.push_back(new Player(this->m_players.size()));
+
+			Player *p = new Player(this->m_players.size());
+			this->m_players.push_back(p);
+			this->m_messageHandler->addQueue(p->getMessageQueue());
 		}
 		//else its a client socket who wants to sent a message
 		else

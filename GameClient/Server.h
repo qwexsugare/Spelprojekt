@@ -8,12 +8,15 @@
 #include <SFML/System.hpp>
 #include <queue>
 #include <vector>
+#include "MessageHandler.h"
 #include "Player.h"
 
 using namespace std;
 class Server : private sf::Thread
 {
 private:
+	MessageHandler *m_messageHandler;
+
 	sf::Mutex m_mutex;
 
 	queue<Msg> msgQueue;
@@ -29,7 +32,7 @@ private:
 	void goThroughSelector();
 	bool handleClientInData(int socketIndex, sf::Packet packet, string prot);
 public:
-	Server();
+	Server(MessageHandler *_messageHandler);
 	~Server();
 	bool start(int port);
 	void shutDown();

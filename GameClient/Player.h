@@ -3,17 +3,21 @@
 
 #include "DataStructures.h"
 #include "EntityMessage.h"
+#include "MessageQueue.h"
 
 class Player
 {
 private:
 	unsigned int m_id;
-	FLOAT3 m_position;
+
+	MessageQueue *m_messageQueue;
 public:
 	Player(unsigned int id);
+	~Player();
 
 	void handleEntityMessage(EntityMessage e);
-	EntityMessage getUpdate();
+	void update();
+	MessageQueue *getMessageQueue();
 };
 
 #endif

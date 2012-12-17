@@ -3,38 +3,79 @@
   <ItemGroup>
     <ClCompile Include="client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
-    <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MessageHandler.cpp" />
-    <ClCompile Include="MessageQueue.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Msg.cpp" />
-    <ClCompile Include="Server.cpp" />
-    <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="State.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ServerThread.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Msg.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageQueue.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityMessage.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerEntity.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityMessage.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Message.h" />
     <ClInclude Include="LobbyState.h" />
-    <ClInclude Include="MessageHandler.h" />
-    <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="Msg.h" />
-    <ClInclude Include="Server.h" />
-    <ClInclude Include="ServerThread.h" />
     <ClInclude Include="State.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="ServerThread.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Msg.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageQueue.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageHandler.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityMessage.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerEntity.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Server">
+      <UniqueIdentifier>{861cf99b-293d-4fbe-affc-dccabf6a6ce7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

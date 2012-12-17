@@ -8,16 +8,22 @@ class MessageQueue
 private:
 	int m_id;
 
-	queue<Message> m_incomingMessages;
-	queue<Message> m_outgoingMessages;
+	queue<Message*> m_incomingMessages;
+	queue<Message*> m_outgoingMessages;
 public:
 	MessageQueue();
 	~MessageQueue();
 
-	Message pullIncomingMessage();
-	Message pullOutgoingMessage();
+	int getId();
+	void setId(int _id);
 
-	void pushIncomingMessage(Message _message);
-	void pushOutgoingMessage(Message _message);
+	Message *pullIncomingMessage();
+	Message *pullOutgoingMessage();
+
+	bool incomingQueueEmpty();
+	bool outgoingQueueEmpty();
+
+	void pushIncomingMessage(Message* _message);
+	void pushOutgoingMessage(Message* _message);
 };
 
