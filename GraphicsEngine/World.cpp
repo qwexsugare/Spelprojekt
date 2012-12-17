@@ -36,6 +36,9 @@ World::World(DeviceHandler* _deviceHandler)
 
 World::~World()
 {
+	for(int i = 0; i < m_terrains.size(); i++)
+		delete m_terrains[i];
+
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		delete this->m_sprites[i];
@@ -91,8 +94,12 @@ void World::render()
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
+	// Render terrains
+	for(int i = 0; i < this->m_terrains.size(); i++)
+	{
+		this->m_deviceHandler->setVertexBuffer(m_terrains[i]->getVertexBuffer());
+	}
 	stack<Model*> transparantModels;
-
 	//Render all models
 	/*D3DXMATRIX mat;
 	D3DXMatrixMultiply(&mat, &this->m_camera->getViewMatrix(), &this->m_camera->getProjectionMatrix());
@@ -128,7 +135,7 @@ void World::render()
 			this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 			
-			// ULTRA OPTIMIZATION COMMENTS AWAY SIMONS CODE
+			// ULTRA CHARGED OPTIMIZATION COMMENTS AWAY SIMONS CODE
 			/*D3D10_TECHNIQUE_DESC techDesc;
 			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
 
