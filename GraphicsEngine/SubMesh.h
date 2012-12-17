@@ -11,6 +11,10 @@
 struct SubMesh
 {
 	ID3D10Buffer* buffer;
+	int skeletonId;
+	int numInfluences;
+	int numVerts;
+	int materialId;
 
 	SubMesh()
 	{

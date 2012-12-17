@@ -91,7 +91,7 @@ void Model::rotate(float _yaw, float _pitch, float _roll)
 		XMVECTOR rot = XMLoadFloat3(&XMFLOAT3(_yaw, _pitch, _roll));
 		XMVECTOR transsexual = XMLoadFloat3(&XMFLOAT3(0.0f, 0.0f, 0.0f));
 
-		/*BoundingOrientedBox box;
+		BoundingOrientedBox box;
 		this->m_obb->Transform(box, transform);
 		//this->m_obb = new BoundingOrientedBox(box);
 		this->m_obb->Center = box.Center;
@@ -101,7 +101,7 @@ void Model::rotate(float _yaw, float _pitch, float _roll)
 		this->m_obb->Orientation.x = this->m_obb->Orientation.x / orientationNorm;
 		this->m_obb->Orientation.y = this->m_obb->Orientation.y / orientationNorm;
 		this->m_obb->Orientation.z = this->m_obb->Orientation.z / orientationNorm;
-		this->m_obb->Orientation.w = this->m_obb->Orientation.w / orientationNorm;*/
+		this->m_obb->Orientation.w = this->m_obb->Orientation.w / orientationNorm;
 
 		//this->m_obb->Transform(box, 1.0f, rot, transsexual);
 	}
