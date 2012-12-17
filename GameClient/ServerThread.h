@@ -4,6 +4,7 @@
 #include <SFML\System.hpp>
 #include "Server.h"
 #include "MessageHandler.h"
+#include "Player.h"
 
 class ServerThread : public sf::Thread
 {

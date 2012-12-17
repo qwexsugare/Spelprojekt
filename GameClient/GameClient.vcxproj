@@ -162,6 +162,7 @@
     <ClCompile Include="MessageQueue.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Msg.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="State.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Msg.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="State.h" />

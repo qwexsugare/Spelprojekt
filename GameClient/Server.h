@@ -7,6 +7,8 @@
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
 #include <queue>
+#include <vector>
+#include "Player.h"
 
 using namespace std;
 class Server : private sf::Thread
@@ -17,13 +19,15 @@ private:
 	queue<Msg> msgQueue;
 	queue<EntityMessage> entityQueue;
 
+	vector<Player*> m_players;
+
 	sf::SelectorTCP selector;
 	sf::SocketTCP listener;
 	sf::SocketTCP clients[4];
 	int clientArrPos;
 	virtual void Run();
 	void goThroughSelector();
-	bool handleClientInData(sf::Packet packet, string prot);
+	bool handleClientInData(int socketIndex, sf::Packet packet, string prot);
 public:
 	Server();
 	~Server();
@@ -38,6 +42,8 @@ public:
 	EntityMessage entityQueueFront();
 	bool msgQueueEmpty();
 	bool entityQueueEmpty();
+
+	vector<Player*> getPlayers();
 };
 
 #endif // SERVER_H

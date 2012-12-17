@@ -41,6 +41,7 @@ void Server::goThroughSelector()
 			//and add it to the selector
 			this->selector.Add(incSocket);
 			this->clients[this->clientArrPos++]=incSocket;
+			this->m_players.push_back(new Player(this->m_players.size()));
 		}
 		//else its a client socket who wants to sent a message
 		else
@@ -52,8 +53,18 @@ void Server::goThroughSelector()
 				string prot;
 				packet >> prot;
 
+				int socketIndex = 0;
+
+				for(int j = 1; j < this->clientArrPos; j++)
+				{
+					if(sock == this->clients[j])
+					{
+						socketIndex = j;
+					}
+				}
+
 				//handles the protocols, what should be done if the server recives a MSG, ENT etc
-				this->handleClientInData(packet,prot);
+				this->handleClientInData(socketIndex, packet,prot);
 			}
 			else
 			{
@@ -136,7 +147,7 @@ bool Server::isRunning()
 	return this->listener.IsValid();
 }
 
-bool Server::handleClientInData(sf::Packet packet, string prot)
+bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 {
 	bool protFound=false;
 
@@ -145,12 +156,14 @@ bool Server::handleClientInData(sf::Packet packet, string prot)
 		EntityMessage ent;
 		packet >> ent;
 		this->m_mutex.Lock();
-		this->entityQueue.push(ent);
+		//this->entityQueue.push(ent);
 
-		if(this->entityQueue.size() > 1000)
-		{
-			this->entityQueue.pop();
-		}
+		//if(this->entityQueue.size() > 1000)
+		//{
+		//	this->entityQueue.pop();
+		//}
+
+		this->m_players[socketIndex]->handleEntityMessage(ent);
 
 		this->m_mutex.Unlock();
 
@@ -201,4 +214,9 @@ EntityMessage Server::entityQueueFront()
 
 	this->m_mutex.Unlock();
 	return ret;
+}
+
+vector<Player*> Server::getPlayers()
+{
+	return this->m_players;
 }
