@@ -81,7 +81,7 @@ void GameState::update(float _dt)
 	}
 
 	static float CAMERA_SPEED = 2.0f;
-	if((g_mouse->getPos().x >= g_configFile->getScreenSize().x-10)
+	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10)
 		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, CAMERA_SPEED*_dt, 0.0f);
@@ -91,7 +91,7 @@ void GameState::update(float _dt)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
 	}
-	if((g_mouse->getPos().y >= g_configFile->getScreenSize().y-10)
+	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10)
 		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, CAMERA_SPEED*_dt);

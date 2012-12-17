@@ -15,12 +15,14 @@ private:
 	World *m_world;
 	DeviceHandler* m_deviceHandler;
 	ResourceHolder *m_resourceHolder;
+	INT2 m_realScreenSize;
 public:
 	DECLDIR GraphicsHandler();
 	DECLDIR GraphicsHandler(HWND _hWnd, ConfigFile* _configFile);
 	DECLDIR ~GraphicsHandler();
-
+	
 	DECLDIR Camera *getCamera();
+	DECLDIR INT2 getScreenSize();
 	
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
 	DECLDIR bool removeText(Text *text);

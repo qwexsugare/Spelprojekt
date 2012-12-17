@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameClient", "GameClient\Ga
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3DViewer", "3DViewer\3DViewer.vcxproj", "{A87EF70E-BBFF-4C49-BFE1-69640A702A08}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundEngine", "SoundEngine\SoundEngine.vcxproj", "{DC04DF19-7D04-4D09-AB7D-55B7F5BAA341}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -39,6 +41,12 @@ Global
 		{A87EF70E-BBFF-4C49-BFE1-69640A702A08}.Release|ARM.Build.0 = Release|ARM
 		{A87EF70E-BBFF-4C49-BFE1-69640A702A08}.Release|Win32.ActiveCfg = Release|Win32
 		{A87EF70E-BBFF-4C49-BFE1-69640A702A08}.Release|Win32.Build.0 = Release|Win32
+		{DC04DF19-7D04-4D09-AB7D-55B7F5BAA341}.Debug|ARM.ActiveCfg = Debug|Win32
+		{DC04DF19-7D04-4D09-AB7D-55B7F5BAA341}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DC04DF19-7D04-4D09-AB7D-55B7F5BAA341}.Debug|Win32.Build.0 = Debug|Win32
+		{DC04DF19-7D04-4D09-AB7D-55B7F5BAA341}.Release|ARM.ActiveCfg = Release|Win32
+		{DC04DF19-7D04-4D09-AB7D-55B7F5BAA341}.Release|Win32.ActiveCfg = Release|Win32
+		{DC04DF19-7D04-4D09-AB7D-55B7F5BAA341}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
