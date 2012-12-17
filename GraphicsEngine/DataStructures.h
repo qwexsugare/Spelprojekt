@@ -35,6 +35,17 @@ struct DECLDIR FLOAT3
 		this->y = _y;
 		this->z = _z;
 	}
+
+	FLOAT3 operator+(const FLOAT3& _k)
+	{
+		return FLOAT3(x+_k.x, y+_k.y, z+_k.z);
+	}
+
+	template<typename T>
+	FLOAT3 operator*(const T& _k)
+	{
+		return FLOAT3(x*_k, y*_k, z*_k);
+	}
 };
 
 struct DECLDIR INT2

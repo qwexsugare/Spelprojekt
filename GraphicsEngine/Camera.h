@@ -13,10 +13,14 @@ private:
 	D3DXVECTOR3 m_right;
 	D3DXMATRIX m_viewMatrix;
 	D3DXMATRIX m_projectionMatrix;
+	int m_width;
+	int m_height;
 public:
 	Camera();
-	Camera(float width, float height);
+	Camera(int width, int height);
 	~Camera();
+
+	DECLDIR void calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 _mousePos);
 	
 	DECLDIR D3DXVECTOR3 getPos()const;
 	DECLDIR D3DXVECTOR2 getPos2D()const;
