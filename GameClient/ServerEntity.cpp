@@ -12,7 +12,7 @@ ServerEntity::~ServerEntity()
 	//delete this->m_messageQueue;
 }
 
-void ServerEntity::update()
+void ServerEntity::update(float dt)
 {
 	////Handle incoming messages
 	//Message *m;

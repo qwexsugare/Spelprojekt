@@ -20,6 +20,7 @@ private:
 	State m_state;
 
 	void Run();
+	void update(float dt);
 public:
 	 ServerThread();
 	 ~ServerThread();

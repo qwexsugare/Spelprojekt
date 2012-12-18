@@ -16,7 +16,7 @@ public:
 	EntityHandler();
 	~EntityHandler();
 
-	void update();
+	void update(float dt);
 	void removeAllEntities();
 
 	static void addEntity(ServerEntity *_entity);

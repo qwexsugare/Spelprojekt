@@ -27,11 +27,11 @@ void EntityHandler::removeAllEntities()
 	}
 }
 
-void EntityHandler::update()
+void EntityHandler::update(float dt)
 {
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
-		EntityHandler::m_entities[i]->update();
+		EntityHandler::m_entities[i]->update(dt);
 	}
 }
 
