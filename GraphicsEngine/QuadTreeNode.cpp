@@ -121,7 +121,7 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 		modelDistanceToCamera.y -= greatestExtent;
 
 		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
-		if(modelDistanceToCamera.x < 15.0f && modelDistanceToCamera.y < 10.0f)
+		if(modelDistanceToCamera.x < 30.0f && modelDistanceToCamera.y < 20.0f)
 			_models.push(this->m_models[i]);
 
 		// END ADVANCED CHEAT CULLING
