@@ -27,8 +27,11 @@ void Player::handleMsgMessage(Msg m)
 	}
 	else if(m.getText() == "Start")
 	{
-		StartMessage *m;
+		StartMessage *m = new StartMessage();
 		m->type = Message::Type::Start;
+		m->reciverId = 0;
+
+		this->m_messageQueue->pushOutgoingMessage(m);
 	}
 }
 
