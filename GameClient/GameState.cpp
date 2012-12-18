@@ -3,7 +3,8 @@
 #include "Input.h"
 #include "Graphics.h"
 #include <sstream>
-
+#include "SoundEngine.h"
+extern SoundEngine* g_soundEngine;
 GameState::GameState()
 {
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(50, 100), 100, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
@@ -91,7 +92,7 @@ void GameState::update(float _dt)
 		}
 	}
 
-	static float CAMERA_SPEED = 6.0f;
+	static float CAMERA_SPEED = 16.0f;
 	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10)
 		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
 	{
@@ -138,6 +139,10 @@ void GameState::update(float _dt)
 	}
 	else if(g_mouse->isRButtonPressed())
 	{
+		int lol2 = 1;
+		lol2 = g_soundEngine->createSoundHandle("helm.wav");
+		g_soundEngine->play(lol2);
+
 		this->end();
 	}
 	else

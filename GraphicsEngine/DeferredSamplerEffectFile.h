@@ -12,8 +12,6 @@ private:
 	ID3D10EffectTechnique* m_renderTerrain;
 	ID3D10EffectShaderResourceVariable* m_terrainTextures;
 	ID3D10EffectShaderResourceVariable* m_terrainBlendMaps;
-	ID3D10EffectScalarVariable* m_nrOfTerrainTextures;
-	ID3D10EffectScalarVariable* m_nrOfTerrainBlendMaps;
 
 	// Universal
 	ID3D10EffectMatrixVariable* m_modelMatrix;
