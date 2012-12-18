@@ -3,7 +3,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	//this->m_messageQueue = new MessageQueue();
+	this->m_messageQueue = new MessageQueue();
 	this->m_hero = new Hero();
 
 	EntityHandler::addEntity(m_hero);
@@ -11,20 +11,25 @@ Player::Player(unsigned int id)
 
 Player::~Player()
 {
-	//delete this->m_messageQueue;
+	delete this->m_messageQueue;
 }
 
 void Player::handleEntityMessage(EntityMessage e)
 {
-	//MoveMessage *m = new MoveMessage();
-
-	//m->position = e.getPos();
-	//m->reciverId = 0;
-	//m->type = MessageTypes::MoveEntity;
-
-	//this->m_messageQueue->pushOutgoingMessage(m);
-
 	this->m_hero->setNextPosition(e.getPos());
+}
+
+void Player::handleMsgMessage(Msg m)
+{
+	if(m.getText() == "Ready")
+	{
+		this->m_ready = true;
+	}
+	else if(m.getText() == "Start")
+	{
+		StartMessage *m;
+		m->type = Message::Type::Start;
+	}
 }
 
 void Player::update()
@@ -36,3 +41,13 @@ void Player::update()
 //{
 //	return this->m_messageQueue;
 //}
+
+bool Player::getReady()
+{
+	return this->m_ready;
+}
+
+MessageQueue *Player::getMessageQueue()
+{
+	return this->m_messageQueue;
+}

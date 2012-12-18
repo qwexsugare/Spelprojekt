@@ -4,18 +4,18 @@ Hero::Hero() : ServerEntity()
 {
 	this->m_nextPosition = this->m_positon;
 	this->m_reachedPosition = true;
-	this->m_movementSpeed = 0.0005f;
+	this->m_movementSpeed = 5.0f;
 }
 
-void Hero::update()
+void Hero::update(float dt)
 {
 	if(this->m_reachedPosition == false)
 	{
 		FLOAT3 distance = this->m_nextPosition - this->m_positon;
-		if(distance.length() > this->m_movementSpeed)
+		if(distance.length() > this->m_movementSpeed * dt)
 		{
 			distance = distance / distance.length();
-			this->m_positon = this->m_positon + (distance * this->m_movementSpeed);
+			this->m_positon = this->m_positon + (distance * this->m_movementSpeed * dt);
 		}
 		else
 		{

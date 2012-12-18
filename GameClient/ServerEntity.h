@@ -18,7 +18,7 @@ public:
 	ServerEntity();
 	virtual ~ServerEntity();
 
-	virtual void update();
+	virtual void update(float dt);
 	MessageQueue *getMessageQueue();
 	EntityMessage getUpdate();
 

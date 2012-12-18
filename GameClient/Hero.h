@@ -13,7 +13,7 @@ private:
 public:
 	Hero();
 
-	void update();
+	void update(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 };
 

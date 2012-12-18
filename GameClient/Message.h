@@ -3,22 +3,21 @@
 #include "DataStructures.h"
 #include <string>
 
-enum MessageTypes{Start, Ready};
-
 struct Message
 {
-	MessageTypes type;
+	enum Type{Start, Ready};
+
+	Type type;
 	int senderId;
 	int reciverId;
 };
 
-struct ReadyMessage
+struct ReadyMessage : Message
 {
-	int playerId;
 	bool ready;
 };
 
-struct StartMessage
+struct StartMessage : Message
 {
-	int playerId;
+
 };

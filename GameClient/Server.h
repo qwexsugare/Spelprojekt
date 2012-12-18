@@ -32,7 +32,7 @@ private:
 	void goThroughSelector();
 	bool handleClientInData(int socketIndex, sf::Packet packet, string prot);
 public:
-	Server(/*MessageHandler *_messageHandler*/);
+	Server(MessageHandler *_messageHandler);
 	~Server();
 	bool start(int port);
 	void shutDown();
