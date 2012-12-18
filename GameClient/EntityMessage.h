@@ -18,6 +18,7 @@ public:
 	void setRotation(FLOAT3 rot);
 	unsigned int getId();
 	FLOAT3 getPos();
+	FLOAT3 getRotation();
 
 	friend sf::Packet& operator<<(sf::Packet& packet,const EntityMessage& e);
 	friend sf::Packet& operator>>(sf::Packet& packet, EntityMessage& e);

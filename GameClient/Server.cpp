@@ -164,12 +164,6 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 		EntityMessage ent;
 		packet >> ent;
 		this->m_mutex.Lock();
-		//this->entityQueue.push(ent);
-
-		//if(this->entityQueue.size() > 1000)
-		//{
-		//	this->entityQueue.pop();
-		//}
 
 		this->m_players[socketIndex]->handleEntityMessage(ent);
 

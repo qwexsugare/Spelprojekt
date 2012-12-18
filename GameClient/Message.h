@@ -3,7 +3,7 @@
 #include "DataStructures.h"
 #include <string>
 
-enum MessageTypes{AddEntity, RemoveEntity, MoveEntity};
+enum MessageTypes{Start, Ready};
 
 struct Message
 {
@@ -12,12 +12,13 @@ struct Message
 	int reciverId;
 };
 
-struct AddEntityMessage : public Message
+struct ReadyMessage
 {
-	FLOAT3 position;
+	int playerId;
+	bool ready;
 };
 
-struct MoveMessage : public Message
+struct StartMessage
 {
-	FLOAT3 position;
+	int playerId;
 };

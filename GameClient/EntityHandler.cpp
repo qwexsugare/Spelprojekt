@@ -1,6 +1,7 @@
 #include "EntityHandler.h"
 
 vector<ServerEntity*> EntityHandler::m_entities;	
+unsigned int EntityHandler::m_nextId = 0;
 
 EntityHandler::EntityHandler()
 {
@@ -15,12 +16,15 @@ EntityHandler::EntityHandler()
 
 EntityHandler::~EntityHandler()
 {
+	//delete this->m_messageQueue;
+}
+
+void EntityHandler::removeAllEntities()
+{
 	for(int i = 0; i < this->m_entities.size(); i++)
 	{
 		delete this->m_entities[i];
 	}
-
-	//delete this->m_messageQueue;
 }
 
 void EntityHandler::update()
@@ -33,6 +37,8 @@ void EntityHandler::update()
 
 void EntityHandler::addEntity(ServerEntity *_entity)
 {
+	_entity->setId(EntityHandler::m_nextId);
+	EntityHandler::m_nextId++;
 	EntityHandler::m_entities.push_back(_entity);
 	//this->m_messageHandler->addQueue(_entity->getMessageQueue());
 }
@@ -45,7 +51,7 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 	{
 		if(EntityHandler::m_entities[i] == _entity)
 		{
-			delete this->m_entities[i];
+			delete EntityHandler::m_entities[i];
 			EntityHandler::m_entities.erase(EntityHandler::m_entities.begin() + i);
 			found = true;
 			i = EntityHandler::m_entities.size();

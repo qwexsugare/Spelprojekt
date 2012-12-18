@@ -4,10 +4,9 @@ Player::Player(unsigned int id)
 {
 	this->m_id = id;
 	//this->m_messageQueue = new MessageQueue();
-	this->m_hero = new ServerEntity();
-	
-	EntityHandler *test = new EntityHandler();
-	test->addEntity(m_hero);
+	this->m_hero = new Hero();
+
+	EntityHandler::addEntity(m_hero);
 }
 
 Player::~Player()
@@ -25,7 +24,7 @@ void Player::handleEntityMessage(EntityMessage e)
 
 	//this->m_messageQueue->pushOutgoingMessage(m);
 
-	this->m_hero->setPosition(e.getPos());
+	this->m_hero->setNextPosition(e.getPos());
 }
 
 void Player::update()

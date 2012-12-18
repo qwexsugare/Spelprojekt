@@ -54,6 +54,11 @@ FLOAT3 EntityMessage::getPos()
 	return this->pos;
 }
 
+FLOAT3 EntityMessage::getRotation()
+{
+	return this->rot;
+}
+
 unsigned int EntityMessage::getId()
 {
 	return this->id;

@@ -165,3 +165,9 @@ void Model::setRotation(float x, float y, float z)
 	this->m_rotation = D3DXVECTOR3(x, y, z);
 	this->updateModelMatrix();
 }
+
+void Model::setRotation(FLOAT3 _rotation)
+{
+	this->m_rotation = D3DXVECTOR3(_rotation.x, _rotation.y, _rotation.z);
+	this->updateModelMatrix();
+}

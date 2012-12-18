@@ -8,14 +8,14 @@
 #include <SFML/System.hpp>
 #include <queue>
 #include <vector>
-//#include "MessageHandler.h"
+#include "MessageHandler.h"
 #include "Player.h"
 
 using namespace std;
 class Server : private sf::Thread
 {
 private:
-	//MessageHandler *m_messageHandler;
+	MessageHandler *m_messageHandler;
 
 	sf::Mutex m_mutex;
 

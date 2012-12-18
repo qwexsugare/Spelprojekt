@@ -153,12 +153,16 @@
   <ItemGroup>
     <ClCompile Include="client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapHandler.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="MessageQueue.cpp" />
     <ClCompile Include="Mouse.cpp" />
@@ -177,14 +181,18 @@
   <ItemGroup>
     <ClInclude Include="client.h" />
     <ClInclude Include="ClientHandler.h" />
+    <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
     <ClInclude Include="EntityMessage.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Hero.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LobbyState.h" />
+    <ClInclude Include="MapHandler.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="MessageQueue.h" />
