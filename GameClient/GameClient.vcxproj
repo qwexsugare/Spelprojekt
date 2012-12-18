@@ -68,7 +68,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;$(SolutionDir)\GraphicsHandler\include;$(ProjectDir)\include;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
+    <IncludePath>C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;$(SolutionDir)\GraphicsHandler\include;$(ProjectDir)\include;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\SFML-1.6\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
