@@ -5,9 +5,7 @@
 #include "ClientHandler.h"
 #include "Mouse.h"
 #include "Keyboard.h"
-#include "SoundEngine.h"
 
-SoundEngine* g_soundEngine;
 ConfigFile* g_configFile;
 GraphicsHandler* g_graphicsEngine;
 Keyboard* g_keyboard;
@@ -23,7 +21,6 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 	// Load config into config file class
 	g_configFile = new ConfigFile();
 	g_configFile->load();
-	g_soundEngine = new SoundEngine();
 
 	// Init window
 	HWND hwnd = 0;

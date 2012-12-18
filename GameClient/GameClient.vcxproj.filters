@@ -48,6 +48,9 @@
     <ClCompile Include="MapHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="SoundWrapper.cpp">
+      <Filter>SoundWrapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
@@ -102,10 +105,16 @@
     <ClInclude Include="CollisionHandler.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="SoundWrapper.h">
+      <Filter>SoundWrapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
       <UniqueIdentifier>{861cf99b-293d-4fbe-affc-dccabf6a6ce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundWrapper">
+      <UniqueIdentifier>{21735da5-caf7-4cde-a547-005c62293bda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
