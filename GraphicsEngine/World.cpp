@@ -70,6 +70,28 @@ World::~World()
 	delete this->m_quadTree;
 }
 
+void World::addTerrain(Terrain* _terrain)
+{
+	this->m_terrains.push_back(_terrain);
+}
+
+bool World::removeTerrain(Terrain* _terrain)
+{
+	bool found = false;
+
+	for(int i = 0; i < m_terrains.size() && !found; i++)
+	{
+		if(m_terrains[i] == _terrain)
+		{
+			delete m_terrains[i];
+			m_terrains.erase(m_terrains.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
 void World::render()
 {
 	//Init render stuff
@@ -92,13 +114,21 @@ void World::render()
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
-	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-
+	
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	// Render terrains
 	for(int i = 0; i < this->m_terrains.size(); i++)
 	{
 		this->m_deviceHandler->setVertexBuffer(m_terrains[i]->getVertexBuffer());
+
+		this->m_deferredSampler->setModelMatrix(m_terrains[i]->getModelMatrix());
+		//this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
+			
+		this->m_deferredSampler->getRenderTerrainTechique()->GetPassByIndex( 0 )->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(4, 0);
 	}
+
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> transparantModels;
 	//Render all models
 	/*D3DXMATRIX mat;
@@ -265,21 +295,21 @@ bool World::removeModel(Model *_model)
 
 void World::addSprite(SpriteBase *sprite)
 {
-        bool found = false;
+    bool found = false;
 
-        for(int i = 0; i < this->m_sprites.size() && found == false; i++)
-        {
-                if(this->m_sprites[i]->getLayer() > sprite->getLayer())
-                {
-                        this->m_sprites.insert(this->m_sprites.begin() + i, sprite);
-                        found = true;
-                }
-        }
+    for(int i = 0; i < this->m_sprites.size() && found == false; i++)
+    {
+            if(this->m_sprites[i]->getLayer() > sprite->getLayer())
+            {
+                    this->m_sprites.insert(this->m_sprites.begin() + i, sprite);
+                    found = true;
+            }
+    }
 
-        if(found == false)
-        {
-                this->m_sprites.push_back(sprite);
-        }
+    if(found == false)
+    {
+            this->m_sprites.push_back(sprite);
+    }
 }
 
 bool World::removeSprite(SpriteBase *sprite)

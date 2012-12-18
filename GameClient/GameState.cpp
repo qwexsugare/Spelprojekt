@@ -7,16 +7,22 @@
 GameState::GameState()
 {
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(50, 100), 100, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-
 	this->m_testSprite = g_graphicsEngine->createSpriteSheet("test.png", INT2(500, 500), INT2(100, 100), INT2(4, 2), 0);
 	this->m_testSprite->setCurrentFrame(INT2(2,0));
 	this->m_testSprite = g_graphicsEngine->createSpriteSheet("test.png", INT2(550, 550), INT2(100, 100), INT2(4, 2), 2);
 	this->m_testSprite->setCurrentFrame(INT2(3,0));
 	this->m_rotation = 0.0f;
 
+	// Create a fucking awesome terrain
+	vector<string> textures;
+	textures.push_back("test.png");
+	vector<string> blendMaps;
+	blendMaps.push_back("test.png");
+	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
+
 	this->m_network = new Client();
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
-	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1337);
+	//this->m_network->connect(sf::IPAddress("194.47.155.250"), 1337);
 }
 
 GameState::~GameState()
@@ -29,10 +35,10 @@ GameState::~GameState()
 
 void GameState::end()
 {
+	g_graphicsEngine->removeTerrain(this->m_terrain);
+
 	for(int i = 0; i < this->m_entities.size(); i++)
-	{
 		g_graphicsEngine->removeModel(this->m_entities[i]->m_model);
-	}
 	
 	g_graphicsEngine->removeText(this->m_fpsText);
 

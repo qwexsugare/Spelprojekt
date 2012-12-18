@@ -59,6 +59,9 @@ public:
 	void render();
 	void update(float dt);
 	
+	void addTerrain(Terrain* _terrain);
+	bool removeTerrain(Terrain* _terrain);
+	
 	bool addModel(Model *_model);
 	bool removeModel(Model *_model);
 

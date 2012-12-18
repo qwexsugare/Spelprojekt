@@ -11,6 +11,7 @@ private:
 	vector<Entity*> m_entities;
 	SpriteSheet *m_testSprite;
 	float m_rotation;
+	Terrain* m_terrain;
 
 	Client *m_network;
 	void end();

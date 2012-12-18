@@ -142,12 +142,11 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 {	
 	PSSceneOut output = (PSSceneOut)0;
-	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
-	color.w = modelAlpha;
+	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
 
 	output.Pos = input.Pos;
 	output.Normal = float4(input.Normal, 1.0f);
-	output.Diffuse = color;
+	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	return output;
 }
@@ -156,13 +155,11 @@ technique10 RenderTerrain
 {
     pass p0
     {
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+        SetVertexShader(CompileShader( vs_4_0, drawTerrainVs()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
 
-        SetVertexShader( CompileShader( vs_4_0, VSScene() ) );
-        SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_4_0, PSScene() ) );
-
-	    SetDepthStencilState( EnableDepth, 0 );
-	    SetRasterizerState( rs );
+	    SetDepthStencilState(EnableDepth, 0);
+	    SetRasterizerState(rs);
     }  
 }
