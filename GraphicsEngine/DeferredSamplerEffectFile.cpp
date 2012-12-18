@@ -32,8 +32,6 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_renderTerrain = this->m_effect->GetTechniqueByName("RenderTerrain");
 	this->m_terrainTextures = this->m_effect->GetVariableByName("terrainTextures")->AsShaderResource();
 	this->m_terrainBlendMaps = this->m_effect->GetVariableByName("terrainBlendMaps")->AsShaderResource();
-	this->m_nrOfTerrainTextures = this->m_effect->GetVariableByName("nrOfTextures")->AsScalar();
-	this->m_nrOfTerrainBlendMaps = this->m_effect->GetVariableByName("nrOfBlendMaps")->AsScalar();
 }
 
 
@@ -85,11 +83,9 @@ ID3D10EffectTechnique* DeferredSamplerEffectFile::getRenderTerrainTechique()
 void DeferredSamplerEffectFile::setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size)
 {
 	this->m_terrainTextures->SetResourceArray(_textures, 0, _size);
-	this->m_nrOfTerrainTextures->SetInt(_size);
 }
 
 void DeferredSamplerEffectFile::setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size)
 {
 	this->m_terrainBlendMaps->SetResourceArray(_blendMaps, 0, _size);
-	this->m_nrOfTerrainBlendMaps->SetInt(_size);
 }
