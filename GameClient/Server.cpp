@@ -176,12 +176,8 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 		Msg msg;
 		packet >> msg;
 		this->m_mutex.Lock();
-		this->msgQueue.push(msg);
 
-		if(this->msgQueue.size() > 1000)
-		{
-			this->msgQueue.pop();
-		}
+		this->m_players[socketIndex]->handleMsgMessage(msg);
 
 		this->m_mutex.Unlock();
 		protFound=true;

@@ -33,8 +33,8 @@ void ServerThread::Run()
 	__int64 prevTimeStamp = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
-	//this->m_state = State::LOBBY;
-	this->m_state = State::GAME;
+	this->m_state = State::LOBBY;
+	//this->m_state = State::GAME;
 	this->m_network->start(1337);
 
 	while(this->m_state != State::EXIT)
@@ -80,6 +80,8 @@ void ServerThread::update(float dt)
 					}
 				}
 			}
+
+			delete m;
 		}
 	}
 

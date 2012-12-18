@@ -25,7 +25,7 @@ GameState::GameState()
 
 	this->m_network = new Client();
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
-	//this->m_network->connect(sf::IPAddress("194.47.155.250"), 1337);
+	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1337);
 }
 
 GameState::~GameState()
@@ -138,7 +138,8 @@ void GameState::update(float _dt)
 	}
 	else if(g_mouse->isRButtonPressed())
 	{
-		this->end();
+		//this->end();
+
 	}
 	else
 		for(int i = 0; i < this->m_entities.size(); i++)
