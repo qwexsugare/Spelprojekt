@@ -2,9 +2,9 @@
 #include "LobbyState.h"
 #include "Input.h"
 #include "Graphics.h"
+#include "SoundWrapper.h"
 #include <sstream>
-#include "SoundEngine.h"
-extern SoundEngine* g_soundEngine;
+
 GameState::GameState()
 {
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(50, 100), 100, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
@@ -19,7 +19,7 @@ GameState::GameState()
 	textures.push_back("terrain_texture1.png");
 	textures.push_back("terrain_texture2.png");
 	textures.push_back("terrain_texture3.png");
-	textures.push_back("terrain_texture4.png");
+	textures.push_back("terrain_texture5.png");
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
 	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(-50.0f, 0.0f, -50.0f), FLOAT3(50.0f, 0.0f, 50.0f), textures, blendMaps);
@@ -140,9 +140,8 @@ void GameState::update(float _dt)
 	else if(g_mouse->isRButtonPressed())
 	{
 		int lol2 = 1;
-		lol2 = g_soundEngine->createSoundHandle("helm.wav");
-		g_soundEngine->play(lol2);
-
+		lol2 = createSoundHandle("helm.wav");
+		playSound(lol2);
 	}
 	else
 		for(int i = 0; i < this->m_entities.size(); i++)

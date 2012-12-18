@@ -48,6 +48,45 @@
     <ClCompile Include="MapHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="SoundWrapper.cpp">
+      <Filter>SoundWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateGameMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditsMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="HudMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="JoinGameMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScreen.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="LoreMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsMenu.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
@@ -102,10 +141,55 @@
     <ClInclude Include="CollisionHandler.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="SoundWrapper.h">
+      <Filter>SoundWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateGameMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="HudMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="JoinGameMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScreen.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="LoreMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsMenu.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
       <UniqueIdentifier>{861cf99b-293d-4fbe-affc-dccabf6a6ce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundWrapper">
+      <UniqueIdentifier>{21735da5-caf7-4cde-a547-005c62293bda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{e7f8b83e-114c-4b8e-8e60-3abfea92e78a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
