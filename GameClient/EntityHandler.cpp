@@ -51,7 +51,7 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 	{
 		if(EntityHandler::m_entities[i] == _entity)
 		{
-			delete this->m_entities[i];
+			delete EntityHandler::m_entities[i];
 			EntityHandler::m_entities.erase(EntityHandler::m_entities.begin() + i);
 			found = true;
 			i = EntityHandler::m_entities.size();

@@ -12,7 +12,6 @@ void Hero::update()
 	if(this->m_reachedPosition == false)
 	{
 		FLOAT3 distance = this->m_nextPosition - this->m_positon;
-
 		if(distance.length() > this->m_movementSpeed)
 		{
 			distance = distance / distance.length();
@@ -23,6 +22,8 @@ void Hero::update()
 			this->m_positon = this->m_nextPosition;
 			this->m_reachedPosition = true;
 		}
+
+		this->m_rotation.x = atan2(-distance.x, -distance.z);
 	}
 }
 

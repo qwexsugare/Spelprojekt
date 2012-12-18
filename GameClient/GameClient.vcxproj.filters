@@ -39,6 +39,15 @@
     <ClCompile Include="Hero.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MapHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
@@ -82,6 +91,15 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Hero.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MapHandler.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionHandler.h">
       <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,14 +1,14 @@
 #ifndef SERVER_ENTITY
 #define SERVER_ENTITY
 
-//#include "MessageQueue.h"
+#include "MessageQueue.h"
 #include "EntityMessage.h"
 #include "DataStructures.h"
 
 class ServerEntity
 {
 protected:
-	//MessageQueue *m_messageQueue;
+	MessageQueue *m_messageQueue;
 	unsigned int m_id;
 
 	FLOAT3 m_positon;
@@ -19,7 +19,7 @@ public:
 	virtual ~ServerEntity();
 
 	virtual void update();
-	//MessageQueue *getMessageQueue();
+	MessageQueue *getMessageQueue();
 	EntityMessage getUpdate();
 
 	void setId(unsigned int _id);

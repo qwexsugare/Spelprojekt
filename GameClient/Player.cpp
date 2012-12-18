@@ -5,10 +5,8 @@ Player::Player(unsigned int id)
 	this->m_id = id;
 	//this->m_messageQueue = new MessageQueue();
 	this->m_hero = new Hero();
-	
-	EntityHandler *test = new EntityHandler();
-	test->addEntity(m_hero);
-	delete test;
+
+	EntityHandler::addEntity(m_hero);
 }
 
 Player::~Player()
