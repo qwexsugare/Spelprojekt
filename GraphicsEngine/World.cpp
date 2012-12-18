@@ -115,14 +115,15 @@ void World::render()
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	
-	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	// Render terrains
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	for(int i = 0; i < this->m_terrains.size(); i++)
 	{
 		this->m_deviceHandler->setVertexBuffer(m_terrains[i]->getVertexBuffer());
 
 		this->m_deferredSampler->setModelMatrix(m_terrains[i]->getModelMatrix());
-		//this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
+		this->m_deferredSampler->setTerrainTextures(m_terrains[i]->getTextures(), m_terrains[i]->getNrOfTextures());
+		this->m_deferredSampler->setTerrainBlendMaps(m_terrains[i]->getBlendMaps(), m_terrains[i]->getNrOfBlendMaps());
 			
 		this->m_deferredSampler->getRenderTerrainTechique()->GetPassByIndex( 0 )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(4, 0);

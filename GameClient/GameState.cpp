@@ -15,10 +15,13 @@ GameState::GameState()
 
 	// Create a fucking awesome terrain
 	vector<string> textures;
-	textures.push_back("test.png");
+	textures.push_back("terrain_texture1.png");
+	textures.push_back("terrain_texture2.png");
+	textures.push_back("terrain_texture3.png");
+	textures.push_back("terrain_texture4.png");
 	vector<string> blendMaps;
-	blendMaps.push_back("test.png");
-	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
+	blendMaps.push_back("blendmap.png");
+	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(-50.0f, 0.0f, -50.0f), FLOAT3(50.0f, 0.0f, 50.0f), textures, blendMaps);
 
 	this->m_network = new Client();
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
@@ -88,26 +91,26 @@ void GameState::update(float _dt)
 		}
 	}
 
-	static float CAMERA_SPEED = 4.0f;
+	static float CAMERA_SPEED = 6.0f;
 	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10)
 		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, CAMERA_SPEED*_dt, 0.0f);
+		g_graphicsEngine->getCamera()->moveStatic(0.0f, CAMERA_SPEED*_dt, 0.0f);
 	}
 	else if((g_mouse->getPos().x <= 10)
 		|| g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
+		g_graphicsEngine->getCamera()->moveStatic(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
 	}
 	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10)
 		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->moveStatic(CAMERA_SPEED*_dt, 0.0f, 0.0f);
 	}
 	else if((g_mouse->getPos().y <= 10)
 		|| g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -(CAMERA_SPEED*_dt));
+		g_graphicsEngine->getCamera()->moveStatic(-(CAMERA_SPEED*_dt), 0.0f, 0.0f);
 	}
 
 	if(g_mouse->isLButtonPressed())
@@ -138,6 +141,6 @@ void GameState::update(float _dt)
 		this->end();
 	}
 	else
-		for(int i = 1; i < this->m_entities.size(); i++)
-			this->m_entities[i]->m_model->rotate(_dt/5.0f, 0.0f, 0.0f);
+		for(int i = 0; i < this->m_entities.size(); i++)
+			this->m_entities[i]->m_model->rotate(0.0f, 0.0f, _dt/5.0f);
 }

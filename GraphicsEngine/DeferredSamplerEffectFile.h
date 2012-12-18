@@ -9,8 +9,11 @@ private:
 	ID3D10EffectTechnique *m_technique;
 	
 	// Terrain
-	//ID3D10EffectShaderResourceVariable* m_texture;
 	ID3D10EffectTechnique* m_renderTerrain;
+	ID3D10EffectShaderResourceVariable* m_terrainTextures;
+	ID3D10EffectShaderResourceVariable* m_terrainBlendMaps;
+	ID3D10EffectScalarVariable* m_nrOfTerrainTextures;
+	ID3D10EffectScalarVariable* m_nrOfTerrainBlendMaps;
 
 	// Universal
 	ID3D10EffectMatrixVariable* m_modelMatrix;
@@ -31,6 +34,9 @@ public:
 	ID3D10InputLayout *getInputLayout()const;
 	
 	ID3D10EffectTechnique *getTechnique();
+
 	ID3D10EffectTechnique *getRenderTerrainTechique();
+	void setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size);
+	void setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size);
 };
 

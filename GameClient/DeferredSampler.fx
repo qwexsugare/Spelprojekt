@@ -1,4 +1,6 @@
 Texture2D tex2D;
+Texture2D terrainTextures[8];
+Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
 {
@@ -36,7 +38,9 @@ cbuffer cbEveryFrame
 	matrix viewMatrix;
 	matrix projectionMatrix;
 	matrix modelMatrix;
-
+	
+	int nrOfTerrainTextures;
+	int nrOfBlendMaps;
 	float modelAlpha;
 };
 
@@ -142,11 +146,22 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 {	
 	PSSceneOut output = (PSSceneOut)0;
-	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
 
 	output.Pos = input.Pos;
 	output.Normal = float4(input.Normal, 1.0f);
-	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	float4 texColors[4];
+	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);
+	texColors[1] = terrainTextures[1].Sample(linearSampler, input.UVCoord);
+	texColors[2] = terrainTextures[2].Sample(linearSampler, input.UVCoord);
+	texColors[3] = terrainTextures[3].Sample(linearSampler, input.UVCoord);
+
+	float4 blendSample = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
+	
+	output.Diffuse = lerp(texColors[0]*blendSample.x, texColors[1], blendSample.y);
+	output.Diffuse = lerp(output.Diffuse, texColors[1], blendSample.y);
+	output.Diffuse = lerp(output.Diffuse, texColors[2], blendSample.z);
+	output.Diffuse = lerp(output.Diffuse, texColors[3], blendSample.w);
 
 	return output;
 }

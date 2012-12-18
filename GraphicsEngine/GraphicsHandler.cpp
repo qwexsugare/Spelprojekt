@@ -27,15 +27,15 @@ Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _
 	// Pre-define a shitload of vars
 	D3DXVECTOR3 v1(_v1.x, _v1.y, _v1.z);
 	D3DXVECTOR3 v2(_v2.x, _v2.y, _v2.z);
-	vector<ID3D10ShaderResourceView*> textures;
+	ID3D10ShaderResourceView** textures = new ID3D10ShaderResourceView*[8];
 	for(int i = 0; i < _textures.size(); i++)
-		textures.push_back(this->m_resourceHolder->getTextureHolder()->getTexture(_textures[i]));
-	vector<ID3D10ShaderResourceView*> blendMaps;
+		textures[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_textures[i]);
+	ID3D10ShaderResourceView** blendMaps = new ID3D10ShaderResourceView*[2];
 	for(int i = 0; i < _blendMaps.size(); i++)
-		blendMaps.push_back(this->m_resourceHolder->getTextureHolder()->getTexture(_blendMaps[i]));
+		blendMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_blendMaps[i]);
 
 	// Shove that heap of trash vars into the terrains crappy constructor.
-	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, 8, 8, textures, blendMaps);
+	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, 32, 32, textures, _textures.size(), blendMaps, _blendMaps.size());
 	
 	this->m_world->addTerrain(terrain);
 
