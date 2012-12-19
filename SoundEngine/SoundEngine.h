@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Framework.h"
+#include "Sound.h"
 #include <string>
-#include <vector>
 #include <map>
 using namespace std;
 
@@ -15,8 +15,9 @@ using namespace std;
 class SoundEngine
 {
 private:
+	int m_handleCounter;
 	map<string, ALuint> m_buffers;
-	map<int, ALuint> m_sources;
+	map<int, Sound*> m_sounds;
 
 	ALuint getWavBuffer(string _filename);
 public:
@@ -24,8 +25,10 @@ public:
 	DECLDIR2 ~SoundEngine();
 	
 	DECLDIR2 int createSoundHandle(string _filename);
-	DECLDIR2 void inactivate(int _handle);
-	DECLDIR2 bool isPlaying(int _handle)const;
+	DECLDIR2 void deactivate(int _handle);
+	DECLDIR2 bool isPlaying(int _handle);
 	DECLDIR2 void play(int _handle)const;
+	DECLDIR2 void loop(int _handle);
 	DECLDIR2 void stop(int _handle)const;
+	DECLDIR2 void update();
 };

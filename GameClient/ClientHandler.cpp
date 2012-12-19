@@ -28,7 +28,6 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	initSoundEngine();
 	this->m_serverThread->Launch();
 	this->m_state = new GameState();
 
@@ -62,8 +61,6 @@ HRESULT ClientHandler::run()
 			prevTimeStamp = currTimeStamp;
 		}
 	}
-	
-	deleteSoundEngine();
 
 	return msg.wParam;
 }
@@ -124,6 +121,8 @@ void ClientHandler::update(float _dt)
 
 		delete tempState;
 	}
+
+	updateSoundEngine();
 
 	g_mouse->update(); // Must be last!
 }

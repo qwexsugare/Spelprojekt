@@ -14,7 +14,7 @@ private:
 	vector<Entity*> m_entities;
 	float m_rotation;
 	Terrain* m_terrain;
-
+	int m_testSound;
 	Client *m_network;
 	void end();
 public:

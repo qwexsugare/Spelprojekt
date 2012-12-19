@@ -16,7 +16,7 @@ GameState::GameState()
 	textures.push_back("terrain_texture1.png");
 	textures.push_back("terrain_texture2.png");
 	textures.push_back("terrain_texture3.png");
-	textures.push_back("terrain_texture5.png");
+	textures.push_back("terrain_texture4.png");
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
 	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(-50.0f, 0.0f, -50.0f), FLOAT3(50.0f, 0.0f, 50.0f), textures, blendMaps);
@@ -125,24 +125,17 @@ void GameState::update(float _dt)
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-		EntityMessage e; 
+		EntityMessage e;
 		e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
 		this->m_network->sendEntity(e);
 	}
 	else if(g_mouse->isLButtonDown())
 	{
-		//Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
 
-		//if(model)
-		//{
-		//	this->m_entities.push_back(new Entity(model));
-		//}
 	}
 	else if(g_mouse->isRButtonPressed())
 	{
-		int lol2 = 1;
-		lol2 = createSoundHandle("helm.wav");
-		playSound(lol2);
+
 	}
 	else
 		for(int i = 0; i < this->m_entities.size(); i++)

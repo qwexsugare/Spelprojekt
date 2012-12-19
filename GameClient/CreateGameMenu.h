@@ -11,4 +11,3 @@ public:
 	bool StartGameIsDown();
 	bool MainMenuGameIsDown();
 };
-

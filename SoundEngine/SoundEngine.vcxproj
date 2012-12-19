@@ -15,6 +15,7 @@
     <ClCompile Include="CWaves.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="LoadOAL.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -22,6 +23,7 @@
     <ClInclude Include="CWaves.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="LoadOAL.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEngine.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -67,7 +69,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SOUNDENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -79,7 +81,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
