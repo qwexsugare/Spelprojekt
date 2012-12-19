@@ -8,11 +8,15 @@ GraphicsHandler::GraphicsHandler()
 GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 {
 	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile->getWindowed(), _configFile->getScreenSize());
+	this->m_world = new World(this->m_deviceHandler);
+	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
+	this->m_windowed = _configFile->getWindowed();
+
+	// Set some screen size vars
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
 	this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
-	this->m_world = new World(this->m_deviceHandler);
-	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
+	this->m_configScreenSize = _configFile->getScreenSize();
 }
 
 GraphicsHandler::~GraphicsHandler()
@@ -56,7 +60,6 @@ Text* GraphicsHandler::createText(string _text, INT2 _pos, int _size, D3DXCOLOR 
 	return text;
 }
 	
-
 bool GraphicsHandler::removeText(Text* _text)
 {
 	return this->m_world->removeText(_text);
@@ -69,7 +72,10 @@ Camera *GraphicsHandler::getCamera()
 
 INT2 GraphicsHandler::getScreenSize()
 {
-	return this->m_realScreenSize;
+	if(this->m_windowed)
+		return this->m_configScreenSize;
+	else
+		return this->m_realScreenSize;
 }
 
 Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)

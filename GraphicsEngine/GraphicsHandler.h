@@ -15,7 +15,9 @@ private:
 	World *m_world;
 	DeviceHandler* m_deviceHandler;
 	ResourceHolder *m_resourceHolder;
+	INT2 m_configScreenSize;
 	INT2 m_realScreenSize;
+	bool m_windowed;
 public:
 	DECLDIR GraphicsHandler();
 	DECLDIR GraphicsHandler(HWND _hWnd, ConfigFile* _configFile);
