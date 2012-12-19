@@ -19,7 +19,7 @@ GameState::GameState()
 	textures.push_back("terrain_texture1.png");
 	textures.push_back("terrain_texture2.png");
 	textures.push_back("terrain_texture3.png");
-	textures.push_back("terrain_texture5.png");
+	textures.push_back("terrain_texture4.png");
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
 	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(-50.0f, 0.0f, -50.0f), FLOAT3(50.0f, 0.0f, 50.0f), textures, blendMaps);
