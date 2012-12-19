@@ -5,6 +5,7 @@
 #include "ClientHandler.h"
 #include "Mouse.h"
 #include "Keyboard.h"
+#include "SoundWrapper.h"
 
 ConfigFile* g_configFile;
 GraphicsHandler* g_graphicsEngine;
@@ -29,9 +30,17 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 		return 0;
 	}
 	
-	ClientHandler clientHandler(hwnd);
+	initSoundEngine();
+	
+	ClientHandler* clientHandler = new ClientHandler(hwnd);
+	HRESULT hr = clientHandler->run();
+	delete clientHandler;
+	
+	deleteSoundEngine();
 
-	return clientHandler.run();
+	_CrtDumpMemoryLeaks();
+
+	return 9;
 }
 
 //--------------------------------------------------------------------------------------

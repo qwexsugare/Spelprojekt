@@ -24,6 +24,9 @@
     <ClCompile Include="SoundEngine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadOAL.h">
@@ -39,6 +42,9 @@
       <Filter>OpenAL</Filter>
     </ClInclude>
     <ClInclude Include="SoundEngine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>

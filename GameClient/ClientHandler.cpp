@@ -1,7 +1,6 @@
 #include "ClientHandler.h"
 #include "Input.h"
 #include "Graphics.h"
-#include "SoundWrapper.h"
 
 ClientHandler::ClientHandler(HWND _hWnd)
 {
@@ -28,7 +27,6 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	initSoundEngine();
 	this->m_serverThread->Launch();
 	this->m_state = new GameState();
 
@@ -62,8 +60,6 @@ HRESULT ClientHandler::run()
 			prevTimeStamp = currTimeStamp;
 		}
 	}
-	
-	deleteSoundEngine();
 
 	return msg.wParam;
 }

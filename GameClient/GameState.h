@@ -12,7 +12,7 @@ private:
 	SpriteSheet *m_testSprite;
 	float m_rotation;
 	Terrain* m_terrain;
-
+	int m_testSound;
 	Client *m_network;
 	void end();
 public:
