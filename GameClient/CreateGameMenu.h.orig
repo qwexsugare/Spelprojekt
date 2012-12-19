@@ -1,0 +1,19 @@
+#pragma once
+#include "Menu.h"
+class CreateGameMenu : Menu
+{
+public:
+	CreateGameMenu();
+	~CreateGameMenu();
+
+	void Update();
+
+	bool StartGameIsDown();
+<<<<<<< HEAD
+	bool MainMenuGameIsDown();
+};
+
+=======
+	bool MainMenuGameIsDone();
+};
+>>>>>>> f0f5d20a3b505c6f643d541aa250ce8fdb12e378
