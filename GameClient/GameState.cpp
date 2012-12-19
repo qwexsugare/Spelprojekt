@@ -120,6 +120,10 @@ void GameState::update(float _dt)
 
 	if(g_mouse->isLButtonPressed())
 	{
+
+	}
+	else if(g_mouse->isLButtonDown())
+	{
 		// Calc some fucken pick ray out mofos
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
@@ -131,10 +135,6 @@ void GameState::update(float _dt)
 		EntityMessage e;
 		e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
 		this->m_network->sendEntity(e);
-	}
-	else if(g_mouse->isLButtonDown())
-	{
-
 	}
 	else if(g_mouse->isRButtonPressed())
 	{

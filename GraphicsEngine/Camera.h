@@ -15,9 +15,10 @@ private:
 	D3DXMATRIX m_projectionMatrix;
 	int m_width;
 	int m_height;
+	INT2 m_otherScreenSize;
 public:
 	Camera();
-	Camera(int width, int height);
+	Camera(int width, int height, INT2 _otherScreenSize);
 	~Camera();
 
 	DECLDIR void calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 _mousePos);
