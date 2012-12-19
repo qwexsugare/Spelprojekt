@@ -12,9 +12,11 @@ MessageHandler::~MessageHandler()
 
 void MessageHandler::addQueue(MessageQueue* _queue)
 {
+	this->m_mutex.Lock();
 	_queue->setId(this->m_nextId);
 	this->m_queues[this->m_nextId] = _queue;
 	this->m_nextId++;
+	this->m_mutex.Unlock();
 }
 
 void MessageHandler::update()
@@ -23,6 +25,8 @@ void MessageHandler::update()
 	map<int, MessageQueue*>::iterator i = this->m_queues.begin();
 	Message *m;
 	bool found;
+
+	this->m_mutex.Lock();
 
 	while(i != this->m_queues.end())
 	{
@@ -60,4 +64,6 @@ void MessageHandler::update()
 			delete m;
 		}
 	}
+
+	this->m_mutex.Unlock();
 }

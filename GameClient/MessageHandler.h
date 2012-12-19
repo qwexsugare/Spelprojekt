@@ -3,6 +3,7 @@
 
 #include "MessageQueue.h"
 #include "Message.h"
+#include <SFML\System.hpp>
 #include <map>
 
 using namespace std;
@@ -12,6 +13,7 @@ class MessageHandler
 private:
 	int m_nextId;
 	map<int,MessageQueue*> m_queues;
+	sf::Mutex m_mutex;
 public:
 	MessageHandler();
 	~MessageHandler();

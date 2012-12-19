@@ -9,6 +9,21 @@ Hero::Hero() : ServerEntity()
 
 void Hero::update(float dt)
 {
+	//Handle incoming messages
+	Message *m;
+
+	while(this->m_messageQueue->incomingQueueEmpty() == false)
+	{
+		m = this->m_messageQueue->pullIncomingMessage();
+
+		if(m->type == Message::Collision)
+		{
+			this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
+		}
+
+		delete m;
+	}
+
 	if(this->m_reachedPosition == false)
 	{
 		FLOAT3 distance = this->m_nextPosition - this->m_positon;
