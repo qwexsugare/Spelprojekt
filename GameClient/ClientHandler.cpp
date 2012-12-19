@@ -19,11 +19,11 @@ ClientHandler::ClientHandler(HWND _hWnd)
 ClientHandler::~ClientHandler()
 {
 	delete this->m_serverThread;
+	delete this->m_state;
 	delete g_graphicsEngine;
 	delete g_mouse;
 	delete g_keyboard;
 	delete g_configFile;
-	delete this->m_state;
 }
 
 HRESULT ClientHandler::run()
@@ -101,9 +101,28 @@ void ClientHandler::update(float _dt)
 
 	if(this->m_state->isDone())
 	{
-		State* tempState = this->m_state->nextState();
-		delete this->m_state;
-		this->m_state = tempState;
+		State* tempState = this->m_state;
+		
+		switch(this->m_state->nextState())
+		{
+		case State::MAIN_MENU:
+			this->m_state = new MainMenuState();
+			break;
+		case State::CREATE_GAME:
+			this->m_state = new CreateGameState();
+			break;
+		case State::LOBBY:
+			this->m_state = new LobbyState();
+			break;
+		case State::GAME:
+			this->m_state = new GameState();
+			break;
+		case State::EXIT:
+			PostQuitMessage(0);
+			break;
+		}
+
+		delete tempState;
 	}
 
 	g_mouse->update(); // Must be last!

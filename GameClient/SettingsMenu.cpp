@@ -1,11 +1,6 @@
 #include "SettingsMenu.h"
-extern Menu::WorldState g_MState;
 
 SettingsMenu::SettingsMenu(): Menu()
-{
-}
-
-void SettingsMenu::Init()
 {
 	this->m_Images.push_back(g_graphicsEngine->createSprite("MENU-Settings.png", INT2(1920/2,  1080/2),  INT2(1920, 1080),0));
 	this->m_Buttons.resize(8);
@@ -26,42 +21,16 @@ void SettingsMenu::Init()
 	this->m_Buttons[7] = new Button();
 	this->m_Buttons[7]->Init(INT2(1920*0.5f-100,  1080*0.5-300),INT2(25,28),"Arrow-Up.png","",0,385,1,0);
 }
+
 void SettingsMenu::Update()
 {
 	for(int i=0; i < this->m_Buttons.size(); i++)
 	{
 		this->m_Buttons[i]->Update();
 	}
-	ChangeStates();
 }
+
 SettingsMenu::~SettingsMenu()
 {
 
-}
-bool SettingsMenu::MainMenuGameIsDone()
-{
-	if(this->m_Buttons[0]->Clicked() == 1)
-	{
-		return true;
-	}
-	return false;
-}
-bool SettingsMenu::SaveSettingsIsDone()
-{
-	if(this->m_Buttons[1]->Clicked() == 1)
-	{
-		return true;
-	}
-	return false;
-}
-void SettingsMenu::ChangeStates()
-{
-	if(MainMenuGameIsDone())
-	{
-		g_MState = WorldState::Main;
-	}
-	if(SaveSettingsIsDone())
-	{
-		
-	}
 }

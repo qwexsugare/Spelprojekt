@@ -2,14 +2,14 @@
 #include "Menu.h"
 class HudMenu : Menu
 {
-public:
-	HudMenu();
-	~HudMenu();
+private:
 	int m_Time;
 	int m_Delay;
 	int m_DelayTime;
-	void Init();
+public:
+	HudMenu();
+	~HudMenu();
+
 	void Update();
-	void ChangeStates();
 };
 

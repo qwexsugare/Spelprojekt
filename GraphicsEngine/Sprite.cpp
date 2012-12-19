@@ -8,11 +8,11 @@ Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D1
 	this->m_layer = _layer;
 
 	//Convert the position and size to projection space
-	position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
-	position.y = (position.y / this->m_deviceHandler->getScreenSize().y) * 2 - 1;
+	//position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
+	//position.y = (position.y / this->m_deviceHandler->getScreenSize().y) * 2 - 1;
 
-	size.x = (size.x / this->m_deviceHandler->getScreenSize().x) * 2;
-	size.y = (size.y / this->m_deviceHandler->getScreenSize().y) * 2;
+	//size.x = (size.x / this->m_deviceHandler->getScreenSize().x) * 2;
+	//size.y = (size.y / this->m_deviceHandler->getScreenSize().y) * 2;
 
 	//Create the modelmatrix
 	D3DXMatrixTranslation(&this->m_modelMatrix, position.x, position.y, 0.0f);

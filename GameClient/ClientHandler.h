@@ -1,6 +1,9 @@
 #pragma once
 
 #include "GameState.h"
+#include "MainMenuState.h"
+#include "LobbyState.h"
+#include "CreateGameState.h"
 #include "ServerThread.h"
 #include <string>
 using namespace std;

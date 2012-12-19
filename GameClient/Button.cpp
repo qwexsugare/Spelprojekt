@@ -28,14 +28,19 @@ void Button::Init(INT2 _ScreenPos,
 	this->m_Delay			=	0;
 	this->m_DelayTime		=	_DelayTime;
 	this->m_Keep			=	0;
+
+	m_Pos.x = 2* ((float)m_Pos.x) / 1920 - 1;
+	m_Pos.y = 2* ((float)m_Pos.y) / 1080 - 1;
+
+	_Size.x = 2* ((float)_Size.x) / 1920;
+	_Size.y = 2* ((float)_Size.y) / 1080;
+
 	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,_Size,INT2(3,1),2);
 }
 void Button::Update()
 {
 	//Get the mouse position
-	POINT tmpPos;
-	GetCursorPos(&tmpPos);
-	RECT r;
+	INT2 tmpPos = g_mouse->getPos();
 	tmpPos.y = 1080 - tmpPos.y;
 	INT2 halfSize = INT2(this->m_Size.x / 2, this->m_Size.y / 2);
 	if(m_Keep == 0)
@@ -135,7 +140,7 @@ float Button::ReturnSliderValue()
 }
 Button::~Button()
 {
-	this->m_ButtonReaction	=	0;
+	this->m_ButtonReaction =0;
 	g_graphicsEngine->removeSpriteSheet(m_Button);
 	m_Button = NULL;
 }

@@ -4,6 +4,9 @@
 //Import a map and update it, creating new enemies when needed
 class MapHandler
 {
+private:
+
+public:
 
 };
 

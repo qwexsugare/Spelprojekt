@@ -8,15 +8,15 @@ public:
 
 	void Init();
 	void Update();
-	void ChangeStates();
+
 	bool ChatIsDown();
-	bool StoreIsDone();
-	bool MainMenuIsDone();
-	bool CharacterInformationIsDone();
-	bool LevelInformationIsDone();
-	bool StartGameIsDone();
-	bool RangeCombatIsDone();
-	bool CloseCombatIsDone();
+	bool StoreIsDown();
+	bool MainMenuIsDown();
+	bool CharacterInformationIsDown();
+	bool LevelInformationIsDown();
+	bool StartGameIsDown();
+	bool RangeCombatIsDown();
+	bool CloseCombatIsDown();
 
 };
 

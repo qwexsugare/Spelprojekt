@@ -6,10 +6,8 @@ public:
 	CreditsMenu();
 	~CreditsMenu();
 
-	void Init();
 	void Update();
-	void ChangeStates();
 
-	bool MainMenuGameIsDone();
+	bool MainMenuGameIsDown();
 };
 

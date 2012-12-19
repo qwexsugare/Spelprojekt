@@ -6,8 +6,6 @@ public:
 	ScoreMenu();
 	~ScoreMenu();
 
-	void Init();
 	void Update();
-	void ChangeStates();
 };
 
