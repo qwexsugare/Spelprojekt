@@ -47,7 +47,7 @@ void CollisionHandler::update()
 				{
 					if(ents[i]->getBoundingSphere()->Intersects(*ents[j]->getObb()) || ents[i]->getBoundingSphere()->Contains(*ents[j]->getObb()))
 					{
-						this->addCollision(*ents[i], *ents[j]);
+						this->addCollision(ents[i], ents[j]);
 					}
 				}
 			}
@@ -59,7 +59,7 @@ void CollisionHandler::update()
 				{
 					if(ents[i]->getObb()->Intersects(*ents[j]->getBoundingSphere()) || ents[i]->getObb()->Contains(*ents[j]->getBoundingSphere()))
 					{
-						this->addCollision(*ents[i], *ents[j]);
+						this->addCollision(ents[i], ents[j]);
 					}
 				}
 				// If the second entity has a bounding oriented box, collide the first entity with it
@@ -67,7 +67,7 @@ void CollisionHandler::update()
 				{
 					if(ents[i]->getObb()->Intersects(*ents[j]->getObb()) || ents[i]->getObb()->Contains(*ents[j]->getObb()))
 					{
-						this->addCollision(*ents[i], *ents[j]);
+						this->addCollision(ents[i], ents[j]);
 					}
 				}
 			}

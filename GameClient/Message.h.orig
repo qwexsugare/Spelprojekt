@@ -24,5 +24,9 @@ struct StartMessage : Message
 
 struct CollisionMessage : Message
 {
+<<<<<<< HEAD
+	//Information about the collision
+=======
 	int affectedDudeId;
+>>>>>>> 9d89be14f008bd6b68275e5aa5dc459f2df1e8e3
 };
