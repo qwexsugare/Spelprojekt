@@ -2,12 +2,12 @@
 
 MainMenu::MainMenu() : Menu()
 {
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-MainBack.png", INT2(0, 0),  INT2(2, 2),0));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-MainFront.png", INT2(0, 0),  INT2(2, 2),2));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-MainBack.png", FLOAT2(0, 0),  FLOAT2(2, 2),0));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-MainFront.png", FLOAT2(0, 0),  FLOAT2(2, 2),2));
 
 	this->m_Buttons.resize(6);
 	this->m_Buttons[0] = new Button();
-	this->m_Buttons[0]->Init(INT2(1366*0.5f-700,  768*0.5+200),INT2(262,77),"menu_textures\\Button-MainMenu-CreateGame.png","",0,0,1);
+	this->m_Buttons[0]->Init(INT2(1920*0.5f-700,  1080*0.5+200),INT2(262,77),"menu_textures\\Button-MainMenu-CreateGame.png","",0,0,1);
 	this->m_Buttons[1] = new Button();
 	this->m_Buttons[1]->Init(INT2(1920*0.5f-700,  1080*0.5+100),INT2(262,77),"menu_textures\\Button-MainMenu-JoinGame.png","",0,0,1);
 	this->m_Buttons[2] = new Button();

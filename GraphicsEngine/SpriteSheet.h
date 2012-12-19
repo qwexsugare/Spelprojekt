@@ -27,7 +27,7 @@ private:
 	FLOAT2 m_position;
 	int m_layer;
 public:
-	SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, INT2 _position, INT2 _size, INT2 _nrOfFrames, int _layer);
+	SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, FLOAT2 _position, FLOAT2 _size, INT2 _nrOfFrames, int _layer);
 
 	ID3D10Buffer *getBuffer();
 	ID3D10ShaderResourceView *getTexture();

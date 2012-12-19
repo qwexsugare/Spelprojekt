@@ -21,3 +21,8 @@ struct StartMessage : Message
 {
 
 };
+
+struct CollisionMessage : Message
+{
+	//Information about the collision
+};

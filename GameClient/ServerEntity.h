@@ -24,6 +24,9 @@ public:
 
 	void setId(unsigned int _id);
 	void setPosition(FLOAT3 _position);
+
+	FLOAT3 getPosition();
+	unsigned int getId();
 };
 
 #endif

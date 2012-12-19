@@ -1,6 +1,6 @@
 #include "SpriteSheet.h"
 
-SpriteSheet::SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, INT2 _position, INT2 _size, INT2 _nrOfFrames, int _layer)
+SpriteSheet::SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, FLOAT2 _position, FLOAT2 _size, INT2 _nrOfFrames, int _layer)
 {
 	this->m_texture = _texture;
 	this->m_nrOfFrames = _nrOfFrames;

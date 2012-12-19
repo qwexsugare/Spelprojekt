@@ -144,5 +144,5 @@ void GameState::update(float _dt)
 		for(int i = 0; i < this->m_entities.size(); i++)
 			this->m_entities[i]->m_model->rotate(0.0f, 0.0f, _dt/5.0f);
 
-	this->m_hud->Update();
+	//this->m_hud->Update();
 }

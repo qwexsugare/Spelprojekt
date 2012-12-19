@@ -48,37 +48,10 @@
     <ClCompile Include="SoundWrapper.cpp">
       <Filter>SoundWrapper</Filter>
     </ClCompile>
-    <ClCompile Include="CreateGameMenu.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="CreditsMenu.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="HudMenu.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="JoinGameMenu.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingScreen.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="LobbyMenu.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="LoreMenu.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreMenu.cpp">
-      <Filter>Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="SettingsMenu.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
@@ -156,37 +129,10 @@
     <ClInclude Include="SoundWrapper.h">
       <Filter>SoundWrapper</Filter>
     </ClInclude>
-    <ClInclude Include="CreateGameMenu.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="CreditsMenu.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="HudMenu.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="JoinGameMenu.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingScreen.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="LobbyMenu.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="LoreMenu.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreMenu.h">
-      <Filter>Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingsMenu.h">
       <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">

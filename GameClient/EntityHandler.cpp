@@ -65,3 +65,54 @@ vector<ServerEntity*> EntityHandler::getEntities()
 {
 	return EntityHandler::m_entities;
 }
+
+ServerEntity* EntityHandler::getClosestEntity(ServerEntity *entity)
+{
+	float shortestDistance;
+	int shortestIndex = -1;
+
+	if(EntityHandler::m_entities[0] == entity && EntityHandler::m_entities.size() > 1)
+	{
+		shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[1]->getPosition()).length());
+		shortestIndex = 1;
+	}
+	else
+	{
+		shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[0]->getPosition()).length());
+		shortestIndex = 0;
+	}
+
+	for(int i = shortestIndex; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(EntityHandler::m_entities[i] != entity && abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length()) < shortestDistance)
+		{
+			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestIndex = i;
+		}
+	}
+
+	if(shortestIndex > -1)
+	{
+		return EntityHandler::m_entities[shortestIndex];
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
+ServerEntity* EntityHandler::getServerEntity(unsigned int id)
+{
+	ServerEntity* result = NULL;
+
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(EntityHandler::m_entities[i]->getId() == id)
+		{
+			i = EntityHandler::m_entities.size();
+			result = EntityHandler::m_entities[i];
+		}
+	}
+
+	return result;
+}

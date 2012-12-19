@@ -97,9 +97,9 @@ bool GraphicsHandler::removeModel(Model* _model)
 	return this->m_world->removeModel(_model);
 }
 
-Sprite *GraphicsHandler::createSprite(string filename, INT2 position, INT2 size, int layer)
+Sprite *GraphicsHandler::createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer)
 {
-	Sprite *sprite = new Sprite(this->m_deviceHandler, FLOAT2(position.x, position.y), FLOAT2(size.x, size.y), this->m_resourceHolder->getTextureHolder()->getTexture(filename), layer);
+	Sprite *sprite = new Sprite(this->m_deviceHandler, position, size, this->m_resourceHolder->getTextureHolder()->getTexture(filename), layer);
 	this->m_world->addSprite(sprite);
 
 	return sprite;
@@ -110,7 +110,7 @@ bool GraphicsHandler::removeSprite(Sprite *sprite)
 	return this->m_world->removeSprite(sprite);
 }
 
-SpriteSheet *GraphicsHandler::createSpriteSheet(string filename, INT2 position, INT2 size, INT2 nrOfFrames, int layer)
+SpriteSheet *GraphicsHandler::createSpriteSheet(string filename, FLOAT2 position, FLOAT2 size, INT2 nrOfFrames, int layer)
 {
 	SpriteSheet *s = new SpriteSheet(this->m_deviceHandler, this->m_resourceHolder->getTextureHolder()->getTexture(filename), position, size, nrOfFrames, layer);
 	this->m_world->addSprite(s);

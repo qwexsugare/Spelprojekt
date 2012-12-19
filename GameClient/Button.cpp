@@ -24,7 +24,8 @@ void Button::Init(INT2 _ScreenPos,
 	this->m_Max				=	_max + _ScreenPos.x;
 	this->m_Pos.x			=	_ScreenPos.x;
 	this->m_Pos.y			=	_ScreenPos.y;
-	this->m_Size			=	_Size;
+	this->m_Size.x			=	_Size.x;
+	this->m_Size.y			=	_Size.y;
 	this->m_Delay			=	0;
 	this->m_DelayTime		=	_DelayTime;
 	this->m_Keep			=	0;
@@ -32,10 +33,10 @@ void Button::Init(INT2 _ScreenPos,
 	m_Pos.x = 2* ((float)m_Pos.x) / 1920 - 1;
 	m_Pos.y = 2* ((float)m_Pos.y) / 1080 - 1;
 
-	_Size.x = 2* ((float)_Size.x) / 1920;
-	_Size.y = 2* ((float)_Size.y) / 1080;
+	m_Size.x = 2* ((float)_Size.x) / 1920;
+	m_Size.y = 2* ((float)_Size.y) / 1080;
 
-	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,_Size,INT2(3,1),2);
+	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),2);
 }
 void Button::Update()
 {

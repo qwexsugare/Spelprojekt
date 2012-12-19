@@ -23,6 +23,9 @@ public:
 	static bool removeEntity(ServerEntity *_entity);
 
 	static vector<ServerEntity*> getEntities();
+
+	static ServerEntity* getClosestEntity(ServerEntity *entity);
+	static ServerEntity* getServerEntity(unsigned int id);
 };
 
 #endif
