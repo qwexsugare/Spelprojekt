@@ -1,6 +1,7 @@
 #include "ClientHandler.h"
 #include "Input.h"
 #include "Graphics.h"
+#include "SoundWrapper.h"
 
 ClientHandler::ClientHandler(HWND _hWnd)
 {
@@ -101,6 +102,8 @@ void ClientHandler::update(float _dt)
 		delete this->m_state;
 		this->m_state = tempState;
 	}
+
+	updateSoundEngine();
 
 	g_mouse->update(); // Must be last!
 }

@@ -40,7 +40,7 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 
 	_CrtDumpMemoryLeaks();
 
-	return 9;
+	return hr;
 }
 
 //--------------------------------------------------------------------------------------
