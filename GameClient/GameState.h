@@ -3,13 +3,15 @@
 #include "State.h"
 #include "Entity.h"
 #include "Client.h"
+#include "HudMenu.h"
 
 class GameState : public State
 {
 private:
+	HudMenu *m_hud;
+
 	Text* m_fpsText;
 	vector<Entity*> m_entities;
-	SpriteSheet *m_testSprite;
 	float m_rotation;
 	Terrain* m_terrain;
 	int m_testSound;
@@ -19,6 +21,6 @@ public:
 	GameState();
 	~GameState();
 
-	State* nextState();
+	StateEnum nextState();
 	void update(float _dt);
 };

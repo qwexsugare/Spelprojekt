@@ -2,17 +2,16 @@
 #include "Menu.h"
 class LoreMenu : Menu
 {
+private:
+	bool m_change;
+	int m_thisPage;
 public:
 	LoreMenu();
 	~LoreMenu();
-	bool Change;
-	//int Delay;
-	//int DelayTime;
-	int ThisPage;
+
+
 	bool Minus();
 	bool Plus();
-	bool MainMenuGameIsDone();
-	void Init();
 	void Update();
 	void ChangeStates();
 };

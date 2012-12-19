@@ -33,8 +33,8 @@ void ServerThread::Run()
 	__int64 prevTimeStamp = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
+	//this->m_state = State::LOBBY;
 	this->m_state = State::LOBBY;
-	//this->m_state = State::GAME;
 	this->m_network->start(1337);
 
 	while(this->m_state != State::EXIT)
@@ -51,6 +51,7 @@ void ServerThread::Run()
 void ServerThread::update(float dt)
 {
 	vector<ServerEntity*> entities;
+	this->m_messageHandler->update();
 
 	if(this->m_state == State::LOBBY)
 	{
@@ -87,6 +88,8 @@ void ServerThread::update(float dt)
 
 	if(this->m_state == State::GAME)
 	{
+		//Check if the map is finished
+
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
 

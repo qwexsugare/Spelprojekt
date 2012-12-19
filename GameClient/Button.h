@@ -7,8 +7,10 @@
 #include "Text.h"
 #include "Sprite.h"
 #include "SpriteSheet.h"
+#include "Mouse.h"
 
 extern GraphicsHandler* g_graphicsEngine;
+extern Mouse* g_mouse;
 
 using namespace std;
 class Button

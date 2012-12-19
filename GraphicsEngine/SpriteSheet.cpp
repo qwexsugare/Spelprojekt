@@ -13,11 +13,14 @@ SpriteSheet::SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView*
 	this->m_animationTimer = 0.0f;
 
 	//Convert the position and size from pixels to projection space
-	this->m_position.x = ((float)_position.x / deviceHandler->getScreenSize().x) * 2 - 1;
-	this->m_position.y = ((float)_position.y / deviceHandler->getScreenSize().y) * 2 - 1;
+	//this->m_position.x = ((float)_position.x / deviceHandler->getScreenSize().x) * 2 - 1;
+	//this->m_position.y = ((float)_position.y / deviceHandler->getScreenSize().y) * 2 - 1;
 
-	this->m_size.x = ((float)_size.x / deviceHandler->getScreenSize().x) * 2;
-	this->m_size.y = ((float)_size.y / deviceHandler->getScreenSize().y) * 2;
+	//this->m_size.x = ((float)_size.x / deviceHandler->getScreenSize().x) * 2;
+	//this->m_size.y = ((float)_size.y / deviceHandler->getScreenSize().y) * 2;
+
+	this->m_position = FLOAT2((float)_position.x, (float)_position.y);
+	this->m_size = FLOAT2((float)_size.x, (float)_size.y);
 
 	//Create modelmatrix
 	D3DXMatrixTranslation(&this->m_modelMatrix, this->m_position.x, this->m_position.y, 0.0f);

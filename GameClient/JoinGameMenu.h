@@ -6,11 +6,9 @@ public:
 	JoinGameMenu();
 	~JoinGameMenu();
 
-	void Init();
 	void Update();
-	void ChangeStates();
 
 	bool StartGameIsDown();
-	bool MainMenuGameIsDone();
+	bool MainMenuGameIsDown();
 };
 

@@ -6,10 +6,8 @@ public:
 	CreateGameMenu();
 	~CreateGameMenu();
 
-	void Init();
 	void Update();
-	void ChangeStates();
 
 	bool StartGameIsDown();
-	bool MainMenuGameIsDone();
+	bool MainMenuGameIsDown();
 };

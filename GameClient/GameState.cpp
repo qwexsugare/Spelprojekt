@@ -7,11 +7,8 @@
 
 GameState::GameState()
 {
-	this->m_fpsText = g_graphicsEngine->createText("", INT2(50, 100), 100, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_testSprite = g_graphicsEngine->createSpriteSheet("test.png", INT2(500, 500), INT2(100, 100), INT2(4, 2), 0);
-	this->m_testSprite->setCurrentFrame(INT2(2,0));
-	this->m_testSprite = g_graphicsEngine->createSpriteSheet("test.png", INT2(550, 550), INT2(100, 100), INT2(4, 2), 2);
-	this->m_testSprite->setCurrentFrame(INT2(3,0));
+	//this->m_hud = new HudMenu();
+	this->m_fpsText = g_graphicsEngine->createText("", INT2(10, 10), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
 
@@ -37,7 +34,7 @@ GameState::~GameState()
 		delete this->m_entities[i];
 
 	delete this->m_network;
-
+	//delete this->m_hud;
 	deactivateSound(this->m_testSound);
 }
 
@@ -53,9 +50,9 @@ void GameState::end()
 	this->setDone(true);
 }
 
-State* GameState::nextState()
+State::StateEnum GameState::nextState()
 {
-	return new LobbyState();
+	return State::MAIN_MENU;
 }
 
 void GameState::update(float _dt)
@@ -95,6 +92,9 @@ void GameState::update(float _dt)
 			}
 		}
 	}
+
+	this->m_network->sendMsg(Msg("Ready"));
+	this->m_network->sendMsg(Msg("Start"));
 
 	static float CAMERA_SPEED = 16.0f;
 	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10)
@@ -143,4 +143,6 @@ void GameState::update(float _dt)
 	else
 		for(int i = 0; i < this->m_entities.size(); i++)
 			this->m_entities[i]->m_model->rotate(0.0f, 0.0f, _dt/5.0f);
+
+	this->m_hud->Update();
 }

@@ -68,7 +68,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;$(SolutionDir)\GraphicsHandler\include;$(ProjectDir)\include;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
+    <IncludePath>C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;$(SolutionDir)\GraphicsHandler\include;$(ProjectDir)\include;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\SFML-1.6\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -159,7 +159,7 @@
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CreateGameMenu.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClCompile Include="CreateGameState.cpp" />
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="CreditsMenu.cpp">
@@ -173,7 +173,7 @@
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HudMenu.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    <ClCompile Include="JoinGameState.cpp" />
     </ClCompile>
     <ClCompile Include="JoinGameMenu.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -195,7 +195,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClCompile Include="MainMenuState.cpp" />
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MapHandler.cpp" />
@@ -241,7 +241,7 @@
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CreateGameMenu.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClInclude Include="CreateGameState.h" />
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CreditsMenu.h">
@@ -261,7 +261,7 @@
     </ClInclude>
     <ClInclude Include="Input.h" />
     <ClInclude Include="JoinGameMenu.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClInclude Include="JoinGameState.h" />
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Keyboard.h" />
@@ -276,7 +276,7 @@
     <ClInclude Include="LobbyState.h" />
     <ClInclude Include="LoreMenu.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    <ClInclude Include="MainMenuState.h" />
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
