@@ -4,6 +4,8 @@
 SoundEngine::SoundEngine()
 {
 	this->m_handleCounter = 0;
+	this->m_musicVolume = 1.0f;
+	this->m_soundEffectsVolume = 1.0f;
 
 	// Initialize Framework
 	ALFWInit();
@@ -23,7 +25,7 @@ SoundEngine::~SoundEngine()
 	ALFWShutdown();
 }
 
-int SoundEngine::createSoundHandle(string _filename)
+int SoundEngine::createSoundHandle(string _filename, bool _music)
 {
 	int soundHandle = this->m_handleCounter++;
 
@@ -32,7 +34,14 @@ int SoundEngine::createSoundHandle(string _filename)
 	alGenSources(1, &source);
 	alSourcei(source, AL_BUFFER, buffer);
 	
-	this->m_sounds.insert(pair<int, Sound*>(soundHandle, new Sound(source)));
+	float volume;
+
+	if(_music)
+		volume = this->m_musicVolume;
+	else
+		volume = this->m_soundEffectsVolume;
+
+	this->m_sounds.insert(pair<int, Sound*>(soundHandle, new Sound(source, volume, _music)));
 
 	return soundHandle;
 }
@@ -93,6 +102,28 @@ void SoundEngine::loop(int _handle)
 void SoundEngine::play(int _handle)const
 {
 	this->m_sounds.at(_handle)->play();
+}
+
+void SoundEngine::setMusicVolume(float _value)
+{
+	this->m_musicVolume = _value;
+
+	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != this->m_sounds.end(); i++)
+	{
+		if(i->second->isMusic())
+			i->second->setVolume(this->m_musicVolume);
+	}
+}
+
+void SoundEngine::setSoundEffectsVolume(float _value)
+{
+	this->m_soundEffectsVolume = _value;
+
+	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != this->m_sounds.end(); i++)
+	{
+		if(!i->second->isMusic())
+			i->second->setVolume(this->m_soundEffectsVolume);
+	}
 }
 
 void SoundEngine::stop(int _handle)const

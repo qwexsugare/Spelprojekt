@@ -1,15 +1,20 @@
 #include "ConfigFile.h"
 #include <fstream>
 
+const float ConfigFile::DEFAULT_SOUND_EFFECTS_VOLUME = 1.0f;
+const float ConfigFile::DEFAULT_MUSIC_VOLUME = 1.0f;
+
 ConfigFile::ConfigFile()
 {
 	this->m_windowed = DEFAULT_WINDOWED;
 	this->m_screenSize = INT2(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
+	this->m_musicVolume = DEFAULT_MUSIC_VOLUME;
+	this->m_soundEffectsVolume = DEFAULT_SOUND_EFFECTS_VOLUME;
 }
 
 ConfigFile::~ConfigFile()
 {
-	//delete this->m_screenSize;
+
 }
 
 INT2 ConfigFile::getScreenSize()const
@@ -47,6 +52,14 @@ void ConfigFile::load()
 				sscanf(buf, "resolution %d %d", &x, &y);
 				this->m_screenSize.x = x;
 				this->m_screenSize.y = y;
+			}
+			else if(strcmp(key, "music_volume") == 0)
+			{
+				sscanf(buf, "music_volume %f", &this->m_musicVolume);
+			}
+			else if(strcmp(key, "sound_effects_volume") == 0)
+			{
+				sscanf(buf, "sound_effects_volume %f", &this->m_soundEffectsVolume);
 			}
 		}
 	}

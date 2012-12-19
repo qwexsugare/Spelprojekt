@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-int createSoundHandle(string _filename);
+int createSoundHandle(string _filename, bool _music);
 
 void deactivateSound(int _handle);
 
@@ -14,6 +14,10 @@ bool isSoundPlaying(int _handle);
 void loopSound(int _handle);
 
 void playSound(int _handle);
+
+void setMusicVolume(float _value);
+
+void setSoundEffectsVolume(float _value);
 
 void stopSound(int _handle);
 
