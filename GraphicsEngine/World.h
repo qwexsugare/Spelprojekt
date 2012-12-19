@@ -53,7 +53,7 @@ private:
 	vector<Terrain*> m_terrains;
 public:
 	World();
-	World(DeviceHandler* _deviceHandler);
+	World(DeviceHandler* _deviceHandler, HWND _hWnd);
 	~World();
 
 	void render();

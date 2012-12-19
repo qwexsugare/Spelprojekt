@@ -26,8 +26,3 @@ struct CollisionMessage : Message
 {
 	int affectedDudeId;
 };
-
-struct CollisionMessage : Message
-{
-	//Information about the collision
-};
