@@ -10,6 +10,8 @@ private:
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
 	float m_movementSpeed;
+
+	unsigned int m_hp;
 public:
 	Hero();
 

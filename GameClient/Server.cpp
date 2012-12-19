@@ -96,6 +96,13 @@ void Server::goThroughSelector()
 
 void Server::shutDown()
 {
+	if(this->listener.IsValid())
+	{
+		this->listener.Close();
+	}
+
+	this->Wait();
+
 	for(int i=0;i<this->clientArrPos;i++)
 	{
 		sf::Packet msg;
@@ -105,10 +112,6 @@ void Server::shutDown()
 			this->clients[i].Send(msg);
 			this->clients[i].Close();
 		}
-	}
-	if(this->listener.IsValid())
-	{
-		this->listener.Close();
 	}
 }
 
