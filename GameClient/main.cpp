@@ -38,10 +38,8 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 	ClientHandler* clientHandler = new ClientHandler(hwnd);
 	HRESULT hr = clientHandler->run();
 	delete clientHandler;
-	
-	deleteSoundEngine();
 
-	_CrtDumpMemoryLeaks();
+	deleteSoundEngine();
 
 	return hr;
 }

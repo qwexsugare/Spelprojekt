@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackMessage.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
@@ -189,6 +190,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackMessage.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="ClientHandler.h" />

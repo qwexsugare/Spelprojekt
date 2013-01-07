@@ -55,7 +55,7 @@ void Sound::setVolume(float _volume)
 	this->m_volume = _volume;
 	alSourcef(this->m_source, AL_GAIN, this->m_volume);
 }
-	
+
 void Sound::stop()
 {
 	this->m_looped = false;
