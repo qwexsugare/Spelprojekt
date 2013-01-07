@@ -22,10 +22,6 @@ void ServerEntity::update(float dt)
 	{
 		m = this->m_messageQueue->pullIncomingMessage();
 
-		if(m->type == Message::Collision)
-		{
-			this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
-		}
 
 		delete m;
 	}
