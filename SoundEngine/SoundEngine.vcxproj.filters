@@ -21,10 +21,10 @@
     <ClCompile Include="LoadOAL.cpp">
       <Filter>OpenAL</Filter>
     </ClCompile>
-    <ClCompile Include="SoundEngine.cpp">
+    <ClCompile Include="Sound.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Sound.cpp">
+    <ClCompile Include="SoundEngine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,10 +41,10 @@
     <ClInclude Include="Framework.h">
       <Filter>OpenAL</Filter>
     </ClInclude>
-    <ClInclude Include="SoundEngine.h">
+    <ClInclude Include="Sound.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
+    <ClInclude Include="SoundEngine.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
