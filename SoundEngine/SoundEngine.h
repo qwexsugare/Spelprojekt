@@ -1,16 +1,16 @@
 #pragma once
 
+#if defined DLL_EXPORT
+#define SOUND_EXPORT __declspec(dllexport)
+#else
+#define SOUND_EXPORT __declspec(dllimport)
+#endif
+
 #include "Framework.h"
 #include "Sound.h"
 #include <string>
 #include <map>
 using namespace std;
-
-#if defined DLL_EXPORT
-#define DECLDIR2 __declspec(dllexport)
-#else
-#define DECLDIR2 __declspec(dllimport)
-#endif
 
 class SoundEngine
 {
@@ -23,16 +23,17 @@ private:
 
 	ALuint getWavBuffer(string _filename);
 public:
-	DECLDIR2 SoundEngine();
-	DECLDIR2 ~SoundEngine();
-	
-	DECLDIR2 int createSoundHandle(string _filename, bool _music);
-	DECLDIR2 void deactivate(int _handle);
-	DECLDIR2 bool isPlaying(int _handle);
-	DECLDIR2 void play(int _handle)const;
-	DECLDIR2 void loop(int _handle);
-	DECLDIR2 void setMusicVolume(float _value);
-	DECLDIR2 void setSoundEffectsVolume(float _value);
-	DECLDIR2 void stop(int _handle)const;
-	DECLDIR2 void update();
+	 SOUND_EXPORT SoundEngine();
+	 SOUND_EXPORT ~SoundEngine();
+
+	 SOUND_EXPORT void clear();
+	 SOUND_EXPORT int createSoundHandle(string _filename, bool _music);
+	 SOUND_EXPORT void deactivate(int _handle);
+	 SOUND_EXPORT bool isPlaying(int _handle);
+	 SOUND_EXPORT void play(int _handle)const;
+	 SOUND_EXPORT void loop(int _handle);
+	 SOUND_EXPORT void setMusicVolume(float _value);
+	 SOUND_EXPORT void setSoundEffectsVolume(float _value);
+	 SOUND_EXPORT void stop(int _handle)const;
+	 SOUND_EXPORT void update();
 };

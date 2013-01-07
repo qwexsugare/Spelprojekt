@@ -3,7 +3,7 @@
 
 SoundEngine::SoundEngine()
 {
-	this->m_handleCounter = 0;
+	this->m_handleCounter = INT_MIN;
 	this->m_musicVolume = 1.0f;
 	this->m_soundEffectsVolume = 1.0f;
 
@@ -17,23 +17,32 @@ SoundEngine::SoundEngine()
 
 SoundEngine::~SoundEngine()
 {
-	for(map<string, ALuint>::iterator i = m_buffers.begin(); i != m_buffers.end(); i++)
-		alDeleteBuffers(1, &i->second);
 	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != m_sounds.end(); i++)
 		delete i->second;
+	for(map<string, ALuint>::iterator i = m_buffers.begin(); i != m_buffers.end(); i++)
+		alDeleteBuffers(1, &i->second);
 	
+	ALFWShutdownOpenAL();
 	ALFWShutdown();
+}
+
+void SoundEngine::clear()
+{
+	for(map<string, ALuint>::iterator i = m_buffers.begin(); i != m_buffers.end(); i++)
+		alDeleteBuffers(1, &i->second);
 }
 
 int SoundEngine::createSoundHandle(string _filename, bool _music)
 {
 	int soundHandle = this->m_handleCounter++;
+	if(this->m_handleCounter == INT_MAX)
+		this->m_handleCounter = INT_MIN;
 
 	ALuint buffer = this->getWavBuffer(_filename);
 	ALuint source;
 	alGenSources(1, &source);
 	alSourcei(source, AL_BUFFER, buffer);
-	
+
 	float volume;
 
 	if(_music)
@@ -157,7 +166,7 @@ void SoundEngine::update()
 			}
 		}
 	}
-	
+
 	// Remove some sounds
 	for(int i = 0; i < removeIndices.size(); i++)
 	{

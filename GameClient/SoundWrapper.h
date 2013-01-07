@@ -3,6 +3,8 @@
 #include <string>
 using namespace std;
 
+void clearSoundEngine();
+
 int createSoundHandle(string _filename, bool _music);
 
 void deactivateSound(int _handle);
