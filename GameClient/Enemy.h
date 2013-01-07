@@ -3,7 +3,6 @@
 
 #include "ServerEntity.h"
 
-//Do AI stuff
 class Enemy : public ServerEntity
 {
 private:

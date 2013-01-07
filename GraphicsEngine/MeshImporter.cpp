@@ -37,8 +37,16 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	// Open and read the obj file.
 	ifstream stream;
 	stream.open(filepath+_filename+".obj");
+	std::string temp = filepath+_filename+".obj";
+	if(stream.is_open())
+		OutputDebugStringA("Funkar");
+	else
+		OutputDebugStringA("Funkar inte");
+	
+	
 	while(!stream.eof())
 	{
+		
 		char buf[1024];
 		char key[100];
 		stream.getline(buf, 1024);
@@ -97,6 +105,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 			currentMaterial = string(tempMtl);
 		}
 	}
+	
 	stream.close();
 	
 	//Create the vertex buffer

@@ -72,6 +72,8 @@
     </ClCompile>
     <ClCompile Include="SoundWrapper.cpp">
       <Filter>SoundWrapper</Filter>
+    <ClCompile Include="AttackMessage.cpp">
+      <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Controls</Filter>
@@ -154,6 +156,9 @@
     </ClInclude>
     <ClInclude Include="JoinGameState.h">
       <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackMessage.h">
+      <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="SoundWrapper.h">
       <Filter>SoundWrapper</Filter>

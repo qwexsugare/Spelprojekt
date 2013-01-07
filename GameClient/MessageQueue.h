@@ -9,7 +9,7 @@ class MessageQueue
 {
 private:
 	int m_id;
-
+	sf::Mutex m_mutex;
 	queue<Message*> m_incomingMessages;
 	queue<Message*> m_outgoingMessages;
 public:
