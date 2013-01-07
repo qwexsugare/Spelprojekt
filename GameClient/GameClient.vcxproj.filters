@@ -75,6 +75,9 @@
     <ClCompile Include="JoinGameState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="AttackMessage.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
@@ -155,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="JoinGameState.h">
       <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackMessage.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
