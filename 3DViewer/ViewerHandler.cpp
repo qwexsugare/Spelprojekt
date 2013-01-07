@@ -1,14 +1,21 @@
 #include "ViewerHandler.h"
-#include "Input.h"
-#include "Graphics.h"
+#include "commdlg.h"
+
+using namespace std;
 
 ViewerHandler::ViewerHandler(HWND _hWnd, ConfigFile* _configFile)
 {
+	
 	// Init globals for the people
 	g_graphicsEngine = new GraphicsHandler(_hWnd, _configFile);
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
-
+	
+	m_yaw = 0.0f;
+	m_pitch = 0.0f;
+	m_roll = 0.0f;
+	//ReadFile(_hWnd);
+	
 	this->m_configFile = _configFile;
 	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 10.0f, 0.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 }
@@ -23,7 +30,13 @@ ViewerHandler::~ViewerHandler()
 
 HRESULT ViewerHandler::run()
 {
-	Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(0.0f, 0.0f, 0.0f));
+	
+
+	m_shownModel = g_graphicsEngine->createModel("ArrowHead", FLOAT3(.0f, 0.0f, 0.0f));
+	
+	
+	//delete model;
+
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
@@ -61,7 +74,6 @@ HRESULT ViewerHandler::run()
 
 void ViewerHandler::update(float _dt)
 {
-	// Update controls
 	for(int i = 0; i < this->m_messages.size(); i++)
 	{
 		switch(this->m_messages[i].message)
@@ -92,23 +104,62 @@ void ViewerHandler::update(float _dt)
 	if((g_mouse->getPos().x >= this->m_configFile->getScreenSize().x-10 && g_mouse->getPos().x <= this->m_configFile->getScreenSize().x)
 		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, CAMERA_SPEED*_dt, 0.0f);
+		m_roll -= 0.001f;
 	}
 	else if((g_mouse->getPos().x <= 10 && g_mouse->getPos().x >= 0)
 		|| g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
+		m_roll += 0.001f;
 	}
-	if((g_mouse->getPos().y >= this->m_configFile->getScreenSize().y-10 && g_mouse->getPos().y <= this->m_configFile->getScreenSize().y)
-		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
+	if(g_keyboard->getKeyState(VK_NUMPAD1) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, CAMERA_SPEED*_dt);
+		g_graphicsEngine->removeModel(m_shownModel);
+		m_shownModel = g_graphicsEngine->createModel("cylinder", FLOAT3(.0f, 0.0f, 0.0f));
 	}
-	else if((g_mouse->getPos().y <= 10 && g_mouse->getPos().y >= 0)
-		|| g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
+	if(g_keyboard->getKeyState(VK_NUMPAD2) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveRelative(0.0f, 0.0f, -(CAMERA_SPEED*_dt));
+		g_graphicsEngine->removeModel(m_shownModel);
+		m_shownModel = g_graphicsEngine->createModel("ArrowHead", FLOAT3(.0f, 0.0f, 0.0f));
 	}
 
+	
+	 
+	if(m_roll < 0)
+		m_roll = 2*3.141591;
+	if(m_roll > 2*3.141592)
+		m_roll = 0; 
+
+	m_shownModel->setRotation(m_yaw, m_pitch, m_roll);
+
 	g_mouse->update(); // Must be last!
+}
+
+void ViewerHandler::ReadFile(HWND hw)
+{
+	
+	char fp[MAX_PATH] = "";
+	OPENFILENAME ofn;
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = hw;//GetDesktopWindow();
+	ofn.lpstrFilter = "Fish Files(*.obj)\0*.obj\0All Files(*.*)\0*.*\0";
+	ofn.lpstrFile = fp;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+	ofn.lpstrDefExt = "fish";
+	
+	
+	if(GetOpenFileName(&ofn))
+	{
+		test = fp;
+		OutputDebugStringA(test.c_str());
+	}
+	
+
+	
+
+	
+
+	
 }
