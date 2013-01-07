@@ -41,7 +41,7 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 
 	deleteSoundEngine();
 
-	return S_OK;
+	return hr;
 }
 
 //--------------------------------------------------------------------------------------
