@@ -5,12 +5,15 @@ World::World()
 
 }
 
-World::World(DeviceHandler* _deviceHandler)
+World::World(DeviceHandler* _deviceHandler, HWND _hWnd)
 {
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y);
+	RECT rc;
+	GetWindowRect(_hWnd, &rc);
+	INT2 lolers = INT2(rc.right-rc.left, rc.bottom-rc.top);
+	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y, lolers);
 	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1000.0f, 1000.0f));
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
@@ -36,6 +39,9 @@ World::World(DeviceHandler* _deviceHandler)
 
 World::~World()
 {
+	for(int i = 0; i < m_terrains.size(); i++)
+		delete m_terrains[i];
+
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		delete this->m_sprites[i];
@@ -67,6 +73,28 @@ World::~World()
 	delete this->m_quadTree;
 }
 
+void World::addTerrain(Terrain* _terrain)
+{
+	this->m_terrains.push_back(_terrain);
+}
+
+bool World::removeTerrain(Terrain* _terrain)
+{
+	bool found = false;
+
+	for(int i = 0; i < m_terrains.size() && !found; i++)
+	{
+		if(m_terrains[i] == _terrain)
+		{
+			delete m_terrains[i];
+			m_terrains.erase(m_terrains.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
 void World::render()
 {
 	//Init render stuff
@@ -89,10 +117,23 @@ void World::render()
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+	
+	// Render terrains
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
+	for(int i = 0; i < this->m_terrains.size(); i++)
+	{
+		this->m_deviceHandler->setVertexBuffer(m_terrains[i]->getVertexBuffer());
+
+		this->m_deferredSampler->setModelMatrix(m_terrains[i]->getModelMatrix());
+		this->m_deferredSampler->setTerrainTextures(m_terrains[i]->getTextures(), m_terrains[i]->getNrOfTextures());
+		this->m_deferredSampler->setTerrainBlendMaps(m_terrains[i]->getBlendMaps(), m_terrains[i]->getNrOfBlendMaps());
+			
+		this->m_deferredSampler->getRenderTerrainTechique()->GetPassByIndex( 0 )->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(4, 0);
+	}
+
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-
 	stack<Model*> transparantModels;
-
 	//Render all models
 	/*D3DXMATRIX mat;
 	D3DXMatrixMultiply(&mat, &this->m_camera->getViewMatrix(), &this->m_camera->getProjectionMatrix());
@@ -128,7 +169,7 @@ void World::render()
 			this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 			
-			// ULTRA OPTIMIZATION COMMENTS AWAY SIMONS CODE
+			// ULTRA CHARGED OPTIMIZATION COMMENTS AWAY SIMONS CODE
 			/*D3D10_TECHNIQUE_DESC techDesc;
 			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
 
@@ -258,21 +299,21 @@ bool World::removeModel(Model *_model)
 
 void World::addSprite(SpriteBase *sprite)
 {
-        bool found = false;
+    bool found = false;
 
-        for(int i = 0; i < this->m_sprites.size() && found == false; i++)
-        {
-                if(this->m_sprites[i]->getLayer() > sprite->getLayer())
-                {
-                        this->m_sprites.insert(this->m_sprites.begin() + i, sprite);
-                        found = true;
-                }
-        }
+    for(int i = 0; i < this->m_sprites.size() && found == false; i++)
+    {
+            if(this->m_sprites[i]->getLayer() > sprite->getLayer())
+            {
+                    this->m_sprites.insert(this->m_sprites.begin() + i, sprite);
+                    found = true;
+            }
+    }
 
-        if(found == false)
-        {
-                this->m_sprites.push_back(sprite);
-        }
+    if(found == false)
+    {
+            this->m_sprites.push_back(sprite);
+    }
 }
 
 bool World::removeSprite(SpriteBase *sprite)

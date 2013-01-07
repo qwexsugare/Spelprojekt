@@ -17,6 +17,7 @@
 #include "QuadTree.h"
 #include "SpriteSheet.h"
 #include "SpriteBase.h"
+#include "Terrain.h"
 
 class World
 {
@@ -49,13 +50,17 @@ private:
 	vector<Text*> m_texts;
 	QuadTree* m_quadTree;
 	vector<SpriteBase*> m_sprites;
+	vector<Terrain*> m_terrains;
 public:
 	World();
-	World(DeviceHandler* _deviceHandler);
+	World(DeviceHandler* _deviceHandler, HWND _hWnd);
 	~World();
 
 	void render();
 	void update(float dt);
+	
+	void addTerrain(Terrain* _terrain);
+	bool removeTerrain(Terrain* _terrain);
 	
 	bool addModel(Model *_model);
 	bool removeModel(Model *_model);

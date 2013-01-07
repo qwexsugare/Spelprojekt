@@ -175,6 +175,7 @@
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SubMesh.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextureHolder.h" />
     <ClInclude Include="VertexStructs.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="ResourceHolder.cpp" />
     <ClCompile Include="SpriteEffectFile.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureHolder.cpp" />
     <ClCompile Include="World.cpp" />

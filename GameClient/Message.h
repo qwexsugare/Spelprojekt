@@ -5,17 +5,24 @@
 
 struct Message
 {
+	enum Type{Start, Ready, Collision};
+
+	Type type;
 	int senderId;
 	int reciverId;
-
-	Message(int reciverId)
-	{
-		this->reciverId = reciverId;
-	}
-
-	~Message(void)
-	{
-
-	}
 };
 
+struct ReadyMessage : Message
+{
+	bool ready;
+};
+
+struct StartMessage : Message
+{
+
+};
+
+struct CollisionMessage : Message
+{
+	int affectedDudeId;
+};

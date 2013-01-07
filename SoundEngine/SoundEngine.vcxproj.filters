@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="OpenAL">
+      <UniqueIdentifier>{cc482d91-fc53-4c43-add7-2e9cf41357e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{45f5bdd4-bbaf-4a7f-83d2-423cb40f7392}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aldlist.cpp">
+      <Filter>OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="CWaves.cpp">
+      <Filter>OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework.cpp">
+      <Filter>OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadOAL.cpp">
+      <Filter>OpenAL</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LoadOAL.h">
+      <Filter>OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="aldlist.h">
+      <Filter>OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="CWaves.h">
+      <Filter>OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework.h">
+      <Filter>OpenAL</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

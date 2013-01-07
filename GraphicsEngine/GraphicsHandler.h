@@ -15,7 +15,9 @@ private:
 	World *m_world;
 	DeviceHandler* m_deviceHandler;
 	ResourceHolder *m_resourceHolder;
+	INT2 m_configScreenSize;
 	INT2 m_realScreenSize;
+	bool m_windowed;
 public:
 	DECLDIR GraphicsHandler();
 	DECLDIR GraphicsHandler(HWND _hWnd, ConfigFile* _configFile);
@@ -24,16 +26,19 @@ public:
 	DECLDIR Camera *getCamera();
 	DECLDIR INT2 getScreenSize();
 	
+	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps);
+	DECLDIR bool removeTerrain(Terrain* _terrain);
+
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
 	DECLDIR bool removeText(Text *text);
 
 	DECLDIR Model* createModel(string _filename, FLOAT3 _position);
 	DECLDIR bool removeModel(Model* _model);
 
-	DECLDIR Sprite *createSprite(string filename, INT2 position, INT2 size, int layer);
+	DECLDIR Sprite *createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer);
 	DECLDIR bool removeSprite(Sprite *sprite);
 
-	DECLDIR SpriteSheet *createSpriteSheet(string filename, INT2 position, INT2 size, INT2 nrOfFrames, int layer);
+	DECLDIR SpriteSheet *createSpriteSheet(string filename, FLOAT2 position, FLOAT2 size, INT2 nrOfFrames, int layer);
 	DECLDIR bool removeSpriteSheet(SpriteSheet *spriteSheet);
 
 	DECLDIR void render();

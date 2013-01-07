@@ -4,23 +4,27 @@
 
 LobbyState::LobbyState()
 {
-
+	//this->m_menu = new LobbyMenu();
 }
 
 LobbyState::~LobbyState()
 {
-
-}
-
-State* LobbyState::nextState()
-{
-	return new GameState();
+	//delete this->m_menu;
 }
 
 void LobbyState::update(float _dt)
 {
-	if(g_mouse->isRButtonPressed())
-	{
-		this->setDone(true);
-	}
+	//this->m_menu->Update();
+
+	//if(this->m_menu->StartGameIsDown() == true)
+	//{
+	//	//Skicka ready till servern
+	//}
+
+	//Kolla om nätverket har sagt att spelet har startat
+}
+
+State::StateEnum LobbyState::nextState()
+{
+	return State::GAME;
 }

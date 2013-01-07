@@ -1,6 +1,6 @@
 #include "SpriteSheet.h"
 
-SpriteSheet::SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, INT2 _position, INT2 _size, INT2 _nrOfFrames, int _layer)
+SpriteSheet::SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, FLOAT2 _position, FLOAT2 _size, INT2 _nrOfFrames, int _layer)
 {
 	this->m_texture = _texture;
 	this->m_nrOfFrames = _nrOfFrames;
@@ -13,11 +13,14 @@ SpriteSheet::SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView*
 	this->m_animationTimer = 0.0f;
 
 	//Convert the position and size from pixels to projection space
-	this->m_position.x = ((float)_position.x / deviceHandler->getScreenSize().x) * 2 - 1;
-	this->m_position.y = ((float)_position.y / deviceHandler->getScreenSize().y) * 2 - 1;
+	//this->m_position.x = ((float)_position.x / deviceHandler->getScreenSize().x) * 2 - 1;
+	//this->m_position.y = ((float)_position.y / deviceHandler->getScreenSize().y) * 2 - 1;
 
-	this->m_size.x = ((float)_size.x / deviceHandler->getScreenSize().x) * 2;
-	this->m_size.y = ((float)_size.y / deviceHandler->getScreenSize().y) * 2;
+	//this->m_size.x = ((float)_size.x / deviceHandler->getScreenSize().x) * 2;
+	//this->m_size.y = ((float)_size.y / deviceHandler->getScreenSize().y) * 2;
+
+	this->m_position = FLOAT2((float)_position.x, (float)_position.y);
+	this->m_size = FLOAT2((float)_size.x, (float)_size.y);
 
 	//Create modelmatrix
 	D3DXMatrixTranslation(&this->m_modelMatrix, this->m_position.x, this->m_position.y, 0.0f);

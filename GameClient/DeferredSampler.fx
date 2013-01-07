@@ -1,4 +1,6 @@
 Texture2D tex2D;
+Texture2D terrainTextures[8];
+Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
 {
@@ -36,7 +38,7 @@ cbuffer cbEveryFrame
 	matrix viewMatrix;
 	matrix projectionMatrix;
 	matrix modelMatrix;
-
+	
 	float modelAlpha;
 };
 
@@ -119,5 +121,67 @@ technique10 DeferredSample
 
 	    SetDepthStencilState( EnableDepth, 0 );
 	    SetRasterizerState( rs );
+    }
+}
+
+PSSceneIn drawTerrainVs(VSSceneIn input)
+{
+	PSSceneIn output = (PSSceneIn)0;
+
+	matrix worldViewProjection = mul(viewMatrix, projectionMatrix);
+	
+	// transform the point into view space
+	output.Pos = mul( float4(input.Pos,1.0), mul(modelMatrix,worldViewProjection) );
+	output.UVCoord = input.UVCoord;
+
+	//variables needed for lighting
+	output.Normal = input.Normal;
+	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
+
+	return output;
+}
+
+PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
+{	
+	PSSceneOut output = (PSSceneOut)0;
+
+	output.Pos = input.Pos;
+	output.Normal = float4(input.Normal, 1.0f);
+
+	float4 texColors[8];
+	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);
+	texColors[1] = terrainTextures[1].Sample(linearSampler, input.UVCoord);
+	texColors[2] = terrainTextures[2].Sample(linearSampler, input.UVCoord);
+	texColors[3] = terrainTextures[3].Sample(linearSampler, input.UVCoord);
+	texColors[4] = terrainTextures[4].Sample(linearSampler, input.UVCoord);
+	texColors[5] = terrainTextures[5].Sample(linearSampler, input.UVCoord);
+	texColors[6] = terrainTextures[6].Sample(linearSampler, input.UVCoord);
+	texColors[7] = terrainTextures[7].Sample(linearSampler, input.UVCoord);
+	
+	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
+	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
+	
+	output.Diffuse = lerp(texColors[0]*blendSample1.x, texColors[1], blendSample1.y);
+	output.Diffuse = lerp(output.Diffuse, texColors[1], blendSample1.y);
+	output.Diffuse = lerp(output.Diffuse, texColors[2], blendSample1.z);
+	output.Diffuse = lerp(output.Diffuse, texColors[3], blendSample1.w);
+	output.Diffuse = lerp(output.Diffuse, texColors[4], blendSample2.x);
+	output.Diffuse = lerp(output.Diffuse, texColors[5], blendSample2.y);
+	output.Diffuse = lerp(output.Diffuse, texColors[6], blendSample2.z);
+	output.Diffuse = lerp(output.Diffuse, texColors[7], blendSample2.w);
+
+	return output;
+}
+
+technique10 RenderTerrain
+{
+    pass p0
+    {
+        SetVertexShader(CompileShader( vs_4_0, drawTerrainVs()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
+
+	    SetDepthStencilState(EnableDepth, 0);
+	    SetRasterizerState(rs);
     }  
 }

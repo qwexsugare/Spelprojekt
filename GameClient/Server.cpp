@@ -1,12 +1,17 @@
 #include "Server.h"
 
-Server::Server()
+Server::Server(MessageHandler *_messageHandler)
 {
 	this->clientArrPos=0;
+	this->m_messageHandler = _messageHandler;
 }
 
 Server::~Server()
 {
+	for(int i = 0; i < this->m_players.size(); i++)
+	{
+		delete this->m_players[i];
+	}
 }
 
 bool Server::start(int port)
@@ -41,7 +46,10 @@ void Server::goThroughSelector()
 			//and add it to the selector
 			this->selector.Add(incSocket);
 			this->clients[this->clientArrPos++]=incSocket;
-			this->m_players.push_back(new Player(this->m_players.size()));
+
+			Player *p = new Player(this->m_players.size());
+			this->m_players.push_back(p);
+			this->m_messageHandler->addQueue(p->getMessageQueue());
 		}
 		//else its a client socket who wants to sent a message
 		else
@@ -88,6 +96,13 @@ void Server::goThroughSelector()
 
 void Server::shutDown()
 {
+	if(this->listener.IsValid())
+	{
+		this->listener.Close();
+	}
+
+	this->Wait();
+
 	for(int i=0;i<this->clientArrPos;i++)
 	{
 		sf::Packet msg;
@@ -97,10 +112,6 @@ void Server::shutDown()
 			this->clients[i].Send(msg);
 			this->clients[i].Close();
 		}
-	}
-	if(this->listener.IsValid())
-	{
-		this->listener.Close();
 	}
 }
 
@@ -156,12 +167,6 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 		EntityMessage ent;
 		packet >> ent;
 		this->m_mutex.Lock();
-		//this->entityQueue.push(ent);
-
-		//if(this->entityQueue.size() > 1000)
-		//{
-		//	this->entityQueue.pop();
-		//}
 
 		this->m_players[socketIndex]->handleEntityMessage(ent);
 
@@ -174,12 +179,8 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 		Msg msg;
 		packet >> msg;
 		this->m_mutex.Lock();
-		this->msgQueue.push(msg);
 
-		if(this->msgQueue.size() > 1000)
-		{
-			this->msgQueue.pop();
-		}
+		this->m_players[socketIndex]->handleMsgMessage(msg);
 
 		this->m_mutex.Unlock();
 		protFound=true;

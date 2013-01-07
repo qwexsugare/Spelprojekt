@@ -8,11 +8,15 @@ GraphicsHandler::GraphicsHandler()
 GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 {
 	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile->getWindowed(), _configFile->getScreenSize());
+	this->m_world = new World(this->m_deviceHandler, _hWnd);
+	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
+	this->m_windowed = _configFile->getWindowed();
+
+	// Set some screen size vars
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
 	this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
-	this->m_world = new World(this->m_deviceHandler);
-	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
+	this->m_configScreenSize = _configFile->getScreenSize();
 }
 
 GraphicsHandler::~GraphicsHandler()
@@ -20,6 +24,31 @@ GraphicsHandler::~GraphicsHandler()
 	delete this->m_world;
 	delete this->m_resourceHolder;
 	delete this->m_deviceHandler;
+}
+	
+Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps)
+{
+	// Pre-define a shitload of vars
+	D3DXVECTOR3 v1(_v1.x, _v1.y, _v1.z);
+	D3DXVECTOR3 v2(_v2.x, _v2.y, _v2.z);
+	ID3D10ShaderResourceView** textures = new ID3D10ShaderResourceView*[8];
+	for(int i = 0; i < _textures.size(); i++)
+		textures[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_textures[i]);
+	ID3D10ShaderResourceView** blendMaps = new ID3D10ShaderResourceView*[2];
+	for(int i = 0; i < _blendMaps.size(); i++)
+		blendMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_blendMaps[i]);
+
+	// Shove that heap of trash vars into the terrains crappy constructor.
+	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, 32, 32, textures, _textures.size(), blendMaps, _blendMaps.size());
+	
+	this->m_world->addTerrain(terrain);
+
+	return terrain;
+}
+
+bool GraphicsHandler::removeTerrain(Terrain* _terrain)
+{
+	return this->m_world->removeTerrain(_terrain);
 }
 
 Text* GraphicsHandler::createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color)
@@ -31,7 +60,6 @@ Text* GraphicsHandler::createText(string _text, INT2 _pos, int _size, D3DXCOLOR 
 	return text;
 }
 	
-
 bool GraphicsHandler::removeText(Text* _text)
 {
 	return this->m_world->removeText(_text);
@@ -44,7 +72,10 @@ Camera *GraphicsHandler::getCamera()
 
 INT2 GraphicsHandler::getScreenSize()
 {
-	return this->m_realScreenSize;
+	if(this->m_windowed)
+		return this->m_configScreenSize;
+	else
+		return this->m_realScreenSize;
 }
 
 Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
@@ -72,9 +103,9 @@ bool GraphicsHandler::removeModel(Model* _model)
 	return this->m_world->removeModel(_model);
 }
 
-Sprite *GraphicsHandler::createSprite(string filename, INT2 position, INT2 size, int layer)
+Sprite *GraphicsHandler::createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer)
 {
-	Sprite *sprite = new Sprite(this->m_deviceHandler, FLOAT2(position.x, position.y), FLOAT2(size.x, size.y), this->m_resourceHolder->getTextureHolder()->getTexture(filename), layer);
+	Sprite *sprite = new Sprite(this->m_deviceHandler, position, size, this->m_resourceHolder->getTextureHolder()->getTexture(filename), layer);
 	this->m_world->addSprite(sprite);
 
 	return sprite;
@@ -85,7 +116,7 @@ bool GraphicsHandler::removeSprite(Sprite *sprite)
 	return this->m_world->removeSprite(sprite);
 }
 
-SpriteSheet *GraphicsHandler::createSpriteSheet(string filename, INT2 position, INT2 size, INT2 nrOfFrames, int layer)
+SpriteSheet *GraphicsHandler::createSpriteSheet(string filename, FLOAT2 position, FLOAT2 size, INT2 nrOfFrames, int layer)
 {
 	SpriteSheet *s = new SpriteSheet(this->m_deviceHandler, this->m_resourceHolder->getTextureHolder()->getTexture(filename), position, size, nrOfFrames, layer);
 	this->m_world->addSprite(s);

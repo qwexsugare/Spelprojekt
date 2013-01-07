@@ -1,11 +1,11 @@
 #define WIN32_LEAN_AND_MEAN
 #include <SFML\Network.hpp>
 #include <SFML\System.hpp>
-//#include <windows.h>
 #include <windows.h>
 #include "ClientHandler.h"
 #include "Mouse.h"
 #include "Keyboard.h"
+#include "SoundWrapper.h"
 
 ConfigFile* g_configFile;
 GraphicsHandler* g_graphicsEngine;
@@ -30,9 +30,20 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 		return 0;
 	}
 	
-	ClientHandler clientHandler(hwnd);
+	initSoundEngine();
+	
+	setMusicVolume(g_configFile->getMusicVolume());
+	setSoundEffectsVolume(g_configFile->getSoundEffectsVolume());
 
-	return clientHandler.run();
+	ClientHandler* clientHandler = new ClientHandler(hwnd);
+	HRESULT hr = clientHandler->run();
+	delete clientHandler;
+	
+	deleteSoundEngine();
+
+	_CrtDumpMemoryLeaks();
+
+	return hr;
 }
 
 //--------------------------------------------------------------------------------------
