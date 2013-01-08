@@ -68,11 +68,13 @@ Sprite::~Sprite()
 void Sprite::setPosition(FLOAT2 position)
 {
 	//Convert the position to projection space
-	position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
-	position.y = (position.y / this->m_deviceHandler->getScreenSize().y) * 2 - 1;
+	//position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
+	//position.y = (position.y / this->m_deviceHandler->getScreenSize().y) * 2 - 1;
 
 	this->m_modelMatrix._41 = position.x;
 	this->m_modelMatrix._42 = position.y;
+
+	//D3DXMatrixTranslation(&this->m_modelMatrix, position.x, position.y, 0.0f);
 }
 
 void Sprite::setSize(FLOAT2 size)

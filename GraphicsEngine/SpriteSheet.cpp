@@ -111,12 +111,14 @@ int SpriteSheet::getLayer()
 	return this->m_layer;
 }
 
-void SpriteSheet::setPosition(INT2 _position)
+void SpriteSheet::setPosition(FLOAT2 _position)
 {
-	D3DXMatrixTranslation(&this->m_modelMatrix, this->m_position.x, this->m_position.y, 0.0f);
+	//D3DXMatrixTranslation(&this->m_modelMatrix, this->m_position.x, this->m_position.y, 0.0f);
+	this->m_modelMatrix._41 = _position.x;
+	this->m_modelMatrix._42 = _position.y;
 }
 
-void SpriteSheet::setSize(INT2 _size)
+void SpriteSheet::setSize(FLOAT2 _size)
 {
 	//Scaling?
 }

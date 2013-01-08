@@ -34,4 +34,9 @@ void Projectile::update(float dt)
 
 	this->m_positon = this->m_positon + this->m_direction * dt * this->m_movementSpeed;
 	this->m_lifetime--;
+
+	if(this->m_lifetime <= 0)
+	{
+		//this->m_messageQueue->pushOutgoingMessage(
+	}
 }

@@ -12,7 +12,6 @@ GameState::GameState()
 	this->m_myText = g_graphicsEngine->createMyText("text1.png", "Hej kjag heter olle och jag är en get och jag ska berätta min saga._detta är en nyh rad och jag slogs mot ridaren o vann._ fsafsgshsgs_darfsetgestygs_fsesysh", INT2(0, 0), 400.0f, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
-	this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.1f, 0.1f), 0);
 
 	// Create a fucking awesome terrain
 	vector<string> textures;
@@ -27,9 +26,13 @@ GameState::GameState()
 	this->m_network = new Client();
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+<<<<<<< HEAD
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1337);
 
 	//this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.5f, 0.5f), 0);
+=======
+	this->m_network->connect(sf::IPAddress("194.47.155.243"), 1337);
+>>>>>>> 0d2c70e9e8e8623fdfc7f692e1128f98e0eca435
 }
 
 GameState::~GameState()
@@ -71,8 +74,6 @@ void GameState::update(float _dt)
 		this->m_fpsText->setString(ss.str());
 		lol = -0.5f;
 	}
-
-	this->s->setPosition(FLOAT2(0.0f, lol));
 
 	//this->s->setRotation(lol);
 
@@ -146,7 +147,8 @@ void GameState::update(float _dt)
 	}
 	else if(g_mouse->isRButtonPressed())
 	{
-		playSound(this->m_testSound);
+<<<<<<< HEAD
+		loopSound(this->m_testSound);
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
@@ -154,6 +156,9 @@ void GameState::update(float _dt)
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 		this->m_network->sendAttackMessage(AttackMessage(0, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+=======
+		playSound(this->m_testSound);
+>>>>>>> 0d2c70e9e8e8623fdfc7f692e1128f98e0eca435
 	}
 	else
 		for(int i = 0; i < this->m_entities.size(); i++)

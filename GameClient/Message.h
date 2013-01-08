@@ -10,6 +10,18 @@ struct Message
 	Type type;
 	int senderId;
 	int reciverId;
+
+	Message()
+	{
+
+	}
+
+	Message(Type _type, int _senderId, int _reciverId)
+	{
+		this->type = _type;
+		this->senderId = _senderId;
+		this->reciverId = _reciverId;
+	}
 };
 
 struct ReadyMessage : Message
@@ -32,7 +44,15 @@ struct DamageMessage : Message
 	int damage;
 };
 
-struct RemoveEntity : Message
+struct RemoveEntityMessage : Message
 {
 	int removedId;
+
+	RemoveEntityMessage(int _senderId, int _reciverId, int _removedId)
+	{
+		this->type = Type::RemoveEntity;
+		this->senderId = _senderId;
+		this->reciverId = _reciverId;
+		this->removedId = _removedId;
+	}
 };
