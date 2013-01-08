@@ -88,12 +88,12 @@ void MyText::DrawString(string str, float _size)
 	//----------------------------------------------------------------------------------------------------------------------------
 
 	float charOffsets[256];
-	charOffsets['A'] = 60.0f;
+	charOffsets['A'] = 50.0f;
 	charOffsets['B'] = 60.0f;
 	charOffsets['C'] = 60.0f;
 	charOffsets['D'] = 60.0f;
 	charOffsets['E'] = 70.0f;
-	charOffsets['F'] = 60.0f;
+	charOffsets['F'] = 70.0f;
 	charOffsets['G'] = 60.0f;
 	charOffsets['H'] = 60.0f;
 	charOffsets['I'] = 110.0f;
@@ -116,7 +116,7 @@ void MyText::DrawString(string str, float _size)
 	charOffsets['Z'] = 60.0f;
 	charOffsets['-'] = 70.0f;
 	charOffsets[' '] = 110.0f;
-	charOffsets['_'] = 100.0f;
+	charOffsets['_'] = 150.0f;
 	charOffsets['0'] = 60.0f;
 	charOffsets['1'] = 60.0f;
 	charOffsets['2'] = 60.0f;
@@ -134,7 +134,7 @@ void MyText::DrawString(string str, float _size)
 	charOffsets[')'] = 70.0f;
 	charOffsets['?'] = 60.0f;
 	charOffsets['!'] = 80.0f;
-	charOffsets['©'] = 50.0f;
+	charOffsets['$'] = 20.0f;
 	charOffsets['.'] = 80.0f;
 	charOffsets['/'] = 60.0f;
 	charOffsets['\\'] = 60.0f;
@@ -142,8 +142,8 @@ void MyText::DrawString(string str, float _size)
 	charOffsets['}'] = 80.0f;
 	charOffsets['='] = 50.0f;
 	charOffsets['"'] = 60.0f;
-	charOffsets['>'] = 50.0f;
-	charOffsets['<'] = 50.0f;
+	charOffsets['>'] = 0.0f;
+	charOffsets['<'] = 0.0f;
 	charOffsets['*'] = 70.0f;
 
 	char* chars = new char[str.length()];
@@ -159,8 +159,9 @@ void MyText::DrawString(string str, float _size)
 			OffsetX = (OffsetSizeX-(charOffsets[tmp]*m_size/400.0f+100.0f*m_size/400.0f)/2.0f)/m_width;
 		else
 			OffsetX = (OffsetSizeX-(charOffsets[tmp]*m_size/400.0f+charOffsets[tmp2]*m_size/400.0f)/2.0f)/m_width;
-		if (tmp == ' ')
-        {
+		switch(tmp)
+		{
+		case ' ':
 			TextCurrent[3] = D3DXVECTOR2(27.0f/28.0f, 0.0f/2.0f);
 			//X = 1 Y = 0
 			TextCurrent[2] = D3DXVECTOR2(28.0f/28.0f,0.0f/2.0f);
@@ -168,28 +169,21 @@ void MyText::DrawString(string str, float _size)
 		    TextCurrent[1] = D3DXVECTOR2(27.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 1
 			TextCurrent[0] = D3DXVECTOR2(28.0f/28.0f, 1.0f/2.0f);
-        }
-		if (tmp == '_')
-        {
+			break;
+
+		case '_':
 			Rows+=1.3f;
 			Tmppos = D3DXVECTOR3((m_pos.x/m_width)*2.0f-1.0f, ((m_pos.y/m_height)*2.0f-1.0f)*-1.0f,0.0f);
-			float TmpOffsetY =OffsetY*Rows/1.5f;
+			TmpOffsetY =OffsetY*Rows/1.5f;
 			Tmppos.y -=TmpOffsetY;
-			continue;
-        }
-        if (tmp == '.')
-        {
-			//X = 0 Y = 0
-            TextCurrent[3] = D3DXVECTOR2(18.0f/28.0f, 1.0f/2.0f);
-			//X = 1 Y = 0
-			TextCurrent[2] = D3DXVECTOR2(19.0f/28.0f, 1.0f/2.0f);
-			//X = 0 Y = 1
-		    TextCurrent[1] = D3DXVECTOR2(18.0f/28.0f, 2.0f/2.0f);
-			//X = 1 Y = 1
-			TextCurrent[0] = D3DXVECTOR2(19.0f/28.0f, 2.0f/2.0f);
-        }
-        if (tmp == '-')
-		{
+			OffsetX = (OffsetSizeX-(charOffsets[tmp]*m_size/400.0f))/m_width;
+			TextCurrent[3] = D3DXVECTOR2(27.0f/28.0f, 0.0f/2.0f);
+			TextCurrent[2] = D3DXVECTOR2(28.0f/28.0f,0.0f/2.0f);
+		    TextCurrent[1] = D3DXVECTOR2(27.0f/28.0f, 1.0f/2.0f);
+			TextCurrent[0] = D3DXVECTOR2(28.0f/28.0f, 1.0f/2.0f);
+			break;
+
+		case '-':
 			//X = 0 Y = 0
 			TextCurrent[3] = D3DXVECTOR2(26.0f/28.0f, 0.0f/2.0f);
 			//X = 1 Y = 0
@@ -198,9 +192,20 @@ void MyText::DrawString(string str, float _size)
 		    TextCurrent[1] = D3DXVECTOR2(26.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 1
 			TextCurrent[0] = D3DXVECTOR2(27.0f/28.0f, 1.0f/2.0f);
-        }
-		if (tmp == '+')
-		{
+			break;
+
+		case ',':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(11.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(10.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(11.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(10.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '+':
 			//X = 0 Y = 0
 			TextCurrent[3] = D3DXVECTOR2(11.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 0
@@ -209,20 +214,42 @@ void MyText::DrawString(string str, float _size)
 		    TextCurrent[1] = D3DXVECTOR2(11.0f/28.0f, 2.0f/2.0f);
 			//X = 1 Y = 1
 			TextCurrent[0] = D3DXVECTOR2(12.0f/28.0f, 2.0f/2.0f);
-        }
-        if (tmp == ':')
-        {
+			break;
+
+		case ':':
 			//X = 0 Y = 0
-			TextCurrent[3] = D3DXVECTOR2(12.0f/28.0f, 1.0f/2.0f);
+			TextCurrent[3] = D3DXVECTOR2(13.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(12.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(13.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(12.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '(':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(14.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 0
 			TextCurrent[2] = D3DXVECTOR2(13.0f/28.0f, 1.0f/2.0f);
 			//X = 0 Y = 1
-		    TextCurrent[1] = D3DXVECTOR2(12.0f/28.0f, 2.0f/2.0f);
+		    TextCurrent[1] = D3DXVECTOR2(14.0f/28.0f, 2.0f/2.0f);
 			//X = 1 Y = 1
 			TextCurrent[0] = D3DXVECTOR2(13.0f/28.0f, 2.0f/2.0f);
-        }
-		if (tmp == '?')
-        {
+			break;
+
+		case ')':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(15.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(14.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(15.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(14.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '?':
 			//X = 0 Y = 0
 			TextCurrent[3] = D3DXVECTOR2(16.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 0
@@ -231,93 +258,197 @@ void MyText::DrawString(string str, float _size)
 		    TextCurrent[1] = D3DXVECTOR2(16.0f/28.0f, 2.0f/2.0f);
 			//X = 1 Y = 1
 			TextCurrent[0] = D3DXVECTOR2(15.0f/28.0f, 2.0f/2.0f);
-        }
-		if (tmp == '!')
-        {
+			break;
+
+		case '!':
 			//X = 0 Y = 0
-			TextCurrent[3] = D3DXVECTOR2(16.0f/28.0f, 1.0f/2.0f);
+			TextCurrent[3] = D3DXVECTOR2(17.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(16.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(17.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(16.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '$':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(18.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 0
 			TextCurrent[2] = D3DXVECTOR2(17.0f/28.0f, 1.0f/2.0f);
 			//X = 0 Y = 1
-		    TextCurrent[1] = D3DXVECTOR2(16.0f/28.0f, 2.0f/2.0f);
+		    TextCurrent[1] = D3DXVECTOR2(18.0f/28.0f, 2.0f/2.0f);
 			//X = 1 Y = 1
 			TextCurrent[0] = D3DXVECTOR2(17.0f/28.0f, 2.0f/2.0f);
-        }
-        if (tmp == '/')
-        {
+			break;
+
+		case '.':
 			//X = 0 Y = 0
-			TextCurrent[3] = D3DXVECTOR2(2.0f/28.0f, 1.0f/2.0f);
+            TextCurrent[3] = D3DXVECTOR2(19.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 0
-			TextCurrent[2] = D3DXVECTOR2(21.0f/28.0f, 1.0f/2.0f);
+			TextCurrent[2] = D3DXVECTOR2(18.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(19.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(18.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '/':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(20.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(19.0f/28.0f, 1.0f/2.0f);
 			//X = 0 Y = 1
 		    TextCurrent[1] = D3DXVECTOR2(20.0f/28.0f, 2.0f/2.0f);
 			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(19.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '\\':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(21.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(20.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(21.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(20.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '{':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(22.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(21.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(22.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
 			TextCurrent[0] = D3DXVECTOR2(21.0f/28.0f, 2.0f/2.0f);
-        }
-        if (tmp >= 'A' && tmp <= 'Z')
-        {
+			break;
+
+		case '}':
 			//X = 0 Y = 0
-            TextCurrent[3] = D3DXVECTOR2(((float)tmp - 64.0f)/28.0f, 0.0f/2.0f);
+			TextCurrent[3] = D3DXVECTOR2(23.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 0
-			TextCurrent[2] = D3DXVECTOR2(((float)tmp - (64.0f+1))/28.0f, 0.0f/2.0f);
+			TextCurrent[2] = D3DXVECTOR2(22.0f/28.0f, 1.0f/2.0f);
 			//X = 0 Y = 1
-		    TextCurrent[1] = D3DXVECTOR2(((float)tmp - 64.0f)/28.0f, 1.0f/2.0f);
+		    TextCurrent[1] = D3DXVECTOR2(23.0f/28.0f, 2.0f/2.0f);
 			//X = 1 Y = 1
-			TextCurrent[0] = D3DXVECTOR2(((float)tmp - (64.0f+1))/28.0f, 1.0f/2.0f);
+			TextCurrent[0] = D3DXVECTOR2(22.0f/28.0f, 2.0f/2.0f);
+			break;
 
-		}
-        else if (tmp >= '0' && tmp <= '9')
-        {
+		case '=':
 			//X = 0 Y = 0
-            TextCurrent[3] = D3DXVECTOR2(((float)tmp - 103.0f)/28.0f, 1.0f/2.0f);
+			TextCurrent[3] = D3DXVECTOR2(24.0f/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 0
-			TextCurrent[2] = D3DXVECTOR2(((float)tmp - (103.0f+1))/28.0f, 1.0f/2.0f);
+			TextCurrent[2] = D3DXVECTOR2(23.0f/28.0f, 1.0f/2.0f);
 			//X = 0 Y = 1
-		    TextCurrent[1] = D3DXVECTOR2(((float)tmp - 103.0f)/28.0f, 2.0f/2.0f);
+		    TextCurrent[1] = D3DXVECTOR2(24.0f/28.0f, 2.0f/2.0f);
 			//X = 1 Y = 1
-			TextCurrent[0] = D3DXVECTOR2(((float)tmp - (103.0f+1))/28.0f, 2.0f/2.0f);
+			TextCurrent[0] = D3DXVECTOR2(23.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '"':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(25.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(24.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(25.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(24.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '>':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(26.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(25.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(26.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(25.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '<':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(27.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(26.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(27.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(26.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		case '*':
+			//X = 0 Y = 0
+			TextCurrent[3] = D3DXVECTOR2(28.0f/28.0f, 1.0f/2.0f);
+			//X = 1 Y = 0
+			TextCurrent[2] = D3DXVECTOR2(27.0f/28.0f, 1.0f/2.0f);
+			//X = 0 Y = 1
+		    TextCurrent[1] = D3DXVECTOR2(28.0f/28.0f, 2.0f/2.0f);
+			//X = 1 Y = 1
+			TextCurrent[0] = D3DXVECTOR2(27.0f/28.0f, 2.0f/2.0f);
+			break;
+
+		default:
+			if (tmp >= 'A' && tmp <= 'Z')
+			{
+				//X = 0 Y = 0
+				TextCurrent[3] = D3DXVECTOR2(((float)tmp - 64.0f)/28.0f, 0.0f/2.0f);
+				//X = 1 Y = 0
+				TextCurrent[2] = D3DXVECTOR2(((float)tmp - (64.0f+1))/28.0f, 0.0f/2.0f);
+				//X = 0 Y = 1
+				TextCurrent[1] = D3DXVECTOR2(((float)tmp - 64.0f)/28.0f, 1.0f/2.0f);
+				//X = 1 Y = 1
+				TextCurrent[0] = D3DXVECTOR2(((float)tmp - (64.0f+1))/28.0f, 1.0f/2.0f);
+
+			}
+			else if (tmp >= '0' && tmp <= '9')
+			{
+				//X = 0 Y = 0
+				TextCurrent[3] = D3DXVECTOR2(((float)tmp - 103.0f)/28.0f, 1.0f/2.0f);
+				//X = 1 Y = 0
+				TextCurrent[2] = D3DXVECTOR2(((float)tmp - (103.0f+1))/28.0f, 1.0f/2.0f);
+				//X = 0 Y = 1
+				TextCurrent[1] = D3DXVECTOR2(((float)tmp - 103.0f)/28.0f, 2.0f/2.0f);
+				//X = 1 Y = 1
+				TextCurrent[0] = D3DXVECTOR2(((float)tmp - (103.0f+1))/28.0f, 2.0f/2.0f);
+			}
+			break;
 		}
-			Tmppos.x +=OffsetX;
-			m_textS[m_number*6].POS = D3DXVECTOR3 (Tmppos.x, Tmppos.y,0.0f);
-			//X = 1 Y = 0
-			m_textS[m_number*6+1].POS = D3DXVECTOR3 (Tmppos.x+OffsetXOnScreen, Tmppos.y,0.0f);
-			//X = 0 Y = 1
-			m_textS[m_number*6+2].POS = D3DXVECTOR3 (Tmppos.x, Tmppos.y+OffsetYOnScreen,0.0f);
-			//X = 0 Y = 1
-			m_textS[m_number*6+3].POS = D3DXVECTOR3 (Tmppos.x, Tmppos.y+OffsetYOnScreen,0.0f);
-			//X = 1 Y = 0
-			m_textS[m_number*6+4].POS = D3DXVECTOR3 (Tmppos.x+OffsetXOnScreen, Tmppos.y,0.0f);
-			//X = 1 Y = 1
-			m_textS[m_number*6+5].POS = D3DXVECTOR3 (Tmppos.x+OffsetXOnScreen, Tmppos.y+OffsetYOnScreen,0.0f);
 
-		//----------------------------------------------------------------------------------------------------------------------------			
-		//	Sets Color of the text
-		//----------------------------------------------------------------------------------------------------------------------------
-
-			//m_textS[m_number*6].COLOR = m_color;
-			//m_textS[m_number*6+1].COLOR = m_color;
-			//m_textS[m_number*6+2].COLOR = m_color;
-			//m_textS[m_number*6+3].COLOR = m_color;
-			//m_textS[m_number*6+4].COLOR = m_color;
-			//m_textS[m_number*6+5].COLOR = m_color;
+		Tmppos.x +=OffsetX;
+		m_textS[m_number*6].POS = D3DXVECTOR3 (Tmppos.x, Tmppos.y,0.0f);
+		//X = 1 Y = 0
+		m_textS[m_number*6+1].POS = D3DXVECTOR3 (Tmppos.x+OffsetXOnScreen, Tmppos.y,0.0f);
+		//X = 0 Y = 1
+		m_textS[m_number*6+2].POS = D3DXVECTOR3 (Tmppos.x, Tmppos.y+OffsetYOnScreen,0.0f);
+		//X = 0 Y = 1
+		m_textS[m_number*6+3].POS = D3DXVECTOR3 (Tmppos.x, Tmppos.y+OffsetYOnScreen,0.0f);
+		//X = 1 Y = 0
+		m_textS[m_number*6+4].POS = D3DXVECTOR3 (Tmppos.x+OffsetXOnScreen, Tmppos.y,0.0f);
+		//X = 1 Y = 1
+		m_textS[m_number*6+5].POS = D3DXVECTOR3 (Tmppos.x+OffsetXOnScreen, Tmppos.y+OffsetYOnScreen,0.0f);
 
 		//----------------------------------------------------------------------------------------------------------------------------
 		//	Builds up TextCoordinates
 		//----------------------------------------------------------------------------------------------------------------------------
 
-			//X = 0 Y = 0
-			m_textS[m_number*6].UV = D3DXVECTOR2(TextCurrent[0]);
-			//X = 1 Y = 0
-			m_textS[m_number*6+1].UV = D3DXVECTOR2(TextCurrent[1]);
-			//X = 0 Y = 1
-			m_textS[m_number*6+2].UV = D3DXVECTOR2(TextCurrent[2]);
-			//X = 0 Y = 1
-			m_textS[m_number*6+3].UV = D3DXVECTOR2(TextCurrent[2]);
-			//X = 1 Y = 0
-			m_textS[m_number*6+4].UV = D3DXVECTOR2(TextCurrent[1]);
-			//X = 1 Y = 1
-			m_textS[m_number*6+5].UV = D3DXVECTOR2(TextCurrent[3]);
-			m_number+=1;
+		//X = 0 Y = 0
+		m_textS[m_number*6].UV = D3DXVECTOR2(TextCurrent[0]);
+		//X = 1 Y = 0
+		m_textS[m_number*6+1].UV = D3DXVECTOR2(TextCurrent[1]);
+		//X = 0 Y = 1
+		m_textS[m_number*6+2].UV = D3DXVECTOR2(TextCurrent[2]);
+		//X = 0 Y = 1
+		m_textS[m_number*6+3].UV = D3DXVECTOR2(TextCurrent[2]);
+		//X = 1 Y = 0
+		m_textS[m_number*6+4].UV = D3DXVECTOR2(TextCurrent[1]);
+		//X = 1 Y = 1
+		m_textS[m_number*6+5].UV = D3DXVECTOR2(TextCurrent[3]);
+		m_number+=1;
 	}
 
 	//map the buffer
@@ -328,7 +459,6 @@ void MyText::DrawString(string str, float _size)
 	{
 		vertexData[i].POS = m_textS[i].POS;
 		vertexData[i].UV = m_textS[i].UV;
-		//vertexData[i].COLOR = m_textS[i].COLOR;
 	}
 
 	this->m_VertexBuffer->Unmap();

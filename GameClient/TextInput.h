@@ -8,10 +8,11 @@ class TextInput
 private:
 	string m_text;
 	MyText* m_myText;
+	float m_timer;
 public:
 	TextInput();
-	TextInput(INT2 _pos, int _size);
+	TextInput(string _texture, INT2 _pos, int _size);
 	~TextInput();
 
-	void update();
+	void update(float _dt);
 };
