@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, int _lifetime, float _movementSpeed) : ServerEntity()
+Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, float _movementSpeed) : ServerEntity()
 {
 	this->m_positon = _position;
 	this->m_direction = _direction / _direction.length();
@@ -33,10 +33,10 @@ void Projectile::update(float dt)
 	}
 
 	this->m_positon = this->m_positon + this->m_direction * dt * this->m_movementSpeed;
-	this->m_lifetime--;
+	this->m_lifetime = this->m_lifetime - dt;
 
 	if(this->m_lifetime <= 0)
 	{
-		//this->m_messageQueue->pushOutgoingMessage(
+		this->m_messageQueue->pushOutgoingMessage(new RemoveEntityMessage(0, EntityHandler::getId(), this->m_id));
 	}
 }

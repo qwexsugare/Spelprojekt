@@ -19,6 +19,7 @@ public:
 	~MessageHandler();
 
 	void addQueue(MessageQueue* _queue);
+	void removeQueue(int id);
 	void update();
 };
 

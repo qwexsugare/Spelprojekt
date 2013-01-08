@@ -15,6 +15,7 @@ EntityHandler::EntityHandler(MessageHandler* _messageHandler)
 {
 	EntityHandler::m_messageQueue = new MessageQueue();
 	EntityHandler::m_messageHandler = _messageHandler;
+	_messageHandler->addQueue(EntityHandler::m_messageQueue);
 }
 
 EntityHandler::~EntityHandler()
@@ -36,6 +37,23 @@ void EntityHandler::removeAllEntities()
 
 void EntityHandler::update(float dt)
 {
+	//handle messages
+	Message *m;
+
+	while(this->m_messageQueue->incomingQueueEmpty() == false)
+	{
+		m = this->m_messageQueue->pullIncomingMessage();
+
+		if(m->type == Message::RemoveEntity)
+		{
+			RemoveEntityMessage *rem = (RemoveEntityMessage*)m;
+			EntityHandler::removeEntity(EntityHandler::getServerEntity(rem->removedId));		
+		}
+
+		delete m;
+	}
+
+	//update the entities
 	EntityHandler::m_mutex.Lock();
 
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
@@ -65,6 +83,7 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 	{
 		if(EntityHandler::m_entities[i] == _entity)
 		{
+			EntityHandler::m_messageHandler->removeQueue(EntityHandler::m_entities[i]->getMessageQueue()->getId());
 			delete EntityHandler::m_entities[i];
 			EntityHandler::m_entities.erase(EntityHandler::m_entities.begin() + i);
 			found = true;
@@ -135,4 +154,9 @@ ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 	}
 
 	return result;
+}
+
+unsigned int EntityHandler::getId()
+{
+	return EntityHandler::m_messageQueue->getId();
 }

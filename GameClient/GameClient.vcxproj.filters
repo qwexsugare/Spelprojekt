@@ -81,6 +81,9 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="RemoveEntityMessage.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
@@ -166,6 +169,9 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveEntityMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>

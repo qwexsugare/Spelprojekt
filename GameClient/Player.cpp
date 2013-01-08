@@ -44,7 +44,7 @@ void Player::handleAttackMessage(AttackMessage am)
 
 	if(direction.length() > 0)
 	{
-		EntityHandler::addEntity(new Projectile(this->m_hero->getPosition(), direction, 1000, 1.0f));
+		EntityHandler::addEntity(new Projectile(this->m_hero->getPosition(), direction, 5, 1.0f));
 	}
 }
 

@@ -32,6 +32,8 @@ public:
 
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
 	static ServerEntity* getServerEntity(unsigned int id);
+
+	static unsigned int getId();
 };
 
 #endif
