@@ -8,6 +8,7 @@
 #include "EntityMessage.h"
 #include "AttackMessage.h"
 #include "Msg.h"
+#include "RemoveEntityMessage.h"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ private:
 	virtual void Run();
 	queue<Msg> msgQueue;
 	queue<EntityMessage> entityQueue;
+	queue<RemoveEntityMessage> removeEntityQueue;
 public:
 	Client();
 	~Client();
@@ -38,8 +40,10 @@ public:
 
 	Msg msgQueueFront();
 	EntityMessage entityQueueFront();
+	RemoveEntityMessage removeEntityQueueFront();
 	bool msgQueueEmpty();
 	bool entityQueueEmpty();
+	bool removeEntityQueueEmpty();
 };
 
 #endif // CLIENT_H

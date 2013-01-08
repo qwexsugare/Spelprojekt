@@ -102,6 +102,22 @@ void GameState::update(float _dt)
 		}
 	}
 
+	while(this->m_network->removeEntityQueueEmpty() == false)
+	{
+		RemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
+		bool found = false;
+
+		for(int i = 0; i < this->m_entities.size() && found == false; i++)
+		{
+			if(this->m_entities[i]->m_id == rem.getId())
+			{
+				g_graphicsEngine->removeModel(this->m_entities[i]->m_model);
+				this->m_entities.erase(this->m_entities.begin() + i);
+				i = this->m_entities.size();
+			}
+		}
+	}
+
 	this->m_network->sendMsg(Msg("Ready"));
 	this->m_network->sendMsg(Msg("Start"));
 

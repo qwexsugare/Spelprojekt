@@ -37,6 +37,6 @@ void Projectile::update(float dt)
 
 	if(this->m_lifetime <= 0)
 	{
-		this->m_messageQueue->pushOutgoingMessage(new RemoveEntityMessage(0, EntityHandler::getId(), this->m_id));
+		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 	}
 }

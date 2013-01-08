@@ -25,19 +25,15 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Msg.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="RemoveEntityMessage.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerEntity.cpp" />
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TextInput.cpp" />
-    <ClCompile Include="SoundWrapper.cpp">
-      <Filter>SoundWrapper</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Server</Filter>
-    <ClCompile Include="RemoveEntityMessage.cpp">
-      <Filter>Server</Filter>
+    <ClCompile Include="ModelIdHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h" />
@@ -67,18 +63,14 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Msg.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RemoveEntityMessage.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerEntity.h" />
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TextInput.h" />
-    <ClInclude Include="SoundWrapper.h">
-      <Filter>SoundWrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Server</Filter>
-    <ClInclude Include="RemoveEntityMessage.h">
-      <Filter>Server</Filter>
+    <ClInclude Include="ModelIdHolder.h" />
   </ItemGroup>
 </Project>
