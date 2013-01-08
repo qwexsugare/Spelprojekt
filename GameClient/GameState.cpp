@@ -25,7 +25,7 @@ GameState::GameState()
 
 	this->m_network = new Client();
 
-	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1338);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1337);
 
 	//this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.5f, 0.5f), 0);
@@ -71,14 +71,15 @@ void GameState::update(float _dt)
 		lol = -0.5f;
 	}
 
-	this->s->setPosition(FLOAT2(0.0f, lol));
-
-	//this->s->setRotation(lol);
-
 	while(this->m_network->entityQueueEmpty() == false)
 	{
 		EntityMessage e = this->m_network->entityQueueFront();
 		bool found = false;
+
+		if(e.getId() > 3)
+		{
+			int i = 0;
+		}
 
 		for(int i = 0; i < this->m_entities.size() && found == false; i++)
 		{
@@ -92,7 +93,7 @@ void GameState::update(float _dt)
 
 		if(found == false)
 		{
-			Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
+			Model* model = g_graphicsEngine->createModel("ArrowHead", e.getPos());
 			if(model)
 			{
 				this->m_entities.push_back(new Entity(model, e.getId()));
