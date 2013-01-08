@@ -1,7 +1,9 @@
 #ifndef SERVER_H
 #define SERVER_H
+
 #include "EntityMessage.h"
 #include "Msg.h"
+#include "AttackMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -21,6 +23,7 @@ private:
 
 	queue<Msg> msgQueue;
 	queue<EntityMessage> entityQueue;
+	queue<AttackMessage> attackMessageQueue;
 
 	vector<Player*> m_players;
 

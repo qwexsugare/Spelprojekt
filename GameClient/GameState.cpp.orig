@@ -151,3 +151,18 @@ void GameState::update(float _dt)
 
 	//this->m_hud->Update();
 }
+		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+		float k = (-pickOrig.y)/pickDir.y;
+		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+		this->m_network->sendAttackMessage(AttackMessage(0, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+=======
+		playSound(this->m_testSound);
+>>>>>>> 0d2c70e9e8e8623fdfc7f692e1128f98e0eca435
+	}
+	else
+		for(int i = 0; i < this->m_entities.size(); i++)
+			this->m_entities[i]->m_model->rotate(0.0f, 0.0f, _dt/5.0f);
+
+	//this->m_hud->Update();
+}

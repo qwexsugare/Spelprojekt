@@ -14,6 +14,7 @@ bool Client::connect(sf::IPAddress ip, int port)
 	if(this->hostSocket.Connect(port,ip)!=sf::Socket::Done)
 	{
 		cout << "error connecting"<<endl;
+		return false;
 	}
 	
 	this->hostSocket.SetBlocking(false);
@@ -102,6 +103,16 @@ void Client::sendMsg(Msg m)
 	{
 		sf::Packet packet;
 		packet << m;
+		this->hostSocket.Send(packet);
+	}
+}
+
+void Client::sendAttackMessage(AttackMessage am)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << am;
 		this->hostSocket.Send(packet);
 	}
 }

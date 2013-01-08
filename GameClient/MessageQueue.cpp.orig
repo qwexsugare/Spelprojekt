@@ -36,8 +36,13 @@ Message *MessageQueue::pullIncomingMessage()
 	this->m_mutex.Lock();
 	Message *m  = this->m_incomingMessages.front();
 	this->m_incomingMessages.pop();
+<<<<<<< HEAD
 	this->m_mutex.Unlock();
+
+=======
 	
+	this->m_mutex.Unlock();
+>>>>>>> 0d2c70e9e8e8623fdfc7f692e1128f98e0eca435
 	return m;
 }
 
@@ -47,6 +52,10 @@ Message *MessageQueue::pullOutgoingMessage()
 	Message *m  = this->m_outgoingMessages.front();
 	this->m_outgoingMessages.pop();
 	this->m_mutex.Unlock();
+<<<<<<< HEAD
+
+=======
+>>>>>>> 0d2c70e9e8e8623fdfc7f692e1128f98e0eca435
 	return m;
 }
 
@@ -64,14 +73,27 @@ bool MessageQueue::outgoingQueueEmpty()
 void MessageQueue::pushIncomingMessage(Message* _message)
 {
 	this->m_mutex.Lock();
+<<<<<<< HEAD
 	this->m_incomingMessages.push(_message);
+=======
+	
+		this->m_incomingMessages.push(_message);
+	
+>>>>>>> 0d2c70e9e8e8623fdfc7f692e1128f98e0eca435
 	this->m_mutex.Unlock();
 }
 
 void MessageQueue::pushOutgoingMessage(Message *_message)
 {
-	this->m_mutex.Lock();
+<<<<<<< HEAD
 	_message->senderId = this->m_id;
+	this->m_mutex.Lock();
 	this->m_outgoingMessages.push(_message);
+=======
+	this->m_mutex.Lock();
+		_message->senderId = this->m_id;
+		this->m_outgoingMessages.push(_message);
+	
+>>>>>>> 0d2c70e9e8e8623fdfc7f692e1128f98e0eca435
 	this->m_mutex.Unlock();
 }

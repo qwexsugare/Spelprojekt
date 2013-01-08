@@ -31,6 +31,13 @@
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="SoundWrapper.cpp">
+      <Filter>SoundWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Server</Filter>
+    <ClCompile Include="RemoveEntityMessage.cpp">
+      <Filter>Server</Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h" />
@@ -66,5 +73,12 @@
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TextInput.h" />
+    <ClInclude Include="SoundWrapper.h">
+      <Filter>SoundWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Server</Filter>
+    <ClInclude Include="RemoveEntityMessage.h">
+      <Filter>Server</Filter>
   </ItemGroup>
 </Project>

@@ -174,7 +174,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 
 		protFound=true;
 	}
-	if(prot=="MSG")
+	else if(prot=="MSG")
 	{
 		Msg msg;
 		packet >> msg;
@@ -184,6 +184,18 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 
 		this->m_mutex.Unlock();
 		protFound=true;
+	}
+	else if(prot=="ATTACK")
+	{
+		AttackMessage msg;
+		packet >> msg;
+
+		this->m_mutex.Lock();
+
+		this->m_players[socketIndex]->handleAttackMessage(msg);
+
+		this->m_mutex.Unlock();
+		protFound = true;
 	}
 
 	return protFound;

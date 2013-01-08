@@ -175,6 +175,8 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Msg.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="RemoveEntityMessage.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerEntity.cpp" />
     <ClCompile Include="ServerThread.cpp" />
@@ -218,6 +220,8 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Msg.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RemoveEntityMessage.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerEntity.h" />
     <ClInclude Include="ServerThread.h" />

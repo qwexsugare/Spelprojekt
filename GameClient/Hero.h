@@ -17,6 +17,7 @@ public:
 
 	void update(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
+	void takeDamage(int damage);
 };
 
 #endif
