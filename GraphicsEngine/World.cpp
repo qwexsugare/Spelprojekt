@@ -304,6 +304,13 @@ void World::update(float dt)
 	{
 		this->m_sprites[i]->update(dt);
 	}
+	
+	stack<Model*> models = this->m_quadTree->pullAllModels();
+	while(!models.empty())
+	{
+		this->m_quadTree->addModel(models.top());
+		models.pop();
+	}
 }
 
 bool World::addModel(Model *_model)

@@ -125,4 +125,5 @@ void ClientHandler::update(float _dt)
 	updateSoundEngine();
 
 	g_mouse->update(); // Must be last!
+	g_keyboard->update();
 }

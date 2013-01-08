@@ -128,6 +128,25 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 	}
 }
 
+void QuadTreeNode::pullAllModels(stack<Model*>& _models)
+{
+	if(this->m_children[0])
+	{
+		// ADD ALL CHILD MODELS TO STACK
+		this->m_children[0]->pullAllModels(_models);
+		this->m_children[1]->pullAllModels(_models);
+		this->m_children[2]->pullAllModels(_models);
+		this->m_children[3]->pullAllModels(_models);
+	}
+	
+	// ADD MY MODELS TO STACK
+	for(int i = 0; i < this->m_models.size(); i++)
+	{
+		_models.push(this->m_models[i]);
+		this->m_models.erase(this->m_models.begin()+i);
+	}
+}
+
 bool QuadTreeNode::removeModel(Model* _model)
 {
 	bool removed = false;

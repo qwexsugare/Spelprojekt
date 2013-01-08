@@ -59,25 +59,35 @@ Text* GraphicsHandler::createText(string _text, INT2 _pos, int _size, D3DXCOLOR 
 
 	return text;
 }
-
-MyText* GraphicsHandler::createMyText(string _texture, string _text, INT2 _pos, int _size, D3DXCOLOR _color)
-{
-	MyText* text = new MyText(this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder()->getTexture("text/" + _texture),
-		this->m_realScreenSize.y, this->m_realScreenSize.x, _color, D3DXVECTOR3(_pos.x, _pos.y, 0.0f), _size);
-	text->DrawString(_text);
-	this->m_world->addMyText(text);
-
-	return text;
-}
 	
 bool GraphicsHandler::removeText(Text* _text)
 {
 	return this->m_world->removeText(_text);
 }
 
+MyText* GraphicsHandler::createMyText(string _texture, string _text, INT2 _pos, int _size)
+{
+	MyText* text = new MyText(this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder()->getTexture("text/" + _texture),
+		this->m_realScreenSize.y, this->m_realScreenSize.x, D3DXVECTOR3(_pos.x, _pos.y, 0.0f), _size);
+	text->DrawString(_text);
+	this->m_world->addMyText(text);
+
+	return text;
+}
+	
+bool GraphicsHandler::removeMyText(MyText* _text)
+{
+	return this->m_world->removeMyText(_text);
+}
+
 Camera *GraphicsHandler::getCamera()
 {
 	return this->m_world->getCamera();
+}
+
+INT2 GraphicsHandler::getRealScreenSize()
+{
+	return this->m_realScreenSize;
 }
 
 INT2 GraphicsHandler::getScreenSize()

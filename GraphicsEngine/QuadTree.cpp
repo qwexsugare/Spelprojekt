@@ -30,6 +30,15 @@ stack<Model*> QuadTree::getModels(D3DXVECTOR3 _cameraPos)const
 	return models;
 }
 
+stack<Model*> QuadTree::pullAllModels()
+{
+	stack<Model*> models;
+
+	this->m_parent->pullAllModels(models);
+
+	return models;
+}
+
 bool QuadTree::removeModel(Model* _model)
 {
 	return this->m_parent->removeModel(_model);

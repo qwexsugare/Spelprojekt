@@ -22,6 +22,9 @@
     <Filter Include="Terrain">
       <UniqueIdentifier>{ab402ac7-ae17-450b-a8cb-9082d5817a71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{b0f79350-bbdd-4cd7-bc1a-2130d2112a09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHandler.h">
@@ -87,9 +90,6 @@
     <ClInclude Include="FullScreenPlane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteEffectFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,8 +111,11 @@
     <ClInclude Include="Terrain.h">
       <Filter>Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Text</Filter>
+    </ClInclude>
     <ClInclude Include="MyText.h">
-      <Filter>Header Files</Filter>
+      <Filter>Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +170,6 @@
     <ClCompile Include="FullScreenPlane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="QuadTreeNode.cpp">
       <Filter>QuadTree</Filter>
     </ClCompile>
@@ -185,8 +185,11 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
     <ClCompile Include="MyText.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -22,5 +22,6 @@ public:
 	bool addModel(Model* _model);
 	bool intersects(const Model* _model)const;
 	void getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const;
+	void pullAllModels(stack<Model*>& _models);
 	bool removeModel(Model* _model);
 };

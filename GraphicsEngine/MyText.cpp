@@ -11,12 +11,11 @@ MyText::MyText()
 	this->m_VertexBuffer = NULL;
 }
 
-MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, float _height, float _width, D3DXCOLOR _color, D3DXVECTOR3 _pos, float _size)
+MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, float _height, float _width, D3DXVECTOR3 _pos, float _size)
 {
-	int maxNrOfPoints = 1000;
+	int maxNrOfPoints = 100000;
 	this->m_height = _height;
 	this->m_width =  _width;
-	this->m_color = _color;
 	this->m_pos = _pos;
 	this->m_size = _size;
 	this->m_FontSize = _size;
@@ -53,7 +52,7 @@ void MyText::setPos(D3DXVECTOR3 _pos)
 void MyText::DrawString(string str, float _size)
 {
 	//----------------------------------------------------------------------------------------------------------------------------
-	//	Restets string without this you could get some troubles with the triangles
+	//	Resets string without this you could get some troubles with the triangles
 	//----------------------------------------------------------------------------------------------------------------------------
 		m_str = str;
 		int m_number = 0;
@@ -65,12 +64,10 @@ void MyText::DrawString(string str, float _size)
 	//	Offset, FontSize, NewLine and also converts screenspace to pixels on the screen
 	//	Offset and FontSize shall be change later on!
 	//----------------------------------------------------------------------------------------------------------------------------
-		//_size = (_size /1920) * m_width;
 		D3DXVECTOR3 Tmppos = D3DXVECTOR3((m_pos.x/m_width)*2.0f-1.0f, ((m_pos.y/m_height)*2.0f-1.0f)*-1.0f,0.0f);
 		// Base size 80.0f
-		float m_FontSize = m_size;
-			  m_FontSize += _size;
-		float OffsetSizeX =(m_size + _size)/2;
+		float m_FontSize = m_size + _size;
+		float OffsetSizeX = m_FontSize/2.0f;
 		float OffsetSizeY = m_size;
 		D3DXVECTOR2 FontSizeOnScreen = D3DXVECTOR2((m_FontSize/m_width), (m_FontSize/m_height));
 		float OffsetX = (OffsetSizeX/m_width);
@@ -79,15 +76,89 @@ void MyText::DrawString(string str, float _size)
 		float OffsetYOnScreen = (m_FontSize/m_height);
 		float NewLineOfText = (m_FontSize/m_height);
 		D3DXVECTOR2 TextCurrent[4];
-		float Rows=0.0f;
 
+		float Rows = 0.0f;
+		Rows+=1.3f;
+		Tmppos = D3DXVECTOR3((m_pos.x/m_width)*2.0f-1.0f, ((m_pos.y/m_height)*2.0f-1.0f)*-1.0f,0.0f);
+		float TmpOffsetY =OffsetY*Rows/1.5f;
+		Tmppos.y -=TmpOffsetY;
+		float tmpMovement;
 	//----------------------------------------------------------------------------------------------------------------------------
 	// Jumping in the spritesheet to get the right letter, symbol or number
 	//----------------------------------------------------------------------------------------------------------------------------
 
-	for each(char c in str)
+	float charOffsets[256];
+	charOffsets['A'] = 60.0f;
+	charOffsets['B'] = 60.0f;
+	charOffsets['C'] = 60.0f;
+	charOffsets['D'] = 60.0f;
+	charOffsets['E'] = 70.0f;
+	charOffsets['F'] = 60.0f;
+	charOffsets['G'] = 60.0f;
+	charOffsets['H'] = 60.0f;
+	charOffsets['I'] = 110.0f;
+	charOffsets['J'] = 60.0f;
+	charOffsets['K'] = 60.0f;
+	charOffsets['L'] = 75.0f;
+	charOffsets['M'] = 20.0f;
+	charOffsets['N'] = 50.0f;
+	charOffsets['O'] = 60.0f;
+	charOffsets['P'] = 60.0f;
+	charOffsets['Q'] = 60.0f;
+	charOffsets['R'] = 60.0f;
+	charOffsets['S'] = 60.0f;
+	charOffsets['T'] = 60.0f;
+	charOffsets['U'] = 65.0f;
+	charOffsets['V'] = 60.0f;
+	charOffsets['W'] = 40.0f;
+	charOffsets['X'] = 60.0f;
+	charOffsets['Y'] = 70.0f;
+	charOffsets['Z'] = 60.0f;
+	charOffsets['-'] = 70.0f;
+	charOffsets[' '] = 110.0f;
+	charOffsets['_'] = 100.0f;
+	charOffsets['0'] = 60.0f;
+	charOffsets['1'] = 60.0f;
+	charOffsets['2'] = 60.0f;
+	charOffsets['3'] = 60.0f;
+	charOffsets['4'] = 60.0f;
+	charOffsets['5'] = 60.0f;
+	charOffsets['6'] = 60.0f;
+	charOffsets['7'] = 60.0f;
+	charOffsets['8'] = 60.0f;
+	charOffsets['9'] = 60.0f;
+	charOffsets[','] = 80.0f;
+	charOffsets['+'] = 0.5f;
+	charOffsets[':'] = 80.0f;
+	charOffsets['('] = 70.0f;
+	charOffsets[')'] = 70.0f;
+	charOffsets['?'] = 60.0f;
+	charOffsets['!'] = 80.0f;
+	charOffsets['©'] = 50.0f;
+	charOffsets['.'] = 80.0f;
+	charOffsets['/'] = 60.0f;
+	charOffsets['\\'] = 60.0f;
+	charOffsets['{'] = 80.0f;
+	charOffsets['}'] = 80.0f;
+	charOffsets['='] = 50.0f;
+	charOffsets['"'] = 60.0f;
+	charOffsets['>'] = 50.0f;
+	charOffsets['<'] = 50.0f;
+	charOffsets['*'] = 70.0f;
+
+	char* chars = new char[str.length()];
+	for(int i = 0; i < str.length(); i++)
+	{
+		chars[i] = str.at(i);
+	}
+	for(int i = 0; i < str.length(); i++)
     {
-		char tmp = toupper(c);
+		char tmp = toupper(chars[i]);
+		char tmp2 = toupper(chars[i-1]);
+		if(i == 0)
+			OffsetX = (OffsetSizeX-(charOffsets[tmp]*m_size/400.0f+100.0f*m_size/400.0f)/2.0f)/m_width;
+		else
+			OffsetX = (OffsetSizeX-(charOffsets[tmp]*m_size/400.0f+charOffsets[tmp2]*m_size/400.0f)/2.0f)/m_width;
 		if (tmp == ' ')
         {
 			TextCurrent[3] = D3DXVECTOR2(27.0f/28.0f, 0.0f/2.0f);
@@ -193,7 +264,8 @@ void MyText::DrawString(string str, float _size)
 		    TextCurrent[1] = D3DXVECTOR2(((float)tmp - 64.0f)/28.0f, 1.0f/2.0f);
 			//X = 1 Y = 1
 			TextCurrent[0] = D3DXVECTOR2(((float)tmp - (64.0f+1))/28.0f, 1.0f/2.0f);
-        }
+
+		}
         else if (tmp >= '0' && tmp <= '9')
         {
 			//X = 0 Y = 0
@@ -260,21 +332,6 @@ void MyText::DrawString(string str, float _size)
 	}
 
 	this->m_VertexBuffer->Unmap();
-}
-
-void MyText::Render()const
-{
-	//Set the shader resource
-	/*this->m_GraphicsHandler->getEffectText()->GetVariableByName("MyText")->AsShaderResource()->SetResource(this->m_texture);
-
-	//Draw the points
-	UINT stride = sizeof(writeText);
-	UINT offset = 0;
-	m_device->IASetVertexBuffers( 0, 1, &m_VertexBuffer, &stride, &offset );
-	m_device->IASetInputLayout( m_GraphicsHandler->getVertexLayoutText() );
-	m_device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	m_GraphicsHandler->getTechRenderTextForward()->GetPassByIndex(0)->Apply(0);
-	m_device->Draw(m_numberOfPoints,0);*/
 }
 
 D3DXMATRIX MyText::getModelMatrix()
