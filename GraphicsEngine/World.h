@@ -51,6 +51,7 @@ private:
 	vector<Text*> m_texts;
 	vector<MyText*> m_myTexts;
 	QuadTree* m_quadTree;
+	vector<Model*> m_movingModels;
 	vector<SpriteBase*> m_sprites;
 	vector<Terrain*> m_terrains;
 public:
@@ -64,8 +65,8 @@ public:
 	void addTerrain(Terrain* _terrain);
 	bool removeTerrain(Terrain* _terrain);
 	
-	bool addModel(Model *_model);
-	bool removeModel(Model *_model);
+	bool addModel(Model *_model, bool moving);
+	bool removeModel(Model *_model, bool moving);
 
 	void addSprite(SpriteBase *sprite);
 	bool removeSprite(SpriteBase *sprite);
