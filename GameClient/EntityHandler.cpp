@@ -46,8 +46,9 @@ void EntityHandler::update(float dt)
 
 		if(m->type == Message::RemoveEntity)
 		{
-			RemoveEntityMessage *rem = (RemoveEntityMessage*)m;
+			RemoveServerEntityMessage *rem = (RemoveServerEntityMessage*)m;
 			EntityHandler::removeEntity(EntityHandler::getServerEntity(rem->removedId));		
+			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, 1, rem->removedId));
 		}
 
 		delete m;

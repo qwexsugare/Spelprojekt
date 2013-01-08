@@ -44,11 +44,11 @@ struct DamageMessage : Message
 	int damage;
 };
 
-struct RemoveEntityMessage : Message
+struct RemoveServerEntityMessage : Message
 {
 	int removedId;
 
-	RemoveEntityMessage(int _senderId, int _reciverId, int _removedId)
+	RemoveServerEntityMessage(int _senderId, int _reciverId, int _removedId)
 	{
 		this->type = Type::RemoveEntity;
 		this->senderId = _senderId;

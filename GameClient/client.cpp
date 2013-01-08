@@ -54,7 +54,7 @@ void Client::Run()
 			{
 				this->disconnect();
 			}
-			if(prot=="ENT")
+			else if(prot=="ENT")
 			{
 				this->m_mutex.Lock();
 
@@ -70,11 +70,17 @@ void Client::Run()
 
 				this->m_mutex.Unlock();
 			}
-			if(prot=="MSG")
+			else if(prot=="MSG")
 			{
 				Msg msg;
 				packet >> msg;
 				this->msgQueue.push(msg);
+			}
+			else if(prot == "REMOVE")
+			{
+				RemoveEntityMessage rem;
+				packet >> rem;
+				this->removeEntityQueue.push(rem);
 			}
 		}
 	}
@@ -127,6 +133,11 @@ bool Client::entityQueueEmpty()
 	return this->entityQueue.empty();
 }
 
+bool Client::removeEntityQueueEmpty()
+{
+	return this->removeEntityQueue.empty();
+}
+
 Msg Client::msgQueueFront()
 {
 	Msg ret = this->msgQueue.front();
@@ -142,5 +153,17 @@ EntityMessage Client::entityQueueFront()
 	this->entityQueue.pop();
 
 	this->m_mutex.Unlock();
+	return ret;
+}
+
+RemoveEntityMessage Client::removeEntityQueueFront()
+{
+	this->m_mutex.Lock();
+
+	RemoveEntityMessage ret = this->removeEntityQueue.front();
+	this->removeEntityQueue.pop();
+
+	this->m_mutex.Unlock();
+
 	return ret;
 }
