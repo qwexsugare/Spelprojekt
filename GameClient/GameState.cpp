@@ -8,7 +8,8 @@
 GameState::GameState()
 {
 	//this->m_hud = new HudMenu();
-	this->m_fpsText = g_graphicsEngine->createText("", INT2(10, 10), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
+	this->m_fpsText = g_graphicsEngine->createText("", INT2(0, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
+	this->m_myText = g_graphicsEngine->createMyText("text1.png", "Hej kjag heter olle och jag är en get och jag ska berätta min saga._detta är en nyh rad och jag slogs mot ridaren o vann._ fsafsgshsgs_darfsetgestygs_fsesysh", INT2(0, 0), 400.0f, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
 
@@ -142,7 +143,7 @@ void GameState::update(float _dt)
 	}
 	else if(g_mouse->isRButtonPressed())
 	{
-		loopSound(this->m_testSound);
+		playSound(this->m_testSound);
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());

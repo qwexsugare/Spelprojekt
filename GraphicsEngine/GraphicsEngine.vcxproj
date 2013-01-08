@@ -165,6 +165,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshImporter.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MyText.h" />
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTreeNode.h" />
     <ClInclude Include="Sprite.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="GraphicsHandler.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MyText.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="QuadTreeNode.cpp" />
     <ClCompile Include="Sprite.cpp" />

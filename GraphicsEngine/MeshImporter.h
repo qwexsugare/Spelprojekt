@@ -10,6 +10,7 @@
 #include "TextureHolder.h"
 #include "VertexStructs.h"
 #include <fstream>
+#include <iostream>
 
 class MeshImporter
 {

@@ -46,11 +46,12 @@ World::~World()
 	{
 		delete this->m_sprites[i];
 	}
-
+	
 	for(int i = 0; i < this->m_texts.size(); i++)
-	{
 		delete this->m_texts[i];
-	}
+
+	for(int i = 0; i < this->m_myTexts.size(); i++)
+		delete this->m_myTexts[i];
 
 	delete this->m_forwardRendering;
 	delete this->m_forwardRenderTarget;
@@ -132,8 +133,6 @@ void World::render()
 		this->m_deviceHandler->getDevice()->Draw(4, 0);
 	}
 
-	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-	stack<Model*> transparantModels;
 	//Render all models
 	/*D3DXMATRIX mat;
 	D3DXMatrixMultiply(&mat, &this->m_camera->getViewMatrix(), &this->m_camera->getProjectionMatrix());
@@ -143,7 +142,9 @@ void World::render()
 		mat._31, mat._32, mat._33, mat._34,
 		mat._41, mat._42, mat._43, mat._44);
 	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);*/
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
+	stack<Model*> transparantModels;
 	while(!models.empty())
 	{
 		/*XMFLOAT3 origin(this->m_camera->getPos().x, this->m_camera->getPos().y, this->m_camera->getPos().z);
@@ -269,6 +270,24 @@ void World::render()
 	}
 
 	// Render texts
+	for(int i = 0; i < this->m_myTexts.size(); i++)
+	{
+		this->m_deviceHandler->setVertexBuffer(m_myTexts[i]->getBuffer());
+
+		this->m_spriteRendering->setModelMatrix(this->m_myTexts[i]->getModelMatrix());
+		this->m_spriteRendering->setTexture(m_myTexts[i]->getTexture());
+
+		D3D10_TECHNIQUE_DESC techDesc;
+		this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
+
+		for( UINT p = 0; p < techDesc.Passes; p++ )
+		{
+			this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+			this->m_deviceHandler->getDevice()->Draw(m_myTexts[i]->getNumberOfPoints(), 0);
+		}
+	}
+	
+	// Render texts
 	for(int i = 0; i < this->m_texts.size(); i++)
 	{
 		this->m_texts[i]->render();
@@ -348,6 +367,28 @@ bool World::removeText(Text* _text)
 		{
 			delete this->m_texts[i];
 			this->m_texts.erase(this->m_texts.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addMyText(MyText* _text)
+{
+	this->m_myTexts.push_back(_text);
+}
+
+bool World::removeMyText(MyText* _text)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_myTexts.size() && !found; i++)
+	{
+		if(this->m_myTexts[i] == _text)
+		{
+			delete this->m_myTexts[i];
+			this->m_myTexts.erase(this->m_myTexts.begin()+i);
 			found = true;
 		}
 	}
