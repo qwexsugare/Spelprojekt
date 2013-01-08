@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity};
 
 	Type type;
 	int senderId;
@@ -25,4 +25,14 @@ struct StartMessage : Message
 struct CollisionMessage : Message
 {
 	int affectedDudeId;
+};
+
+struct DamageMessage : Message
+{
+	int damage;
+};
+
+struct RemoveEntity : Message
+{
+	int removedId;
 };

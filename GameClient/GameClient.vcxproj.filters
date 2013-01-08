@@ -3,7 +3,9 @@
   <ItemGroup>
     <ClCompile Include="client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="EntityMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -43,6 +45,9 @@
     <ClCompile Include="MapHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="SoundWrapper.cpp">
+      <Filter>SoundWrapper</Filter>
+    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -70,16 +75,11 @@
     <ClCompile Include="JoinGameState.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="SoundWrapper.cpp">
-      <Filter>SoundWrapper</Filter>
     <ClCompile Include="AttackMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Controls</Filter>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +88,8 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="EntityMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -130,6 +132,9 @@
     <ClInclude Include="CollisionHandler.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="SoundWrapper.h">
+      <Filter>SoundWrapper</Filter>
+    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -160,14 +165,8 @@
     <ClInclude Include="AttackMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="SoundWrapper.h">
-      <Filter>SoundWrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Controls</Filter>
+    <ClInclude Include="Projectile.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,9 +181,6 @@
     </Filter>
     <Filter Include="States">
       <UniqueIdentifier>{48904d13-804b-4ff7-b988-e4a038fd9dc2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Controls">
-      <UniqueIdentifier>{9fa29975-679b-4c05-a6c3-42555ada1f7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

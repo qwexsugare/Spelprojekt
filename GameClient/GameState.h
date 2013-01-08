@@ -16,6 +16,9 @@ private:
 	Terrain* m_terrain;
 	int m_testSound;
 	Client *m_network;
+
+	Sprite *s;
+
 	void end();
 public:
 	GameState();

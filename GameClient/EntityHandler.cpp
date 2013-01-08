@@ -1,51 +1,65 @@
 #include "EntityHandler.h"
 
+sf::Mutex EntityHandler::m_mutex;
 vector<ServerEntity*> EntityHandler::m_entities;	
 unsigned int EntityHandler::m_nextId = 0;
+MessageQueue *EntityHandler::m_messageQueue;
+MessageHandler *EntityHandler::m_messageHandler;
 
 EntityHandler::EntityHandler()
 {
-	//this->m_messageQueue = new MessageQueue();
+	EntityHandler::m_messageQueue = new MessageQueue();
 }
 
-//EntityHandler::EntityHandler(/*MessageHandler* _messageHandler*/)
-//{
-//	//this->m_messageQueue = new MessageQueue();
-//	//this->m_messageHandler = _messageHandler;
-//}
+EntityHandler::EntityHandler(MessageHandler* _messageHandler)
+{
+	EntityHandler::m_messageQueue = new MessageQueue();
+	EntityHandler::m_messageHandler = _messageHandler;
+}
 
 EntityHandler::~EntityHandler()
 {
-	//delete this->m_messageQueue;
+	delete this->m_messageQueue;
 }
 
 void EntityHandler::removeAllEntities()
 {
+	EntityHandler::m_mutex.Lock();
+
 	for(int i = 0; i < this->m_entities.size(); i++)
 	{
 		delete this->m_entities[i];
 	}
+
+	EntityHandler::m_mutex.Unlock();
 }
 
 void EntityHandler::update(float dt)
 {
+	EntityHandler::m_mutex.Lock();
+
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
 		EntityHandler::m_entities[i]->update(dt);
 	}
+
+	EntityHandler::m_mutex.Unlock();
 }
 
 void EntityHandler::addEntity(ServerEntity *_entity)
 {
+	EntityHandler::m_mutex.Lock();
 	_entity->setId(EntityHandler::m_nextId);
 	EntityHandler::m_nextId++;
 	EntityHandler::m_entities.push_back(_entity);
-	//this->m_messageHandler->addQueue(_entity->getMessageQueue());
+	EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
+	EntityHandler::m_mutex.Unlock();
 }
 
 bool EntityHandler::removeEntity(ServerEntity *_entity)
 {
 	bool found = false;
+	EntityHandler::m_mutex.Lock();
 
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
@@ -58,12 +72,18 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 		}
 	}
 
+	EntityHandler::m_mutex.Unlock();
+
 	return found;
 }
 
 vector<ServerEntity*> EntityHandler::getEntities()
 {
-	return EntityHandler::m_entities;
+	EntityHandler::m_mutex.Lock();
+	vector<ServerEntity*> result = EntityHandler::m_entities;
+	EntityHandler::m_mutex.Unlock();
+
+	return result;
 }
 
 ServerEntity* EntityHandler::getClosestEntity(ServerEntity *entity)
@@ -109,8 +129,8 @@ ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 	{
 		if(EntityHandler::m_entities[i]->getId() == id)
 		{
-			i = EntityHandler::m_entities.size();
 			result = EntityHandler::m_entities[i];
+			i = EntityHandler::m_entities.size();
 		}
 	}
 

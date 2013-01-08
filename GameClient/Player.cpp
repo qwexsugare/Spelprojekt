@@ -35,6 +35,19 @@ void Player::handleMsgMessage(Msg m)
 	}
 }
 
+void Player::handleAttackMessage(AttackMessage am)
+{
+	//Create a projectile
+	FLOAT3 targetPos = am.getTargetPos();
+	FLOAT3 direction = targetPos - this->m_hero->getPosition();
+	direction.y = 0.0f;
+
+	if(direction.length() > 0)
+	{
+		EntityHandler::addEntity(new Projectile(this->m_hero->getPosition(), direction, 1000, 1.0f));
+	}
+}
+
 void Player::update()
 {
 

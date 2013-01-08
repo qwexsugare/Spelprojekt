@@ -112,8 +112,8 @@ void Sprite::setSize(FLOAT2 size)
 void Sprite::setRotation(float rotation)
 {
 	D3DXMATRIX rotationMatrix;
-	D3DXMatrixRotationZ(&rotationMatrix, rotation);
-	D3DXMatrixTransformation2D(&rotationMatrix, NULL, 0.0f, NULL, NULL, rotation, NULL);
+	//D3DXMatrixRotationZ(&rotationMatrix, rotation);
+	//D3DXMatrixTransformation2D(&rotationMatrix, NULL, 0.0f, NULL, NULL, rotation, NULL);
 
 	this->m_modelMatrix._11 = rotationMatrix._11;
 	this->m_modelMatrix._12 = rotationMatrix._12;
