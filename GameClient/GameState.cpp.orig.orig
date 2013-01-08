@@ -12,7 +12,6 @@ GameState::GameState()
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
 	this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.1f, 0.1f), 0);
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(0, 0), 100);
 
 	// Create a fucking awesome terrain
 	vector<string> textures;
@@ -26,10 +25,14 @@ GameState::GameState()
 
 	this->m_network = new Client();
 
-	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1338);
+	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1337);
+<<<<<<< HEAD
+	//this->m_network->connect(sf::IPAddress("194.47.155.250"), 1337);
+=======
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1337);
 
 	//this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.5f, 0.5f), 0);
+>>>>>>> 2acc7c135847c2f9ba5a6c48d836b4bf13f85441
 }
 
 GameState::~GameState()
@@ -38,7 +41,6 @@ GameState::~GameState()
 		delete this->m_entities[i];
 
 	delete this->m_network;
-	delete this->m_emilmackesFpsText;
 	//delete this->m_hud;
 	deactivateSound(this->m_testSound);
 }
@@ -73,15 +75,14 @@ void GameState::update(float _dt)
 		lol = -0.5f;
 	}
 
+	this->s->setPosition(FLOAT2(0.0f, lol));
+
+	//this->s->setRotation(lol);
+
 	while(this->m_network->entityQueueEmpty() == false)
 	{
 		EntityMessage e = this->m_network->entityQueueFront();
 		bool found = false;
-
-		if(e.getId() > 3)
-		{
-			int i = 0;
-		}
 
 		for(int i = 0; i < this->m_entities.size() && found == false; i++)
 		{
@@ -95,26 +96,10 @@ void GameState::update(float _dt)
 
 		if(found == false)
 		{
-			Model* model = g_graphicsEngine->createModel("ArrowHead", e.getPos(), true);
+			Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(g_graphicsEngine->getCamera()->getPos().x, 0.0f, g_graphicsEngine->getCamera()->getPos().z));
 			if(model)
 			{
 				this->m_entities.push_back(new Entity(model, e.getId()));
-			}
-		}
-	}
-
-	while(this->m_network->removeEntityQueueEmpty() == false)
-	{
-		RemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
-		bool found = false;
-
-		for(int i = 0; i < this->m_entities.size() && found == false; i++)
-		{
-			if(this->m_entities[i]->m_id == rem.getId())
-			{
-				g_graphicsEngine->removeModel(this->m_entities[i]->m_model);
-				this->m_entities.erase(this->m_entities.begin() + i);
-				i = this->m_entities.size();
 			}
 		}
 	}
@@ -178,5 +163,4 @@ void GameState::update(float _dt)
 			this->m_entities[i]->m_model->rotate(0.0f, 0.0f, _dt/5.0f);
 
 	//this->m_hud->Update();
-	this->m_emilmackesFpsText->update(_dt);
 }

@@ -1,9 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="AttackMessage.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="CreateGameState.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EntityHandler.cpp" />
+    <ClCompile Include="EntityMessage.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="JoinGameState.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="MapHandler.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MessageHandler.cpp" />
+    <ClCompile Include="MessageQueue.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Msg.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ServerEntity.cpp" />
+    <ClCompile Include="ServerThread.cpp" />
+    <ClCompile Include="SoundWrapper.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="TextInput.cpp" />
+=======
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="EntityMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -43,6 +75,9 @@
     <ClCompile Include="MapHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="SoundWrapper.cpp">
+      <Filter>SoundWrapper</Filter>
+    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Menu</Filter>
     </ClCompile>
@@ -70,27 +105,55 @@
     <ClCompile Include="JoinGameState.cpp">
       <Filter>States</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="AttackMessage.cpp">
       <Filter>Server</Filter>
-=======
-    <ClCompile Include="SoundWrapper.cpp">
-      <Filter>SoundWrapper</Filter>
     </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Controls</Filter>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Controls</Filter>
->>>>>>> 0f43436539e344c5a64292b957a1c0e2fb1dab78
+    <ClCompile Include="RemoveEntityMessage.cpp">
+      <Filter>Server</Filter>
     </ClCompile>
+>>>>>>> 2acc7c135847c2f9ba5a6c48d836b4bf13f85441
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackMessage.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="ClientHandler.h" />
+    <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="CreateGameState.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityHandler.h" />
+    <ClInclude Include="EntityMessage.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Hero.h" />
     <ClInclude Include="Input.h" />
+<<<<<<< HEAD
+    <ClInclude Include="JoinGameState.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LobbyState.h" />
+    <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="MapHandler.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Message.h" />
+    <ClInclude Include="MessageHandler.h" />
+    <ClInclude Include="MessageQueue.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Msg.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="ServerEntity.h" />
+    <ClInclude Include="ServerThread.h" />
+    <ClInclude Include="SoundWrapper.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="TextInput.h" />
+=======
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="EntityMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -133,6 +196,9 @@
     <ClInclude Include="CollisionHandler.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="SoundWrapper.h">
+      <Filter>SoundWrapper</Filter>
+    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Menu</Filter>
     </ClInclude>
@@ -160,19 +226,14 @@
     <ClInclude Include="JoinGameState.h">
       <Filter>States</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="AttackMessage.h">
       <Filter>Server</Filter>
-=======
-    <ClInclude Include="SoundWrapper.h">
-      <Filter>SoundWrapper</Filter>
     </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Controls</Filter>
+    <ClInclude Include="Projectile.h">
+      <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Controls</Filter>
->>>>>>> 0f43436539e344c5a64292b957a1c0e2fb1dab78
+    <ClInclude Include="RemoveEntityMessage.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,8 +249,6 @@
     <Filter Include="States">
       <UniqueIdentifier>{48904d13-804b-4ff7-b988-e4a038fd9dc2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Controls">
-      <UniqueIdentifier>{9fa29975-679b-4c05-a6c3-42555ada1f7b}</UniqueIdentifier>
-    </Filter>
+>>>>>>> 2acc7c135847c2f9ba5a6c48d836b4bf13f85441
   </ItemGroup>
 </Project>

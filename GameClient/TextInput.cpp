@@ -7,10 +7,12 @@ TextInput::TextInput()
 	this->m_myText = NULL;
 }
 
-TextInput::TextInput(INT2 _pos, int _size)
+TextInput::TextInput(string _texture, INT2 _pos, int _size)
 {
 	this->m_text = "";
-	this->m_myText = g_graphicsEngine->createMyText("text1.png", m_text, _pos, _size);
+	this->m_myText = g_graphicsEngine->createMyText(_texture, m_text, _pos, _size);
+	this->m_myText->DrawString(this->m_text);
+	m_timer = 0.0f;
 }
 
 TextInput::~TextInput()
@@ -19,27 +21,177 @@ TextInput::~TextInput()
 		g_graphicsEngine->removeMyText(this->m_myText);
 }
 
-void TextInput::update()
+void TextInput::update(float _dt)
 {
-	for(int i = 'A'; i < 'Z'; i++)
+	for(int i = 'A'; i < 'Z'+1; i++)
 	{
-		if(g_keyboard->getKeyState(i) == Keyboard::KEY_PRESSED)
+		if(g_keyboard->getKeyState(i) == Keyboard::KEY_PRESSED && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP)
 		{
 			m_text += char(i);
+			this->m_myText->DrawString(this->m_text);
 		}
 	}
-	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_OEM_PLUS) == Keyboard::KEY_PRESSED)
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_OEM_COMMA) == Keyboard::KEY_PRESSED)
+	{
+		m_text += ',';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_DELETE) == Keyboard::KEY_PRESSED)
+	{
+		m_text += ',';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_ADD) == Keyboard::KEY_PRESSED)
+	{
+		m_text += '+';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_OEM_PLUS) == Keyboard::KEY_PRESSED)
+	{
+		m_text += '+';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_OEM_MINUS) == Keyboard::KEY_PRESSED)
+	{
+		m_text += '-';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_SUBTRACT) == Keyboard::KEY_PRESSED)
+	{
+		m_text += '-';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_OEM_PLUS) == Keyboard::KEY_PRESSED)
 	{
 		m_text += '?';
+		this->m_myText->DrawString(this->m_text);
 	}
-
-		/*else if (i == 13)
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(49) == Keyboard::KEY_PRESSED)
+	{
+		m_text += '!';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_OEM_PERIOD) == Keyboard::KEY_PRESSED)
+	{
+		m_text += '.';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_OEM_PERIOD) == Keyboard::KEY_PRESSED)
+	{
+		m_text += ':';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_SPACE) == Keyboard::KEY_PRESSED)
+	{
+		m_text += ' ';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
+	{
+		m_text += '_';
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(50) == Keyboard::KEY_PRESSED)
+	{
+		m_text += 34;
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_OEM_PLUS) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "\\";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(55) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "/";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_DIVIDE) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "/";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(55) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "{";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(48) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "}";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(48) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "=";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(226) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "<";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(226) == Keyboard::KEY_PRESSED)
+	{
+		m_text += ">";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(56) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "(";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(57) == Keyboard::KEY_PRESSED)
+	{
+		m_text += ")";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MULTIPLY) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "*";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP && g_keyboard->getKeyState(191) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "*";
+		this->m_myText->DrawString(this->m_text);
+	}
+	if(g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(52) == Keyboard::KEY_PRESSED)
+	{
+		m_text += "$";
+		this->m_myText->DrawString(this->m_text);
+	}
+	for(int i = '0'; i < ':'; i++)
+	{
+		if(g_keyboard->getKeyState(i) == Keyboard::KEY_PRESSED && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP)
 		{
-			i = 95;
-			str+=char(i);
+			m_text += char(i);
+			this->m_myText->DrawString(this->m_text);
 		}
-		else if (i==8)
+	}
+	if(g_keyboard->getKeyState(VK_BACK) == Keyboard::KEY_DOWN && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP)
+	{
+		m_timer +=_dt;
+		if(m_timer > 0.3f)
 		{
-			str.erase(str.begin()+str.length()-1);
-		}*/
+			m_timer -= 0.1f;
+			if(m_text.length() > 0)
+			{
+				m_text.erase(m_text.end()-1);
+				this->m_myText->DrawString(this->m_text);
+			}
+		}
+	}
+	else if(g_keyboard->getKeyState(VK_BACK) == Keyboard::KEY_PRESSED && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP)
+	{
+		if(m_text.length() > 0)
+		{
+			m_text.erase(m_text.end()-1);
+			this->m_myText->DrawString(this->m_text);
+		}
+	}
+	if(g_keyboard->getKeyState(VK_BACK) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP && g_keyboard->getKeyState(VK_MENU) == Keyboard::KEY_UP)
+	{
+		m_timer = 0.0f;
+	}
 }
