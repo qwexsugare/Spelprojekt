@@ -35,6 +35,7 @@ private:
 		int			m_Max;
 		int			m_Min;
 		int			m_Keep;
+		int			m_Layer;
 		float		m_Value;
 	//----------------------------------------------------------------------------------------------
 	// Wave name
@@ -53,17 +54,19 @@ public:
 	Button();
 	~Button();
 
-	void Init(	INT2 _ScreenPos,
-				INT2 _Size, 
+	void Init(	FLOAT2 _ScreenPos,
+				FLOAT2 _Size, 
 				string _TextureName, 
 				string _TextName,  
-				int _min = 0, 
-				int _max = 0, 
+				float _min = 0, 
+				float _max = 0, 
 				float _textSize = 1,
+				int _layer = 2,
 				int _DelayTime = 100);
 	int Clicked();
 	void Update();
 	int GetButtonReaction();
 	float ReturnSliderValue();
+	void setPosition(FLOAT2 _pos);
 };
 
