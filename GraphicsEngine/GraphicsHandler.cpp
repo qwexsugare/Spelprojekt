@@ -98,7 +98,7 @@ INT2 GraphicsHandler::getScreenSize()
 		return this->m_realScreenSize;
 }
 
-Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool moving)
+Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 {
 	Model* model = NULL;
 	Mesh* mesh = this->m_resourceHolder->getMesh(_filename);
@@ -108,7 +108,7 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool mov
 		model = new Model(this->m_deviceHandler->getDevice(), mesh, D3DXVECTOR3(_position.x, _position.y, _position.z));
 
 		// If the world failed to add the model, delete the model;
-		if(!this->m_world->addModel(model, moving))
+		if(!this->m_world->addModel(model))
 		{
 			delete model;
 			model = NULL;
@@ -120,7 +120,7 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool mov
 
 bool GraphicsHandler::removeModel(Model* _model)
 {
-	return this->m_world->removeModel(_model, true);
+	return this->m_world->removeModel(_model);
 }
 
 Sprite *GraphicsHandler::createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer)

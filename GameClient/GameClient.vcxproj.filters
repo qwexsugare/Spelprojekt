@@ -70,7 +70,7 @@
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
-    <ClInclude Include="TextInput.h" />
     <ClInclude Include="ModelIdHolder.h" />
+    <ClInclude Include="TextInput.h" />
   </ItemGroup>
 </Project>

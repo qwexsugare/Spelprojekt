@@ -7,6 +7,11 @@ Hero::Hero() : ServerEntity()
 	this->m_movementSpeed = 5.0f;
 }
 
+Hero::~Hero()
+{
+
+}
+
 void Hero::update(float dt)
 {
 	//Handle incoming messages

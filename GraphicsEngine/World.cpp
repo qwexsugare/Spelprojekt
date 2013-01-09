@@ -184,25 +184,6 @@ void World::render()
 		models.pop();
 	}
 
-	for(int i = 0; i < this->m_movingModels.size(); i++)
-	{
-		if(this->m_movingModels[i]->getAlpha() < 1.0f)
-		{
-			transparantModels.push(this->m_movingModels[i]);
-		}
-		else
-		{
-			this->m_deviceHandler->setVertexBuffer(this->m_movingModels[i]->getMesh()->buffer);
-
-			this->m_deferredSampler->setModelMatrix(this->m_movingModels[i]->getModelMatrix());
-			this->m_deferredSampler->setTexture(this->m_movingModels[i]->getMesh()->m_texture);
-			this->m_deferredSampler->setModelAlpha(this->m_movingModels[i]->getAlpha());
-			
-			this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(this->m_movingModels[i]->getMesh()->nrOfVertices, 0);
-		}
-	}
-
 	//clear render target
 	this->m_positionBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
@@ -332,41 +313,14 @@ void World::update(float dt)
 	//}
 }
 
-bool World::addModel(Model *_model, bool moving)
+bool World::addModel(Model *_model)
 {
-	if(moving == true)
-	{
-		this->m_movingModels.push_back(_model);
-		return true;
-	}
-	else
-	{
-		return this->m_quadTree->addModel(_model);
-	}
+	return this->m_quadTree->addModel(_model);
 }
 
-bool World::removeModel(Model *_model, bool moving)
+bool World::removeModel(Model *_model)
 {
-	if(moving == true)
-	{
-		bool found = false;
-
-		for(int i = 0; i < this->m_movingModels.size() && !found; i++)
-		{
-			if(this->m_movingModels[i] == _model)
-			{
-				delete this->m_movingModels[i];
-				this->m_movingModels.erase(this->m_movingModels.begin()+i);
-				found = true;
-			}
-		}
-
-		return found;
-	}
-	else
-	{
-		return this->m_quadTree->removeModel(_model);
-	}
+	return this->m_quadTree->removeModel(_model);
 }
 
 void World::addSprite(SpriteBase *sprite)

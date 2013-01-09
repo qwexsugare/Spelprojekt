@@ -95,7 +95,7 @@ void GameState::update(float _dt)
 
 		if(found == false)
 		{
-			Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(e.getPos().x, 0.0, e.getPos().z), false);
+			Model* model = g_graphicsEngine->createModel("ArrowHead", FLOAT3(e.getPos().x, 0.0, e.getPos().z));
 			if(model)
 			{
 				this->m_entities.push_back(new Entity(model, e.getId()));

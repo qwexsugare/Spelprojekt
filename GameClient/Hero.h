@@ -14,7 +14,7 @@ private:
 	unsigned int m_hp;
 public:
 	Hero();
-
+	virtual ~Hero();
 	void update(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void takeDamage(int damage);
