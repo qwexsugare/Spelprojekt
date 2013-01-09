@@ -3,9 +3,13 @@
 Enemy::Enemy() : ServerEntity()
 {
 	m_type = Type::EnemyType;
+<<<<<<< HEAD
 	this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_goalPosition = FLOAT3(100.0f, 0.0f, 100.0f);
+=======
+	this->m_positon = FLOAT3(40.0f, 0.0f, 40.0f);
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+>>>>>>> 61a82b0f191e814526b0994f2d1685897bc6fcfb
 	this->m_nextPosition = this->m_positon;
 	this->m_reachedPosition = true;
 	this->m_modelId = 0;
