@@ -12,7 +12,6 @@ GameState::GameState()
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(0, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
-	this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.1f, 0.1f), 0);
 	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(0, 0), 100);
 
 	// Create a fucking awesome terrain

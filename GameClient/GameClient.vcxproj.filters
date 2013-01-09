@@ -34,6 +34,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="ModelIdHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h" />
@@ -72,5 +73,6 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="Cursor.h" />
+    <ClInclude Include="ModelIdHolder.h" />
   </ItemGroup>
 </Project>
