@@ -35,7 +35,11 @@ void ServerThread::Run()
 	//this->m_state = State::LOBBY;
 	this->m_state = State::LOBBY;
 	this->m_network->start(1338);
-
+	
+	for(int i = 0; i < 5; i++)
+	{
+		Enemy * enemy = new Enemy();
+	}
 	while(this->m_state != State::EXIT)
 	{
 		__int64 currTimeStamp = 0;

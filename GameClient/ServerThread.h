@@ -5,6 +5,7 @@
 #include "Server.h"
 #include "MessageHandler.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "ServerEntity.h"
 #include "MapHandler.h"
 

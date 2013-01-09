@@ -18,7 +18,7 @@ public:
 
 	void update(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
-	void setNextPosition(FLOAT3 _nextPosition, float dt);
+	void setNextPosition(float dt);
 
 };
 
