@@ -11,7 +11,7 @@ MyText::MyText()
 	this->m_VertexBuffer = NULL;
 }
 
-MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, float _height, float _width, D3DXVECTOR3 _pos, float _size)
+MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string _offsetPath, string _offsetFilename, float _height, float _width, D3DXVECTOR3 _pos, float _size)
 {
 	int maxNrOfPoints = 100000;
 	this->m_height = _height;
@@ -31,9 +31,8 @@ MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, float 
 
 	_device->CreateBuffer(&tbd, NULL, &this->m_VertexBuffer);
 
-	//Create the texture (for the font)
-
 	this->m_texture = _texture;
+	this->m_myTextOffsets = MyTextOffsets(_offsetPath, _offsetFilename);
 }
 
 MyText::~MyText()
@@ -87,64 +86,7 @@ void MyText::DrawString(string str, float _size)
 	// Jumping in the spritesheet to get the right letter, symbol or number
 	//----------------------------------------------------------------------------------------------------------------------------
 
-	float charOffsets[256];
-	charOffsets['A'] = 50.0f;
-	charOffsets['B'] = 60.0f;
-	charOffsets['C'] = 60.0f;
-	charOffsets['D'] = 60.0f;
-	charOffsets['E'] = 70.0f;
-	charOffsets['F'] = 70.0f;
-	charOffsets['G'] = 60.0f;
-	charOffsets['H'] = 60.0f;
-	charOffsets['I'] = 110.0f;
-	charOffsets['J'] = 60.0f;
-	charOffsets['K'] = 60.0f;
-	charOffsets['L'] = 75.0f;
-	charOffsets['M'] = 20.0f;
-	charOffsets['N'] = 50.0f;
-	charOffsets['O'] = 60.0f;
-	charOffsets['P'] = 60.0f;
-	charOffsets['Q'] = 60.0f;
-	charOffsets['R'] = 60.0f;
-	charOffsets['S'] = 60.0f;
-	charOffsets['T'] = 60.0f;
-	charOffsets['U'] = 65.0f;
-	charOffsets['V'] = 60.0f;
-	charOffsets['W'] = 40.0f;
-	charOffsets['X'] = 60.0f;
-	charOffsets['Y'] = 70.0f;
-	charOffsets['Z'] = 60.0f;
-	charOffsets['-'] = 70.0f;
-	charOffsets[' '] = 110.0f;
-	charOffsets['_'] = 150.0f;
-	charOffsets['0'] = 60.0f;
-	charOffsets['1'] = 60.0f;
-	charOffsets['2'] = 60.0f;
-	charOffsets['3'] = 60.0f;
-	charOffsets['4'] = 60.0f;
-	charOffsets['5'] = 60.0f;
-	charOffsets['6'] = 60.0f;
-	charOffsets['7'] = 60.0f;
-	charOffsets['8'] = 60.0f;
-	charOffsets['9'] = 60.0f;
-	charOffsets[','] = 80.0f;
-	charOffsets['+'] = 0.5f;
-	charOffsets[':'] = 80.0f;
-	charOffsets['('] = 70.0f;
-	charOffsets[')'] = 70.0f;
-	charOffsets['?'] = 60.0f;
-	charOffsets['!'] = 80.0f;
-	charOffsets['$'] = 20.0f;
-	charOffsets['.'] = 80.0f;
-	charOffsets['/'] = 60.0f;
-	charOffsets['\\'] = 60.0f;
-	charOffsets['{'] = 80.0f;
-	charOffsets['}'] = 80.0f;
-	charOffsets['='] = 50.0f;
-	charOffsets['"'] = 60.0f;
-	charOffsets['>'] = 0.0f;
-	charOffsets['<'] = 0.0f;
-	charOffsets['*'] = 70.0f;
+	
 
 	char* chars = new char[str.length()];
 	for(int i = 0; i < str.length(); i++)
@@ -156,9 +98,9 @@ void MyText::DrawString(string str, float _size)
 		char tmp = toupper(chars[i]);
 		char tmp2 = toupper(chars[i-1]);
 		if(i == 0)
-			OffsetX = (OffsetSizeX-(charOffsets[tmp]*m_size/400.0f+100.0f*m_size/400.0f)/2.0f)/m_width;
+			OffsetX = (OffsetSizeX-(m_myTextOffsets.getCharOffset(tmp).x*m_size/400.0f+100.0f*m_size/400.0f)/2.0f)/m_width;
 		else
-			OffsetX = (OffsetSizeX-(charOffsets[tmp]*m_size/400.0f+charOffsets[tmp2]*m_size/400.0f)/2.0f)/m_width;
+			OffsetX = (OffsetSizeX-(m_myTextOffsets.getCharOffset(tmp).x*m_size/400.0f+m_myTextOffsets.getCharOffset(tmp2).x*m_size/400.0f)/2.0f)/m_width;
 		switch(tmp)
 		{
 		case ' ':
@@ -176,7 +118,7 @@ void MyText::DrawString(string str, float _size)
 			Tmppos = D3DXVECTOR3((m_pos.x/m_width)*2.0f-1.0f, ((m_pos.y/m_height)*2.0f-1.0f)*-1.0f,0.0f);
 			TmpOffsetY =OffsetY*Rows/1.5f;
 			Tmppos.y -=TmpOffsetY;
-			OffsetX = (OffsetSizeX-(charOffsets[tmp]*m_size/400.0f))/m_width;
+			OffsetX = (OffsetSizeX-(m_myTextOffsets.getCharOffset(tmp).x*m_size/400.0f))/m_width;
 			TextCurrent[3] = D3DXVECTOR2(27.0f/28.0f, 0.0f/2.0f);
 			TextCurrent[2] = D3DXVECTOR2(28.0f/28.0f,0.0f/2.0f);
 		    TextCurrent[1] = D3DXVECTOR2(27.0f/28.0f, 1.0f/2.0f);

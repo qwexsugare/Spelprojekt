@@ -65,10 +65,10 @@ bool GraphicsHandler::removeText(Text* _text)
 	return this->m_world->removeText(_text);
 }
 
-MyText* GraphicsHandler::createMyText(string _texture, string _text, INT2 _pos, int _size)
+MyText* GraphicsHandler::createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size)
 {
 	MyText* text = new MyText(this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder()->getTexture("text/" + _texture),
-		this->m_realScreenSize.y, this->m_realScreenSize.x, D3DXVECTOR3(_pos.x, _pos.y, 0.0f), _size);
+		_offsetPath, _offsetFilename, this->m_realScreenSize.y, this->m_realScreenSize.x, D3DXVECTOR3(_pos.x, _pos.y, 0.0f), _size);
 	text->DrawString(_text);
 	this->m_world->addMyText(text);
 

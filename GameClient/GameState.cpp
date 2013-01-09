@@ -22,7 +22,7 @@ GameState::GameState()
 	textures.push_back("terrain_texture4.png");
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
-	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(-50.0f, 0.0f, -50.0f), FLOAT3(50.0f, 0.0f, 50.0f), textures, blendMaps);
+	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
 
 	this->m_network = new Client();
 
