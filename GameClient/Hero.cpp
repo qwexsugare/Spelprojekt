@@ -54,10 +54,14 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 	this->m_reachedPosition = false;
 }
 
-FLOAT3 Hero::getDirection()
+FLOAT3 Hero::getDirection(float _anticipationDegree)
 {
 	if( (m_nextPosition - m_positon).length() > 0)
-		return m_nextPosition - m_positon;
+	{
+		FLOAT3 t = m_nextPosition-m_positon;
+		t = m_positon + t*_anticipationDegree;
+		return t;
+	}
 	else
 		return m_positon;
 }

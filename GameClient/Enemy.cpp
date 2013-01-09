@@ -3,9 +3,11 @@
 Enemy::Enemy() : ServerEntity()
 {
 	m_type = Type::EnemyType;
+	this->m_positon = FLOAT3(40.0f, 0.0f, 40.0f);
 	this->m_nextPosition = this->m_positon;
 	this->m_reachedPosition = true;
-	this->m_movementSpeed = 5.0f;
+	this->m_movementSpeed = 3.0f;
+	this->m_modelId = 0;
 	EntityHandler::addEntity(this);
 }
 
@@ -13,6 +15,8 @@ void Enemy::update(float dt)
 {
 	//Handle incoming messages
 	Message *m;
+
+	this->setNextPosition(dt);
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
@@ -44,15 +48,15 @@ void Enemy::update(float dt)
 	}
 }
 
-void Enemy::setNextPosition(FLOAT3 _nextPosition,  float dt)
+void Enemy::setNextPosition(float dt)
 {
 	Hero *hero = (Hero*)(EntityHandler::getAllHeroes()[0]);
 
-	FLOAT3 _playerDirection= hero->getDirection();
+	FLOAT3 _playerDirection= hero->getDirection(3*dt);
 
-	FLOAT3 targetPosition = _playerDirection / _playerDirection.length();
+	FLOAT3 targetPosition = _playerDirection;
 	
-	targetPosition = targetPosition * m_movementSpeed*dt*5;
+	//targetPosition = targetPosition * m_movementSpeed*5;
 
 	this->m_nextPosition = targetPosition;
 	this->m_reachedPosition = false;
