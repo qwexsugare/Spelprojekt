@@ -16,7 +16,6 @@ private:
 	int m_closestHero;
 
 	FLOAT3 m_goalPosition;
-	unsigned int m_hp;
 public:
 	Enemy();
 

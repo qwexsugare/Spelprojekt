@@ -184,6 +184,7 @@
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="TextInput.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +217,7 @@
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MapHandler.h" />
+    <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />

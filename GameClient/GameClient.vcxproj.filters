@@ -35,6 +35,7 @@
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="ModelIdHolder.cpp" />
+    <ClCompile Include="MeleeAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h" />
@@ -74,5 +75,6 @@
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="ModelIdHolder.h" />
+    <ClInclude Include="MeleeAttack.h" />
   </ItemGroup>
 </Project>
