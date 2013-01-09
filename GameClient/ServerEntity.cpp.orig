@@ -74,6 +74,7 @@ unsigned int ServerEntity::getId()
 	return this->m_id;
 }
 
+<<<<<<< HEAD
 unsigned int ServerEntity::getModelId()
 {
 	return this->m_modelId;
@@ -82,9 +83,9 @@ unsigned int ServerEntity::getModelId()
 bool ServerEntity::getVisible()
 {
 	return this->m_visible;
-}
-
+=======
 ServerEntity::Type ServerEntity::getType()
 {
 	return m_type;
+>>>>>>> 632e14ea955f2b1f33fbea7c3a1cafbf0d6cbe71
 }

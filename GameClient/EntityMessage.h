@@ -8,15 +8,19 @@ class EntityMessage
 {
 private:
 	unsigned int id;
+	unsigned int modelId;
 	FLOAT3 pos;
 	FLOAT3 rot;
 public:
 	EntityMessage();
 	EntityMessage(unsigned int id);
+	EntityMessage(unsigned int id, unsigned int modelId, FLOAT3 pos, FLOAT3 rot);
 	~EntityMessage();
+	void setModelId(unsigned int modelId);
 	void setPosition(FLOAT3 pos);
 	void setRotation(FLOAT3 rot);
 	unsigned int getId();
+	unsigned int getModelId();
 	FLOAT3 getPos();
 	FLOAT3 getRotation();
 

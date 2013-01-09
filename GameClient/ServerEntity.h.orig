@@ -22,9 +22,14 @@ protected:
 	FLOAT3 m_rotation;
 
 	int m_health;
+<<<<<<< HEAD
 	unsigned int m_modelId;
 	bool m_visible;
+=======
+	int m_modelId;
+	
 
+>>>>>>> 632e14ea955f2b1f33fbea7c3a1cafbf0d6cbe71
 public:
 	enum Type{EnemyType, HeroType, OtherType};
 	Type m_type;
@@ -44,9 +49,12 @@ public:
 
 	FLOAT3 getPosition();
 	unsigned int getId();
+<<<<<<< HEAD
 	unsigned int getModelId();
-	Type getType();
 	bool getVisible();
+=======
+	Type getType();
+>>>>>>> 632e14ea955f2b1f33fbea7c3a1cafbf0d6cbe71
 };
 
 #endif
