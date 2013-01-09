@@ -37,7 +37,7 @@ public:
 	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size);
 	DECLDIR bool removeMyText(MyText *text);
 
-	DECLDIR Model* createModel(string _filename, FLOAT3 _position);
+	DECLDIR Model* createModel(string _filename, FLOAT3 _position, bool moving);
 	DECLDIR bool removeModel(Model* _model);
 
 	DECLDIR Sprite *createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer);

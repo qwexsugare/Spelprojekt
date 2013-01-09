@@ -34,7 +34,7 @@ void ServerThread::Run()
 
 	//this->m_state = State::LOBBY;
 	this->m_state = State::LOBBY;
-	this->m_network->start(1337);
+	this->m_network->start(1338);
 
 	while(this->m_state != State::EXIT)
 	{
