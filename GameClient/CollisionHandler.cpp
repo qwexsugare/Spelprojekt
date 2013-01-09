@@ -2,12 +2,17 @@
 
 CollisionHandler::CollisionHandler()
 {
+}
 
+CollisionHandler::CollisionHandler(MessageHandler *messageHandler)
+{
+	this->m_myMessages = new MessageQueue();
+	messageHandler->addQueue(this->m_myMessages);
 }
 
 CollisionHandler::~CollisionHandler()
 {
-
+	delete this->m_myMessages;
 }
 
 void CollisionHandler::addCollision(ServerEntity *_ent1, ServerEntity *_ent2)
@@ -21,6 +26,7 @@ void CollisionHandler::addCollision(ServerEntity *_ent1, ServerEntity *_ent2)
 	CollisionMessage* newMsg2 = new CollisionMessage();
 	newMsg2->type = Message::Collision;
 	newMsg2->reciverId = _ent2->getMessageQueue()->getId();
+	newMsg2->affectedDudeId = _ent1->getId();
 	this->m_myMessages->pushOutgoingMessage(newMsg2);
 }
 

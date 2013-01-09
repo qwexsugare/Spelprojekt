@@ -101,7 +101,7 @@ PSSceneOut PSScene(PSSceneIn input) : SV_Target
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w = modelAlpha;
 
-	output.Pos = input.Pos;
+	output.Pos = input.EyeCoord;
 	output.Normal = float4(input.Normal, 1.0f);
 	output.Diffuse = color;
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);

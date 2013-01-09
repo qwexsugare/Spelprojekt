@@ -51,6 +51,26 @@ D3DXVECTOR2 Model::getPosition2D()const
 	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
 }
 
+bool Model::contains(const BoundingOrientedBox& _obb)const
+{
+	if(this->m_obb)
+		return this->m_obb->Contains(_obb);
+	else if(this->m_bs)
+		return this->m_bs->Contains(_obb);
+	else
+		return false;
+}
+
+bool Model::contains(const BoundingSphere& _bs)const
+{
+	if(this->m_obb)
+		return this->m_obb->Contains(_bs);
+	else if(this->m_bs)
+		return this->m_bs->Contains(_bs);
+	else
+		return false;
+}
+
 bool Model::intersects(const BoundingOrientedBox& _obb)const
 {
 	if(this->m_obb)

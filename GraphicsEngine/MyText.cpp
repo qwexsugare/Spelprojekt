@@ -37,8 +37,6 @@ MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string
 
 MyText::~MyText()
 {
-	if(this->m_texture)
-		this->m_texture->Release();
 	if(this->m_VertexBuffer)
 		this->m_VertexBuffer->Release();
 }
@@ -65,7 +63,7 @@ void MyText::DrawString(string str, float _size)
 	//----------------------------------------------------------------------------------------------------------------------------
 		D3DXVECTOR3 Tmppos = D3DXVECTOR3((m_pos.x/m_width)*2.0f-1.0f, ((m_pos.y/m_height)*2.0f-1.0f)*-1.0f,0.0f);
 		// Base size 80.0f
-		float m_FontSize = m_size + _size;
+		float m_FontSize = m_size;
 		float OffsetSizeX = m_FontSize/2.0f;
 		float OffsetSizeY = m_size;
 		D3DXVECTOR2 FontSizeOnScreen = D3DXVECTOR2((m_FontSize/m_width), (m_FontSize/m_height));
@@ -86,21 +84,21 @@ void MyText::DrawString(string str, float _size)
 	// Jumping in the spritesheet to get the right letter, symbol or number
 	//----------------------------------------------------------------------------------------------------------------------------
 
-	
-
-	char* chars = new char[str.length()];
-	for(int i = 0; i < str.length(); i++)
-	{
-		chars[i] = str.at(i);
-	}
 	for(int i = 0; i < str.length(); i++)
     {
-		char tmp = toupper(chars[i]);
-		char tmp2 = toupper(chars[i-1]);
+		char tmp;
+		char tmp2;
 		if(i == 0)
-			OffsetX = (OffsetSizeX-(m_myTextOffsets.getCharOffset(tmp).x*m_size/400.0f+100.0f*m_size/400.0f)/2.0f)/m_width;
+		{
+			tmp = toupper(str[i]);
+			OffsetX = ((70-m_myTextOffsets.getCharOffset(tmp).x+m_size/50.0f)*m_size/100.0f)/m_width;
+		}
 		else
-			OffsetX = (OffsetSizeX-(m_myTextOffsets.getCharOffset(tmp).x*m_size/400.0f+m_myTextOffsets.getCharOffset(tmp2).x*m_size/400.0f)/2.0f)/m_width;
+		{
+			tmp = toupper(str[i]);
+			char tmp2 = toupper(str[i-1]);
+			OffsetX = ((100-m_myTextOffsets.getCharOffset(tmp2).y-m_myTextOffsets.getCharOffset(tmp).x+m_size/50.0f)*m_size/100.0f)/m_width;
+		}
 		switch(tmp)
 		{
 		case ' ':
@@ -118,7 +116,7 @@ void MyText::DrawString(string str, float _size)
 			Tmppos = D3DXVECTOR3((m_pos.x/m_width)*2.0f-1.0f, ((m_pos.y/m_height)*2.0f-1.0f)*-1.0f,0.0f);
 			TmpOffsetY =OffsetY*Rows/1.5f;
 			Tmppos.y -=TmpOffsetY;
-			OffsetX = (OffsetSizeX-(m_myTextOffsets.getCharOffset(tmp).x*m_size/400.0f))/m_width;
+			OffsetX = (OffsetSizeX-(m_myTextOffsets.getCharOffset(tmp).x*m_size/100.0f))/m_width;
 			TextCurrent[3] = D3DXVECTOR2(27.0f/28.0f, 0.0f/2.0f);
 			TextCurrent[2] = D3DXVECTOR2(28.0f/28.0f,0.0f/2.0f);
 		    TextCurrent[1] = D3DXVECTOR2(27.0f/28.0f, 1.0f/2.0f);

@@ -8,11 +8,10 @@
 GameState::GameState()
 {
 	//this->m_hud = new HudMenu();
-	//this->m_cursor = Cursor();
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(0, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(0, 0), 100);
+	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(0, 0), 80);
 
 	// Create a fucking awesome terrain
 	vector<string> textures;

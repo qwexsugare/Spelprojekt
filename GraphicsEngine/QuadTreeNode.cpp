@@ -45,44 +45,50 @@ QuadTreeNode::~QuadTreeNode()
 		delete this->m_obb;
 }
 
-bool QuadTreeNode::addModel(Model* _model)
+void QuadTreeNode::addModel(bool& _success, Model* _model)
 {
-	bool success = true;
-
-	if(!this->m_children[0])
+	if(this->intersects(_model))
 	{
-		this->m_models.push_back(_model);
-	}
-	else if(this->intersects(_model))
-	{
-		int fittIndex = -1;
-		int fittCounter = 0;
-		for(int i = 0; i < 4; i++)
-		{
-			if(this->m_children[i]->intersects(_model))
-			{
-				fittIndex = i;
-				fittCounter++;
-			}
-		}
-
-		if(fittCounter > 1)
+		if(!this->m_children[0])
 		{
 			this->m_models.push_back(_model);
+			_success = true;
 		}
 		else
 		{
-			// This fucker is now my child's problem!!!! IM FREE!!!!111
-			this->m_children[fittIndex]->addModel(_model);
+			int fittIndex = -1;
+			int fittCounter = 0;
+			for(int i = 0; i < 4; i++)
+			{
+				if(this->m_children[i]->intersects(_model))
+				{
+					fittIndex = i;
+					fittCounter++;
+				}
+			}
+
+			if(fittCounter > 1)
+			{
+				this->m_models.push_back(_model);
+				_success = true;
+			}
+			else if(fittCounter > 0)
+			{
+				// This fucker is now my child's problem!!!! IM FREE!!!!111
+				this->m_children[fittIndex]->addModel(_success, _model);
+			}
+			// Else we're fucked
+			else
+			{
+				_success = false;
+			}
 		}
 	}
 	// Else the model is outside of the world tree and no one can take care of this poor sucker :(
 	else
 	{
-		success = false;
+		_success = false;
 	}
-
-	return success;
 }
 
 bool QuadTreeNode::intersects(const Model* _model)const
