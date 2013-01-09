@@ -36,8 +36,8 @@ public:
 	int getNrOfVertices();
 	int getLayer();
 
-	DECLDIR void setPosition(INT2 _position);
-	DECLDIR void setSize(INT2 _size);
+	DECLDIR void setPosition(FLOAT2 _position);
+	DECLDIR void setSize(FLOAT2 _size);
 
 	DECLDIR void setCurrentFrame(INT2 _currentFrame);
 	DECLDIR INT2 getCurrentFrame();

@@ -1,7 +1,10 @@
 #ifndef SERVER_H
 #define SERVER_H
-#include "EntityMessage.h"
+
 #include "Msg.h"
+#include "EntityMessage.h"
+#include "AttackMessage.h"
+#include "RemoveEntityMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -16,11 +19,13 @@ class Server : private sf::Thread
 {
 private:
 	MessageHandler *m_messageHandler;
+	MessageQueue *m_messageQueue;
 
 	sf::Mutex m_mutex;
 
 	queue<Msg> msgQueue;
 	queue<EntityMessage> entityQueue;
+	queue<AttackMessage> attackMessageQueue;
 
 	vector<Player*> m_players;
 
@@ -30,6 +35,7 @@ private:
 	int clientArrPos;
 	virtual void Run();
 	void goThroughSelector();
+	void handleMessages();
 	bool handleClientInData(int socketIndex, sf::Packet packet, string prot);
 public:
 	Server(MessageHandler *_messageHandler);
@@ -39,6 +45,7 @@ public:
 	void broadcast(string msg);
 	void broadcast(EntityMessage ent);
 	void broadcast(Msg msg);
+	void broadcast(RemoveEntityMessage rem);
 	bool isRunning();
 
 	Msg msgQueueFront();

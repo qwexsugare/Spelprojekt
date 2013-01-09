@@ -69,6 +69,7 @@ PSSceneIn VSScene(VSSceneIn input)
 
 	output.Pos = mul( float4(input.Pos,1.0), modelMatrix);
 	output.UVCoord = input.UVCoord;
+	//output.Pos = float4(input.Pos, 1.0);
 
 	return output;
 }

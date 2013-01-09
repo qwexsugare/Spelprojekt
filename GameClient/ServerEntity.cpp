@@ -6,11 +6,14 @@ ServerEntity::ServerEntity()
 	this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_rotation = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, 0.0f, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_bs = NULL;
 }
 
 ServerEntity::~ServerEntity()
 {
 	delete this->m_messageQueue;
+	delete this->m_bs;
+	delete this->m_obb;
 }
 
 void ServerEntity::update(float dt)
@@ -22,10 +25,6 @@ void ServerEntity::update(float dt)
 	{
 		m = this->m_messageQueue->pullIncomingMessage();
 
-		if(m->type == Message::Collision)
-		{
-			this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
-		}
 
 		delete m;
 	}

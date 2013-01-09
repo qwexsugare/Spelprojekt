@@ -4,10 +4,9 @@ ServerThread::ServerThread() : sf::Thread()
 {
 	this->m_messageHandler = new MessageHandler();
 	this->m_messageQueue = new MessageQueue();
-	this->m_network = new Server(this->m_messageHandler);
-	this->m_entityHandler = new EntityHandler();
-
 	this->m_messageHandler->addQueue(this->m_messageQueue);
+	this->m_network = new Server(this->m_messageHandler);
+	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 }
 
 ServerThread::~ServerThread()
@@ -35,7 +34,7 @@ void ServerThread::Run()
 
 	//this->m_state = State::LOBBY;
 	this->m_state = State::LOBBY;
-	this->m_network->start(1337);
+	this->m_network->start(1338);
 
 	while(this->m_state != State::EXIT)
 	{

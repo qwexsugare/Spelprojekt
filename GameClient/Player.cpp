@@ -5,6 +5,8 @@ Player::Player(unsigned int id)
 	this->m_id = id;
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = new Hero();
+	this->m_hero->setPosition(FLOAT3(50.0f, 0.0f, 50.0f));
+	this->m_hero->setNextPosition(FLOAT3(50.0f, 0.0f, 50.0f));
 
 	EntityHandler::addEntity(m_hero);
 }
@@ -32,6 +34,19 @@ void Player::handleMsgMessage(Msg m)
 		m->reciverId = 0;
 
 		this->m_messageQueue->pushOutgoingMessage(m);
+	}
+}
+
+void Player::handleAttackMessage(AttackMessage am)
+{
+	//Create a projectile
+	FLOAT3 targetPos = am.getTargetPos();
+	FLOAT3 direction = targetPos - this->m_hero->getPosition();
+	direction.y = 0.0f;
+
+	if(direction.length() > 0)
+	{
+		EntityHandler::addEntity(new Projectile(this->m_hero->getPosition(), direction, 5, 1.0f));
 	}
 }
 

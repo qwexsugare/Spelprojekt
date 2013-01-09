@@ -19,6 +19,16 @@ void MessageHandler::addQueue(MessageQueue* _queue)
 	this->m_mutex.Unlock();
 }
 
+void MessageHandler::removeQueue(int id)
+{
+	map<int, MessageQueue*>::iterator i = this->m_queues.find(id);
+
+	if(i != this->m_queues.end())
+	{
+		this->m_queues.erase(i);
+	}
+}
+
 void MessageHandler::update()
 {
 	queue<Message*> messages;

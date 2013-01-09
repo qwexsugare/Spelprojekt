@@ -20,6 +20,8 @@ protected:
 	BoundingOrientedBox* m_obb;
 	FLOAT3 m_positon;
 	FLOAT3 m_rotation;
+
+	int m_health;
 	int m_modelId;
 	
 

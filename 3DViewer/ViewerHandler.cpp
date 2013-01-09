@@ -122,8 +122,6 @@ void ViewerHandler::update(float _dt)
 		m_shownModel = g_graphicsEngine->createModel("ArrowHead", FLOAT3(.0f, 0.0f, 0.0f));
 	}
 
-	
-	 
 	if(m_roll < 0)
 		m_roll = 2*3.141591;
 	if(m_roll > 2*3.141592)

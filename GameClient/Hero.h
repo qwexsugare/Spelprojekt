@@ -14,10 +14,11 @@ private:
 	unsigned int m_hp;
 public:
 	Hero();
-
+	virtual ~Hero();
 	void update(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	FLOAT3 getDirection();
+	void takeDamage(int damage);
 };
 
 #endif

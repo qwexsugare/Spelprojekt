@@ -4,6 +4,8 @@ Server::Server(MessageHandler *_messageHandler)
 {
 	this->clientArrPos=0;
 	this->m_messageHandler = _messageHandler;
+	this->m_messageQueue = new MessageQueue();
+	this->m_messageHandler->addQueue(this->m_messageQueue);
 }
 
 Server::~Server()
@@ -94,6 +96,26 @@ void Server::goThroughSelector()
 	}
 }
 
+void Server::handleMessages()
+{
+	//Handle incoming messages
+	Message *m;
+
+	while(this->m_messageQueue->incomingQueueEmpty() == false)
+	{
+		m = this->m_messageQueue->pullIncomingMessage();
+
+		if(m->type == Message::RemoveEntity)
+		{
+			RemoveServerEntityMessage *rsem = (RemoveServerEntityMessage*)m;			
+			RemoveEntityMessage rem = RemoveEntityMessage(rsem->removedId);
+			this->broadcast(rem);
+		}
+
+		delete m;
+	}
+}
+
 void Server::shutDown()
 {
 	if(this->listener.IsValid())
@@ -119,30 +141,60 @@ void Server::broadcast(string msg)
 {
 	sf::Packet packet;
 	packet<<msg;
+
+	this->m_mutex.Lock();
+
 	for(int i=0;i<this->clientArrPos;i++)
 	{
 		this->clients[i].Send(packet);
 	}
+
+	this->m_mutex.Unlock();
 }
 
 void Server::broadcast(EntityMessage ent)
 {
 	sf::Packet packet;
 	packet<<ent;
+
+	this->m_mutex.Lock();
+
 	for(int i=0;i<this->clientArrPos;i++)
 	{
 		this->clients[i].Send(packet);
 	}
+
+	this->m_mutex.Unlock();
 }
 
 void Server::broadcast(Msg msg)
 {
 	sf::Packet packet;
 	packet<<msg;
+
+	this->m_mutex.Lock();
+
 	for(int i=0;i<this->clientArrPos;i++)
 	{
 		this->clients[i].Send(packet);
 	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(RemoveEntityMessage rem)
+{
+	sf::Packet packet;
+	packet<<rem;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
 }
 
 void Server::Run()
@@ -150,6 +202,7 @@ void Server::Run()
 	while(this->listener.IsValid())
 	{
 		this->goThroughSelector();
+		this->handleMessages();
 	}
 }
 
@@ -174,7 +227,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 
 		protFound=true;
 	}
-	if(prot=="MSG")
+	else if(prot=="MSG")
 	{
 		Msg msg;
 		packet >> msg;
@@ -184,6 +237,18 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 
 		this->m_mutex.Unlock();
 		protFound=true;
+	}
+	else if(prot=="ATTACK")
+	{
+		AttackMessage msg;
+		packet >> msg;
+
+		this->m_mutex.Lock();
+
+		this->m_players[socketIndex]->handleAttackMessage(msg);
+
+		this->m_mutex.Unlock();
+		protFound = true;
 	}
 
 	return protFound;

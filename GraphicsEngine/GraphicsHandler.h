@@ -8,6 +8,7 @@
 #include "Model.h"
 #include "ConfigFile.h"
 #include "Camera.h"
+#include "MyText.h"
 
 class GraphicsHandler
 {
@@ -24,13 +25,17 @@ public:
 	DECLDIR ~GraphicsHandler();
 	
 	DECLDIR Camera *getCamera();
+	DECLDIR INT2 getRealScreenSize();
 	DECLDIR INT2 getScreenSize();
 	
 	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps);
 	DECLDIR bool removeTerrain(Terrain* _terrain);
-
+	
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
 	DECLDIR bool removeText(Text *text);
+	
+	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size);
+	DECLDIR bool removeMyText(MyText *text);
 
 	DECLDIR Model* createModel(string _filename, FLOAT3 _position);
 	DECLDIR bool removeModel(Model* _model);
