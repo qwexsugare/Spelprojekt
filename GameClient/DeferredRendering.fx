@@ -74,7 +74,16 @@ BlendState SrcAlphaBlend
 float3 calcLight(float3 eyeCoord, float3 normal)
 {
 	//Variables
-	/*float3 n = normalize(mul(normal, mul(modelMatrix,viewMatrix)));
+	float3 lightPos = float3(0.0f, 0.0f, 0.0f); //temp
+	float3 la = float3(0.1f, 0.1f, 0.1f);
+	float3 ka = float3(1.0f, 1.0f, 1.0f);
+	float3 ld = float3(0.1f, 0.1f, 0.1f);
+	float3 kd = float3(1.0f, 1.0f, 1.0f);
+	float3 ls = float3(0.1f, 0.1f, 0.1f);
+	float3 ks = float3(1.0f, 1.0f, 1.0f);
+	float f = 1.0f;
+
+	float3 n = normal;
 	float3 s = normalize(lightPos - eyeCoord);
 	float3 r = -1 * s + 2 * dot(s,n) * n;
 	float3 v = -eyeCoord;
@@ -88,9 +97,9 @@ float3 calcLight(float3 eyeCoord, float3 normal)
 	//Specular light
 	float3 specular = ls * ks * pow(max(dot(r,v), 0), f);
 	
-	return (ambient + diffuse + specular);*/
+	return (ambient + diffuse + specular);
 
-	return float4(1.0f, 1.0f, 1.0f, 1.0f);
+	//return float4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 PSSceneIn VSScene(VSSceneIn input)

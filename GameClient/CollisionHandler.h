@@ -12,6 +12,7 @@ private:
 	void addCollision(ServerEntity *_ent1, ServerEntity *_ent2);
 public:
 	CollisionHandler();
+	CollisionHandler(MessageHandler *messageHandler);
 	~CollisionHandler();
 
 	void update();

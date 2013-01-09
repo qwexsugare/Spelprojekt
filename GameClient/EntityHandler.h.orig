@@ -34,10 +34,12 @@ public:
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
 	static ServerEntity* getServerEntity(unsigned int id);
 
+<<<<<<< HEAD
 	static vector<ServerEntity*> getAllEnemies();
 	static vector<ServerEntity*> getAllHeroes();
-
+=======
 	static unsigned int getId();
+>>>>>>> 4c7e90950a5e43fe56dafb27d9041cd17f3db56f
 };
 
 #endif
