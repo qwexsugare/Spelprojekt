@@ -11,8 +11,6 @@ using namespace DirectX;
 class ServerEntity
 {
 protected:
-	
-
 	MessageQueue *m_messageQueue;
 	unsigned int m_id;
 	

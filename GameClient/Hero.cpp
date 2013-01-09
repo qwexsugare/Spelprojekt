@@ -3,6 +3,7 @@
 Hero::Hero() : ServerEntity()
 {
 	this->m_type = Type::HeroType;
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_positon;
 	this->m_reachedPosition = true;
 	this->m_movementSpeed = 5.0f;
@@ -24,7 +25,7 @@ void Hero::update(float dt)
 
 		if(m->type == Message::Collision)
 		{
-			this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
+			//this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
 		}
 
 		delete m;
@@ -44,6 +45,7 @@ void Hero::update(float dt)
 			this->m_reachedPosition = true;
 		}
 
+		this->m_obb->Center = XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z);
 		this->m_rotation.x = atan2(-distance.x, -distance.z);
 	}
 }
@@ -64,4 +66,9 @@ FLOAT3 Hero::getDirection(float _anticipationDegree)
 	}
 	else
 		return m_positon;
+}
+
+void Hero::takeDamage(int damage)
+{
+	this->m_health = this->m_health - damage;
 }

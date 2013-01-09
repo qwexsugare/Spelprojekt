@@ -5,10 +5,10 @@ ServerEntity::ServerEntity()
 	this->m_messageQueue = new MessageQueue();
 	this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_rotation = FLOAT3(0.0f, 0.0f, 0.0f);
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, 0.0f, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_bs = NULL;
 	this->m_modelId = 0;
 	this->m_visible = true;
+	this->m_health = 100;
 }
 
 ServerEntity::~ServerEntity()

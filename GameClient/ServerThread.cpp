@@ -7,6 +7,7 @@ ServerThread::ServerThread() : sf::Thread()
 	this->m_messageHandler->addQueue(this->m_messageQueue);
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
+	this->m_collisionHandler = new CollisionHandler(this->m_messageHandler);
 }
 
 ServerThread::~ServerThread()
@@ -18,6 +19,7 @@ ServerThread::~ServerThread()
 	delete this->m_messageHandler;
 	this->m_network->shutDown();
 	delete this->m_network;
+	delete this->m_collisionHandler;
 
 	this->m_entityHandler->removeAllEntities();
 	delete this->m_entityHandler;
@@ -100,6 +102,7 @@ void ServerThread::update(float dt)
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
 		this->m_mapHandler.update();
+		this->m_collisionHandler->update();
 
 		entities = this->m_entityHandler->getEntities();
 
