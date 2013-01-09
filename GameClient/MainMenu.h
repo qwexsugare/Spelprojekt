@@ -10,5 +10,10 @@ public:
 	void Update();
 
 	bool createGameIsDown();
+	bool JoinGameIsDown();
+	bool SettingsIsDown();
+	bool LoreIsDown();
+	bool CreditsIsDown();
+	bool ExitIsDown();
 };
 

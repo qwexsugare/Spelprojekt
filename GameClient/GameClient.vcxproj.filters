@@ -35,7 +35,15 @@
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="ModelIdHolder.cpp" />
+    <ClCompile Include="LobbyMenu.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
+    <ClCompile Include="JoinGameMenu.cpp" />
+    <ClCompile Include="CreateGameMenu.cpp" />
+    <ClCompile Include="HudMenu.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="LoreMenu.cpp" />
+    <ClCompile Include="CreditsMenu.cpp" />
+    <ClCompile Include="ScoreMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h" />
@@ -75,6 +83,14 @@
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="ModelIdHolder.h" />
+    <ClInclude Include="LobbyMenu.h" />
     <ClInclude Include="MeleeAttack.h" />
+    <ClInclude Include="JoinGameMenu.h" />
+    <ClInclude Include="CreateGameMenu.h" />
+    <ClInclude Include="HudMenu.h" />
+    <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="LoreMenu.h" />
+    <ClInclude Include="CreditsMenu.h" />
+    <ClInclude Include="ScoreMenu.h" />
   </ItemGroup>
 </Project>
