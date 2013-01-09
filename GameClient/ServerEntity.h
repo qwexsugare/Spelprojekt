@@ -47,6 +47,8 @@ public:
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
+	
+	virtual void takeDamage(int damage);
 };
 
 #endif

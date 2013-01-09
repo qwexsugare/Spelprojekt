@@ -88,3 +88,8 @@ ServerEntity::Type ServerEntity::getType()
 {
 	return m_type;
 }
+
+void ServerEntity::takeDamage(int damage)
+{
+	this->m_health = this->m_health - damage;
+}

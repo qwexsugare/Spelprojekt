@@ -88,9 +88,14 @@ void ServerThread::update(float dt)
 	if(this->m_state == State::GAME)
 	{
 		//Check if the map is finished
+		if(this->m_mapHandler.isDone() == true)
+		{
+			this->m_state = State::END;
+		}
 
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
+		this->m_mapHandler.update();
 
 		entities = this->m_entityHandler->getEntities();
 
