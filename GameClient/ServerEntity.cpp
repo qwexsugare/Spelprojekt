@@ -83,3 +83,8 @@ bool ServerEntity::getVisible()
 {
 	return this->m_visible;
 }
+
+ServerEntity::Type ServerEntity::getType()
+{
+	return m_type;
+}

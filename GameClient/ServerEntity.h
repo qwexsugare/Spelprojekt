@@ -11,6 +11,8 @@ using namespace DirectX;
 class ServerEntity
 {
 protected:
+	
+
 	MessageQueue *m_messageQueue;
 	unsigned int m_id;
 	
@@ -22,7 +24,10 @@ protected:
 	int m_health;
 	unsigned int m_modelId;
 	bool m_visible;
+
 public:
+	enum Type{EnemyType, HeroType, OtherType};
+	Type m_type;
 	ServerEntity();
 	virtual ~ServerEntity();
 
@@ -40,6 +45,7 @@ public:
 	FLOAT3 getPosition();
 	unsigned int getId();
 	unsigned int getModelId();
+	Type getType();
 	bool getVisible();
 };
 

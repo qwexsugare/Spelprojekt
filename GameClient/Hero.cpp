@@ -2,6 +2,7 @@
 
 Hero::Hero() : ServerEntity()
 {
+	this->m_type = Type::HeroType;
 	this->m_nextPosition = this->m_positon;
 	this->m_reachedPosition = true;
 	this->m_movementSpeed = 5.0f;
@@ -51,4 +52,12 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
 	this->m_nextPosition = _nextPosition;
 	this->m_reachedPosition = false;
+}
+
+FLOAT3 Hero::getDirection()
+{
+	if( (m_nextPosition - m_positon).length() > 0)
+		return m_nextPosition - m_positon;
+	else
+		return m_positon;
 }

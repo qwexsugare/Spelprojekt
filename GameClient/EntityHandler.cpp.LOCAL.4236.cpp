@@ -1,91 +1,57 @@
 #include "EntityHandler.h"
 
-sf::Mutex EntityHandler::m_mutex;
 vector<ServerEntity*> EntityHandler::m_entities;	
 unsigned int EntityHandler::m_nextId = 0;
-MessageQueue *EntityHandler::m_messageQueue;
-MessageHandler *EntityHandler::m_messageHandler;
 
 EntityHandler::EntityHandler()
 {
-	EntityHandler::m_messageQueue = new MessageQueue();
+	//this->m_messageQueue = new MessageQueue();
 }
 
-EntityHandler::EntityHandler(MessageHandler* _messageHandler)
-{
-	EntityHandler::m_messageQueue = new MessageQueue();
-	EntityHandler::m_messageHandler = _messageHandler;
-	_messageHandler->addQueue(EntityHandler::m_messageQueue);
-}
+//EntityHandler::EntityHandler(/*MessageHandler* _messageHandler*/)
+//{
+//	//this->m_messageQueue = new MessageQueue();
+//	//this->m_messageHandler = _messageHandler;
+//}
 
 EntityHandler::~EntityHandler()
 {
-	delete this->m_messageQueue;
+	//delete this->m_messageQueue;
 }
 
 void EntityHandler::removeAllEntities()
 {
-	EntityHandler::m_mutex.Lock();
-
 	for(int i = 0; i < this->m_entities.size(); i++)
 	{
 		delete this->m_entities[i];
 	}
-
-	EntityHandler::m_mutex.Unlock();
 }
 
 void EntityHandler::update(float dt)
 {
-	//handle messages
-	Message *m;
-
-	while(this->m_messageQueue->incomingQueueEmpty() == false)
-	{
-		m = this->m_messageQueue->pullIncomingMessage();
-
-		if(m->type == Message::RemoveEntity)
-		{
-			RemoveServerEntityMessage *rem = (RemoveServerEntityMessage*)m;
-			EntityHandler::removeEntity(EntityHandler::getServerEntity(rem->removedId));		
-			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, 1, rem->removedId));
-		}
-
-		delete m;
-	}
-
-	//update the entities
-	EntityHandler::m_mutex.Lock();
-
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
 		
 		EntityHandler::m_entities[i]->update(dt);
 	}
-
-	EntityHandler::m_mutex.Unlock();
 }
 
 void EntityHandler::addEntity(ServerEntity *_entity)
 {
-	EntityHandler::m_mutex.Lock();
 	_entity->setId(EntityHandler::m_nextId);
 	EntityHandler::m_nextId++;
 	EntityHandler::m_entities.push_back(_entity);
-	EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
-	EntityHandler::m_mutex.Unlock();
+	//this->m_messageHandler->addQueue(_entity->getMessageQueue());
 }
 
 bool EntityHandler::removeEntity(ServerEntity *_entity)
 {
 	bool found = false;
-	EntityHandler::m_mutex.Lock();
 
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
 		if(EntityHandler::m_entities[i] == _entity)
 		{
-			EntityHandler::m_messageHandler->removeQueue(EntityHandler::m_entities[i]->getMessageQueue()->getId());
 			delete EntityHandler::m_entities[i];
 			EntityHandler::m_entities.erase(EntityHandler::m_entities.begin() + i);
 			found = true;
@@ -93,18 +59,12 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 		}
 	}
 
-	EntityHandler::m_mutex.Unlock();
-
 	return found;
 }
 
 vector<ServerEntity*> EntityHandler::getEntities()
 {
-	EntityHandler::m_mutex.Lock();
-	vector<ServerEntity*> result = EntityHandler::m_entities;
-	EntityHandler::m_mutex.Unlock();
-
-	return result;
+	return EntityHandler::m_entities;
 }
 
 ServerEntity* EntityHandler::getClosestEntity(ServerEntity *entity)
@@ -150,8 +110,8 @@ ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 	{
 		if(EntityHandler::m_entities[i]->getId() == id)
 		{
-			result = EntityHandler::m_entities[i];
 			i = EntityHandler::m_entities.size();
+			result = EntityHandler::m_entities[i];
 		}
 	}
 
@@ -164,7 +124,7 @@ vector<ServerEntity*> EntityHandler::getAllEnemies()
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
 		
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType)
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::Enemy)
 		{
 			ServerEntity* enemy = EntityHandler::m_entities[i];
 			_enemies.push_back(enemy);
@@ -179,7 +139,7 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
 		
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::HeroType)
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::Hero)
 		{
 			ServerEntity* hero = EntityHandler::m_entities[i];
 			_heroes.push_back(hero);
@@ -187,9 +147,4 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 	}
 
 	return _heroes;
-}
-
-unsigned int EntityHandler::getId()
-{
-	return EntityHandler::m_messageQueue->getId();
 }
