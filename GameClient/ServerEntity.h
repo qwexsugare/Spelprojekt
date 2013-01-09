@@ -20,7 +20,8 @@ protected:
 	FLOAT3 m_rotation;
 
 	int m_health;
-	int m_modelId;
+	unsigned int m_modelId;
+	bool m_visible;
 public:
 	ServerEntity();
 	virtual ~ServerEntity();
@@ -32,10 +33,14 @@ public:
 	EntityMessage getUpdate();
 
 	void setId(unsigned int _id);
+	void setModelId(unsigned int _modelId);
 	void setPosition(FLOAT3 _position);
+	void setVisible(bool _visible);
 
 	FLOAT3 getPosition();
 	unsigned int getId();
+	unsigned int getModelId();
+	bool getVisible();
 };
 
 #endif

@@ -96,7 +96,10 @@ void ServerThread::update(float dt)
 
 		for(int i = 0; i < entities.size(); i++)
 		{
-			this->m_network->broadcast(entities[i]->getUpdate());
+			if(entities[i]->getVisible() == true)
+			{
+				this->m_network->broadcast(entities[i]->getUpdate());
+			}
 		}
 	}
 

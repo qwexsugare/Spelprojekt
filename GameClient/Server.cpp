@@ -14,6 +14,8 @@ Server::~Server()
 	{
 		delete this->m_players[i];
 	}
+
+	delete this->m_messageQueue;
 }
 
 bool Server::start(int port)
