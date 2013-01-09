@@ -142,6 +142,8 @@ MyTextOffsets::MyTextOffsets(string _path, string _filename)
 		}
 
 		m_charOffsets['_'] = INT2(40, 40);
+
+		delete charsInSheet;
 	}
 	// else you are fucked.
 	else

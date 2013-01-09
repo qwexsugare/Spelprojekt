@@ -37,8 +37,6 @@ MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string
 
 MyText::~MyText()
 {
-	if(this->m_texture)
-		this->m_texture->Release();
 	if(this->m_VertexBuffer)
 		this->m_VertexBuffer->Release();
 }
@@ -86,21 +84,21 @@ void MyText::DrawString(string str, float _size)
 	// Jumping in the spritesheet to get the right letter, symbol or number
 	//----------------------------------------------------------------------------------------------------------------------------
 
-	
-
-	char* chars = new char[str.length()];
-	for(int i = 0; i < str.length(); i++)
-	{
-		chars[i] = str.at(i);
-	}
 	for(int i = 0; i < str.length(); i++)
     {
-		char tmp = toupper(chars[i]);
-		char tmp2 = toupper(chars[i-1]);
+		char tmp;
+		char tmp2;
 		if(i == 0)
+		{
+			tmp = toupper(str[i]);
 			OffsetX = ((70-m_myTextOffsets.getCharOffset(tmp).x+m_size/50.0f)*m_size/100.0f)/m_width;
+		}
 		else
+		{
+			tmp = toupper(str[i]);
+			char tmp2 = toupper(str[i-1]);
 			OffsetX = ((100-m_myTextOffsets.getCharOffset(tmp2).y-m_myTextOffsets.getCharOffset(tmp).x+m_size/50.0f)*m_size/100.0f)/m_width;
+		}
 		switch(tmp)
 		{
 		case ' ':
