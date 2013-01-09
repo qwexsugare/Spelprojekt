@@ -3,6 +3,7 @@
 
 #include "ServerEntity.h"
 #include "EntityHandler.h"
+#include "Hero.h"
 
 class Enemy : public ServerEntity
 {

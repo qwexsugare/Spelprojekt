@@ -26,7 +26,7 @@ protected:
 	
 
 public:
-	enum Type{Enemy, Hero, Other};
+	enum Type{EnemyType, HeroType, OtherType};
 	Type m_type;
 	ServerEntity();
 	virtual ~ServerEntity();

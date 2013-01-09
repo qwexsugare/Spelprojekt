@@ -2,7 +2,7 @@
 
 Enemy::Enemy() : ServerEntity()
 {
-	m_type = Type::Enemy;
+	m_type = Type::EnemyType;
 	this->m_nextPosition = this->m_positon;
 	this->m_reachedPosition = true;
 	this->m_movementSpeed = 5.0f;
@@ -46,7 +46,10 @@ void Enemy::update(float dt)
 
 void Enemy::setNextPosition(FLOAT3 _nextPosition,  float dt)
 {
-	FLOAT3 _playerDirection;// = EntityHandler::getAllHeroes()[0]->getDirection();
+	Hero *hero = (Hero*)(EntityHandler::getAllHeroes()[0]);
+
+	FLOAT3 _playerDirection= hero->getDirection();
+
 	FLOAT3 targetPosition = _playerDirection / _playerDirection.length();
 	
 	targetPosition = targetPosition * m_movementSpeed*dt*5;

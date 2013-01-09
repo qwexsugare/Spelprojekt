@@ -2,6 +2,7 @@
 
 Hero::Hero() : ServerEntity()
 {
+	this->m_type = Type::HeroType;
 	this->m_nextPosition = this->m_positon;
 	this->m_reachedPosition = true;
 	this->m_movementSpeed = 5.0f;

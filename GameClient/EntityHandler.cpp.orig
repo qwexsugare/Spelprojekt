@@ -158,13 +158,14 @@ ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 	return result;
 }
 
+<<<<<<< HEAD
 vector<ServerEntity*> EntityHandler::getAllEnemies()
 {
 	vector<ServerEntity*> _enemies;
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
 		
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType)
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::Enemy)
 		{
 			ServerEntity* enemy = EntityHandler::m_entities[i];
 			_enemies.push_back(enemy);
@@ -179,7 +180,7 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
 		
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::HeroType)
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::Hero)
 		{
 			ServerEntity* hero = EntityHandler::m_entities[i];
 			_heroes.push_back(hero);
@@ -187,9 +188,9 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 	}
 
 	return _heroes;
-}
-
+=======
 unsigned int EntityHandler::getId()
 {
 	return EntityHandler::m_messageQueue->getId();
+>>>>>>> 4c7e90950a5e43fe56dafb27d9041cd17f3db56f
 }
