@@ -117,6 +117,9 @@
     <ClInclude Include="MyText.h">
       <Filter>Text</Filter>
     </ClInclude>
+    <ClInclude Include="MyTextOffsets.h">
+      <Filter>Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -189,6 +192,9 @@
       <Filter>Text</Filter>
     </ClCompile>
     <ClCompile Include="MyText.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTextOffsets.cpp">
       <Filter>Text</Filter>
     </ClCompile>
   </ItemGroup>

@@ -10,7 +10,7 @@ TextInput::TextInput()
 TextInput::TextInput(string _texture, INT2 _pos, int _size)
 {
 	this->m_text = "";
-	this->m_myText = g_graphicsEngine->createMyText(_texture, m_text, _pos, _size);
+	this->m_myText = g_graphicsEngine->createMyText(_texture, "text/", "offsets.txt", m_text, _pos, _size);
 	this->m_myText->DrawString(this->m_text);
 	m_timer = 0.0f;
 }
