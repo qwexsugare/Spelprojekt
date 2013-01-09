@@ -140,12 +140,16 @@ MyTextOffsets::MyTextOffsets(string _path, string _filename)
 
 			m_charOffsets[charsInSheet[index++]] = INT2(val1, val2);
 		}
+
+		m_charOffsets['_'] = INT2(40, 40);
 	}
 	// else you are fucked.
 	else
 	{
 
 	}
+
+	int lol = 0;
 }
 
 MyTextOffsets::~MyTextOffsets()

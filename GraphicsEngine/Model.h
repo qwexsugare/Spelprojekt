@@ -31,6 +31,8 @@ public:
 	D3DXVECTOR3 getRotation()const;
 	Mesh* getMesh()const;
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
+	bool contains(const BoundingOrientedBox& _obb)const;
+	bool contains(const BoundingSphere& _bs)const;
 	bool intersects(const BoundingOrientedBox& _obb)const;
 	bool intersects(const BoundingSphere& _bs)const;
 	DECLDIR bool intersects(const Model& _model)const;

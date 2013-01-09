@@ -12,7 +12,7 @@ GameState::GameState()
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
 	this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.1f, 0.1f), 0);
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(0, 0), 100);
+	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(0, 0), 80);
 
 	// Create a fucking awesome terrain
 	vector<string> textures;
