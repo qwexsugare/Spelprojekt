@@ -14,7 +14,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd)
 	GetWindowRect(_hWnd, &rc);
 	INT2 lolers = INT2(rc.right-rc.left, rc.bottom-rc.top);
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y, lolers);
-	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1000.0f, 1000.0f));
+	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(30000.0f, 30000.0f));
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -324,12 +324,12 @@ void World::update(float dt)
 		this->m_sprites[i]->update(dt);
 	}
 	
-	stack<Model*> models = this->m_quadTree->pullAllModels();
-	while(!models.empty())
-	{
-		this->m_quadTree->addModel(models.top());
-		models.pop();
-	}
+	//stack<Model*> models = this->m_quadTree->pullAllModels();
+	//while(!models.empty())
+	//{
+	//	this->m_quadTree->addModel(models.top());
+	//	models.pop();
+	//}
 }
 
 bool World::addModel(Model *_model, bool moving)
