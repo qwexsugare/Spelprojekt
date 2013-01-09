@@ -47,3 +47,11 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 	this->m_nextPosition = _nextPosition;
 	this->m_reachedPosition = false;
 }
+
+FLOAT3 Hero::getDirection()
+{
+	if( (m_nextPosition - m_positon).length() > 0)
+		return m_nextPosition - m_positon;
+	else
+		return m_positon;
+}

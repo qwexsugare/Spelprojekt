@@ -5,6 +5,7 @@
 #include "ServerEntity.h"
 #include"MessageHandler.h"
 
+
 using namespace std;
 
 class EntityHandler
@@ -26,6 +27,9 @@ public:
 
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
 	static ServerEntity* getServerEntity(unsigned int id);
+
+	static vector<ServerEntity*> getAllEnemies();
+	static vector<ServerEntity*> getAllHeroes();
 };
 
 #endif

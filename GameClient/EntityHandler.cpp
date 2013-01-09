@@ -31,6 +31,7 @@ void EntityHandler::update(float dt)
 {
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
+		
 		EntityHandler::m_entities[i]->update(dt);
 	}
 }
@@ -115,4 +116,35 @@ ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 	}
 
 	return result;
+}
+
+vector<ServerEntity*> EntityHandler::getAllEnemies()
+{
+	vector<ServerEntity*> _enemies;
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::Enemy)
+		{
+			ServerEntity* enemy = EntityHandler::m_entities[i];
+			_enemies.push_back(enemy);
+		}
+	}
+
+	return _enemies;
+}
+vector<ServerEntity*> EntityHandler::getAllHeroes()
+{
+	vector<ServerEntity*> _heroes;
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::Hero)
+		{
+			ServerEntity* hero = EntityHandler::m_entities[i];
+			_heroes.push_back(hero);
+		}
+	}
+
+	return _heroes;
 }

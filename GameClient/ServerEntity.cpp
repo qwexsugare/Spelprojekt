@@ -65,3 +65,8 @@ unsigned int ServerEntity::getId()
 {
 	return this->m_id;
 }
+
+ServerEntity::Type ServerEntity::getType()
+{
+	return m_type;
+}

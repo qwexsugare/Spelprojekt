@@ -11,6 +11,8 @@ using namespace DirectX;
 class ServerEntity
 {
 protected:
+	
+
 	MessageQueue *m_messageQueue;
 	unsigned int m_id;
 	
@@ -19,7 +21,11 @@ protected:
 	FLOAT3 m_positon;
 	FLOAT3 m_rotation;
 	int m_modelId;
+	
+
 public:
+	enum Type{Enemy, Hero, Other};
+	Type m_type;
 	ServerEntity();
 	virtual ~ServerEntity();
 
@@ -34,6 +40,7 @@ public:
 
 	FLOAT3 getPosition();
 	unsigned int getId();
+	Type getType();
 };
 
 #endif
