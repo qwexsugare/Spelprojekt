@@ -122,23 +122,19 @@ void GameState::update(float _dt)
 	this->m_network->sendMsg(Msg("Start"));
 
 	static float CAMERA_SPEED = 16.0f;
-	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10)
-		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
+	if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-27.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->moveStatic(0.0f, CAMERA_SPEED*_dt, 0.0f);
 	}
-	else if((g_mouse->getPos().x <= 10)
-		|| g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP)
+	else if(g_graphicsEngine->getCamera()->getPos().x > 27.0f && (g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->moveStatic(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
 	}
-	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10)
-		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
+	if(g_graphicsEngine->getCamera()->getPos().z < m_terrain->getHeight()-4.0f && (g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->moveStatic(CAMERA_SPEED*_dt, 0.0f, 0.0f);
 	}
-	else if((g_mouse->getPos().y <= 10)
-		|| g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
+	else if(g_graphicsEngine->getCamera()->getPos().z > 25.0f && (g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->moveStatic(-(CAMERA_SPEED*_dt), 0.0f, 0.0f);
 	}

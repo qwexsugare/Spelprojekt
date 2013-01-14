@@ -26,11 +26,13 @@ public:
 	virtual ~Terrain();
 	
 	ID3D10ShaderResourceView** getBlendMaps()const { return this->m_blendMaps; }
+	float getHeight()const { return m_height; }
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
 	int getNrOfBlendMaps()const { return this->m_nrOfBlendMaps; }
 	int getNrOfTextures()const { return this->m_nrOfTextures; }
 	int getNrOfVertices()const { return this->m_nrOfVertices; }
 	ID3D10Buffer* getVertexBuffer()const { return this->m_vertexBuffer; }
+	float getWidth()const { return m_width; }
 	void render(ID3D10EffectTechnique* tech, ID3D10EffectTechnique* _tech2, ID3D10Effect* effect, int pass, ID3D10InputLayout* _particleLayout);
 	ID3D10ShaderResourceView** getTextures()const { return this->m_textures; }
 };
