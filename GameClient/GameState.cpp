@@ -161,6 +161,7 @@ void GameState::update(float _dt)
 	else if(g_mouse->isRButtonPressed())
 	{
 		playSound(this->m_testSound);
+		bool foundTarget = false;
 		
 		for(int i = 0; i < m_entities.size(); i++)
 		{
@@ -171,7 +172,23 @@ void GameState::update(float _dt)
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
 				this->m_network->sendAttackEntityMessage(AttackEntityMessage(0, m_entities[i]->m_id));
+				foundTarget = true;
 			}
+		}
+
+		if(foundTarget == false)
+		{
+			// Calc some fucken pick ray out mofos
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+			float k = (-pickOrig.y)/pickDir.y;
+			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+			EntityMessage e;
+			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			this->m_network->sendEntity(e);
 		}
 
 		/*D3DXVECTOR3 pickDir;
@@ -184,36 +201,33 @@ void GameState::update(float _dt)
 	}
 	else if(g_mouse->isRButtonDown())
 	{
-		if(canMove)
+		bool validMove = true;
+
+		for(int i = 0; i < m_entities.size(); i++)
 		{
-			bool validMove = true;
-
-			for(int i = 0; i < m_entities.size(); i++)
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-				float dist;
-				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
-				{
-					validMove = false;
-				}
+				validMove = false;
 			}
+		}
 
-			if(validMove)
-			{
-				// Calc some fucken pick ray out mofos
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+		if(validMove)
+		{
+			// Calc some fucken pick ray out mofos
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-				float k = (-pickOrig.y)/pickDir.y;
-				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+			float k = (-pickOrig.y)/pickDir.y;
+			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-				EntityMessage e;
-				e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
-				this->m_network->sendEntity(e);
-			}
+			EntityMessage e;
+			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			this->m_network->sendEntity(e);
 		}
 	}
 	else

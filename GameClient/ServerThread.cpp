@@ -45,7 +45,7 @@ void ServerThread::Run()
 	//	new Enemy();
 	//}
 
-	EntityHandler::addEntity(new Tower());
+	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
 
 	while(this->m_state != State::EXIT)
 	{
