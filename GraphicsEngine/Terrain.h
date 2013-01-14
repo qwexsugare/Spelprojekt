@@ -6,9 +6,7 @@ class Terrain
 {
 private:
 	float m_width;
-	float m_widthBetweenVertices;
 	float m_height;
-	float m_heightBetweenVertices;
 	int m_rows;
 	int m_cols;
 	int m_nrOfVertices;
@@ -33,6 +31,5 @@ public:
 	int getNrOfVertices()const { return this->m_nrOfVertices; }
 	ID3D10Buffer* getVertexBuffer()const { return this->m_vertexBuffer; }
 	float getWidth()const { return m_width; }
-	void render(ID3D10EffectTechnique* tech, ID3D10EffectTechnique* _tech2, ID3D10Effect* effect, int pass, ID3D10InputLayout* _particleLayout);
 	ID3D10ShaderResourceView** getTextures()const { return this->m_textures; }
 };

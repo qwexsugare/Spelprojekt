@@ -104,7 +104,7 @@ void ServerThread::update(float dt)
 
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
-		this->m_mapHandler->update();
+		this->m_mapHandler->update(dt);
 		this->m_collisionHandler->update();
 
 		entities = this->m_entityHandler->getEntities();
