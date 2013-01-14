@@ -10,11 +10,13 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
+	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(30000.0f, 30000.0f));
+
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
-	INT2 lolers = INT2(rc.right-rc.left, rc.bottom-rc.top);
-	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y, lolers);
-	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(30000.0f, 30000.0f));
+	INT2 actualScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
+	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize(), actualScreenSize);
+
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());

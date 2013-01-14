@@ -5,18 +5,17 @@ Camera::Camera()
 
 }
 
-Camera::Camera(int width, int height, INT2 _otherScreenSize)
+Camera::Camera(INT2 _configScreenSize, INT2 _actualScreenSize)
 {
+	this->m_configScreenSize = _configScreenSize;
+	this->m_actualScreenSize = _actualScreenSize;
 	this->m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	this->m_forward = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 	this->m_up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	this->m_right = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	this->m_width = width;
-	this->m_height = height;
-	this->m_otherScreenSize = _otherScreenSize;
 
 	this->updateViewMatrix();
-	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI * 0.4f,  float(m_width) / float(m_height), 1.0f, 1000000.0f);
+	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI * 0.4f,  float(m_configScreenSize.x) / float(m_configScreenSize.y), 1.0f, 1000000.0f);
 }
 
 Camera::~Camera()
@@ -28,7 +27,20 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 {
 	// Do stuff in a retard right handed world
 	D3DXMATRIX rhProjMat;
-	D3DXMatrixPerspectiveFovLH(&rhProjMat, D3DX_PI * 0.4f,  float(m_otherScreenSize.x) / float(m_otherScreenSize.y), 1.0f, 1000000.0f);
+	D3DXMatrixPerspectiveFovRH(&rhProjMat, D3DX_PI * 0.4f,  float(m_configScreenSize.x) / float(m_configScreenSize.y), 1.0f, 1000000.0f);
+	D3DXMATRIX rhViewMat;
+	D3DXMatrixLookAtRH(&rhViewMat, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+
+	// Compute the vector of the pick ray in screen space
+	D3DXVECTOR3 v;
+	v.x = ( ( ( 2.0f * float(_mousePos.x)/float(m_actualScreenSize.x)*float(m_configScreenSize.x) ) / float(m_configScreenSize.x) ) - 1.0f ) / rhProjMat._11;
+	v.y = -( ( ( 2.0f * float(_mousePos.y)/float(m_actualScreenSize.y)*float(m_configScreenSize.y) ) / float(m_configScreenSize.y) ) - 1.0f ) / rhProjMat._22;
+	v.z = 1.0f;
+
+	/*
+	// Do stuff in a retard right handed world
+	D3DXMATRIX rhProjMat;
+	D3DXMatrixPerspectiveFovRH(&rhProjMat, D3DX_PI * 0.4f,  float(m_otherScreenSize.x) / float(m_otherScreenSize.y), 1.0f, 1000000.0f);
 	D3DXMATRIX rhViewMat;
 	D3DXMatrixLookAtRH(&rhViewMat, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
 
@@ -37,6 +49,7 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 	v.x = ( ( ( 2.0f * float(_mousePos.x) ) / float(this->m_otherScreenSize.x) ) - 1.0f ) / rhProjMat._11;
 	v.y = -( ( ( 2.0f * float(_mousePos.y) ) / float(this->m_otherScreenSize.y) ) - 1.0f ) / rhProjMat._22;
 	v.z = 1.0f;
+	*/
 
 	// Get the inverse view matrix
 	D3DXMATRIX m;

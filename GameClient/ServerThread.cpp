@@ -36,7 +36,7 @@ void ServerThread::Run()
 
 	//this->m_state = State::LOBBY;
 	this->m_state = State::LOBBY;
-	this->m_network->start(1338);
+	this->m_network->start(1350);
 	
 	for(int i = 0; i < 5; i++)
 	{
