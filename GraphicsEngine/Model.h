@@ -25,16 +25,18 @@ public:
 	
 	DECLDIR float getAlpha()const;
 	BoundingOrientedBox* getObb()const;
+	BoundingSphere* getBs()const { return this->m_bs; }
 	DECLDIR FLOAT3 getPosition()const;
 	D3DXVECTOR2 getPosition2D()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	Mesh* getMesh()const;
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
-	bool contains(const BoundingOrientedBox& _obb)const;
-	bool contains(const BoundingSphere& _bs)const;
-	bool intersects(const BoundingOrientedBox& _obb)const;
-	bool intersects(const BoundingSphere& _bs)const;
+	DECLDIR bool contains(const BoundingOrientedBox& _obb)const;
+	DECLDIR bool contains(const BoundingSphere& _bs)const;
+	DECLDIR bool intersects(const BoundingOrientedBox& _obb)const;
+	DECLDIR bool intersects(const BoundingSphere& _bs)const;
+	DECLDIR bool intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const;
 	DECLDIR bool intersects(const Model& _model)const;
 	DECLDIR void move(FLOAT3 _distance);
 	DECLDIR void rotate(float _yaw, float _pitch, float _roll);

@@ -1,5 +1,4 @@
 #include "GameState.h"
-#include "LobbyState.h"
 #include "Input.h"
 #include "Graphics.h"
 #include "SoundWrapper.h"
@@ -144,34 +143,82 @@ void GameState::update(float _dt)
 		g_graphicsEngine->getCamera()->moveStatic(-(CAMERA_SPEED*_dt), 0.0f, 0.0f);
 	}
 
+	static bool canMove = false;
 	if(g_mouse->isLButtonPressed())
 	{
-
+		for(int i = 0; i < m_entities.size(); i++)
+		{
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			{
+				canMove = true;
+			}
+		}
 	}
 	else if(g_mouse->isLButtonDown())
 	{
-		// Calc some fucken pick ray out mofos
-		D3DXVECTOR3 pickDir;
-		D3DXVECTOR3 pickOrig;
-		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-		float k = (-pickOrig.y)/pickDir.y;
-		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
-		EntityMessage e;
-		e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
-		this->m_network->sendEntity(e);
 	}
 	else if(g_mouse->isRButtonPressed())
 	{
 		playSound(this->m_testSound);
-		D3DXVECTOR3 pickDir;
+		
+		for(int i = 0; i < m_entities.size(); i++)
+		{
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			{
+				this->m_network->sendAttackMessage(AttackMessage(0, m_entities[i]->m_model->getPosition()));
+			}
+		}
+
+		/*D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendAttackMessage(AttackMessage(0, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+		this->m_network->sendAttackMessage(AttackMessage(0, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));*/
+	}
+	else if(g_mouse->isRButtonDown())
+	{
+		if(canMove)
+		{
+			bool validMove = true;
+
+			for(int i = 0; i < m_entities.size(); i++)
+			{
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+				float dist;
+				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+				{
+					validMove = false;
+				}
+			}
+
+			if(validMove)
+			{
+				// Calc some fucken pick ray out mofos
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+				float k = (-pickOrig.y)/pickDir.y;
+				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+				EntityMessage e;
+				e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+				this->m_network->sendEntity(e);
+			}
+		}
 	}
 	else
 		for(int i = 0; i < this->m_entities.size(); i++)
