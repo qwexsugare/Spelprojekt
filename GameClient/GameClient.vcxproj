@@ -154,7 +154,7 @@
     <ClCompile Include="AttackEntityMessage.cpp" />
     <ClCompile Include="AttackMessage.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="client.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CreateGameMenu.cpp" />
@@ -209,7 +209,7 @@
     <ClInclude Include="AttackEntityMessage.h" />
     <ClInclude Include="AttackMessage.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="client.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CreateGameMenu.h" />

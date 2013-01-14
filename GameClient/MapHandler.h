@@ -9,7 +9,7 @@ class MapHandler
 {
 private:
 	vector<vector<ServerEntity*>> m_waves;
-	float m_waveDelay;
+	float m_waveTimer;
 	int m_currentWave;
 public:
 	MapHandler();
@@ -17,7 +17,7 @@ public:
 
 	void loadMap(std::string filename);
 	bool isDone();
-	void update();
+	void update(float _dt);
 };
 
 #endif

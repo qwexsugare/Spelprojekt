@@ -190,14 +190,6 @@ void GameState::update(float _dt)
 			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
 			this->m_network->sendEntity(e);
 		}
-
-		/*D3DXVECTOR3 pickDir;
-		D3DXVECTOR3 pickOrig;
-		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
-		float k = (-pickOrig.y)/pickDir.y;
-		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendAttackMessage(AttackMessage(0, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));*/
 	}
 	else if(g_mouse->isRButtonDown())
 	{
