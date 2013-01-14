@@ -9,6 +9,7 @@
 #include "ServerEntity.h"
 #include "MapHandler.h"
 #include "CollisionHandler.h"
+#include "Tower.h"
 
 class ServerThread : public sf::Thread
 {
