@@ -3,13 +3,14 @@
 Button::Button()
 {
 }
-void Button::Init(INT2 _ScreenPos,
-			 INT2 _Size, 
+void Button::Init(FLOAT2 _ScreenPos,
+			 FLOAT2 _Size, 
 			 string _TextureName, 
 			 string _TextName, 
-			 int _min, 
-			 int _max, 
+			 float _min, 
+			 float _max, 
 			 float _textSize,
+			 int _layer,
 			 int _DelayTime)
 {
 	this->m_ButtonReaction	=	0;
@@ -20,8 +21,16 @@ void Button::Init(INT2 _ScreenPos,
 	this->m_TextureName		=	_TextureName;
 	
 	this->m_ButtonText		=	_TextName;
+	if(_max !=0)
+	{
 	this->m_Min				=	_min + _ScreenPos.x;
 	this->m_Max				=	_max + _ScreenPos.x;
+	}
+	else 
+	{
+		this->m_Min				=	_min;
+		this->m_Max				=	_max;
+	}
 	this->m_Pos.x			=	_ScreenPos.x;
 	this->m_Pos.y			=	_ScreenPos.y;
 	this->m_Size.x			=	_Size.x;
@@ -29,21 +38,20 @@ void Button::Init(INT2 _ScreenPos,
 	this->m_Delay			=	0;
 	this->m_DelayTime		=	_DelayTime;
 	this->m_Keep			=	0;
-
-	m_Pos.x = 2* ((float)m_Pos.x) / 1920 - 1;
-	m_Pos.y = 2* ((float)m_Pos.y) / 1080 - 1;
-
-	m_Size.x = 2* ((float)_Size.x) / 1920;
-	m_Size.y = 2* ((float)_Size.y) / 1080;
-
-	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),2);
+	this->m_Layer			=	_layer;
+	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
 }
 void Button::Update()
 {
 	//Get the mouse position
-	INT2 tmpPos = g_mouse->getPos();
-	tmpPos.y = 1080 - tmpPos.y;
-	INT2 halfSize = INT2(this->m_Size.x / 2, this->m_Size.y / 2);
+	INT2 tmpPos2 = g_mouse->getPos();
+
+	INT2 m_SS = g_graphicsEngine->getRealScreenSize();
+	FLOAT2 tmpPos;
+	tmpPos2.y = m_SS.y - tmpPos2.y;
+	tmpPos.x =(tmpPos2.x/ (float)m_SS.x) * 2 -1;
+	tmpPos.y =(tmpPos2.y/ (float)m_SS.y) * 2 -1;
+	FLOAT2 halfSize = FLOAT2(this->m_Size.x / 2, this->m_Size.y/2);
 	if(m_Keep == 0)
 	{
 		if(tmpPos.x >= this->m_Pos.x - halfSize.x && tmpPos.y >= this->m_Pos.y - halfSize.y &&
@@ -141,7 +149,13 @@ float Button::ReturnSliderValue()
 }
 Button::~Button()
 {
-	this->m_ButtonReaction =0;
+	this->m_ButtonReaction = 0;
 	g_graphicsEngine->removeSpriteSheet(m_Button);
 	m_Button = NULL;
+}
+void Button::setPosition(FLOAT2 _pos)
+{
+	g_graphicsEngine->removeSpriteSheet(m_Button);
+	this->m_Pos = _pos;
+	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),2);
 }

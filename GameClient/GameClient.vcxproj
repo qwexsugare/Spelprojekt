@@ -68,8 +68,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Diceling\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;$(SolutionDir)\GraphicsHandler\include;$(ProjectDir)\include;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\SFML-1.6\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Program Files %28x86%29\SFML-1.6\include;D:\Stort spelprojekt programmering\Spelprojekt\GraphicsEngine;D:\Stort spelprojekt programmering\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;$(SolutionDir)\GraphicsHandler\include;$(ProjectDir)\include;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
+    <LibraryPath>D:\Program Files %28x86%29\SFML-1.6\lib;C:\Program Files %28x86%29\SFML-1.6\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <LinkIncremental>true</LinkIncremental>
@@ -156,16 +156,22 @@
     <ClCompile Include="client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="CreateGameMenu.cpp" />
     <ClCompile Include="CreateGameState.cpp" />
+    <ClCompile Include="CreditsMenu.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="HudMenu.cpp" />
+    <ClCompile Include="JoinGameMenu.cpp" />
     <ClCompile Include="JoinGameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LobbyMenu.cpp" />
     <ClCompile Include="LobbyState.cpp" />
+    <ClCompile Include="LoreMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
@@ -179,11 +185,14 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RemoveEntityMessage.cpp" />
+    <ClCompile Include="ScoreMenu.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerEntity.cpp" />
     <ClCompile Include="ServerThread.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="TextInput.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,7 +209,9 @@
     <ClInclude Include="client.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="CreateGameMenu.h" />
     <ClInclude Include="CreateGameState.h" />
+    <ClInclude Include="CreditsMenu.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
@@ -209,13 +220,18 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="HudMenu.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="JoinGameMenu.h" />
     <ClInclude Include="JoinGameState.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LobbyMenu.h" />
     <ClInclude Include="LobbyState.h" />
+    <ClInclude Include="LoreMenu.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MapHandler.h" />
+    <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
@@ -226,9 +242,11 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RemoveEntityMessage.h" />
+    <ClInclude Include="ScoreMenu.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerEntity.h" />
     <ClInclude Include="ServerThread.h" />
+    <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TextInput.h" />

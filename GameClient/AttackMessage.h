@@ -11,7 +11,7 @@ private:
 	unsigned int m_senderId;
 	FLOAT3 m_targetPos;
 public:
-	AttackMessage();
+	AttackMessage();	
 	AttackMessage(unsigned int _senderId, FLOAT3 _targetPos);
 	~AttackMessage();
 	void setTargetPos(FLOAT3 _targetPos);

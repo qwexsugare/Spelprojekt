@@ -17,7 +17,7 @@ public:
 	virtual ~Hero();
 	void update(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
-	FLOAT3 getDirection(float _anticipationDegree);
+	FLOAT3 getDirection();
 	
 	void takeDamage(int damage);
 };

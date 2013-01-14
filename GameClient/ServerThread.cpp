@@ -40,8 +40,9 @@ void ServerThread::Run()
 	
 	for(int i = 0; i < 5; i++)
 	{
-		Enemy * enemy = new Enemy();
+		new Enemy();
 	}
+
 	while(this->m_state != State::EXIT)
 	{
 		__int64 currTimeStamp = 0;

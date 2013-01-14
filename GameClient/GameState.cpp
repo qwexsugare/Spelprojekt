@@ -7,7 +7,7 @@
 
 GameState::GameState()
 {
-	//this->m_hud = new HudMenu();
+	this->m_hud = new HudMenu();
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(0, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
@@ -38,7 +38,7 @@ GameState::~GameState()
 
 	delete this->m_network;
 	delete this->m_emilmackesFpsText;
-	//delete this->m_hud;
+	delete this->m_hud;
 	deactivateSound(this->m_testSound);
 }
 
@@ -177,7 +177,7 @@ void GameState::update(float _dt)
 		for(int i = 0; i < this->m_entities.size(); i++)
 			this->m_entities[i]->m_model->rotate(0.0f, 0.0f, _dt/5.0f);
 
-	//this->m_hud->Update();
+	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
 
 	//this->m_cursor.setPosition(g_mouse->getPos());
