@@ -4,6 +4,7 @@
 //----------------------------------------------------------------------------------------------------------------------------
 
 #include "MyText.h"
+#include <sstream>
 
 MyText::MyText()
 {
@@ -16,11 +17,12 @@ MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string
 	int maxNrOfPoints = 100000;
 	this->m_height = _height;
 	this->m_width =  _width;
-	this->m_pos = _pos;
 	this->m_size = _size;
 	this->m_FontSize = _size;
-	m_pos.x = _pos.x -(_size/3.0f);
-	m_pos.y = _pos.y;
+	this->m_pos.x = _pos.x -(_size/3.0f);
+	this->m_pos.y = _pos.y/1200.0f*m_height;
+	this->m_pos.z = _pos.z;
+
 	//Create the buffer
 	D3D10_BUFFER_DESC tbd;
 	tbd.Usage = D3D10_USAGE_DYNAMIC;
@@ -118,7 +120,7 @@ void MyText::DrawString(string str, float _size)
 			Tmppos.y -=TmpOffsetY;
 			OffsetX = (OffsetSizeX-(m_myTextOffsets.getCharOffset(tmp).x*m_size/100.0f))/m_width;
 			TextCurrent[3] = D3DXVECTOR2(27.0f/28.0f, 0.0f/2.0f);
-			TextCurrent[2] = D3DXVECTOR2(28.0f/28.0f,0.0f/2.0f);
+			TextCurrent[2] = D3DXVECTOR2(28.0f/28.0f, 0.0f/2.0f);
 		    TextCurrent[1] = D3DXVECTOR2(27.0f/28.0f, 1.0f/2.0f);
 			TextCurrent[0] = D3DXVECTOR2(28.0f/28.0f, 1.0f/2.0f);
 			break;
@@ -421,28 +423,24 @@ int MyText::GetVertexNumber()
 	return m_numberOfPoints;
 }
 
-string MyText::SendString(float floatInput)
+string MyText::FloatToString(float floatInput)
 {
 	//----------------------------------------------------------------------------------------------------------------------------
 	//	Send in an float and convert it to a string 
 	//----------------------------------------------------------------------------------------------------------------------------
 
-	string stringName; 
-	char s[500];
-	sprintf(s,"%.1f",floatInput);
-	stringName.assign(s);
-	return stringName;
+	stringstream ss;
+	ss << floatInput;
+	return ss.str();
 }
 
-string MyText::SendStringINT(int intInput)
+string MyText::IntToString(int intInput)
 {
 	//----------------------------------------------------------------------------------------------------------------------------
 	//	Send in an float and convert it to a string 
 	//----------------------------------------------------------------------------------------------------------------------------
-
-	string stringName; 
-	char s[500];
-	sprintf(s,"%i",intInput);
-	stringName.assign(s);
-	return stringName;
+	
+	stringstream ss;
+	ss << intInput;
+	return ss.str();
 }

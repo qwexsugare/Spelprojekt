@@ -6,7 +6,6 @@
 #include "stdafx.h"
 #include <stdio.h>
 #include <ctype.h>
-#include <sstream>
 #include "MyTextOffsets.h"
 
 class MyText
@@ -51,8 +50,8 @@ public:
 	//----------------------------------------------------------------------------------------------------------------------------
 	//	Convert float to string
 	//----------------------------------------------------------------------------------------------------------------------------
-		static string SendString(float floatInput);
-		static string SendStringINT(int intInput);
+		static string FloatToString(float floatInput);
+		static string IntToString(int intInput);
 	//----------------------------------------------------------------------------------------------------------------------------
 	//	Functions for buffer
 	//----------------------------------------------------------------------------------------------------------------------------
