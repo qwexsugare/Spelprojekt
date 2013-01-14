@@ -20,6 +20,7 @@ private:
 	FLOAT3 m_goalPosition;
 public:
 	Enemy();
+	Enemy(FLOAT3 _pos);
 
 	void update(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);

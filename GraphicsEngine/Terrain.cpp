@@ -13,8 +13,8 @@ Terrain::Terrain(ID3D10Device* _device, D3DXVECTOR3 v1, D3DXVECTOR3 v2, int rows
 	//Set variables
 	this->m_topLeft = v1;
 	this->m_bottomRight = v2;
-	this->m_width = this->m_bottomRight.x-this->m_topLeft.x;
-	this->m_height = this->m_topLeft.z-this->m_bottomRight.z;
+	this->m_width = max(this->m_bottomRight.x-this->m_topLeft.x, -(this->m_bottomRight.x-this->m_topLeft.x));
+	this->m_height = max(this->m_topLeft.z-this->m_bottomRight.z, -(this->m_topLeft.z-this->m_bottomRight.z));
 	this->m_rows = rows;
 	this->m_cols = cols;
 	this->m_widthBetweenVertices = this->m_width/(this->m_cols-1);

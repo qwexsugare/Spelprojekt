@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy() : ServerEntity()
+Enemy::Enemy()
 {
 	m_type = Type::EnemyType;
 	this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
@@ -14,7 +14,21 @@ Enemy::Enemy() : ServerEntity()
 	this->m_aggroRange = 10.0f;
 	this->m_willPursue = false;
 	this->m_closestHero = 999;
-	EntityHandler::addEntity(this);
+}
+
+Enemy::Enemy(FLOAT3 _pos) : ServerEntity(_pos)
+{
+	m_type = Type::EnemyType;
+	this->m_goalPosition = FLOAT3(100.0f, 0.0f, 100.0f);
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_nextPosition = this->m_positon;
+	this->m_reachedPosition = true;
+	this->m_modelId = 0;
+
+	this->m_movementSpeed = 3.0f;
+	this->m_aggroRange = 10.0f;
+	this->m_willPursue = false;
+	this->m_closestHero = 999;
 }
 
 void Enemy::update(float dt)
