@@ -45,6 +45,8 @@ void ServerThread::Run()
 	//	new Enemy();
 	//}
 
+	EntityHandler::addEntity(new Tower());
+
 	while(this->m_state != State::EXIT)
 	{
 		__int64 currTimeStamp = 0;

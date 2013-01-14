@@ -12,6 +12,7 @@ private:
 	float m_attackCooldown;
 public:
 	Tower();
+	Tower(FLOAT3 position);
 	virtual ~Tower();
 	void update(float dt);
 };

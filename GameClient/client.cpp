@@ -29,8 +29,8 @@ bool Client::connect(sf::IPAddress ip, int port)
 
 void Client::disconnect()
 {
-	if(this->hostSocket.IsValid())
-		this->hostSocket.Close();
+	//if(this->hostSocket.IsValid())
+	this->hostSocket.Close();
 }
 
 void Client::tellServer(string msg)
