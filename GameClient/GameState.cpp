@@ -174,7 +174,7 @@ void GameState::update(float _dt)
 			float dist;
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				this->m_network->sendAttackMessage(AttackMessage(0, m_entities[i]->m_model->getPosition()));
+				this->m_network->sendAttackEntityMessage(AttackEntityMessage(0, m_entities[i]->m_id));
 			}
 		}
 
