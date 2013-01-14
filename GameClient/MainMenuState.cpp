@@ -17,6 +17,7 @@ void MainMenuState::update(float dt)
 	if(this->m_menu->createGameIsDown() == true)
 	{
 		this->setDone(true);
+		this->m_nextState = State::GAME;
 	}
 }
 

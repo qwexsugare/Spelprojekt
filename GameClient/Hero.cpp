@@ -48,6 +48,12 @@ void Hero::update(float dt)
 		this->m_obb->Center = XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z);
 		this->m_rotation.x = atan2(-distance.x, -distance.z);
 	}
+
+	if(this->m_health <= 0)
+	{
+		this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
+		this->m_health = 100;
+	}
 }
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)

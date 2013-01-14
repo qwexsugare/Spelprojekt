@@ -50,6 +50,17 @@ void Player::handleAttackMessage(AttackMessage am)
 	}
 }
 
+void Player::handleEntityAttackMessage(AttackEntityMessage eam)
+{
+	ServerEntity *se = EntityHandler::getServerEntity(eam.getTargetId());
+
+	if(se != NULL && se->getType() == ServerEntity::EnemyType)
+	{
+		FLOAT3 direction = se->getPosition() - this->m_hero->getPosition();
+		EntityHandler::addEntity(new Projectile(this->m_hero->getPosition(), direction, 2, 10.0f));
+	}
+}
+
 void Player::update()
 {
 

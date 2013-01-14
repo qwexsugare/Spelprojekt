@@ -9,6 +9,7 @@
 #include "AttackMessage.h"
 #include "Msg.h"
 #include "RemoveEntityMessage.h"
+#include "AttackEntityMessage.h"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ public:
 	void sendEntity(EntityMessage ent);
 	void sendMsg(Msg m);
 	void sendAttackMessage(AttackMessage am);
+	void sendAttackEntityMessage(AttackEntityMessage aem);
 
 	Msg msgQueueFront();
 	EntityMessage entityQueueFront();

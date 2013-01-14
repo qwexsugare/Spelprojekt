@@ -41,10 +41,21 @@ void Enemy::update(float dt)
 
 		if(m->type == Message::Collision)
 		{
-			//this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
+			CollisionMessage *cm = (CollisionMessage*)m;
+			ServerEntity *se = EntityHandler::getServerEntity(cm->affectedDudeId);
+			if(se != NULL && se->getType() == ServerEntity::HeroType && this->m_attackCooldown <= 0.0f)
+			{
+				EntityHandler::addEntity(new MeleeAttack(this->m_positon, 10.0f, cm->affectedDudeId));
+				this->m_attackCooldown = 1.0f;
+			}
 		}
 
 		delete m;
+	}
+
+	if(this->m_attackCooldown > 0.0f)
+	{
+		this->m_attackCooldown = this->m_attackCooldown - dt;
 	}
 
 	if(this->m_reachedPosition == false)

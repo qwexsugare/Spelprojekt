@@ -252,6 +252,18 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 		this->m_mutex.Unlock();
 		protFound = true;
 	}
+	else if(prot == "ATTACKENTITY")
+	{
+		AttackEntityMessage msg;
+		packet >> msg;
+
+		this->m_mutex.Lock();
+
+		this->m_players[socketIndex]->handleEntityAttackMessage(msg);
+
+		this->m_mutex.Unlock();
+		protFound = true;
+	}
 
 	return protFound;
 }

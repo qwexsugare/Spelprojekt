@@ -10,9 +10,9 @@ MapHandler::~MapHandler()
 
 }
 
-void loadMap(std::string filename)
+void MapHandler::loadMap(std::string filename)
 {
-
+	this->m_waveDelay =  0.0f;
 }
 
 void MapHandler::update()

@@ -4,6 +4,7 @@
 #include "ServerEntity.h"
 #include "EntityHandler.h"
 #include "Hero.h"
+#include "MeleeAttack.h"
 
 class Enemy : public ServerEntity
 {
@@ -14,6 +15,7 @@ private:
 	float m_aggroRange; 
 	bool m_willPursue;
 	int m_closestHero;
+	float m_attackCooldown;
 
 	FLOAT3 m_goalPosition;
 public:

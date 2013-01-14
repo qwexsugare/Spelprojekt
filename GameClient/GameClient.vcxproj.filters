@@ -44,6 +44,7 @@
     <ClCompile Include="LoreMenu.cpp" />
     <ClCompile Include="CreditsMenu.cpp" />
     <ClCompile Include="ScoreMenu.cpp" />
+    <ClCompile Include="AttackEntityMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h" />
@@ -92,5 +93,6 @@
     <ClInclude Include="LoreMenu.h" />
     <ClInclude Include="CreditsMenu.h" />
     <ClInclude Include="ScoreMenu.h" />
+    <ClInclude Include="AttackEntityMessage.h" />
   </ItemGroup>
 </Project>

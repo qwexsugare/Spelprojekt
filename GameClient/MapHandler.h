@@ -8,7 +8,8 @@
 class MapHandler
 {
 private:
-
+	vector<vector<ServerEntity*>> m_waves;
+	float m_waveDelay;
 public:
 	MapHandler();
 	~MapHandler();

@@ -123,6 +123,16 @@ void Client::sendAttackMessage(AttackMessage am)
 	}
 }
 
+void Client::sendAttackEntityMessage(AttackEntityMessage aem)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << aem;
+		this->hostSocket.Send(packet);
+	}
+}
+
 bool Client::msgQueueEmpty()
 {
 	return this->msgQueue.empty();

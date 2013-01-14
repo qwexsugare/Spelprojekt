@@ -9,6 +9,7 @@
 #include "EntityHandler.h"
 #include "Hero.h"
 #include "Projectile.h"
+#include "AttackEntityMessage.h"
 
 class Player
 {
@@ -25,6 +26,7 @@ public:
 	void handleEntityMessage(EntityMessage e);
 	void handleMsgMessage(Msg m);
 	void handleAttackMessage(AttackMessage am);
+	void handleEntityAttackMessage(AttackEntityMessage eam);
 	void update();
 	MessageQueue *getMessageQueue();
 

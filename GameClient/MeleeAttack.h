@@ -9,6 +9,7 @@ class MeleeAttack : public ServerEntity
 {
 private:
 	float m_damage;
+	float m_range;
 	unsigned int m_targetId;
 public:
 	MeleeAttack(FLOAT3 _position, float _damage, unsigned int _targetId);
