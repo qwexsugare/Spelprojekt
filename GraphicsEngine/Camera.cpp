@@ -16,8 +16,7 @@ Camera::Camera(int width, int height, INT2 _otherScreenSize)
 	this->m_otherScreenSize = _otherScreenSize;
 
 	this->updateViewMatrix();
-	//D3DXMatrixPerspectiveLH(&this->m_projectionMatrix, (float)D3DX_PI * 0.8f /* 0.6f? */, float(m_width) / float(m_height), 1.0f, 1000.0f);
-	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI/4.0f, 16.0f/9.0f, 1.0f, 1000000.0f);
+	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI * 0.4f,  float(m_width) / float(m_height), 1.0f, 1000000.0f);
 }
 
 Camera::~Camera()
@@ -29,8 +28,7 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 {
 	// Do stuff in a retard right handed world
 	D3DXMATRIX rhProjMat;
-	//D3DXMatrixPerspectiveRH(&rhProjMat, (float)D3DX_PI * 0.8f /* 0.6f? */, float(m_otherScreenSize.x) / float(m_otherScreenSize.y), 1.0f, 1000.0f);
-	D3DXMatrixPerspectiveFovRH(&rhProjMat, D3DX_PI/4.0f, 16.0f/9.0f, 1.0f, 1000000.0f);
+	D3DXMatrixPerspectiveFovLH(&rhProjMat, D3DX_PI * 0.4f,  float(m_otherScreenSize.x) / float(m_otherScreenSize.y), 1.0f, 1000000.0f);
 	D3DXMATRIX rhViewMat;
 	D3DXMatrixLookAtRH(&rhViewMat, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
 
