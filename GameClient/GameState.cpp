@@ -20,7 +20,8 @@ GameState::GameState()
 	textures.push_back("terrain_texture4.png");
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
-	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
+	//this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
+	this->m_terrain = this->importTerrain("maps\\bana.txt");
 
 	this->m_network = new Client();
 
@@ -230,4 +231,50 @@ void GameState::update(float _dt)
 	this->m_emilmackesFpsText->update(_dt);
 
 	//this->m_cursor.setPosition(g_mouse->getPos());
+}
+
+Terrain *GameState::importTerrain(string filepath)
+{
+	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
+	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
+
+	vector<string> blendMaps = vector<string>(2);
+	vector<string> textures;
+	textures.push_back("textures\\1.jpg");
+	textures.push_back("textures\\2.jpg");
+	textures.push_back("textures\\3.jpg");
+	textures.push_back("textures\\4.jpg");
+	textures.push_back("textures\\5.jpg");
+	textures.push_back("textures\\6.jpg");
+	textures.push_back("textures\\7.jpg");
+	textures.push_back("textures\\8.jpg");
+
+	ifstream stream;
+	stream.open(filepath);
+	
+	while(!stream.eof())
+	{
+		
+		char buf[1024];
+		char key[100];
+		stream.getline(buf, 1024);
+		sscanf(buf, "%s", key);
+
+		if(strcmp(key, "bmp1:") == 0) // Vertex.
+		{
+			char file[100];
+			sscanf(buf, "bmp1: %s", &file);
+			blendMaps[0] = "maps\\" + string(file);
+		}
+		else if(strcmp(key, "bmp2:") == 0) // Vertex.
+		{
+			char file[100];
+			sscanf(buf, "bmp2: %s", &file);
+			blendMaps[1] = "maps\\" + string(file);
+		}
+	}
+	
+	stream.close();
+
+	return g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
 }

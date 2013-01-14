@@ -161,14 +161,14 @@ PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
 	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
 	
-	output.Diffuse = lerp(texColors[0]*blendSample1.x, texColors[1], blendSample1.y);
-	output.Diffuse = lerp(output.Diffuse, texColors[1], blendSample1.y);
-	output.Diffuse = lerp(output.Diffuse, texColors[2], blendSample1.z);
-	output.Diffuse = lerp(output.Diffuse, texColors[3], blendSample1.w);
-	output.Diffuse = lerp(output.Diffuse, texColors[4], blendSample2.x);
-	output.Diffuse = lerp(output.Diffuse, texColors[5], blendSample2.y);
-	output.Diffuse = lerp(output.Diffuse, texColors[6], blendSample2.z);
-	output.Diffuse = lerp(output.Diffuse, texColors[7], blendSample2.w);
+	output.Diffuse =  texColors[0]* blendSample1.x;
+	output.Diffuse += texColors[1]* blendSample1.y;
+	output.Diffuse += texColors[2]* blendSample1.z;
+	output.Diffuse += texColors[3]* blendSample1.w;
+	output.Diffuse += texColors[4]* blendSample2.x;
+	output.Diffuse += texColors[5]* blendSample2.y;
+	output.Diffuse += texColors[6]* blendSample2.z;
+	output.Diffuse += texColors[7]* blendSample2.w;
 
 	return output;
 }

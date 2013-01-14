@@ -1,5 +1,4 @@
 #include "GameState.h"
-#include "LobbyState.h"
 #include "Input.h"
 #include "Graphics.h"
 #include "SoundWrapper.h"
@@ -7,17 +6,11 @@
 
 GameState::GameState()
 {
-	//this->m_hud = new HudMenu();
-	//this->m_cursor = Cursor();
+	this->m_hud = new HudMenu();
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(0, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
-<<<<<<< HEAD
-	this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.1f, 0.1f), 0);
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(0, 0), 80);
-=======
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(0, 0), 100);
->>>>>>> 3fd4ff18a01e8358790bf836dd326bd000821e12
+	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600) , 80);
 
 	// Create a fucking awesome terrain
 	vector<string> textures;
@@ -31,8 +24,8 @@ GameState::GameState()
 
 	this->m_network = new Client();
 
-	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1338);
-	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1337);
+	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
+	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
 	//this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.5f, 0.5f), 0);
 }
@@ -44,7 +37,7 @@ GameState::~GameState()
 
 	delete this->m_network;
 	delete this->m_emilmackesFpsText;
-	//delete this->m_hud;
+	delete this->m_hud;
 	deactivateSound(this->m_testSound);
 }
 
@@ -129,61 +122,122 @@ void GameState::update(float _dt)
 	this->m_network->sendMsg(Msg("Start"));
 
 	static float CAMERA_SPEED = 16.0f;
-	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10)
-		|| g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP)
+	if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-27.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->moveStatic(0.0f, CAMERA_SPEED*_dt, 0.0f);
 	}
-	else if((g_mouse->getPos().x <= 10)
-		|| g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP)
+	else if(g_graphicsEngine->getCamera()->getPos().x > 27.0f && (g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->moveStatic(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
 	}
-	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10)
-		|| g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
+	if(g_graphicsEngine->getCamera()->getPos().z < m_terrain->getHeight()-4.0f && (g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->moveStatic(CAMERA_SPEED*_dt, 0.0f, 0.0f);
 	}
-	else if((g_mouse->getPos().y <= 10)
-		|| g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
+	else if(g_graphicsEngine->getCamera()->getPos().z > 25.0f && (g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->moveStatic(-(CAMERA_SPEED*_dt), 0.0f, 0.0f);
 	}
 
+	static bool canMove = false;
 	if(g_mouse->isLButtonPressed())
 	{
-
+		for(int i = 0; i < m_entities.size(); i++)
+		{
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			{
+				canMove = true;
+			}
+		}
 	}
 	else if(g_mouse->isLButtonDown())
 	{
-		// Calc some fucken pick ray out mofos
-		D3DXVECTOR3 pickDir;
-		D3DXVECTOR3 pickOrig;
-		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-		float k = (-pickOrig.y)/pickDir.y;
-		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
-		EntityMessage e;
-		e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
-		this->m_network->sendEntity(e);
 	}
 	else if(g_mouse->isRButtonPressed())
 	{
 		playSound(this->m_testSound);
-		D3DXVECTOR3 pickDir;
+		bool foundTarget = false;
+		
+		for(int i = 0; i < m_entities.size(); i++)
+		{
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			{
+				this->m_network->sendAttackEntityMessage(AttackEntityMessage(0, m_entities[i]->m_id));
+				foundTarget = true;
+			}
+		}
+<<<<<<< HEAD
+
+		if(foundTarget == false)
+		{
+			// Calc some fucken pick ray out mofos
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+			float k = (-pickOrig.y)/pickDir.y;
+			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+			EntityMessage e;
+			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			this->m_network->sendEntity(e);
+		}
+
+		/*D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendAttackMessage(AttackMessage(0, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+		this->m_network->sendAttackMessage(AttackMessage(0, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));*/
+=======
+>>>>>>> b77b4e9d4ba6cf8e3f2db83a50981179085da5e7
+	}
+	else if(g_mouse->isRButtonDown())
+	{
+		bool validMove = true;
+
+		for(int i = 0; i < m_entities.size(); i++)
+		{
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			{
+				validMove = false;
+			}
+		}
+
+		if(validMove)
+		{
+			// Calc some fucken pick ray out mofos
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+			float k = (-pickOrig.y)/pickDir.y;
+			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+			EntityMessage e;
+			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			this->m_network->sendEntity(e);
+		}
 	}
 	else
 		for(int i = 0; i < this->m_entities.size(); i++)
 			this->m_entities[i]->m_model->rotate(0.0f, 0.0f, _dt/5.0f);
 
-	//this->m_hud->Update();
+	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
 
 	//this->m_cursor.setPosition(g_mouse->getPos());

@@ -23,6 +23,7 @@ private:
 	//Cursor m_cursor;
 
 	void end();
+	Terrain *importTerrain(string filepath);
 public:
 	GameState();
 	~GameState();
