@@ -195,6 +195,7 @@
     <ClCompile Include="State.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -252,6 +253,7 @@
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TextInput.h" />
+    <ClInclude Include="Tower.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
