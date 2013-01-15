@@ -16,6 +16,32 @@ struct DECLDIR FLOAT2
 		this->x = _x;
 		this->y = _y;
 	}
+
+	FLOAT2 operator+(const FLOAT2& _k)
+	{
+		return FLOAT2(x+_k.x, y+_k.y);
+	}
+
+	FLOAT2 operator-(const FLOAT2& _k)
+	{
+		return FLOAT2(x-_k.x, y-_k.y);
+	}
+
+	FLOAT2 operator*(const FLOAT2& _k)
+	{
+		return FLOAT2(x*_k.x, y*_k.y);
+	}
+
+	FLOAT2 operator/(const FLOAT2& _k)
+	{
+		return FLOAT2(x/_k.x, y/_k.y);
+	}
+
+	template<typename T>
+	FLOAT2 operator*(const T& _k)
+	{
+		return FLOAT2(x*_k, y*_k);
+	}
 };
 
 struct DECLDIR FLOAT3
