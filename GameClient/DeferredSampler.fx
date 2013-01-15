@@ -20,7 +20,7 @@ struct PSSceneIn
 {
 	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
 	float2 UVCoord : UVCOORD;
-	float4 EyeCoord : EYE_COORD;
+	float3 EyeCoord : EYE_COORD;
 	float3 Normal : NORMAL;
 };
 
@@ -89,8 +89,8 @@ PSSceneIn VSScene(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = input.Normal;
-	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
+	output.Normal = mul(input.Normal, modelMatrix);
+	output.EyeCoord = mul(input.Pos, modelMatrix );
 
 	return output;
 }
@@ -101,7 +101,7 @@ PSSceneOut PSScene(PSSceneIn input) : SV_Target
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w = modelAlpha;
 
-	output.Pos = input.EyeCoord;
+	output.Pos = float4(input.EyeCoord, 1.0f);
 	output.Normal = float4(input.Normal, 1.0f);
 	output.Diffuse = color;
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -135,8 +135,8 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = input.Normal;
-	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
+	output.Normal = mul(input.Normal, modelMatrix);
+	output.EyeCoord = mul(input.Pos, modelMatrix);
 
 	return output;
 }
@@ -145,7 +145,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 {	
 	PSSceneOut output = (PSSceneOut)0;
 
-	output.Pos = input.Pos;
+	output.Pos = float4(input.EyeCoord, 1.0f);
 	output.Normal = float4(input.Normal, 1.0f);
 
 	float4 texColors[8];
@@ -176,7 +176,9 @@ PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 technique10 RenderTerrain
 {
     pass p0
-    {
+    { 
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
         SetVertexShader(CompileShader( vs_4_0, drawTerrainVs()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));

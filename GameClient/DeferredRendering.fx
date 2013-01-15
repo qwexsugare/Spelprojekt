@@ -45,7 +45,7 @@ DepthStencilState EnableDepth
 
 RasterizerState rs
 {
-	//FillMode = Solid;
+	FillMode = Solid;
 	CullMode = BACK;
 };
 
@@ -74,10 +74,10 @@ BlendState SrcAlphaBlend
 float3 calcLight(float3 eyeCoord, float3 normal)
 {
 	//Variables
-	float3 lightPos = float3(0.0f, 0.0f, 0.0f); //temp
+	float3 lightPos = float3(50.0f, 2.0f, 50.0f); //temp
 	float3 la = float3(0.1f, 0.1f, 0.1f);
 	float3 ka = float3(1.0f, 1.0f, 1.0f);
-	float3 ld = float3(0.1f, 0.1f, 0.1f);
+	float3 ld = float3(1.0f, 1.0f, 1.0f);
 	float3 kd = float3(1.0f, 1.0f, 1.0f);
 	float3 ls = float3(0.1f, 0.1f, 0.1f);
 	float3 ks = float3(1.0f, 1.0f, 1.0f);
@@ -92,12 +92,12 @@ float3 calcLight(float3 eyeCoord, float3 normal)
 	float3 ambient = la * ka;
 
 	//Diffuse light
-	float3 diffuse = max(dot(s,n), 0) * ld * kd;
+	float3 diffuse = saturate(dot(s,n)) * ld * kd;
 
 	//Specular light
 	float3 specular = ls * ks * pow(max(dot(r,v), 0), f);
 	
-	return (ambient + diffuse + specular);
+	return (/*ambient +*/ diffuse /* + specular*/);
 
 	//return float4(1.0f, 1.0f, 1.0f, 1.0f);
 }
@@ -117,11 +117,12 @@ float4 PSScene(PSSceneIn input) : SV_Target
 {	
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
-	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord); 
+	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
 
-	return float4(diffuse);
+	//return float4(normalize(normal).xyz, 1.0f);
+	return float4(calcLight(position.xyz, normal.xyz), 1.0f) * diffuse;
 
-	//return float4(0.0f, 0.0f, 1.0f, 1.0f);
+	return float4(0.0f, 0.0f, 0.0f, 0.5f);
 }
 
 technique10 RenderModelDeferred
