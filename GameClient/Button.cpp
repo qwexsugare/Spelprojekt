@@ -155,7 +155,8 @@ Button::~Button()
 }
 void Button::setPosition(FLOAT2 _pos)
 {
-	g_graphicsEngine->removeSpriteSheet(m_Button);
+	//g_graphicsEngine->removeSpriteSheet(m_Button);
 	this->m_Pos = _pos;
-	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),2);
+	//m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),2);
+	this->m_Button->setPosition(this->m_Pos);
 }
