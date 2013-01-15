@@ -20,7 +20,8 @@ GameState::GameState()
 	textures.push_back("terrain_texture4.png");
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
-	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
+	//this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
+	this->m_terrain = this->importTerrain("maps\\bana.txt");
 
 	this->m_network = new Client();
 
@@ -161,6 +162,7 @@ void GameState::update(float _dt)
 	else if(g_mouse->isRButtonPressed())
 	{
 		playSound(this->m_testSound);
+		bool foundTarget = false;
 		
 		for(int i = 0; i < m_entities.size(); i++)
 		{
@@ -171,41 +173,54 @@ void GameState::update(float _dt)
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
 				this->m_network->sendAttackEntityMessage(AttackEntityMessage(0, m_entities[i]->m_id));
+				foundTarget = true;
 			}
+		}
+
+		if(foundTarget == false)
+		{
+			// Calc some fucken pick ray out mofos
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+			float k = (-pickOrig.y)/pickDir.y;
+			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+			EntityMessage e;
+			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			this->m_network->sendEntity(e);
 		}
 	}
 	else if(g_mouse->isRButtonDown())
 	{
-		if(canMove)
+		bool validMove = true;
+
+		for(int i = 0; i < m_entities.size(); i++)
 		{
-			bool validMove = true;
-
-			for(int i = 0; i < m_entities.size(); i++)
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-				float dist;
-				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
-				{
-					validMove = false;
-				}
+				validMove = false;
 			}
+		}
 
-			if(validMove)
-			{
-				// Calc some fucken pick ray out mofos
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+		if(validMove)
+		{
+			// Calc some fucken pick ray out mofos
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-				float k = (-pickOrig.y)/pickDir.y;
-				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+			float k = (-pickOrig.y)/pickDir.y;
+			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-				EntityMessage e;
-				e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
-				this->m_network->sendEntity(e);
-			}
+			EntityMessage e;
+			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			this->m_network->sendEntity(e);
 		}
 	}
 	else
@@ -216,4 +231,50 @@ void GameState::update(float _dt)
 	this->m_emilmackesFpsText->update(_dt);
 
 	//this->m_cursor.setPosition(g_mouse->getPos());
+}
+
+Terrain *GameState::importTerrain(string filepath)
+{
+	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
+	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
+
+	vector<string> blendMaps = vector<string>(2);
+	vector<string> textures;
+	textures.push_back("textures\\1.jpg");
+	textures.push_back("textures\\2.jpg");
+	textures.push_back("textures\\3.jpg");
+	textures.push_back("textures\\4.jpg");
+	textures.push_back("textures\\5.jpg");
+	textures.push_back("textures\\6.jpg");
+	textures.push_back("textures\\7.jpg");
+	textures.push_back("textures\\8.jpg");
+
+	ifstream stream;
+	stream.open(filepath);
+	
+	while(!stream.eof())
+	{
+		
+		char buf[1024];
+		char key[100];
+		stream.getline(buf, 1024);
+		sscanf(buf, "%s", key);
+
+		if(strcmp(key, "bmp1:") == 0) // Vertex.
+		{
+			char file[100];
+			sscanf(buf, "bmp1: %s", &file);
+			blendMaps[0] = "maps\\" + string(file);
+		}
+		else if(strcmp(key, "bmp2:") == 0) // Vertex.
+		{
+			char file[100];
+			sscanf(buf, "bmp2: %s", &file);
+			blendMaps[1] = "maps\\" + string(file);
+		}
+	}
+	
+	stream.close();
+
+	return g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
 }
