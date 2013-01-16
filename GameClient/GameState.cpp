@@ -141,33 +141,37 @@ void GameState::update(float _dt)
 	static float CAMERA_SPEED = 16.0f;
 	if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-27.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->moveStatic(0.0f, CAMERA_SPEED*_dt, 0.0f);
+		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt, m_terrain->getWidth()-27.0f));
 	}
 	else if(g_graphicsEngine->getCamera()->getPos().x > 27.0f && (g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->moveStatic(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
+		g_graphicsEngine->getCamera()->setX(max(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt, 27.0f));
 	}
 	if(g_graphicsEngine->getCamera()->getPos().z < m_terrain->getHeight()-4.0f && (g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->moveStatic(CAMERA_SPEED*_dt, 0.0f, 0.0f);
+		g_graphicsEngine->getCamera()->setZ(min(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt, m_terrain->getHeight()-4.0f));
 	}
 	else if(g_graphicsEngine->getCamera()->getPos().z > 25.0f && (g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->moveStatic(-(CAMERA_SPEED*_dt), 0.0f, 0.0f);
+		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 25.0f));
 	}
 
 	static bool usingMinimap = false;
+	static bool movingCameraWithMinimap = false;
 	if(g_mouse->isLButtonPressed())
 	{
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
-			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
-			g_graphicsEngine->getCamera()->set(pos);
+			movingCameraWithMinimap = true;
 		}
 	}
 	if(g_mouse->isLButtonDown())
 	{
 
+	}
+	else if(g_mouse->isLButtonReleased())
+	{
+		movingCameraWithMinimap = false;
 	}
 	if(g_mouse->isRButtonPressed())
 	{
@@ -195,10 +199,6 @@ void GameState::update(float _dt)
 				}
 			}
 		}
-	}
-	else if(g_mouse->isRButtonReleased())
-	{
-		usingMinimap = false;
 	}
 	if(g_mouse->isRButtonDown())
 	{
@@ -234,10 +234,50 @@ void GameState::update(float _dt)
 			}
 		}
 	}
+	else if(g_mouse->isRButtonReleased())
+	{
+		usingMinimap = false;
+	}
+
+	if(movingCameraWithMinimap)
+	{
+		if(m_minimap->isMouseInMap(g_mouse->getPos()))
+		{
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
+
+			if(pos.x > m_terrain->getWidth()-27.0f)
+			{
+				g_graphicsEngine->getCamera()->setX(m_terrain->getWidth()-27.0f);
+			}
+			else if(pos.x < 27.0f)
+			{
+				g_graphicsEngine->getCamera()->setX(27.0f);
+			}
+			else
+			{
+				g_graphicsEngine->getCamera()->setX(pos.x);
+			}
+			
+			if(pos.y < 25.0f)
+			{
+				g_graphicsEngine->getCamera()->setZ(25.0f);
+			}
+			else if(pos.y > m_terrain->getHeight()-4.0f)
+			{
+				g_graphicsEngine->getCamera()->setZ(m_terrain->getHeight()-4.0f);
+			}
+			else
+			{
+				g_graphicsEngine->getCamera()->setZ(pos.y);
+			}
+		}
+		else
+			movingCameraWithMinimap = false;
+	}
 
 	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
-	m_minimap->update(m_entities);
+	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
 
@@ -294,7 +334,7 @@ Terrain *GameState::importTerrain(string filepath)
 	stream.close();
 	
 	terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
-	m_minimap = new Minimap("maps\\" + minimap, terrain->getTopLeftCorner(), terrain->getBottomRightCorner());
+	m_minimap = new Minimap("maps\\" + minimap, terrain->getTopLeftCorner(), terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 
 	return terrain;
 }
