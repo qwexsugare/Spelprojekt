@@ -119,10 +119,18 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
 
-	//return float4(normalize(normal).xyz, 1.0f);
-	return float4(calcLight(position.xyz, normal.xyz), 1.0f) * diffuse;
 
-	return float4(0.0f, 0.0f, 0.0f, 0.5f);
+	//return float4(normalize(normal).xyz, 1.0f);
+	//float3 lightDir = float3(1.0f, 1.0f, 0.0f);
+	//return saturate(dot(normal.xyz, normalize(lightDir))) * diffuse;
+
+	float3 lightPos = float3(50.0f, 2.0f, 50.0f);
+	return saturate(dot(normal.xyz, normalize(lightPos - position.xyz))) * diffuse;
+
+	//return position/2 + float4(0.5f, 0.5f, 0.5f, 0.0f);;
+
+	//return float4(calcLight(position.xyz, normal.xyz), 1.0f) * diffuse;
+	//return float4(0.0f, 0.0f, 0.0f, 0.5f);
 }
 
 technique10 RenderModelDeferred

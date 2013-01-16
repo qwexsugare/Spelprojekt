@@ -89,8 +89,8 @@ PSSceneIn VSScene(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = mul(input.Normal, modelMatrix);
-	output.EyeCoord = mul(input.Pos, modelMatrix );
+	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
 
 	return output;
 }
@@ -102,7 +102,8 @@ PSSceneOut PSScene(PSSceneIn input) : SV_Target
 	color.w = modelAlpha;
 
 	output.Pos = float4(input.EyeCoord, 1.0f);
-	output.Normal = float4(input.Normal, 1.0f);
+	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = color;
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -135,7 +136,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = mul(input.Normal, modelMatrix);
+	output.Normal = normalize(mul(input.Normal, modelMatrix));
 	output.EyeCoord = mul(input.Pos, modelMatrix);
 
 	return output;
