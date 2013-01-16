@@ -180,6 +180,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="MessageQueue.cpp" />
+    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="ModelIdHolder.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Msg.cpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="MessageQueue.h" />
+    <ClInclude Include="Minimap.h" />
     <ClInclude Include="ModelIdHolder.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Msg.h" />

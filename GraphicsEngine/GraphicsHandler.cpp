@@ -11,12 +11,21 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 	this->m_world = new World(this->m_deviceHandler, _hWnd);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
 	this->m_windowed = _configFile->getWindowed();
-
-	// Set some screen size vars
-	RECT rc;
-	GetWindowRect(_hWnd, &rc);
-	this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
+	
 	this->m_configScreenSize = _configFile->getScreenSize();
+
+	// If we run in windowed, set the real screen size to be config screen size or the bars and crap outside of the window are counted in
+	if(_configFile->getWindowed())
+	{
+		this->m_realScreenSize = _configFile->getScreenSize();
+	}
+	// Else get the real screen size
+	else
+	{
+		RECT rc;
+		GetWindowRect(_hWnd, &rc);
+		this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
+	}
 }
 
 GraphicsHandler::~GraphicsHandler()

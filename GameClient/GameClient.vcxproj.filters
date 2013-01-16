@@ -136,6 +136,9 @@
     <ClCompile Include="Client.cpp">
       <Filter>Client</Filter>
     </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>Minimap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -282,6 +285,9 @@
     <ClInclude Include="Client.h">
       <Filter>Client</Filter>
     </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>Minimap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -289,6 +295,9 @@
     </Filter>
     <Filter Include="Client">
       <UniqueIdentifier>{61c0d46d-5d00-4d4d-b30e-4bd51fa1498c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minimap">
+      <UniqueIdentifier>{b08932c3-b369-445d-adc6-f32d86c4d95f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

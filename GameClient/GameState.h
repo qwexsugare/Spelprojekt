@@ -5,6 +5,7 @@
 #include "Client.h"
 #include "TextInput.h"
 #include "ModelIdHolder.h"
+#include "Minimap.h"
 //#include "Cursor.h"
 #include "HudMenu.h"
 
@@ -20,6 +21,7 @@ private:
 	int m_testSound;
 	Client *m_network;
 	ModelIdHolder m_modelIdHolder;
+	Minimap* m_minimap;
 	//Cursor m_cursor;
 
 	void end();

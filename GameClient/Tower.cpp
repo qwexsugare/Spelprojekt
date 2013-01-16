@@ -4,7 +4,7 @@ Tower::Tower() : ServerEntity()
 {
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 10.0f;
-	this->m_type == ServerEntity::HeroType;
+	this->m_type = ServerEntity::HeroType;
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 }
 
@@ -12,7 +12,7 @@ Tower::Tower(FLOAT3 position)
 {
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 10.0f;
-	this->m_type == ServerEntity::HeroType;
+	this->m_type = ServerEntity::HeroType;
 	this->m_positon = position;
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 }
