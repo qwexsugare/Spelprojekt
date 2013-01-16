@@ -24,7 +24,7 @@ protected:
 	bool m_visible;
 
 public:
-	enum Type{EnemyType, HeroType, OtherType};
+	static enum Type{EnemyType, HeroType, OtherType};
 	Type m_type;
 	ServerEntity();
 	ServerEntity(FLOAT3 m_pos);

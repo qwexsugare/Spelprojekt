@@ -97,6 +97,7 @@ void GameState::update(float _dt)
 			{
 				this->m_entities[i]->m_model->setPosition(e.getPos());
 				this->m_entities[i]->m_model->setRotation(e.getRotation());
+				this->m_entities[i]->m_type = (ServerEntity::Type)e.getType();
 				found = true;
 			}
 		}
@@ -149,20 +150,13 @@ void GameState::update(float _dt)
 		g_graphicsEngine->getCamera()->moveStatic(-(CAMERA_SPEED*_dt), 0.0f, 0.0f);
 	}
 
-	static bool canMove = false;
 	static bool usingMinimap = false;
 	if(g_mouse->isLButtonPressed())
 	{
-		for(int i = 0; i < m_entities.size(); i++)
+		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-			float dist;
-			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
-			{
-				canMove = true;
-			}
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
+			g_graphicsEngine->getCamera()->set(pos);
 		}
 	}
 	if(g_mouse->isLButtonDown())
@@ -174,7 +168,7 @@ void GameState::update(float _dt)
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
 			playSound(this->m_testSound);
-			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos(), m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner());
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 			usingMinimap = true;
 
 			EntityMessage e;
@@ -237,12 +231,14 @@ void GameState::update(float _dt)
 
 	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
-
+	m_minimap->update(m_entities);
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
 
 Terrain *GameState::importTerrain(string filepath)
 {
+	Terrain* terrain = NULL;
+
 	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
 	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
 
@@ -257,9 +253,9 @@ Terrain *GameState::importTerrain(string filepath)
 	textures.push_back("textures\\7.jpg");
 	textures.push_back("textures\\8.jpg");
 
+	string minimap;
 	ifstream stream;
 	stream.open(filepath);
-	
 	while(!stream.eof())
 	{
 		char buf[1024];
@@ -283,13 +279,16 @@ Terrain *GameState::importTerrain(string filepath)
 		{
 			char file[100];
 			sscanf(buf, "minimap: %s", &file);
-			m_minimap = new Minimap("maps\\" + string(file));
+			minimap = string(file);
 		}
 
 		sscanf("lololol", "%s", key);
 	}
 	
 	stream.close();
+	
+	terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
+	m_minimap = new Minimap("maps\\" + minimap, terrain->getTopLeftCorner(), terrain->getBottomRightCorner());
 
-	return g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
+	return terrain;
 }

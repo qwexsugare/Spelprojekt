@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Graphics.h"
+#include "ServerEntity.h"
 
 struct Entity
 {
 	unsigned int m_id;
 	Model* m_model;
+	ServerEntity::Type m_type;
 
 	Entity()
 	{

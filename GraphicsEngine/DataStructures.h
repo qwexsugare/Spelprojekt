@@ -17,28 +17,28 @@ struct DECLDIR FLOAT2
 		this->y = _y;
 	}
 
-	FLOAT2 operator+(const FLOAT2& _k)
+	FLOAT2 operator+(const FLOAT2& _k)const
 	{
 		return FLOAT2(x+_k.x, y+_k.y);
 	}
 
-	FLOAT2 operator-(const FLOAT2& _k)
+	FLOAT2 operator-(const FLOAT2& _k)const
 	{
 		return FLOAT2(x-_k.x, y-_k.y);
 	}
 
-	FLOAT2 operator*(const FLOAT2& _k)
+	FLOAT2 operator*(const FLOAT2& _k)const
 	{
 		return FLOAT2(x*_k.x, y*_k.y);
 	}
 
-	FLOAT2 operator/(const FLOAT2& _k)
+	FLOAT2 operator/(const FLOAT2& _k)const
 	{
 		return FLOAT2(x/_k.x, y/_k.y);
 	}
 
 	template<typename T>
-	FLOAT2 operator*(const T& _k)
+	FLOAT2 operator*(const T& _k)const
 	{
 		return FLOAT2(x*_k, y*_k);
 	}
@@ -62,29 +62,29 @@ struct DECLDIR FLOAT3
 		this->z = _z;
 	}
 
-	FLOAT3 operator+(const FLOAT3& _k)
+	FLOAT3 operator+(const FLOAT3& _k)const
 	{
 		return FLOAT3(x+_k.x, y+_k.y, z+_k.z);
 	}
 
-	FLOAT3 operator-(const FLOAT3& _k)
+	FLOAT3 operator-(const FLOAT3& _k)const
 	{
 		return FLOAT3(x-_k.x, y-_k.y, z-_k.z);
 	}
 
 	template<typename T>
-	FLOAT3 operator*(const T& _k)
+	FLOAT3 operator*(const T& _k)const
 	{
 		return FLOAT3(x*_k, y*_k, z*_k);
 	}
 
 	template<typename T>
-	FLOAT3 operator/(const T& _k)
+	FLOAT3 operator/(const T& _k)const
 	{
 		return FLOAT3(x/_k, y/_k, z/_k);
 	}
 
-	float length()
+	float length()const
 	{
 		return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
 	}
