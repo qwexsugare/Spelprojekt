@@ -20,15 +20,12 @@ GameState::GameState()
 	textures.push_back("terrain_texture4.png");
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
-	//this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
 	this->m_terrain = this->importTerrain("maps\\bana.txt");
 
 	this->m_network = new Client();
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
-
-	//this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.5f, 0.5f), 0);
 }
 
 GameState::~GameState()
