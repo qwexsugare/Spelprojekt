@@ -18,6 +18,8 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_lightDiffuse = this->m_effect->GetVariableByName("ld")->AsVector();
 	this->m_lightSpecular = this->m_effect->GetVariableByName("ls")->AsVector();
 
+	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPosition")->AsVector();
+
 	this->m_technique = this->m_effect->GetTechniqueByName("RenderModelDeferred");
 
 	D3D10_PASS_DESC passDescription;
@@ -54,6 +56,11 @@ void DeferredRenderingEffectFile::setNormalsTexture(ID3D10ShaderResourceView* _n
 void DeferredRenderingEffectFile::setDiffuseTexture(ID3D10ShaderResourceView* _diffuseTexture)
 {
 	this->m_diffuseTexture->SetResource(_diffuseTexture);
+}
+
+void DeferredRenderingEffectFile::setCameraPosition(D3DXVECTOR3 _lightPosition)
+{
+	this->m_cameraPosition->SetFloatVector(_lightPosition);
 }
 
 void DeferredRenderingEffectFile::updateLights(vector<PointLight*> lights)

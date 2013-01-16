@@ -8,7 +8,7 @@ class Camera
 {
 private:
 	D3DXVECTOR3 m_position;
-	D3DXVECTOR3 m_forward;
+
 	D3DXVECTOR3 m_up;
 	D3DXVECTOR3 m_right;
 	D3DXMATRIX m_viewMatrix;
@@ -16,6 +16,8 @@ private:
 	INT2 m_configScreenSize;
 	INT2 m_actualScreenSize;
 public:
+	D3DXVECTOR3 m_forward;	
+
 	Camera();
 	Camera(INT2 _configScreenSize, INT2 _actualScreenSize);
 	~Camera();
