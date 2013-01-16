@@ -2,6 +2,7 @@
 
 #include "effectfile.h"
 #include "PointLight.h"
+#include "DirectionalLight.h"
 
 class DeferredRenderingEffectFile : public EffectFile
 {
@@ -10,7 +11,9 @@ private:
 	ID3D10EffectShaderResourceVariable* m_normalTexture;
 	ID3D10EffectShaderResourceVariable* m_diffuseTexture;
 
-	ID3D10EffectScalarVariable* m_nrOfLights;
+	ID3D10EffectScalarVariable* m_nrOfPointLights;
+	ID3D10EffectScalarVariable* m_nrOfDirectionalLights;
+	ID3D10EffectScalarVariable* m_nrOfSpotLights;
 	ID3D10EffectVectorVariable* m_lightPosition;
 	ID3D10EffectVectorVariable* m_lightAmbient;
 	ID3D10EffectVectorVariable* m_lightDiffuse;

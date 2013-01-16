@@ -29,11 +29,14 @@ cbuffer cbEveryFrame
 	//matrix projectionMatrix;
 	//matrix modelMatrix;
 
-	int nrOfLights;
+	int nrOfPointLights;
+	int nrOfDirectionalLights;
+	int nrOfSpotLights;
 	float3 lightPosition[50];
-	float3 la[50];
-	float3 ld[50];
-	float3 ls[50];
+	float3 lightDirection[50];
+	float3 la[100];
+	float3 ld[100];
+	float3 ls[100];
 
 	float3 cameraPos;
 };
@@ -137,7 +140,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
 
-	for(int i = 0; i < nrOfLights; i++)
+	for(int i = 0; i < nrOfPointLights; i++)
 	{
 		diffuseLight = diffuseLight + calcDiffuseLight(position.xyz, normal.xyz, i);
 		specularLight = specularLight + calcSpecularLight(position.xyz, normal.xyz, i);

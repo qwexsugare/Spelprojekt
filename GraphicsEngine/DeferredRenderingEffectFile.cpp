@@ -12,7 +12,7 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
 	this->m_diffuseTexture = this->m_effect->GetVariableByName("diffuseTexture")->AsShaderResource();
 
-	this->m_nrOfLights = this->m_effect->GetVariableByName("nrOfLights")->AsScalar();
+	this->m_nrOfPointLights = this->m_effect->GetVariableByName("nrOfPointLights")->AsScalar();
 	this->m_lightPosition = this->m_effect->GetVariableByName("lightPosition")->AsVector();
 	this->m_lightAmbient = this->m_effect->GetVariableByName("la")->AsVector();
 	this->m_lightDiffuse = this->m_effect->GetVariableByName("ld")->AsVector();
@@ -65,7 +65,7 @@ void DeferredRenderingEffectFile::setCameraPosition(D3DXVECTOR3 _lightPosition)
 
 void DeferredRenderingEffectFile::updateLights(vector<PointLight*> lights)
 {
-	this->m_nrOfLights->SetInt(lights.size());
+	this->m_nrOfPointLights->SetInt(lights.size());
 
 	D3DXVECTOR3 *tempPos = new D3DXVECTOR3[lights.size()];
 	D3DXVECTOR4 *tempAmbient = new D3DXVECTOR4[lights.size()];
