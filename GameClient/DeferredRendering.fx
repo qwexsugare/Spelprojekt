@@ -34,6 +34,8 @@ cbuffer cbEveryFrame
 	float3 la[50];
 	float3 ld[50];
 	float3 ls[50];
+
+	float3 cameraPos;
 };
 
 // State Structures
@@ -91,11 +93,8 @@ float3 calcAmbientLight()
 float3 calcDiffuseLight(float3 eyeCoord, float3 normal, int index)
 {
 	//Variables
-	float3 ld = float3(1.0f, 1.0f, 1.0f);
 	float3 n = normal;
 	float3 s = normalize(lightPosition[index] - eyeCoord);
-	float3 r = -1 * s + 2 * dot(s,n) * n;
-	float3 v = -eyeCoord;
 
 	//Diffuse light
 	float3 diffuse = saturate(dot(s,n)) * ld[index];
@@ -103,22 +102,16 @@ float3 calcDiffuseLight(float3 eyeCoord, float3 normal, int index)
 	return diffuse;
 }
 
-float3 calcSpecularLight(float3 eyeCoord, float3 normal)
+float3 calcSpecularLight(float3 eyeCoord, float3 normal, int index)
 {
-	//Variables
-	float3 lightPos = float3(50.0f, 20.0f, 50.0f); //temp
-
-	float3 ls = float3(0.1f, 0.1f, 0.1f);
 	float3 ks = float3(1.0f, 1.0f, 1.0f);
-	float f = 0.05f;
+	float f = 30.0f;
 
-	float3 n = normal;
-	float3 s = normalize(lightPos - eyeCoord);
-	float3 r = -1 * s + 2 * dot(s,n) * n;
-	float3 v = -eyeCoord;
+	float3 lightDir = -normalize(lightPosition[index] - eyeCoord);
+	float3 reflection = reflect(lightDir, normal);
 
 	//Specular light
-	float3 specular = ls * ks * pow(max(dot(r,v), 0), f);
+	float3 specular = ls[index] * pow(saturate(dot(normal,(-lightDir + cameraPos))), f);
 
 	return specular;
 }
@@ -141,14 +134,16 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
 
 	float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	float4 diffuseLight = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
+	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
 
 	for(int i = 0; i < nrOfLights; i++)
 	{
-		diffuseLight = diffuseLight + float4(calcDiffuseLight(position.xyz, normal.xyz, i), 1.0f);
+		diffuseLight = diffuseLight + calcDiffuseLight(position.xyz, normal.xyz, i);
+		specularLight = specularLight + calcSpecularLight(position.xyz, normal.xyz, i);
 	}
 
-	color = diffuseLight * diffuse;
+	color = float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
 
 	//return float4(normalize(normal).xyz, 1.0f);
 	//float3 lightDir = float3(1.0f, 1.0f, 0.0f);
