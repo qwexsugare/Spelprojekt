@@ -13,7 +13,7 @@ Minimap::Minimap(string _file, FLOAT2 _terrainMin, FLOAT2 _terrainMax, FLOAT2 _c
 	m_screenSpacePos = FLOAT2(0.84f, 0.72f);
 	m_screenSpaceSize = FLOAT2(0.28f, 0.5f);
 	m_sprite = g_graphicsEngine->createSprite(_file, m_screenSpacePos, m_screenSpaceSize, 0);
-	m_view = g_graphicsEngine->createSprite("maps\\view.png", m_screenSpacePos, FLOAT2(0.12f, 0.08f), 0);
+	m_view = g_graphicsEngine->createSprite("maps\\view.png", m_screenSpacePos, FLOAT2(0.12f, 0.1f), 0);
 }
 
 Minimap::~Minimap()
