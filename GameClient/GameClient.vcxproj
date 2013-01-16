@@ -196,6 +196,7 @@
     <ClCompile Include="State.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -255,6 +256,7 @@
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TextInput.h" />
+    <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Tower.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,10 +7,11 @@
 GameState::GameState()
 {
 	this->m_hud = new HudMenu();
-	this->m_fpsText = g_graphicsEngine->createText("", INT2(0, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600) , 80);
+	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
+	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600), 100);
+	this->m_emilsFps = new TextLabel("fps = 10", "text1.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 
 	// Create a fucking awesome terrain
 	vector<string> textures;
@@ -21,7 +22,7 @@ GameState::GameState()
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
 	//this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
-	this->m_terrain = this->importTerrain("maps\\bana.txt");
+	this->m_terrain = this->importTerrain("maps\\race.txt");
 
 	this->m_network = new Client();
 
@@ -40,6 +41,7 @@ GameState::~GameState()
 		delete this->m_minimap;
 	delete this->m_network;
 	delete this->m_emilmackesFpsText;
+	delete this->m_emilsFps;
 	delete this->m_hud;
 	deactivateSound(this->m_testSound);
 }
@@ -71,6 +73,7 @@ void GameState::update(float _dt)
 		stringstream ss;
 		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
 		this->m_fpsText->setString(ss.str());
+		this->m_emilsFps->setText(ss.str());
 		lol = -0.5f;
 	}
 
@@ -278,6 +281,8 @@ Terrain *GameState::importTerrain(string filepath)
 			sscanf(buf, "minimap: %s", &file);
 			m_minimap = new Minimap("maps\\" + string(file));
 		}
+
+		sscanf("lololol", "%s", key);
 	}
 	
 	stream.close();

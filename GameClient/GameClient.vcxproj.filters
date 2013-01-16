@@ -139,6 +139,9 @@
     <ClCompile Include="Minimap.cpp">
       <Filter>Minimap</Filter>
     </ClCompile>
+    <ClCompile Include="TextLabel.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -287,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="Minimap.h">
       <Filter>Minimap</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLabel.h">
+      <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

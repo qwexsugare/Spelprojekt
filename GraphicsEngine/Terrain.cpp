@@ -44,7 +44,7 @@ Terrain::Terrain(ID3D10Device* _device, D3DXVECTOR3 v1, D3DXVECTOR3 v2, int rows
 	// Fill the vertex buffer.
 	Vertex *vertexData = NULL;
 	this->m_vertexBuffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
-
+	
 	vertexData[0].pos = v1;
 	vertexData[0].texCoord = D3DXVECTOR2(0.0f, 0.0f);
 	vertexData[0].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);

@@ -191,7 +191,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	matlol.name = newMaterials[(int)newMaterials.size()-2];
 	matlol.texture = materials[(int)newMaterials.size()-2].texture;
 	materials.push_back(matlol);
-	
+
 	result = new Mesh(buffer, faceVertexPos1.size()*3);
 	result->m_texture = matlol.texture;
 
