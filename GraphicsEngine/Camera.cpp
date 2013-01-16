@@ -113,3 +113,11 @@ void Camera::set(FLOAT3 _position, FLOAT3 _forward, FLOAT3 _up, FLOAT3 _right)
 
 	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
 }
+
+void Camera::set(FLOAT2 _position)
+{
+	this->m_position.x = _position.x;
+	this->m_position.z = _position.y;
+
+	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+}

@@ -50,7 +50,7 @@ MessageQueue *ServerEntity::getMessageQueue()
 
 EntityMessage ServerEntity::getUpdate()
 {
-	EntityMessage e = EntityMessage(this->m_id, this->m_modelId, this->m_positon, this->m_rotation);
+	EntityMessage e = EntityMessage(this->m_id, this->m_modelId, this->m_type, this->m_positon, this->m_rotation);
 
 	return e;
 }

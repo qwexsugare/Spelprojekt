@@ -7,10 +7,11 @@
 GameState::GameState()
 {
 	this->m_hud = new HudMenu();
-	this->m_fpsText = g_graphicsEngine->createText("", INT2(0, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600) , 80);
+	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
+	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600), 100);
+	this->m_emilsFps = new TextLabel("fps = 10", "text1.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 
 	// Create a fucking awesome terrain
 	vector<string> textures;
@@ -20,14 +21,17 @@ GameState::GameState()
 	textures.push_back("terrain_texture4.png");
 	vector<string> blendMaps;
 	blendMaps.push_back("blendmap.png");
-	this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
+<<<<<<< HEAD
+	//this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
+	this->m_terrain = this->importTerrain("maps\\race.txt");
+=======
+	this->m_terrain = this->importTerrain("maps\\bana.txt");
+>>>>>>> 7f16e27f82f54933e0ddebf74c189c29454180fa
 
 	this->m_network = new Client();
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
-
-	//this->s = g_graphicsEngine->createSprite("test.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.5f, 0.5f), 0);
 }
 
 GameState::~GameState()
@@ -35,8 +39,11 @@ GameState::~GameState()
 	for(int i = 0; i < this->m_entities.size(); i++)
 		delete this->m_entities[i];
 
+	if(m_minimap)
+		delete this->m_minimap;
 	delete this->m_network;
 	delete this->m_emilmackesFpsText;
+	delete this->m_emilsFps;
 	delete this->m_hud;
 	deactivateSound(this->m_testSound);
 }
@@ -68,6 +75,7 @@ void GameState::update(float _dt)
 		stringstream ss;
 		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
 		this->m_fpsText->setString(ss.str());
+		this->m_emilsFps->setText(ss.str());
 		lol = -0.5f;
 	}
 
@@ -140,6 +148,7 @@ void GameState::update(float _dt)
 	}
 
 	static bool canMove = false;
+	static bool usingMinimap = false;
 	if(g_mouse->isLButtonPressed())
 	{
 		for(int i = 0; i < m_entities.size(); i++)
@@ -154,91 +163,131 @@ void GameState::update(float _dt)
 			}
 		}
 	}
-	else if(g_mouse->isLButtonDown())
+	if(g_mouse->isLButtonDown())
 	{
 
 	}
-	else if(g_mouse->isRButtonPressed())
+	if(g_mouse->isRButtonPressed())
 	{
-		playSound(this->m_testSound);
-		bool foundTarget = false;
-		
-		for(int i = 0; i < m_entities.size(); i++)
+		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-			float dist;
-			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
-			{
-				this->m_network->sendAttackEntityMessage(AttackEntityMessage(0, m_entities[i]->m_id));
-				foundTarget = true;
-			}
-		}
-<<<<<<< HEAD
-
-		if(foundTarget == false)
-		{
-			// Calc some fucken pick ray out mofos
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
-			float k = (-pickOrig.y)/pickDir.y;
-			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+			playSound(this->m_testSound);
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos(), m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner());
+			usingMinimap = true;
 
 			EntityMessage e;
-			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			e.setPosition(FLOAT3(pos.x, 0.0f, pos.y));
 			this->m_network->sendEntity(e);
 		}
-
-		/*D3DXVECTOR3 pickDir;
-		D3DXVECTOR3 pickOrig;
-		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
-		float k = (-pickOrig.y)/pickDir.y;
-		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendAttackMessage(AttackMessage(0, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));*/
-=======
->>>>>>> b77b4e9d4ba6cf8e3f2db83a50981179085da5e7
-	}
-	else if(g_mouse->isRButtonDown())
-	{
-		bool validMove = true;
-
-		for(int i = 0; i < m_entities.size(); i++)
+		else
 		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-			float dist;
-			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			for(int i = 0; i < m_entities.size(); i++)
 			{
-				validMove = false;
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+				float dist;
+				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+				{
+					this->m_network->sendAttackEntityMessage(AttackEntityMessage(0, m_entities[i]->m_id));
+				}
 			}
 		}
-
-		if(validMove)
+	}
+	else if(g_mouse->isRButtonReleased())
+	{
+		usingMinimap = false;
+	}
+	if(g_mouse->isRButtonDown())
+	{
+		if(!usingMinimap)
 		{
-			// Calc some fucken pick ray out mofos
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			bool validMove = true;
 
-			float k = (-pickOrig.y)/pickDir.y;
-			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+			for(int i = 0; i < m_entities.size(); i++)
+			{
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+				float dist;
+				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+				{
+					validMove = false;
+				}
+			}
 
-			EntityMessage e;
-			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
-			this->m_network->sendEntity(e);
+			if(validMove)
+			{
+				// Calc some fucken pick ray out mofos
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+				float k = (-pickOrig.y)/pickDir.y;
+				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+				EntityMessage e;
+				e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+				this->m_network->sendEntity(e);
+			}
 		}
 	}
-	else
-		for(int i = 0; i < this->m_entities.size(); i++)
-			this->m_entities[i]->m_model->rotate(0.0f, 0.0f, _dt/5.0f);
 
 	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
 
 	//this->m_cursor.setPosition(g_mouse->getPos());
+}
+
+Terrain *GameState::importTerrain(string filepath)
+{
+	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
+	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
+
+	vector<string> blendMaps = vector<string>(2);
+	vector<string> textures;
+	textures.push_back("textures\\1.jpg");
+	textures.push_back("textures\\2.jpg");
+	textures.push_back("textures\\3.jpg");
+	textures.push_back("textures\\4.jpg");
+	textures.push_back("textures\\5.jpg");
+	textures.push_back("textures\\6.jpg");
+	textures.push_back("textures\\7.jpg");
+	textures.push_back("textures\\8.jpg");
+
+	ifstream stream;
+	stream.open(filepath);
+	
+	while(!stream.eof())
+	{
+		char buf[1024];
+		char key[100];
+		stream.getline(buf, 1024);
+		sscanf(buf, "%s", key);
+
+		if(strcmp(key, "bmp1:") == 0)
+		{
+			char file[100];
+			sscanf(buf, "bmp1: %s", &file);
+			blendMaps[0] = "maps\\" + string(file);
+		}
+		else if(strcmp(key, "bmp2:") == 0)
+		{
+			char file[100];
+			sscanf(buf, "bmp2: %s", &file);
+			blendMaps[1] = "maps\\" + string(file);
+		}
+		else if(strcmp(key, "minimap:") == 0)
+		{
+			char file[100];
+			sscanf(buf, "minimap: %s", &file);
+			m_minimap = new Minimap("maps\\" + string(file));
+		}
+
+		sscanf("lololol", "%s", key);
+	}
+	
+	stream.close();
+
+	return g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
 }

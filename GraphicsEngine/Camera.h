@@ -33,6 +33,7 @@ public:
 	DECLDIR void moveStatic(float forward, float right, float up);
 	DECLDIR void rotate(float x, float y, float z);
 	DECLDIR void set(FLOAT3 _position, FLOAT3 _forward, FLOAT3 _up, FLOAT3 _right);
+	DECLDIR void set(FLOAT2 _position);
 };
 
 #endif

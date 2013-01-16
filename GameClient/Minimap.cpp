@@ -6,11 +6,15 @@ Minimap::Minimap()
 
 }
 
-Minimap::Minimap(string _file)
+Minimap::Minimap(string _file, FLOAT2 _terrainMin, FLOAT2 _terrainMax)
 {
+	m_terrainMin = _terrainMin;
+	m_terrainMax = _terrainMax;
 	m_screenSpacePos = FLOAT2(0.84f, 0.72f);
 	m_screenSpaceSize = FLOAT2(0.28f, 0.5f);
 	m_sprite = g_graphicsEngine->createSprite(_file, m_screenSpacePos, m_screenSpaceSize, 0);
+	m_enemyPositions.push_back(g_graphicsEngine->createSprite("maps\\enemy_pos.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.009f, 0.016f), 0));
+	m_enemyPositions.push_back(g_graphicsEngine->createSprite("maps\\enemy_pos.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.009f, 0.016f), 0));
 }
 
 Minimap::~Minimap()
@@ -29,7 +33,7 @@ bool Minimap::isMouseInMap(INT2 _mousePos)const
 		return false;
 }
 
-FLOAT2 Minimap::getTerrainPos(INT2 _mousePos, FLOAT2 _terrainMin, FLOAT2 _terrainMax)const
+FLOAT2 Minimap::getTerrainPos(INT2 _mousePos)const
 {
 	float mouseX = (_mousePos.x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f);
 	float mouseY = (_mousePos.y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f);
@@ -41,5 +45,41 @@ FLOAT2 Minimap::getTerrainPos(INT2 _mousePos, FLOAT2 _terrainMin, FLOAT2 _terrai
 	return FLOAT2(
 		distanceFromMapStart.x/m_screenSpaceSize.x,
 		distanceFromMapStart.y/m_screenSpaceSize.y)
-		* (_terrainMax-_terrainMin) + _terrainMin;
+		* (m_terrainMax-m_terrainMin) + m_terrainMin;
+}
+
+void Minimap::update(const vector<Entity*>& _entites)
+{
+	for(int i = 0; i < m_enemyPositions.size(); i++)
+		g_graphicsEngine->removeSprite(m_enemyPositions[i]);
+	m_enemyPositions.resize(_entites.size());
+
+	float screenSpaceX;
+	float screenSpaceY;
+
+	for(int i = 0; i < _entites.size(); i++)
+	{
+		switch(_entites[i]->m_type)
+		{
+		case ServerEntity::HeroType:
+			screenSpaceX = _entites[i]->m_model->getPosition().x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;
+			screenSpaceY = _entites[i]->m_model->getPosition().z/(m_terrainMax.y-m_terrainMin.y)*2.0f-1.0f;
+	
+			m_enemyPositions[i] = g_graphicsEngine->createSprite("maps\\enemy_pos.png",
+				FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*(-screenSpaceY)+m_screenSpacePos.y),
+				FLOAT2(0.009f, 0.016f),
+				0);
+			break;
+
+		case ServerEntity::EnemyType:
+			screenSpaceX = _entites[i]->m_model->getPosition().x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;
+			screenSpaceY = _entites[i]->m_model->getPosition().z/(m_terrainMax.y-m_terrainMin.y)*2.0f-1.0f;
+	
+			m_enemyPositions[i] = g_graphicsEngine->createSprite("maps\\enemy_pos.png",
+				FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*(-screenSpaceY)+m_screenSpacePos.y),
+				FLOAT2(0.009f, 0.016f),
+				0);
+			break;
+		}
+	}
 }

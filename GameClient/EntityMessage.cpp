@@ -26,10 +26,11 @@ EntityMessage::EntityMessage(unsigned int id)
 	this->id = id;
 }
 
-EntityMessage::EntityMessage(unsigned int id, unsigned int modelId, FLOAT3 pos, FLOAT3 rot)
+EntityMessage::EntityMessage(unsigned int id, unsigned int modelId, int type, FLOAT3 pos, FLOAT3 rot)
 {
 	this->id = id;
 	this->modelId = modelId;
+	this->type = type;
 	this->pos = pos;
 	this->rot = rot;
 }
@@ -44,6 +45,11 @@ void EntityMessage::setModelId(unsigned int modelId)
 	this->modelId = modelId;
 }
 
+void EntityMessage::setType(int type)
+{
+	this->type = type;
+}
+
 void EntityMessage::setPosition(FLOAT3 pos)
 {
 	this->pos=pos;
@@ -56,11 +62,11 @@ void EntityMessage::setRotation(FLOAT3 rot)
 
 sf::Packet& operator<<(sf::Packet& packet,const EntityMessage& e)
 {
-	return packet<<"ENT"<<e.id<<e.modelId<<e.pos.x<<e.pos.y<<e.pos.z<<e.rot.x<<e.rot.y<<e.rot.z;
+	return packet<<"ENT"<<e.id<<e.modelId<<e.type<<e.pos.x<<e.pos.y<<e.pos.z<<e.rot.x<<e.rot.y<<e.rot.z;
 }
 sf::Packet& operator>>(sf::Packet& packet, EntityMessage& e)
 {
-	return packet >>e.id>>e.modelId>> e.pos.x>>e.pos.y>>e.pos.z>>e.rot.x>>e.rot.y>>e.rot.z;
+	return packet >>e.id>>e.modelId>>*((int*)&e.type)>>e.pos.x>>e.pos.y>>e.pos.z>>e.rot.x>>e.rot.y>>e.rot.z;
 }
 
 FLOAT3 EntityMessage::getPos()
@@ -81,4 +87,9 @@ unsigned int EntityMessage::getId()
 unsigned int EntityMessage::getModelId()
 {
 	return this->modelId;
+}
+
+int EntityMessage::getType()
+{
+	return this->type;
 }

@@ -124,7 +124,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	//float3 lightDir = float3(1.0f, 1.0f, 0.0f);
 	//return saturate(dot(normal.xyz, normalize(lightDir))) * diffuse;
 
-	float3 lightPos = float3(50.0f, 2.0f, 50.0f);
+	float3 lightPos = float3(50.0f, 10.0f, 50.0f);
 	return saturate(dot(normal.xyz, normalize(lightPos - position.xyz))) * diffuse;
 
 	//return position/2 + float4(0.5f, 0.5f, 0.5f, 0.0f);;
