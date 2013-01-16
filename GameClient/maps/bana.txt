@@ -1,3 +1,0 @@
-bmp1: banabmp1.png
-bmp2: banabmp2.png
-minimap: minimap.png

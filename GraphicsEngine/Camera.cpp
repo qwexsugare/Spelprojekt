@@ -56,9 +56,9 @@ D3DXVECTOR3 Camera::getPos()const
 	return this->m_position;
 }
 
-D3DXVECTOR2 Camera::getPos2D()const
+FLOAT2 Camera::getPos2D()const
 {
-	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
+	return FLOAT2(this->m_position.x, this->m_position.z);
 }
 
 D3DXMATRIX Camera::getViewMatrix()
@@ -119,5 +119,17 @@ void Camera::set(FLOAT2 _position)
 	this->m_position.x = _position.x;
 	this->m_position.z = _position.y;
 
+	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+}
+
+void Camera::setX(float _x)
+{
+	this->m_position.x = _x;
+	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+}
+
+void Camera::setZ(float _z)
+{
+	this->m_position.z = _z;
 	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
 }

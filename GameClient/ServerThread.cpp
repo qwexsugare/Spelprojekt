@@ -16,13 +16,12 @@ ServerThread::~ServerThread()
 	this->m_state = State::EXIT;
 	this->Wait();
 
-	delete this->m_messageQueue;
-	delete this->m_messageHandler;
 	this->m_network->shutDown();
 	delete this->m_network;
 	delete this->m_collisionHandler;
 	delete this->m_mapHandler;
-
+	delete this->m_messageQueue;
+	delete this->m_messageHandler;
 	this->m_entityHandler->removeAllEntities();
 	delete this->m_entityHandler;
 }
@@ -45,7 +44,7 @@ void ServerThread::Run()
 	//	new Enemy();
 	//}
 
-	//EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
+	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
 
 	while(this->m_state != State::EXIT)
 	{
