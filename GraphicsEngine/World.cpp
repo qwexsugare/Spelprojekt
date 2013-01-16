@@ -48,6 +48,11 @@ World::~World()
 	{
 		delete this->m_sprites[i];
 	}
+
+	for(int i = 0; i < this->m_pointLights.size(); i++)
+	{
+		delete this->m_pointLights[i];
+	}
 	
 	for(int i = 0; i < this->m_texts.size(); i++)
 		delete this->m_texts[i];
@@ -231,6 +236,7 @@ void World::render()
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBuffer->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
+	this->m_deferredRendering->updateLights(this->m_pointLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer);
 
@@ -398,6 +404,28 @@ bool World::removeMyText(MyText* _text)
 		{
 			delete this->m_myTexts[i];
 			this->m_myTexts.erase(this->m_myTexts.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addPointLight(PointLight* _pointLight)
+{
+	this->m_pointLights.push_back(_pointLight);
+}
+
+bool World::removePointLight(PointLight* _pointLight)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_pointLights.size() && !found; i++)
+	{
+		if(this->m_pointLights[i] == _pointLight)
+		{
+			delete this->m_pointLights[i];
+			this->m_pointLights.erase(this->m_pointLights.begin()+i);
 			found = true;
 		}
 	}

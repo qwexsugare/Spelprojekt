@@ -28,6 +28,12 @@ cbuffer cbEveryFrame
 	//matrix viewMatrix;
 	//matrix projectionMatrix;
 	//matrix modelMatrix;
+
+	int nrOfLights;
+	float3 lightPosition[50];
+	float3 la[50];
+	float3 ld[50];
+	float3 ls[50];
 };
 
 // State Structures
@@ -71,35 +77,50 @@ BlendState SrcAlphaBlend
 //-----------------------------------------------------------------------------------------
 // Calculate the light intensity for a given point
 //-----------------------------------------------------------------------------------------
-float3 calcLight(float3 eyeCoord, float3 normal)
+float3 calcAmbientLight()
 {
-	//Variables
-	float3 lightPos = float3(50.0f, 2.0f, 50.0f); //temp
 	float3 la = float3(0.1f, 0.1f, 0.1f);
 	float3 ka = float3(1.0f, 1.0f, 1.0f);
+
+	//Ambient light
+	float3 ambient = la * ka;
+
+	return ambient;
+}
+
+float3 calcDiffuseLight(float3 eyeCoord, float3 normal, int index)
+{
+	//Variables
 	float3 ld = float3(1.0f, 1.0f, 1.0f);
-	float3 kd = float3(1.0f, 1.0f, 1.0f);
+	float3 n = normal;
+	float3 s = normalize(lightPosition[index] - eyeCoord);
+	float3 r = -1 * s + 2 * dot(s,n) * n;
+	float3 v = -eyeCoord;
+
+	//Diffuse light
+	float3 diffuse = saturate(dot(s,n)) * ld[index];
+	
+	return diffuse;
+}
+
+float3 calcSpecularLight(float3 eyeCoord, float3 normal)
+{
+	//Variables
+	float3 lightPos = float3(50.0f, 20.0f, 50.0f); //temp
+
 	float3 ls = float3(0.1f, 0.1f, 0.1f);
 	float3 ks = float3(1.0f, 1.0f, 1.0f);
-	float f = 1.0f;
+	float f = 0.05f;
 
 	float3 n = normal;
 	float3 s = normalize(lightPos - eyeCoord);
 	float3 r = -1 * s + 2 * dot(s,n) * n;
 	float3 v = -eyeCoord;
 
-	//Ambient light
-	float3 ambient = la * ka;
-
-	//Diffuse light
-	float3 diffuse = saturate(dot(s,n)) * ld * kd;
-
 	//Specular light
 	float3 specular = ls * ks * pow(max(dot(r,v), 0), f);
-	
-	return (/*ambient +*/ diffuse /* + specular*/);
 
-	//return float4(1.0f, 1.0f, 1.0f, 1.0f);
+	return specular;
 }
 
 PSSceneIn VSScene(VSSceneIn input)
@@ -119,18 +140,26 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
 
+	float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 diffuseLight = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+	for(int i = 0; i < nrOfLights; i++)
+	{
+		diffuseLight = diffuseLight + float4(calcDiffuseLight(position.xyz, normal.xyz, i), 1.0f);
+	}
+
+	color = diffuseLight * diffuse;
 
 	//return float4(normalize(normal).xyz, 1.0f);
 	//float3 lightDir = float3(1.0f, 1.0f, 0.0f);
 	//return saturate(dot(normal.xyz, normalize(lightDir))) * diffuse;
 
-	float3 lightPos = float3(50.0f, 10.0f, 50.0f);
-	return saturate(dot(normal.xyz, normalize(lightPos - position.xyz))) * diffuse;
+	//float3 lightPos = float3(50.0f, 3.0f, 50.0f);
+	//return saturate(dot(normal.xyz, normalize(lightPos - position.xyz))) * diffuse;
 
 	//return position/2 + float4(0.5f, 0.5f, 0.5f, 0.0f);;
 
-	//return float4(calcLight(position.xyz, normal.xyz), 1.0f) * diffuse;
-	//return float4(0.0f, 0.0f, 0.0f, 0.5f);
+	return color;
 }
 
 technique10 RenderModelDeferred

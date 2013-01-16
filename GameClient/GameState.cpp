@@ -27,6 +27,19 @@ GameState::GameState()
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
+
+	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 50.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 2.0f, 50.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 2.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(0.0f, 2.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(0.0f, 2.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 2.0f, 50.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 2.0f, 75.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(100.0f, 2.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 2.0f, 100.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 50.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 2.0f, 50.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 2.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 }
 
 GameState::~GameState()
