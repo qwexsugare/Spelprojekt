@@ -12,6 +12,12 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
 	this->m_diffuseTexture = this->m_effect->GetVariableByName("diffuseTexture")->AsShaderResource();
 
+	this->m_nrOfLights = this->m_effect->GetVariableByName("nrOfLights")->AsScalar();
+	this->m_lightPosition = this->m_effect->GetVariableByName("lightPosition")->AsVector();
+	this->m_lightAmbient = this->m_effect->GetVariableByName("la")->AsVector();
+	this->m_lightDiffuse = this->m_effect->GetVariableByName("ld")->AsVector();
+	this->m_lightSpecular = this->m_effect->GetVariableByName("ls")->AsVector();
+
 	this->m_technique = this->m_effect->GetTechniqueByName("RenderModelDeferred");
 
 	D3D10_PASS_DESC passDescription;
@@ -48,6 +54,34 @@ void DeferredRenderingEffectFile::setNormalsTexture(ID3D10ShaderResourceView* _n
 void DeferredRenderingEffectFile::setDiffuseTexture(ID3D10ShaderResourceView* _diffuseTexture)
 {
 	this->m_diffuseTexture->SetResource(_diffuseTexture);
+}
+
+void DeferredRenderingEffectFile::updateLights(vector<PointLight*> lights)
+{
+	this->m_nrOfLights->SetInt(lights.size());
+
+	D3DXVECTOR3 *tempPos = new D3DXVECTOR3[lights.size()];
+	D3DXVECTOR4 *tempAmbient = new D3DXVECTOR4[lights.size()];
+	D3DXVECTOR4 *tempDiffuse = new D3DXVECTOR4[lights.size()];
+	D3DXVECTOR4 *tempSpecular = new D3DXVECTOR4[lights.size()];
+
+	for(int i = 0; i < lights.size() && i < 50; i++)
+	{
+		tempPos[i] = lights[i]->getPosition().toD3DXVector();
+		tempAmbient[i] = lights[i]->getAmbientColor().toD3DXVector();
+		tempDiffuse[i] = lights[i]->getDiffuseColor().toD3DXVector();
+		tempSpecular[i] = lights[i]->getSpecularColor().toD3DXVector();
+	}
+
+	this->m_lightPosition->SetFloatVectorArray((float*)tempPos, 0, lights.size());
+	this->m_lightAmbient->SetFloatVectorArray((float*)tempAmbient, 0, lights.size());
+	this->m_lightDiffuse->SetFloatVectorArray((float*)tempDiffuse, 0, lights.size());
+	this->m_lightSpecular->SetFloatVectorArray((float*)tempSpecular, 0, lights.size());
+
+	delete tempPos;
+	delete tempAmbient;
+	delete tempDiffuse;
+	delete tempSpecular;
 }
 
 ID3D10EffectTechnique *DeferredRenderingEffectFile::getTechnique()

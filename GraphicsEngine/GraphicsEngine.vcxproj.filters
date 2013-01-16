@@ -120,6 +120,9 @@
     <ClInclude Include="MyTextOffsets.h">
       <Filter>Text</Filter>
     </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -196,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="MyTextOffsets.cpp">
       <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
