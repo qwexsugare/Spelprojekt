@@ -28,12 +28,10 @@ GameState::GameState()
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
-	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 1.0f, 1.0f, 1.0f), FLOAT4(0.5f, 0.5f, 0.5f, 1.0f));
-
-/*	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 75.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.8f, 0.0f, 1.0f), FLOAT4(0.2f, 0.2f, 0.0f, 1.0f));
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.8f, 0.0f, 1.0f), FLOAT4(0.5f, 0.2f, 0.2f, 1.0f));
-	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 3.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.0f, 1.0f, 1.0f), FLOAT4(0.2f, 0.0f, 0.2f, 1.0f));*/
-	
+	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.2f, 0.2f, 0.2f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f));
+	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 3.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f));
 }
 
 GameState::~GameState()
