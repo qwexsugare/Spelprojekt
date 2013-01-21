@@ -118,10 +118,21 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
 		// Find the greatest extent of the model bounding box
 		float greatestExtent;
-		if(this->m_models[i]->getObb()->Extents.x > this->m_models[i]->getObb()->Extents.z)
-			greatestExtent = this->m_models[i]->getObb()->Extents.x;
+		if(m_models[i]->getObb())
+		{
+			if(this->m_models[i]->getObb()->Extents.x > this->m_models[i]->getObb()->Extents.z)
+				greatestExtent = this->m_models[i]->getObb()->Extents.x;
+			else
+				greatestExtent = this->m_models[i]->getObb()->Extents.z;
+		}
+		else if(m_models[i]->getBs())
+		{
+			greatestExtent = this->m_models[i]->getBs()->Radius;
+		}
 		else
-			greatestExtent = this->m_models[i]->getObb()->Extents.z;
+		{
+			// we are fucked
+		}
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;

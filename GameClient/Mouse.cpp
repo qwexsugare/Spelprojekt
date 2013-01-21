@@ -12,9 +12,11 @@ Mouse::Mouse(int _x, int _y,  HWND _hWnd)
 	SetCursorPos(_x, _y);
 	
 	this->m_lButtonIsDown = false;
-	this->m_rButtonIsDown = false;
+	this->m_lButtonIsReleased = false;
 	this->m_lButtonIsPressed = false;
+	this->m_rButtonIsDown = false;
 	this->m_rButtonIsPressed = false;
+	this->m_rButtonIsReleased = false;
 }
 
 Mouse::~Mouse()
@@ -47,12 +49,14 @@ void Mouse::rButtonDown()
 
 void Mouse::lButtonUp()
 {
-	this->m_lButtonIsDown = false;
+	m_lButtonIsDown = false;
+	m_lButtonIsReleased = true;
 }
 
 void Mouse::rButtonUp()
 {
-	this->m_rButtonIsDown = false;
+	m_rButtonIsDown = false;
+	m_rButtonIsReleased = true;
 }
 
 void Mouse::setMousePosition(int _x, int _y)
@@ -74,6 +78,8 @@ void Mouse::update()
 	GetWindowRect(this->m_hWnd, &rc);
 	ClipCursor(&rc);
 
-	this->m_lButtonIsPressed = false;
-	this->m_rButtonIsPressed = false;
+	m_lButtonIsPressed = false;
+	m_lButtonIsReleased = false;
+	m_rButtonIsPressed = false;
+	m_rButtonIsReleased = false;
 }

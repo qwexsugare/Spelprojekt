@@ -151,9 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackEntityMessage.cpp" />
     <ClCompile Include="AttackMessage.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="client.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CreateGameMenu.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="MessageQueue.cpp" />
+    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="ModelIdHolder.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Msg.cpp" />
@@ -193,7 +195,10 @@
     <ClCompile Include="Skill_Buttons.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="TextLabel.cpp" />
+    <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -204,9 +209,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackEntityMessage.h" />
     <ClInclude Include="AttackMessage.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="client.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CreateGameMenu.h" />
@@ -231,10 +237,12 @@
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MapHandler.h" />
+    <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="MessageQueue.h" />
+    <ClInclude Include="Minimap.h" />
     <ClInclude Include="ModelIdHolder.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Msg.h" />
@@ -250,6 +258,8 @@
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TextInput.h" />
+    <ClInclude Include="TextLabel.h" />
+    <ClInclude Include="Tower.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

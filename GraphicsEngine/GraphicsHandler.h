@@ -46,6 +46,9 @@ public:
 	DECLDIR SpriteSheet *createSpriteSheet(string filename, FLOAT2 position, FLOAT2 size, INT2 nrOfFrames, int layer);
 	DECLDIR bool removeSpriteSheet(SpriteSheet *spriteSheet);
 
+	DECLDIR PointLight *createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius);
+	DECLDIR bool removePointLight(PointLight *pointLight);
+
 	DECLDIR void render();
 	DECLDIR void update(float dt);
 	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);

@@ -68,7 +68,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 		{
 			float x, y, z;
 			sscanf(buf, "vn %f %f %f", &x, &y, &z);
-			normals.push_back(D3DXVECTOR3(x, y, z));
+			normals.push_back(D3DXVECTOR3(x, y, -z));
 		}
 		else if(strcmp(key, "f") == 0) // Mesh.
 		{
@@ -191,7 +191,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	matlol.name = newMaterials[(int)newMaterials.size()-2];
 	matlol.texture = materials[(int)newMaterials.size()-2].texture;
 	materials.push_back(matlol);
-	
+
 	result = new Mesh(buffer, faceVertexPos1.size()*3);
 	result->m_texture = matlol.texture;
 

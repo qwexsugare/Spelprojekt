@@ -29,8 +29,8 @@ bool Client::connect(sf::IPAddress ip, int port)
 
 void Client::disconnect()
 {
-	if(this->hostSocket.IsValid())
-		this->hostSocket.Close();
+	//if(this->hostSocket.IsValid())
+	this->hostSocket.Close();
 }
 
 void Client::tellServer(string msg)
@@ -119,6 +119,16 @@ void Client::sendAttackMessage(AttackMessage am)
 	{
 		sf::Packet packet;
 		packet << am;
+		this->hostSocket.Send(packet);
+	}
+}
+
+void Client::sendAttackEntityMessage(AttackEntityMessage aem)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << aem;
 		this->hostSocket.Send(packet);
 	}
 }

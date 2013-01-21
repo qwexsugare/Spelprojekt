@@ -8,6 +8,7 @@ ServerThread::ServerThread() : sf::Thread()
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_collisionHandler = new CollisionHandler(this->m_messageHandler);
+	this->m_mapHandler = new MapHandler();
 }
 
 ServerThread::~ServerThread()
@@ -15,12 +16,12 @@ ServerThread::~ServerThread()
 	this->m_state = State::EXIT;
 	this->Wait();
 
-	delete this->m_messageQueue;
-	delete this->m_messageHandler;
 	this->m_network->shutDown();
 	delete this->m_network;
 	delete this->m_collisionHandler;
-
+	delete this->m_mapHandler;
+	delete this->m_messageQueue;
+	delete this->m_messageHandler;
 	this->m_entityHandler->removeAllEntities();
 	delete this->m_entityHandler;
 }
@@ -36,12 +37,15 @@ void ServerThread::Run()
 
 	//this->m_state = State::LOBBY;
 	this->m_state = State::LOBBY;
-	this->m_network->start(1338);
+	this->m_network->start(1350);
 	
-	for(int i = 0; i < 5; i++)
-	{
-		Enemy * enemy = new Enemy();
-	}
+	//for(int i = 0; i < 5; i++)
+	//{
+	//	new Enemy();
+	//}
+
+	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
+
 	while(this->m_state != State::EXIT)
 	{
 		__int64 currTimeStamp = 0;
@@ -94,14 +98,14 @@ void ServerThread::update(float dt)
 	if(this->m_state == State::GAME)
 	{
 		//Check if the map is finished
-		if(this->m_mapHandler.isDone() == true)
+		if(this->m_mapHandler->isDone() == true)
 		{
 			this->m_state = State::END;
 		}
 
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
-		this->m_mapHandler.update();
+		this->m_mapHandler->update(dt);
 		this->m_collisionHandler->update();
 
 		entities = this->m_entityHandler->getEntities();

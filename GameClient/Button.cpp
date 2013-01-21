@@ -163,7 +163,6 @@ Button::~Button()
 void Button::RemoveSprite()
 {
 	this->m_ButtonReaction = 0;
-	g_graphicsEngine->removeSpriteSheet(m_Button);
 	m_Button = NULL;
 }
 void Button::setPosition(FLOAT2 _pos)

@@ -10,11 +10,13 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
+	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(30000.0f, 30000.0f));
+
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
-	INT2 lolers = INT2(rc.right-rc.left, rc.bottom-rc.top);
-	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y, lolers);
-	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(30000.0f, 30000.0f));
+	INT2 actualScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
+	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize(), actualScreenSize);
+
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -45,6 +47,11 @@ World::~World()
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		delete this->m_sprites[i];
+	}
+
+	for(int i = 0; i < this->m_pointLights.size(); i++)
+	{
+		delete this->m_pointLights[i];
 	}
 	
 	for(int i = 0; i < this->m_texts.size(); i++)
@@ -229,6 +236,8 @@ void World::render()
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBuffer->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
+	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
+	this->m_deferredRendering->updateLights(this->m_pointLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer);
 
@@ -396,6 +405,28 @@ bool World::removeMyText(MyText* _text)
 		{
 			delete this->m_myTexts[i];
 			this->m_myTexts.erase(this->m_myTexts.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addPointLight(PointLight* _pointLight)
+{
+	this->m_pointLights.push_back(_pointLight);
+}
+
+bool World::removePointLight(PointLight* _pointLight)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_pointLights.size() && !found; i++)
+	{
+		if(this->m_pointLights[i] == _pointLight)
+		{
+			delete this->m_pointLights[i];
+			this->m_pointLights.erase(this->m_pointLights.begin()+i);
 			found = true;
 		}
 	}

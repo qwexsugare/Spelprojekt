@@ -1,14 +1,14 @@
 #ifndef CREATE_GAME_STATE
 #define CREATE_GAME_STATE
 
-//#include "CreateGameMenu.h"
+#include "CreateGameMenu.h"
 #include "State.h"
 #include "Graphics.h"
 
 class CreateGameState : public State
 {
 private:
-	//CreateGameMenu *m_menu;
+	CreateGameMenu *m_menu;
 	StateEnum m_nextState;
 public:
 	CreateGameState();

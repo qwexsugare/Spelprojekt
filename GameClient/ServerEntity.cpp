@@ -11,6 +11,17 @@ ServerEntity::ServerEntity()
 	this->m_health = 100;
 }
 
+ServerEntity::ServerEntity(FLOAT3 _pos)
+{
+	this->m_messageQueue = new MessageQueue();
+	this->m_positon = _pos;
+	this->m_rotation = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->m_bs = NULL;
+	this->m_modelId = 0;
+	this->m_visible = true;
+	this->m_health = 100;
+}
+
 ServerEntity::~ServerEntity()
 {
 	delete this->m_messageQueue;
@@ -39,7 +50,7 @@ MessageQueue *ServerEntity::getMessageQueue()
 
 EntityMessage ServerEntity::getUpdate()
 {
-	EntityMessage e = EntityMessage(this->m_id, this->m_modelId, this->m_positon, this->m_rotation);
+	EntityMessage e = EntityMessage(this->m_id, this->m_modelId, this->m_type, this->m_positon, this->m_rotation);
 
 	return e;
 }

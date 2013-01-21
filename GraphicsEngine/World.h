@@ -19,6 +19,7 @@
 #include "SpriteSheet.h"
 #include "SpriteBase.h"
 #include "Terrain.h"
+#include "PointLight.h"
 
 class World
 {
@@ -53,6 +54,7 @@ private:
 	QuadTree* m_quadTree;
 	vector<SpriteBase*> m_sprites;
 	vector<Terrain*> m_terrains;
+	vector<PointLight*> m_pointLights;
 public:
 	World();
 	World(DeviceHandler* _deviceHandler, HWND _hWnd);
@@ -75,6 +77,9 @@ public:
 	
 	void addMyText(MyText* _text);
 	bool removeMyText(MyText* _text);
+
+	void addPointLight(PointLight* _pointLight);
+	bool removePointLight(PointLight* _pointLight);
 
 	Camera *getCamera();
 };

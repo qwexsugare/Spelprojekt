@@ -35,6 +35,7 @@ void Server::goThroughSelector()
 {
 	unsigned int itemsInSelector= this->selector.Wait();
 	
+	if(this->isRunning())
 	for(unsigned int i =0;i<itemsInSelector;i++)
 	{
 		//fetches a ready socket from the selector
@@ -120,12 +121,7 @@ void Server::handleMessages()
 
 void Server::shutDown()
 {
-	if(this->listener.IsValid())
-	{
-		this->listener.Close();
-	}
 
-	this->Wait();
 
 	for(int i=0;i<this->clientArrPos;i++)
 	{
@@ -137,6 +133,12 @@ void Server::shutDown()
 			this->clients[i].Close();
 		}
 	}
+	if(this->listener.IsValid())
+	{
+		this->listener.Close();
+	}
+
+	this->Wait();
 }
 
 void Server::broadcast(string msg)
@@ -248,6 +250,18 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 		this->m_mutex.Lock();
 
 		this->m_players[socketIndex]->handleAttackMessage(msg);
+
+		this->m_mutex.Unlock();
+		protFound = true;
+	}
+	else if(prot == "ATTACKENTITY")
+	{
+		AttackEntityMessage msg;
+		packet >> msg;
+
+		this->m_mutex.Lock();
+
+		this->m_players[socketIndex]->handleEntityAttackMessage(msg);
 
 		this->m_mutex.Unlock();
 		protFound = true;

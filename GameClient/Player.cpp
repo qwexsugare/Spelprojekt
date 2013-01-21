@@ -50,6 +50,11 @@ void Player::handleAttackMessage(AttackMessage am)
 	}
 }
 
+void Player::handleEntityAttackMessage(AttackEntityMessage eam)
+{
+	this->m_hero->setTarget(eam.getTargetId());
+}
+
 void Player::update()
 {
 

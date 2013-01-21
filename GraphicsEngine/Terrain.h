@@ -1,14 +1,13 @@
 #pragma once
 
 #include "stdafx.h"
+#include "DataStructures.h"
 
 class Terrain
 {
 private:
 	float m_width;
-	float m_widthBetweenVertices;
 	float m_height;
-	float m_heightBetweenVertices;
 	int m_rows;
 	int m_cols;
 	int m_nrOfVertices;
@@ -26,11 +25,14 @@ public:
 	virtual ~Terrain();
 	
 	ID3D10ShaderResourceView** getBlendMaps()const { return this->m_blendMaps; }
+	FLOAT2 getBottomRightCorner()const { return FLOAT2(m_bottomRight.x, m_bottomRight.z); }
+	float getHeight()const { return m_height; }
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
 	int getNrOfBlendMaps()const { return this->m_nrOfBlendMaps; }
 	int getNrOfTextures()const { return this->m_nrOfTextures; }
 	int getNrOfVertices()const { return this->m_nrOfVertices; }
+	FLOAT2 getTopLeftCorner()const { return FLOAT2(m_topLeft.x, m_topLeft.z); }
 	ID3D10Buffer* getVertexBuffer()const { return this->m_vertexBuffer; }
-	void render(ID3D10EffectTechnique* tech, ID3D10EffectTechnique* _tech2, ID3D10Effect* effect, int pass, ID3D10InputLayout* _particleLayout);
+	float getWidth()const { return m_width; }
 	ID3D10ShaderResourceView** getTextures()const { return this->m_textures; }
 };

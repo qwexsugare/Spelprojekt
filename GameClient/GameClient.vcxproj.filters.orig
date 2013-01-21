@@ -33,11 +33,20 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="TextInput.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="ModelIdHolder.cpp" />
     <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="ModelIdHolder.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="MeleeAttack.cpp" />
 =======
->>>>>>> 632e14ea955f2b1f33fbea7c3a1cafbf0d6cbe71
+    <ClCompile Include="LobbyMenu.cpp" />
+    <ClCompile Include="JoinGameMenu.cpp" />
+    <ClCompile Include="CreateGameMenu.cpp" />
+    <ClCompile Include="HudMenu.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="LoreMenu.cpp" />
+    <ClCompile Include="CreditsMenu.cpp" />
+    <ClCompile Include="ScoreMenu.cpp" />
+>>>>>>> 2d63ee7a03c8141bb482040ceddfc971c2265d33
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h" />
@@ -76,5 +85,18 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="Cursor.h" />
+    <ClInclude Include="ModelIdHolder.h" />
+<<<<<<< HEAD
+    <ClInclude Include="MeleeAttack.h" />
+=======
+    <ClInclude Include="LobbyMenu.h" />
+    <ClInclude Include="JoinGameMenu.h" />
+    <ClInclude Include="CreateGameMenu.h" />
+    <ClInclude Include="HudMenu.h" />
+    <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="LoreMenu.h" />
+    <ClInclude Include="CreditsMenu.h" />
+    <ClInclude Include="ScoreMenu.h" />
+>>>>>>> 2d63ee7a03c8141bb482040ceddfc971c2265d33
   </ItemGroup>
 </Project>
