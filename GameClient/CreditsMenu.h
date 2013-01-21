@@ -6,5 +6,9 @@ class CreditsMenu :
 public:
 	CreditsMenu(void);
 	~CreditsMenu(void);
+
+	void Update();
+	bool StartGameIsDown();
+	bool MainMenuGameIsDone();
 };
 

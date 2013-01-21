@@ -62,7 +62,7 @@ Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D1
 
 Sprite::~Sprite()
 {
-
+	this->m_buffer->Release();
 }
 
 void Sprite::setPosition(FLOAT2 position)

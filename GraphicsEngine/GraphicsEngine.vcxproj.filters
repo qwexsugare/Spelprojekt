@@ -127,6 +127,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Road.h">
+    <ClInclude Include="DirectionalLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -210,6 +211,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Road.cpp">
+    <ClCompile Include="DirectionalLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

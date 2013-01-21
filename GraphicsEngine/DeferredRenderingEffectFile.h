@@ -15,6 +15,7 @@ private:
 	ID3D10EffectVectorVariable* m_lightAmbient;
 	ID3D10EffectVectorVariable* m_lightDiffuse;
 	ID3D10EffectVectorVariable* m_lightSpecular;
+	ID3D10EffectScalarVariable* m_lightRadius;
 
 	ID3D10EffectVectorVariable* m_cameraPosition;
 
@@ -34,4 +35,3 @@ public:
 	ID3D10EffectTechnique *getTechnique();
 	ID3D10InputLayout *getVertexLayout();
 };
-

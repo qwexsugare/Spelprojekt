@@ -1,4 +1,3 @@
-
 #include "DeferredRenderingEffectFile.h"
 
 DeferredRenderingEffectFile::DeferredRenderingEffectFile()
@@ -17,6 +16,7 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_lightAmbient = this->m_effect->GetVariableByName("la")->AsVector();
 	this->m_lightDiffuse = this->m_effect->GetVariableByName("ld")->AsVector();
 	this->m_lightSpecular = this->m_effect->GetVariableByName("ls")->AsVector();
+	this->m_lightRadius = this->m_effect->GetVariableByName("lightRadius")->AsScalar();
 
 	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPosition")->AsVector();
 
@@ -68,9 +68,10 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> lights)
 	this->m_nrOfLights->SetInt(lights.size());
 
 	D3DXVECTOR3 *tempPos = new D3DXVECTOR3[lights.size()];
-	D3DXVECTOR4 *tempAmbient = new D3DXVECTOR4[lights.size()];
-	D3DXVECTOR4 *tempDiffuse = new D3DXVECTOR4[lights.size()];
-	D3DXVECTOR4 *tempSpecular = new D3DXVECTOR4[lights.size()];
+	D3DXVECTOR3 *tempAmbient = new D3DXVECTOR3[lights.size()];
+	D3DXVECTOR3 *tempDiffuse = new D3DXVECTOR3[lights.size()];
+	D3DXVECTOR3 *tempSpecular = new D3DXVECTOR3[lights.size()];
+	float *tempRadius = new float[lights.size()];
 
 	for(int i = 0; i < lights.size() && i < 50; i++)
 	{
@@ -78,17 +79,20 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> lights)
 		tempAmbient[i] = lights[i]->getAmbientColor().toD3DXVector();
 		tempDiffuse[i] = lights[i]->getDiffuseColor().toD3DXVector();
 		tempSpecular[i] = lights[i]->getSpecularColor().toD3DXVector();
+		tempRadius[i] = lights[i]->getRadius();
 	}
 
 	this->m_lightPosition->SetFloatVectorArray((float*)tempPos, 0, lights.size());
 	this->m_lightAmbient->SetFloatVectorArray((float*)tempAmbient, 0, lights.size());
 	this->m_lightDiffuse->SetFloatVectorArray((float*)tempDiffuse, 0, lights.size());
 	this->m_lightSpecular->SetFloatVectorArray((float*)tempSpecular, 0, lights.size());
+	this->m_lightRadius->SetFloatArray((float*)tempRadius, 0, lights.size());
 
 	delete tempPos;
 	delete tempAmbient;
 	delete tempDiffuse;
 	delete tempSpecular;
+	delete tempRadius;
 }
 
 ID3D10EffectTechnique *DeferredRenderingEffectFile::getTechnique()

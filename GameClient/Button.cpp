@@ -11,7 +11,8 @@ void Button::Init(FLOAT2 _ScreenPos,
 			 float _max, 
 			 float _textSize,
 			 int _layer,
-			 int _DelayTime)
+			 int _DelayTime,
+			 int _Cost)
 {
 	this->m_ButtonReaction	=	0;
 	this->m_Value = 0;
@@ -39,6 +40,7 @@ void Button::Init(FLOAT2 _ScreenPos,
 	this->m_DelayTime		=	_DelayTime;
 	this->m_Keep			=	0;
 	this->m_Layer			=	_layer;
+	this->m_Cost			=   _Cost;
 	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
 }
 void Button::Update()
@@ -57,6 +59,7 @@ void Button::Update()
 		if(tmpPos.x >= this->m_Pos.x - halfSize.x && tmpPos.y >= this->m_Pos.y - halfSize.y &&
 		   tmpPos.x <= this->m_Pos.x + halfSize.x && tmpPos.y <= this->m_Pos.y + halfSize.y) 
 		{
+			this->m_Delay += 1;
 			if (GetKeyState(VK_LBUTTON)< 0)
 			{
 				m_ButtonReaction = 1;
@@ -64,12 +67,12 @@ void Button::Update()
 			}
 			else if(GetKeyState(VK_RBUTTON)< 0)
 			{
-				m_ButtonReaction = 1;
+				m_ButtonReaction = 2;
 				m_Button->setCurrentFrame(INT2(1,0));
 			}
 			else
 			{
-				m_ButtonReaction = 2;
+				m_ButtonReaction = 3;
 				m_Button->setCurrentFrame(INT2(2,0));
 			}
 		} 
@@ -78,7 +81,6 @@ void Button::Update()
 			m_ButtonReaction = 0;
 			m_Button->setCurrentFrame(INT2(0,0));
 		}
-		this->m_Delay += 1;
 		if(this->m_Max != 0)
 		{
 			float tmp_Pos = m_Pos.x;
@@ -136,10 +138,15 @@ int Button::Clicked()
 		this->m_Delay = 0;
 		return 1;
 	}
-	if (this->m_ButtonReaction==2)
+	else if(this->m_ButtonReaction==2 && this->m_Delay > this->m_DelayTime )
+	{
+		this->m_Delay = 0;
+		return 0;
+	}
+	else if(this->m_ButtonReaction==3)
 	{
 		this->m_Delay = this->m_DelayTime+1;
-		return 0;
+		return 3;
 	}
 	else return 0;
 }
@@ -153,10 +160,24 @@ Button::~Button()
 	g_graphicsEngine->removeSpriteSheet(m_Button);
 	m_Button = NULL;
 }
+void Button::RemoveSprite()
+{
+	this->m_ButtonReaction = 0;
+	m_Button = NULL;
+}
 void Button::setPosition(FLOAT2 _pos)
 {
 	//g_graphicsEngine->removeSpriteSheet(m_Button);
 	this->m_Pos = _pos;
 	//m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),2);
-	this->m_Button->setPosition(this->m_Pos);
+	//m_Button->setPosition
+}
+int  Button::LoseAmountOfResources(int _resources)
+{
+	int Lost = _resources - m_Cost;
+	if (Lost <= 0)
+	{
+		return 0;
+	}
+	else return Lost;
 }

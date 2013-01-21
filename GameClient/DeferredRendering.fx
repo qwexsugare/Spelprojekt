@@ -34,6 +34,7 @@ cbuffer cbEveryFrame
 	float3 la[50];
 	float3 ld[50];
 	float3 ls[50];
+	float lightRadius[50];
 
 	float3 cameraPos;
 };
@@ -90,28 +91,28 @@ float3 calcAmbientLight()
 	return ambient;
 }
 
-float3 calcDiffuseLight(float3 eyeCoord, float3 normal, int index)
+float3 calcDiffuseLight(float3 lightDir, float3 normal, float3 color)
 {
 	//Variables
 	float3 n = normal;
-	float3 s = normalize(lightPosition[index] - eyeCoord);
+	float3 s = normalize(lightDir);
 
 	//Diffuse light
-	float3 diffuse = saturate(dot(s,n)) * ld[index];
-	
+	float3 diffuse = saturate(dot(s,n)) * color;
+
 	return diffuse;
 }
 
-float3 calcSpecularLight(float3 eyeCoord, float3 normal, int index)
+float3 calcSpecularLight(float3 lightDir, float3 normal, float3 color)
 {
 	float3 ks = float3(1.0f, 1.0f, 1.0f);
 	float f = 30.0f;
 
-	float3 lightDir = -normalize(lightPosition[index] - eyeCoord);
+	lightDir = -normalize(lightDir);
 	float3 reflection = reflect(lightDir, normal);
 
 	//Specular light
-	float3 specular = ls[index] * pow(saturate(dot(normal,(-lightDir + cameraPos))), f);
+	float3 specular = color * pow(saturate(dot(normal,(-lightDir + cameraPos))), f);
 
 	return specular;
 }
@@ -139,8 +140,14 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 	for(int i = 0; i < nrOfLights; i++)
 	{
-		diffuseLight = diffuseLight + calcDiffuseLight(position.xyz, normal.xyz, i);
-		specularLight = specularLight + calcSpecularLight(position.xyz, normal.xyz, i);
+		float3 distVector = (lightPosition[i] - position.xyz);
+		float distance = length(distVector);
+		float cutoff = 0.005f;
+
+		float attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
+
+		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
+		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
 	}
 
 	color = float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
