@@ -171,6 +171,7 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTreeNode.h" />
+    <ClInclude Include="Road.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ResourceHolder.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="QuadTreeNode.cpp" />
+    <ClCompile Include="Road.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceHolder.cpp" />

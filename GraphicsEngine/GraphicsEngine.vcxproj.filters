@@ -25,6 +25,9 @@
     <Filter Include="Text">
       <UniqueIdentifier>{b0f79350-bbdd-4cd7-bc1a-2130d2112a09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Road">
+      <UniqueIdentifier>{7cdf0a2b-0938-4309-a6c0-44f85c99b1af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHandler.h">
@@ -123,6 +126,7 @@
     <ClInclude Include="PointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Road.h">
     <ClInclude Include="DirectionalLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -206,6 +210,7 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Road.cpp">
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
