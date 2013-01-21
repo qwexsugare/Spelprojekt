@@ -126,9 +126,11 @@
     <ClInclude Include="PointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Road.h">
     <ClInclude Include="DirectionalLight.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Road.h">
+      <Filter>Road</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +212,11 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Road.cpp">
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Road.cpp">
+      <Filter>Road</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
