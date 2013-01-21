@@ -232,7 +232,7 @@ void HudMenu::Update(float _dt)
 				m_Buy = true;
 			}
 		}
-		else
+		else if(m_Buy == true)
 		{
 			if (BuyTowerSkillIsDown())
 			{
@@ -401,27 +401,33 @@ void HudMenu::BuyHud()
 		if (m_Init_Tower == 1 && BuyButtonTower.size() == 0)
 		{
 			this->m_Images[5]->setPosition(FLOAT2(-0.56f,0.3f));
-			this->BuyButtonTower.resize(2);
+			this->BuyButtonTower.resize(4);
 			if(m_Resources >= 0)
 			{
 				this->BuyButtonTower[0] = new Button();
-				this->BuyButtonTower[0]->Init(FLOAT2(-0.56f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-0.png","",0,0,1,12,100);
+				this->BuyButtonTower[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-0.png","0",0,0,1,12,100,0,INT2(422,80));
 			}
 			else
 			{
 				this->BuyButtonTower[0] = new Button();
-				this->BuyButtonTower[0]->Init(FLOAT2(-0.56f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonTower[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","0",0,0,1,12,100,0,INT2(422,80));
 			}
 			if(m_Resources >= 3500)
 			{
 				this->BuyButtonTower[1] = new Button();
-				this->BuyButtonTower[1]->Init(FLOAT2(-0.56f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-12.png","",0,0,1,12,100,3500);
+				this->BuyButtonTower[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-12.png","3500",0,0,1,12,100,3500,INT2(422,200));
 			}
 			else
 			{
 				this->BuyButtonTower[1] = new Button();
-				this->BuyButtonTower[1]->Init(FLOAT2(-0.56f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonTower[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","3500",0,0,1,12,100,0,INT2(422,200));
 			}
+			this->BuyButtonTower[2] = new Button();
+			this->BuyButtonTower[2]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","0",0,0,1,12,100,0,INT2(422,80));
+
+			this->BuyButtonTower[3] = new Button();
+			this->BuyButtonTower[3]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","3500",0,0,1,12,100,0,INT2(422,200));
+
 			m_Init_Tower = 0;
 		}
 		for(int i = 0; i < BuyButtonTower.size(); i++)
@@ -453,52 +459,52 @@ void HudMenu::BuyHud()
 			if(m_Resources >= 0)
 			{
 				this->BuyButtonStrength[0] = new Button();
-				this->BuyButtonStrength[0]->Init(FLOAT2(-0.28f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-1.png","",0,0,1,12,100);
+				this->BuyButtonStrength[0]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-1.png","0",0,0,1,12,100,0,INT2(692,80));
 			}
 			else
 			{
 				this->BuyButtonStrength[0] = new Button();
-				this->BuyButtonStrength[0]->Init(FLOAT2(-0.28f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonStrength[0]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","0",0,0,1,12,100,0,INT2(692,80));
 			}
 			if(m_Resources >= 900)
 			{
 				this->BuyButtonStrength[1] = new Button();
-				this->BuyButtonStrength[1]->Init(FLOAT2(-0.28f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-7.png","900",0,0,1,12,100,900);
+				this->BuyButtonStrength[1]->Init(FLOAT2(-0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-7.png","900",0,0,1,12,100,900,INT2(692,200));
 			}
 			else
 			{
 				this->BuyButtonStrength[1] = new Button();
-				this->BuyButtonStrength[1]->Init(FLOAT2(-0.28f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonStrength[1]->Init(FLOAT2(-0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","900",0,0,1,12,100,0,INT2(692,200));
 			}
 			if(m_Resources >= 2200)
 			{
 				this->BuyButtonStrength[2] = new Button();
-				this->BuyButtonStrength[2]->Init(FLOAT2(-0.28f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-9.png","2200",0,0,1,12,100,2200);
+				this->BuyButtonStrength[2]->Init(FLOAT2(-0.34f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-9.png","2200",0,0,1,12,100,2200,INT2(692,324));
 			}
 			else
 			{
 				this->BuyButtonStrength[2] = new Button();
-				this->BuyButtonStrength[2]->Init(FLOAT2(-0.28f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonStrength[2]->Init(FLOAT2(-0.34f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","2200",0,0,1,12,100,0,INT2(692,324));
 			}
 			if(m_Resources >= 2400)
 			{
 				this->BuyButtonStrength[3] = new Button();
-				this->BuyButtonStrength[3]->Init(FLOAT2(-0.28f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-13.png","2400",0,0,1,12,100,2400);
+				this->BuyButtonStrength[3]->Init(FLOAT2(-0.34f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-13.png","2400",0,0,1,12,100,2400,INT2(692,440));
 			}
 			else
 			{
 				this->BuyButtonStrength[3] = new Button();
-				this->BuyButtonStrength[3]->Init(FLOAT2(-0.28f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonStrength[3]->Init(FLOAT2(-0.34f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","2400",0,0,1,12,100,0,INT2(692,440));
 			}
 			if(m_Resources >= 4000)
 			{
 				this->BuyButtonStrength[4] = new Button();
-				this->BuyButtonStrength[4]->Init(FLOAT2(-0.28f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-16.png","4000",0,0,1,12,100,4000);
+				this->BuyButtonStrength[4]->Init(FLOAT2(-0.34f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-16.png","4000",0,0,1,12,100,4000, INT2(692,560));
 			}
 			else
 			{
 				this->BuyButtonStrength[4] = new Button();
-				this->BuyButtonStrength[4]->Init(FLOAT2(-0.28f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonStrength[4]->Init(FLOAT2(-0.34f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","4000",0,0,1,12,100,0,INT2(692,560));
 			}
 			m_Init_Strength = 0;
 		}
@@ -531,42 +537,42 @@ void HudMenu::BuyHud()
 			if(m_Resources >= 0)
 			{
 				this->BuyButtonAgility[0] = new Button();
-				this->BuyButtonAgility[0]->Init(FLOAT2(0.0f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-2.png","",0,0,1,12,100);
+				this->BuyButtonAgility[0]->Init(FLOAT2(-0.06f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-2.png","0",0,0,1,12,100,0,INT2(1920/2,80));
 			}
 			else
 			{
 				this->BuyButtonAgility[0] = new Button();
-				this->BuyButtonAgility[0]->Init(FLOAT2(0.0f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonAgility[0]->Init(FLOAT2(-0.06f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","0",0,0,1,12,100,0,INT2(1920/2,80));
 			}
 			if(m_Resources >= 500)
 			{
 				this->BuyButtonAgility[1] = new Button();
-				this->BuyButtonAgility[1]->Init(FLOAT2(0.0f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-18.png","500",0,0,1,12,100,500);
+				this->BuyButtonAgility[1]->Init(FLOAT2(-0.06f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-18.png","500",0,0,1,12,100,500,INT2(1920/2,200));
 			}
 			else
 			{
 				this->BuyButtonAgility[1] = new Button();
-				this->BuyButtonAgility[1]->Init(FLOAT2(0.0f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonAgility[1]->Init(FLOAT2(-0.06f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","500",0,0,1,12,100,0,INT2(1920/2,200));
 			}
 			if(m_Resources >= 1100)
 			{
 				this->BuyButtonAgility[2] = new Button();
-				this->BuyButtonAgility[2]->Init(FLOAT2(0.0f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-5.png","1100",0,0,1,12,100,1100);
+				this->BuyButtonAgility[2]->Init(FLOAT2(-0.06f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-5.png","1100",0,0,1,12,100,1100,INT2(1920/2,324));
 			}
 			else
 			{
 				this->BuyButtonAgility[2] = new Button();
-				this->BuyButtonAgility[2]->Init(FLOAT2(0.0f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonAgility[2]->Init(FLOAT2(-0.06f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","1100",0,0,1,12,100,0,INT2(1920/2,324));
 			}
 			if(m_Resources >= 2000)
 			{
 				this->BuyButtonAgility[3] = new Button();
-				this->BuyButtonAgility[3]->Init(FLOAT2(0.0f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-11","2000",0,0,1,12,100,2000);
+				this->BuyButtonAgility[3]->Init(FLOAT2(-0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-11.png","2000",0,0,1,12,100,2000,INT2(1920/2,440));
 			}
 			else
 			{
 				this->BuyButtonAgility[3] = new Button();
-				this->BuyButtonAgility[3]->Init(FLOAT2(0.0f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonAgility[3]->Init(FLOAT2(-0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","2000",0,0,1,12,100,0,INT2(1920/2,440));
 			}
 			m_Init_Agility = 0;
 		}
@@ -599,42 +605,42 @@ void HudMenu::BuyHud()
 			if(m_Resources >= 0)
 			{
 				this->BuyButtonWits[0] = new Button();
-				this->BuyButtonWits[0]->Init(FLOAT2(0.28f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-3.png","",0,0,1,12,100);
+				this->BuyButtonWits[0]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-3.png","0",0,0,1,12,100,0,INT2(1228,80));
 			}
 			else
 			{
 				this->BuyButtonWits[0] = new Button();
-				this->BuyButtonWits[0]->Init(FLOAT2(0.28f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonWits[0]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","0",0,0,1,12,100,0,INT2(1228,80));
 			}
 			if(m_Resources >= 1700)
 			{
 				this->BuyButtonWits[1] = new Button();
-				this->BuyButtonWits[1]->Init(FLOAT2(0.28f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-10.png","1700",0,0,1,12,100,1700);
+				this->BuyButtonWits[1]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-10.png","1700",0,0,1,12,100,1700,INT2(1228,200));
 			}
 			else
 			{
 				this->BuyButtonWits[1] = new Button();
-				this->BuyButtonWits[1]->Init(FLOAT2(0.28f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonWits[1]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","1700",0,0,1,12,100,0,INT2(1228,200));
 			}
 			if(m_Resources >= 2500)
 			{
 				this->BuyButtonWits[2] = new Button();
-				this->BuyButtonWits[2]->Init(FLOAT2(0.28f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-14.png","2500",0,0,1,12,100,2500);
+				this->BuyButtonWits[2]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-14.png","2500",0,0,1,12,100,2500,INT2(1228,324));
 			}
 			else
 			{
 				this->BuyButtonWits[2] = new Button();
-				this->BuyButtonWits[2]->Init(FLOAT2(0.28f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonWits[2]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","2500",0,0,1,12,100,0,INT2(1228,324));
 			}
 			if(m_Resources >= 3500)
 			{
 				this->BuyButtonWits[3] = new Button();
-				this->BuyButtonWits[3]->Init(FLOAT2(0.28f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-17.png","3500",0,0,1,12,100,3500);
+				this->BuyButtonWits[3]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-17.png","3500",0,0,1,12,100,3500,INT2(1228,440));
 			}
 			else
 			{
 				this->BuyButtonWits[3] = new Button();
-				this->BuyButtonWits[3]->Init(FLOAT2(0.28f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonWits[3]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","3500",0,0,1,12,100,0,INT2(1228,440));
 			}
 			m_Init_Wits = 0;
 		}
@@ -667,42 +673,42 @@ void HudMenu::BuyHud()
 			if(m_Resources >= 0)
 			{
 				this->BuyButtonFortitude[0] = new Button();
-				this->BuyButtonFortitude[0]->Init(FLOAT2(0.56f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-4.png","",0,0,1,12,100);
+				this->BuyButtonFortitude[0]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-4.png","0",0,0,1,12,100,0,INT2(1498,80));
 			}
 			else
 			{
 				this->BuyButtonFortitude[0] = new Button();
-				this->BuyButtonFortitude[0]->Init(FLOAT2(0.56f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonFortitude[0]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","0",0,0,1,12,100,0,INT2(1498,80));
 			}
 			if(m_Resources >= 700)
 			{
 				this->BuyButtonFortitude[1] = new Button();
-				this->BuyButtonFortitude[1]->Init(FLOAT2(0.56f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-6.png","700",0,0,1,12,100,700);
+				this->BuyButtonFortitude[1]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-6.png","700",0,0,1,12,100,700,INT2(1498,200));
 			}
 			else
 			{
 				this->BuyButtonFortitude[1] = new Button();
-				this->BuyButtonFortitude[1]->Init(FLOAT2(0.56f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonFortitude[1]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","700",0,0,1,12,100,0,INT2(1498,200));
 			}
 			if(m_Resources >= 900)
 			{
 				this->BuyButtonFortitude[2] = new Button();
-				this->BuyButtonFortitude[2]->Init(FLOAT2(0.56f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-8.png","900",0,0,1,12,100,900);
+				this->BuyButtonFortitude[2]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-8.png","900",0,0,1,12,100,900,INT2(1498,324));
 			}
 			else
 			{
 				this->BuyButtonFortitude[2] = new Button();
-				this->BuyButtonFortitude[2]->Init(FLOAT2(0.56f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonFortitude[2]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","900",0,0,1,12,100,0,INT2(1498,324));
 			}
 			if(m_Resources >= 3000)
 			{
 				this->BuyButtonFortitude[3] = new Button();
-				this->BuyButtonFortitude[3]->Init(FLOAT2(0.56f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-20.png","3000",0,0,1,12,100,3000);
+				this->BuyButtonFortitude[3]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-20.png","3000",0,0,1,12,100,3000,INT2(1498,440));
 			}
 			else
 			{
 				this->BuyButtonFortitude[3] = new Button();
-				this->BuyButtonFortitude[3]->Init(FLOAT2(0.56f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100);
+				this->BuyButtonFortitude[3]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","3000",0,0,1,12,100,0,INT2(1498,440));
 			}
 			m_Init_Fortitude = 0;
 		}
