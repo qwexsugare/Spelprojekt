@@ -415,6 +415,7 @@ bool World::removeMyText(MyText* _text)
 void World::addPointLight(PointLight* _pointLight)
 {
 	this->m_pointLights.push_back(_pointLight);
+	//this->m_quadTree->addLight(_pointLight);
 }
 
 bool World::removePointLight(PointLight* _pointLight)
