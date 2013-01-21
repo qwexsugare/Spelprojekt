@@ -34,6 +34,7 @@ cbuffer cbEveryFrame
 	float3 la[50];
 	float3 ld[50];
 	float3 ls[50];
+	float lightRadius[50];
 
 	float3 cameraPos;
 };
@@ -139,8 +140,13 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 	for(int i = 0; i < nrOfLights; i++)
 	{
-		diffuseLight = diffuseLight + calcDiffuseLight(position.xyz, normal.xyz, i);
-		specularLight = specularLight + calcSpecularLight(position.xyz, normal.xyz, i);
+		float3 distVector = (lightPosition[i] - position.xyz);
+		float distance = length(distVector);
+
+		float attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
+
+		diffuseLight = diffuseLight + calcDiffuseLight(position.xyz, normal.xyz, i) * attenuation;
+		specularLight = specularLight + calcSpecularLight(position.xyz, normal.xyz, i) * attenuation;
 	}
 
 	color = float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
