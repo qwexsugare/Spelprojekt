@@ -7,7 +7,7 @@ Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, flo
 	this->m_direction = _direction / _direction.length();
 	this->m_lifetime = _lifetime;
 	this->m_movementSpeed = _movementSpeed;
-	this->m_type = Type::HeroType;
+	this->m_type = Type::ProjectileType;
 }
 
 Projectile::~Projectile()
