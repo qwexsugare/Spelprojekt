@@ -15,6 +15,13 @@ PointLight::PointLight(FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, flo
 	this->m_ld = _ld;
 	this->m_ls = _ls;
 	this->m_radius = _radius;
+
+	this->m_boundingSphere = new DirectX::BoundingSphere(DirectX::XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), this->m_radius);
+}
+
+PointLight::~PointLight()
+{
+	delete this->m_boundingSphere;
 }
 
 FLOAT3 PointLight::getPosition()
@@ -40,6 +47,16 @@ FLOAT3 PointLight::getSpecularColor()
 float PointLight::getRadius()
 {
 	return this->m_radius;
+}
+
+DirectX::BoundingSphere* PointLight::getBoundingSphere()
+{
+	return this->m_boundingSphere;
+}
+
+D3DXVECTOR2 PointLight::getPosition2D()
+{
+	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
 }
 
 void PointLight::setPosition(FLOAT3 _position)

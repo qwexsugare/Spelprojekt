@@ -21,6 +21,7 @@ Terrain::Terrain(ID3D10Device* _device, D3DXVECTOR3 v1, D3DXVECTOR3 v2, int rows
 	this->m_textures = _textures;
 	this->m_nrOfBlendMaps = _nrOfBlendMaps;
 	this->m_blendMaps = _blendMaps;
+	this->m_nrOfVertices = 4;
 
 	float widthBetweenTexCoords = 1.0f/(cols-1);
 	float heightBetweenTexCoords = 1.0f/(rows-1);

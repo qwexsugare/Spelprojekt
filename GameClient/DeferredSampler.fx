@@ -4,7 +4,7 @@ Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
 {
-	Filter = MIN_MAG_MIP_LINEAR; // coming up after the break!
+	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Wrap;
 	AddressV = Wrap;
 };
@@ -18,7 +18,7 @@ struct VSSceneIn
 
 struct PSSceneIn
 {
-	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
+	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
 	float3 EyeCoord : EYE_COORD;
 	float3 Normal : NORMAL;
@@ -77,6 +77,19 @@ BlendState SrcAlphaBlend
    BlendOpAlpha             = ADD;
    RenderTargetWriteMask[0] = 0x0F;
 };
+
+BlendState SrcAlphaBlendRoad
+{
+   BlendEnable[2]           = TRUE;
+   SrcBlend                 = SRC_ALPHA;
+   DestBlend                = INV_SRC_ALPHA;
+   BlendOp                  = ADD;
+   SrcBlendAlpha            = ONE;
+   DestBlendAlpha           = ONE;
+   BlendOpAlpha             = ADD;
+   RenderTargetWriteMask[2] = 0x0F;
+};
+
 
 PSSceneIn VSScene(VSSceneIn input)
 {
@@ -185,6 +198,49 @@ technique10 RenderTerrain
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
 
 	    SetDepthStencilState(EnableDepth, 0);
+	    SetRasterizerState(rs);
+    }  
+}
+
+PSSceneIn drawRoadVs(VSSceneIn input)
+{
+	PSSceneIn output = (PSSceneIn)0;
+
+	matrix worldViewProjection = mul(viewMatrix, projectionMatrix);
+	
+	// transform the point into view space
+	output.Pos = mul( float4(input.Pos,1.0), mul(modelMatrix,worldViewProjection) );
+	output.UVCoord = input.UVCoord;
+
+	//variables needed for lighting
+	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
+
+	return output;
+}
+
+PSSceneOut drawRoadPs(PSSceneIn input) : SV_Target
+{	
+	PSSceneOut output = (PSSceneOut)0;
+
+	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Normal = float4(normalize(input.Normal), 1.0f);
+	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
+
+	return output;
+}
+
+technique10 RenderRoad
+{
+    pass p0
+    { 
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader(CompileShader( vs_4_0, drawRoadVs()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader( ps_4_0, drawRoadPs()));
+
+	    SetDepthStencilState(DisableDepth, 0);
 	    SetRasterizerState(rs);
     }  
 }

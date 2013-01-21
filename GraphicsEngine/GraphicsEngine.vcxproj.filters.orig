@@ -19,6 +19,15 @@
     <Filter Include="QuadTree">
       <UniqueIdentifier>{80b91d78-1707-4c06-963c-35ae1e92356a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Terrain">
+      <UniqueIdentifier>{ab402ac7-ae17-450b-a8cb-9082d5817a71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{b0f79350-bbdd-4cd7-bc1a-2130d2112a09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Road">
+      <UniqueIdentifier>{7cdf0a2b-0938-4309-a6c0-44f85c99b1af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHandler.h">
@@ -84,9 +93,6 @@
     <ClInclude Include="FullScreenPlane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteEffectFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -96,13 +102,36 @@
     <ClInclude Include="QuadTreeNode.h">
       <Filter>QuadTree</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="SpriteSheet.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="MyText.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTextOffsets.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Road.h">
 =======
-    <ClInclude Include="Obb.h">
-      <Filter>QuadTree</Filter>
->>>>>>> 0c9b68fdc7d3bcdb4bc0f19059fc8a6171d35285
+    <ClInclude Include="DirectionalLight.h">
+>>>>>>> 990164a7a650f640cd8a3202946420828a2ee60b
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -157,9 +186,6 @@
     <ClCompile Include="FullScreenPlane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="QuadTreeNode.cpp">
       <Filter>QuadTree</Filter>
     </ClCompile>
@@ -169,13 +195,30 @@
     <ClCompile Include="SpriteEffectFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="SpriteSheet.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MyText.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTextOffsets.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Road.cpp">
 =======
-    <ClCompile Include="Obb.cpp">
-      <Filter>QuadTree</Filter>
->>>>>>> 0c9b68fdc7d3bcdb4bc0f19059fc8a6171d35285
+    <ClCompile Include="DirectionalLight.cpp">
+>>>>>>> 990164a7a650f640cd8a3202946420828a2ee60b
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,9 @@ public:
 	DECLDIR INT2 getRealScreenSize();
 	DECLDIR INT2 getScreenSize();
 	
+	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot);
+	DECLDIR bool removeRoad(Road* _road);
+	
 	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps);
 	DECLDIR bool removeTerrain(Terrain* _terrain);
 	

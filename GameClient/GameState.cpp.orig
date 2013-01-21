@@ -13,31 +13,32 @@ GameState::GameState()
 	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600), 100);
 	this->m_emilsFps = new TextLabel("fps = 10", "text1.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 
-	// Create a fucking awesome terrain
-	vector<string> textures;
-	textures.push_back("terrain_texture1.png");
-	textures.push_back("terrain_texture2.png");
-	textures.push_back("terrain_texture3.png");
-	textures.push_back("terrain_texture4.png");
-	vector<string> blendMaps;
-	blendMaps.push_back("blendmap.png");
-<<<<<<< HEAD
-	//this->m_terrain = g_graphicsEngine->createTerrain(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(100.0f, 0.0f, 100.0f), textures, blendMaps);
-	this->m_terrain = this->importTerrain("maps\\race.txt");
-=======
-	this->m_terrain = this->importTerrain("maps\\bana.txt");
->>>>>>> 7f16e27f82f54933e0ddebf74c189c29454180fa
-
 	this->m_network = new Client();
-
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
+
+<<<<<<< HEAD
+	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 1.0f, 1.0f, 1.0f), FLOAT4(0.5f, 0.5f, 0.5f, 1.0f));
+
+/*	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 75.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.8f, 0.0f, 1.0f), FLOAT4(0.2f, 0.2f, 0.0f, 1.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.8f, 0.0f, 1.0f), FLOAT4(0.5f, 0.2f, 0.2f, 1.0f));
+	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 3.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.0f, 1.0f, 1.0f), FLOAT4(0.2f, 0.0f, 0.2f, 1.0f));*/
+	
+	this->importMap("race");
+=======
+	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 3.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.5f, 0.5f, 0.5f), 40.0f);
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
+	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+>>>>>>> 990164a7a650f640cd8a3202946420828a2ee60b
 }
 
 GameState::~GameState()
 {
 	for(int i = 0; i < this->m_entities.size(); i++)
 		delete this->m_entities[i];
+	for(int i = 0; i < this->m_roads.size(); i++)
+		g_graphicsEngine->removeRoad(m_roads[i]);
 
 	if(m_minimap)
 		delete this->m_minimap;
@@ -95,6 +96,7 @@ void GameState::update(float _dt)
 			{
 				this->m_entities[i]->m_model->setPosition(e.getPos());
 				this->m_entities[i]->m_model->setRotation(e.getRotation());
+				this->m_entities[i]->m_type = (ServerEntity::Type)e.getType();
 				found = true;
 			}
 		}
@@ -132,47 +134,44 @@ void GameState::update(float _dt)
 	static float CAMERA_SPEED = 16.0f;
 	if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-27.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->moveStatic(0.0f, CAMERA_SPEED*_dt, 0.0f);
+		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt, m_terrain->getWidth()-27.0f));
 	}
 	else if(g_graphicsEngine->getCamera()->getPos().x > 27.0f && (g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->moveStatic(0.0f, -(CAMERA_SPEED*_dt), 0.0f);
+		g_graphicsEngine->getCamera()->setX(max(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt, 27.0f));
 	}
 	if(g_graphicsEngine->getCamera()->getPos().z < m_terrain->getHeight()-4.0f && (g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->moveStatic(CAMERA_SPEED*_dt, 0.0f, 0.0f);
+		g_graphicsEngine->getCamera()->setZ(min(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt, m_terrain->getHeight()-4.0f));
 	}
 	else if(g_graphicsEngine->getCamera()->getPos().z > 25.0f && (g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->moveStatic(-(CAMERA_SPEED*_dt), 0.0f, 0.0f);
+		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 25.0f));
 	}
 
-	static bool canMove = false;
 	static bool usingMinimap = false;
+	static bool movingCameraWithMinimap = false;
 	if(g_mouse->isLButtonPressed())
 	{
-		for(int i = 0; i < m_entities.size(); i++)
+		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-			float dist;
-			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
-			{
-				canMove = true;
-			}
+			movingCameraWithMinimap = true;
 		}
 	}
 	if(g_mouse->isLButtonDown())
 	{
 
 	}
+	else if(g_mouse->isLButtonReleased())
+	{
+		movingCameraWithMinimap = false;
+	}
 	if(g_mouse->isRButtonPressed())
 	{
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
 			playSound(this->m_testSound);
-			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos(), m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner());
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 			usingMinimap = true;
 
 			EntityMessage e;
@@ -193,10 +192,6 @@ void GameState::update(float _dt)
 				}
 			}
 		}
-	}
-	else if(g_mouse->isRButtonReleased())
-	{
-		usingMinimap = false;
 	}
 	if(g_mouse->isRButtonDown())
 	{
@@ -232,15 +227,57 @@ void GameState::update(float _dt)
 			}
 		}
 	}
+	else if(g_mouse->isRButtonReleased())
+	{
+		usingMinimap = false;
+	}
+
+	if(movingCameraWithMinimap)
+	{
+		if(m_minimap->isMouseInMap(g_mouse->getPos()))
+		{
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
+
+			if(pos.x > m_terrain->getWidth()-27.0f)
+			{
+				g_graphicsEngine->getCamera()->setX(m_terrain->getWidth()-27.0f);
+			}
+			else if(pos.x < 27.0f)
+			{
+				g_graphicsEngine->getCamera()->setX(27.0f);
+			}
+			else
+			{
+				g_graphicsEngine->getCamera()->setX(pos.x);
+			}
+			
+			if(pos.y < 25.0f)
+			{
+				g_graphicsEngine->getCamera()->setZ(25.0f);
+			}
+			else if(pos.y > m_terrain->getHeight()-4.0f)
+			{
+				g_graphicsEngine->getCamera()->setZ(m_terrain->getHeight()-4.0f);
+			}
+			else
+			{
+				g_graphicsEngine->getCamera()->setZ(pos.y);
+			}
+		}
+		else
+			movingCameraWithMinimap = false;
+	}
 
 	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
-
+	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
 
-Terrain *GameState::importTerrain(string filepath)
+void GameState::importMap(string _map)
 {
+	string path = "maps/" + _map + "/";
+
 	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
 	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
 
@@ -255,9 +292,9 @@ Terrain *GameState::importTerrain(string filepath)
 	textures.push_back("textures\\7.jpg");
 	textures.push_back("textures\\8.jpg");
 
+	string minimap;
 	ifstream stream;
-	stream.open(filepath);
-	
+	stream.open(path + _map + ".txt");
 	while(!stream.eof())
 	{
 		char buf[1024];
@@ -269,25 +306,54 @@ Terrain *GameState::importTerrain(string filepath)
 		{
 			char file[100];
 			sscanf(buf, "bmp1: %s", &file);
-			blendMaps[0] = "maps\\" + string(file);
+			blendMaps[0] = path + string(file);
 		}
 		else if(strcmp(key, "bmp2:") == 0)
 		{
 			char file[100];
 			sscanf(buf, "bmp2: %s", &file);
-			blendMaps[1] = "maps\\" + string(file);
+			blendMaps[1] = path + string(file);
 		}
 		else if(strcmp(key, "minimap:") == 0)
 		{
 			char file[100];
 			sscanf(buf, "minimap: %s", &file);
-			m_minimap = new Minimap("maps\\" + string(file));
+			minimap = string(file);
+		}
+		else if(strcmp(key, "Surfaceplanes:") == 0)
+		{
+			string texture;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "SF:") == 0)
+				{
+					char in[100];
+					sscanf(buf, "SF: %s", &in);
+					texture = string(in);
+				}
+				else if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else // Else its an actual road piece (at least we hope so because else we are screwed)
+				{
+					float rot;
+					float x, z;
+					sscanf(buf, "%f %f %f", &rot, &x, &z);
+
+					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, -z), -rot));
+				}
+			}
 		}
 
-		sscanf("lololol", "%s", key);
+		sscanf("bugfix", "%s", key);
 	}
-	
 	stream.close();
-
-	return g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
+	
+	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
+	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }

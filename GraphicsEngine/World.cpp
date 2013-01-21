@@ -44,6 +44,9 @@ World::~World()
 	for(int i = 0; i < m_terrains.size(); i++)
 		delete m_terrains[i];
 
+	for(int i = 0; i < m_roads.size(); i++)
+		delete m_roads[i];
+
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		delete this->m_sprites[i];
@@ -79,6 +82,28 @@ World::~World()
 
 	delete this->m_camera;
 	delete this->m_quadTree;
+}
+	
+void World::addRoad(Road* _road)
+{
+	m_roads.push_back(_road);
+}
+
+bool World::removeRoad(Road* _road)
+{
+	bool found = false;
+
+	for(int i = 0; i < m_roads.size() && !found; i++)
+	{
+		if(m_roads[i] == _road)
+		{
+			delete m_roads[i];
+			m_roads.erase(m_roads.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
 }
 
 void World::addTerrain(Terrain* _terrain)
@@ -136,8 +161,19 @@ void World::render()
 		this->m_deferredSampler->setTerrainTextures(m_terrains[i]->getTextures(), m_terrains[i]->getNrOfTextures());
 		this->m_deferredSampler->setTerrainBlendMaps(m_terrains[i]->getBlendMaps(), m_terrains[i]->getNrOfBlendMaps());
 			
-		this->m_deferredSampler->getRenderTerrainTechique()->GetPassByIndex( 0 )->Apply(0);
-		this->m_deviceHandler->getDevice()->Draw(4, 0);
+		this->m_deferredSampler->getRenderTerrainTechnique()->GetPassByIndex(0)->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(m_terrains[i]->getNrOfVertices(), 0);
+	}
+	
+	// Render roads yo dawg y u be messin' about
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
+	for(int i = 0; i < m_roads.size(); i++)
+	{
+		this->m_deviceHandler->setVertexBuffer(m_roads[i]->getVertexBuffer());
+		this->m_deferredSampler->setModelMatrix(m_roads[i]->getModelMatrix());
+		this->m_deferredSampler->setTexture(m_roads[i]->getTexture());
+		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(m_roads[i]->getNrOfVertices(), 0);
 	}
 
 	//Render all models
@@ -415,6 +451,7 @@ bool World::removeMyText(MyText* _text)
 void World::addPointLight(PointLight* _pointLight)
 {
 	this->m_pointLights.push_back(_pointLight);
+	//this->m_quadTree->addLight(_pointLight);
 }
 
 bool World::removePointLight(PointLight* _pointLight)
