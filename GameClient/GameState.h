@@ -7,8 +7,8 @@
 #include "TextLabel.h"
 #include "ModelIdHolder.h"
 #include "Minimap.h"
-//#include "Cursor.h"
 #include "HudMenu.h"
+//#include "Cursor.h"
 
 class GameState : public State
 {
@@ -24,10 +24,11 @@ private:
 	Client *m_network;
 	ModelIdHolder m_modelIdHolder;
 	Minimap* m_minimap;
+	vector<Road*> m_roads;
 	//Cursor m_cursor;
 
 	void end();
-	Terrain *importTerrain(string filepath);
+	void importMap(string _map);
 public:
 	GameState();
 	~GameState();

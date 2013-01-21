@@ -20,6 +20,7 @@
 #include "SpriteBase.h"
 #include "Terrain.h"
 #include "PointLight.h"
+#include "Road.h"
 
 class World
 {
@@ -55,6 +56,7 @@ private:
 	vector<SpriteBase*> m_sprites;
 	vector<Terrain*> m_terrains;
 	vector<PointLight*> m_pointLights;
+	vector<Road*> m_roads;
 public:
 	World();
 	World(DeviceHandler* _deviceHandler, HWND _hWnd);
@@ -62,6 +64,9 @@ public:
 
 	void render();
 	void update(float dt);
+	
+	void addRoad(Road* _road);
+	bool removeRoad(Road* _road);
 	
 	void addTerrain(Terrain* _terrain);
 	bool removeTerrain(Terrain* _terrain);

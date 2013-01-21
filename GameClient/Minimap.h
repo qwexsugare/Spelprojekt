@@ -8,6 +8,7 @@ class Minimap
 private:
 	Sprite* m_sprite;
 	Sprite* m_view;
+	vector<Sprite*> m_playerPositions;
 	vector<Sprite*> m_enemyPositions;
 	FLOAT2 m_screenSpacePos;
 	FLOAT2 m_screenSpaceSize;

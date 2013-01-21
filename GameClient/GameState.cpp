@@ -13,18 +13,7 @@ GameState::GameState()
 	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600), 100);
 	this->m_emilsFps = new TextLabel("fps = 10", "text1.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 
-	// Create a fucking awesome terrain
-	vector<string> textures;
-	textures.push_back("terrain_texture1.png");
-	textures.push_back("terrain_texture2.png");
-	textures.push_back("terrain_texture3.png");
-	textures.push_back("terrain_texture4.png");
-	vector<string> blendMaps;
-	blendMaps.push_back("blendmap.png");
-	this->m_terrain = this->importTerrain("maps\\race.txt");
-
 	this->m_network = new Client();
-
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
@@ -34,12 +23,15 @@ GameState::GameState()
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.8f, 0.0f, 1.0f), FLOAT4(0.5f, 0.2f, 0.2f, 1.0f));
 	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 3.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.0f, 1.0f, 1.0f), FLOAT4(0.2f, 0.0f, 0.2f, 1.0f));*/
 	
+	this->importMap("race");
 }
 
 GameState::~GameState()
 {
 	for(int i = 0; i < this->m_entities.size(); i++)
 		delete this->m_entities[i];
+	for(int i = 0; i < this->m_roads.size(); i++)
+		g_graphicsEngine->removeRoad(m_roads[i]);
 
 	if(m_minimap)
 		delete this->m_minimap;
@@ -275,9 +267,9 @@ void GameState::update(float _dt)
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
 
-Terrain *GameState::importTerrain(string filepath)
+void GameState::importMap(string _map)
 {
-	Terrain* terrain = NULL;
+	string path = "maps/" + _map + "/";
 
 	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
 	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
@@ -295,7 +287,7 @@ Terrain *GameState::importTerrain(string filepath)
 
 	string minimap;
 	ifstream stream;
-	stream.open(filepath);
+	stream.open(path + _map + ".txt");
 	while(!stream.eof())
 	{
 		char buf[1024];
@@ -307,13 +299,13 @@ Terrain *GameState::importTerrain(string filepath)
 		{
 			char file[100];
 			sscanf(buf, "bmp1: %s", &file);
-			blendMaps[0] = "maps\\" + string(file);
+			blendMaps[0] = path + string(file);
 		}
 		else if(strcmp(key, "bmp2:") == 0)
 		{
 			char file[100];
 			sscanf(buf, "bmp2: %s", &file);
-			blendMaps[1] = "maps\\" + string(file);
+			blendMaps[1] = path + string(file);
 		}
 		else if(strcmp(key, "minimap:") == 0)
 		{
@@ -321,14 +313,40 @@ Terrain *GameState::importTerrain(string filepath)
 			sscanf(buf, "minimap: %s", &file);
 			minimap = string(file);
 		}
+		else if(strcmp(key, "Surfaceplanes:") == 0)
+		{
+			string texture;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "SF:") == 0)
+				{
+					char in[100];
+					sscanf(buf, "SF: %s", &in);
+					texture = string(in);
+				}
+				else if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else // Else its an actual road piece (at least we hope so because else we are screwed)
+				{
+					float rot;
+					float x, z;
+					sscanf(buf, "%f %f %f", &rot, &x, &z);
 
-		sscanf("lololol", "%s", key);
+					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, -z), -rot));
+				}
+			}
+		}
+
+		sscanf("bugfix", "%s", key);
 	}
-	
 	stream.close();
 	
-	terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
-	m_minimap = new Minimap("maps\\" + minimap, terrain->getTopLeftCorner(), terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
-
-	return terrain;
+	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
+	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }

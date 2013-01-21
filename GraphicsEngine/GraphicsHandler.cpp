@@ -34,6 +34,18 @@ GraphicsHandler::~GraphicsHandler()
 	delete this->m_resourceHolder;
 	delete this->m_deviceHandler;
 }
+
+Road* GraphicsHandler::createRoad(string _texture, FLOAT3 _pos, float _rot)
+{
+	Road* road = new Road(m_deviceHandler->getDevice(), m_resourceHolder->getTextureHolder()->getTexture("textures/"+_texture), D3DXVECTOR3(_pos.x, _pos.y, _pos.z), _rot);
+	m_world->addRoad(road);
+	return road;
+}
+
+bool GraphicsHandler::removeRoad(Road* _road)
+{
+	return this->m_world->removeRoad(_road);
+}
 	
 Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps)
 {
