@@ -190,6 +190,7 @@
     <ClCompile Include="ServerEntity.cpp" />
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="Skill_Buttons.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TextInput.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="ServerEntity.h" />
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="Skill_Buttons.h" />
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TextInput.h" />

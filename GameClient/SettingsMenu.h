@@ -6,5 +6,9 @@ class SettingsMenu :
 public:
 	SettingsMenu(void);
 	~SettingsMenu(void);
+	
+	void Update();
+	bool MainMenuGameIsDone();
+	bool SaveSettingsIsDone();
 };
 

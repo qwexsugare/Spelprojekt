@@ -6,5 +6,9 @@ class CreateGameMenu :
 public:
 	CreateGameMenu(void);
 	~CreateGameMenu(void);
+
+	void Update();
+	bool StartGameIsDown();
+	bool MainMenuGameIsDone();
 };
 
