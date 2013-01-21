@@ -44,6 +44,7 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="HudMenu.cpp">
+    <ClCompile Include="Skill_Buttons.cpp" />
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="JoinGameMenu.cpp">
@@ -189,6 +190,7 @@
     <ClInclude Include="Graphics.h">
       <Filter>Client</Filter>
     </ClInclude>
+    <ClInclude Include="Skill_Buttons.h" />
     <ClInclude Include="Hero.h">
       <Filter>Client</Filter>
     </ClInclude>
