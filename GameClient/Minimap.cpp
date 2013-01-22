@@ -146,10 +146,12 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 	
 	while(heroTypeCounter < m_playerPositions.size())
 	{
+		g_graphicsEngine->removeSprite(m_playerPositions.back());
 		m_playerPositions.pop_back();
 	}
 	while(enemyTypeCounter < m_enemyPositions.size())
 	{
+		g_graphicsEngine->removeSprite(m_enemyPositions.back());
 		m_enemyPositions.pop_back();
 	}
 	

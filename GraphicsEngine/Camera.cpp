@@ -50,6 +50,16 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 	_pickOrigOut.y = m._42;
 	_pickOrigOut.z = m._43;
 }
+/*
+XMMATRIX Camera::getCyborgProjectionMatrix()const
+{
+	return m_cybor
+}
+
+XMMATRIX Camera::getCyborgViewMatrix()const
+{
+
+}*/
 
 D3DXVECTOR3 Camera::getPos()const
 {
