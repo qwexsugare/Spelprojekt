@@ -31,12 +31,14 @@ cbuffer cbEveryFrame
 
 	int nrOfPointLights;
 	int nrOfDirectionalLights;
-	float3 lightPosition[50];
-	float3 lightDirection[50];
-	float3 la[100];
-	float3 ld[100];
-	float3 ls[100];
+	int nrOfSpotLights;
+	float3 lightPosition[100];
+	float3 lightDirection[100];
+	float3 la[150];
+	float3 ld[150];
+	float3 ls[150];
 	float lightRadius[50];
+	float2 lightAngle[50];
 
 	float3 cameraPos;
 };
@@ -141,14 +143,17 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
 
 	int i;
+	float3 distVector;
+	float distance;
+	float cutoff = 0.005f;
+	float attenuation;
+	int nrOfPointAndDirectionalLights = nrOfPointLights + nrOfDirectionalLights;
 
 	for(i = 0; i < nrOfPointLights; i++)
 	{
-		float3 distVector = (lightPosition[i] - position.xyz);
-		float distance = length(distVector);
-		float cutoff = 0.005f;
-
-		float attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
+		distVector = (lightPosition[i] - position.xyz);
+		distance = length(distVector);
+		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
 		if(attenuation > 0.005f)
 		{
@@ -163,21 +168,39 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		specularLight = specularLight + calcSpecularLight(lightDirection[i], normal.xyz, ls[nrOfPointLights + i]);
 	}
 
-	//float3 pos = float3(50.0f, 5.0f, 50.0f);
-	//float s = normalize((pos - position.xyz));
-	//float3 dir = normalize(float3(1.0f, 1.0f, 0.0f));
+	for(i = 0; i < nrOfSpotLights; i++)
+	{
+		distVector = (lightPosition[nrOfPointLights + i] - position.xyz);
+		distance = length(distVector);
+		//attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
+
+		float3 pos = float3(50.0f, 1.0f, 50.0f);
+		float3 s = normalize((lightPosition[nrOfPointLights + i] - position.xyz));
+
+		float angle = max(acos(dot(s, normalize(lightDirection[nrOfDirectionalLights + i]))), 0.0f);
+		float spotfactor = max((cos(angle) - cos(lightAngle[i].x / 2)) / (cos(lightAngle[i].y / 2) - cos(lightAngle[i].x / 2)), 0.0f);
+
+		diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor;
+		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor;
+	}
+
+	color = float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
+
+
+	//float3 pos = float3(50.0f, 1.0f, 50.0f);
+	//float3 s = normalize((pos - position.xyz));
+	//float3 dir = normalize(float3(2.0f, 0.5f, 0.0f));
 
 	//float angle = max(acos(dot(s, dir)), 0.0f);
 
-	//float max = 0.22f;
-	//float min = 0.02f;
+	//float maxSpot = 0.53f;
+	//float minSpot = 0.37f;
 
-	//float spotfactor = smoothstep(min,max,angle);
+	//float spotfactor = max((cos(angle) - cos(maxSpot / 2)) / (cos(minSpot / 2) - cos(maxSpot / 2)), 0.0f);
 
 	//diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, float3(1.0f, 1.0f, 1.0f)) * spotfactor;
 	//specularLight = specularLight + calcSpecularLight(s, normal.xyz, float3(1.0f, 1.0f, 1.0f)) * spotfactor;
 
-	color = float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
 
 	//return float4(normalize(normal).xyz, 1.0f);
 	//float3 lightDir = float3(1.0f, 1.0f, 0.0f);

@@ -61,6 +61,11 @@ World::~World()
 	{
 		delete this->m_directionalLights[i];
 	}
+
+	for(int i = 0; i < this->m_spotLights.size(); i++)
+	{
+		delete this->m_spotLights[i];
+	}
 	
 	for(int i = 0; i < this->m_texts.size(); i++)
 		delete this->m_texts[i];
@@ -271,7 +276,7 @@ void World::render()
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(this->m_camera->getPos()), this->m_directionalLights);
+	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(this->m_camera->getPos()), this->m_directionalLights, this->m_spotLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer);
 
@@ -484,6 +489,28 @@ bool World::removeDirectionalLight(DirectionalLight* _directionalLight)
 		{
 			delete this->m_directionalLights[i];
 			this->m_directionalLights.erase(this->m_directionalLights.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addSpotLight(SpotLight* _spotLight)
+{
+	this->m_spotLights.push_back(_spotLight);
+}
+
+bool World::removeSpotLight(SpotLight* _spotLight)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_spotLights.size() && !found; i++)
+	{
+		if(this->m_spotLights[i] == _spotLight)
+		{
+			delete this->m_spotLights[i];
+			this->m_spotLights.erase(this->m_spotLights.begin()+i);
 			found = true;
 		}
 	}

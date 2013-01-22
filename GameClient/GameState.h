@@ -25,6 +25,8 @@ private:
 	ModelIdHolder m_modelIdHolder;
 	Minimap* m_minimap;
 	vector<Road*> m_roads;
+
+	SpotLight* s;
 	//Cursor m_cursor;
 
 	void end();
