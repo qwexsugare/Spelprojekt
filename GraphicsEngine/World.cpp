@@ -180,6 +180,25 @@ void World::render()
 		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(m_roads[i]->getNrOfVertices(), 0);
 	}
+
+	/* Retard Frustum
+	D3DXMATRIX mat;
+	//D3DXMatrixMultiply(&mat, &m_camera->getProjectionMatrix(), &m_camera->getViewMatrix());
+	D3DXMatrixMultiply(&mat, &m_camera->getViewMatrix(), &m_camera->getProjectionMatrix());
+  	
+	XMMATRIX projectionMatrixInCyborgForm = XMMATRIX(
+		mat._11, mat._12, mat._13, mat._14,
+		mat._21, mat._22, mat._23, mat._24,
+		mat._31, mat._32, mat._33, mat._34,
+		mat._41, mat._42, mat._43, mat._44);
+
+	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);
+	bf.Near = 1.0f;
+	bf.Far = 100000000.0f;
+	bf.TopSlope = -10000000.0f;
+	bf.BottomSlope = 10000000.0f;
+	bf.Origin = XMFLOAT3(m_camera->getPos().x, m_camera->getPos().y+50.0f, m_camera->getPos().z);
+	*/
 	
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
@@ -202,7 +221,7 @@ void World::render()
 			this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
 			this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
 		}
-			
+
 		models.pop();
 	}
 

@@ -15,8 +15,9 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECT
 	this->m_rotation = _rotation;
 	this->updateModelMatrix();
 	//this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
-	this->m_obb = NULL;
+	//this->m_bs = NULL;
 	this->m_bs = new BoundingSphere(XMFLOAT3(_position.x, 0.0f, _position.z), 2.0f);
+	this->m_obb = NULL;
 }
 
 Model::~Model()
