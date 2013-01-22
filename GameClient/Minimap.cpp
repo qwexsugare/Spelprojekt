@@ -1,25 +1,30 @@
 #include "Minimap.h"
 #include "Graphics.h"
+#include "Input.h"
 
 Minimap::Minimap()
 {
-
+	m_sprite = NULL;
+	m_view = NULL;
 }
 
 Minimap::Minimap(string _file, FLOAT2 _terrainMin, FLOAT2 _terrainMax, FLOAT2 _cameraPos)
 {
 	m_terrainMin = _terrainMin;
 	m_terrainMax = _terrainMax;
-	m_screenSpacePos = FLOAT2(0.81f, 0.71f);
-	m_screenSpaceSize = FLOAT2(0.28f, 0.25f);
-	m_sprite = g_graphicsEngine->createSprite(_file, m_screenSpacePos, m_screenSpaceSize, 100);
+	m_screenSpacePos = FLOAT2(0.79215f, 0.7235f);
+	m_screenSpaceSize = FLOAT2(0.2625f, 0.466666667f);
+	m_sprite = g_graphicsEngine->createSprite(_file, m_screenSpacePos, m_screenSpaceSize, 0);
 	m_view = g_graphicsEngine->createSprite("minimap/view.png", m_screenSpacePos, FLOAT2(0.12f, 0.1f), 0);
+	m_movingCameraWithMinimap = false;
 }
 
 Minimap::~Minimap()
 {
-	g_graphicsEngine->removeSprite(m_sprite);
-	g_graphicsEngine->removeSprite(m_view);
+	if(m_sprite)
+		g_graphicsEngine->removeSprite(m_sprite);
+	if(m_view)
+		g_graphicsEngine->removeSprite(m_view);
 	for(int i = 0; i < m_enemyPositions.size(); i++)
 		g_graphicsEngine->removeSprite(m_enemyPositions[i]);
 }
@@ -50,8 +55,51 @@ FLOAT2 Minimap::getTerrainPos(INT2 _mousePos)const
 		* (m_terrainMax-m_terrainMin) + m_terrainMin;
 }
 
-void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos)
+void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _terrainWidth, float _terrainHeight)
 {
+	if(g_mouse->isLButtonPressed())
+	{
+		m_movingCameraWithMinimap = true;
+	}
+	else if(g_mouse->isLButtonReleased())
+	{
+		m_movingCameraWithMinimap = false;
+	}
+
+	if(m_movingCameraWithMinimap)
+	{
+		if(this->isMouseInMap(g_mouse->getPos()))
+		{
+			FLOAT2 pos = this->getTerrainPos(g_mouse->getPos());
+
+			if(pos.x > _terrainWidth-27.0f)
+			{
+				g_graphicsEngine->getCamera()->setX(_terrainWidth-27.0f);
+			}
+			else if(pos.x < 27.0f)
+			{
+				g_graphicsEngine->getCamera()->setX(27.0f);
+			}
+			else
+			{
+				g_graphicsEngine->getCamera()->setX(pos.x);
+			}
+			
+			if(pos.y < 25.0f)
+			{
+				g_graphicsEngine->getCamera()->setZ(25.0f);
+			}
+			else if(pos.y > _terrainHeight-4.0f)
+			{
+				g_graphicsEngine->getCamera()->setZ(_terrainHeight-4.0f);
+			}
+			else
+			{
+				g_graphicsEngine->getCamera()->setZ(pos.y);
+			}
+		}
+	}
+
 	float screenSpaceX;
 	float screenSpaceY;
 	int enemyTypeCounter = 0;
