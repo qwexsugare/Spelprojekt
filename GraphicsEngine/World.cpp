@@ -183,13 +183,11 @@ void World::render()
 
 	//Render all models
 	/*D3DXMATRIX mat;
-	D3DXMatrixMultiply(&mat, &this->m_camera->getViewMatrix(), &this->m_camera->getProjectionMatrix());
-	XMMATRIX projectionMatrixInCyborgForm = XMMATRIX(
-		mat._11, mat._12, mat._13, mat._14,
-		mat._21, mat._22, mat._23, mat._24,
-		mat._31, mat._32, mat._33, mat._34,
-		mat._41, mat._42, mat._43, mat._44);
+	D3DXMatrixMultiply(&mat, &this->m_camera->getProjectionMatrix(), &this->m_camera->getViewMatrix());
+	XMMATRIX mat;
+	projectionMatrixInCyborgForm = XMMatrixMultiply(::XMthis->m_camera->getProjectionMatrix();
 	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);*/
+
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
 	stack<Model*> transparantModels;
@@ -203,8 +201,9 @@ void World::render()
 		float bottomSlope = -0.5f;
 		float near_ = 0.0f;
 		float far_ = 1500000.0f;
-		BoundingFrustum bf = BoundingFrustum(origin, orientation, rightSlope, leftSlope, topSlope, bottomSlope, near_, far_);*/
-		//if(bf.Contains(*models.top()->getObb()) || bf.Intersects(*models.top()->getObb()))
+		BoundingFrustum bf = BoundingFrustum(origin, orientation, rightSlope, leftSlope, topSlope, bottomSlope, near_, far_);
+		if(bf.Contains(*models.top()->getObb()) || bf.Intersects(*models.top()->getObb()))
+			int dbg = 1;*/
 
 		if(models.top()->getAlpha() < 1.0f)
 		{

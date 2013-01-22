@@ -44,6 +44,7 @@ void Button::Init(FLOAT2 _ScreenPos,
 	this->m_Cost			=   _Cost;
 	this->m_TextPos.x		=	_TextPos.x;
 	this->m_TextPos.y		=	_TextPos.y;
+	this->m_ID				=	0;
 	this->m_Label			=	new TextLabel(_TextName, "text1.png",INT2(m_TextPos.x, m_TextPos.y),100);
 	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
 }
@@ -186,4 +187,8 @@ int  Button::LoseAmountOfResources(int _resources)
 		return 0;
 	}
 	else return Lost;
+}
+void Button::SetID(int _id)
+{
+	this->m_ID = _id;
 }

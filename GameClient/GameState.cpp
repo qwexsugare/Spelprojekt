@@ -141,14 +141,9 @@ void GameState::update(float _dt)
 		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 25.0f));
 	}
 
-	static bool usingMinimap = false;
-	static bool movingCameraWithMinimap = false;
 	if(g_mouse->isLButtonPressed())
 	{
-		if(m_minimap->isMouseInMap(g_mouse->getPos()))
-		{
-			movingCameraWithMinimap = true;
-		}
+
 	}
 	if(g_mouse->isLButtonDown())
 	{
@@ -156,7 +151,7 @@ void GameState::update(float _dt)
 	}
 	else if(g_mouse->isLButtonReleased())
 	{
-		movingCameraWithMinimap = false;
+
 	}
 	if(g_mouse->isRButtonPressed())
 	{
@@ -164,7 +159,6 @@ void GameState::update(float _dt)
 		{
 			playSound(this->m_testSound);
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
-			usingMinimap = true;
 
 			EntityMessage e;
 			e.setPosition(FLOAT3(pos.x, 0.0f, pos.y));
@@ -187,82 +181,39 @@ void GameState::update(float _dt)
 	}
 	if(g_mouse->isRButtonDown())
 	{
-		if(!usingMinimap)
+		bool validMove = true;
+
+		for(int i = 0; i < m_entities.size(); i++)
 		{
-			bool validMove = true;
-
-			for(int i = 0; i < m_entities.size(); i++)
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-				float dist;
-				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
-				{
-					validMove = false;
-				}
-			}
-
-			if(validMove)
-			{
-				// Calc some fucken pick ray out mofos
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
-				float k = (-pickOrig.y)/pickDir.y;
-				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
-				EntityMessage e;
-				e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
-				this->m_network->sendEntity(e);
+				validMove = false;
 			}
 		}
-	}
-	else if(g_mouse->isRButtonReleased())
-	{
-		usingMinimap = false;
-	}
 
-	if(movingCameraWithMinimap)
-	{
-		if(m_minimap->isMouseInMap(g_mouse->getPos()))
+		if(validMove && !m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
-			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
+			// Calc some fucken pick ray out mofos
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-			if(pos.x > m_terrain->getWidth()-27.0f)
-			{
-				g_graphicsEngine->getCamera()->setX(m_terrain->getWidth()-27.0f);
-			}
-			else if(pos.x < 27.0f)
-			{
-				g_graphicsEngine->getCamera()->setX(27.0f);
-			}
-			else
-			{
-				g_graphicsEngine->getCamera()->setX(pos.x);
-			}
-			
-			if(pos.y < 25.0f)
-			{
-				g_graphicsEngine->getCamera()->setZ(25.0f);
-			}
-			else if(pos.y > m_terrain->getHeight()-4.0f)
-			{
-				g_graphicsEngine->getCamera()->setZ(m_terrain->getHeight()-4.0f);
-			}
-			else
-			{
-				g_graphicsEngine->getCamera()->setZ(pos.y);
-			}
+			float k = (-pickOrig.y)/pickDir.y;
+			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+			EntityMessage e;
+			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			this->m_network->sendEntity(e);
 		}
-		else
-			movingCameraWithMinimap = false;
 	}
 
 	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
-	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D());
+	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), m_terrain->getWidth(), m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
 

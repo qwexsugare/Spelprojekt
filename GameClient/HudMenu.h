@@ -8,7 +8,9 @@ public:
 	~HudMenu(void);
 
 	void Update(float _dt);
-
+	int ButtonClicked();
+	int SkilledBougth();
+	int ReturnID();
 private:
 	int		m_Time, 
 			m_NumberOfSkills, 
@@ -19,6 +21,13 @@ private:
 			m_Resources,
 			m_LoseMoney;
 
+	int		button_1,
+			button_2,
+			button_3,
+			button_4,
+			button_5,
+			SkillID;
+			
 	float	m_SkillHud;
 
 	bool	m_DontChange,
@@ -54,11 +63,13 @@ private:
 
 	bool LockIsDown();
 	bool MenuIsDown();
+
 	bool BuyTowerSkillIsDown();
 	bool BuyStrengthSkillIsDown();
 	bool BuyAgilitySkillIsDown();
 	bool BuyWitsSkillIsDown();
 	bool BuyFortitudeSkillIsDown();
+
 	void BuyHud();
 	void UnInit(int _Type);
 
