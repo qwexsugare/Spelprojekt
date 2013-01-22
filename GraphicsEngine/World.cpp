@@ -252,7 +252,7 @@ void World::render()
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_pointLights, this->m_directionalLights);
+	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(this->m_camera->getPos()), this->m_directionalLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer);
 
@@ -429,8 +429,8 @@ bool World::removeMyText(MyText* _text)
 
 void World::addPointLight(PointLight* _pointLight)
 {
-	this->m_pointLights.push_back(_pointLight);
-	//this->m_quadTree->addLight(_pointLight);
+	//this->m_pointLights.push_back(_pointLight);
+	this->m_quadTree->addLight(_pointLight);
 }
 
 bool World::removePointLight(PointLight* _pointLight)
