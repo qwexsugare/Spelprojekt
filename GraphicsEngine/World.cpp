@@ -180,31 +180,13 @@ void World::render()
 		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(m_roads[i]->getNrOfVertices(), 0);
 	}
-
+	
 	//Render all models
-	/*D3DXMATRIX mat;
-	D3DXMatrixMultiply(&mat, &this->m_camera->getProjectionMatrix(), &this->m_camera->getViewMatrix());
-	XMMATRIX mat;
-	projectionMatrixInCyborgForm = XMMatrixMultiply(::XMthis->m_camera->getProjectionMatrix();
-	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);*/
-
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
 	stack<Model*> transparantModels;
 	while(!models.empty())
 	{
-		/*XMFLOAT3 origin(this->m_camera->getPos().x, this->m_camera->getPos().y, this->m_camera->getPos().z);
-		XMFLOAT4 orientation(0.0f, 0.0f, 0.0f, 1.0f);
-		float rightSlope = 0.5f;
-		float leftSlope = -0.5f;
-		float topSlope = 0.5f;
-		float bottomSlope = -0.5f;
-		float near_ = 0.0f;
-		float far_ = 1500000.0f;
-		BoundingFrustum bf = BoundingFrustum(origin, orientation, rightSlope, leftSlope, topSlope, bottomSlope, near_, far_);
-		if(bf.Contains(*models.top()->getObb()) || bf.Intersects(*models.top()->getObb()))
-			int dbg = 1;*/
-
 		if(models.top()->getAlpha() < 1.0f)
 		{
 			transparantModels.push(models.top());
@@ -216,16 +198,9 @@ void World::render()
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 			this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
-			
-			// ULTRA CHARGED OPTIMIZATION COMMENTS AWAY SIMONS CODE
-			/*D3D10_TECHNIQUE_DESC techDesc;
-			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
-
-			for( UINT p = 0; p < techDesc.Passes; p++ )
-			{*/
+		
 			this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
 			this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
-			//}
 		}
 			
 		models.pop();

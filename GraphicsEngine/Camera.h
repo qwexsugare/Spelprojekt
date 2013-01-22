@@ -13,8 +13,6 @@ private:
 	D3DXVECTOR3 m_right;
 	D3DXMATRIX m_viewMatrix;
 	D3DXMATRIX m_projectionMatrix;
-	/*XMMATRIX m_cyborgViewMatrix;
-	XMMATRIX m_cyborgProjectionMatrix;*/
 	INT2 m_configScreenSize;
 	INT2 m_actualScreenSize;
 public:
@@ -26,8 +24,6 @@ public:
 
 	DECLDIR void calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 _mousePos);
 	
-	/*XMMATRIX getCyborgProjectionMatrix()const;
-	XMMATRIX getCyborgViewMatrix()const;*/
 	DECLDIR D3DXVECTOR3 getPos()const;
 	DECLDIR FLOAT2 getPos2D()const;
 	D3DXMATRIX getViewMatrix();
