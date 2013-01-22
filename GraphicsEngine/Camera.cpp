@@ -74,16 +74,6 @@ D3DXMATRIX Camera::getProjectionMatrix()
 void Camera::updateViewMatrix()
 {
 	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
-	
-	/*XMVECTOR eyePosition = XMLoadFloat3(&XMFLOAT3(m_position.x, m_position.y, m_position.z));
-	D3DXVECTOR3 at = m_position + m_forward;
-	XMVECTOR focusPosition = XMLoadFloat3(&XMFLOAT3(at.x, at.y, at.z));
-	XMVECTOR up = XMLoadFloat3(&XMFLOAT3(m_up.x, m_up.y, m_up.z));*/
-
-	XMVECTOR eyePosition = XMLoadFloat3(&XMFLOAT3(0.0f, 0.0f, 0.0f));
-	D3DXVECTOR3 at = D3DXVECTOR3(0.0f, -10.0f, 0.0f);
-	XMVECTOR focusPosition = XMLoadFloat3(&XMFLOAT3(at.x, at.y, at.z));
-	XMVECTOR up = XMLoadFloat3(&XMFLOAT3(0.0f, 0.0f, 1.0f));
 }
 
 void Camera::moveRelative(float forward, float right, float up)
