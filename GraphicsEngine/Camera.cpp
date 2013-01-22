@@ -50,16 +50,6 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 	_pickOrigOut.y = m._42;
 	_pickOrigOut.z = m._43;
 }
-/*
-XMMATRIX Camera::getCyborgProjectionMatrix()const
-{
-	return m_cybor
-}
-
-XMMATRIX Camera::getCyborgViewMatrix()const
-{
-
-}*/
 
 D3DXVECTOR3 Camera::getPos()const
 {
@@ -120,26 +110,24 @@ void Camera::set(FLOAT3 _position, FLOAT3 _forward, FLOAT3 _up, FLOAT3 _right)
 	this->m_forward = D3DXVECTOR3(_forward.x, _forward.y, _forward.z);
 	this->m_up = D3DXVECTOR3(_up.x, _up.y, _up.z);
 	this->m_right = D3DXVECTOR3(_right.x, _right.y, _right.z);
-
-	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+	this->updateViewMatrix();
 }
 
 void Camera::set(FLOAT2 _position)
 {
 	this->m_position.x = _position.x;
 	this->m_position.z = _position.y;
-
-	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+	this->updateViewMatrix();
 }
 
 void Camera::setX(float _x)
 {
 	this->m_position.x = _x;
-	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+	this->updateViewMatrix();
 }
 
 void Camera::setZ(float _z)
 {
 	this->m_position.z = _z;
-	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+	this->updateViewMatrix();
 }

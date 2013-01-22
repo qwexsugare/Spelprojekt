@@ -33,8 +33,8 @@ HudMenu::HudMenu(void)
 	m_First_Wits = 0;
 	m_First_Fortitude = 0;
 	m_DelayTime = 500;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Doctor.dds", FLOAT2(-0.9375f, -0.633333333f),  FLOAT2(0.083333333f,0.148148148f),4));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Main_Buttons_SkillBar.png", FLOAT2(-1+(0.102083333f*(m_NumberOfSkills-1)),  -0.814814815f),  FLOAT2(1.03125f, 0.344444444f),3));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Doctor.dds", FLOAT2(-0.9375f, -0.633333333f),  FLOAT2(0.083333333f,0.148148148f),5));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Main_Buttons_SkillBar.png", FLOAT2(-1+(0.102083333f*(m_NumberOfSkills-1)),  -0.814814815f),  FLOAT2(1.03125f, 0.344444444f),2));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-Map.png",FLOAT2(0.79f,  0.6f),FLOAT2(0.421875f, 0.796296296f),5));
 
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-Map.png", FLOAT2(0,0),  FLOAT2(2,2),3));
@@ -96,19 +96,19 @@ HudMenu::HudMenu(void)
 
 	this->m_SkillButtons.resize(6);
 	this->m_SkillButtons[0] = new Skill_Buttons();
-	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","1",".png",0,0,1,3,100,false);
+	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","1",".png",0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 
 	this->m_SkillButtons[1] = new Skill_Buttons();
-	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","2",".png",0,0,1,3,100,true);
+	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","2",".png",0,0,1,4,100,true);
 	this->m_SkillButtons[2] = new Skill_Buttons();
-	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","3",".png",0,0,1,3,100,false);
+	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","3",".png",0,0,1,4,100,false);
 	this->m_SkillButtons[3] = new Skill_Buttons();
-	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","4",".png",0,0,1,3,100,true);
+	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","4",".png",0,0,1,4,100,true);
 	this->m_SkillButtons[4] = new Skill_Buttons();
-	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","5",".png",0,0,1,3,100,false);
+	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","5",".png",0,0,1,4,100,false);
 	this->m_SkillButtons[5] = new Skill_Buttons();
-	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","6",".png",0,0,1,3,100,false);
+	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","6",".png",0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
 	m_Sprite[0]->playAnimation(INT2(0,0),INT2(9,0),true,10);
@@ -411,6 +411,65 @@ HudMenu::~HudMenu(void)
 void HudMenu::BuyHud()
 {
 	m_LoseMoney = 0;
+	UpdateShop();
+	if (m_LoseMoney == 1)
+	{
+		if(m_Buy_Tower == true && BuyButtonTower.size() > 0)
+		{
+			m_Init_Tower = 1;
+			for(int i = 0; i < this->BuyButtonTower.size();i++)
+			{
+				this->BuyButtonTower[i]->RemoveSprite();
+				delete this->BuyButtonTower[i];
+			}
+			this->BuyButtonTower.clear();
+		}
+		if(m_Buy_Strength == true && BuyButtonStrength.size() > 0)
+		{
+			m_Init_Strength = 1;
+			for(int i = 0; i < this->BuyButtonStrength.size();i++)
+			{
+				this->BuyButtonStrength[i]->RemoveSprite();
+				delete this->BuyButtonStrength[i];
+			}
+			this->BuyButtonStrength.clear();
+		}
+		if(m_Buy_Agility == true && BuyButtonAgility.size() > 0)
+		{
+			m_Init_Agility = 1;
+			for(int i = 0; i < this->BuyButtonAgility.size();i++)
+			{
+				this->BuyButtonAgility[i]->RemoveSprite();
+				delete this->BuyButtonAgility[i];
+			}
+			this->BuyButtonAgility.clear();
+		}
+		if(m_Buy_Wits == true && BuyButtonWits.size() > 0)
+		{
+			m_Init_Wits = 1;
+			for(int i = 0; i < this->BuyButtonWits.size();i++)
+			{
+				this->BuyButtonWits[i]->RemoveSprite();
+				delete this->BuyButtonWits[i];
+			}
+			this->BuyButtonWits.clear();
+		}
+		if(m_Buy_Fortitude == true && BuyButtonFortitude.size() > 0)
+		{
+			m_Init_Fortitude = 1;
+			for(int i = 0; i < this->BuyButtonFortitude.size();i++)
+			{
+				this->BuyButtonFortitude[i]->RemoveSprite();
+				delete this->BuyButtonFortitude[i];
+			}
+			this->BuyButtonFortitude.clear();
+		}
+		m_LoseMoney = 0;
+		UpdateShop();
+	}
+}
+void  HudMenu::UpdateShop()
+{
 	if(m_Buy_Tower == true)
 	{
 		if (m_Init_Tower == 1 && BuyButtonTower.size() == 0)
@@ -795,59 +854,6 @@ void HudMenu::BuyHud()
 			delete this->BuyButtonFortitude[i];
 		}
 		this->BuyButtonFortitude.clear();
-	}
-	if (m_LoseMoney == 1)
-	{
-		if(m_Buy_Tower == true && BuyButtonTower.size() > 0)
-		{
-			m_Init_Tower = 1;
-			for(int i = 0; i < this->BuyButtonTower.size();i++)
-			{
-				this->BuyButtonTower[i]->RemoveSprite();
-				delete this->BuyButtonTower[i];
-			}
-			this->BuyButtonTower.clear();
-		}
-		if(m_Buy_Strength == true && BuyButtonStrength.size() > 0)
-		{
-			m_Init_Strength = 1;
-			for(int i = 0; i < this->BuyButtonStrength.size();i++)
-			{
-				this->BuyButtonStrength[i]->RemoveSprite();
-				delete this->BuyButtonStrength[i];
-			}
-			this->BuyButtonStrength.clear();
-		}
-		if(m_Buy_Agility == true && BuyButtonAgility.size() > 0)
-		{
-			m_Init_Agility = 1;
-			for(int i = 0; i < this->BuyButtonAgility.size();i++)
-			{
-				this->BuyButtonAgility[i]->RemoveSprite();
-				delete this->BuyButtonAgility[i];
-			}
-			this->BuyButtonAgility.clear();
-		}
-		if(m_Buy_Wits == true && BuyButtonWits.size() > 0)
-		{
-			m_Init_Wits = 1;
-			for(int i = 0; i < this->BuyButtonWits.size();i++)
-			{
-				this->BuyButtonWits[i]->RemoveSprite();
-				delete this->BuyButtonWits[i];
-			}
-			this->BuyButtonWits.clear();
-		}
-		if(m_Buy_Fortitude == true && BuyButtonFortitude.size() > 0)
-		{
-			m_Init_Fortitude = 1;
-			for(int i = 0; i < this->BuyButtonFortitude.size();i++)
-			{
-				this->BuyButtonFortitude[i]->RemoveSprite();
-				delete this->BuyButtonFortitude[i];
-			}
-			this->BuyButtonFortitude.clear();
-		}
 	}
 }
 int HudMenu::ButtonClicked()
