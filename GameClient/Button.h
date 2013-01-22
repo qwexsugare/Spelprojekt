@@ -35,7 +35,8 @@ private:
 					m_Min,
 					m_Keep,
 					m_Layer,
-					m_Cost;
+					m_Cost,
+					m_ID;
 		INT2		m_TextPos;
 		float		m_Value;
 	//----------------------------------------------------------------------------------------------
@@ -73,6 +74,7 @@ public:
 	int GetButtonReaction();
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
+	void SetID(int _id);
 	int LoseAmountOfResources(int _resources);
 };
 

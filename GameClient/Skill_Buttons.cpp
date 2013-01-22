@@ -68,7 +68,7 @@ void Skill_Buttons::Update()
 			{
 				m_ButtonReaction = 1;
 				m_SkillButton->setCurrentFrame(INT2(1,0));
-				//m_Lock = true;
+				m_Lock = true;
 			}
 			else if(GetKeyState(VK_RBUTTON)< 0)
 			{
@@ -105,7 +105,7 @@ void Skill_Buttons::ChangeButton(string _Number, bool _Active)
 }
 int Skill_Buttons::Clicked()
 {
-	if (this->m_ButtonReaction==1 && this->m_Delay > this->m_DelayTime )
+	if (this->m_ButtonReaction==1 && this->m_Delay > this->m_DelayTime)
 	{
 		this->m_Delay = 0;
 		return 1;
@@ -150,6 +150,10 @@ int Skill_Buttons::StringtoINT(string stringInput)
 void Skill_Buttons::ChangAbleBind(bool _Change)
 {
 	m_ChangeAble = _Change;
+}
+int Skill_Buttons::ReturnClicked()
+{
+	return this->m_id;
 }
 Skill_Buttons::~Skill_Buttons()
 {
