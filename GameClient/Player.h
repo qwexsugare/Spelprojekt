@@ -10,12 +10,15 @@
 #include "Hero.h"
 #include "Projectile.h"
 #include "AttackEntityMessage.h"
+#include "UseSkillMessage.h"
+#include "ChainStrike.h"
 
 class Player
 {
 private:
 	unsigned int m_id;
-
+	
+	Skill* m_skill;
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;
@@ -27,7 +30,8 @@ public:
 	void handleMsgMessage(Msg m);
 	void handleAttackMessage(AttackMessage am);
 	void handleEntityAttackMessage(AttackEntityMessage eam);
-	void update();
+	void handleUseSkillMessage(UseSkillMessage usm);
+	void update(float _dt);
 	MessageQueue *getMessageQueue();
 
 	bool getReady();

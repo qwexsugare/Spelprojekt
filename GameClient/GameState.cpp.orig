@@ -18,19 +18,21 @@ GameState::GameState()
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
 <<<<<<< HEAD
-	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 1.0f, 1.0f, 1.0f), FLOAT4(0.5f, 0.5f, 0.5f, 1.0f));
-
-/*	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 75.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.8f, 0.0f, 1.0f), FLOAT4(0.2f, 0.2f, 0.0f, 1.0f));
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.8f, 0.0f, 1.0f), FLOAT4(0.5f, 0.2f, 0.2f, 1.0f));
-	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 3.0f, 25.0f), FLOAT4(0.0f, 0.0f, 0.0f, 0.0f), FLOAT4(1.0f, 0.0f, 1.0f, 1.0f), FLOAT4(0.2f, 0.0f, 0.2f, 1.0f));*/
-	
-	this->importMap("race");
-=======
-	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 3.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.5f, 0.5f, 0.5f), 40.0f);
+	// Testa att ändra värdena lite och kolla om det ser rätt ut, verkar som det fungerar ganska bra nu.
+	g_graphicsEngine->createPointLight(FLOAT3(100.0f, 15.0f, 20.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
->>>>>>> 990164a7a650f640cd8a3202946420828a2ee60b
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.2f, 0.2f, 0.2f), FLOAT3(0.2f, 0.2f, 0.2f));
+=======
+	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
+	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
+	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.1f, 0.1f, 0.1f));
+	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT2(0.6f, 0.3f));
+>>>>>>> 77e5122f852b6990d678e8572407dce4a0e3eec5
+	this->importMap("race");
 }
 
 GameState::~GameState()
@@ -79,6 +81,13 @@ void GameState::update(float _dt)
 		this->m_emilsFps->setText(ss.str());
 		lol = -0.5f;
 	}
+
+	D3DXVECTOR3 pickDir;
+	D3DXVECTOR3 pickOrig;
+	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
+	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
+	
 
 	while(this->m_network->entityQueueEmpty() == false)
 	{
@@ -270,7 +279,7 @@ void GameState::update(float _dt)
 
 	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
-	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D());
+	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
 
