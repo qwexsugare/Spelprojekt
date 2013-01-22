@@ -154,6 +154,8 @@
     <ClCompile Include="AttackEntityMessage.cpp" />
     <ClCompile Include="AttackMessage.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ChainStrike.cpp" />
+    <ClCompile Include="ChainStrikeEffect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
@@ -192,6 +194,7 @@
     <ClCompile Include="ServerEntity.cpp" />
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Skill_Buttons.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
@@ -199,6 +202,7 @@
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="UseSkillMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -212,6 +216,8 @@
     <ClInclude Include="AttackEntityMessage.h" />
     <ClInclude Include="AttackMessage.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ChainStrike.h" />
+    <ClInclude Include="ChainStrikeEffect.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="CollisionHandler.h" />
@@ -254,12 +260,14 @@
     <ClInclude Include="ServerEntity.h" />
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="Skill_Buttons.h" />
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="UseSkillMessage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -177,3 +177,13 @@ RemoveEntityMessage Client::removeEntityQueueFront()
 
 	return ret;
 }
+
+void Client::sendUseSkillMessage(UseSkillMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->hostSocket.Send(packet);
+	}
+}

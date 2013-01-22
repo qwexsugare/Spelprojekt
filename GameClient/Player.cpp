@@ -7,12 +7,13 @@ Player::Player(unsigned int id)
 	this->m_hero = new Hero();
 	this->m_hero->setPosition(FLOAT3(50.0f, 0.0f, 50.0f));
 	this->m_hero->setNextPosition(FLOAT3(50.0f, 0.0f, 50.0f));
-
+	this->m_skill = new ChainStrike();
 	EntityHandler::addEntity(m_hero);
 }
 
 Player::~Player()
 {
+	delete this->m_skill;
 	delete this->m_messageQueue;
 }
 
@@ -55,9 +56,9 @@ void Player::handleEntityAttackMessage(AttackEntityMessage eam)
 	this->m_hero->setTarget(eam.getTargetId());
 }
 
-void Player::update()
+void Player::update(float _dt)
 {
-
+	m_skill->update(_dt);
 }
 //
 //MessageQueue *Player::getMessageQueue()
@@ -73,4 +74,9 @@ bool Player::getReady()
 MessageQueue *Player::getMessageQueue()
 {
 	return this->m_messageQueue;
+}
+
+void Player::handleUseSkillMessage(UseSkillMessage usm)
+{
+	m_skill->activate(usm.getTargetId());
 }
