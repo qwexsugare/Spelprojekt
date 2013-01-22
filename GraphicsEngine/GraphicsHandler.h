@@ -57,7 +57,7 @@ public:
 	DECLDIR DirectionalLight *createDirectionalLight(FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls);
 	DECLDIR bool removeDirectionalLight(DirectionalLight *directionalLight);
 
-	DECLDIR SpotLight *createSpotLight(FLOAT3 position, FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls);
+	DECLDIR SpotLight *createSpotLight(FLOAT3 position, FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle);
 	DECLDIR bool removeSpotLight(SpotLight* spotLight);
 
 	DECLDIR void render();

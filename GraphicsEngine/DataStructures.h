@@ -42,6 +42,11 @@ struct DECLDIR FLOAT2
 	{
 		return FLOAT2(x*_k, y*_k);
 	}
+
+	D3DXVECTOR2 toD3DXVector()
+	{
+		return D3DXVECTOR2(this->x, this->y);
+	}
 };
 
 struct DECLDIR FLOAT3
