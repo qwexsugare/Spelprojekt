@@ -10,9 +10,9 @@ Minimap::Minimap(string _file, FLOAT2 _terrainMin, FLOAT2 _terrainMax, FLOAT2 _c
 {
 	m_terrainMin = _terrainMin;
 	m_terrainMax = _terrainMax;
-	m_screenSpacePos = FLOAT2(0.84f, 0.72f);
-	m_screenSpaceSize = FLOAT2(0.28f, 0.5f);
-	m_sprite = g_graphicsEngine->createSprite(_file, m_screenSpacePos, m_screenSpaceSize, 0);
+	m_screenSpacePos = FLOAT2(0.81f, 0.71f);
+	m_screenSpaceSize = FLOAT2(0.28f, 0.25f);
+	m_sprite = g_graphicsEngine->createSprite(_file, m_screenSpacePos, m_screenSpaceSize, 100);
 	m_view = g_graphicsEngine->createSprite("minimap/view.png", m_screenSpacePos, FLOAT2(0.12f, 0.1f), 0);
 }
 
@@ -94,6 +94,15 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos)
 			}
 			break;
 		}
+	}
+	
+	while(heroTypeCounter < m_playerPositions.size())
+	{
+		m_playerPositions.pop_back();
+	}
+	while(enemyTypeCounter < m_enemyPositions.size())
+	{
+		m_enemyPositions.pop_back();
 	}
 	
 	screenSpaceX = _cameraPos.x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;
