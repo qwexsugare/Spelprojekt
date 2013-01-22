@@ -75,7 +75,7 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> pointLights, 
 	D3DXVECTOR3 *tempDiffuse = new D3DXVECTOR3[pointLights.size() + directionalLights.size() + spotLights.size()];
 	D3DXVECTOR3 *tempSpecular = new D3DXVECTOR3[pointLights.size() + directionalLights.size() + spotLights.size()];
 	D3DXVECTOR2 *tempAngle = new D3DXVECTOR2[spotLights.size()];
-	float *tempRadius = new float[pointLights.size()];
+	float *tempRadius = new float[pointLights.size() + spotLights.size()];
 
 
 	for(int i = 0; i < pointLights.size() && i < 50; i++)
@@ -103,6 +103,7 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> pointLights, 
 		tempDiffuse[pointLights.size() + directionalLights.size() + i] = spotLights[i]->getDiffuseColor().toD3DXVector();
 		tempSpecular[pointLights.size() + directionalLights.size() + i] = spotLights[i]->getSpecularColor().toD3DXVector();
 		tempAngle[i] = spotLights[i]->getAngle().toD3DXVector();
+		tempRadius[pointLights.size() + i] = spotLights[i]->getRange();
 	}
 
 	this->m_nrOfPointLights->SetInt(pointLights.size());
@@ -114,7 +115,7 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> pointLights, 
 	this->m_lightDiffuse->SetFloatVectorArray((float*)tempDiffuse, 0, pointLights.size() + directionalLights.size() + spotLights.size());
 	this->m_lightSpecular->SetFloatVectorArray((float*)tempSpecular, 0, pointLights.size() + directionalLights.size() + spotLights.size());
 	this->m_lightAngle->SetFloatVectorArray((float*)tempAngle, 0, spotLights.size());
-	this->m_lightRadius->SetFloatArray((float*)tempRadius, 0, pointLights.size());
+	this->m_lightRadius->SetFloatArray((float*)tempRadius, 0, pointLights.size() + spotLights.size());
 
 	delete tempPos;
 	delete tempDir;
