@@ -8,22 +8,22 @@ class DirectionalLight
 {
 private:
 	FLOAT3 m_direction;
-	FLOAT4 m_la;
-	FLOAT4 m_ld;
-	FLOAT4 m_ls;
+	FLOAT3 m_la;
+	FLOAT3 m_ld;
+	FLOAT3 m_ls;
 public:
 	DirectionalLight();
-	DirectionalLight(FLOAT3 _direction, FLOAT4 _la, FLOAT4 _ld, FLOAT4 _ls);
+	DirectionalLight(FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls);
 
 	DECLDIR FLOAT3 getDirection();
-	DECLDIR FLOAT4 getAmbientColor();
-	DECLDIR FLOAT4 getDiffuseColor();
-	DECLDIR FLOAT4 getSpecularColor();
+	DECLDIR FLOAT3 getAmbientColor();
+	DECLDIR FLOAT3 getDiffuseColor();
+	DECLDIR FLOAT3 getSpecularColor();
 
 	DECLDIR void setDirection(FLOAT3 _direction);
-	DECLDIR void setAmbientColor(FLOAT4 _la);
-	DECLDIR void setDiffuseColor(FLOAT4 _ld);
-	DECLDIR void setSpecularColor(FLOAT4 _ls);
+	DECLDIR void setAmbientColor(FLOAT3 _la);
+	DECLDIR void setDiffuseColor(FLOAT3 _ld);
+	DECLDIR void setSpecularColor(FLOAT3 _ls);
 };
 
 #endif

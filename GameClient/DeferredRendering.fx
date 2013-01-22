@@ -29,11 +29,13 @@ cbuffer cbEveryFrame
 	//matrix projectionMatrix;
 	//matrix modelMatrix;
 
-	int nrOfLights;
+	int nrOfPointLights;
+	int nrOfDirectionalLights;
 	float3 lightPosition[50];
-	float3 la[50];
-	float3 ld[50];
-	float3 ls[50];
+	float3 lightDirection[50];
+	float3 la[100];
+	float3 ld[100];
+	float3 ls[100];
 	float lightRadius[50];
 
 	float3 cameraPos;
@@ -138,7 +140,9 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
 
-	for(int i = 0; i < nrOfLights; i++)
+	int i;
+
+	for(i = 0; i < nrOfPointLights; i++)
 	{
 		float3 distVector = (lightPosition[i] - position.xyz);
 		float distance = length(distVector);
@@ -148,6 +152,12 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
 		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
+	}
+
+	for(i = 0; i < nrOfDirectionalLights; i++)
+	{
+		diffuseLight = diffuseLight + calcDiffuseLight(lightDirection[i], normal.xyz, ld[nrOfPointLights + i]);
+		specularLight = specularLight + calcSpecularLight(lightDirection[i], normal.xyz, ls[nrOfPointLights + i]);
 	}
 
 	color = float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);

@@ -20,6 +20,7 @@
 #include "SpriteBase.h"
 #include "Terrain.h"
 #include "PointLight.h"
+#include "DirectionalLight.h"
 #include "Road.h"
 
 class World
@@ -56,6 +57,7 @@ private:
 	vector<SpriteBase*> m_sprites;
 	vector<Terrain*> m_terrains;
 	vector<PointLight*> m_pointLights;
+	vector<DirectionalLight*> m_directionalLights;
 	vector<Road*> m_roads;
 public:
 	World();
@@ -85,6 +87,9 @@ public:
 
 	void addPointLight(PointLight* _pointLight);
 	bool removePointLight(PointLight* _pointLight);
+
+	void addDirectionalLight(DirectionalLight* _directionalLight);
+	bool removeDirectionalLight(DirectionalLight* _directionalLight);
 
 	Camera *getCamera();
 };

@@ -11,8 +11,10 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
 	this->m_diffuseTexture = this->m_effect->GetVariableByName("diffuseTexture")->AsShaderResource();
 
-	this->m_nrOfLights = this->m_effect->GetVariableByName("nrOfLights")->AsScalar();
+	this->m_nrOfPointLights = this->m_effect->GetVariableByName("nrOfPointLights")->AsScalar();
+	this->m_nrOfDirectionalLights = this->m_effect->GetVariableByName("nrOfDirectionalLights")->AsScalar();
 	this->m_lightPosition = this->m_effect->GetVariableByName("lightPosition")->AsVector();
+	this->m_lightDirection = this->m_effect->GetVariableByName("lightDirection")->AsVector();
 	this->m_lightAmbient = this->m_effect->GetVariableByName("la")->AsVector();
 	this->m_lightDiffuse = this->m_effect->GetVariableByName("ld")->AsVector();
 	this->m_lightSpecular = this->m_effect->GetVariableByName("ls")->AsVector();
@@ -63,32 +65,43 @@ void DeferredRenderingEffectFile::setCameraPosition(D3DXVECTOR3 _lightPosition)
 	this->m_cameraPosition->SetFloatVector(_lightPosition);
 }
 
-void DeferredRenderingEffectFile::updateLights(vector<PointLight*> lights)
+void DeferredRenderingEffectFile::updateLights(vector<PointLight*> pointLights, vector<DirectionalLight*> directionalLights)
 {
-	this->m_nrOfLights->SetInt(lights.size());
+	D3DXVECTOR3 *tempPos = new D3DXVECTOR3[pointLights.size()];
+	D3DXVECTOR3 *tempDir = new D3DXVECTOR3[directionalLights.size()];
+	D3DXVECTOR3 *tempAmbient = new D3DXVECTOR3[pointLights.size() + directionalLights.size()];
+	D3DXVECTOR3 *tempDiffuse = new D3DXVECTOR3[pointLights.size() + directionalLights.size()];
+	D3DXVECTOR3 *tempSpecular = new D3DXVECTOR3[pointLights.size() + directionalLights.size()];
+	float *tempRadius = new float[pointLights.size()];
 
-	D3DXVECTOR3 *tempPos = new D3DXVECTOR3[lights.size()];
-	D3DXVECTOR3 *tempAmbient = new D3DXVECTOR3[lights.size()];
-	D3DXVECTOR3 *tempDiffuse = new D3DXVECTOR3[lights.size()];
-	D3DXVECTOR3 *tempSpecular = new D3DXVECTOR3[lights.size()];
-	float *tempRadius = new float[lights.size()];
-
-	for(int i = 0; i < lights.size() && i < 50; i++)
+	for(int i = 0; i < pointLights.size() && i < 50; i++)
 	{
-		tempPos[i] = lights[i]->getPosition().toD3DXVector();
-		tempAmbient[i] = lights[i]->getAmbientColor().toD3DXVector();
-		tempDiffuse[i] = lights[i]->getDiffuseColor().toD3DXVector();
-		tempSpecular[i] = lights[i]->getSpecularColor().toD3DXVector();
-		tempRadius[i] = lights[i]->getRadius();
+		tempPos[i] = pointLights[i]->getPosition().toD3DXVector();
+		tempAmbient[i] = pointLights[i]->getAmbientColor().toD3DXVector();
+		tempDiffuse[i] = pointLights[i]->getDiffuseColor().toD3DXVector();
+		tempSpecular[i] = pointLights[i]->getSpecularColor().toD3DXVector();
+		tempRadius[i] = pointLights[i]->getRadius();
 	}
 
-	this->m_lightPosition->SetFloatVectorArray((float*)tempPos, 0, lights.size());
-	this->m_lightAmbient->SetFloatVectorArray((float*)tempAmbient, 0, lights.size());
-	this->m_lightDiffuse->SetFloatVectorArray((float*)tempDiffuse, 0, lights.size());
-	this->m_lightSpecular->SetFloatVectorArray((float*)tempSpecular, 0, lights.size());
-	this->m_lightRadius->SetFloatArray((float*)tempRadius, 0, lights.size());
+	for(int i = 0; i < directionalLights.size() && i < 50; i++)
+	{
+		tempDir[i] = directionalLights[i]->getDirection().toD3DXVector();
+		tempAmbient[pointLights.size() + i] = directionalLights[i]->getAmbientColor().toD3DXVector();
+		tempDiffuse[pointLights.size() + i] = directionalLights[i]->getDiffuseColor().toD3DXVector();
+		tempSpecular[pointLights.size() + i] = directionalLights[i]->getSpecularColor().toD3DXVector();
+	}
+
+	this->m_nrOfPointLights->SetInt(pointLights.size());
+	this->m_nrOfDirectionalLights->SetInt(directionalLights.size());
+	this->m_lightPosition->SetFloatVectorArray((float*)tempPos, 0, pointLights.size());
+	this->m_lightDirection->SetFloatVectorArray((float*)tempDir, 0, directionalLights.size());
+	this->m_lightAmbient->SetFloatVectorArray((float*)tempAmbient, 0, pointLights.size() + directionalLights.size());
+	this->m_lightDiffuse->SetFloatVectorArray((float*)tempDiffuse, 0, pointLights.size() + directionalLights.size());
+	this->m_lightSpecular->SetFloatVectorArray((float*)tempSpecular, 0, pointLights.size() + directionalLights.size());
+	this->m_lightRadius->SetFloatArray((float*)tempRadius, 0, pointLights.size());
 
 	delete tempPos;
+	delete tempDir;
 	delete tempAmbient;
 	delete tempDiffuse;
 	delete tempSpecular;
