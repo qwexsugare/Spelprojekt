@@ -28,6 +28,9 @@
     <Filter Include="Road">
       <UniqueIdentifier>{7cdf0a2b-0938-4309-a6c0-44f85c99b1af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Light">
+      <UniqueIdentifier>{08d6d08d-12cf-4370-8d28-556c09166c22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHandler.h">
@@ -123,14 +126,14 @@
     <ClInclude Include="MyTextOffsets.h">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Road.h">
       <Filter>Road</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,14 +212,14 @@
     <ClCompile Include="MyTextOffsets.cpp">
       <Filter>Text</Filter>
     </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectionalLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Road.cpp">
       <Filter>Road</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

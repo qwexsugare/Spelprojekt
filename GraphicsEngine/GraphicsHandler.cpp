@@ -181,6 +181,18 @@ bool GraphicsHandler::removePointLight(PointLight *pointLight)
 	return this->m_world->removePointLight(pointLight);
 }
 
+DirectionalLight *GraphicsHandler::createDirectionalLight(FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls)
+{
+	DirectionalLight *l = new DirectionalLight(direction, la, ld, ls);
+	this->m_world->addDirectionalLight(l);
+	return l;
+}
+
+bool GraphicsHandler::removeDirectionalLight(DirectionalLight *directionalLight)
+{
+	return this->m_world->removeDirectionalLight(directionalLight);
+}
+
 void GraphicsHandler::render()
 {
 	this->m_world->render();
