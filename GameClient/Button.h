@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "SpriteSheet.h"
 #include "Mouse.h"
+#include "TextLabel.h"
 
 extern GraphicsHandler* g_graphicsEngine;
 extern Mouse* g_mouse;
@@ -21,7 +22,7 @@ private:
 	//----------------------------------------------------------------------------------------------
 		int m_ButtonReaction ;
 		SpriteSheet* m_Button;
-		
+		TextLabel* m_Label;
 	//----------------------------------------------------------------------------------------------
 	// Button size
 	//----------------------------------------------------------------------------------------------
@@ -34,7 +35,9 @@ private:
 					m_Min,
 					m_Keep,
 					m_Layer,
-					m_Cost;
+					m_Cost,
+					m_ID;
+		INT2		m_TextPos;
 		float		m_Value;
 	//----------------------------------------------------------------------------------------------
 	// Wave name
@@ -63,13 +66,15 @@ public:
 				float _textSize = 1,
 				int _layer = 2,
 				int _DelayTime = 100,
-				int _Cost = 0);
+				int _Cost = 0,
+				INT2 _TextPos = INT2(0,0));
 	void Button::RemoveSprite();
 	int Clicked();
 	void Update();
 	int GetButtonReaction();
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
+	void SetID(int _id);
 	int LoseAmountOfResources(int _resources);
 };
 
