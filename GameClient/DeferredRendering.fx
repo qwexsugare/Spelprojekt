@@ -150,8 +150,11 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 		float attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
-		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
-		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
+		if(attenuation > 0.005f)
+		{
+			diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
+			specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
+		}
 	}
 
 	for(i = 0; i < nrOfDirectionalLights; i++)
@@ -159,6 +162,20 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		diffuseLight = diffuseLight + calcDiffuseLight(lightDirection[i], normal.xyz, ld[nrOfPointLights + i]);
 		specularLight = specularLight + calcSpecularLight(lightDirection[i], normal.xyz, ls[nrOfPointLights + i]);
 	}
+
+	//float3 pos = float3(50.0f, 5.0f, 50.0f);
+	//float s = normalize((pos - position.xyz));
+	//float3 dir = normalize(float3(1.0f, 1.0f, 0.0f));
+
+	//float angle = max(acos(dot(s, dir)), 0.0f);
+
+	//float max = 0.22f;
+	//float min = 0.02f;
+
+	//float spotfactor = smoothstep(min,max,angle);
+
+	//diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, float3(1.0f, 1.0f, 1.0f)) * spotfactor;
+	//specularLight = specularLight + calcSpecularLight(s, normal.xyz, float3(1.0f, 1.0f, 1.0f)) * spotfactor;
 
 	color = float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
 

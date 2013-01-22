@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "MyText.h"
 #include "DirectionalLight.h"
+#include "SpotLight.h"
 
 class GraphicsHandler
 {
@@ -55,6 +56,9 @@ public:
 
 	DECLDIR DirectionalLight *createDirectionalLight(FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls);
 	DECLDIR bool removeDirectionalLight(DirectionalLight *directionalLight);
+
+	DECLDIR SpotLight *createSpotLight(FLOAT3 position, FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls);
+	DECLDIR bool removeSpotLight(SpotLight* spotLight);
 
 	DECLDIR void render();
 	DECLDIR void update(float dt);

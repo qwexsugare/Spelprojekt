@@ -21,6 +21,7 @@
 #include "Terrain.h"
 #include "PointLight.h"
 #include "DirectionalLight.h"
+#include "SpotLight.h"
 #include "Road.h"
 
 class World
