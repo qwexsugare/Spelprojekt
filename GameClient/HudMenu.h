@@ -21,7 +21,8 @@ private:
 			m_Resources,
 			m_LoseMoney;
 
-	int		button_1,
+	int		button_0,
+			button_1,
 			button_2,
 			button_3,
 			button_4,
@@ -71,6 +72,7 @@ private:
 	bool BuyFortitudeSkillIsDown();
 
 	void BuyHud();
+	void UpdateShop();
 	void UnInit(int _Type);
 
 };
