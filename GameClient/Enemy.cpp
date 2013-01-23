@@ -8,7 +8,7 @@ Enemy::Enemy()
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
-	this->m_modelId = 0;
+	this->m_modelId = 1;
 
 	this->m_movementSpeed = 3.0f;
 	this->m_aggroRange = 10.0f;
@@ -23,7 +23,7 @@ Enemy::Enemy(FLOAT3 _pos) : ServerEntity(_pos)
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
-	this->m_modelId = 0;
+	this->m_modelId = 1;
 
 	this->m_movementSpeed = 3.0f;
 	this->m_aggroRange = 10.0f;
