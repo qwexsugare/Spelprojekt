@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, float _movementSpeed) : ServerEntity()
+Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, float _movementSpeed) : UnitEntity()
 {
 	this->m_position = _position;
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
@@ -32,7 +32,7 @@ void Projectile::update(float dt)
 			if(se != NULL && se->getType() == Type::EnemyType)
 			{
 				this->m_lifetime = 0;
-				se->takeDamage(10);
+				se->takeDamage(10, true);
 			}
 		}
 

@@ -6,7 +6,7 @@
 #include "Hero.h"
 #include "MeleeAttack.h"
 
-class Enemy : public ServerEntity
+class Enemy : public UnitEntity
 {
 private:
 	FLOAT3 m_nextPosition;

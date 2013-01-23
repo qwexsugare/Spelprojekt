@@ -185,7 +185,7 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	output.Pos += _weight * mul(myPos, _bone);
 	
 	//output.Pos.w = 1;
-	output.Pos.y += 15;
+	//output.Pos.y += 15;
 	
 	// transform the point into viewProjection space
 	output.Pos = mul( output.Pos, mul(modelMatrix, viewProjection) );

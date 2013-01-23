@@ -19,7 +19,6 @@ protected:
 	FLOAT3 m_position;
 	FLOAT3 m_rotation;
 
-	int m_health;
 	unsigned int m_modelId;
 	bool m_visible;
 
@@ -46,8 +45,10 @@ public:
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
-	
-	virtual void takeDamage(int damage);
+
+	void takeDamage(int damage, bool physical);
+	void dealDamage(ServerEntity* target, int damage, bool physical);
+	void heal(int health);
 };
 
 #endif

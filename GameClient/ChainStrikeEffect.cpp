@@ -35,7 +35,7 @@ void ChainStrikeEffect::update(float _dt)
 			if(target)
 			{
 				m_position = target->getPosition();
-				target->takeDamage(200/(++m_jumps));
+				target->takeDamage(200/(++m_jumps), false);
 				playSound(m_sound);
 
 				// If max number of jumps is reached, delete me
@@ -103,7 +103,7 @@ void ChainStrikeEffect::update(float _dt)
 			if(closestValidTarget && distanceToClosestValidTarget < MAX_JUMP_DISTANCE)
 			{
 				m_position = closestValidTarget->getPosition();
-				closestValidTarget->takeDamage(200/(++m_jumps));
+				closestValidTarget->takeDamage(200/(++m_jumps), false);
 				playSound(m_sound);
 
 				// If max number of jumps is reached, delete me
