@@ -21,6 +21,10 @@ TextLabel::~TextLabel()
 
 void TextLabel::setText(string _text)
 {
-	m_text = _text;
-	m_myText->DrawString(m_text);
+	this->m_text = _text;
+	this->m_myText->DrawString(m_text);
+}
+string TextLabel::getText()
+{ 
+	return this->m_text; 
 }

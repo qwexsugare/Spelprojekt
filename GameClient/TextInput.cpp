@@ -20,7 +20,15 @@ TextInput::~TextInput()
 	if(this->m_myText)
 		g_graphicsEngine->removeMyText(this->m_myText);
 }
-
+void TextInput::setText(string _text)
+{
+	this->m_text = _text;
+	this->m_myText->DrawString(this->m_text);
+}
+string TextInput::getText()
+{ 
+	return this->m_text; 
+}
 void TextInput::update(float _dt)
 {
 	for(int i = 'A'; i < 'Z'+1; i++)

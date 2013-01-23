@@ -12,5 +12,6 @@ public:
 	TextLabel(string _text, string _texture, INT2 _pos, int _size);
 	~TextLabel();
 
+	string getText();
 	void setText(string _text);
 };
