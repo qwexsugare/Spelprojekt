@@ -8,6 +8,8 @@ private:
 	int m_id;
 	float m_cooldown;
 public:
+	static enum SKILLS {CHAIN_STRIKE, CLOUD_OF_DARKNESS};
+
 	Skill();
 	Skill(int _id, float _cooldown);
 	virtual ~Skill();

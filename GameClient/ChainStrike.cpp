@@ -5,7 +5,7 @@
 
 const float ChainStrike::COOLDOWN = 120.0f;
 
-ChainStrike::ChainStrike() : Skill(0, 0.0f)
+ChainStrike::ChainStrike() : Skill(Skill::CHAIN_STRIKE, 0.0f)
 {
 	
 }
