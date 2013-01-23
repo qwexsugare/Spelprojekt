@@ -252,7 +252,7 @@ Mesh* MeshImporter::LoadFishes(ID3D10Device* device, TextureHolder* textureHolde
 
 void MeshImporter::ReadFish(FishFile* fishFile, TextureHolder* textureHolder, string filepath, string folderPath)
 {
-	char* memblock;
+	char* memblock = NULL;
 
 	ifstream rb;
 	rb.open(filepath, ios::in | ios::binary | ios::ate);
@@ -268,6 +268,8 @@ void MeshImporter::ReadFish(FishFile* fishFile, TextureHolder* textureHolder, st
 	rb.close();
 
 	MapFishFile(fishFile, memblock);
+	if(memblock)
+		delete memblock;
 }
 
 Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool isAnimated, TextureHolder* textureHolder, string folderPath)
@@ -398,7 +400,7 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 
 void MeshImporter::ReadFishAnimation(AnimationFile* animationFile, string filepath, int numSkeletons)
 {
-	char* memblock;
+	char* memblock = NULL;
 
 	ifstream rb;
 	rb.open(filepath, ios::in | ios::binary | ios::ate);
@@ -412,6 +414,8 @@ void MeshImporter::ReadFishAnimation(AnimationFile* animationFile, string filepa
 	rb.close();
 
 	MapAnimationFile(animationFile, memblock, numSkeletons);
+	if(memblock)
+		delete memblock;
 }
 
 void MeshImporter::MapFishFile(FishFile* fishFile, char* memblock)

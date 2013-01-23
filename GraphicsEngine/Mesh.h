@@ -47,5 +47,14 @@ struct Mesh
 	{
 		if(this->buffer)
 			buffer->Release();
+		for(int i = 0; i < subMeshes.size(); i++)
+		{
+			if(subMeshes[i])
+				delete subMeshes[i];
+		}
+		if(this->m_obb)
+			delete this->m_obb;
+		if(this->m_bs)
+			delete this->m_bs;
 	}
 };

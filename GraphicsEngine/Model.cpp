@@ -28,7 +28,8 @@ Model::~Model()
 		delete this->m_obb;
 	if(this->m_bs)
 		delete this->m_bs;
-	delete this->animation;
+	if(this->animation)
+		delete this->animation;
 }
 
 float Model::getAlpha()const
