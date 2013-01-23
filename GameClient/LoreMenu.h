@@ -6,5 +6,13 @@ class LoreMenu :
 public:
 	LoreMenu(void);
 	~LoreMenu(void);
+	bool Change;
+	int ThisPage;
+
+	bool Minus();
+	bool Plus();
+	bool MainMenuGameIsDone();
+	void Update();
+	void ChangeStates();
 };
 

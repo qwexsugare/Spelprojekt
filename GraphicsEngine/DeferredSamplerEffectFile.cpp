@@ -15,7 +15,7 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_boneTexture = this->m_effect->GetVariableByName("boneTex")->AsShaderResource();
 	this->m_technique = this->m_effect->GetTechniqueByName("DeferredSample");
 	this->m_animationTechnique = this->m_effect->GetTechniqueByName("DeferredAnimationSample");
-
+	
 	D3D10_PASS_DESC passDescription;
 	this->m_technique->GetPassByIndex(0)->GetDesc(&passDescription);
 	const D3D10_INPUT_ELEMENT_DESC vertexLayout[] =
@@ -51,6 +51,9 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_renderTerrain = this->m_effect->GetTechniqueByName("RenderTerrain");
 	this->m_terrainTextures = this->m_effect->GetVariableByName("terrainTextures")->AsShaderResource();
 	this->m_terrainBlendMaps = this->m_effect->GetVariableByName("terrainBlendMaps")->AsShaderResource();
+	 
+	// Road
+	this->m_renderRoad = this->m_effect->GetTechniqueByName("RenderRoad");
 }
 
 
@@ -109,7 +112,12 @@ ID3D10InputLayout *DeferredSamplerEffectFile::getInputAnimationLayout() const
 	return this->m_vertexAnimationLayout;
 }
 
-ID3D10EffectTechnique* DeferredSamplerEffectFile::getRenderTerrainTechique()
+ID3D10EffectTechnique* DeferredSamplerEffectFile::getRenderRoadTechnique()
+{
+	return m_renderRoad;
+}
+
+ID3D10EffectTechnique* DeferredSamplerEffectFile::getRenderTerrainTechnique()
 {
 	return this->m_renderTerrain;
 }

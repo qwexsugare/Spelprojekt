@@ -34,6 +34,18 @@ GraphicsHandler::~GraphicsHandler()
 	delete this->m_resourceHolder;
 	delete this->m_deviceHandler;
 }
+
+Road* GraphicsHandler::createRoad(string _texture, FLOAT3 _pos, float _rot)
+{
+	Road* road = new Road(m_deviceHandler->getDevice(), m_resourceHolder->getTextureHolder()->getTexture("textures/"+_texture), D3DXVECTOR3(_pos.x, _pos.y, _pos.z), _rot);
+	m_world->addRoad(road);
+	return road;
+}
+
+bool GraphicsHandler::removeRoad(Road* _road)
+{
+	return this->m_world->removeRoad(_road);
+}
 	
 Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps)
 {
@@ -158,9 +170,9 @@ bool GraphicsHandler::removeSpriteSheet(SpriteSheet *spriteSheet)
 	return this->m_world->removeSprite(spriteSheet);
 }
 
-PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls)
+PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius)
 {
-	PointLight *l = new PointLight(position, la, ld, ls);
+	PointLight *l = new PointLight(position, la, ld, ls, radius);
 	this->m_world->addPointLight(l);
 	return l;
 }
@@ -168,6 +180,30 @@ PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3
 bool GraphicsHandler::removePointLight(PointLight *pointLight)
 {
 	return this->m_world->removePointLight(pointLight);
+}
+
+DirectionalLight *GraphicsHandler::createDirectionalLight(FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls)
+{
+	DirectionalLight *l = new DirectionalLight(direction, la, ld, ls);
+	this->m_world->addDirectionalLight(l);
+	return l;
+}
+
+bool GraphicsHandler::removeDirectionalLight(DirectionalLight *directionalLight)
+{
+	return this->m_world->removeDirectionalLight(directionalLight);
+}
+
+SpotLight *GraphicsHandler::createSpotLight(FLOAT3 position, FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range)
+{
+	SpotLight *l = new SpotLight(position, direction, la, ld, ls, angle, range);
+	this->m_world->addSpotLight(l);
+	return l;
+}
+
+bool GraphicsHandler::removeSpotLight(SpotLight* spotLight)
+{
+	return this->m_world->removeSpotLight(spotLight);
 }
 
 void GraphicsHandler::render()

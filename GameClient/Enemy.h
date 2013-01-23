@@ -16,7 +16,7 @@ private:
 	bool m_willPursue;
 	int m_closestHero;
 	float m_attackCooldown;
-
+	FLOAT3 m_dir;
 	FLOAT3 m_goalPosition;
 public:
 	Enemy();
@@ -27,6 +27,9 @@ public:
 	void setNextPosition(int index, float dt);
 
 	void checkPursue();
+	FLOAT3 checkStatic(float dt, FLOAT3 _pPos);
+
+	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 
 };
 

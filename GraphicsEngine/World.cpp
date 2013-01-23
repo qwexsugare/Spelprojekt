@@ -44,6 +44,9 @@ World::~World()
 	for(int i = 0; i < m_terrains.size(); i++)
 		delete m_terrains[i];
 
+	for(int i = 0; i < m_roads.size(); i++)
+		delete m_roads[i];
+
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
 		delete this->m_sprites[i];
@@ -52,6 +55,16 @@ World::~World()
 	for(int i = 0; i < this->m_pointLights.size(); i++)
 	{
 		delete this->m_pointLights[i];
+	}
+
+	for(int i = 0; i < this->m_directionalLights.size(); i++)
+	{
+		delete this->m_directionalLights[i];
+	}
+
+	for(int i = 0; i < this->m_spotLights.size(); i++)
+	{
+		delete this->m_spotLights[i];
 	}
 	
 	for(int i = 0; i < this->m_texts.size(); i++)
@@ -79,6 +92,28 @@ World::~World()
 
 	delete this->m_camera;
 	delete this->m_quadTree;
+}
+	
+void World::addRoad(Road* _road)
+{
+	m_roads.push_back(_road);
+}
+
+bool World::removeRoad(Road* _road)
+{
+	bool found = false;
+
+	for(int i = 0; i < m_roads.size() && !found; i++)
+	{
+		if(m_roads[i] == _road)
+		{
+			delete m_roads[i];
+			m_roads.erase(m_roads.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
 }
 
 void World::addTerrain(Terrain* _terrain)
@@ -136,35 +171,46 @@ void World::render()
 		this->m_deferredSampler->setTerrainTextures(m_terrains[i]->getTextures(), m_terrains[i]->getNrOfTextures());
 		this->m_deferredSampler->setTerrainBlendMaps(m_terrains[i]->getBlendMaps(), m_terrains[i]->getNrOfBlendMaps());
 			
-		this->m_deferredSampler->getRenderTerrainTechique()->GetPassByIndex( 0 )->Apply(0);
-		this->m_deviceHandler->getDevice()->Draw(4, 0);
+		this->m_deferredSampler->getRenderTerrainTechnique()->GetPassByIndex(0)->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(m_terrains[i]->getNrOfVertices(), 0);
+	}
+	
+	// Render roads yo dawg y u be messin' about
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
+	for(int i = 0; i < m_roads.size(); i++)
+	{
+		this->m_deviceHandler->setVertexBuffer(m_roads[i]->getVertexBuffer());
+		this->m_deferredSampler->setModelMatrix(m_roads[i]->getModelMatrix());
+		this->m_deferredSampler->setTexture(m_roads[i]->getTexture());
+		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(m_roads[i]->getNrOfVertices(), 0);
 	}
 
-	//Render all models
-	/*D3DXMATRIX mat;
-	D3DXMatrixMultiply(&mat, &this->m_camera->getViewMatrix(), &this->m_camera->getProjectionMatrix());
+	/* Retard Frustum
+	D3DXMATRIX mat;
+	//D3DXMatrixMultiply(&mat, &m_camera->getProjectionMatrix(), &m_camera->getViewMatrix());
+	D3DXMatrixMultiply(&mat, &m_camera->getViewMatrix(), &m_camera->getProjectionMatrix());
+  	
 	XMMATRIX projectionMatrixInCyborgForm = XMMATRIX(
 		mat._11, mat._12, mat._13, mat._14,
 		mat._21, mat._22, mat._23, mat._24,
 		mat._31, mat._32, mat._33, mat._34,
 		mat._41, mat._42, mat._43, mat._44);
-	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);*/
+
+	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);
+	bf.Near = 1.0f;
+	bf.Far = 100000000.0f;
+	bf.TopSlope = -10000000.0f;
+	bf.BottomSlope = 10000000.0f;
+	bf.Origin = XMFLOAT3(m_camera->getPos().x, m_camera->getPos().y+50.0f, m_camera->getPos().z);
+	*/
+	
+	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
 	stack<Model*> transparantModels;
 	while(!models.empty())
 	{
-		/*XMFLOAT3 origin(this->m_camera->getPos().x, this->m_camera->getPos().y, this->m_camera->getPos().z);
-		XMFLOAT4 orientation(0.0f, 0.0f, 0.0f, 1.0f);
-		float rightSlope = 0.5f;
-		float leftSlope = -0.5f;
-		float topSlope = 0.5f;
-		float bottomSlope = -0.5f;
-		float near_ = 0.0f;
-		float far_ = 1500000.0f;
-		BoundingFrustum bf = BoundingFrustum(origin, orientation, rightSlope, leftSlope, topSlope, bottomSlope, near_, far_);*/
-		//if(bf.Contains(*models.top()->getObb()) || bf.Intersects(*models.top()->getObb()))
-
 		if(models.top()->getAlpha() < 1.0f)
 		{
 			transparantModels.push(models.top());
@@ -174,11 +220,7 @@ void World::render()
 			
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
-			
-			// ULTRA CHARGED OPTIMIZATION COMMENTS AWAY SIMONS CODE
-			/*D3D10_TECHNIQUE_DESC techDesc;
-			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
-
+		
 			*/
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
@@ -204,10 +246,9 @@ void World::render()
 				}
 
 				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
-			//}
 			}
 		}
-			
+
 		models.pop();
 	}
 
@@ -257,7 +298,7 @@ void World::render()
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_pointLights);
+	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(this->m_camera->getPos()), this->m_directionalLights, this->m_spotLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
@@ -441,7 +482,8 @@ bool World::removeMyText(MyText* _text)
 
 void World::addPointLight(PointLight* _pointLight)
 {
-	this->m_pointLights.push_back(_pointLight);
+	//this->m_pointLights.push_back(_pointLight);
+	this->m_quadTree->addLight(_pointLight);
 }
 
 bool World::removePointLight(PointLight* _pointLight)
@@ -454,6 +496,50 @@ bool World::removePointLight(PointLight* _pointLight)
 		{
 			delete this->m_pointLights[i];
 			this->m_pointLights.erase(this->m_pointLights.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addDirectionalLight(DirectionalLight* _directionalLight)
+{
+	this->m_directionalLights.push_back(_directionalLight);
+}
+
+bool World::removeDirectionalLight(DirectionalLight* _directionalLight)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_directionalLights.size() && !found; i++)
+	{
+		if(this->m_directionalLights[i] == _directionalLight)
+		{
+			delete this->m_directionalLights[i];
+			this->m_directionalLights.erase(this->m_directionalLights.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addSpotLight(SpotLight* _spotLight)
+{
+	this->m_spotLights.push_back(_spotLight);
+}
+
+bool World::removeSpotLight(SpotLight* _spotLight)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_spotLights.size() && !found; i++)
+	{
+		if(this->m_spotLights[i] == _spotLight)
+		{
+			delete this->m_spotLights[i];
+			this->m_spotLights.erase(this->m_spotLights.begin()+i);
 			found = true;
 		}
 	}

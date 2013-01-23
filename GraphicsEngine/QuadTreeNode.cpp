@@ -41,6 +41,11 @@ QuadTreeNode::~QuadTreeNode()
 	for(int i = 0; i < this->m_models.size(); i++)
 		delete this->m_models[i];
 
+	for(int i = 0; i < this->m_lights.size(); i++)
+	{
+		delete this->m_lights[i];
+	}
+
 	if(this->m_obb)
 		delete this->m_obb;
 }
@@ -91,9 +96,60 @@ void QuadTreeNode::addModel(bool& _success, Model* _model)
 	}
 }
 
+void QuadTreeNode::addLight(bool& _success, PointLight* _light)
+{
+	if(this->intersects(_light))
+	{
+		if(!this->m_children[0])
+		{
+			this->m_lights.push_back(_light);
+			_success = true;
+		}
+		else
+		{
+			int fittIndex = -1;
+			int fittCounter = 0;
+			for(int i = 0; i < 4; i++)
+			{
+				if(this->m_children[i]->intersects(_light))
+				{
+					fittIndex = i;
+					fittCounter++;
+				}
+			}
+
+			if(fittCounter > 1)
+			{
+				this->m_lights.push_back(_light);
+				_success = true;
+			}
+			else if(fittCounter > 0)
+			{
+				// This fucker is now my child's problem!!!! IM FREE!!!!111
+				this->m_children[fittIndex]->addLight(_success, _light);
+			}
+			// Else we're fucked
+			else
+			{
+				_success = false;
+			}
+		}
+	}
+	// Else the model is outside of the world tree and no one can take care of this poor sucker :(
+	else
+	{
+		_success = false;
+	}
+}
+
 bool QuadTreeNode::intersects(const Model* _model)const
 {
 	return _model->intersects(*this->m_obb);
+}
+
+bool QuadTreeNode::intersects(PointLight* _light)const
+{
+	return _light->getBoundingSphere()->Intersects(*this->m_obb);
 }
 
 void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const
@@ -140,6 +196,41 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
 		if(modelDistanceToCamera.x < 30.0f && modelDistanceToCamera.y < 25.0f)
 			_models.push(this->m_models[i]);
+
+		// END ADVANCED CHEAT CULLING
+	}
+}
+
+void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPos)const
+{
+	if(this->m_children[0])
+	{
+		// ADD ALL CHILD MODELS TO STACK
+		this->m_children[0]->getLights(_lights, _cameraPos);
+		this->m_children[1]->getLights(_lights, _cameraPos);
+		this->m_children[2]->getLights(_lights, _cameraPos);
+		this->m_children[3]->getLights(_lights, _cameraPos);
+	}
+	
+	// ADD MY MODELS TO STACK
+	for(int i = 0; i < this->m_lights.size(); i++)
+	{
+		// COMMENCE ADVANCED CHEAT CULLING
+
+		// Calculate models distance to camera and make it positive +
+		D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_lights[i]->getPosition2D()-D3DXVECTOR2(_cameraPos.x, _cameraPos.z));
+		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
+		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
+		// Find the greatest extent of the model bounding box
+		float greatestExtent = this->m_lights[i]->getBoundingSphere()->Radius;
+
+		// Subtract the greatest extent from the distance
+		modelDistanceToCamera.x -= greatestExtent;
+		modelDistanceToCamera.y -= greatestExtent;
+
+		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
+		if(modelDistanceToCamera.x < 30.0f && modelDistanceToCamera.y < 25.0f)
+			_lights.push_back(this->m_lights[i]);
 
 		// END ADVANCED CHEAT CULLING
 	}

@@ -6,5 +6,9 @@ class JoinGameMenu :
 public:
 	JoinGameMenu(void);
 	~JoinGameMenu(void);
+
+	void Update();
+	bool StartGameIsDown();
+	bool MainMenuGameIsDone();
 };
 

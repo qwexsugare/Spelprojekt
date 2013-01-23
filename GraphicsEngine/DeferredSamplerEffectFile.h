@@ -3,9 +3,15 @@
 class DeferredSamplerEffectFile : public EffectFile
 {
 private:
+	// Universal
+	ID3D10EffectShaderResourceVariable* m_texture;
+	ID3D10EffectMatrixVariable* m_modelMatrix;
+	ID3D10EffectMatrixVariable* m_viewMatrix;
+	ID3D10EffectMatrixVariable* m_projectionMatrix;
+	ID3D10InputLayout *m_vertexLayout;
+
 	// Model
 	ID3D10EffectScalarVariable* m_modelAlpha;
-	ID3D10EffectShaderResourceVariable* m_texture;
 	ID3D10EffectShaderResourceVariable* m_boneTexture;
 	ID3D10EffectTechnique *m_technique;
 	ID3D10EffectTechnique *m_animationTechnique;
@@ -14,12 +20,9 @@ private:
 	ID3D10EffectTechnique* m_renderTerrain;
 	ID3D10EffectShaderResourceVariable* m_terrainTextures;
 	ID3D10EffectShaderResourceVariable* m_terrainBlendMaps;
-
-	// Universal
-	ID3D10EffectMatrixVariable* m_modelMatrix;
-	ID3D10EffectMatrixVariable* m_viewMatrix;
-	ID3D10EffectMatrixVariable* m_projectionMatrix;
-	ID3D10InputLayout *m_vertexLayout;
+	
+	// Road
+	ID3D10EffectTechnique* m_renderRoad;
 	ID3D10InputLayout *m_vertexAnimationLayout;
 public:
 	DeferredSamplerEffectFile();
@@ -39,8 +42,10 @@ public:
 	ID3D10EffectTechnique *getTechnique();
 	ID3D10EffectTechnique *getAnimationTechnique();
 
-	ID3D10EffectTechnique *getRenderTerrainTechique();
+	ID3D10EffectTechnique *getRenderTerrainTechnique();
 	void setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size);
 	void setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size);
+	
+	ID3D10EffectTechnique* getRenderRoadTechnique();
 };
 

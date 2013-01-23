@@ -1,5 +1,6 @@
 #pragma once
 #include "Button.h"
+#include "Skill_Buttons.h"
 #include "GraphicsHandler.h"
 #include "DataStructures.h"
 
@@ -17,6 +18,7 @@ public:
 
 protected:
 	vector<Button*>			m_Buttons;
+	vector<Skill_Buttons*>	m_SkillButtons;
 	vector<Sprite*>			m_Images;
 	vector<Text*>			m_text;
 	vector<SpriteSheet*>	m_Sprite;
