@@ -157,6 +157,7 @@
     <ClCompile Include="UseSkillMessage.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="CloudOfDarkness.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -324,6 +325,7 @@
     <ClInclude Include="Skill_Buttons.h">
       <Filter>Client</Filter>
     </ClInclude>
+    <ClInclude Include="CloudOfDarkness.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

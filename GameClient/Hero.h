@@ -9,7 +9,6 @@
 class Hero : public ServerEntity
 {
 private:
-	// SKa finnas samtliga grundegenskaper, str agi wits fort etc
 	int m_strength;
 	int m_agility;
 	int m_wits;
