@@ -43,7 +43,6 @@ void Animation::Update(float dt)
 
 		if(time >= (this->animations[0].skeletons[0].keys[this->animations[0].skeletons[0].keys.size()-1].time-offset)/fps)
 		{
-		
 			currentKey = 0;
 			time = 0;
 		}
@@ -57,7 +56,7 @@ void Animation::Update(float dt)
 				}
 			}
 		}
-	
+		
 		currKeyTime = this->animations[0].skeletons[0].keys[currentKey].time;
 		nextKeyTime = this->animations[0].skeletons[0].keys[currentKey + 1].time;
 
@@ -65,8 +64,6 @@ void Animation::Update(float dt)
 		float timePass = time - (currKeyTime-offset)/fps;
 		float lerpValue = timePass/timeInterval;
 
-		/*currentKey = 1;
-		lerpValue = 1;*/
 		for(int i = 0; i < this->animations[0].skeletons[0].keys[currentKey].joints.size(); i++)
 		{
 			D3DXMATRIX outMat;
@@ -105,8 +102,6 @@ void Animation::Update(float dt)
 			D3DXMatrixTransformation(&outMat, NULL, NULL, &outScale, NULL, &outQuat, &outTrans);
 
 			matrices.push_back(outMat);
-			if(i == 67)
-				int yolo = 0;
 		}
 		time += dt;
 	UpdateSkeletonTexture(&matrices);
