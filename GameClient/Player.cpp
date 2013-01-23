@@ -15,6 +15,7 @@ Player::Player(unsigned int id)
 Player::~Player()
 {
 	delete this->m_chainStrike;
+	delete this->m_cloudOfDarkness;
 	delete this->m_messageQueue;
 }
 
@@ -74,5 +75,12 @@ MessageQueue *Player::getMessageQueue()
 
 void Player::handleUseSkillMessage(UseSkillMessage usm)
 {
-	m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
+	if(usm.getSkillId() == m_chainStrike->getId())
+	{
+		m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
+	}
+	/*else if(usm.getSkillId() == m_cloudOfDarkness->getId())
+	{
+		m_cloudOfDarkness->activate(usm.(), this->m_hero->getId());
+	}*/
 }
