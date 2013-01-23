@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationHolder.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="DataStructures.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="DeviceHandler.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="EffectFile.h" />
+    <ClInclude Include="FishStructs.h" />
     <ClInclude Include="ForwardRenderingEffectFile.h" />
     <ClInclude Include="FullScreenPlane.h" />
     <ClInclude Include="GraphicsHandler.h" />
@@ -186,10 +189,13 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextureHolder.h" />
+    <ClInclude Include="TexturePack.h" />
     <ClInclude Include="VertexStructs.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AnimationHolder.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="DeferredRenderingEffectFile.cpp" />

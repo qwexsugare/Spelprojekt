@@ -165,7 +165,7 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	for(int i = 0; i < this->m_terrains.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_terrains[i]->getVertexBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_terrains[i]->getVertexBuffer(), sizeof(Vertex));
 
 		this->m_deferredSampler->setModelMatrix(m_terrains[i]->getModelMatrix());
 		this->m_deferredSampler->setTerrainTextures(m_terrains[i]->getTextures(), m_terrains[i]->getNrOfTextures());
@@ -179,7 +179,7 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	for(int i = 0; i < m_roads.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_roads[i]->getVertexBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_roads[i]->getVertexBuffer(), sizeof(Vertex));
 		this->m_deferredSampler->setModelMatrix(m_roads[i]->getModelMatrix());
 		this->m_deferredSampler->setTexture(m_roads[i]->getTexture());
 		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
@@ -217,14 +217,36 @@ void World::render()
 		}
 		else
 		{
-			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
-
+			
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-			this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 		
-			this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
+			
+
+			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+			{
+			//for( UINT p = 0; p < techDesc.Passes; p++ )
+			//{
+
+				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->diffuse);
+
+				if(models.top()->getMesh()->isAnimatied)
+				{
+					
+					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				}
+				else
+				{
+				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(Vertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
+					this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
+				}
+
+				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+			}
 		}
 
 		models.pop();
@@ -244,7 +266,7 @@ void World::render()
 
 	while(!transparantModels.empty())
 	{
-		this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->buffer);
+		this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->buffer, sizeof(Vertex));
 
 		this->m_deferredSampler->setModelMatrix(transparantModels.top()->getModelMatrix());
 		this->m_deferredSampler->setTexture(transparantModels.top()->getMesh()->m_texture);
@@ -278,7 +300,7 @@ void World::render()
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
 	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(this->m_camera->getPos()), this->m_directionalLights, this->m_spotLights);
 
-	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer);
+	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
 	D3D10_TECHNIQUE_DESC techDesc;
 	this->m_deferredRendering->getTechnique()->GetDesc( &techDesc );
@@ -302,7 +324,7 @@ void World::render()
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer(), sizeof(Vertex));
 
 		this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
 		this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
@@ -320,7 +342,7 @@ void World::render()
 	// Render texts
 	for(int i = 0; i < this->m_myTexts.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_myTexts[i]->getBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_myTexts[i]->getBuffer(), sizeof(Vertex));
 
 		this->m_spriteRendering->setModelMatrix(this->m_myTexts[i]->getModelMatrix());
 		this->m_spriteRendering->setTexture(m_myTexts[i]->getTexture());
@@ -352,7 +374,14 @@ void World::update(float dt)
 	{
 		this->m_sprites[i]->update(dt);
 	}
-	
+
+	stack<Model*> models = this->m_quadTree->getModels(m_camera->getPos());
+	while(!models.empty())
+	{
+		models.top()->getAnimation()->Update(dt);
+		models.pop();
+	}
+
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
 	//while(!models.empty())
 	//{

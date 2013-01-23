@@ -5,7 +5,7 @@ SpotLight::SpotLight()
 
 }
 
-SpotLight::SpotLight(FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, FLOAT2 _angle)
+SpotLight::SpotLight(FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, FLOAT2 _angle, float _range)
 {
 	this->m_position = _position;
 	this->m_direction = _direction;
@@ -13,6 +13,7 @@ SpotLight::SpotLight(FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld
 	this->m_ld = _ld;
 	this->m_ls = _ls;
 	this->m_angle = _angle;
+	this->m_range = _range;
 }
 
 FLOAT3 SpotLight::getPosition()
@@ -44,6 +45,11 @@ FLOAT2 SpotLight::getAngle()
 {
 	return this->m_angle;
 }
+
+float SpotLight::getRange()
+{
+	return this->m_range;
+}
 	
 void SpotLight::setPosition(FLOAT3 _position)
 {
@@ -73,4 +79,9 @@ void SpotLight::setSpecularColor(FLOAT3 _ls)
 void SpotLight::setAngle(FLOAT2 _angle)
 {
 	this->m_angle = _angle;
+}
+
+void SpotLight::setRange(float _range)
+{
+	this->m_range = _range;
 }

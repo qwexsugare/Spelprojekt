@@ -32,7 +32,7 @@ HRESULT ViewerHandler::run()
 {
 	
 
-	m_shownModel = g_graphicsEngine->createModel("ArrowHead", FLOAT3(.0f, 0.0f, 0.0f));
+	m_shownModel = g_graphicsEngine->createModel("Imp", FLOAT3(.0f, 0.0f, 0.0f));
 	
 	
 	//delete model;
@@ -119,7 +119,7 @@ void ViewerHandler::update(float _dt)
 	if(g_keyboard->getKeyState(VK_NUMPAD2) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->removeModel(m_shownModel);
-		m_shownModel = g_graphicsEngine->createModel("ArrowHead", FLOAT3(.0f, 0.0f, 0.0f));
+		m_shownModel = g_graphicsEngine->createModel("Imp", FLOAT3(.0f, 0.0f, 0.0f));
 	}
 
 	if(m_roll < 0)

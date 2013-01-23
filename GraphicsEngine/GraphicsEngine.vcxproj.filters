@@ -138,6 +138,18 @@
     <ClInclude Include="SpotLight.h">
       <Filter>Light</Filter>
     </ClInclude>
+    <ClInclude Include="FishStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturePack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -226,6 +238,12 @@
     </ClCompile>
     <ClCompile Include="SpotLight.cpp">
       <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

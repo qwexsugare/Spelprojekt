@@ -37,7 +37,7 @@ cbuffer cbEveryFrame
 	float3 la[150];
 	float3 ld[150];
 	float3 ls[150];
-	float lightRadius[50];
+	float lightRadius[100];
 	float2 lightAngle[50];
 
 	float3 cameraPos;
@@ -139,6 +139,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
 
 	float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float3 ambientLight = float3(0.0f, 0.0f, 0.0f);
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
 
@@ -155,12 +156,14 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		distance = length(distVector);
 		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
+		ambientLight = ambientLight + la[i];
 		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
 		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
 	}
 
 	for(i = 0; i < nrOfDirectionalLights; i++)
 	{
+		ambientLight = ambientLight + la[nrOfPointLights + i];
 		diffuseLight = diffuseLight + calcDiffuseLight(lightDirection[i], normal.xyz, ld[nrOfPointLights + i]);
 		specularLight = specularLight + calcSpecularLight(lightDirection[i], normal.xyz, ls[nrOfPointLights + i]);
 	}
@@ -169,7 +172,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	{
 		distVector = (lightPosition[nrOfPointLights + i] - position.xyz);
 		distance = length(distVector);
-		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
+		attenuation = 1 / ((distance / lightRadius[nrOfPointLights + i] + 1) * (distance / lightRadius[nrOfPointLights + i] + 1));
 
 		//float3 pos = float3(50.0f, 1.0f, 50.0f);
 		float3 s = normalize((lightPosition[nrOfPointLights + i] - position.xyz));
@@ -177,38 +180,12 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float angle = max(acos(dot(s, normalize(lightDirection[nrOfDirectionalLights + i]))), 0.0f);
 		float spotfactor = max((cos(angle) - cos(lightAngle[i].x / 2)) / (cos(lightAngle[i].y / 2) - cos(lightAngle[i].x / 2)), 0.0f);
 
-		diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor;
-		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor;
+		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
+		diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
+		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
 	}
 
-	color = float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
-
-
-	//float3 pos = float3(50.0f, 1.0f, 50.0f);
-	//float3 s = normalize((pos - position.xyz));
-	//float3 dir = normalize(float3(2.0f, 0.5f, 0.0f));
-
-	//float angle = max(acos(dot(s, dir)), 0.0f);
-
-	//float maxSpot = 0.53f;
-	//float minSpot = 0.37f;
-
-	//float spotfactor = max((cos(angle) - cos(maxSpot / 2)) / (cos(minSpot / 2) - cos(maxSpot / 2)), 0.0f);
-
-	//diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, float3(1.0f, 1.0f, 1.0f)) * spotfactor;
-	//specularLight = specularLight + calcSpecularLight(s, normal.xyz, float3(1.0f, 1.0f, 1.0f)) * spotfactor;
-
-
-	//return float4(normalize(normal).xyz, 1.0f);
-	//float3 lightDir = float3(1.0f, 1.0f, 0.0f);
-	//return saturate(dot(normal.xyz, normalize(lightDir))) * diffuse;
-
-	//float3 lightPos = float3(50.0f, 3.0f, 50.0f);
-	//return saturate(dot(normal.xyz, normalize(lightPos - position.xyz))) * diffuse;
-
-	//return position/2 + float4(0.5f, 0.5f, 0.5f, 0.0f);
-
-	return color;
+	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
 }
 
 technique10 RenderModelDeferred
