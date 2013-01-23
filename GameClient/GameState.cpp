@@ -8,20 +8,31 @@ GameState::GameState()
 {
 	this->m_hud = new HudMenu();
 	this->m_rotation = 0.0f;
-	this->m_testSound = createSoundHandle("knife.wav", false);
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_emilmackesFpsText = new TextInput("text3.png", INT2(1100, 1053), 100);
 	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 
 	this->m_network = new Client();
+
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
-	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
+	/*for(int i = 0; i < 20; i++)
+	{
+		g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	}
+
+	for(int i = 0; i <500; i++)
+	{
+		g_graphicsEngine->createModel("ArrowHead", FLOAT3(50.0f, 0.0f, 50.0f));
+	}*/
+
+	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.2f, 0.2f, 0.2f), FLOAT3(0.2f, 0.2f, 0.2f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.1f, 0.1f, 0.1f));
+	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT2(0.6f, 0.3f), 50.0f);
 	this->importMap("race");
 }
 
@@ -38,7 +49,6 @@ GameState::~GameState()
 	delete this->m_emilmackesFpsText;
 	delete this->m_emilsFps;
 	delete this->m_hud;
-	deactivateSound(this->m_testSound);
 }
 
 void GameState::end()
@@ -71,6 +81,12 @@ void GameState::update(float _dt)
 		this->m_emilsFps->setText(ss.str());
 		lol = -0.5f;
 	}
+
+	D3DXVECTOR3 pickDir;
+	D3DXVECTOR3 pickOrig;
+	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
+	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
 
 	while(this->m_network->entityQueueEmpty() == false)
 	{
@@ -142,8 +158,18 @@ void GameState::update(float _dt)
 	}
 
 	if(g_mouse->isLButtonPressed())
-	{
-
+	{			
+		for(int i = 0; i < m_entities.size(); i++)
+		{
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
+			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			{
+				this->m_network->sendUseSkillMessage(UseSkillMessage(0, m_entities[i]->m_id));
+			}
+		}
 	}
 	if(g_mouse->isLButtonDown())
 	{
@@ -157,7 +183,6 @@ void GameState::update(float _dt)
 	{
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
-			playSound(this->m_testSound);
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 
 			EntityMessage e;
@@ -179,7 +204,7 @@ void GameState::update(float _dt)
 			}
 		}
 	}
-	if(g_mouse->isRButtonDown())
+	if(g_mouse->isRButtonDown() && !m_minimap->isMouseInMap(g_mouse->getPos()))
 	{
 		bool validMove = true;
 
@@ -195,7 +220,7 @@ void GameState::update(float _dt)
 			}
 		}
 
-		if(validMove && !m_minimap->isMouseInMap(g_mouse->getPos()))
+		if(validMove)
 		{
 			// Calc some fucken pick ray out mofos
 			D3DXVECTOR3 pickDir;
@@ -210,10 +235,14 @@ void GameState::update(float _dt)
 			this->m_network->sendEntity(e);
 		}
 	}
+	else if(g_mouse->isRButtonReleased())
+	{
+
+	}
 
 	this->m_hud->Update(_dt);
 	this->m_emilmackesFpsText->update(_dt);
-	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), m_terrain->getWidth(), m_terrain->getHeight());
+	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
 

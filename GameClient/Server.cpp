@@ -203,10 +203,27 @@ void Server::broadcast(RemoveEntityMessage rem)
 
 void Server::Run()
 {
+	__int64 cntsPerSec = 0;
+	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
+	float secsPerCnt = 1.0f / (float)cntsPerSec;
+
+	__int64 prevTimeStamp = 0;
+	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
+
 	while(this->listener.IsValid())
 	{
+		__int64 currTimeStamp = 0;
+		QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
+		float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
+		prevTimeStamp = currTimeStamp;
+
 		this->goThroughSelector();
 		this->handleMessages();
+
+		for(int i = 0; i < this->m_players.size(); i++)
+		{
+			this->m_players[i]->update(dt);
+		}
 	}
 }
 
@@ -262,6 +279,18 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 		this->m_mutex.Lock();
 
 		this->m_players[socketIndex]->handleEntityAttackMessage(msg);
+
+		this->m_mutex.Unlock();
+		protFound = true;
+	}
+	else if(prot == "USE_SKILL")
+	{
+		UseSkillMessage msg;
+		packet >> msg;
+
+		this->m_mutex.Lock();
+
+		this->m_players[socketIndex]->handleUseSkillMessage(msg);
 
 		this->m_mutex.Unlock();
 		protFound = true;

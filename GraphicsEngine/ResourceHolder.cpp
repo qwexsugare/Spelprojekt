@@ -9,6 +9,7 @@ ResourceHolder::ResourceHolder(ID3D10Device* _device)
 {
 	this->m_device = _device;
 	this->m_textureHolder = new TextureHolder(this->m_device);
+	this->m_animationHolder = new AnimationHolder();
 }
 
 ResourceHolder::~ResourceHolder()
@@ -22,6 +23,7 @@ ResourceHolder::~ResourceHolder()
 	}
 	int lol = 0;
 	delete this->m_textureHolder;
+	delete this->m_animationHolder;
 }
 
 Mesh* ResourceHolder::getMesh(string filename)
@@ -32,18 +34,27 @@ Mesh* ResourceHolder::getMesh(string filename)
 	if(searchResult == this->m_meshes.end())
 	{
 		// Load new texture.
-		Mesh *m = MeshImporter::loadOBJMesh(this->m_device, this->m_textureHolder, filename);
+		Mesh *m = MeshImporter::LoadFishes(this->m_device, this->m_textureHolder, this->m_animationHolder, filename);
 
 		// Add the new texture to the texture vector
 		this->m_meshes.insert(this->m_meshes.begin(), pair<string, Mesh*>(filename, m));
 	}
 	
 	Mesh* result = this->m_meshes[filename];
-
 	return result;
 }
 
 TextureHolder *ResourceHolder::getTextureHolder()
 {
 	return this->m_textureHolder;
+}
+
+AnimationHolder *ResourceHolder::getAnimationHolder()
+{
+	return this->m_animationHolder;
+}
+
+Animation ResourceHolder::getAnimation(string name)
+{
+	return this->m_animationHolder->getAnimation(name);
 }

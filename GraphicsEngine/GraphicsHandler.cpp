@@ -123,11 +123,12 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 {
 	Model* model = NULL;
 	Mesh* mesh = this->m_resourceHolder->getMesh(_filename);
-
 	if(mesh != NULL)
 	{
-		model = new Model(this->m_deviceHandler->getDevice(), mesh, D3DXVECTOR3(_position.x, _position.y, _position.z));
-
+		Animation animation;
+		animation = this->m_resourceHolder->getAnimation(_filename);
+		animation.setTexturePack(&this->m_resourceHolder->getTextureHolder()->getBoneTexture(_filename));
+		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(0.4f, 0.4f, 0.4f));
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{
@@ -191,6 +192,18 @@ DirectionalLight *GraphicsHandler::createDirectionalLight(FLOAT3 direction, FLOA
 bool GraphicsHandler::removeDirectionalLight(DirectionalLight *directionalLight)
 {
 	return this->m_world->removeDirectionalLight(directionalLight);
+}
+
+SpotLight *GraphicsHandler::createSpotLight(FLOAT3 position, FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range)
+{
+	SpotLight *l = new SpotLight(position, direction, la, ld, ls, angle, range);
+	this->m_world->addSpotLight(l);
+	return l;
+}
+
+bool GraphicsHandler::removeSpotLight(SpotLight* spotLight)
+{
+	return this->m_world->removeSpotLight(spotLight);
 }
 
 void GraphicsHandler::render()

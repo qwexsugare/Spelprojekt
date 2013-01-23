@@ -3,12 +3,12 @@
 Enemy::Enemy()
 {
 	m_type = Type::EnemyType;
-	this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_goalPosition = FLOAT3(100.0f, 0.0f, 100.0f);
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
-	this->m_nextPosition = this->m_positon;
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
-	this->m_modelId = 0;
+	this->m_modelId = 1;
 
 	this->m_movementSpeed = 3.0f;
 	this->m_aggroRange = 10.0f;
@@ -20,10 +20,10 @@ Enemy::Enemy(FLOAT3 _pos) : ServerEntity(_pos)
 {
 	m_type = Type::EnemyType;
 	this->m_goalPosition = FLOAT3(100.0f, 0.0f, 100.0f);
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
-	this->m_nextPosition = this->m_positon;
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
-	this->m_modelId = 0;
+	this->m_modelId = 1;
 
 	this->m_movementSpeed = 3.0f;
 	this->m_aggroRange = 10.0f;
@@ -49,7 +49,7 @@ void Enemy::update(float dt)
 FLOAT3 avDir = FLOAT3(0,0,0);
 	/*ServerEntity *_hero = EntityHandler::getAllHeroes()[0];
 	FLOAT3 playerPos = _hero->getPosition();
-	if((playerPos-m_positon).length() < 30)
+	if((playerPos-m_position).length() < 30)
 	{
 		avDir = this->checkStatic(dt,playerPos);
 	}*/
@@ -65,7 +65,7 @@ FLOAT3 avDir = FLOAT3(0,0,0);
 			ServerEntity *se = EntityHandler::getServerEntity(cm->affectedDudeId);
 			if(se != NULL && se->getType() == ServerEntity::HeroType && this->m_attackCooldown <= 0.0f)
 			{
-				EntityHandler::addEntity(new MeleeAttack(this->m_positon, 10.0f, cm->affectedDudeId));
+				EntityHandler::addEntity(new MeleeAttack(this->m_position, 10.0f, cm->affectedDudeId));
 				this->m_attackCooldown = 1.0f;
 			}
 		}
@@ -80,17 +80,17 @@ FLOAT3 avDir = FLOAT3(0,0,0);
 
 	if(this->m_reachedPosition == false)
 	{
-		m_dir = this->m_nextPosition - this->m_positon;
+		m_dir = this->m_nextPosition - this->m_position;
 		if(m_dir.length() > this->m_movementSpeed * dt)
 		{
 			m_dir = m_dir + avDir;
 			m_dir = m_dir / m_dir.length();
 			
-			this->m_positon = this->m_positon + (m_dir * this->m_movementSpeed * dt);
+			this->m_position = this->m_position + (m_dir * this->m_movementSpeed * dt);
 		}
 		else
 		{
-			this->m_positon = this->m_nextPosition;
+			this->m_position = this->m_nextPosition;
 			this->m_reachedPosition = true;
 		}
 
@@ -102,7 +102,7 @@ FLOAT3 avDir = FLOAT3(0,0,0);
 		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 	}
 
-	this->m_obb->Center = XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z);
+	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 }
 
 void Enemy::setNextPosition(int index, float dt)
@@ -123,7 +123,7 @@ void Enemy::checkPursue()
 {
 	float currDistToHero;
 	if(m_closestHero < EntityHandler::getAllHeroes().size())
-		currDistToHero = (this->m_positon - (EntityHandler::getAllHeroes()[m_closestHero])->getPosition()).length();
+		currDistToHero = (this->m_position - (EntityHandler::getAllHeroes()[m_closestHero])->getPosition()).length();
 	
 	else 
 		currDistToHero = 99999.0f;
@@ -140,7 +140,7 @@ void Enemy::checkPursue()
 		for(int i = 0; i < EntityHandler::getAllHeroes().size(); i++)
 		{
 			ServerEntity* _hero = EntityHandler::getAllHeroes()[i];
-			if((this->m_positon-_hero->getPosition()).length() <= this->m_aggroRange )
+			if((this->m_position-_hero->getPosition()).length() <= this->m_aggroRange )
 			{
 				m_willPursue = true; 
 				this->m_closestHero = i;
@@ -167,8 +167,8 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 	
 		for(int i = 1; i < 10; i++)
 		{
-			temp1 = m_positon + currDir*i*3 + cross;
-			temp2 = m_positon + currDir*i*3 - cross;
+			temp1 = m_position + currDir*i*3 + cross;
+			temp2 = m_position + currDir*i*3 - cross;
 			float test = (_pPos-temp1).length();
 			if(test < avoidBuffer)
 			{

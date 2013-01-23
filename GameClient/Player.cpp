@@ -7,12 +7,15 @@ Player::Player(unsigned int id)
 	this->m_hero = new Hero();
 	this->m_hero->setPosition(FLOAT3(50.0f, 0.0f, 50.0f));
 	this->m_hero->setNextPosition(FLOAT3(50.0f, 0.0f, 50.0f));
-
+	this->m_chainStrike = new ChainStrike();
+	this->m_cloudOfDarkness = new CloudOfDarkness();
 	EntityHandler::addEntity(m_hero);
 }
 
 Player::~Player()
 {
+	delete this->m_chainStrike;
+	delete this->m_cloudOfDarkness;
 	delete this->m_messageQueue;
 }
 
@@ -55,15 +58,10 @@ void Player::handleEntityAttackMessage(AttackEntityMessage eam)
 	this->m_hero->setTarget(eam.getTargetId());
 }
 
-void Player::update()
+void Player::update(float _dt)
 {
-
+	m_chainStrike->update(_dt);
 }
-//
-//MessageQueue *Player::getMessageQueue()
-//{
-//	return this->m_messageQueue;
-//}
 
 bool Player::getReady()
 {
@@ -73,4 +71,16 @@ bool Player::getReady()
 MessageQueue *Player::getMessageQueue()
 {
 	return this->m_messageQueue;
+}
+
+void Player::handleUseSkillMessage(UseSkillMessage usm)
+{
+	if(usm.getSkillId() == m_chainStrike->getId())
+	{
+		m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
+	}
+	/*else if(usm.getSkillId() == m_cloudOfDarkness->getId())
+	{
+		m_cloudOfDarkness->activate(usm.(), this->m_hero->getId());
+	}*/
 }

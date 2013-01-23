@@ -3,14 +3,18 @@
 Hero::Hero() : ServerEntity()
 {
 	this->m_type = Type::HeroType;
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
-	this->m_nextPosition = this->m_positon;
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_movementSpeed = 5.0f;
 
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 15.0f;
 	this->m_hasTarget = false;
+	m_strength = 5;
+	m_agility = 5;
+	m_wits = 100;
+	m_fortitude = 5;
 }
 
 Hero::~Hero()
@@ -29,7 +33,7 @@ void Hero::update(float dt)
 
 		if(m->type == Message::Collision)
 		{
-			//this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
+			//this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 		}
 
 		delete m;
@@ -50,14 +54,14 @@ void Hero::update(float dt)
 		}
 		else
 		{
-			FLOAT3 distance = se->getPosition() - this->m_positon;
+			FLOAT3 distance = se->getPosition() - this->m_position;
 			this->m_rotation.x = atan2(-distance.x, -distance.z);
 
-			if(se != NULL && (se->getPosition() - this->m_positon).length() <= this->m_attackRange)
+			if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRange)
 			{
 				if(this->m_attackCooldown <= 0.0f)
 				{
-					EntityHandler::addEntity(new Projectile(this->m_positon, se->getPosition() - this->m_positon, 2.0f, 6.0f));
+					EntityHandler::addEntity(new Projectile(this->m_position, se->getPosition() - this->m_position, 2.0f, 6.0f));
 					this->m_attackCooldown = 0.2f;
 				}
 			}
@@ -66,41 +70,41 @@ void Hero::update(float dt)
 				if(distance.length() - this->m_attackRange > this->m_movementSpeed * dt)
 				{
 					distance = distance / distance.length();
-					this->m_positon = this->m_positon + (distance * this->m_movementSpeed * dt);
+					this->m_position = this->m_position + (distance * this->m_movementSpeed * dt);
 				}
 				else
 				{
-					this->m_positon = this->m_positon + distance * (distance.length() - this->m_attackRange);
+					this->m_position = this->m_position + distance * (distance.length() - this->m_attackRange);
 				}
 
-				this->m_obb->Center = XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z);
+				this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 				this->m_rotation.x = atan2(-distance.x, -distance.z);
 			}
 		}
 	}
 	else if(this->m_reachedPosition == false)
 	{
-		FLOAT3 distance = this->m_nextPosition - this->m_positon;
+		FLOAT3 distance = this->m_nextPosition - this->m_position;
 		if(distance.length() > this->m_movementSpeed * dt)
 		{
 			distance = distance / distance.length();
-			this->m_positon = this->m_positon + (distance * this->m_movementSpeed * dt);
+			this->m_position = this->m_position + (distance * this->m_movementSpeed * dt);
 		}
 		else
 		{
-			this->m_positon = this->m_nextPosition;
+			this->m_position = this->m_nextPosition;
 			this->m_reachedPosition = true;
 		}
 
-		this->m_obb->Center = XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z);
+		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 		this->m_rotation.x = atan2(-distance.x, -distance.z);
 	}
 
 	if(this->m_health <= 0)
 	{
-		this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
+		this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 		this->m_health = 100;
-		this->m_obb->Center = XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z);
+		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 	}
 }
 
@@ -124,13 +128,13 @@ void Hero::setTarget(unsigned int _target)
 
 FLOAT3 Hero::getDirection()
 {
-	if( (m_nextPosition - m_positon).length() > 0)
+	if( (m_nextPosition - m_position).length() > 0)
 	{
-		return m_nextPosition-m_positon;
+		return m_nextPosition-m_position;
 		
 	}
 	else
-		return m_positon;
+		return m_position;
 }
 
 void Hero::takeDamage(int damage)

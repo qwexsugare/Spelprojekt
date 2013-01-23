@@ -20,11 +20,12 @@ private:
 	vector<Entity*> m_entities;
 	float m_rotation;
 	Terrain* m_terrain;
-	int m_testSound;
 	Client *m_network;
 	ModelIdHolder m_modelIdHolder;
 	Minimap* m_minimap;
 	vector<Road*> m_roads;
+
+	SpotLight* s;
 	//Cursor m_cursor;
 
 	void end();

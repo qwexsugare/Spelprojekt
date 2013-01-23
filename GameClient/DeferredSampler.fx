@@ -1,4 +1,5 @@
 Texture2D tex2D;
+Texture1D boneTex;
 Texture2D terrainTextures[8];
 Texture2D terrainBlendMaps[2];
 
@@ -14,6 +15,15 @@ struct VSSceneIn
 	float3 Pos	: POS;
 	float2 UVCoord : UVCOORD;
 	float3 Normal : NORMAL;
+};
+
+struct VSAnimSceneIn
+{
+	float3 Pos		: POS;
+	float2 UVCoord	: UVCOORD;
+	float3 Normal	: NORMAL;
+	float4 Weight	: WEIGHT;
+	float4 Bone		: BONE;
 };
 
 struct PSSceneIn
@@ -138,6 +148,72 @@ technique10 DeferredSample
     }
 }
 
+float4x4 GetBoneMatrix(int boneIndex, float4 _bone)
+{
+	float4x4 bone;
+	for(int row = 0; row < 4; row++)
+	{
+		bone[row] = boneTex.Load(int2((_bone[boneIndex]) * 4 + row, 0), 0); // int2(x, mipMapLevel), int(offset)
+	}
+	return bone;
+}
+
+PSSceneIn VSAnimScene(VSAnimSceneIn input)
+{
+	PSSceneIn output = (PSSceneIn)0;
+
+	matrix viewProjection = mul(viewMatrix, projectionMatrix);
+	
+	//Animation
+	float4 myPos = float4(input.Pos, 1.0);
+	output.Pos = float4(0,0,0,0);
+
+	float _weight = input.Weight[0];
+	float4x4 _bone = GetBoneMatrix(0, input.Bone);
+	output.Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[1];
+	_bone = GetBoneMatrix(1, input.Bone);
+	output.Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[2];
+	_bone = GetBoneMatrix(2, input.Bone);
+	output.Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[3];
+	_bone = GetBoneMatrix(3, input.Bone);
+	output.Pos += _weight * mul(myPos, _bone);
+	
+	//output.Pos.w = 1;
+	output.Pos.y += 15;
+	
+	// transform the point into viewProjection space
+	output.Pos = mul( output.Pos, mul(modelMatrix, viewProjection) );
+	output.UVCoord = input.UVCoord;
+	
+	//variables needed for lighting
+	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
+
+	return output;
+
+}
+
+technique10 DeferredAnimationSample
+{
+    pass p0
+    {
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSAnimScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSScene() ) );
+
+	    SetDepthStencilState( EnableDepth, 0 );
+	    SetRasterizerState( rs );
+    }
+}
+
 PSSceneIn drawTerrainVs(VSSceneIn input)
 {
 	PSSceneIn output = (PSSceneIn)0;
@@ -199,7 +275,7 @@ technique10 RenderTerrain
 
 	    SetDepthStencilState(EnableDepth, 0);
 	    SetRasterizerState(rs);
-    }  
+    }
 }
 
 PSSceneIn drawRoadVs(VSSceneIn input)

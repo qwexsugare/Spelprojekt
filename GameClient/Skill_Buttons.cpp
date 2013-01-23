@@ -68,7 +68,7 @@ void Skill_Buttons::Update()
 			{
 				m_ButtonReaction = 1;
 				m_SkillButton->setCurrentFrame(INT2(1,0));
-				m_Lock = true;
+				//m_Lock = true;
 			}
 			else if(GetKeyState(VK_RBUTTON)< 0)
 			{

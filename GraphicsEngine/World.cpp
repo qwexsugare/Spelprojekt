@@ -61,6 +61,11 @@ World::~World()
 	{
 		delete this->m_directionalLights[i];
 	}
+
+	for(int i = 0; i < this->m_spotLights.size(); i++)
+	{
+		delete this->m_spotLights[i];
+	}
 	
 	for(int i = 0; i < this->m_texts.size(); i++)
 		delete this->m_texts[i];
@@ -160,7 +165,7 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	for(int i = 0; i < this->m_terrains.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_terrains[i]->getVertexBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_terrains[i]->getVertexBuffer(), sizeof(Vertex));
 
 		this->m_deferredSampler->setModelMatrix(m_terrains[i]->getModelMatrix());
 		this->m_deferredSampler->setTerrainTextures(m_terrains[i]->getTextures(), m_terrains[i]->getNrOfTextures());
@@ -174,60 +179,76 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	for(int i = 0; i < m_roads.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_roads[i]->getVertexBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_roads[i]->getVertexBuffer(), sizeof(Vertex));
 		this->m_deferredSampler->setModelMatrix(m_roads[i]->getModelMatrix());
 		this->m_deferredSampler->setTexture(m_roads[i]->getTexture());
 		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(m_roads[i]->getNrOfVertices(), 0);
 	}
 
-	//Render all models
-	/*D3DXMATRIX mat;
-	D3DXMatrixMultiply(&mat, &this->m_camera->getProjectionMatrix(), &this->m_camera->getViewMatrix());
-	XMMATRIX mat;
-	projectionMatrixInCyborgForm = XMMatrixMultiply(::XMthis->m_camera->getProjectionMatrix();
-	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);*/
+	/* Retard Frustum
+	D3DXMATRIX mat;
+	//D3DXMatrixMultiply(&mat, &m_camera->getProjectionMatrix(), &m_camera->getViewMatrix());
+	D3DXMatrixMultiply(&mat, &m_camera->getViewMatrix(), &m_camera->getProjectionMatrix());
+  	
+	XMMATRIX projectionMatrixInCyborgForm = XMMATRIX(
+		mat._11, mat._12, mat._13, mat._14,
+		mat._21, mat._22, mat._23, mat._24,
+		mat._31, mat._32, mat._33, mat._34,
+		mat._41, mat._42, mat._43, mat._44);
 
+	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);
+	bf.Near = 1.0f;
+	bf.Far = 100000000.0f;
+	bf.TopSlope = -10000000.0f;
+	bf.BottomSlope = 10000000.0f;
+	bf.Origin = XMFLOAT3(m_camera->getPos().x, m_camera->getPos().y+50.0f, m_camera->getPos().z);
+	*/
+	
+	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
 	stack<Model*> transparantModels;
 	while(!models.empty())
 	{
-		/*XMFLOAT3 origin(this->m_camera->getPos().x, this->m_camera->getPos().y, this->m_camera->getPos().z);
-		XMFLOAT4 orientation(0.0f, 0.0f, 0.0f, 1.0f);
-		float rightSlope = 0.5f;
-		float leftSlope = -0.5f;
-		float topSlope = 0.5f;
-		float bottomSlope = -0.5f;
-		float near_ = 0.0f;
-		float far_ = 1500000.0f;
-		BoundingFrustum bf = BoundingFrustum(origin, orientation, rightSlope, leftSlope, topSlope, bottomSlope, near_, far_);
-		if(bf.Contains(*models.top()->getObb()) || bf.Intersects(*models.top()->getObb()))
-			int dbg = 1;*/
-
 		if(models.top()->getAlpha() < 1.0f)
 		{
 			transparantModels.push(models.top());
 		}
 		else
 		{
-			this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->buffer);
-
+			
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-			this->m_deferredSampler->setTexture(models.top()->getMesh()->m_texture);
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
+		
 			
-			// ULTRA CHARGED OPTIMIZATION COMMENTS AWAY SIMONS CODE
-			/*D3D10_TECHNIQUE_DESC techDesc;
-			this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
 
-			for( UINT p = 0; p < techDesc.Passes; p++ )
-			{*/
-			this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->nrOfVertices, 0);
-			//}
+			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+			{
+			//for( UINT p = 0; p < techDesc.Passes; p++ )
+			//{
+
+				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->diffuse);
+
+				if(models.top()->getMesh()->isAnimatied)
+				{
+					
+					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				}
+				else
+				{
+				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(Vertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
+					this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
+				}
+
+				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+			}
 		}
-			
+
 		models.pop();
 	}
 
@@ -245,7 +266,7 @@ void World::render()
 
 	while(!transparantModels.empty())
 	{
-		this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->buffer);
+		this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->buffer, sizeof(Vertex));
 
 		this->m_deferredSampler->setModelMatrix(transparantModels.top()->getModelMatrix());
 		this->m_deferredSampler->setTexture(transparantModels.top()->getMesh()->m_texture);
@@ -277,9 +298,9 @@ void World::render()
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_pointLights, this->m_directionalLights);
+	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(this->m_camera->getPos()), this->m_directionalLights, this->m_spotLights);
 
-	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer);
+	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
 	D3D10_TECHNIQUE_DESC techDesc;
 	this->m_deferredRendering->getTechnique()->GetDesc( &techDesc );
@@ -303,7 +324,7 @@ void World::render()
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer(), sizeof(Vertex));
 
 		this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
 		this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
@@ -321,7 +342,7 @@ void World::render()
 	// Render texts
 	for(int i = 0; i < this->m_myTexts.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_myTexts[i]->getBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_myTexts[i]->getBuffer(), sizeof(Vertex));
 
 		this->m_spriteRendering->setModelMatrix(this->m_myTexts[i]->getModelMatrix());
 		this->m_spriteRendering->setTexture(m_myTexts[i]->getTexture());
@@ -353,7 +374,14 @@ void World::update(float dt)
 	{
 		this->m_sprites[i]->update(dt);
 	}
-	
+
+	stack<Model*> models = this->m_quadTree->getModels(m_camera->getPos());
+	while(!models.empty())
+	{
+		models.top()->getAnimation()->Update(dt);
+		models.pop();
+	}
+
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
 	//while(!models.empty())
 	//{
@@ -454,8 +482,8 @@ bool World::removeMyText(MyText* _text)
 
 void World::addPointLight(PointLight* _pointLight)
 {
-	this->m_pointLights.push_back(_pointLight);
-	//this->m_quadTree->addLight(_pointLight);
+	//this->m_pointLights.push_back(_pointLight);
+	this->m_quadTree->addLight(_pointLight);
 }
 
 bool World::removePointLight(PointLight* _pointLight)
@@ -490,6 +518,28 @@ bool World::removeDirectionalLight(DirectionalLight* _directionalLight)
 		{
 			delete this->m_directionalLights[i];
 			this->m_directionalLights.erase(this->m_directionalLights.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addSpotLight(SpotLight* _spotLight)
+{
+	this->m_spotLights.push_back(_spotLight);
+}
+
+bool World::removeSpotLight(SpotLight* _spotLight)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_spotLights.size() && !found; i++)
+	{
+		if(this->m_spotLights[i] == _spotLight)
+		{
+			delete this->m_spotLights[i];
+			this->m_spotLights.erase(this->m_spotLights.begin()+i);
 			found = true;
 		}
 	}

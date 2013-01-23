@@ -4,9 +4,10 @@ Model::Model()
 {
 	this->m_obb = NULL;
 	this->m_bs = NULL;
+	this->animation = NULL;
 }
 
-Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
+Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
 {
 	this->m_alpha = _alpha;
 	this->m_mesh = _mesh;
@@ -15,8 +16,10 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECT
 	this->m_rotation = _rotation;
 	this->updateModelMatrix();
 	//this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
-	this->m_obb = NULL;
+	//this->m_bs = NULL;
 	this->m_bs = new BoundingSphere(XMFLOAT3(_position.x, 0.0f, _position.z), 2.0f);
+	this->m_obb = NULL;
+	this->animation =  new Animation(_animation);
 }
 
 Model::~Model()
@@ -25,6 +28,8 @@ Model::~Model()
 		delete this->m_obb;
 	if(this->m_bs)
 		delete this->m_bs;
+	if(this->animation)
+		delete this->animation;
 }
 
 float Model::getAlpha()const
@@ -40,6 +45,11 @@ BoundingOrientedBox* Model::getObb()const
 Mesh *Model::getMesh() const
 {
 	return this->m_mesh;
+}
+
+Animation* Model::getAnimation()
+{
+	return this->animation;
 }
 
 FLOAT3 Model::getPosition()const

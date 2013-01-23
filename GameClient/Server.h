@@ -6,6 +6,7 @@
 #include "AttackMessage.h"
 #include "RemoveEntityMessage.h"
 #include "AttackEntityMessage.h"
+#include "UseSkillMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -28,6 +29,7 @@ private:
 	queue<EntityMessage> entityQueue;
 	queue<AttackMessage> attackMessageQueue;
 	queue<AttackEntityMessage> attackEntityMessageQueue;
+	queue<UseSkillMessage> useSkillMessage;
 
 	vector<Player*> m_players;
 

@@ -3,7 +3,7 @@
 ServerEntity::ServerEntity()
 {
 	this->m_messageQueue = new MessageQueue();
-	this->m_positon = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_rotation = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_bs = NULL;
 	this->m_modelId = 0;
@@ -14,7 +14,7 @@ ServerEntity::ServerEntity()
 ServerEntity::ServerEntity(FLOAT3 _pos)
 {
 	this->m_messageQueue = new MessageQueue();
-	this->m_positon = _pos;
+	this->m_position = _pos;
 	this->m_rotation = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_bs = NULL;
 	this->m_modelId = 0;
@@ -50,14 +50,14 @@ MessageQueue *ServerEntity::getMessageQueue()
 
 EntityMessage ServerEntity::getUpdate()
 {
-	EntityMessage e = EntityMessage(this->m_id, this->m_modelId, this->m_type, this->m_positon, this->m_rotation);
+	EntityMessage e = EntityMessage(this->m_id, this->m_modelId, this->m_type, this->m_position, this->m_rotation);
 
 	return e;
 }
 
 void ServerEntity::setPosition(FLOAT3 _position)
 {
-	this->m_positon = _position;
+	this->m_position = _position;
 }
 
 void ServerEntity::setId(unsigned int _id)
@@ -77,7 +77,7 @@ void ServerEntity::setVisible(bool _visible)
 
 FLOAT3 ServerEntity::getPosition()
 {
-	return this->m_positon;
+	return this->m_position;
 }
 
 unsigned int ServerEntity::getId()
