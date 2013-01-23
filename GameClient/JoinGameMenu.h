@@ -1,5 +1,6 @@
 #pragma once
 #include "menu.h"
+#include "TextInput.h"
 class JoinGameMenu :
 	public Menu
 {
@@ -7,8 +8,17 @@ public:
 	JoinGameMenu(void);
 	~JoinGameMenu(void);
 
-	void Update();
+	void Update(float _dt);
 	bool StartGameIsDown();
-	bool MainMenuGameIsDone();
+	bool MainMenuGameIsDown();
+	bool MainWriteGameIsDown();
+	bool MainWriteIPIsDown();
+	bool MainWriteNameIsDown();
+
+private:
+	vector<TextInput*> m_Label;
+	bool	m_WriteIP,
+			m_WriteName,
+			m_WriteGame;
 };
 
