@@ -10,7 +10,7 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
 
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 15.0f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 30.0f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
 	this->m_serverThread = new ServerThread();

@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "SoundWrapper.h"
 #include <sstream>
+#include "Skill.h"
 
 GameState::GameState()
 {
@@ -159,15 +160,20 @@ void GameState::update(float _dt)
 
 	if(g_mouse->isLButtonPressed())
 	{			
+		D3DXVECTOR3 pickDir;
+		D3DXVECTOR3 pickOrig;
+		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+		float k = (-pickOrig.y)/pickDir.y;
+		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+		this->m_network->sendUsePositionalSkillMessage(UsePositionalSkillMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+
 		for(int i = 0; i < m_entities.size(); i++)
 		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 			float dist;
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				this->m_network->sendUseSkillMessage(UseSkillMessage(0, m_entities[i]->m_id));
+				this->m_network->sendUseSkillMessage(UseSkillMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
 			}
 		}
 	}

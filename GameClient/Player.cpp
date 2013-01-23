@@ -73,14 +73,18 @@ MessageQueue *Player::getMessageQueue()
 	return this->m_messageQueue;
 }
 
+void Player::handleUsePositionalSkillMessage(UsePositionalSkillMessage usm)
+{
+	if(usm.getSkillId() == m_cloudOfDarkness->getId())
+	{
+		m_cloudOfDarkness->activate(usm.getPos(), this->m_hero->getId());
+	}
+}
+
 void Player::handleUseSkillMessage(UseSkillMessage usm)
 {
 	if(usm.getSkillId() == m_chainStrike->getId())
 	{
 		m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
 	}
-	/*else if(usm.getSkillId() == m_cloudOfDarkness->getId())
-	{
-		m_cloudOfDarkness->activate(usm.(), this->m_hero->getId());
-	}*/
 }

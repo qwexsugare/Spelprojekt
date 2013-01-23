@@ -204,7 +204,7 @@
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="Tower.cpp" />
-    <ClCompile Include="UsePositionalSkill.cpp" />
+    <ClCompile Include="UsePositionalSkillMessage.cpp" />
     <ClCompile Include="UseSkillMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -273,7 +273,7 @@
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Tower.h" />
-    <ClInclude Include="UsePositionalSkill.h" />
+    <ClInclude Include="UsePositionalSkillMessage.h" />
     <ClInclude Include="UseSkillMessage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

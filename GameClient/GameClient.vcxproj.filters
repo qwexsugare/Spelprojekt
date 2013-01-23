@@ -163,7 +163,9 @@
     <ClCompile Include="HudMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="UsePositionalSkill.cpp" />
+    <ClCompile Include="UsePositionalSkillMessage.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -340,7 +342,9 @@
     <ClInclude Include="CloudOfDarknessEffect.h">
       <Filter>Server\Skills\Cloud of Darkness</Filter>
     </ClInclude>
-    <ClInclude Include="UsePositionalSkill.h" />
+    <ClInclude Include="UsePositionalSkillMessage.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

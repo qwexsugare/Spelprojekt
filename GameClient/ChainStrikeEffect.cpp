@@ -1,6 +1,5 @@
 #include "ChainStrikeEffect.h"
 #include "EntityHandler.h"
-#include "Graphics.h"
 #include "SoundWrapper.h"
 
 ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps)

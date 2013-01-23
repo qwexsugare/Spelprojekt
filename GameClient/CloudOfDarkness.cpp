@@ -3,7 +3,7 @@
 #include "CloudOfDarknessEffect.h"
 #include "Hero.h"
 
-const float CloudOfDarkness::COOLDOWN = 180.0f;
+const float CloudOfDarkness::COOLDOWN = 1.0f;
 
 CloudOfDarkness::CloudOfDarkness() : Skill(Skill::CLOUD_OF_DARKNESS, 0.0f)
 {
@@ -15,13 +15,13 @@ CloudOfDarkness::~CloudOfDarkness()
 
 }
 
-void CloudOfDarkness::activate(FLOAT3 position, unsigned int _senderId)
+void CloudOfDarkness::activate(FLOAT3 _position, unsigned int _senderId)
 {
-	/*if(this->getCooldown() == 0 && (EntityHandler::getServerEntity(_senderId)->getPosition() - target->getPosition()).length() < RANGE)
+	if(this->getCooldown() == 0 && (EntityHandler::getServerEntity(_senderId)->getPosition() - _position).length() < RANGE)
 	{
-		EntityHandler::addEntity(new CloudOfDarknessEffect(target->getId(), target->getPosition(), max(((Hero*)EntityHandler::getServerEntity(_senderId))->getWits()/2, 1)));
+		EntityHandler::addEntity(new CloudOfDarknessEffect(_position));//, max(((Hero*)EntityHandler::getServerEntity(_senderId))->getWits()/2, 1)));
 		this->setCooldown(COOLDOWN);
-	}*/
+	}
 }
 
 void CloudOfDarkness::updateSpecificSkill(float _dt)
