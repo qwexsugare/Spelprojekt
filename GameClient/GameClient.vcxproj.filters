@@ -37,9 +37,6 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="HudMenu.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Skill_Buttons.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -130,9 +127,6 @@
     <ClCompile Include="Skill.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="ChainStrike.cpp">
-      <Filter>Server\Skill</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -151,13 +145,25 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="ChainStrikeEffect.cpp">
-      <Filter>Server\Skill</Filter>
-    </ClCompile>
     <ClCompile Include="UseSkillMessage.cpp">
-      <Filter>Server\Skill</Filter>
+      <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="UnitEntity.cpp">
+    <ClCompile Include="ChainStrike.cpp">
+      <Filter>Server\Skills\Chain Strike</Filter>
+    </ClCompile>
+    <ClCompile Include="ChainStrikeEffect.cpp">
+      <Filter>Server\Skills\Chain Strike</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarkness.cpp">
+      <Filter>Server\Skills\Cloud of Darkness</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarknessEffect.cpp">
+      <Filter>Server\Skills\Cloud of Darkness</Filter>
+    </ClCompile>
+    <ClCompile Include="HudMenu.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="UsePositionalSkillMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
@@ -297,9 +303,6 @@
     <ClInclude Include="Skill.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="ChainStrike.h">
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -318,14 +321,28 @@
     <ClInclude Include="Enemy.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="ChainStrikeEffect.h">
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="UseSkillMessage.h">
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="Skill_Buttons.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Skills.h">
+    </ClInclude>
+    <ClInclude Include="UseSkillMessage.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+      <Filter>Server\Skills\Chain Strike</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrike.h">
+      <Filter>Server\Skills\Chain Strike</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarkness.h">
+      <Filter>Server\Skills\Cloud of Darkness</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessEffect.h">
+      <Filter>Server\Skills\Cloud of Darkness</Filter>
+    </ClInclude>
+    <ClInclude Include="UsePositionalSkillMessage.h">
+      <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="UnitEntity.h">
       <Filter>Server</Filter>
@@ -343,6 +360,12 @@
     </Filter>
     <Filter Include="Server\Skill">
       <UniqueIdentifier>{f6ca3c67-71f1-4034-9b97-c4048c7d31ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Skills\Chain Strike">
+      <UniqueIdentifier>{4368136f-e274-4951-963a-e44ca0dd8ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Skills\Cloud of Darkness">
+      <UniqueIdentifier>{a9f3a52a-cec6-4693-ad21-46d591d4257b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

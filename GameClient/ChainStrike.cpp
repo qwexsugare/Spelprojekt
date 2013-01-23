@@ -3,9 +3,9 @@
 #include "ChainStrikeEffect.h"
 #include "Hero.h"
 
-const float ChainStrike::COOLDOWN = 5.0f;
+const float ChainStrike::COOLDOWN = 12.0f;
 
-ChainStrike::ChainStrike() : Skill(0, 0.0f)
+ChainStrike::ChainStrike() : Skill(Skill::CHAIN_STRIKE, 0.0f)
 {
 	
 }

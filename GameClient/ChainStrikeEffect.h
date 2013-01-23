@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ServerEntity.h"
-#include "Model.h"
 
 class ChainStrikeEffect : public ServerEntity
 {

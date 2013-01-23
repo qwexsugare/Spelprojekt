@@ -14,11 +14,18 @@ LobbyState::~LobbyState()
 
 void LobbyState::update(float _dt)
 {
-	this->m_menu->Update();
+	this->m_menu->Update(_dt);
 
 	if(this->m_menu->StartGameIsDown() == true)
 	{
 		//Skicka ready till servern
+		this->setDone(true);
+		this->m_nextState = State::GAME;
+	}
+	else if(this->m_menu->MainMenuIsDown() == true)
+	{
+		this->setDone(true);
+		this->m_nextState = State::MAIN_MENU;
 	}
 
 	//Kolla om nätverket har sagt att spelet har startat
@@ -26,5 +33,5 @@ void LobbyState::update(float _dt)
 
 State::StateEnum LobbyState::nextState()
 {
-	return State::GAME;
+	return this->m_nextState;
 }

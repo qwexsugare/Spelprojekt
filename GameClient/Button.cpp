@@ -46,7 +46,7 @@ void Button::Init(FLOAT2 _ScreenPos,
 	this->m_TextPos.y		=	_TextPos.y;
 	this->m_ID				=	0;
 	this->m_Label			=	new TextLabel(_TextName, "text1.png",INT2(m_TextPos.x, m_TextPos.y),100);
-	m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
+	m_Button				=	g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
 }
 void Button::Update()
 {
@@ -165,6 +165,7 @@ Button::~Button()
 	g_graphicsEngine->removeSpriteSheet(m_Button);
 	m_Button = NULL;
 	delete this->m_Label;
+	m_Label = NULL;
 }
 void Button::RemoveSprite()
 {
@@ -174,10 +175,8 @@ void Button::RemoveSprite()
 }
 void Button::setPosition(FLOAT2 _pos)
 {
-	//g_graphicsEngine->removeSpriteSheet(m_Button);
 	this->m_Pos = _pos;
-	//m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),2);
-	//m_Button->setPosition
+	m_Button->setPosition(m_Pos);
 }
 int  Button::LoseAmountOfResources(int _resources)
 {

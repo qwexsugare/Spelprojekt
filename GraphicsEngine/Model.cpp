@@ -17,8 +17,30 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	this->updateModelMatrix();
 	//this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	//this->m_bs = NULL;
-	this->m_bs = new BoundingSphere(XMFLOAT3(_position.x, 0.0f, _position.z), 2.0f);
-	this->m_obb = NULL;
+	//this->m_bs = new BoundingSphere(XMFLOAT3(_position.x, 0.0f, _position.z), 2.0f);
+	if(_mesh->m_bs == NULL)
+	{
+		this->m_bs = NULL;
+		this->m_obb = new BoundingOrientedBox(*_mesh->m_obb);
+		this->m_obb->Center = XMFLOAT3(m_position.x, m_position.y, m_position.z);
+		this->m_obb->Extents.x *= _scale.x;
+		this->m_obb->Extents.y *= _scale.y;
+		this->m_obb->Extents.z *= _scale.z;
+	}
+	if(_mesh->m_obb == NULL)
+	{
+		this->m_bs = new BoundingSphere(*_mesh->m_bs);
+		this->m_obb = NULL;
+		m_bs->Center = XMFLOAT3(m_position.x, m_position.y, m_position.z);
+
+		float largestScale = _scale.x;
+		if(_scale.y > largestScale)
+			largestScale = _scale.y;
+		if(_scale.z > largestScale)
+			largestScale = _scale.z;
+		this->m_bs->Radius *= largestScale;
+	}
+	
 	this->animation =  new Animation(_animation);
 }
 

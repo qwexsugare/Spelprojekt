@@ -3,14 +3,15 @@
 #include "Graphics.h"
 #include "SoundWrapper.h"
 #include <sstream>
+#include "Skill.h"
 
 GameState::GameState()
 {
 	this->m_hud = new HudMenu();
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600), 100);
-	this->m_emilsFps = new TextLabel("fps = 10", "text1.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
+	this->m_emilmackesFpsText = new TextInput("text3.png", INT2(1100, 1053), 100);
+	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 
 	this->m_network = new Client();
 
@@ -159,15 +160,20 @@ void GameState::update(float _dt)
 
 	if(g_mouse->isLButtonPressed())
 	{			
+		D3DXVECTOR3 pickDir;
+		D3DXVECTOR3 pickOrig;
+		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+		float k = (-pickOrig.y)/pickDir.y;
+		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+		this->m_network->sendUsePositionalSkillMessage(UsePositionalSkillMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+
 		for(int i = 0; i < m_entities.size(); i++)
 		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 			float dist;
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				this->m_network->sendUseSkillMessage(UseSkillMessage(0, m_entities[i]->m_id));
+				this->m_network->sendUseSkillMessage(UseSkillMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
 			}
 		}
 	}

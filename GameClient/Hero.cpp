@@ -13,7 +13,7 @@ Hero::Hero() : UnitEntity()
 	this->m_hasTarget = false;
 	m_strength = 5;
 	m_agility = 5;
-	m_wits = 100;
+	m_wits = 20;
 	m_fortitude = 5;
 }
 

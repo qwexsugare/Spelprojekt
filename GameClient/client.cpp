@@ -187,3 +187,13 @@ void Client::sendUseSkillMessage(UseSkillMessage _usm)
 		this->hostSocket.Send(packet);
 	}
 }
+
+void Client::sendUsePositionalSkillMessage(UsePositionalSkillMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->hostSocket.Send(packet);
+	}
+}

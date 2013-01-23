@@ -70,6 +70,7 @@ private:
 	bool BuyAgilitySkillIsDown();
 	bool BuyWitsSkillIsDown();
 	bool BuyFortitudeSkillIsDown();
+	bool BuyAllSkillIsDown();
 
 	void BuyHud();
 	void UpdateShop();

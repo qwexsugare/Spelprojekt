@@ -22,7 +22,7 @@ void Skill::update(float _dt)
 	this->updateSpecificSkill(_dt);
 }
 
-void Skill::activate()
+void Skill::activate(unsigned int _senderId)
 {
 
 }
@@ -48,7 +48,7 @@ void Skill::activate(unsigned int _targetId, unsigned int _senderId)
 	return (void*)&int(::INT_MAX);*/
 }
 
-void Skill::activate(FLOAT3 position)
+void Skill::activate(FLOAT3 position, unsigned int _senderId)
 {
 
 }
