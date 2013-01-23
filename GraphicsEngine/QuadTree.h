@@ -13,5 +13,6 @@ public:
 
 	bool addModel(Model* _model);
 	stack<Model*> getModels(D3DXVECTOR3 _cameraPos)const;
+	stack<Model*> pullAllModels();
 	bool removeModel(Model* _model);
 };

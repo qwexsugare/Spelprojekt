@@ -30,5 +30,5 @@ public:
 	INT2 getScreenSize();
 
 	void setInputLayout(ID3D10InputLayout *inputLayout);
-	void setVertexBuffer(ID3D10Buffer *buffer);
+	void setVertexBuffer(ID3D10Buffer *buffer, UINT _stride);
 };

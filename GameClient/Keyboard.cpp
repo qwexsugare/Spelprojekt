@@ -2,14 +2,10 @@
 
 Keyboard::Keyboard()
 {
-	this->m_keys['1'] = KEY_UP;
-	this->m_keys['2'] = KEY_UP;
-	this->m_keys['3'] = KEY_UP;
-	this->m_keys['4'] = KEY_UP;
-	this->m_keys[VK_LEFT] = KEY_UP;
-	this->m_keys[VK_RIGHT] = KEY_UP;
-	this->m_keys[VK_UP] = KEY_UP;
-	this->m_keys[VK_DOWN] = KEY_UP;
+	for(int i = 0; i < 256; i++)
+		m_keys[i] = KEY_UP;
+
+	this->m_nrOfKeysToReset = 0;
 }
 
 Keyboard::~Keyboard()
@@ -17,7 +13,7 @@ Keyboard::~Keyboard()
 
 }
 
-int Keyboard::getKeyState(WPARAM _key)
+int Keyboard::getKeyState(WPARAM _key)const
 {
 	return this->m_keys[_key];
 }
@@ -27,6 +23,7 @@ void Keyboard::keyDown(WPARAM _key)
 	if(this->m_keys[_key] == KEY_UP)
 	{
 		this->m_keys[_key] = KEY_PRESSED;
+		this->m_keysToReset[this->m_nrOfKeysToReset++] = _key;
 	}
 	else
 	{
@@ -36,5 +33,13 @@ void Keyboard::keyDown(WPARAM _key)
 
 void Keyboard::keyUp(WPARAM _key)
 {
-	this->m_keys[_key] = KEY_UP;	
+	this->m_keys[_key] = KEY_UP;
+}
+
+void Keyboard::update()
+{
+	for(int i = 0; i < this->m_nrOfKeysToReset; i++)
+		this->m_keys[this->m_keysToReset[i]] = KEY_DOWN;
+
+	this->m_nrOfKeysToReset = 0;
 }

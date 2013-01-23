@@ -14,6 +14,7 @@ bool Client::connect(sf::IPAddress ip, int port)
 	if(this->hostSocket.Connect(port,ip)!=sf::Socket::Done)
 	{
 		cout << "error connecting"<<endl;
+		return false;
 	}
 	
 	this->hostSocket.SetBlocking(false);
@@ -28,8 +29,8 @@ bool Client::connect(sf::IPAddress ip, int port)
 
 void Client::disconnect()
 {
-	if(this->hostSocket.IsValid())
-		this->hostSocket.Close();
+	//if(this->hostSocket.IsValid())
+	this->hostSocket.Close();
 }
 
 void Client::tellServer(string msg)
@@ -53,7 +54,7 @@ void Client::Run()
 			{
 				this->disconnect();
 			}
-			if(prot=="ENT")
+			else if(prot=="ENT")
 			{
 				this->m_mutex.Lock();
 
@@ -69,11 +70,17 @@ void Client::Run()
 
 				this->m_mutex.Unlock();
 			}
-			if(prot=="MSG")
+			else if(prot=="MSG")
 			{
 				Msg msg;
 				packet >> msg;
 				this->msgQueue.push(msg);
+			}
+			else if(prot == "REMOVE")
+			{
+				RemoveEntityMessage rem;
+				packet >> rem;
+				this->removeEntityQueue.push(rem);
 			}
 		}
 	}
@@ -106,6 +113,26 @@ void Client::sendMsg(Msg m)
 	}
 }
 
+void Client::sendAttackMessage(AttackMessage am)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << am;
+		this->hostSocket.Send(packet);
+	}
+}
+
+void Client::sendAttackEntityMessage(AttackEntityMessage aem)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << aem;
+		this->hostSocket.Send(packet);
+	}
+}
+
 bool Client::msgQueueEmpty()
 {
 	return this->msgQueue.empty();
@@ -114,6 +141,11 @@ bool Client::msgQueueEmpty()
 bool Client::entityQueueEmpty()
 {
 	return this->entityQueue.empty();
+}
+
+bool Client::removeEntityQueueEmpty()
+{
+	return this->removeEntityQueue.empty();
 }
 
 Msg Client::msgQueueFront()
@@ -131,5 +163,17 @@ EntityMessage Client::entityQueueFront()
 	this->entityQueue.pop();
 
 	this->m_mutex.Unlock();
+	return ret;
+}
+
+RemoveEntityMessage Client::removeEntityQueueFront()
+{
+	this->m_mutex.Lock();
+
+	RemoveEntityMessage ret = this->removeEntityQueue.front();
+	this->removeEntityQueue.pop();
+
+	this->m_mutex.Unlock();
+
 	return ret;
 }

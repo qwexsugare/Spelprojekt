@@ -6,7 +6,9 @@ private:
 	// Model
 	ID3D10EffectScalarVariable* m_modelAlpha;
 	ID3D10EffectShaderResourceVariable* m_texture;
+	ID3D10EffectShaderResourceVariable* m_boneTexture;
 	ID3D10EffectTechnique *m_technique;
+	ID3D10EffectTechnique *m_animationTechnique;
 	
 	// Terrain
 	ID3D10EffectTechnique* m_renderTerrain;
@@ -18,6 +20,7 @@ private:
 	ID3D10EffectMatrixVariable* m_viewMatrix;
 	ID3D10EffectMatrixVariable* m_projectionMatrix;
 	ID3D10InputLayout *m_vertexLayout;
+	ID3D10InputLayout *m_vertexAnimationLayout;
 public:
 	DeferredSamplerEffectFile();
 	DeferredSamplerEffectFile(ID3D10Device* _device);
@@ -29,9 +32,12 @@ public:
 	void setProjectionMatrix(D3DXMATRIX _matrix);
 
 	void setTexture(ID3D10ShaderResourceView *_texture);
+	void DeferredSamplerEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture);
 	ID3D10InputLayout *getInputLayout()const;
+	ID3D10InputLayout *getInputAnimationLayout() const;
 	
 	ID3D10EffectTechnique *getTechnique();
+	ID3D10EffectTechnique *getAnimationTechnique();
 
 	ID3D10EffectTechnique *getRenderTerrainTechique();
 	void setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size);

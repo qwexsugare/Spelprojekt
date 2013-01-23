@@ -1,121 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-<<<<<<< HEAD
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="ServerThread.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="MessageQueue.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="MessageHandler.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="LobbyState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="client.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityMessage.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Msg.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Server.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
+    <ClCompile Include="AttackMessage.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Mouse.h" />
-    <ClInclude Include="ServerThread.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageQueue.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageHandler.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="LobbyState.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="client.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityMessage.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Msg.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Server.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientHandler.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Server">
-      <UniqueIdentifier>{1fd04c87-e44d-4518-9f56-cec25ece50df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="States">
-      <UniqueIdentifier>{0214b36f-e8bb-4928-b274-991e714a976d}</UniqueIdentifier>
-    </Filter>
-=======
-    <ClCompile Include="ClientHandler.cpp" />
-    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="CreateGameState.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EntityHandler.cpp" />
+    <ClCompile Include="EntityMessage.cpp" />
+    <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="JoinGameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="MapHandler.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="MessageQueue.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="NetworkClient.cpp" />
-    <ClCompile Include="NetworkServer.cpp" />
+    <ClCompile Include="Msg.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ServerEntity.cpp" />
     <ClCompile Include="ServerThread.cpp" />
+    <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="RemoveEntityMessage.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="ModelIdHolder.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="MeleeAttack.cpp" />
+=======
+    <ClCompile Include="LobbyMenu.cpp" />
+    <ClCompile Include="JoinGameMenu.cpp" />
+    <ClCompile Include="CreateGameMenu.cpp" />
+    <ClCompile Include="HudMenu.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="LoreMenu.cpp" />
+    <ClCompile Include="CreditsMenu.cpp" />
+    <ClCompile Include="ScoreMenu.cpp" />
+>>>>>>> 2d63ee7a03c8141bb482040ceddfc971c2265d33
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackMessage.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="client.h" />
     <ClInclude Include="ClientHandler.h" />
+    <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="CreateGameState.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityHandler.h" />
+    <ClInclude Include="EntityMessage.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Hero.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="JoinGameState.h" />
     <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Message.h" />
     <ClInclude Include="LobbyState.h" />
+    <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="MapHandler.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="MessageQueue.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="NetworkClient.h" />
-    <ClInclude Include="NetworkServer.h" />
+    <ClInclude Include="Msg.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="ServerEntity.h" />
     <ClInclude Include="ServerThread.h" />
+    <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
->>>>>>> a9700c52409ca69ac999f9cf5a22b967d89e5f5b
+    <ClInclude Include="RemoveEntityMessage.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="TextInput.h" />
+    <ClInclude Include="Cursor.h" />
+    <ClInclude Include="ModelIdHolder.h" />
+<<<<<<< HEAD
+    <ClInclude Include="MeleeAttack.h" />
+=======
+    <ClInclude Include="LobbyMenu.h" />
+    <ClInclude Include="JoinGameMenu.h" />
+    <ClInclude Include="CreateGameMenu.h" />
+    <ClInclude Include="HudMenu.h" />
+    <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="LoreMenu.h" />
+    <ClInclude Include="CreditsMenu.h" />
+    <ClInclude Include="ScoreMenu.h" />
+>>>>>>> 2d63ee7a03c8141bb482040ceddfc971c2265d33
   </ItemGroup>
 </Project>

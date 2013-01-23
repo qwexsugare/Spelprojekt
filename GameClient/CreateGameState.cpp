@@ -2,12 +2,12 @@
 
 CreateGameState::CreateGameState()
 {
-	//this->m_menu = new CreateGameMenu();
+	this->m_menu = new CreateGameMenu();
 }
 
 CreateGameState::~CreateGameState()
 {
-	//delete this->m_menu;
+	delete this->m_menu;
 }
 
 void CreateGameState::update(float dt)

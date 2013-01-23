@@ -11,12 +11,21 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 	this->m_world = new World(this->m_deviceHandler, _hWnd);
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
 	this->m_windowed = _configFile->getWindowed();
-
-	// Set some screen size vars
-	RECT rc;
-	GetWindowRect(_hWnd, &rc);
-	this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
+	
 	this->m_configScreenSize = _configFile->getScreenSize();
+
+	// If we run in windowed, set the real screen size to be config screen size or the bars and crap outside of the window are counted in
+	if(_configFile->getWindowed())
+	{
+		this->m_realScreenSize = _configFile->getScreenSize();
+	}
+	// Else get the real screen size
+	else
+	{
+		RECT rc;
+		GetWindowRect(_hWnd, &rc);
+		this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
+	}
 }
 
 GraphicsHandler::~GraphicsHandler()
@@ -65,9 +74,29 @@ bool GraphicsHandler::removeText(Text* _text)
 	return this->m_world->removeText(_text);
 }
 
+MyText* GraphicsHandler::createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size)
+{
+	MyText* text = new MyText(this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder()->getTexture("text/" + _texture),
+		_offsetPath, _offsetFilename, this->m_configScreenSize.y, this->m_configScreenSize.x, D3DXVECTOR3(_pos.x, _pos.y, 0.0f), _size);
+	text->DrawString(_text);
+	this->m_world->addMyText(text);
+
+	return text;
+}
+	
+bool GraphicsHandler::removeMyText(MyText* _text)
+{
+	return this->m_world->removeMyText(_text);
+}
+
 Camera *GraphicsHandler::getCamera()
 {
 	return this->m_world->getCamera();
+}
+
+INT2 GraphicsHandler::getRealScreenSize()
+{
+	return this->m_realScreenSize;
 }
 
 INT2 GraphicsHandler::getScreenSize()
@@ -82,11 +111,12 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 {
 	Model* model = NULL;
 	Mesh* mesh = this->m_resourceHolder->getMesh(_filename);
-
 	if(mesh != NULL)
 	{
-		model = new Model(this->m_deviceHandler->getDevice(), mesh, D3DXVECTOR3(_position.x, _position.y, _position.z));
-
+		Animation animation;
+		animation = this->m_resourceHolder->getAnimation(_filename);
+		animation.setTexturePack(&this->m_resourceHolder->getTextureHolder()->getBoneTexture(_filename));
+		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(0.4f, 0.4f, 0.4f));
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{
@@ -126,6 +156,18 @@ SpriteSheet *GraphicsHandler::createSpriteSheet(string filename, FLOAT2 position
 bool GraphicsHandler::removeSpriteSheet(SpriteSheet *spriteSheet)
 {
 	return this->m_world->removeSprite(spriteSheet);
+}
+
+PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls)
+{
+	PointLight *l = new PointLight(position, la, ld, ls);
+	this->m_world->addPointLight(l);
+	return l;
+}
+
+bool GraphicsHandler::removePointLight(PointLight *pointLight)
+{
+	return this->m_world->removePointLight(pointLight);
 }
 
 void GraphicsHandler::render()

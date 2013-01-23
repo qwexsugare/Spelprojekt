@@ -36,8 +36,8 @@ Message *MessageQueue::pullIncomingMessage()
 	this->m_mutex.Lock();
 	Message *m  = this->m_incomingMessages.front();
 	this->m_incomingMessages.pop();
-	
 	this->m_mutex.Unlock();
+	
 	return m;
 }
 
@@ -64,17 +64,14 @@ bool MessageQueue::outgoingQueueEmpty()
 void MessageQueue::pushIncomingMessage(Message* _message)
 {
 	this->m_mutex.Lock();
-	
-		this->m_incomingMessages.push(_message);
-	
+	this->m_incomingMessages.push(_message);
 	this->m_mutex.Unlock();
 }
 
 void MessageQueue::pushOutgoingMessage(Message *_message)
 {
 	this->m_mutex.Lock();
-		_message->senderId = this->m_id;
-		this->m_outgoingMessages.push(_message);
-	
+	_message->senderId = this->m_id;
+	this->m_outgoingMessages.push(_message);
 	this->m_mutex.Unlock();
 }

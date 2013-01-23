@@ -14,7 +14,7 @@ QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
 	this->m_max = _max;
 	this->m_obb = new BoundingOrientedBox(
 		XMFLOAT3((this->m_min.x+this->m_max.x)/2.0f, 0.0f, (this->m_min.y+this->m_max.y)/2.0f),
-		XMFLOAT3((_max.x-_min.x)/2.0f, 0.5f, (_max.y-_min.y)/2.0f),
+		XMFLOAT3((_max.x-_min.x)/2.0f, 100000.5f, (_max.y-_min.y)/2.0f),
 		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f)
 		);
 	
@@ -45,44 +45,50 @@ QuadTreeNode::~QuadTreeNode()
 		delete this->m_obb;
 }
 
-bool QuadTreeNode::addModel(Model* _model)
+void QuadTreeNode::addModel(bool& _success, Model* _model)
 {
-	bool success = true;
-
-	if(!this->m_children[0])
+	if(this->intersects(_model))
 	{
-		this->m_models.push_back(_model);
-	}
-	else if(this->intersects(_model))
-	{
-		int fittIndex = -1;
-		int fittCounter = 0;
-		for(int i = 0; i < 4; i++)
-		{
-			if(this->m_children[i]->intersects(_model))
-			{
-				fittIndex = i;
-				fittCounter++;
-			}
-		}
-
-		if(fittCounter > 1)
+		if(!this->m_children[0])
 		{
 			this->m_models.push_back(_model);
+			_success = true;
 		}
 		else
 		{
-			// This fucker is now my child's problem!!!! IM FREE!!!!111
-			this->m_children[fittIndex]->addModel(_model);
+			int fittIndex = -1;
+			int fittCounter = 0;
+			for(int i = 0; i < 4; i++)
+			{
+				if(this->m_children[i]->intersects(_model))
+				{
+					fittIndex = i;
+					fittCounter++;
+				}
+			}
+
+			if(fittCounter > 1)
+			{
+				this->m_models.push_back(_model);
+				_success = true;
+			}
+			else if(fittCounter > 0)
+			{
+				// This fucker is now my child's problem!!!! IM FREE!!!!111
+				this->m_children[fittIndex]->addModel(_success, _model);
+			}
+			// Else we're fucked
+			else
+			{
+				_success = false;
+			}
 		}
 	}
 	// Else the model is outside of the world tree and no one can take care of this poor sucker :(
 	else
 	{
-		success = false;
+		_success = false;
 	}
-
-	return success;
 }
 
 bool QuadTreeNode::intersects(const Model* _model)const
@@ -112,10 +118,21 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
 		// Find the greatest extent of the model bounding box
 		float greatestExtent;
-		if(this->m_models[i]->getObb()->Extents.x > this->m_models[i]->getObb()->Extents.z)
-			greatestExtent = this->m_models[i]->getObb()->Extents.x;
+		if(m_models[i]->getObb())
+		{
+			if(this->m_models[i]->getObb()->Extents.x > this->m_models[i]->getObb()->Extents.z)
+				greatestExtent = this->m_models[i]->getObb()->Extents.x;
+			else
+				greatestExtent = this->m_models[i]->getObb()->Extents.z;
+		}
+		else if(m_models[i]->getBs())
+		{
+			greatestExtent = this->m_models[i]->getBs()->Radius;
+		}
 		else
-			greatestExtent = this->m_models[i]->getObb()->Extents.z;
+		{
+			// we are fucked
+		}
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
@@ -125,6 +142,25 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 			_models.push(this->m_models[i]);
 
 		// END ADVANCED CHEAT CULLING
+	}
+}
+
+void QuadTreeNode::pullAllModels(stack<Model*>& _models)
+{
+	if(this->m_children[0])
+	{
+		// ADD ALL CHILD MODELS TO STACK
+		this->m_children[0]->pullAllModels(_models);
+		this->m_children[1]->pullAllModels(_models);
+		this->m_children[2]->pullAllModels(_models);
+		this->m_children[3]->pullAllModels(_models);
+	}
+	
+	// ADD MY MODELS TO STACK
+	for(int i = 0; i < this->m_models.size(); i++)
+	{
+		_models.push(this->m_models[i]);
+		this->m_models.erase(this->m_models.begin()+i);
 	}
 }
 

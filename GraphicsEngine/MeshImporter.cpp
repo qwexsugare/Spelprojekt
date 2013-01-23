@@ -1,12 +1,3 @@
-//*****************
-//	- 12-12-12 - Anders -
-//	- Added vector: subMeshes
-//	- Include SubMesh.h
-//	- 16-12-12 - Anders och Alve -
-//	- Added LoadFishMesh()
-//	- Added ReadMaterials()
-//*****************
-
 #include "MeshImporter.h"
 
 fstream MeshImporter::m_fStream;
@@ -68,7 +59,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 		{
 			float x, y, z;
 			sscanf(buf, "vn %f %f %f", &x, &y, &z);
-			normals.push_back(D3DXVECTOR3(x, y, z));
+			normals.push_back(D3DXVECTOR3(x, y, -z));
 		}
 		else if(strcmp(key, "f") == 0) // Mesh.
 		{
@@ -191,136 +182,323 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	matlol.name = newMaterials[(int)newMaterials.size()-2];
 	matlol.texture = materials[(int)newMaterials.size()-2].texture;
 	materials.push_back(matlol);
-	
+
 	result = new Mesh(buffer, faceVertexPos1.size()*3);
 	result->m_texture = matlol.texture;
 
 	return result;
 }
 
-Mesh* MeshImporter::LoadFishMesh(ID3D10Device* device, TextureHolder* textureHolder, string filename)
+Mesh* MeshImporter::LoadFishes(ID3D10Device* device, TextureHolder* textureHolder, AnimationHolder* animationHolder, string filename)
 {
 	Mesh* mesh = NULL;
-	string filepath = "./models/";
-	string line;
-	char in;
-	UINT numSkeletons = 0;
-	UINT numMaterials = 0;
-	UINT numGeometry = 0;
+	string folder = "./models/";
+	string  filepath = folder + filename;
+	vector<string> fileList;
+	char* folderPath = (char*)filepath.c_str();
+	WIN32_FIND_DATA fData;
+	HANDLE handle;
 
-	m_fStream.open(filepath + filename + ".fish", ios_base::in);
-	
-	m_fStream.get(in);
-	while(!m_fStream.eof())
+	char cBuffer[MAX_PATH];
+	sprintf_s(cBuffer, sizeof(cBuffer), "%s\\*", folderPath);
+	handle = FindFirstFile(cBuffer, &fData);
+	if(handle != INVALID_HANDLE_VALUE)
 	{
-		switch( in )
+		while(true)
 		{
-			case 's':
-				m_fStream >> numSkeletons;
-				getline(m_fStream, line);
-				for(UINT i = 0; i < numSkeletons; i++)
-					getline(m_fStream, line); //Store Skeleton
-				break;
-			case 'm':
-				m_fStream >> numMaterials;
-				getline(m_fStream, line);
-				for(UINT i = 0; i < numMaterials; i++)
-					mesh->materials.push_back(ReadMaterial(textureHolder));
-				break;
-			case 'g':
-				m_fStream >> numGeometry;
-				mesh->subMeshes.resize(numGeometry);
-				getline(m_fStream, line);
-				for(UINT i = 0; i < numGeometry; i++)
-					ReadGeometry(mesh, i, device);
-				break;
-			case'\n':
-				break;
-			default:
-				getline(m_fStream, line);
-				//filestream.get(in);
-				break;
+			if(FindNextFile(handle, &fData))
+			{
+				fileList.push_back(fData.cFileName);
+			}
+			else
+			{
+				if(GetLastError() == ERROR_NO_MORE_FILES)
+					break;
+			}
 		}
-		m_fStream.get(in);
+	}
+	else
+	{
+		#ifdef _DEBUG
+				string msg = "Model " + folder + filename + " not found.";
+				MessageBox(NULL, (LPCSTR)msg.c_str(), "ERROR!" , 0);
+		#endif
+	}
+	FishFile fishFile;
+	ReadFish(&fishFile, textureHolder, folder + filename + "/" + filename + ".BFish", folder + filename + "/");	
+	Animation ani;
+	for(int i = 1; i < fileList.size(); i++)
+	{
+		//Find animation files
+		size_t f = fileList[i].find(".BFishA");
+		if (f != string::npos)
+		{
+			string animationName;
+			for(int c = 0; c < f; c++)
+				animationName += fileList[i][c];
+
+			AnimationFile fishAnimation;
+			ReadFishAnimation(&fishAnimation, folder + filename + "/" +  animationName + ".BFishA", fishFile.fFileInfo.numSkeleton);
+			ani.addAnimation(animationName, fishAnimation);
+		}
 	}
 	
-	//For Fun
-	mesh->buffer = mesh->subMeshes[0].buffer;
-	mesh->m_texture = mesh->materials[mesh->subMeshes[0].materialId].textures[0];
+	mesh = CreateMesh(device, &fishFile, ani.getNumAnimations() > 0, textureHolder, folderPath);
 
-	m_fStream.close();
+	animationHolder->addAnimation(filename, ani);
+
 	return mesh;
 }
 
-Material MeshImporter::ReadMaterial(TextureHolder* textureHolder)
+void MeshImporter::ReadFish(FishFile* fishFile, TextureHolder* textureHolder, string filepath, string folderPath)
 {
-	Material material;
-	UINT numTextures = 0;
-	char in;
-	string path, type, line;
-	ID3D10ShaderResourceView* resource;
+	char* memblock;
+
+	ifstream rb;
+	rb.open(filepath, ios::in | ios::binary | ios::ate);
+	if(!rb.is_open())
+		MessageBox(NULL, filepath.c_str(), "File Not Found", 0);		
+	ifstream::pos_type size;
+	size = rb.tellg();
+	memblock = new char[size];
+	rb.seekg(0, ios::beg);
+
+	rb.read((char*)memblock, size);
 	
-	if(m_fStream.is_open())
-	{
-		m_fStream >> numTextures;
-		for(int t = 0; t < numTextures; t++)
-		{
-			m_fStream >> path >> type;
-			getline(m_fStream, line);
-			resource = textureHolder->getTexture(path);
-			material.textures.insert(material.textures.end(), pair<string,ID3D10ShaderResourceView*>(type, resource));
-		}
-	}
-	return material;
+	rb.close();
+
+	MapFishFile(fishFile, memblock);
 }
-void MeshImporter::ReadGeometry(Mesh* mesh, int meshId, ID3D10Device* device)
-{
-	string in;
-	vector<Vertex> verts;
-	D3DXVECTOR3 tangent;
-	D3DXVECTOR4 weights;
-	D3DXVECTOR4 boneIndex;
 
-	m_fStream >> in;
-	m_fStream >> mesh->subMeshes[meshId].skeletonId;
-	m_fStream >> in;
-	m_fStream >> mesh->subMeshes[meshId].numInfluences;
-	m_fStream >> in;
-	m_fStream >> mesh->subMeshes[meshId].numVerts;
-	m_fStream >> in;
-	m_fStream >> mesh->subMeshes[meshId].materialId;
-	getline(m_fStream, in);
-	for(int v = 0; v < mesh->subMeshes[meshId].numVerts; v++)
+Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool isAnimated, TextureHolder* textureHolder, string folderPath)
+{
+	Mesh* mesh = NULL;
+
+	mesh = new Mesh();
+
+	mesh->subMeshes.resize(fishFile->FMeshes.size());
+
+	for(int m = 0; m < fishFile->FMeshes.size(); m++)
 	{
-		Vertex myVert;
-		m_fStream >> in;
-		m_fStream >> myVert.pos.x >> myVert.pos.y, myVert.pos.z;
-		m_fStream >> in;
-		m_fStream >> myVert.normal.x >> myVert.normal.y, myVert.normal.z;
-		m_fStream >> in;
-		m_fStream >> tangent.x >> tangent.y, tangent.z;
-		m_fStream >> in;
-		m_fStream >> myVert.texCoord.x >> myVert.texCoord.y;
-		for(int i = 0; i < mesh->subMeshes[meshId].numInfluences; i++)
+		vector<Vertex> verts;
+		verts.resize(fishFile->FMeshes[m].numVertices);
+
+		
+		vector<AnimationVertex> animationVerts;
+		animationVerts.resize(fishFile->FMeshes[m].numVertices);
+		if(isAnimated)
 		{
-			m_fStream >> boneIndex[i] >> weights[i];
+			for(int v = 0 ; v < fishFile->FMeshes[m].numVertices; v++)
+			{
+				animationVerts[v].pos.x = fishFile->FMeshes[m].vertices[v].position.x;
+				animationVerts[v].pos.y = fishFile->FMeshes[m].vertices[v].position.y;
+				animationVerts[v].pos.z = fishFile->FMeshes[m].vertices[v].position.z;
+			
+				animationVerts[v].normal.x = fishFile->FMeshes[m].vertices[v].normal.x;
+				animationVerts[v].normal.y = fishFile->FMeshes[m].vertices[v].normal.y;
+				animationVerts[v].normal.z = fishFile->FMeshes[m].vertices[v].normal.z;
+
+				animationVerts[v].texCoord.x = fishFile->FMeshes[m].vertices[v].uv.u;
+				animationVerts[v].texCoord.y = fishFile->FMeshes[m].vertices[v].uv.v;
+
+				animationVerts[v].weight.x = fishFile->FMeshes[m].vertices[v].weights[0];
+				animationVerts[v].weight.y = fishFile->FMeshes[m].vertices[v].weights[1];
+				animationVerts[v].weight.z = fishFile->FMeshes[m].vertices[v].weights[2];
+				animationVerts[v].weight.w = fishFile->FMeshes[m].vertices[v].weights[3];
+
+		/*		float fisk =  fishFile->FMeshes[m].vertices[v].weights[0] + fishFile->FMeshes[m].vertices[v].weights[1] + fishFile->FMeshes[m].vertices[v].weights[2] + fishFile->FMeshes[m].vertices[v].weights[3];
+				if(fisk < 0.7f)
+					int hi = 0;*/
+				animationVerts[v].bone.x = fishFile->FMeshes[m].vertices[v].boneIndex[0];
+				animationVerts[v].bone.y = fishFile->FMeshes[m].vertices[v].boneIndex[1];
+				animationVerts[v].bone.z = fishFile->FMeshes[m].vertices[v].boneIndex[2];
+				animationVerts[v].bone.w = fishFile->FMeshes[m].vertices[v].boneIndex[3];
+			}
+		}
+		else
+		{
+			for(int v = 0 ; v < fishFile->FMeshes[m].numVertices; v++)
+			{
+				verts[v].pos.x = fishFile->FMeshes[m].vertices[v].position.x;
+				verts[v].pos.y = fishFile->FMeshes[m].vertices[v].position.y;
+				verts[v].pos.z = fishFile->FMeshes[m].vertices[v].position.z;
+			
+				verts[v].normal.x = fishFile->FMeshes[m].vertices[v].normal.x;
+				verts[v].normal.y = fishFile->FMeshes[m].vertices[v].normal.y;
+				verts[v].normal.z = fishFile->FMeshes[m].vertices[v].normal.z;
+
+				verts[v].texCoord.x = fishFile->FMeshes[m].vertices[v].uv.u;
+				verts[v].texCoord.y = fishFile->FMeshes[m].vertices[v].uv.v;
+			}
+		}
+
+		ID3D10Buffer* buffer = NULL;
+		D3D10_BUFFER_DESC bd;
+		bd.Usage = D3D10_USAGE_DEFAULT;
+		
+		if(isAnimated)
+			bd.ByteWidth = sizeof( AnimationVertex ) * fishFile->FMeshes[m].numVertices;
+		else
+			bd.ByteWidth = sizeof( Vertex ) * fishFile->FMeshes[m].numVertices;
+
+		bd.BindFlags = D3D10_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags = 0;
+		bd.MiscFlags = 0;
+
+		D3D10_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		if(isAnimated)
+			sd.pSysMem = &animationVerts[m];
+		else
+			sd.pSysMem = &verts[m];
+	
+
+		HRESULT hr = device->CreateBuffer( &bd, &sd, &buffer);
+
+		mesh->subMeshes[m] = new SubMesh(buffer, fishFile->FMeshes[m].numVertices);
+		mesh->subMeshes[m]->materialId = fishFile->FMeshes[m].materialIndex;
+	}
+
+	for(int m = 0; m < fishFile->FMeshes.size(); m++)
+	{
+		for(int t = 0; t < fishFile->fMaterials.size(); t++)
+		{
+			if(fishFile->FMeshes[m].materialIndex == t)
+			{
+				string tName;
+				for(int c = 0; c < fishFile->fMaterials[m].textures[t].pathSize; c++)
+					tName += fishFile->fMaterials[m].textures[t].path[c];
+				mesh->subMeshes[m]->diffuse = textureHolder->getTexture(string(folderPath + "/" + tName));
+			}
 		}
 	}
 
-	ID3D10Buffer* buffer;
-	D3D10_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D10_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof( Vertex ) * verts.size();
-	bd.BindFlags = D3D10_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-	bd.MiscFlags = 0;
+	XMFLOAT3 cen(fishFile->boundingVol.pos.x, fishFile->boundingVol.pos.y, fishFile->boundingVol.pos.z);
 
-	D3D10_SUBRESOURCE_DATA sd;
-	sd.pSysMem = &verts[0];
+	XMFLOAT3 ext(fishFile->boundingVol.size.x, fishFile->boundingVol.size.y, fishFile->boundingVol.size.z);
 
-	HRESULT hr = device->CreateBuffer( &bd, &sd, &buffer);
-	if(FAILED(hr))
-		hr;
-	mesh->subMeshes[meshId].buffer = buffer;
+	XMFLOAT4 quat(0, 0, 0, 1);
+
+	switch(fishFile->boundingVol.type)
+	{
+		case 0:
+			mesh->m_bs = new BoundingSphere(cen, ext.x);
+			break;
+		case 1:
+			mesh->m_obb = new BoundingOrientedBox(cen, ext, quat);
+			break;
+	}
+
+	mesh->numSkeletons = fishFile->fFileInfo.numSkeleton;
+
+	mesh->isAnimatied = isAnimated;
+
+	return mesh;
+}
+
+void MeshImporter::ReadFishAnimation(AnimationFile* animationFile, string filepath, int numSkeletons)
+{
+	char* memblock;
+
+	ifstream rb;
+	rb.open(filepath, ios::in | ios::binary | ios::ate);
+	ifstream::pos_type size;
+	size = rb.tellg();
+	memblock = new char[size];
+	rb.seekg(0, ios::beg);
+
+	rb.read((char*)memblock, size);
+	
+	rb.close();
+
+	MapAnimationFile(animationFile, memblock, numSkeletons);
+}
+
+void MeshImporter::MapFishFile(FishFile* fishFile, char* memblock)
+{
+	//Map Random Header
+	fishFile->fFileInfo = *(FFileInfo*)memblock;
+	memblock += sizeof(FFileInfo);
+	//Map boundingVol
+	fishFile->boundingVol = *(FBoundingVolume*)memblock;
+	memblock += sizeof(FBoundingVolume);
+	//Map Materials
+	fishFile->fMaterials.resize(fishFile->fFileInfo.numMaterials);
+	for(int m = 0; m < fishFile->fFileInfo.numMaterials; m++)
+	{
+		fishFile->fMaterials[m].numTextures = *(int*)memblock;
+		memblock += sizeof(int);
+		fishFile->fMaterials[m].textures.resize(fishFile->fMaterials[m].numTextures);
+		for(int t = 0; t < fishFile->fMaterials[m].numTextures; t++)
+		{
+			fishFile->fMaterials[m].textures[t] = *(FTexture*)memblock;
+			memblock += sizeof(FTexture);
+		}
+	}
+	//Map Meshes
+	fishFile->FMeshes.resize(fishFile->fFileInfo.numGeometry);
+	for(int g = 0; g < fishFile->fFileInfo.numGeometry; g++)
+	{
+		fishFile->FMeshes[g].skeletonId = *(int*)memblock;
+		memblock += sizeof(int);
+		fishFile->FMeshes[g].numInfluences = *(int*)memblock;
+		memblock += sizeof(int);
+		fishFile->FMeshes[g].numVertices = *(int*)memblock;
+		memblock += sizeof(int);
+		fishFile->FMeshes[g].materialIndex = *(int*)memblock;
+		memblock += sizeof(int);
+
+		fishFile->FMeshes[g].vertices.resize(fishFile->FMeshes[g].numVertices);
+		for(int v = 0; v < fishFile->FMeshes[g].numVertices; v++)
+		{
+			fishFile->FMeshes[g].vertices[v].position = *(FFloat3*)memblock;
+			memblock += sizeof(FFloat3);
+			fishFile->FMeshes[g].vertices[v].normal = *(FFloat3*)memblock;
+			memblock += sizeof(FFloat3);
+			fishFile->FMeshes[g].vertices[v].tangent = *(FFloat3*)memblock;
+			memblock += sizeof(FFloat3);
+			fishFile->FMeshes[g].vertices[v].uv = *(FFloat2*)memblock;
+			memblock += sizeof(FFloat2);
+
+			//Write Influences
+			fishFile->FMeshes[g].vertices[v].weights.resize(fishFile->FMeshes[g].numInfluences);
+			fishFile->FMeshes[g].vertices[v].boneIndex.resize(fishFile->FMeshes[g].numInfluences);
+			for(int i = 0; i < fishFile->FMeshes[g].numInfluences; i++)
+			{
+				fishFile->FMeshes[g].vertices[v].weights[i] = *(float*)memblock;
+				memblock += sizeof(float);
+				fishFile->FMeshes[g].vertices[v].boneIndex[i] = *(int*)memblock;
+				memblock += sizeof(int);
+			}
+		}
+	}
+}
+
+void MeshImporter::MapAnimationFile(AnimationFile* animationFile, char* memblock, int numSkeletons)
+{
+	//Map number of keys
+	animationFile->numKeys = *(int*)memblock;
+	memblock += sizeof(int);
+	
+	animationFile->skeletons.resize(numSkeletons);
+	for(int s = 0; s < numSkeletons; s++)
+	{
+		animationFile->skeletons[s].keys.resize(animationFile->numKeys);
+		for(int k = 0; k < animationFile->numKeys; k++)
+		{
+			//Map time
+			animationFile->skeletons[s].keys[k].time = *(float*)memblock;
+			memblock += sizeof(float);
+			//Map numJoints
+			animationFile->skeletons[s].keys[k].numJoints = *(int*)memblock;
+			memblock += sizeof(int);
+			animationFile->skeletons[s].keys[k].joints.resize(animationFile->skeletons[s].keys[k].numJoints);
+			//Map joints
+			for(int j = 0; j < animationFile->skeletons[s].keys[k].numJoints; j++)
+			{
+				animationFile->skeletons[s].keys[k].joints[j] = *(FJoint*)memblock;
+				memblock += sizeof(FJoint);
+			}
+		}
+	}
 }

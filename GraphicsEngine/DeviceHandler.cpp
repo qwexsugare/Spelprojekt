@@ -121,11 +121,11 @@ ID3D10Texture2D* DeviceHandler::getBackBuffer()
 	return backBuffer;
 }
 
-void DeviceHandler::setVertexBuffer(ID3D10Buffer *buffer)
+void DeviceHandler::setVertexBuffer(ID3D10Buffer *buffer, UINT _stride)
 {
 	if(this->m_currentBuffer != buffer)
 	{
-		UINT stride = sizeof(Vertex);
+		UINT stride = _stride;
 		UINT offset = 0;
 
 		this->m_device->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);

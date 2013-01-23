@@ -14,10 +14,12 @@
 #include "Sprite.h"
 #include "FullScreenPlane.h"
 #include "Text.h"
+#include "MyText.h"
 #include "QuadTree.h"
 #include "SpriteSheet.h"
 #include "SpriteBase.h"
 #include "Terrain.h"
+#include "PointLight.h"
 
 class World
 {
@@ -46,11 +48,13 @@ private:
 	SpriteEffectFile *m_spriteRendering;
 
 	DeviceHandler* m_deviceHandler;
-
+	
 	vector<Text*> m_texts;
+	vector<MyText*> m_myTexts;
 	QuadTree* m_quadTree;
 	vector<SpriteBase*> m_sprites;
 	vector<Terrain*> m_terrains;
+	vector<PointLight*> m_pointLights;
 public:
 	World();
 	World(DeviceHandler* _deviceHandler, HWND _hWnd);
@@ -67,9 +71,15 @@ public:
 
 	void addSprite(SpriteBase *sprite);
 	bool removeSprite(SpriteBase *sprite);
-
+	
 	void addText(Text* _text);
 	bool removeText(Text* _text);
+	
+	void addMyText(MyText* _text);
+	bool removeMyText(MyText* _text);
+
+	void addPointLight(PointLight* _pointLight);
+	bool removePointLight(PointLight* _pointLight);
 
 	Camera *getCamera();
 };

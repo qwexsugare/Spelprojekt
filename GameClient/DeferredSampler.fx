@@ -1,4 +1,5 @@
 Texture2D tex2D;
+Texture1D boneTex;
 Texture2D terrainTextures[8];
 Texture2D terrainBlendMaps[2];
 
@@ -16,11 +17,20 @@ struct VSSceneIn
 	float3 Normal : NORMAL;
 };
 
+struct VSAnimSceneIn
+{
+	float3 Pos		: POS;
+	float2 UVCoord	: UVCOORD;
+	float3 Normal	: NORMAL;
+	float4 Weight	: WEIGHT;
+	float4 Bone		: BONE;
+};
+
 struct PSSceneIn
 {
 	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
 	float2 UVCoord : UVCOORD;
-	float4 EyeCoord : EYE_COORD;
+	float3 EyeCoord : EYE_COORD;
 	float3 Normal : NORMAL;
 };
 
@@ -89,8 +99,8 @@ PSSceneIn VSScene(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = input.Normal;
-	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
+	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
 
 	return output;
 }
@@ -101,8 +111,9 @@ PSSceneOut PSScene(PSSceneIn input) : SV_Target
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w = modelAlpha;
 
-	output.Pos = input.Pos;
-	output.Normal = float4(input.Normal, 1.0f);
+	output.Pos = float4(input.EyeCoord, 1.0f);
+	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = color;
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -124,6 +135,72 @@ technique10 DeferredSample
     }
 }
 
+float4x4 GetBoneMatrix(int boneIndex, float4 _bone)
+{
+	float4x4 bone;
+	for(int row = 0; row < 4; row++)
+	{
+		bone[row] = boneTex.Load(int2((_bone[boneIndex]) * 4 + row, 0), 0); // int2(x, mipMapLevel), int(offset)
+	}
+	return bone;
+}
+
+PSSceneIn VSAnimScene(VSAnimSceneIn input)
+{
+	PSSceneIn output = (PSSceneIn)0;
+
+	matrix viewProjection = mul(viewMatrix, projectionMatrix);
+	
+	//Animation
+	float4 myPos = float4(input.Pos, 1.0);
+	output.Pos = float4(0,0,0,0);
+
+	float _weight = input.Weight[0];
+	float4x4 _bone = GetBoneMatrix(0, input.Bone);
+	output.Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[1];
+	_bone = GetBoneMatrix(1, input.Bone);
+	output.Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[2];
+	_bone = GetBoneMatrix(2, input.Bone);
+	output.Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[3];
+	_bone = GetBoneMatrix(3, input.Bone);
+	output.Pos += _weight * mul(myPos, _bone);
+	
+	//output.Pos.w = 1;
+	output.Pos.y += 15;
+	
+	// transform the point into viewProjection space
+	output.Pos = mul( output.Pos, mul(modelMatrix, viewProjection) );
+	output.UVCoord = input.UVCoord;
+	
+	//variables needed for lighting
+	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
+
+	return output;
+
+}
+
+technique10 DeferredAnimationSample
+{
+    pass p0
+    {
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSAnimScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSScene() ) );
+
+	    SetDepthStencilState( EnableDepth, 0 );
+	    SetRasterizerState( rs );
+    }
+}
+
 PSSceneIn drawTerrainVs(VSSceneIn input)
 {
 	PSSceneIn output = (PSSceneIn)0;
@@ -135,8 +212,8 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = input.Normal;
-	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
+	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.EyeCoord = mul(input.Pos, modelMatrix);
 
 	return output;
 }
@@ -145,7 +222,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 {	
 	PSSceneOut output = (PSSceneOut)0;
 
-	output.Pos = input.Pos;
+	output.Pos = float4(input.EyeCoord, 1.0f);
 	output.Normal = float4(input.Normal, 1.0f);
 
 	float4 texColors[8];
@@ -161,14 +238,14 @@ PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
 	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
 	
-	output.Diffuse = lerp(texColors[0]*blendSample1.x, texColors[1], blendSample1.y);
-	output.Diffuse = lerp(output.Diffuse, texColors[1], blendSample1.y);
-	output.Diffuse = lerp(output.Diffuse, texColors[2], blendSample1.z);
-	output.Diffuse = lerp(output.Diffuse, texColors[3], blendSample1.w);
-	output.Diffuse = lerp(output.Diffuse, texColors[4], blendSample2.x);
-	output.Diffuse = lerp(output.Diffuse, texColors[5], blendSample2.y);
-	output.Diffuse = lerp(output.Diffuse, texColors[6], blendSample2.z);
-	output.Diffuse = lerp(output.Diffuse, texColors[7], blendSample2.w);
+	output.Diffuse =  texColors[0]* blendSample1.x;
+	output.Diffuse += texColors[1]* blendSample1.y;
+	output.Diffuse += texColors[2]* blendSample1.z;
+	output.Diffuse += texColors[3]* blendSample1.w;
+	output.Diffuse += texColors[4]* blendSample2.x;
+	output.Diffuse += texColors[5]* blendSample2.y;
+	output.Diffuse += texColors[6]* blendSample2.z;
+	output.Diffuse += texColors[7]* blendSample2.w;
 
 	return output;
 }
@@ -176,7 +253,9 @@ PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 technique10 RenderTerrain
 {
     pass p0
-    {
+    { 
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
         SetVertexShader(CompileShader( vs_4_0, drawTerrainVs()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));

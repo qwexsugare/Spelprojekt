@@ -4,9 +4,10 @@ Model::Model()
 {
 	this->m_obb = NULL;
 	this->m_bs = NULL;
+	this->animation = NULL;
 }
 
-Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
+Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
 {
 	this->m_alpha = _alpha;
 	this->m_mesh = _mesh;
@@ -14,8 +15,10 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, D3DXVECTOR3 _position, D3DXVECT
 	this->m_scale = _scale;
 	this->m_rotation = _rotation;
 	this->updateModelMatrix();
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
-	this->m_bs = NULL;
+	//this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_obb = NULL;
+	this->m_bs = new BoundingSphere(XMFLOAT3(_position.x, 0.0f, _position.z), 2.0f);
+	this->animation = new Animation(_animation);
 }
 
 Model::~Model()
@@ -24,6 +27,7 @@ Model::~Model()
 		delete this->m_obb;
 	if(this->m_bs)
 		delete this->m_bs;
+	delete this->animation;
 }
 
 float Model::getAlpha()const
@@ -41,6 +45,11 @@ Mesh *Model::getMesh() const
 	return this->m_mesh;
 }
 
+Animation* Model::getAnimation()
+{
+	return this->animation;
+}
+
 FLOAT3 Model::getPosition()const
 {
 	return FLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
@@ -49,6 +58,26 @@ FLOAT3 Model::getPosition()const
 D3DXVECTOR2 Model::getPosition2D()const
 {
 	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
+}
+
+bool Model::contains(const BoundingOrientedBox& _obb)const
+{
+	if(this->m_obb)
+		return this->m_obb->Contains(_obb);
+	else if(this->m_bs)
+		return this->m_bs->Contains(_obb);
+	else
+		return false;
+}
+
+bool Model::contains(const BoundingSphere& _bs)const
+{
+	if(this->m_obb)
+		return this->m_obb->Contains(_bs);
+	else if(this->m_bs)
+		return this->m_bs->Contains(_bs);
+	else
+		return false;
 }
 
 bool Model::intersects(const BoundingOrientedBox& _obb)const
@@ -71,12 +100,35 @@ bool Model::intersects(const BoundingSphere& _bs)const
 		return false;
 }
 
+bool Model::intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const
+{
+	_direction = -_direction;
+
+	if(this->m_obb)
+		return this->m_obb->Intersects(XMLoadFloat3(&XMFLOAT3(_origin)), XMLoadFloat3(&XMFLOAT3(_direction)), _dist);
+	else if(this->m_bs)
+		return this->m_bs->Intersects(XMLoadFloat3(&XMFLOAT3(_origin)), XMLoadFloat3(&XMFLOAT3(_direction)), _dist);
+	else
+	{
+		_dist = 0;
+		return false;
+	}
+}
+
 void Model::move(FLOAT3 _distance)
 {
 	this->m_position.x += _distance.x;
 	this->m_position.y += _distance.y;
 	this->m_position.z += _distance.z;
 	this->updateModelMatrix();
+	if(this->m_bs)
+	{
+		this->m_bs->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+	}
+	else
+	{
+		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+	}
 }
 
 void Model::rotate(float _yaw, float _pitch, float _roll)
@@ -152,6 +204,15 @@ void Model::setPosition(FLOAT3 _position)
 {
 	this->m_position = D3DXVECTOR3(_position.x, _position.y, _position.z);
 	this->updateModelMatrix();
+
+	if(this->m_bs)
+	{
+		this->m_bs->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+	}
+	else
+	{
+		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+	}
 }
 
 void Model::setScale(float x, float y, float z)

@@ -5,7 +5,11 @@
 #include "Server.h"
 #include "MessageHandler.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "ServerEntity.h"
+#include "MapHandler.h"
+#include "CollisionHandler.h"
+#include "Tower.h"
 
 class ServerThread : public sf::Thread
 {
@@ -15,6 +19,8 @@ private:
 	Server *m_network;
 	MessageHandler *m_messageHandler;
 	EntityHandler *m_entityHandler;
+	MapHandler* m_mapHandler;
+	CollisionHandler *m_collisionHandler;
 
 	MessageQueue *m_messageQueue;
 	State m_state;

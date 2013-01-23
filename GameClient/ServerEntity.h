@@ -18,9 +18,16 @@ protected:
 	BoundingOrientedBox* m_obb;
 	FLOAT3 m_positon;
 	FLOAT3 m_rotation;
-	int m_modelId;
+
+	int m_health;
+	unsigned int m_modelId;
+	bool m_visible;
+
 public:
+	static enum Type{EnemyType, HeroType, OtherType};
+	Type m_type;
 	ServerEntity();
+	ServerEntity(FLOAT3 m_pos);
 	virtual ~ServerEntity();
 
 	virtual void update(float dt);
@@ -30,10 +37,17 @@ public:
 	EntityMessage getUpdate();
 
 	void setId(unsigned int _id);
+	void setModelId(unsigned int _modelId);
 	void setPosition(FLOAT3 _position);
+	void setVisible(bool _visible);
 
 	FLOAT3 getPosition();
 	unsigned int getId();
+	unsigned int getModelId();
+	Type getType();
+	bool getVisible();
+	
+	virtual void takeDamage(int damage);
 };
 
 #endif

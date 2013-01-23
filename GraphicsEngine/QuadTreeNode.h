@@ -19,8 +19,9 @@ public:
 	QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max);
 	~QuadTreeNode();
 
-	bool addModel(Model* _model);
+	void addModel(bool& _success, Model* _model);
 	bool intersects(const Model* _model)const;
 	void getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const;
+	void pullAllModels(stack<Model*>& _models);
 	bool removeModel(Model* _model);
 };
