@@ -41,7 +41,6 @@ Mesh* ResourceHolder::getMesh(string filename)
 	}
 	
 	Mesh* result = this->m_meshes[filename];
-	this->m_animationHolder;
 	return result;
 }
 

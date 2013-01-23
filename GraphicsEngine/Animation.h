@@ -7,7 +7,6 @@
 
 using namespace std;
 
-//struct AnimationT
 
 class Animation
 {

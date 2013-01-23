@@ -18,8 +18,11 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	//this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	//this->m_bs = NULL;
 	this->m_bs = new BoundingSphere(XMFLOAT3(_position.x, 0.0f, _position.z), 2.0f);
+<<<<<<< HEAD
+	this->animation = new Animation(_animation);
+=======
 	this->m_obb = NULL;
-	this->animation =  new Animation(_animation);
+>>>>>>> 3a117137cb935c47ab5c5eba7cf747c52373b220
 }
 
 Model::~Model()

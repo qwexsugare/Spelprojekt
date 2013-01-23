@@ -179,7 +179,7 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	for(int i = 0; i < m_roads.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_roads[i]->getVertexBuffer());
+		this->m_deviceHandler->setVertexBuffer(m_roads[i]->getVertexBuffer(), sizeof(Vertex));
 		this->m_deferredSampler->setModelMatrix(m_roads[i]->getModelMatrix());
 		this->m_deferredSampler->setTexture(m_roads[i]->getTexture());
 		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
@@ -221,7 +221,7 @@ void World::render()
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 		
-			*/
+			
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 			{
