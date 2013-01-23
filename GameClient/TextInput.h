@@ -14,5 +14,7 @@ public:
 	TextInput(string _texture, INT2 _pos, int _size);
 	~TextInput();
 
+	string getText()const { return m_text; }
+	void setText(string _text);
 	void update(float _dt);
 };

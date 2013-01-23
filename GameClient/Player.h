@@ -11,6 +11,7 @@
 #include "Projectile.h"
 #include "AttackEntityMessage.h"
 #include "UseSkillMessage.h"
+#include "UsePositionalSkillMessage.h"
 #include "Skills.h"
 
 class Player
@@ -31,6 +32,7 @@ public:
 	void handleMsgMessage(Msg m);
 	void handleAttackMessage(AttackMessage am);
 	void handleEntityAttackMessage(AttackEntityMessage eam);
+	void handleUsePositionalSkillMessage(UsePositionalSkillMessage usm);
 	void handleUseSkillMessage(UseSkillMessage usm);
 	void update(float _dt);
 	MessageQueue *getMessageQueue();

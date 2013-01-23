@@ -6,5 +6,8 @@ class ScoreMenu :
 public:
 	ScoreMenu(void);
 	~ScoreMenu(void);
+		
+	void Update();
+	bool MainMenuGameIsDown();
 };
 

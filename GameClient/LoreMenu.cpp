@@ -1,11 +1,11 @@
 #include "LoreMenu.h"
-
+#include "TextLabel.h"
 
 LoreMenu::LoreMenu(void)
 {
 	ThisPage = 0;
 	Change = false;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-World.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-LOREBOOK.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 
 	this->m_Buttons.resize(3);
 	this->m_Buttons[0] = new Button();
@@ -75,7 +75,7 @@ void LoreMenu::ChangeStates()
 		if(ThisPage == 0)
 		{
 			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-World.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-LOREBOOK.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 		}
 		else if(ThisPage == 1)
 		{

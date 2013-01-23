@@ -295,6 +295,18 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 		this->m_mutex.Unlock();
 		protFound = true;
 	}
+	else if(prot == "USE_POSITIONAL_SKILL")
+	{
+		UsePositionalSkillMessage msg;
+		packet >> msg;
+
+		this->m_mutex.Lock();
+
+		this->m_players[socketIndex]->handleUsePositionalSkillMessage(msg);
+
+		this->m_mutex.Unlock();
+		protFound = true;
+	}
 
 	return protFound;
 }

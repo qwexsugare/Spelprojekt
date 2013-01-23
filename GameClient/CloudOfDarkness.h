@@ -6,11 +6,11 @@ class CloudOfDarkness : public Skill
 {
 private:
 	static const float COOLDOWN;
-	static const int RANGE = 20;
+	static const int RANGE = 200;
 public:
 	CloudOfDarkness();
 	~CloudOfDarkness();
 
-	virtual void activate(unsigned int _targetId, unsigned int _senderId);
+	virtual void activate(FLOAT3 _position, unsigned int _senderId);
 	void updateSpecificSkill(float _dt);
 };
