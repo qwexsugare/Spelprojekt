@@ -9,6 +9,12 @@
 class Hero : public ServerEntity
 {
 private:
+	// SKa finnas samtliga grundegenskaper, str agi wits fort etc
+	int m_strength;
+	int m_agility;
+	int m_wits;
+	int m_fortitude;
+
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
 	float m_movementSpeed;
@@ -22,6 +28,8 @@ private:
 public:
 	Hero();
 	virtual ~Hero();
+
+	int getWits()const { return m_wits; }
 	void update(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setTarget(unsigned int _target);

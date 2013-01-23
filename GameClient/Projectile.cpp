@@ -2,8 +2,8 @@
 
 Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, float _movementSpeed) : ServerEntity()
 {
-	this->m_positon = _position;
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_position = _position;
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_direction = _direction / _direction.length();
 	this->m_lifetime = _lifetime;
 	this->m_movementSpeed = _movementSpeed;
@@ -39,8 +39,8 @@ void Projectile::update(float dt)
 		delete m;
 	}
 
-	this->m_positon = this->m_positon + this->m_direction * dt * this->m_movementSpeed;
-	this->m_obb->Center = XMFLOAT3(this->m_positon.x, this->m_positon.y, this->m_positon.z);
+	this->m_position = this->m_position + this->m_direction * dt * this->m_movementSpeed;
+	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 	this->m_lifetime = this->m_lifetime - dt;
 
 	if(this->m_lifetime <= 0)

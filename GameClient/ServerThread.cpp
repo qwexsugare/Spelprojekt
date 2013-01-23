@@ -38,11 +38,6 @@ void ServerThread::Run()
 	//this->m_state = State::LOBBY;
 	this->m_state = State::LOBBY;
 	this->m_network->start(1350);
-	
-	//for(int i = 0; i < 5; i++)
-	//{
-	//	new Enemy();
-	//}
 
 	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
 

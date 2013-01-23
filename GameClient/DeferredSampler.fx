@@ -199,7 +199,7 @@ technique10 RenderTerrain
 
 	    SetDepthStencilState(EnableDepth, 0);
 	    SetRasterizerState(rs);
-    }  
+    }
 }
 
 PSSceneIn drawRoadVs(VSSceneIn input)

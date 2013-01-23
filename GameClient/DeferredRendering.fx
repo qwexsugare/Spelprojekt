@@ -155,11 +155,8 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		distance = length(distVector);
 		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
-		if(attenuation > 0.005f)
-		{
-			diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
-			specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
-		}
+		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
+		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
 	}
 
 	for(i = 0; i < nrOfDirectionalLights; i++)
@@ -172,9 +169,9 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	{
 		distVector = (lightPosition[nrOfPointLights + i] - position.xyz);
 		distance = length(distVector);
-		//attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
+		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
-		float3 pos = float3(50.0f, 1.0f, 50.0f);
+		//float3 pos = float3(50.0f, 1.0f, 50.0f);
 		float3 s = normalize((lightPosition[nrOfPointLights + i] - position.xyz));
 
 		float angle = max(acos(dot(s, normalize(lightDirection[nrOfDirectionalLights + i]))), 0.0f);
@@ -209,7 +206,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	//float3 lightPos = float3(50.0f, 3.0f, 50.0f);
 	//return saturate(dot(normal.xyz, normalize(lightPos - position.xyz))) * diffuse;
 
-	//return position/2 + float4(0.5f, 0.5f, 0.5f, 0.0f);;
+	//return position/2 + float4(0.5f, 0.5f, 0.5f, 0.0f);
 
 	return color;
 }
