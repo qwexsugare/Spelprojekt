@@ -70,7 +70,7 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
 	this->m_Label[1] = new TextLabel("","text2.png",INT2(130,830),60);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(130,150),100);
-	this->m_Label[3] = new TextLabel("","text3.png",INT2(1100,830),100);
+	this->m_Label[3] = new TextLabel("","text1.png",INT2(13000,830),200);
 	this->m_LabelInput = new TextInput("text3.png",INT2(1100,930),60);
 }
 
@@ -116,8 +116,12 @@ void LobbyMenu::Update(float _dt)
 		this->m_Buttons[8]->setPosition(FLOAT2(0.445f,-0.17f));
 	}
 	this->m_LabelInput->update(_dt);
-	//mString = this->m_LabelInput->GetString;
-	this->m_Label[3]->setText(mString);
+	if(::GetAsyncKeyState(VK_RETURN))
+	{
+		mString = this->m_LabelInput->getText();
+		this->m_Label[3]->setText(mString);
+		this->m_LabelInput->setText("");
+	}
 	if(Change == 1)
 	{
 		if (m_Character0 == true)
