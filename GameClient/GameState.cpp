@@ -79,7 +79,6 @@ void GameState::update(float _dt)
 	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
 	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
-	
 
 	while(this->m_network->entityQueueEmpty() == false)
 	{
