@@ -61,6 +61,7 @@ void Player::handleEntityAttackMessage(AttackEntityMessage eam)
 void Player::update(float _dt)
 {
 	m_chainStrike->update(_dt);
+	m_cloudOfDarkness->update(_dt);
 }
 
 bool Player::getReady()
