@@ -1,5 +1,7 @@
 #pragma once
 #include "menu.h"
+#include "TextLabel.h"
+
 class LoreMenu :
 	public Menu
 {
@@ -14,5 +16,8 @@ public:
 	bool MainMenuGameIsDone();
 	void Update();
 	void ChangeStates();
+
+private:
+	vector<TextLabel*> m_Label;
 };
 

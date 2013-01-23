@@ -8,7 +8,7 @@ public:
 	~SettingsMenu(void);
 	
 	void Update();
-	bool MainMenuGameIsDone();
-	bool SaveSettingsIsDone();
+	bool MainMenuGameIsDown();
+	bool SaveSettingsIsDown();
 };
 

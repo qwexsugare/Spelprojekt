@@ -12,18 +12,18 @@ CreateGameState::~CreateGameState()
 
 void CreateGameState::update(float dt)
 {
-	//this->m_menu->Update();
+	this->m_menu->Update(dt);
 
-	//if(this->m_menu->StartGameIsDown() == true)
-	//{
-	//	this->setDone(true);
-	//	this->m_nextState = State::GAME;
-	//}
-	//else if(this->m_menu->MainMenuGameIsDown() == true)
-	//{
-	//	this->setDone(true);
-	//	this->m_nextState = State::MAIN_MENU;
-	//}
+	if(this->m_menu->StartGameIsDown() == true)
+	{
+		this->setDone(true);
+		this->m_nextState = State::LOBBY;
+	}
+	else if(this->m_menu->MainMenuGameIsDown() == true)
+	{
+		this->setDone(true);
+		this->m_nextState = State::MAIN_MENU;
+	}
 }
 
 State::StateEnum CreateGameState::nextState()

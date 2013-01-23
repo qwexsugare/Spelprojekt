@@ -10,8 +10,8 @@ GameState::GameState()
 	this->m_rotation = 0.0f;
 	this->m_testSound = createSoundHandle("knife.wav", false);
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600), 100);
-	this->m_emilsFps = new TextLabel("fps = 10", "text1.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
+	this->m_emilmackesFpsText = new TextInput("text3.png", INT2(1100, 1053), 100);
+	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 
 	this->m_network = new Client();
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);

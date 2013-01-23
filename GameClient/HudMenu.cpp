@@ -33,7 +33,12 @@ HudMenu::HudMenu(void)
 	m_First_Wits = 0;
 	m_First_Fortitude = 0;
 	m_DelayTime = 500;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Doctor.dds", FLOAT2(-0.9375f, -0.633333333f),  FLOAT2(0.083333333f,0.148148148f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
+	
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Main_Buttons_SkillBar.png", FLOAT2(-1+(0.102083333f*(m_NumberOfSkills-1)),  -0.814814815f),  FLOAT2(1.03125f, 0.344444444f),2));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-Map.png",FLOAT2(0.79f,  0.6f),FLOAT2(0.421875f, 0.796296296f),5));
 
@@ -61,27 +66,40 @@ HudMenu::HudMenu(void)
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.85f,  -0.79f),FLOAT2(0.375f/1.2f,  0.666666667f/1.2f),1));	
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.6f,  -0.90f),FLOAT2(0.375f/2,  0.666666667f/2),1));	
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.6f,  -0.90f),FLOAT2(0.375f/1.4f,  0.666666667f/1.4f),1));	
-
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Color-Test.png",FLOAT2(0,0),FLOAT2(2,2),12));	
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Tower.png", FLOAT2(-0.56f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Strength.png", FLOAT2(-0.28f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Agility.png", FLOAT2(-0.0f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Wits.png", FLOAT2(0.28f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Fortitude.png", FLOAT2(0.56f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
 
-	this->m_Buttons.resize(6);
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-1.png", FLOAT2(-0.938f, -0.64f),  FLOAT2(0.083333333f,0.148148148f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.938f, -0.64f),  FLOAT2(0.083333333f,0.148148148f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
+	
+	this->m_Buttons.resize(7);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.95f,-0.50f),FLOAT2(0.033333333f,0.059259259f),"menu_textures\\Button-Unlock.png","",0,0,1,11,300);
 	
 	this->m_Buttons[1] = new Button();
 	this->m_Buttons[1]->Init(FLOAT2(-0.94f,0.94f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Tower.png","",0,0,1,11,100);	
 	this->m_Buttons[2] = new Button();
-	this->m_Buttons[2]->Init(FLOAT2(-0.94f,0.80f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Strength.png","",0,0,1,11,100);	
+	this->m_Buttons[2]->Init(FLOAT2(-0.94f,0.82f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Strength.png","",0,0,1,11,100);	
 	this->m_Buttons[3] = new Button();
-	this->m_Buttons[3]->Init(FLOAT2(-0.94f,0.66f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Agility.png","",0,0,1,11,100);	
+	this->m_Buttons[3]->Init(FLOAT2(-0.94f,0.70f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Agility.png","",0,0,1,11,100);	
 	this->m_Buttons[4] = new Button();
-	this->m_Buttons[4]->Init(FLOAT2(-0.94f,0.52f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Wits.png","",0,0,1,11,100);	
+	this->m_Buttons[4]->Init(FLOAT2(-0.94f,0.58f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Wits.png","",0,0,1,11,100);	
 	this->m_Buttons[5] = new Button();
-	this->m_Buttons[5]->Init(FLOAT2(-0.94f,0.38f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Fortitude.png","",0,0,1,11,100);	
+	this->m_Buttons[5]->Init(FLOAT2(-0.94f,0.46f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Fortitude.png","",0,0,1,11,100);	
+	this->m_Buttons[6] = new Button();
+	this->m_Buttons[6]->Init(FLOAT2(-0.94f,0.34f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_All.png","",0,0,1,11,100);	
 /*
 	this->m_Buttons[1] = new Button();
 	this->m_Buttons[1]->Init(FLOAT2(-0.56f,0.94f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Tower.png","",0,0,1,11,100);	
@@ -246,6 +264,21 @@ void HudMenu::Update(float _dt)
 				m_Buy_Fortitude = false;
 				m_Buy = true;
 			}
+			if (BuyAllSkillIsDown())
+			{
+				m_Delay = 0;
+				m_Init_Tower = 1;
+				m_Buy_Tower = false;
+				m_Init_Strength = 1;
+				m_Buy_Strength = false;
+				m_Init_Agility = 1;
+				m_Buy_Agility = false;
+				m_Init_Wits = 1;
+				m_Buy_Wits = false;
+				m_Init_Fortitude = 1;
+				m_Buy_Fortitude = false;
+				m_Buy = true;
+			}
 		}
 		else if(m_Buy == true)
 		{
@@ -280,6 +313,21 @@ void HudMenu::Update(float _dt)
 			if (BuyFortitudeSkillIsDown())
 			{
 				m_Delay = 0;
+				m_Init_Fortitude = 1;
+				m_Buy_Fortitude = true;
+				m_Buy = false;
+			}
+			if (BuyAllSkillIsDown())
+			{
+				m_Delay = 0;
+				m_Init_Tower = 1;
+				m_Buy_Tower = true;
+				m_Init_Strength = 1;
+				m_Buy_Strength = true;
+				m_Init_Agility = 1;
+				m_Buy_Agility = true;
+				m_Init_Wits = 1;
+				m_Buy_Wits = true;
 				m_Init_Fortitude = 1;
 				m_Buy_Fortitude = true;
 				m_Buy = false;
@@ -358,6 +406,17 @@ bool HudMenu::BuyFortitudeSkillIsDown()
 		return false;
 	}
 }
+bool HudMenu::BuyAllSkillIsDown()
+{
+	if(this->m_Buttons[6]->Clicked() == 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 bool HudMenu::MenuIsDown()
 {
 	if(this->m_Buttons[6]->Clicked() > 0)
@@ -372,37 +431,37 @@ bool HudMenu::MenuIsDown()
 
 HudMenu::~HudMenu(void)
 {
-	for(int i = 0; i > BuyButtonTower.size();i++)
+	for(int i = 0; i < BuyButtonTower.size();i++)
 	{
 		delete this->BuyButtonTower[i];
 	}
 	this->BuyButtonTower.clear();
 
-	for(int i = 0; i > BuyButtonStrength.size();i++)
+	for(int i = 0; i < BuyButtonStrength.size();i++)
 	{
 		delete this->BuyButtonStrength[i];
 	}
 	this->BuyButtonStrength.clear();
 
-	for(int i = 0; i > BuyButtonAgility.size();i++)
+	for(int i = 0; i < BuyButtonAgility.size();i++)
 	{
 		delete this->BuyButtonAgility[i];
 	}
 	this->BuyButtonAgility.clear();
 
-	for(int i = 0; i > BuyButtonWits.size();i++)
+	for(int i = 0; i < BuyButtonWits.size();i++)
 	{
 		delete this->BuyButtonWits[i];
 	}
 	this->BuyButtonWits.clear();
 
-	for(int i = 0; i > BuyButtonFortitude.size();i++)
+	for(int i = 0; i < BuyButtonFortitude.size();i++)
 	{
 		delete this->BuyButtonFortitude[i];
 	}
 	this->BuyButtonFortitude.clear();
 
-	for(int i = 0; i > BuyAttributes.size();i++)
+	for(int i = 0; i < BuyAttributes.size();i++)
 	{
 		delete this->BuyAttributes[i];
 	}

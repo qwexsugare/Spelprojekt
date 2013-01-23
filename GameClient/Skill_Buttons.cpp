@@ -128,8 +128,7 @@ void Skill_Buttons::RemoveCooldown()
 void Skill_Buttons::setPosition(FLOAT2 _pos)
 {
 	this->m_Pos = _pos;
-	g_graphicsEngine->removeSpriteSheet(m_SkillButton);
-	m_SkillButton = g_graphicsEngine->createSpriteSheet(this->m_FullName,m_Pos,m_Size,INT2(3,1),2);
+	m_SkillButton->setPosition(m_Pos);
 }
 #include <iostream>
 using namespace std;
