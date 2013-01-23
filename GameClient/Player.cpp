@@ -60,11 +60,6 @@ void Player::update(float _dt)
 {
 	m_skill->update(_dt);
 }
-//
-//MessageQueue *Player::getMessageQueue()
-//{
-//	return this->m_messageQueue;
-//}
 
 bool Player::getReady()
 {
@@ -78,5 +73,5 @@ MessageQueue *Player::getMessageQueue()
 
 void Player::handleUseSkillMessage(UseSkillMessage usm)
 {
-	m_skill->activate(usm.getTargetId());
+	m_skill->activate(usm.getTargetId(), this->m_hero->getId());
 }
