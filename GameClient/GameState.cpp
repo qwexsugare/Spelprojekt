@@ -8,7 +8,6 @@ GameState::GameState()
 {
 	this->m_hud = new HudMenu();
 	this->m_rotation = 0.0f;
-	this->m_testSound = createSoundHandle("knife.wav", false);
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600), 100);
 	this->m_emilsFps = new TextLabel("fps = 10", "text1.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
@@ -17,6 +16,16 @@ GameState::GameState()
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
+
+	/*for(int i = 0; i < 20; i++)
+	{
+		g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	}
+
+	for(int i = 0; i <500; i++)
+	{
+		g_graphicsEngine->createModel("ArrowHead", FLOAT3(50.0f, 0.0f, 50.0f));
+	}*/
 
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
@@ -40,7 +49,6 @@ GameState::~GameState()
 	delete this->m_emilmackesFpsText;
 	delete this->m_emilsFps;
 	delete this->m_hud;
-	deactivateSound(this->m_testSound);
 }
 
 void GameState::end()
@@ -79,7 +87,6 @@ void GameState::update(float _dt)
 	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
 	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
-	
 
 	while(this->m_network->entityQueueEmpty() == false)
 	{
@@ -176,7 +183,6 @@ void GameState::update(float _dt)
 	{
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
-			playSound(this->m_testSound);
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 
 			EntityMessage e;

@@ -12,7 +12,7 @@ SpotLight::SpotLight(FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld
 	this->m_la = _la;
 	this->m_ld = _ld;
 	this->m_ls = _ls;
-	this->m_angle = _angle;
+	this->m_angle = FLOAT2(cos(_angle.x / 2), cos(_angle.y / 2));
 	this->m_range = _range;
 }
 
@@ -78,7 +78,7 @@ void SpotLight::setSpecularColor(FLOAT3 _ls)
 
 void SpotLight::setAngle(FLOAT2 _angle)
 {
-	this->m_angle = _angle;
+	this->m_angle = FLOAT2(cos(_angle.x / 2), cos(_angle.y / 2));
 }
 
 void SpotLight::setRange(float _range)

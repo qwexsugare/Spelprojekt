@@ -7,7 +7,8 @@ Skill::Skill()
 
 Skill::Skill(int _id, float _cooldown)
 {
-
+	m_id = _id;
+	m_cooldown = _cooldown;
 }
 
 Skill::~Skill()
@@ -26,10 +27,8 @@ void Skill::activate()
 
 }
 
-void Skill::activate(unsigned int _targetId)
+void Skill::activate(unsigned int _targetId, unsigned int _senderId)
 {
-
-
 	/*int attcak = 3;
 	while(attcak < 5)
 	{

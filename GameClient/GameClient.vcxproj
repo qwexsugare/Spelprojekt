@@ -158,6 +158,8 @@
     <ClCompile Include="ChainStrikeEffect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
+    <ClCompile Include="CloudOfDarkness.cpp" />
+    <ClCompile Include="CloudOfDarknessEffect.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
     <ClCompile Include="CreateGameMenu.cpp" />
     <ClCompile Include="CreateGameState.cpp" />
@@ -220,6 +222,8 @@
     <ClInclude Include="ChainStrikeEffect.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientHandler.h" />
+    <ClInclude Include="CloudOfDarkness.h" />
+    <ClInclude Include="CloudOfDarknessEffect.h" />
     <ClInclude Include="CollisionHandler.h" />
     <ClInclude Include="CreateGameMenu.h" />
     <ClInclude Include="CreateGameState.h" />
@@ -261,6 +265,7 @@
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="Skill.h" />
+    <ClInclude Include="Skills.h" />
     <ClInclude Include="Skill_Buttons.h" />
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />

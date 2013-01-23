@@ -1,10 +1,13 @@
 #include "ChainStrike.h"
 #include "EntityHandler.h"
 #include "ChainStrikeEffect.h"
+#include "Hero.h"
 
-ChainStrike::ChainStrike() : Skill(0, 1.0f)
+const float ChainStrike::COOLDOWN = 120.0f;
+
+ChainStrike::ChainStrike() : Skill(Skill::CHAIN_STRIKE, 0.0f)
 {
-
+	
 }
 
 ChainStrike::~ChainStrike()
@@ -12,11 +15,16 @@ ChainStrike::~ChainStrike()
 
 }
 
-void ChainStrike::activate(unsigned int _targetId)
+void ChainStrike::activate(unsigned int _targetId, unsigned int _senderId)
 {
-	if(this->getCooldown() == 0)
+	ServerEntity* target = EntityHandler::getServerEntity(_targetId);
+	if(target)
 	{
-		EntityHandler::addEntity(new ChainStrikeEffect());
+		if(this->getCooldown() == 0 && (EntityHandler::getServerEntity(_senderId)->getPosition() - target->getPosition()).length() < RANGE)
+		{
+			EntityHandler::addEntity(new ChainStrikeEffect(target->getId(), target->getPosition(), max(((Hero*)EntityHandler::getServerEntity(_senderId))->getWits()/2, 1)));
+			this->setCooldown(COOLDOWN);
+		}
 	}
 }
 

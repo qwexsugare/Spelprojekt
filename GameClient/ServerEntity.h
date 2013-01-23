@@ -16,7 +16,7 @@ protected:
 	
 	BoundingSphere* m_bs;
 	BoundingOrientedBox* m_obb;
-	FLOAT3 m_positon;
+	FLOAT3 m_position;
 	FLOAT3 m_rotation;
 
 	int m_health;

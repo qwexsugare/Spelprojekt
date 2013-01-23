@@ -102,7 +102,7 @@ vector<ServerEntity*> EntityHandler::getEntities()
 	EntityHandler::m_mutex.Lock();
 	vector<ServerEntity*> result = EntityHandler::m_entities;
 	EntityHandler::m_mutex.Unlock();
-
+	
 	return result;
 }
 
@@ -181,16 +181,17 @@ ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 	return result;
 }
 
-vector<ServerEntity*> EntityHandler::getAllEnemies()
+// Remember to delete the return value after usage when calling this function
+vector<ServerEntity*>* EntityHandler::getAllEnemies()
 {
-	vector<ServerEntity*> _enemies;
+	vector<ServerEntity*>* _enemies = new vector<ServerEntity*>();
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
 		
 		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType)
 		{
 			ServerEntity* enemy = EntityHandler::m_entities[i];
-			_enemies.push_back(enemy);
+			_enemies->push_back(enemy);
 		}
 	}
 

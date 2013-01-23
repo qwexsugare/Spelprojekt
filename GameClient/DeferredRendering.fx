@@ -79,8 +79,6 @@ BlendState SrcAlphaBlend
    RenderTargetWriteMask[0] = 0x0F;
 };
 
-
-
 //-----------------------------------------------------------------------------------------
 // Calculate the light intensity for a given point
 //-----------------------------------------------------------------------------------------
@@ -174,11 +172,9 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		distance = length(distVector);
 		attenuation = 1 / ((distance / lightRadius[nrOfPointLights + i] + 1) * (distance / lightRadius[nrOfPointLights + i] + 1));
 
-		float3 pos = float3(50.0f, 1.0f, 50.0f);
-		float3 s = normalize((lightPosition[nrOfPointLights + i] - position.xyz));
-
+		float3 s = normalize(distVector);
 		float angle = max(acos(dot(s, normalize(lightDirection[nrOfDirectionalLights + i]))), 0.0f);
-		float spotfactor = max((cos(angle) - cos(lightAngle[i].x / 2)) / (cos(lightAngle[i].y / 2) - cos(lightAngle[i].x / 2)), 0.0f);
+		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
 		diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;

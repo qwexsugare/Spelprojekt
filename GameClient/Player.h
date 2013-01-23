@@ -11,14 +11,15 @@
 #include "Projectile.h"
 #include "AttackEntityMessage.h"
 #include "UseSkillMessage.h"
-#include "ChainStrike.h"
+#include "Skills.h"
 
 class Player
 {
 private:
 	unsigned int m_id;
 	
-	Skill* m_skill;
+	Skill* m_chainStrike;
+	Skill* m_cloudOfDarkness;
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;

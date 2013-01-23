@@ -1,9 +1,9 @@
-#include "ChainStrikeEffect.h"
+#include "CloudOfDarknessEffect.h"
 #include "EntityHandler.h"
 #include "Graphics.h"
 #include "SoundWrapper.h"
 
-ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps)
+CloudOfDarknessEffect::CloudOfDarknessEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps)
 {
 	m_firstTarget = _firstTarget;
 	m_position = _positon;
@@ -16,12 +16,12 @@ ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon,
 	m_sound = createSoundHandle("knife.wav", false);
 }
 
-ChainStrikeEffect::~ChainStrikeEffect()
+CloudOfDarknessEffect::~CloudOfDarknessEffect()
 {
 	deactivateSound(m_sound);
 }
 
-void ChainStrikeEffect::update(float _dt)
+void CloudOfDarknessEffect::update(float _dt)
 {
 	m_jumpTimer-=_dt;
 

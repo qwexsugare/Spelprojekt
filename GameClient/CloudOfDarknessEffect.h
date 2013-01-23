@@ -2,7 +2,7 @@
 
 #include "ServerEntity.h"
 
-class ChainStrikeEffect : public ServerEntity
+class CloudOfDarknessEffect : public ServerEntity
 {
 private:
 	vector<unsigned int> m_invalidTargets;
@@ -14,8 +14,8 @@ private:
 
 	static const int MAX_JUMP_DISTANCE = 10;
 public:
-	ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps);
-	~ChainStrikeEffect();
+	CloudOfDarknessEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps);
+	~CloudOfDarknessEffect();
 
 	void update(float _dt);
 };
