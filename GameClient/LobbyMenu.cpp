@@ -1,14 +1,15 @@
 #include "LobbyMenu.h"
-
+#include "Input.h"
 
 LobbyMenu::LobbyMenu(void)
 {
+	m_Counter = 0;
 	m_Character0 = false;
 	m_Character1 = false;
 	m_Character2 = false;
 	m_Character3 = false;
 	m_Character4 = false;
-	mString = "";
+	m_String = "";
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground.png", FLOAT2(0,0), FLOAT2(2,2),1));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LobbyMenu-Foreground.dds", FLOAT2(0,0), FLOAT2(2,2),4));
@@ -70,8 +71,15 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
 	this->m_Label[1] = new TextLabel("","text2.png",INT2(130,830),60);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(130,150),100);
-	this->m_Label[3] = new TextLabel("","text1.png",INT2(13000,830),200);
-	this->m_LabelInput = new TextInput("text3.png",INT2(1100,930),60);
+	this->m_LabelInput = new TextInput("text3.png",INT2(1100,980),80);
+	this->m_Chattext.resize(6);
+	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1100,950),60);
+	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1100,920),60);
+	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1100,890),60);
+	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1100,860),60);
+	this->m_Chattext[4] = new TextLabel("","text2.png",INT2(1100,830),60);
+	this->m_Chattext[5] = new TextLabel("","text2.png",INT2(1100,800),60);
+
 }
 
 
@@ -81,6 +89,12 @@ LobbyMenu::~LobbyMenu(void)
 	{
 		delete this->m_Label[i];
 		this->m_Label[i] = NULL;
+	}
+	delete this->m_LabelInput;
+	for(int i=0 ; i < this->m_Chattext.size();i++)
+	{
+		delete this->m_Chattext[i];
+		this->m_Chattext[i] = NULL;
 	}
 }
 void LobbyMenu::Update(float _dt)
@@ -115,13 +129,20 @@ void LobbyMenu::Update(float _dt)
 		Change = 1;
 		this->m_Buttons[8]->setPosition(FLOAT2(0.445f,-0.17f));
 	}
-	this->m_LabelInput->update(_dt);
-	if(::GetAsyncKeyState(VK_RETURN))
+	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
 	{
-		mString = this->m_LabelInput->getText();
-		this->m_Label[3]->setText(mString);
-		this->m_LabelInput->setText("");
+
+		for(int i = m_Chattext.size()-1; i > 0;i--)
+		{
+			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+		}
+			m_String = this->m_LabelInput->getText();
+			this->m_Chattext[0]->setText(m_String);
+			this->m_LabelInput->setText("");
 	}
+	
+	//this->m_Label[3]->setText(m_String);
+	this->m_LabelInput->update(_dt);
 	if(Change == 1)
 	{
 		if (m_Character0 == true)
