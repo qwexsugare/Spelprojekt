@@ -111,4 +111,5 @@ CreateGameMenu::~CreateGameMenu(void)
 		delete this->m_Label[i];
 	}
 	delete this->m_IPLabel;
+
 }

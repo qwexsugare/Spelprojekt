@@ -191,3 +191,10 @@ void Button::SetID(int _id)
 {
 	this->m_ID = _id;
 }
+string Button::GetID()
+{
+	stringstream ss;
+	ss << this->m_ID;
+	string tmp = ss.str();
+	return tmp;
+}

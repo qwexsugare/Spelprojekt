@@ -35,7 +35,8 @@ private:
 		 m_Character2,
 		 m_Character3,
 		 m_Character4;
-	int m_Counter;
+	int m_Counter,
+		m_Combat;
 	string m_String;
 
 };
