@@ -167,6 +167,13 @@
     <ClCompile Include="CloudOfDarknessEffect.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="ClientSkill.cpp" />
+    <ClCompile Include="NetworkMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkEntityMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -176,9 +183,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="CollisionHandler.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="EntityHandler.h">
@@ -349,6 +353,16 @@
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSkill.h" />
+    <ClInclude Include="NetworkMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkEntityMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -362,6 +376,12 @@
     </Filter>
     <Filter Include="Server\Skill">
       <UniqueIdentifier>{f6ca3c67-71f1-4034-9b97-c4048c7d31ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Skills">
+      <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

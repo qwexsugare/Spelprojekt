@@ -8,6 +8,9 @@
 #include "AttackEntityMessage.h"
 #include "UseSkillMessage.h"
 
+#include "NetworkMessage.h"
+#include "NetworkEntityMessage.h"
+
 #include <iostream>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
@@ -50,6 +53,9 @@ public:
 	void broadcast(EntityMessage ent);
 	void broadcast(Msg msg);
 	void broadcast(RemoveEntityMessage rem);
+
+	void broadcast(NetworkMessage _networkMessage);
+
 	bool isRunning();
 
 	Msg msgQueueFront();

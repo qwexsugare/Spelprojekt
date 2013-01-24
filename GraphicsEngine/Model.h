@@ -46,11 +46,9 @@ public:
 	DECLDIR void setAlpha(float _alpha);
 	void setPosition(D3DXVECTOR3 _position);
 	void setScale(D3DXVECTOR3 _scale);
-	void setRotation(D3DXVECTOR3 _rotation);
 	void updateModelMatrix();
 
 	DECLDIR void setPosition(FLOAT3 _position);
 	DECLDIR void setScale(float x, float y, float z);
-	DECLDIR void setRotation(float x, float y, float z);
 	DECLDIR void setRotation(FLOAT3 _rotation);
 };
