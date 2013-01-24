@@ -22,7 +22,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	{
 		this->m_bs = NULL;
 		this->m_obb = new BoundingOrientedBox(*_mesh->m_obb);
-		this->m_obb->Center = XMFLOAT3(m_position.x + _mesh->m_obb->Center.x*_scale.x, m_position.y + _mesh->m_obb->Center.y*_scale.y, m_position.z + _mesh->m_obb->Center.z*_scale.z/2.0f);
+		this->m_obb->Center = XMFLOAT3(m_position.x + _mesh->m_obb->Center.x*_scale.x, m_position.y + _mesh->m_obb->Center.y*_scale.y, m_position.z + _mesh->m_obb->Center.z*_scale.z);
 		this->m_obb->Extents.x *= _scale.x;
 		this->m_obb->Extents.y *= _scale.y;
 		this->m_obb->Extents.z *= _scale.z;
@@ -226,7 +226,7 @@ void Model::setPosition(FLOAT3 _position)
 	}
 	else
 	{
-		this->m_obb->Center = XMFLOAT3(m_position.x + this->m_mesh->m_obb->Center.x*m_scale.x, m_position.y + this->m_mesh->m_obb->Center.y*m_scale.y, m_position.z + this->m_mesh->m_obb->Center.z*m_scale.z/2.0f);
+		this->m_obb->Center = XMFLOAT3(m_position.x + this->m_mesh->m_obb->Center.x*m_scale.x, m_position.y + this->m_mesh->m_obb->Center.y*m_scale.y, m_position.z + this->m_mesh->m_obb->Center.z*m_scale.z);
 	}
 }
 

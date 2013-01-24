@@ -154,6 +154,12 @@ int Skill_Buttons::ReturnClicked()
 {
 	return this->m_id;
 }
+string Skill_Buttons::setID(string _ID)
+{
+	m_Number = _ID;
+	m_id = StringtoINT(_ID);
+	return m_Number;
+}
 Skill_Buttons::~Skill_Buttons()
 {
 	this->m_ButtonReaction = 0;

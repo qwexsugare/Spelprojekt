@@ -247,7 +247,7 @@ void GameState::update(float _dt)
 	}
 
 	this->m_hud->Update(_dt);
-	this->m_emilmackesFpsText->update(_dt);
+	//this->m_emilmackesFpsText->update(_dt);
 	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
