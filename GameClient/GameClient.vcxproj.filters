@@ -170,8 +170,10 @@
     <ClCompile Include="ClientSkill.cpp" />
     <ClCompile Include="NetworkMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="NetworkEntityMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -341,6 +343,7 @@
       <Filter>Server\Skill</Filter>
       <Filter>Server\Skill</Filter>
       <Filter>Server\Skill</Filter>
+    </ClInclude>
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
@@ -385,7 +388,9 @@
     </Filter>
     <Filter Include="Client\Skills">
       <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
-    <Filter Include="Network">
+    </Filter>
+	<Filter Include="Network">
       <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
-  </ItemGroup>
+    </Filter>
+</ItemGroup>
 </Project>
