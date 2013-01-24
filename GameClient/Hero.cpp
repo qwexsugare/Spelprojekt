@@ -136,9 +136,3 @@ FLOAT3 Hero::getDirection()
 	else
 		return m_position;
 }
-
-void Hero::takeDamage(int damage)
-{
-	this->m_health = this->m_health - damage;
-}
-

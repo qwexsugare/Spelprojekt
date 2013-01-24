@@ -14,11 +14,8 @@ protected:
 public:
 	NetworkMessage();
 	NetworkMessage(MESSAGE_TYPE _type);
-	NetworkMessage(sf::Packet packet);
 
 	MESSAGE_TYPE getType();
-
-	virtual sf::Packet toPacket();
 
 	friend sf::Packet& operator<<(sf::Packet& packet,const NetworkMessage& e);
 	friend sf::Packet& operator>>(sf::Packet& packet, NetworkMessage& e);

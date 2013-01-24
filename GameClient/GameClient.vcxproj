@@ -189,8 +189,12 @@
     <ClCompile Include="ModelIdHolder.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Msg.cpp" />
+    <ClCompile Include="NetworkDisconnectMessage.cpp" />
     <ClCompile Include="NetworkEntityMessage.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
+    <ClCompile Include="NetworkRemoveEntityMessage.cpp" />
+    <ClCompile Include="NetworkUseActionMessage.cpp" />
+    <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RemoveEntityMessage.cpp" />
@@ -262,8 +266,12 @@
     <ClInclude Include="ModelIdHolder.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Msg.h" />
+    <ClInclude Include="NetworkDisconnectMessage.h" />
     <ClInclude Include="NetworkEntityMessage.h" />
     <ClInclude Include="NetworkMessage.h" />
+    <ClInclude Include="NetworkRemoveEntityMessage.h" />
+    <ClInclude Include="NetworkUseActionMessage.h" />
+    <ClInclude Include="NetworkUseActionPositionMessage.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RemoveEntityMessage.h" />

@@ -12,6 +12,10 @@
 #include "AttackEntityMessage.h"
 #include "UseSkillMessage.h"
 #include "UsePositionalSkillMessage.h"
+#include "NetworkMessage.h"
+#include "NetworkEntityMessage.h"
+#include "NetworkRemoveEntityMessage.h"
+#include "NetworkUseActionMessage.h"
 
 using namespace std;
 
@@ -21,15 +25,14 @@ private:
 	sf::Mutex m_mutex;
 
 	//data for the host
-	sf::IPAddress hostIp;
-	sf::SocketTCP hostSocket;
-	int hostPort;
+	sf::IPAddress m_hostIp;
+	sf::SocketTCP m_hostSocket;
+	int m_hostPort;
 
 	//a threaded function that will recive messages from the server
 	virtual void Run();
-	queue<Msg> msgQueue;
-	queue<EntityMessage> entityQueue;
-	queue<RemoveEntityMessage> removeEntityQueue;
+	queue<NetworkEntityMessage> m_entityMessageQueue;
+	queue<NetworkRemoveEntityMessage> m_removeEntityMessageQueue;
 public:
 	Client();
 	~Client();
@@ -41,15 +44,14 @@ public:
 	void sendMsg(Msg m);
 	void sendAttackMessage(AttackMessage am);
 	void sendAttackEntityMessage(AttackEntityMessage aem);
-	void sendUseSkillMessage(UseSkillMessage _usm);
 	void sendUsePositionalSkillMessage(UsePositionalSkillMessage _usm);
 
-	Msg msgQueueFront();
-	EntityMessage entityQueueFront();
-	RemoveEntityMessage removeEntityQueueFront();
-	bool msgQueueEmpty();
-	bool entityQueueEmpty();
-	bool removeEntityQueueEmpty();
+	void sendUseSkillMessage(NetworkUseActionMessage _usm);
+
+	NetworkEntityMessage entityMessageQueueFront();
+	NetworkRemoveEntityMessage removeEntityMessageQueueFront();
+	bool entityMessageQueueEmpty();
+	bool removeEntityMessageQueueEmpty();
 };
 
 #endif // CLIENT_H

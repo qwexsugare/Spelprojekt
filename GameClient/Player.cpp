@@ -82,10 +82,10 @@ void Player::handleUsePositionalSkillMessage(UsePositionalSkillMessage usm)
 	}
 }
 
-void Player::handleUseSkillMessage(UseSkillMessage usm)
+void Player::handleUseSkillMessage(NetworkUseActionMessage usm)
 {
-	if(usm.getSkillId() == m_chainStrike->getId())
+	/*if(usm.getSkillId() == m_chainStrike->getId())
 	{
 		m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
-	}
+	}*/
 }

@@ -46,9 +46,9 @@ MessageQueue *ServerEntity::getMessageQueue()
 	return this->m_messageQueue;
 }
 
-EntityMessage ServerEntity::getUpdate()
+NetworkEntityMessage ServerEntity::getUpdate()
 {
-	EntityMessage e = EntityMessage(this->m_id, this->m_modelId, this->m_type, this->m_position, this->m_rotation);
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
 
 	return e;
 }

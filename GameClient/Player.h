@@ -14,6 +14,8 @@
 #include "UsePositionalSkillMessage.h"
 #include "Skills.h"
 
+#include "NetworkUseActionMessage.h"
+
 class Player
 {
 private:
@@ -33,7 +35,7 @@ public:
 	void handleAttackMessage(AttackMessage am);
 	void handleEntityAttackMessage(AttackEntityMessage eam);
 	void handleUsePositionalSkillMessage(UsePositionalSkillMessage usm);
-	void handleUseSkillMessage(UseSkillMessage usm);
+	void handleUseSkillMessage(NetworkUseActionMessage usm);
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
 
