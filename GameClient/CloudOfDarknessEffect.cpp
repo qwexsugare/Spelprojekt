@@ -20,7 +20,7 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 	{
 		if(((*enemies)[i]->getPosition()-m_position).length() <= AOE)
 		{
-			(*enemies)[i]->takeDamage(this->m_damage, false);
+			this->dealDamage((*enemies)[i], this->m_damage, false);
 		}
 	}
 

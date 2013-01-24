@@ -46,8 +46,8 @@ public:
 	Type getType();
 	bool getVisible();
 
-	void takeDamage(int damage, bool physical);
-	void dealDamage(ServerEntity* target, int damage, bool physical);
+	void takeDamage(int physicalDamage, int mentalDamage);
+	void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
 };
 

@@ -80,5 +80,6 @@ public:
 	void ChangeButton(string _Number, bool _Active);
 	void ChangAbleBind(bool _Change);
 	int Skill_Buttons::ReturnClicked();
+	string setID(string _ID);
 };
 

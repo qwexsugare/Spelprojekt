@@ -32,7 +32,7 @@ void Projectile::update(float dt)
 			if(se != NULL && se->getType() == Type::EnemyType)
 			{
 				this->m_lifetime = 0;
-				se->takeDamage(10, true);
+				this->dealDamage(se, 10, true);
 			}
 		}
 

@@ -337,17 +337,11 @@
     </ClInclude>
     <ClInclude Include="UnitEntity.h">
       <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="ChainStrike.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
     <ClInclude Include="ChainStrikeEffect.h">
       <Filter>Server\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="CloudOfDarkness.h">
       <Filter>Server\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="CloudOfDarknessEffect.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">
@@ -362,6 +356,21 @@
     </ClInclude>
     <ClInclude Include="NetworkEntityMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessEffect.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarkness.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Skills.h">
+      <Filter>Server\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -380,8 +389,8 @@
     <Filter Include="Client\Skills">
       <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Network">
+	<Filter Include="Network">
       <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
+</ItemGroup>
 </Project>

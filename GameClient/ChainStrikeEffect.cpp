@@ -34,7 +34,7 @@ void ChainStrikeEffect::update(float _dt)
 			if(target)
 			{
 				m_position = target->getPosition();
-				target->takeDamage(200/(++m_jumps), false);
+				this->dealDamage(target, 200/(++m_jumps), false);
 				playSound(m_sound);
 
 				// If max number of jumps is reached, delete me

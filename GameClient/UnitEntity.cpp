@@ -54,42 +54,55 @@ void UnitEntity::update(float dt)
 
 }
 
-void UnitEntity::setStrength(int _strength)
+void UnitEntity::increaseStrength(int _strength)
 {
-	this->m_strength = _strength;
+	this->m_strength = this->m_strength + _strength;
 
 	if(this->m_strength > UnitEntity::MAX_STRENGTH)
 	{
+		_strength = UnitEntity::MAX_STRENGTH - this->m_strength;
 		this->m_strength = UnitEntity::MAX_STRENGTH;
 	}
+
+	this->m_physicalDamage = this->m_physicalDamage + _strength * 5;
+	this->m_physicalResistance = this->m_physicalResistance + _strength * 0.02f;
 }
 
-void UnitEntity::setAgility(int _agility)
+void UnitEntity::increaseAgility(int _agility)
 {
-	this->m_agility = _agility;
+	this->m_agility = this->m_agility + _agility;
 
 	if(this->m_agility > UnitEntity::MAX_AGILITY)
 	{
+		_agility = UnitEntity::MAX_AGILITY - this->m_agility;
 		this->m_agility = UnitEntity::MAX_AGILITY;
 	}
+
+	this->m_movementSpeed = this->m_movementSpeed + _agility * 0.1f;
+	this->m_attackSpeed = this->m_attackSpeed + _agility * 0.05f;
 }
 
-void UnitEntity::setWits(int _wits)
+void UnitEntity::increaseWits(int _wits)
 {
 	this->m_wits = _wits;
 
 	if(this->m_wits > UnitEntity::MAX_WITS)
 	{
+		_wits = UnitEntity::MAX_WITS - this->m_wits;
 		this->m_wits = UnitEntity::MAX_WITS;
 	}
+
+	this->m_mentalDamage = this->m_mentalDamage + _wits * 5;
+	this->m_turretlife = this->m_turretlife + _wits * 0.5f;
 }
 
-void UnitEntity::setFortitude(int _fortitude)
+void UnitEntity::increaseFortitude(int _fortitude)
 {
 	this->m_fortitude = _fortitude;
 
-	if(this->m_fortitude > UnitEntity::MAX_FORTITUDE)
+	if(this->m_fortitude + _fortitude > UnitEntity::MAX_FORTITUDE)
 	{
+		_fortitude = UnitEntity::MAX_FORTITUDE - this->m_fortitude;
 		this->m_fortitude = UnitEntity::MAX_FORTITUDE;
 	}
 }
@@ -218,26 +231,20 @@ float UnitEntity::getDeadlyStrikeChance()
 	return this->m_deadlyStrikeChance;
 }
 
-void UnitEntity::takeDamage(int damage, bool physical)
+void UnitEntity::takeDamage(int physicalDamage, int mentalDamage)
 {
-	if(physical == true)
-	{
-		this->m_health = this->m_health - damage * (1 - this->m_physicalResistance);
-	}
-	else
-	{
-		this->m_health = this->m_health - damage * (1 - this->m_mentalResistance);
-	}
+	this->m_health = this->m_health - physicalDamage * (1 - this->m_physicalResistance);
+	this->m_health = this->m_health - mentalDamage * (1 - this->m_mentalResistance);
 }
 
-void UnitEntity::dealDamage(ServerEntity* target, int damage, bool physical)
+void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)
 {
 	int lifesteal = rand() % 100 + 1;
 	int poison = rand() % 100 + 1;
 
 	if(lifesteal > this->m_lifeStealChance)
 	{
-		this->heal(damage * 0.5f);
+		this->heal(physicalDamage * 0.5f);
 	}
 
 	if(poison > this->m_poisonChance)
@@ -249,7 +256,7 @@ void UnitEntity::dealDamage(ServerEntity* target, int damage, bool physical)
 		}
 	}
 
-	target->takeDamage(damage, physical);
+	target->takeDamage(physicalDamage, mentalDamage);
 }
 
 void UnitEntity::heal(int health)
