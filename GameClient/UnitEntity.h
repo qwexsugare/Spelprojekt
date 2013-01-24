@@ -19,6 +19,8 @@ protected:
 	int m_wits;
 	int m_fortitude;
 
+	float m_turretlife;
+
 	float m_movementSpeed;
 	float m_attackSpeed;
 	float m_physicalDamage;
@@ -36,10 +38,10 @@ public:
 
 	virtual void update(float dt);
 
-	void setStrength(int _strength);
-	void setAgility(int _agility);
-	void setWits(int _wits);
-	void setFortitude(int _fortitude);
+	void increaseStrength(int _strength);
+	void increaseAgility(int _agility);
+	void increaseWits(int _wits);
+	void increaseFortitude(int _fortitude);
 
 	void setMaxHealth(int _maxHealth);
 	void setMovementSpeed(float _movementSpeed);
@@ -69,8 +71,8 @@ public:
 	float getPoisonChance( );
 	float getDeadlyStrikeChance();
 
-	void takeDamage(int damage, bool physical);
-	void dealDamage(ServerEntity* target, int damage, bool physical);
+	void takeDamage(int physicalDamage, int mentalDamage);
+	void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
 };
 

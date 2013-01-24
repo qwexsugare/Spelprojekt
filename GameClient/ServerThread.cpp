@@ -49,8 +49,6 @@ void ServerThread::Run()
 		prevTimeStamp = currTimeStamp;
 
 		this->update(dt);
-
-		
 	}
 }
 
