@@ -127,7 +127,7 @@ void ViewerHandler::update(float _dt)
 	if(m_roll > 2*3.141592)
 		m_roll = 0; 
 
-	m_shownModel->setRotation(m_yaw, m_pitch, m_roll);
+	m_shownModel->setRotation(FLOAT3(m_yaw, m_pitch, m_roll));
 
 	g_mouse->update(); // Must be last!
 }
