@@ -28,3 +28,10 @@ string TextLabel::getText()
 { 
 	return this->m_text; 
 }
+string TextLabel::IntToString(int intInput)
+{
+
+	stringstream ss;
+	ss << intInput;
+	return ss.str();
+}
