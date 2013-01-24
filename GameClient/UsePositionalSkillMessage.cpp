@@ -23,8 +23,5 @@ sf::Packet& operator<<(sf::Packet& packet, const UsePositionalSkillMessage& e)
 
 sf::Packet& operator>>(sf::Packet& packet, UsePositionalSkillMessage& e)
 {
-	float tempX = e.getPos().x;
-	float tempY = e.getPos().y;
-	float tempZ = e.getPos().z;
-	return packet>>e.m_skillId>> tempX >> tempY >> tempZ;
+	return packet>>e.m_skillId>> e.m_pos.x >> e.m_pos.y >> e.m_pos.z;
 }

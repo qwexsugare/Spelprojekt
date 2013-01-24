@@ -8,7 +8,6 @@ ServerEntity::ServerEntity()
 	this->m_bs = NULL;
 	this->m_modelId = 0;
 	this->m_visible = true;
-	this->m_health = 100;
 }
 
 ServerEntity::ServerEntity(FLOAT3 _pos)
@@ -19,7 +18,6 @@ ServerEntity::ServerEntity(FLOAT3 _pos)
 	this->m_bs = NULL;
 	this->m_modelId = 0;
 	this->m_visible = true;
-	this->m_health = 100;
 }
 
 ServerEntity::~ServerEntity()
@@ -100,7 +98,17 @@ ServerEntity::Type ServerEntity::getType()
 	return m_type;
 }
 
-void ServerEntity::takeDamage(int damage)
+void ServerEntity::takeDamage(int physicalDamage, int mentalDamage)
 {
-	this->m_health = this->m_health - damage;
+
+}
+
+void ServerEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)
+{
+
+}
+
+void ServerEntity::heal(int health)
+{
+
 }

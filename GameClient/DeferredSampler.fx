@@ -118,7 +118,7 @@ PSSceneIn VSScene(VSSceneIn input)
 	return output;
 }
 
-PSSceneOut PSScene(PSSceneIn input) : SV_Target
+PSSceneOut PSScene(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
@@ -185,7 +185,7 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	output.Pos += _weight * mul(myPos, _bone);
 	
 	//output.Pos.w = 1;
-	output.Pos.y += 15;
+	//output.Pos.y += 15;
 	
 	// transform the point into viewProjection space
 	output.Pos = mul( output.Pos, mul(modelMatrix, viewProjection) );
@@ -231,7 +231,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 	return output;
 }
 
-PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
+PSSceneOut drawTerrainPs(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 
@@ -295,7 +295,7 @@ PSSceneIn drawRoadVs(VSSceneIn input)
 	return output;
 }
 
-PSSceneOut drawRoadPs(PSSceneIn input) : SV_Target
+PSSceneOut drawRoadPs(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 

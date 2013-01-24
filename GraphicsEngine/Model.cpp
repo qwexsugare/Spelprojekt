@@ -17,8 +17,30 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	this->updateModelMatrix();
 	//this->m_obb = new BoundingOrientedBox(XMFLOAT3(_position.x, 0.0f, _position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	//this->m_bs = NULL;
-	this->m_bs = new BoundingSphere(XMFLOAT3(_position.x, 0.0f, _position.z), 2.0f);
-	this->m_obb = NULL;
+	//this->m_bs = new BoundingSphere(XMFLOAT3(_position.x, 0.0f, _position.z), 2.0f);
+	if(_mesh->m_bs == NULL)
+	{
+		this->m_bs = NULL;
+		this->m_obb = new BoundingOrientedBox(*_mesh->m_obb);
+		this->m_obb->Center = XMFLOAT3(m_position.x + _mesh->m_obb->Center.x*_scale.x, m_position.y + _mesh->m_obb->Center.y*_scale.y, m_position.z + _mesh->m_obb->Center.z*_scale.z/2.0f);
+		this->m_obb->Extents.x *= _scale.x;
+		this->m_obb->Extents.y *= _scale.y;
+		this->m_obb->Extents.z *= _scale.z;
+	}
+	if(_mesh->m_obb == NULL)
+	{
+		this->m_bs = new BoundingSphere(*_mesh->m_bs);
+		this->m_obb = NULL;
+		this->m_bs->Center = XMFLOAT3(m_position.x + _mesh->m_bs->Center.x*_scale.x, m_position.y + _mesh->m_bs->Center.y*_scale.y, m_position.z + _mesh->m_bs->Center.z*_scale.z);
+
+		float largestScale = _scale.x;
+		if(_scale.y > largestScale)
+			largestScale = _scale.y;
+		if(_scale.z > largestScale)
+			largestScale = _scale.z;
+		this->m_bs->Radius *= largestScale;
+	}
+	
 	this->animation =  new Animation(_animation);
 }
 
@@ -125,17 +147,17 @@ void Model::move(FLOAT3 _distance)
 	this->updateModelMatrix();
 	if(this->m_bs)
 	{
-		this->m_bs->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+		this->m_bs->Center = XMFLOAT3(m_position.x + this->m_mesh->m_bs->Center.x*m_scale.x, m_position.y + this->m_mesh->m_bs->Center.y*m_scale.y, m_position.z + this->m_mesh->m_bs->Center.z*m_scale.z);
 	}
 	else
 	{
-		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+		this->m_obb->Center = XMFLOAT3(m_position.x + this->m_mesh->m_obb->Center.x*m_scale.x, m_position.y + this->m_mesh->m_obb->Center.y*m_scale.y, m_position.z + this->m_mesh->m_obb->Center.z*m_scale.z);
 	}
 }
 
 void Model::rotate(float _yaw, float _pitch, float _roll)
 {
-	D3DXMATRIX rotationMatrix;
+	/*D3DXMATRIX rotationMatrix;
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, _yaw, _pitch, _roll);
 	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
 
@@ -158,7 +180,7 @@ void Model::rotate(float _yaw, float _pitch, float _roll)
 		this->m_obb->Orientation.w = this->m_obb->Orientation.w / orientationNorm;
 
 		//this->m_obb->Transform(box, 1.0f, rot, transsexual);
-	}
+	}*/
 }
 
 void Model::setAlpha(float _alpha)
@@ -178,19 +200,10 @@ void Model::setScale(D3DXVECTOR3 _scale)
 	this->updateModelMatrix();
 }
 
-void Model::setRotation(D3DXVECTOR3 _rotation)
-{
-	this->m_rotation = _rotation;
-	this->updateModelMatrix();
-}
-
 void Model::updateModelMatrix()
 {
 	D3DXMATRIX rotationMatrix;
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, this->m_rotation.x, this->m_rotation.y, this->m_rotation.z);
-	
-	D3DXMATRIX scalingMatrix;
-	D3DXMatrixScaling(&scalingMatrix, this->m_scale.x, this->m_scale.y, this->m_scale.z);
 
 	this->m_modelMatrix = D3DXMATRIX(
 		this->m_scale.x, 0.0f, 0.0f, 0.0f,
@@ -198,8 +211,8 @@ void Model::updateModelMatrix()
 		0.0f, 0.0f, this->m_scale.z, 0.0f,
 		this->m_position.x, this->m_position.y, this->m_position.z, 1.0f);
 	
-	D3DXMatrixMultiply(&this->m_modelMatrix, &scalingMatrix, &this->m_modelMatrix);
-	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
+	//D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
+	D3DXMatrixMultiply(&this->m_modelMatrix, &this->m_modelMatrix, &rotationMatrix);
 }
 
 void Model::setPosition(FLOAT3 _position)
@@ -209,11 +222,11 @@ void Model::setPosition(FLOAT3 _position)
 
 	if(this->m_bs)
 	{
-		this->m_bs->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+		this->m_bs->Center = XMFLOAT3(m_position.x + this->m_mesh->m_bs->Center.x*m_scale.x, m_position.y + this->m_mesh->m_bs->Center.y*m_scale.y, m_position.z + this->m_mesh->m_bs->Center.z*m_scale.z);
 	}
 	else
 	{
-		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+		this->m_obb->Center = XMFLOAT3(m_position.x + this->m_mesh->m_obb->Center.x*m_scale.x, m_position.y + this->m_mesh->m_obb->Center.y*m_scale.y, m_position.z + this->m_mesh->m_obb->Center.z*m_scale.z/2.0f);
 	}
 }
 
@@ -223,14 +236,8 @@ void Model::setScale(float x, float y, float z)
 	this->updateModelMatrix();
 }
 
-void Model::setRotation(float x, float y, float z)
-{
-	this->m_rotation = D3DXVECTOR3(x, y, z);
-	this->updateModelMatrix();
-}
-
 void Model::setRotation(FLOAT3 _rotation)
 {
-	this->m_rotation = D3DXVECTOR3(_rotation.x, _rotation.y, _rotation.z);
-	this->updateModelMatrix();
+	/*this->m_rotation = D3DXVECTOR3(_rotation.x, _rotation.y, _rotation.z);
+	this->updateModelMatrix();*/
 }

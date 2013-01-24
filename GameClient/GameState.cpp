@@ -192,7 +192,7 @@ void GameState::update(float _dt)
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 
 			EntityMessage e;
-			e.setPosition(FLOAT3(pos.x, 0.0f, pos.y));
+			e.setPosition(FLOAT3(pos.x, 1.0f, pos.y));
 			this->m_network->sendEntity(e);
 		}
 		else
@@ -237,7 +237,7 @@ void GameState::update(float _dt)
 			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
 			EntityMessage e;
-			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+			e.setPosition(FLOAT3(terrainPos.x, 1.0f, terrainPos.z));
 			this->m_network->sendEntity(e);
 		}
 	}
