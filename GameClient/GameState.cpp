@@ -241,7 +241,7 @@ void GameState::update(float _dt)
 			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
 			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 1.0f, terrainPos.z));
-			e.setPosition(FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
+			this->m_network->sendMessage(e);
 		}
 	}
 	else if(g_mouse->isRButtonReleased())
