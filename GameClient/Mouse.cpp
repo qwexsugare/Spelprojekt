@@ -1,10 +1,4 @@
 #include "Mouse.h"
-#include <Windows.h>
-
-Mouse::Mouse()
-{
-
-}
 
 Mouse::Mouse(int _x, int _y,  HWND _hWnd)
 {

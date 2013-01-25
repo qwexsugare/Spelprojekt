@@ -2,7 +2,7 @@
 
 ModelIdHolder::ModelIdHolder()
 {
-	this->m_modelId[0] = "Kyrka";
+	this->m_modelId[0] = "TestObject";
 	this->m_modelId[1] = "Kyrka";
 }
 

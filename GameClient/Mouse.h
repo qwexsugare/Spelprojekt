@@ -14,7 +14,6 @@ private:
 	bool m_rButtonIsReleased;
 	HWND m_hWnd;
 public:
-	Mouse();
 	Mouse(int _x, int _y, HWND _hWnd);
 	virtual ~Mouse();
 	

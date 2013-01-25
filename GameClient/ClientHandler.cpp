@@ -9,7 +9,7 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_graphicsEngine = new GraphicsHandler(_hWnd, g_configFile);
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
-
+	
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 15.0f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
@@ -29,7 +29,7 @@ ClientHandler::~ClientHandler()
 HRESULT ClientHandler::run()
 {
 	this->m_serverThread->Launch();
-	this->m_state = new MainMenuState();
+	this->m_state = new GameState();
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);

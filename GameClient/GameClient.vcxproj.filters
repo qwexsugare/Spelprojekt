@@ -46,9 +46,6 @@
     <ClCompile Include="JoinGameState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="LobbyMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -71,9 +68,6 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="ModelIdHolder.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="ScoreMenu.cpp">
@@ -167,12 +161,20 @@
     <ClCompile Include="CloudOfDarknessEffect.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="ClientSkill.cpp" />
     <ClCompile Include="NetworkMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkEntityMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSkill.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Client\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Client\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,9 +229,6 @@
     <ClInclude Include="JoinGameState.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="LobbyMenu.h">
       <Filter>Client</Filter>
     </ClInclude>
@@ -249,9 +248,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ModelIdHolder.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ScoreMenu.h">
@@ -350,7 +346,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="ClientSkill.h" />
     <ClInclude Include="NetworkMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -372,6 +367,15 @@
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="ClientSkill.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Client\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Client\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -389,8 +393,11 @@
     <Filter Include="Client\Skills">
       <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
     </Filter>
-	<Filter Include="Network">
+    <Filter Include="Network">
       <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
     </Filter>
-</ItemGroup>
+    <Filter Include="Client\Controls">
+      <UniqueIdentifier>{7858784e-5d66-4547-9256-5e2ec0e84fda}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
