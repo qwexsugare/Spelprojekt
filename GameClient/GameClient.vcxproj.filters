@@ -184,7 +184,12 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
+    <ClCompile Include="NetworkUseActionPositionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkUseActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="StunningStrike.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
@@ -402,7 +407,12 @@
     <ClInclude Include="NetworkUseActionMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkUseActionPositionMessage.h" />
+    <ClInclude Include="NetworkUseActionPositionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUseActionTargetMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
     <ClInclude Include="StunningStrike.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>

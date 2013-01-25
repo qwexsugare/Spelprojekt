@@ -16,6 +16,8 @@
 #include "NetworkEntityMessage.h"
 #include "NetworkRemoveEntityMessage.h"
 #include "NetworkUseActionMessage.h"
+#include "NetworkUseActionPositionMessage.h"
+#include "NetworkUseActionTargetMessage.h"
 
 using namespace std;
 
@@ -40,13 +42,10 @@ public:
 	bool isConnected();
 	void disconnect();
 	void tellServer(string msg);
-	void sendEntity(EntityMessage ent);
-	void sendMsg(Msg m);
-	void sendAttackMessage(AttackMessage am);
-	void sendAttackEntityMessage(AttackEntityMessage aem);
-	void sendUsePositionalSkillMessage(UsePositionalSkillMessage _usm);
 
-	void sendUseSkillMessage(NetworkUseActionMessage _usm);
+	void sendMessage(NetworkUseActionMessage _usm);
+	void sendMessage(NetworkUseActionPositionMessage _usm);
+	void sendMessage(NetworkUseActionTargetMessage _usm);
 
 	NetworkEntityMessage entityMessageQueueFront();
 	NetworkRemoveEntityMessage removeEntityMessageQueueFront();

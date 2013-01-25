@@ -503,5 +503,15 @@ void MeshImporter::MapAnimationFile(AnimationFile* animationFile, char* memblock
 				memblock += sizeof(FJoint);
 			}
 		}
+		//Map jointTypes
+		animationFile->skeletons[s].jointTypes.resize(animationFile->skeletons[s].keys[0].numJoints);
+		for(int j = 0; j < animationFile->skeletons[s].keys[0].numJoints; j++)
+		{
+			animationFile->skeletons[s].jointTypes[j] = *(int*)memblock;
+			memblock += sizeof(int);
+		}
 	}
+	//Map Locators
+	animationFile->propsLocators = *(FPropsLocators*)memblock;
+	memblock += sizeof(FPropsLocators);
 }

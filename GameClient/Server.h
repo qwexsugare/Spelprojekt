@@ -46,7 +46,7 @@ private:
 	virtual void Run();
 	void goThroughSelector();
 	void handleMessages();
-	bool handleClientInData(int socketIndex, sf::Packet packet, string prot);
+	bool handleClientInData(int socketIndex, sf::Packet packet, NetworkMessage::MESSAGE_TYPE type);
 public:
 	Server(MessageHandler *_messageHandler);
 	~Server();
