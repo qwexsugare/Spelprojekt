@@ -1,0 +1,31 @@
+#include "ModelIdHolder.h"
+
+ModelIdHolder::ModelIdHolder()
+{
+<<<<<<< HEAD
+	this->m_modelId[0] = "Char1_5";
+	this->m_modelId[1] = "Beast1_5";
+	this->m_modelId[2] = "Church";
+=======
+	this->m_modelId[0] = "TestObject";
+	this->m_modelId[1] = "Kyrka";
+	this->m_modelId[2] = "Kyrka";
+>>>>>>> bbc360cb3704b32f1633784284543220a5c25d01
+}
+
+std::string ModelIdHolder::getModel(unsigned int id)
+{
+	if(id < 100)
+	{
+		return this->m_modelId[id];
+	}
+	else
+	{
+		return "";
+	}
+}
+
+unsigned int ModelIdHolder::getNrOfIds()
+{
+	return 100;
+}

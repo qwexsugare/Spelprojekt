@@ -15,7 +15,7 @@ Camera::Camera(INT2 _configScreenSize, INT2 _actualScreenSize)
 	this->m_right = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 
 	this->updateViewMatrix();
-	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI * 0.4f,  float(m_configScreenSize.x) / float(m_configScreenSize.y), 0.1f, 1000000.0f);
+	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI/4.0f,  float(m_configScreenSize.x) / float(m_configScreenSize.y), 0.1f, 1000000.0f);
 }
 
 Camera::~Camera()

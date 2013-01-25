@@ -128,7 +128,7 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 		Animation animation;
 		animation = this->m_resourceHolder->getAnimation(_filename);
 		animation.setTexturePack(&this->m_resourceHolder->getTextureHolder()->getBoneTexture(_filename));
-		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{

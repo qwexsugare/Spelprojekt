@@ -9,8 +9,12 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_graphicsEngine = new GraphicsHandler(_hWnd, g_configFile);
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
+<<<<<<< HEAD
+
+=======
 	
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+>>>>>>> bbc360cb3704b32f1633784284543220a5c25d01
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 15.0f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
 	this->m_serverThread = new ServerThread();
@@ -29,7 +33,11 @@ ClientHandler::~ClientHandler()
 HRESULT ClientHandler::run()
 {
 	this->m_serverThread->Launch();
+<<<<<<< HEAD
+	this->m_state = new GameState(); // Ändra till MainMenuState
+=======
 	this->m_state = new GameState();
+>>>>>>> bbc360cb3704b32f1633784284543220a5c25d01
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
