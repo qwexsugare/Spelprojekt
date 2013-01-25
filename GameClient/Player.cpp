@@ -108,7 +108,7 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		this->m_hero->setTarget(usm.getTargetId());
 		break;
 
-	case Skill::CLOUD_OF_DARKNESS:
+	case Skill::CHAIN_STRIKE:
 		this->m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
 		break;
 
