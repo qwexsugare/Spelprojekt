@@ -63,7 +63,7 @@ private:
 	vector<Road*> m_roads;
 public:
 	World();
-	World(DeviceHandler* _deviceHandler, HWND _hWnd);
+	World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed);
 	~World();
 
 	void render();

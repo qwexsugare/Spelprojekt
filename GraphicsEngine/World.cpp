@@ -5,7 +5,7 @@ World::World()
 
 }
 
-World::World(DeviceHandler* _deviceHandler, HWND _hWnd)
+World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 {
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
@@ -15,8 +15,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd)
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
 	INT2 actualScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
-	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize(), actualScreenSize);
 
+	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize(), actualScreenSize);
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
