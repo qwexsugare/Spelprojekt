@@ -28,8 +28,6 @@ public:
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setTarget(unsigned int _target);
 	FLOAT3 getDirection();
-	
-	void takeDamage(int damage);
 };
 
 #endif

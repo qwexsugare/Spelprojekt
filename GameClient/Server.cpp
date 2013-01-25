@@ -111,7 +111,7 @@ void Server::handleMessages()
 		if(m->type == Message::RemoveEntity)
 		{
 			RemoveServerEntityMessage *rsem = (RemoveServerEntityMessage*)m;			
-			RemoveEntityMessage rem = RemoveEntityMessage(rsem->removedId);
+			NetworkRemoveEntityMessage rem = NetworkRemoveEntityMessage(rsem->removedId);
 			this->broadcast(rem);
 		}
 
@@ -121,15 +121,15 @@ void Server::handleMessages()
 
 void Server::shutDown()
 {
-
+	NetworkDisconnectMessage message = NetworkDisconnectMessage("Server is shutting down");
 
 	for(int i=0;i<this->clientArrPos;i++)
 	{
-		sf::Packet msg;
-		msg << "disconnect";
+		sf::Packet packet;
+		packet << message;
 		if(this->clients[i].IsValid())
 		{
-			this->clients[i].Send(msg);
+			this->clients[i].Send(packet);
 			this->clients[i].Close();
 		}
 	}
@@ -141,10 +141,10 @@ void Server::shutDown()
 	this->Wait();
 }
 
-void Server::broadcast(string msg)
+void Server::broadcast(NetworkEntityMessage networkMessage)
 {
 	sf::Packet packet;
-	packet<<msg;
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -156,54 +156,10 @@ void Server::broadcast(string msg)
 	this->m_mutex.Unlock();
 }
 
-void Server::broadcast(EntityMessage ent)
+void Server::broadcast(NetworkRemoveEntityMessage networkMessage)
 {
 	sf::Packet packet;
-	packet<<ent;
-
-	this->m_mutex.Lock();
-
-	for(int i=0;i<this->clientArrPos;i++)
-	{
-		this->clients[i].Send(packet);
-	}
-
-	this->m_mutex.Unlock();
-}
-
-void Server::broadcast(Msg msg)
-{
-	sf::Packet packet;
-	packet<<msg;
-
-	this->m_mutex.Lock();
-
-	for(int i=0;i<this->clientArrPos;i++)
-	{
-		this->clients[i].Send(packet);
-	}
-
-	this->m_mutex.Unlock();
-}
-
-void Server::broadcast(RemoveEntityMessage rem)
-{
-	sf::Packet packet;
-	packet<<rem;
-
-	this->m_mutex.Lock();
-
-	for(int i=0;i<this->clientArrPos;i++)
-	{
-		this->clients[i].Send(packet);
-	}
-
-	this->m_mutex.Unlock();
-}
-
-void Server::broadcast(NetworkMessage _networkMessage)
-{
-	sf::Packet packet = _networkMessage.toPacket();
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -299,7 +255,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
 	}
 	else if(prot == "USE_SKILL")
 	{
-		UseSkillMessage msg;
+		NetworkUseActionMessage msg;
 		packet >> msg;
 
 		this->m_mutex.Lock();

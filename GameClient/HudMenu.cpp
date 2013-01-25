@@ -137,6 +137,9 @@ HudMenu::HudMenu(void)
 	m_DontChange = false;
 
 	this->m_LabelInput = new TextInput("text4.png",INT2(1100,1150),55);
+	this->m_ResourceLabel = new TextLabel("","text3.png",INT2(925,1100),100);
+	string m_TempString = this->m_ResourceLabel->IntToString(m_Resources);
+	this->m_ResourceLabel->setText(m_TempString);
 	this->m_Chattext.resize(4);
 	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1100,1120),55);
 	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1100,1090),55);
@@ -488,6 +491,8 @@ HudMenu::~HudMenu(void)
 		delete this->m_Chattext[i];
 		this->m_Chattext[i] = NULL;
 	}
+	delete this->m_ResourceLabel;
+	this->m_ResourceLabel = NULL;
 }
 void HudMenu::BuyHud()
 {
@@ -495,6 +500,8 @@ void HudMenu::BuyHud()
 	UpdateShop();
 	if (m_LoseMoney == 1)
 	{
+		string m_TempString = this->m_ResourceLabel->IntToString(m_Resources);
+		this->m_ResourceLabel->setText(m_TempString);
 		if(m_Buy_Tower == true && BuyButtonTower.size() > 0)
 		{
 			m_Init_Tower = 1;
@@ -596,13 +603,13 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					m_NumberOfSkills++;
 					if(m_NumberOfSkills <= 6)
 					{
 						string type;
 						type = this->BuyButtonTower[i]->GetID();
 						if (type != "30")
 						{
+							m_NumberOfSkills++;
 							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
@@ -724,13 +731,13 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					m_NumberOfSkills++;
 					if(m_NumberOfSkills <= 6)
 					{
 						string type;
 						type = this->BuyButtonStrength[i]->GetID();
 						if (type != "30")
 						{
+							m_NumberOfSkills++;
 							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
@@ -838,13 +845,13 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					m_NumberOfSkills++;
 					if(m_NumberOfSkills  <= 6)
 					{
 						string type;
 						type = this->BuyButtonAgility[i]->GetID();
 						if (type != "30")
 						{
+							m_NumberOfSkills++;
 							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
@@ -952,13 +959,13 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					m_NumberOfSkills++;
 					if(m_NumberOfSkills <= 6)
 					{
 						string type;
 						type = this->BuyButtonWits[i]->GetID();
 						if (type != "30")
 						{
+							m_NumberOfSkills++;
 							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
@@ -1065,13 +1072,13 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					m_NumberOfSkills++;
 					if(m_NumberOfSkills <= 6)
 					{
 						string type;
 						type = this->BuyButtonFortitude[i]->GetID();
 						if (type != "30")
 						{
+							m_NumberOfSkills++;
 							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);

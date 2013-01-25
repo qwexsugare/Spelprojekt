@@ -167,15 +167,22 @@
     <ClCompile Include="NetworkEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkDisconnectMessage.cpp">
+      <Filter>Network</Filter>
     <ClCompile Include="ClientSkill.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkRemoveEntityMessage.cpp">
+      <Filter>Network</Filter>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkUseActionMessage.cpp">
+      <Filter>Network</Filter>
     <ClCompile Include="Mouse.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -367,15 +374,22 @@
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkDisconnectMessage.h">
+      <Filter>Network</Filter>
     <ClInclude Include="ClientSkill.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
+    <ClInclude Include="NetworkRemoveEntityMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Client\Controls</Filter>
+    <ClInclude Include="NetworkUseActionMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkUseActionPositionMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

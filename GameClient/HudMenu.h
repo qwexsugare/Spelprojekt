@@ -3,7 +3,7 @@
 #include "TextLabel.h"
 #include "TextInput.h"
 #include "Input.h"
-
+#include <sstream>
 class HudMenu :
 	public Menu
 {
@@ -59,6 +59,7 @@ private:
 			m_Chat;
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Chattext;	
+	TextLabel* m_ResourceLabel;	
 	vector<Button*> BuyButtonTower;
 	vector<Button*> BuyButtonStrength;
 	vector<Button*> BuyButtonAgility;
