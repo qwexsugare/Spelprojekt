@@ -15,7 +15,7 @@ Projectile::~Projectile()
 
 }
 
-void Projectile::update(float dt)
+void Projectile::updateSpecificUnitEntity(float dt)
 {
 	//Handle incoming messages
 	Message *m;

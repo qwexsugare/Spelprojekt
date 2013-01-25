@@ -16,7 +16,7 @@ public:
 	Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, float _movementSpeed);
 	virtual ~Projectile();
 
-	void update(float dt);
+	void updateSpecificUnitEntity(float dt);
 };
 
 #endif

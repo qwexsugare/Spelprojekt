@@ -31,7 +31,7 @@ Enemy::Enemy(FLOAT3 _pos) : UnitEntity(_pos)
 	this->m_closestHero = 999;
 }
 
-void Enemy::update(float dt)
+void Enemy::updateSpecificUnitEntity(float dt)
 {
 	//Handle incoming messages
 	Message *m;

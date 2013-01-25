@@ -9,7 +9,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_agility = 1;
 	this->m_wits = 1;
 	this->m_fortitude = 1;
-
+	
 	this->m_movementSpeed = 1.0f;
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
@@ -20,6 +20,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_poisonChance = 0.0f;
 	this->m_deadlyStrikeChance = 0.0f;
 	this->m_poisonCounter = 0;
+	this->m_stunned = false;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -268,5 +269,22 @@ void UnitEntity::heal(int health)
 	else
 	{
 		this->m_maxHealth = this->m_maxHealth + health;
+	}
+}
+
+void UnitEntity::stun(float _time)
+{
+	m_stunTimer = max(m_stunTimer, _time);
+}
+
+void UnitEntity::update(float dt)
+{
+	if(m_stunTimer <= 0.0f)
+	{
+		this->updateSpecificUnitEntity(dt);
+	}
+	else
+	{
+		this->m_stunTimer -= dt;
 	}
 }

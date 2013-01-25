@@ -22,7 +22,7 @@ public:
 	Enemy();
 	Enemy(FLOAT3 _pos);
 
-	void update(float dt);
+	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setNextPosition(int index, float dt);
 
