@@ -74,18 +74,46 @@ MessageQueue *Player::getMessageQueue()
 	return this->m_messageQueue;
 }
 
-void Player::handleUsePositionalSkillMessage(UsePositionalSkillMessage usm)
+void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 {
-	if(usm.getSkillId() == m_cloudOfDarkness->getId())
+	switch(usm.getActionId())
 	{
-		m_cloudOfDarkness->activate(usm.getPos(), this->m_hero->getId());
+	case Skill::MOVE:
+		this->m_hero->setNextPosition(usm.getPosition());
+		break;
+
+	case Skill::CLOUD_OF_DARKNESS:
+		this->m_cloudOfDarkness->activate(usm.getPosition(), this->m_hero->getId());
+		break;
+
+	default:
+		//Check if the player has the ability and use it
+		break;
 	}
 }
 
-void Player::handleUseSkillMessage(NetworkUseActionMessage usm)
+void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
 	/*if(usm.getSkillId() == m_chainStrike->getId())
 	{
 		m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
 	}*/
+}
+
+void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
+{
+	switch(usm.getActionId())
+	{
+	case Skill::ATTACK:
+		this->m_hero->setTarget(usm.getTargetId());
+		break;
+
+	case Skill::CLOUD_OF_DARKNESS:
+		this->m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
+		break;
+
+	default:
+		//Check if the player has the ability and use it
+		break;
+	}
 }

@@ -38,7 +38,7 @@ void ServerThread::Run()
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
 	//this->m_state = State::LOBBY;
-	this->m_state = State::LOBBY;
+	this->m_state = State::GAME;
 	this->m_network->start(1350);
 
 	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 1.0f, 50.0f)));

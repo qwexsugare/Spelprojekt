@@ -32,7 +32,7 @@ GameState::GameState()
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.1f, 0.1f, 0.1f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.8f, 0.8f, 0.8f), FLOAT3(0.1f, 0.1f, 0.1f));
 	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT2(0.6f, 0.3f), 50.0f);
 	this->importMap("race");
 }
@@ -137,8 +137,8 @@ void GameState::update(float _dt)
 		}
 	}
 
-	this->m_network->sendMsg(Msg("Ready"));
-	this->m_network->sendMsg(Msg("Start"));
+	//this->m_network->sendMsg(Msg("Ready"));
+	//this->m_network->sendMsg(Msg("Start"));
 
 	static float CAMERA_SPEED = 16.0f;
 	if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-27.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
@@ -166,14 +166,14 @@ void GameState::update(float _dt)
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendUsePositionalSkillMessage(UsePositionalSkillMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
 
 		for(int i = 0; i < m_entities.size(); i++)
 		{
 			float dist;
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				//this->m_network->sendUseSkillMessage(NetworkUseSkillMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
+				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
 			}
 		}
 	}
@@ -191,9 +191,8 @@ void GameState::update(float _dt)
 		{
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 
-			EntityMessage e;
-			e.setPosition(FLOAT3(pos.x, 1.0f, pos.y));
-			this->m_network->sendEntity(e);
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 1.0f, pos.y));
+			this->m_network->sendMessage(e);
 		}
 		else
 		{
@@ -205,7 +204,7 @@ void GameState::update(float _dt)
 				float dist;
 				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 				{
-					this->m_network->sendAttackEntityMessage(AttackEntityMessage(0, m_entities[i]->m_id));
+					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
 				}
 			}
 		}
@@ -236,9 +235,8 @@ void GameState::update(float _dt)
 			float k = (-pickOrig.y)/pickDir.y;
 			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-			EntityMessage e;
-			e.setPosition(FLOAT3(terrainPos.x, 1.0f, terrainPos.z));
-			this->m_network->sendEntity(e);
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 1.0f, terrainPos.z));
+			this->m_network->sendMessage(e);
 		}
 	}
 	else if(g_mouse->isRButtonReleased())
@@ -292,6 +290,18 @@ void GameState::importMap(string _map)
 			sscanf(buf, "bmp2: %s", &file);
 			blendMaps[1] = path + string(file);
 		}
+		else if(strcmp(key, "width:") == 0)
+		{
+			int width;
+			sscanf(buf, "width: %d", &width);
+			v2.x = width;
+		}		
+		else if(strcmp(key, "height:") == 0)
+		{
+			int height;
+			sscanf(buf, "height: %d", &height);
+			v2.z = height;
+		}
 		else if(strcmp(key, "minimap:") == 0)
 		{
 			char file[100];
@@ -323,7 +333,7 @@ void GameState::importMap(string _map)
 					float x, z;
 					sscanf(buf, "%f %f %f", &rot, &x, &z);
 
-					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, -z), -rot));
+					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, v2.z+z), -rot));
 				}
 			}
 		}
@@ -347,7 +357,7 @@ void GameState::importMap(string _map)
 					FLOAT3 rotation;
 					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.x, &rotation.y, &rotation.z);
 
-					position.z = -position.z;
+					position.z = v2.z+position.z;
 
 					g_graphicsEngine->createModel(key, position);
 				}

@@ -183,7 +183,12 @@
     <ClCompile Include="NetworkUseActionMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
+    <ClCompile Include="NetworkUseActionPositionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkUseActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -391,7 +396,12 @@
     <ClInclude Include="NetworkUseActionMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkUseActionPositionMessage.h" />
+    <ClInclude Include="NetworkUseActionPositionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUseActionTargetMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

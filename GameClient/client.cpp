@@ -96,48 +96,6 @@ bool Client::isConnected()
 	return this->m_hostSocket.IsValid();
 }
 
-
-void Client::sendEntity(EntityMessage ent)
-{
-	if(this->isConnected())
-	{
-		sf::Packet packet;
-		packet << ent;
-
-		this->m_hostSocket.Send(packet);
-	}
-}
-
-void Client::sendMsg(Msg m)
-{
-	if(this->isConnected())
-	{
-		sf::Packet packet;
-		packet << m;
-		this->m_hostSocket.Send(packet);
-	}
-}
-
-void Client::sendAttackMessage(AttackMessage am)
-{
-	if(this->isConnected())
-	{
-		sf::Packet packet;
-		packet << am;
-		this->m_hostSocket.Send(packet);
-	}
-}
-
-void Client::sendAttackEntityMessage(AttackEntityMessage aem)
-{
-	if(this->isConnected())
-	{
-		sf::Packet packet;
-		packet << aem;
-		this->m_hostSocket.Send(packet);
-	}
-}
-
 bool Client::entityMessageQueueEmpty()
 {
 	return this->m_entityMessageQueue.empty();
@@ -172,7 +130,7 @@ NetworkRemoveEntityMessage Client::removeEntityMessageQueueFront()
 	return ret;
 }
 
-void Client::sendUseSkillMessage(NetworkUseActionMessage _usm)
+void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
 	{
@@ -182,7 +140,17 @@ void Client::sendUseSkillMessage(NetworkUseActionMessage _usm)
 	}
 }
 
-void Client::sendUsePositionalSkillMessage(UsePositionalSkillMessage _usm)
+void Client::sendMessage(NetworkUseActionPositionMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkUseActionTargetMessage _usm)
 {
 	if(this->isConnected())
 	{

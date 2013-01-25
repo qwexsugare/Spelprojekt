@@ -1,11 +1,11 @@
 #include "NetworkUseActionPositionMessage.h"
 
-NetworkUseActionPositionMessage::NetworkUseActionPositionMessage()
+NetworkUseActionPositionMessage::NetworkUseActionPositionMessage() : NetworkMessage()
 {
 
 }
 
-NetworkUseActionPositionMessage::NetworkUseActionPositionMessage(unsigned int _actionId, FLOAT3 _position)
+NetworkUseActionPositionMessage::NetworkUseActionPositionMessage(unsigned int _actionId, FLOAT3 _position) : NetworkMessage(MESSAGE_TYPE::UseActionPos)
 {
 	this->m_actionId = _actionId;
 	this->m_position = _position;

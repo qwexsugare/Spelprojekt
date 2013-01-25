@@ -63,8 +63,8 @@ void Server::goThroughSelector()
 			if (sock.Receive(packet) == sf::Socket::Done)
 			{
 				// Extract what type of data sent by the client
-				string prot;
-				packet >> prot;
+				unsigned int type;
+				packet >> type;
 
 				int socketIndex = 0;
 
@@ -77,7 +77,7 @@ void Server::goThroughSelector()
 				}
 
 				//handles the protocols, what should be done if the server recives a MSG, ENT etc
-				this->handleClientInData(socketIndex, packet,prot);
+				this->handleClientInData(socketIndex, packet,(NetworkMessage::MESSAGE_TYPE)type);
 			}
 			else
 			{
@@ -202,81 +202,119 @@ bool Server::isRunning()
 	return this->listener.IsValid();
 }
 
-bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
+bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessage::MESSAGE_TYPE type)
 {
 	bool protFound=false;
 
-	if(prot=="ENT")
+	NetworkUseActionMessage ua;
+	NetworkUseActionPositionMessage uap;
+	NetworkUseActionTargetMessage uat;
+
+	switch(type)
 	{
-		EntityMessage ent;
-		packet >> ent;
+	case NetworkMessage::MESSAGE_TYPE::UseAction:		
+		packet >> ua;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleEntityMessage(ent);
-
+		this->m_players[socketIndex]->handleUseActionMessage(ua);
 		this->m_mutex.Unlock();
+		break;
 
-		protFound=true;
-	}
-	else if(prot=="MSG")
-	{
-		Msg msg;
-		packet >> msg;
+	case NetworkMessage::MESSAGE_TYPE::UseActionPos:
+		packet >> uap;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleMsgMessage(msg);
-
+		this->m_players[socketIndex]->handleUseActionPositionMessage(uap);
 		this->m_mutex.Unlock();
-		protFound=true;
-	}
-	else if(prot=="ATTACK")
-	{
-		AttackMessage msg;
-		packet >> msg;
+		break;
 
+	case NetworkMessage::MESSAGE_TYPE::UseActionTarget:
+		packet >> uat;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleAttackMessage(msg);
-
+		this->m_players[socketIndex]->handleUseActionTargetMessage(uat);
 		this->m_mutex.Unlock();
-		protFound = true;
+		break;
+
+	case NetworkMessage::MESSAGE_TYPE::BuySkill:
+
+		break;
+
+	case NetworkMessage::MESSAGE_TYPE::SelectHero:
+
+		break;
+
+	case NetworkMessage::MESSAGE_TYPE::Ready:
+
+		break;
 	}
-	else if(prot == "ATTACKENTITY")
-	{
-		AttackEntityMessage msg;
-		packet >> msg;
 
-		this->m_mutex.Lock();
+	//if(prot=="ENT")
+	//{
+	//	EntityMessage ent;
+	//	packet >> ent;
+	//	this->m_mutex.Lock();
 
-		this->m_players[socketIndex]->handleEntityAttackMessage(msg);
+	//	this->m_players[socketIndex]->handleEntityMessage(ent);
 
-		this->m_mutex.Unlock();
-		protFound = true;
-	}
-	else if(prot == "USE_SKILL")
-	{
-		NetworkUseActionMessage msg;
-		packet >> msg;
+	//	this->m_mutex.Unlock();
 
-		this->m_mutex.Lock();
+	//	protFound=true;
+	//}
+	//else if(prot=="MSG")
+	//{
+	//	Msg msg;
+	//	packet >> msg;
+	//	this->m_mutex.Lock();
 
-		this->m_players[socketIndex]->handleUseSkillMessage(msg);
+	//	this->m_players[socketIndex]->handleMsgMessage(msg);
 
-		this->m_mutex.Unlock();
-		protFound = true;
-	}
-	else if(prot == "USE_POSITIONAL_SKILL")
-	{
-		UsePositionalSkillMessage msg;
-		packet >> msg;
+	//	this->m_mutex.Unlock();
+	//	protFound=true;
+	//}
+	//else if(prot=="ATTACK")
+	//{
+	//	AttackMessage msg;
+	//	packet >> msg;
 
-		this->m_mutex.Lock();
+	//	this->m_mutex.Lock();
 
-		this->m_players[socketIndex]->handleUsePositionalSkillMessage(msg);
+	//	this->m_players[socketIndex]->handleAttackMessage(msg);
 
-		this->m_mutex.Unlock();
-		protFound = true;
-	}
+	//	this->m_mutex.Unlock();
+	//	protFound = true;
+	//}
+	//else if(prot == "ATTACKENTITY")
+	//{
+	//	AttackEntityMessage msg;
+	//	packet >> msg;
+
+	//	this->m_mutex.Lock();
+
+	//	this->m_players[socketIndex]->handleEntityAttackMessage(msg);
+
+	//	this->m_mutex.Unlock();
+	//	protFound = true;
+	//}
+	//else if(prot == "USE_SKILL")
+	//{
+	//	NetworkUseActionMessage msg;
+	//	packet >> msg;
+
+	//	this->m_mutex.Lock();
+
+	//	this->m_players[socketIndex]->ha(msg);
+
+	//	this->m_mutex.Unlock();
+	//	protFound = true;
+	//}
+	//else if(prot == "USE_POSITIONAL_SKILL")
+	//{
+	//	UsePositionalSkillMessage msg;
+	//	packet >> msg;
+
+	//	this->m_mutex.Lock();
+	//	this->m_players[socketIndex]->handleUsePositionalSkillMessage(msg);
+	//	this->m_mutex.Unlock();
+	//	protFound = true;
+	//}
 
 	return protFound;
 }
