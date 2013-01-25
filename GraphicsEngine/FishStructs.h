@@ -3,6 +3,12 @@
 #include <string>
 #include <vector>
 
+#define _upperBody_ 1;
+#define _lowerBody_ 0;
+#define _rightHand_ 2;
+#define _leftHand_ 3;
+#define _hat_ 4;
+
 using namespace std;
 
 struct FFloat3
@@ -90,6 +96,7 @@ struct FKeys
 struct FSkeleton
 {
 	vector<FKeys> keys;
+	vector<int> jointTypes;
 };
 
 
@@ -101,8 +108,32 @@ struct FishFile
 	vector<FMaterial> fMaterials;
 };
 
+struct FPropsLocators
+{
+	float hatPos[3];
+	float rightHandPos[3];
+	float leftHandPos[3];
+	FPropsLocators()
+	{
+		this->hatPos[0] = 0;
+		this->hatPos[1] = 0;
+		this->hatPos[2] = 0;
+		this->rightHandPos[0] = 0;
+		this->rightHandPos[1] = 0;
+		this->rightHandPos[2] = 0;
+		this->leftHandPos[0] = 0;
+		this->leftHandPos[1] = 0;
+		this->leftHandPos[2] = 0;
+	}
+	~FPropsLocators()
+	{
+
+	}
+};
+
 struct AnimationFile
 {
+	FPropsLocators propsLocators;
 	string name;
 	int numKeys;
 	vector<FSkeleton> skeletons;
