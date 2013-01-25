@@ -4,6 +4,7 @@
 #include <vector>
 #include <SFML\System.hpp>
 #include "ServerEntity.h"
+#include "UnitEntity.h"
 #include "MessageHandler.h"
 
 
@@ -33,6 +34,7 @@ public:
 
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
 	static ServerEntity* getClosestEnemy(ServerEntity *entity);
+
 	static ServerEntity* getServerEntity(unsigned int id);
 
 	static vector<ServerEntity*>* getAllEnemies();

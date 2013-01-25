@@ -3,23 +3,23 @@
 MapHandler::MapHandler()
 {
 	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 0.0f, 0.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(10.0f, 0.0f, 0.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 0.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(15.0f, 0.0f, 5.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(25.0f, 0.0f, 10.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 15.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(30.0f, 0.0f, 8.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(35.0f, 0.0f, 15.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(40.0f, 0.0f, 18.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 1.0f, 0.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(10.0f, 1.0f, 0.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 1.0f, 0.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(15.0f, 1.0f, 5.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(25.0f, 1.0f, 10.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 1.0f, 15.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(30.0f, 1.0f, 8.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(35.0f, 1.0f, 15.0f)));
+	m_waves[0].push_back(new Enemy(FLOAT3(40.0f, 1.0f, 18.0f)));
 	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[1].push_back(new Enemy(FLOAT3(50.0f, 0.0f, 0.0f)));
-	m_waves[1].push_back(new Enemy(FLOAT3(100.0f, 0.0f, 0.0f)));
-	m_waves[1].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 0.0f)));
+	m_waves[1].push_back(new Enemy(FLOAT3(50.0f, 1.0f, 0.0f)));
+	m_waves[1].push_back(new Enemy(FLOAT3(100.0f, 1.0f, 0.0f)));
+	m_waves[1].push_back(new Enemy(FLOAT3(20.0f, 1.0f, 0.0f)));
 	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[2].push_back(new Enemy(FLOAT3(5.0f, 0.0f, 30.0f)));
-	m_waves[2].push_back(new Enemy(FLOAT3(70.0f, 0.0f, 10.0f)));
-	m_waves[2].push_back(new Enemy(FLOAT3(10.0f, 0.0f, 20.0f)));
+	m_waves[2].push_back(new Enemy(FLOAT3(5.0f, 1.0f, 30.0f)));
+	m_waves[2].push_back(new Enemy(FLOAT3(70.0f, 1.0f, 10.0f)));
+	m_waves[2].push_back(new Enemy(FLOAT3(10.0f, 1.0f, 20.0f)));
 
 	m_currentWave = 0;
 	m_waveTimer = 0.0f;

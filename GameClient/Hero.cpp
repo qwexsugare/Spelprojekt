@@ -1,6 +1,6 @@
 #include "Hero.h"
 
-Hero::Hero() : ServerEntity()
+Hero::Hero() : UnitEntity()
 {
 	this->m_type = Type::HeroType;
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
@@ -136,9 +136,3 @@ FLOAT3 Hero::getDirection()
 	else
 		return m_position;
 }
-
-void Hero::takeDamage(int damage)
-{
-	this->m_health = this->m_health - damage;
-}
-

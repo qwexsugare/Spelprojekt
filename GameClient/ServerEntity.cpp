@@ -8,7 +8,6 @@ ServerEntity::ServerEntity()
 	this->m_bs = NULL;
 	this->m_modelId = 0;
 	this->m_visible = true;
-	this->m_health = 100;
 }
 
 ServerEntity::ServerEntity(FLOAT3 _pos)
@@ -19,7 +18,6 @@ ServerEntity::ServerEntity(FLOAT3 _pos)
 	this->m_bs = NULL;
 	this->m_modelId = 0;
 	this->m_visible = true;
-	this->m_health = 100;
 }
 
 ServerEntity::~ServerEntity()
@@ -48,9 +46,9 @@ MessageQueue *ServerEntity::getMessageQueue()
 	return this->m_messageQueue;
 }
 
-EntityMessage ServerEntity::getUpdate()
+NetworkEntityMessage ServerEntity::getUpdate()
 {
-	EntityMessage e = EntityMessage(this->m_id, this->m_modelId, this->m_type, this->m_position, this->m_rotation);
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
 
 	return e;
 }
@@ -100,7 +98,17 @@ ServerEntity::Type ServerEntity::getType()
 	return m_type;
 }
 
-void ServerEntity::takeDamage(int damage)
+void ServerEntity::takeDamage(int physicalDamage, int mentalDamage)
 {
-	this->m_health = this->m_health - damage;
+
+}
+
+void ServerEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)
+{
+
+}
+
+void ServerEntity::heal(int health)
+{
+
 }

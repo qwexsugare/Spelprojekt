@@ -24,7 +24,7 @@ void MeleeAttack::update(float dt)
 
 	if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_range)
 	{
-		se->takeDamage(this->m_damage);
+		this->dealDamage(se, this->m_damage, true);
 	}
 
 	this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));

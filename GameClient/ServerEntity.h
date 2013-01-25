@@ -3,6 +3,7 @@
 
 #include "MessageQueue.h"
 #include "EntityMessage.h"
+#include "NetworkEntityMessage.h"
 #include "DataStructures.h"
 #include "DirectXMath.h"
 #include "DirectXCollision.h"
@@ -19,7 +20,6 @@ protected:
 	FLOAT3 m_position;
 	FLOAT3 m_rotation;
 
-	int m_health;
 	unsigned int m_modelId;
 	bool m_visible;
 
@@ -34,7 +34,8 @@ public:
 	const BoundingSphere* getBoundingSphere()const { return this->m_bs; }
 	const BoundingOrientedBox* getObb()const { return this->m_obb; }
 	MessageQueue *getMessageQueue();
-	EntityMessage getUpdate();
+	//EntityMessage getUpdate();
+	NetworkEntityMessage getUpdate();
 
 	void setId(unsigned int _id);
 	void setModelId(unsigned int _modelId);
@@ -46,8 +47,10 @@ public:
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
-	
-	virtual void takeDamage(int damage);
+
+	void takeDamage(int physicalDamage, int mentalDamage);
+	void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
+	void heal(int health);
 };
 
 #endif

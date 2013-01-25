@@ -8,6 +8,13 @@
 #include "AttackEntityMessage.h"
 #include "UseSkillMessage.h"
 
+#include "NetworkMessage.h"
+#include "NetworkEntityMessage.h"
+#include "NetworkDisconnectMessage.h"
+#include "NetworkRemoveEntityMessage.h"
+#include "NetworkUseActionMessage.h"
+#include "NetworkUseActionPositionMessage.h"
+
 #include <iostream>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
@@ -29,7 +36,6 @@ private:
 	queue<EntityMessage> entityQueue;
 	queue<AttackMessage> attackMessageQueue;
 	queue<AttackEntityMessage> attackEntityMessageQueue;
-	queue<UseSkillMessage> useSkillMessage;
 
 	vector<Player*> m_players;
 
@@ -40,16 +46,15 @@ private:
 	virtual void Run();
 	void goThroughSelector();
 	void handleMessages();
-	bool handleClientInData(int socketIndex, sf::Packet packet, string prot);
+	bool handleClientInData(int socketIndex, sf::Packet packet, NetworkMessage::MESSAGE_TYPE type);
 public:
 	Server(MessageHandler *_messageHandler);
 	~Server();
 	bool start(int port);
 	void shutDown();
-	void broadcast(string msg);
-	void broadcast(EntityMessage ent);
-	void broadcast(Msg msg);
-	void broadcast(RemoveEntityMessage rem);
+	void broadcast(NetworkEntityMessage networkMessage);
+	void broadcast(NetworkRemoveEntityMessage networkMessage);
+
 	bool isRunning();
 
 	Msg msgQueueFront();

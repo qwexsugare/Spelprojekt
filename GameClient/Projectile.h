@@ -2,10 +2,11 @@
 #define PROJECTILE_H
 
 #include "ServerEntity.h"
+#include "UnitEntity.h"
 #include "DataStructures.h"
 #include "EntityHandler.h"
 
-class Projectile : public ServerEntity
+class Projectile : public UnitEntity
 {
 private:
 	FLOAT3 m_direction;

@@ -33,8 +33,8 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 
 	// Compute the vector of the pick ray in screen space
 	D3DXVECTOR3 v;
-	v.x = ( ( ( 2.0f * float(_mousePos.x)/float(m_actualScreenSize.x)*float(m_configScreenSize.x) ) / float(m_configScreenSize.x) ) - 1.0f ) / rhProjMat._11;
-	v.y = -( ( ( 2.0f * float(_mousePos.y)/float(m_actualScreenSize.y)*float(m_configScreenSize.y) ) / float(m_configScreenSize.y) ) - 1.0f ) / rhProjMat._22;
+	v.x = ( ( ( 2.0f * float(_mousePos.x)) / float(m_configScreenSize.x) ) - 1.0f ) / rhProjMat._11;
+	v.y = -( ( ( 2.0f * float(_mousePos.y) ) / float(m_configScreenSize.y) ) - 1.0f ) / rhProjMat._22;
 	v.z = 1.0f;
 
 	// Get the inverse view matrix

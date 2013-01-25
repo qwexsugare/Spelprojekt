@@ -9,7 +9,7 @@
 #include "SpriteSheet.h"
 #include "Mouse.h"
 #include "TextLabel.h"
-
+#include <sstream>
 extern GraphicsHandler* g_graphicsEngine;
 extern Mouse* g_mouse;
 
@@ -75,6 +75,7 @@ public:
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
 	void SetID(int _id);
+	string GetID();
 	int LoseAmountOfResources(int _resources);
 };
 

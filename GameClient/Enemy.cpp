@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy()
+Enemy::Enemy() : UnitEntity()
 {
 	m_type = Type::EnemyType;
 	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
@@ -16,7 +16,7 @@ Enemy::Enemy()
 	this->m_closestHero = 999;
 }
 
-Enemy::Enemy(FLOAT3 _pos) : ServerEntity(_pos)
+Enemy::Enemy(FLOAT3 _pos) : UnitEntity(_pos)
 {
 	m_type = Type::EnemyType;
 	this->m_goalPosition = FLOAT3(100.0f, 0.0f, 100.0f);

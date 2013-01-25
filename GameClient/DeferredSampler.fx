@@ -118,7 +118,7 @@ PSSceneIn VSScene(VSSceneIn input)
 	return output;
 }
 
-PSSceneOut PSScene(PSSceneIn input) : SV_Target
+PSSceneOut PSScene(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
@@ -185,7 +185,7 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	output.Pos += _weight * mul(myPos, _bone);
 	
 	//output.Pos.w = 1;
-	output.Pos.y += 15;
+	//output.Pos.y += 15;
 	
 	// transform the point into viewProjection space
 	output.Pos = mul( output.Pos, mul(modelMatrix, viewProjection) );
@@ -231,7 +231,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 	return output;
 }
 
-PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
+PSSceneOut drawTerrainPs(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 
@@ -248,8 +248,8 @@ PSSceneOut drawTerrainPs(PSSceneIn input) : SV_Target
 	texColors[6] = terrainTextures[6].Sample(linearSampler, input.UVCoord);
 	texColors[7] = terrainTextures[7].Sample(linearSampler, input.UVCoord);
 	
-	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
-	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/32.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
+	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/8.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
+	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/8.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
 	
 	output.Diffuse =  texColors[0]* blendSample1.x;
 	output.Diffuse += texColors[1]* blendSample1.y;
@@ -295,7 +295,7 @@ PSSceneIn drawRoadVs(VSSceneIn input)
 	return output;
 }
 
-PSSceneOut drawRoadPs(PSSceneIn input) : SV_Target
+PSSceneOut drawRoadPs(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MyText.h"
-
+#include <sstream>
 class TextLabel
 {
 private:
@@ -12,5 +12,7 @@ public:
 	TextLabel(string _text, string _texture, INT2 _pos, int _size);
 	~TextLabel();
 
+	string IntToString(int intInput);
+	string getText();
 	void setText(string _text);
 };

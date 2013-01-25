@@ -9,6 +9,8 @@ ServerThread::ServerThread() : sf::Thread()
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_collisionHandler = new CollisionHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
+
+	this->m_network->broadcast(NetworkEntityMessage());
 }
 
 ServerThread::~ServerThread()
@@ -36,10 +38,10 @@ void ServerThread::Run()
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
 	//this->m_state = State::LOBBY;
-	this->m_state = State::LOBBY;
+	this->m_state = State::GAME;
 	this->m_network->start(1350);
 
-	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
+	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 1.0f, 50.0f)));
 
 	while(this->m_state != State::EXIT)
 	{

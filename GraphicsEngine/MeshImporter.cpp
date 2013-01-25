@@ -37,7 +37,6 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	
 	while(!stream.eof())
 	{
-		
 		char buf[1024];
 		char key[100];
 		stream.getline(buf, 1024);

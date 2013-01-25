@@ -26,7 +26,7 @@ public:
 	~Model();
 	
 	DECLDIR float getAlpha()const;
-	BoundingOrientedBox* getObb()const;
+	DECLDIR BoundingOrientedBox* getObb()const;
 	BoundingSphere* getBs()const { return this->m_bs; }
 	DECLDIR FLOAT3 getPosition()const;
 	D3DXVECTOR2 getPosition2D()const;
@@ -44,13 +44,11 @@ public:
 	DECLDIR void move(FLOAT3 _distance);
 	DECLDIR void rotate(float _yaw, float _pitch, float _roll);
 	DECLDIR void setAlpha(float _alpha);
-	void setPosition(D3DXVECTOR3 _position);
+	DECLDIR void setPosition(D3DXVECTOR3 _position);
 	void setScale(D3DXVECTOR3 _scale);
-	void setRotation(D3DXVECTOR3 _rotation);
 	void updateModelMatrix();
 
 	DECLDIR void setPosition(FLOAT3 _position);
 	DECLDIR void setScale(float x, float y, float z);
-	DECLDIR void setRotation(float x, float y, float z);
 	DECLDIR void setRotation(FLOAT3 _rotation);
 };

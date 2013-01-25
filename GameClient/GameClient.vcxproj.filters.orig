@@ -1,99 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-<<<<<<< HEAD
-    <ClCompile Include="AttackMessage.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="client.cpp" />
-    <ClCompile Include="ClientHandler.cpp" />
-    <ClCompile Include="CollisionHandler.cpp" />
-    <ClCompile Include="CreateGameState.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EntityHandler.cpp" />
-    <ClCompile Include="EntityMessage.cpp" />
-    <ClCompile Include="Hero.cpp" />
-    <ClCompile Include="JoinGameState.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="LobbyState.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="MainMenuState.cpp" />
-    <ClCompile Include="MapHandler.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MessageHandler.cpp" />
-    <ClCompile Include="MessageQueue.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Msg.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Server.cpp" />
-    <ClCompile Include="ServerEntity.cpp" />
-    <ClCompile Include="ServerThread.cpp" />
-    <ClCompile Include="SoundWrapper.cpp" />
-    <ClCompile Include="State.cpp" />
-    <ClCompile Include="RemoveEntityMessage.cpp" />
-    <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="TextInput.cpp" />
-    <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="ModelIdHolder.cpp" />
-    <ClCompile Include="LobbyMenu.cpp" />
-    <ClCompile Include="JoinGameMenu.cpp" />
-    <ClCompile Include="CreateGameMenu.cpp" />
-    <ClCompile Include="HudMenu.cpp" />
-    <ClCompile Include="SettingsMenu.cpp" />
-    <ClCompile Include="LoreMenu.cpp" />
-    <ClCompile Include="CreditsMenu.cpp" />
-    <ClCompile Include="ScoreMenu.cpp" />
-    <ClCompile Include="Skill_Buttons.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AttackMessage.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="client.h" />
-    <ClInclude Include="ClientHandler.h" />
-    <ClInclude Include="CollisionHandler.h" />
-    <ClInclude Include="CreateGameState.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityHandler.h" />
-    <ClInclude Include="EntityMessage.h" />
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Hero.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="JoinGameState.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="LobbyState.h" />
-    <ClInclude Include="MainMenuState.h" />
-    <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="MapHandler.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Message.h" />
-    <ClInclude Include="MessageHandler.h" />
-    <ClInclude Include="MessageQueue.h" />
-    <ClInclude Include="Mouse.h" />
-    <ClInclude Include="Msg.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Server.h" />
-    <ClInclude Include="ServerEntity.h" />
-    <ClInclude Include="ServerThread.h" />
-    <ClInclude Include="SoundWrapper.h" />
-    <ClInclude Include="State.h" />
-    <ClInclude Include="RemoveEntityMessage.h" />
-    <ClInclude Include="Projectile.h" />
-    <ClInclude Include="TextInput.h" />
-    <ClInclude Include="Cursor.h" />
-    <ClInclude Include="ModelIdHolder.h" />
-    <ClInclude Include="LobbyMenu.h" />
-    <ClInclude Include="JoinGameMenu.h" />
-    <ClInclude Include="CreateGameMenu.h" />
-    <ClInclude Include="HudMenu.h" />
-    <ClInclude Include="SettingsMenu.h" />
-    <ClInclude Include="LoreMenu.h" />
-    <ClInclude Include="CreditsMenu.h" />
-    <ClInclude Include="ScoreMenu.h" />
-    <ClInclude Include="Skill_Buttons.h" />
-=======
     <ClCompile Include="AttackEntityMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -127,16 +34,10 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="Hero.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="HudMenu.cpp">
+    <ClCompile Include="Skill_Buttons.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="JoinGameMenu.cpp">
@@ -166,9 +67,6 @@
     <ClCompile Include="MainMenuState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="MapHandler.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -176,12 +74,6 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="ScoreMenu.cpp">
@@ -197,9 +89,6 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="TextInput.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="Tower.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="ServerEntity.cpp">
@@ -235,6 +124,59 @@
     <ClCompile Include="TextLabel.cpp">
       <Filter>Client</Filter>
     </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MapHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Tower.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Hero.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="UseSkillMessage.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="HudMenu.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="UsePositionalSkillMessage.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitEntity.cpp" />
+    <ClCompile Include="ChainStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="ChainStrikeEffect.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarkness.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarknessEffect.cpp">
+      <Filter>Server\Skill</Filter>
+<<<<<<< HEAD
+=======
+    </ClCompile>
+    <ClCompile Include="ClientSkill.cpp" />
+    <ClCompile Include="NetworkMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkEntityMessage.cpp">
+      <Filter>Network</Filter>
+>>>>>>> 103e753f0ee634d822b6c628cbda0d31390d5253
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -244,9 +186,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="CollisionHandler.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="EntityHandler.h">
@@ -273,16 +212,10 @@
     <ClInclude Include="Cursor.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Hero.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="HudMenu.h">
@@ -315,9 +248,6 @@
     <ClInclude Include="MainMenuState.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="MapHandler.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Client</Filter>
     </ClInclude>
@@ -325,12 +255,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ScoreMenu.h">
@@ -346,9 +270,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="TextInput.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Tower.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ServerThread.h">
@@ -387,6 +308,82 @@
     <ClInclude Include="TextLabel.h">
       <Filter>Client</Filter>
     </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MapHandler.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Tower.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Hero.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill_Buttons.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="UseSkillMessage.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="UsePositionalSkillMessage.h">
+      <Filter>Server</Filter>
+<<<<<<< HEAD
+=======
+    </ClInclude>
+    <ClInclude Include="UnitEntity.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarkness.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessEffect.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Skills.h">
+      <Filter>Server\Skill</Filter>
+>>>>>>> 103e753f0ee634d822b6c628cbda0d31390d5253
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSkill.h" />
+    <ClInclude Include="NetworkMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkEntityMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessEffect.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarkness.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Skills.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -398,6 +395,17 @@
     <Filter Include="Minimap">
       <UniqueIdentifier>{b08932c3-b369-445d-adc6-f32d86c4d95f}</UniqueIdentifier>
     </Filter>
->>>>>>> c0e80c4a5bcdd141327bcb88173cef6a0cb4fe19
+    <Filter Include="Server\Skill">
+      <UniqueIdentifier>{f6ca3c67-71f1-4034-9b97-c4048c7d31ff}</UniqueIdentifier>
+    </Filter>
+<<<<<<< HEAD
+=======
+    <Filter Include="Client\Skills">
+      <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
+    </Filter>
+>>>>>>> 103e753f0ee634d822b6c628cbda0d31390d5253
   </ItemGroup>
 </Project>

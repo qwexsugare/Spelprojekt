@@ -63,8 +63,8 @@ void Server::goThroughSelector()
 			if (sock.Receive(packet) == sf::Socket::Done)
 			{
 				// Extract what type of data sent by the client
-				string prot;
-				packet >> prot;
+				unsigned int type;
+				packet >> type;
 
 				int socketIndex = 0;
 
@@ -77,7 +77,7 @@ void Server::goThroughSelector()
 				}
 
 				//handles the protocols, what should be done if the server recives a MSG, ENT etc
-				this->handleClientInData(socketIndex, packet,prot);
+				this->handleClientInData(socketIndex, packet,(NetworkMessage::MESSAGE_TYPE)type);
 			}
 			else
 			{
@@ -111,7 +111,7 @@ void Server::handleMessages()
 		if(m->type == Message::RemoveEntity)
 		{
 			RemoveServerEntityMessage *rsem = (RemoveServerEntityMessage*)m;			
-			RemoveEntityMessage rem = RemoveEntityMessage(rsem->removedId);
+			NetworkRemoveEntityMessage rem = NetworkRemoveEntityMessage(rsem->removedId);
 			this->broadcast(rem);
 		}
 
@@ -121,15 +121,15 @@ void Server::handleMessages()
 
 void Server::shutDown()
 {
-
+	NetworkDisconnectMessage message = NetworkDisconnectMessage("Server is shutting down");
 
 	for(int i=0;i<this->clientArrPos;i++)
 	{
-		sf::Packet msg;
-		msg << "disconnect";
+		sf::Packet packet;
+		packet << message;
 		if(this->clients[i].IsValid())
 		{
-			this->clients[i].Send(msg);
+			this->clients[i].Send(packet);
 			this->clients[i].Close();
 		}
 	}
@@ -141,10 +141,10 @@ void Server::shutDown()
 	this->Wait();
 }
 
-void Server::broadcast(string msg)
+void Server::broadcast(NetworkEntityMessage networkMessage)
 {
 	sf::Packet packet;
-	packet<<msg;
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -156,40 +156,10 @@ void Server::broadcast(string msg)
 	this->m_mutex.Unlock();
 }
 
-void Server::broadcast(EntityMessage ent)
+void Server::broadcast(NetworkRemoveEntityMessage networkMessage)
 {
 	sf::Packet packet;
-	packet<<ent;
-
-	this->m_mutex.Lock();
-
-	for(int i=0;i<this->clientArrPos;i++)
-	{
-		this->clients[i].Send(packet);
-	}
-
-	this->m_mutex.Unlock();
-}
-
-void Server::broadcast(Msg msg)
-{
-	sf::Packet packet;
-	packet<<msg;
-
-	this->m_mutex.Lock();
-
-	for(int i=0;i<this->clientArrPos;i++)
-	{
-		this->clients[i].Send(packet);
-	}
-
-	this->m_mutex.Unlock();
-}
-
-void Server::broadcast(RemoveEntityMessage rem)
-{
-	sf::Packet packet;
-	packet<<rem;
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -232,81 +202,119 @@ bool Server::isRunning()
 	return this->listener.IsValid();
 }
 
-bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
+bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessage::MESSAGE_TYPE type)
 {
 	bool protFound=false;
 
-	if(prot=="ENT")
+	NetworkUseActionMessage ua;
+	NetworkUseActionPositionMessage uap;
+	NetworkUseActionTargetMessage uat;
+
+	switch(type)
 	{
-		EntityMessage ent;
-		packet >> ent;
+	case NetworkMessage::MESSAGE_TYPE::UseAction:		
+		packet >> ua;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleEntityMessage(ent);
-
+		this->m_players[socketIndex]->handleUseActionMessage(ua);
 		this->m_mutex.Unlock();
+		break;
 
-		protFound=true;
-	}
-	else if(prot=="MSG")
-	{
-		Msg msg;
-		packet >> msg;
+	case NetworkMessage::MESSAGE_TYPE::UseActionPos:
+		packet >> uap;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleMsgMessage(msg);
-
+		this->m_players[socketIndex]->handleUseActionPositionMessage(uap);
 		this->m_mutex.Unlock();
-		protFound=true;
-	}
-	else if(prot=="ATTACK")
-	{
-		AttackMessage msg;
-		packet >> msg;
+		break;
 
+	case NetworkMessage::MESSAGE_TYPE::UseActionTarget:
+		packet >> uat;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleAttackMessage(msg);
-
+		this->m_players[socketIndex]->handleUseActionTargetMessage(uat);
 		this->m_mutex.Unlock();
-		protFound = true;
+		break;
+
+	case NetworkMessage::MESSAGE_TYPE::BuySkill:
+
+		break;
+
+	case NetworkMessage::MESSAGE_TYPE::SelectHero:
+
+		break;
+
+	case NetworkMessage::MESSAGE_TYPE::Ready:
+
+		break;
 	}
-	else if(prot == "ATTACKENTITY")
-	{
-		AttackEntityMessage msg;
-		packet >> msg;
 
-		this->m_mutex.Lock();
+	//if(prot=="ENT")
+	//{
+	//	EntityMessage ent;
+	//	packet >> ent;
+	//	this->m_mutex.Lock();
 
-		this->m_players[socketIndex]->handleEntityAttackMessage(msg);
+	//	this->m_players[socketIndex]->handleEntityMessage(ent);
 
-		this->m_mutex.Unlock();
-		protFound = true;
-	}
-	else if(prot == "USE_SKILL")
-	{
-		UseSkillMessage msg;
-		packet >> msg;
+	//	this->m_mutex.Unlock();
 
-		this->m_mutex.Lock();
+	//	protFound=true;
+	//}
+	//else if(prot=="MSG")
+	//{
+	//	Msg msg;
+	//	packet >> msg;
+	//	this->m_mutex.Lock();
 
-		this->m_players[socketIndex]->handleUseSkillMessage(msg);
+	//	this->m_players[socketIndex]->handleMsgMessage(msg);
 
-		this->m_mutex.Unlock();
-		protFound = true;
-	}
-	else if(prot == "USE_POSITIONAL_SKILL")
-	{
-		UsePositionalSkillMessage msg;
-		packet >> msg;
+	//	this->m_mutex.Unlock();
+	//	protFound=true;
+	//}
+	//else if(prot=="ATTACK")
+	//{
+	//	AttackMessage msg;
+	//	packet >> msg;
 
-		this->m_mutex.Lock();
+	//	this->m_mutex.Lock();
 
-		this->m_players[socketIndex]->handleUsePositionalSkillMessage(msg);
+	//	this->m_players[socketIndex]->handleAttackMessage(msg);
 
-		this->m_mutex.Unlock();
-		protFound = true;
-	}
+	//	this->m_mutex.Unlock();
+	//	protFound = true;
+	//}
+	//else if(prot == "ATTACKENTITY")
+	//{
+	//	AttackEntityMessage msg;
+	//	packet >> msg;
+
+	//	this->m_mutex.Lock();
+
+	//	this->m_players[socketIndex]->handleEntityAttackMessage(msg);
+
+	//	this->m_mutex.Unlock();
+	//	protFound = true;
+	//}
+	//else if(prot == "USE_SKILL")
+	//{
+	//	NetworkUseActionMessage msg;
+	//	packet >> msg;
+
+	//	this->m_mutex.Lock();
+
+	//	this->m_players[socketIndex]->ha(msg);
+
+	//	this->m_mutex.Unlock();
+	//	protFound = true;
+	//}
+	//else if(prot == "USE_POSITIONAL_SKILL")
+	//{
+	//	UsePositionalSkillMessage msg;
+	//	packet >> msg;
+
+	//	this->m_mutex.Lock();
+	//	this->m_players[socketIndex]->handleUsePositionalSkillMessage(msg);
+	//	this->m_mutex.Unlock();
+	//	protFound = true;
+	//}
 
 	return protFound;
 }

@@ -14,6 +14,10 @@
 #include "UsePositionalSkillMessage.h"
 #include "Skills.h"
 
+#include "NetworkUseActionMessage.h"
+#include "NetworkUseActionPositionMessage.h"
+#include "NetworkUseActionTargetMessage.h"
+
 class Player
 {
 private:
@@ -32,8 +36,9 @@ public:
 	void handleMsgMessage(Msg m);
 	void handleAttackMessage(AttackMessage am);
 	void handleEntityAttackMessage(AttackEntityMessage eam);
-	void handleUsePositionalSkillMessage(UsePositionalSkillMessage usm);
-	void handleUseSkillMessage(UseSkillMessage usm);
+	void handleUseActionPositionMessage(NetworkUseActionPositionMessage usm);
+	void handleUseActionMessage(NetworkUseActionMessage usm);
+	void handleUseActionTargetMessage(NetworkUseActionTargetMessage usm);
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
 

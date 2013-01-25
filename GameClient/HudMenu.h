@@ -1,5 +1,9 @@
 #pragma once
 #include "menu.h"
+#include "TextLabel.h"
+#include "TextInput.h"
+#include "Input.h"
+#include <sstream>
 class HudMenu :
 	public Menu
 {
@@ -28,7 +32,6 @@ private:
 			button_4,
 			button_5,
 			SkillID;
-			
 	float	m_SkillHud;
 
 	bool	m_DontChange,
@@ -52,9 +55,11 @@ private:
 			m_Init_Agility,
 			m_Init_Wits,
 			m_Init_Fortitude,
-			m_OncePerBuy;
-
-
+			m_OncePerBuy,
+			m_Chat;
+	TextInput* m_LabelInput;
+	vector<TextLabel*> m_Chattext;	
+	TextLabel* m_ResourceLabel;	
 	vector<Button*> BuyButtonTower;
 	vector<Button*> BuyButtonStrength;
 	vector<Button*> BuyButtonAgility;

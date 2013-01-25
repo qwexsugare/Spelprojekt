@@ -8,10 +8,13 @@ private:
 	vector<unsigned int> m_invalidTargets;
 	unsigned int m_firstTarget;
 	int m_sound;
-
-	static const int MAX_JUMP_DISTANCE = 10;
+	float m_timer;
+	int m_damage;
+	
+	static const int LIFETIME = 3;
+	static const int AOE = 200;
 public:
-	CloudOfDarknessEffect(FLOAT3 _position);
+	CloudOfDarknessEffect(FLOAT3 _position, int _damage);
 	~CloudOfDarknessEffect();
 
 	void update(float _dt);

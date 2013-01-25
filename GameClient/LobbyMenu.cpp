@@ -1,14 +1,16 @@
 #include "LobbyMenu.h"
-
+#include "Input.h"
 
 LobbyMenu::LobbyMenu(void)
 {
+	m_Counter = 0;
 	m_Character0 = false;
 	m_Character1 = false;
 	m_Character2 = false;
 	m_Character3 = false;
 	m_Character4 = false;
-	mString = "";
+	m_String = "";
+	m_Combat = 0;
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground.png", FLOAT2(0,0), FLOAT2(2,2),1));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LobbyMenu-Foreground.dds", FLOAT2(0,0), FLOAT2(2,2),4));
@@ -43,9 +45,9 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[5]->Init(FLOAT2(0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
 
 	this->m_Buttons[6] = new Button();
-	this->m_Buttons[6]->Init(FLOAT2(-0.68f, -0.2f),FLOAT2(0.076041667f,0.135185185f),"menu_textures\\Button-LobbyMenu-CloseCombat.dds","",0,0,2,5);
+	this->m_Buttons[6]->Init(FLOAT2(-0.72f, -0.1f),FLOAT2(0.272916667f*0.8f,0.142592593f*0.8f),"menu_textures\\Button-MainMenu-CloseCombat.png","",0,0,2,5);
 	this->m_Buttons[7] = new Button();
-	this->m_Buttons[7]->Init(FLOAT2(-0.78f, -0.2f),FLOAT2(0.076041667f,0.135185185f),"menu_textures\\Button-LobbyMenu-RangeCombat.dds","",0,0,2,5);
+	this->m_Buttons[7]->Init(FLOAT2(-0.72f, -0.22f),FLOAT2(0.272916667f*0.8f,0.142592593f*0.8f),"menu_textures\\Button-MainMenu-RangeCombat.png","",0,0,2,5);
 	// Player buttons
 	this->m_Buttons[8] = new Button();
 	this->m_Buttons[8]->Init(FLOAT2(-0.30f,-0.27f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player1.dds","",0,0,1);
@@ -70,8 +72,16 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
 	this->m_Label[1] = new TextLabel("","text2.png",INT2(130,830),60);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(130,150),100);
-	this->m_Label[3] = new TextLabel("","text1.png",INT2(13000,830),200);
-	this->m_LabelInput = new TextInput("text3.png",INT2(1100,930),60);
+	this->m_Label[3] = new TextLabel("","text4.png",INT2(130,500),75);
+	this->m_LabelInput = new TextInput("text3.png",INT2(1100,1010),80);
+	this->m_Chattext.resize(6);
+	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1100,950),60);
+	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1100,920),60);
+	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1100,890),60);
+	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1100,860),60);
+	this->m_Chattext[4] = new TextLabel("","text2.png",INT2(1100,830),60);
+	this->m_Chattext[5] = new TextLabel("","text2.png",INT2(1100,800),60);
+
 }
 
 
@@ -81,6 +91,12 @@ LobbyMenu::~LobbyMenu(void)
 	{
 		delete this->m_Label[i];
 		this->m_Label[i] = NULL;
+	}
+	delete this->m_LabelInput;
+	for(int i=0 ; i < this->m_Chattext.size();i++)
+	{
+		delete this->m_Chattext[i];
+		this->m_Chattext[i] = NULL;
 	}
 }
 void LobbyMenu::Update(float _dt)
@@ -116,12 +132,44 @@ void LobbyMenu::Update(float _dt)
 		this->m_Buttons[8]->setPosition(FLOAT2(0.445f,-0.17f));
 	}
 	this->m_LabelInput->update(_dt);
-	if(::GetAsyncKeyState(VK_RETURN))
+	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
 	{
-		mString = this->m_LabelInput->getText();
-		this->m_Label[3]->setText(mString);
-		this->m_LabelInput->setText("");
+
+		for(int i = m_Chattext.size()-1; i > 0;i--)
+		{
+			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+		}
+			m_String = this->m_LabelInput->getText();
+			m_String.erase(m_String.end());
+			this->m_Chattext[0]->setText(m_String);
+			this->m_LabelInput->setText(""); 
+			this->m_Chattext[5]->setText("");
 	}
+	
+	//this->m_Label[3]->setText(m_String);
+	if(m_Combat == 0)
+	{
+		if(m_Character0 == false && m_Character1 == false && m_Character2 == false && m_Character3 == false && m_Character4 == false)
+		{
+			this->m_Label[3]->setText("");
+			this->m_Label[2]->setText("Select Character");
+			this->m_Label[0]->setText("");
+			this->m_Label[1]->setText("Welcome to the Asylum! The smell of burning flesh, Haunts my dreams It is time to face my demons_and leave this horrible place once and for all. This is my time to shine Lets kill som demons!");
+		}
+		else
+		{
+			this->m_Label[3]->setText("Select Weapontype");
+		}
+	}
+	if(RangeCombatIsDown() || m_Combat == 1)
+	{
+		this->m_Label[3]->setText("Range combat_Selected");
+	}
+	if(CloseCombatIsDown() || m_Combat == 2)
+	{
+		this->m_Label[3]->setText("Close combat_Selected");
+	}
+
 	if(Change == 1)
 	{
 		if (m_Character0 == true)
@@ -155,6 +203,8 @@ void LobbyMenu::Update(float _dt)
 			this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know more about you than_you do yourself. Some say he is a charlatan, other think it is real magic. Whichever is true,_it is clear that The Mentalist can do incredible things to your mind, often without you even noticing._Be glad he is on your side.___Active: Hypnotic stare_Passive: Enigmatic Presence");
 		}
 	}
+
+
 }
 
 bool LobbyMenu::ChatIsDown()
@@ -205,18 +255,20 @@ bool LobbyMenu::StartGameIsDown()
 	}
 	return false;
 }
-bool LobbyMenu::RangeCombatIsDown()
+bool LobbyMenu::CloseCombatIsDown()
 {
-	if(this->m_Buttons[6]->Clicked() == 1)
+	if(this->m_Buttons[6]->Clicked()== 1)
 	{
+		m_Combat = 2;
 		return true;
 	}
 	return false;
 }
-bool LobbyMenu::CloseCombatIsDown()
+bool LobbyMenu::RangeCombatIsDown()
 {
-	if(this->m_Buttons[7]->Clicked()== 1)
+	if(this->m_Buttons[7]->Clicked() == 1)
 	{
+		m_Combat = 1;
 		return true;
 	}
 	return false;
