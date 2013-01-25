@@ -20,7 +20,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_poisonChance = 0.0f;
 	this->m_deadlyStrikeChance = 0.0f;
 	this->m_poisonCounter = 0;
-	this->m_stunned = false;
+	this->m_stunTimer = 0.0f;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -46,11 +46,6 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 }
 
 UnitEntity::~UnitEntity()
-{
-
-}
-
-void UnitEntity::update(float dt)
 {
 
 }
