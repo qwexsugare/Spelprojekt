@@ -5,16 +5,11 @@ Player::Player(unsigned int id)
 	this->m_id = id;
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = new Hero();
-<<<<<<< HEAD
-	this->m_hero->setPosition(FLOAT3(50.0f, 1.0f, 50.0f));
-	this->m_hero->setNextPosition(FLOAT3(50.0f, 1.0f, 50.0f));
-	this->m_skill = new ChainStrike();
-=======
 	this->m_hero->setPosition(FLOAT3(50.0f, 0.0f, 50.0f));
 	this->m_hero->setNextPosition(FLOAT3(50.0f, 0.0f, 50.0f));
 	this->m_chainStrike = new ChainStrike();
 	this->m_cloudOfDarkness = new CloudOfDarkness();
->>>>>>> 563f637c91d23f95648120cebba2144825b86c82
+	this->m_stunningStrike = new StunningStrike();
 	EntityHandler::addEntity(m_hero);
 }
 
@@ -22,6 +17,7 @@ Player::~Player()
 {
 	delete this->m_chainStrike;
 	delete this->m_cloudOfDarkness;
+	delete this->m_stunningStrike;
 	delete this->m_messageQueue;
 }
 
@@ -68,6 +64,7 @@ void Player::update(float _dt)
 {
 	m_chainStrike->update(_dt);
 	m_cloudOfDarkness->update(_dt);
+	m_stunningStrike->update(_dt);
 }
 
 bool Player::getReady()
@@ -80,18 +77,55 @@ MessageQueue *Player::getMessageQueue()
 	return this->m_messageQueue;
 }
 
-void Player::handleUsePositionalSkillMessage(UsePositionalSkillMessage usm)
+void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 {
-	if(usm.getSkillId() == m_cloudOfDarkness->getId())
+	switch(usm.getActionId())
 	{
-		m_cloudOfDarkness->activate(usm.getPos(), this->m_hero->getId());
+	case Skill::MOVE:
+		this->m_hero->setNextPosition(usm.getPosition());
+		break;
+
+	case Skill::CLOUD_OF_DARKNESS:
+		this->m_cloudOfDarkness->activate(usm.getPosition(), this->m_hero->getId());
+		break;
+
+	default:
+		//Check if the player has the ability and use it
+		break;
 	}
 }
 
-void Player::handleUseSkillMessage(UseSkillMessage usm)
+void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
-	if(usm.getSkillId() == m_chainStrike->getId())
+	switch(usm.getActionId())
 	{
-		m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
+	case Skill::STUNNING_STRIKE:
+		m_stunningStrike->activate(this->m_hero->getId());
+		break;
+
+	default:
+		//Check if the player has the ability and use it
+		break;
+	}
+}
+
+void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
+{
+	switch(usm.getActionId())
+	{
+	case Skill::ATTACK:
+		this->m_hero->setTarget(usm.getTargetId());
+		break;
+
+<<<<<<< HEAD
+=======
+	case Skill::CHAIN_STRIKE:
+		this->m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
+		break;
+
+>>>>>>> 911910859ebe904050d239c8ef58ab21fb9b5f35
+	default:
+		//Check if the player has the ability and use it
+		break;
 	}
 }

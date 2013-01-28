@@ -118,6 +118,9 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		break;
 
 	case Skill::CHAIN_STRIKE:
+		m_chainStrike->activate(usm.getTargetId(), m_hero->getId());
+		break;
+
 	default:
 		//Check if the player has the ability and use it
 		break;
