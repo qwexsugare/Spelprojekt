@@ -25,6 +25,7 @@ private:
 	
 	Skill* m_chainStrike;
 	Skill* m_cloudOfDarkness;
+	Skill* m_stunningStrike;
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;

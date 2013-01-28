@@ -6,12 +6,11 @@ class StunningStrikeEffect : public ServerEntity
 {
 private:
 	float m_timer;
-	int m_damage;
 	
 	static const int LIFETIME = 3;
-	static const int AOE = 200;
+	static const int AOE = 5;
 public:
-	StunningStrikeEffect(FLOAT3 _position, int _damage);
+	StunningStrikeEffect(FLOAT3 _position);
 	~StunningStrikeEffect();
 
 	void update(float _dt);

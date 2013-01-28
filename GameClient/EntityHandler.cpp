@@ -113,20 +113,20 @@ ServerEntity* EntityHandler::getClosestEntity(ServerEntity *entity)
 
 	if(EntityHandler::m_entities[0] == entity && EntityHandler::m_entities.size() > 1)
 	{
-		shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[1]->getPosition()).length());
+		shortestDistance = (entity->getPosition() - EntityHandler::m_entities[1]->getPosition()).length();
 		shortestIndex = 1;
 	}
 	else
 	{
-		shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[0]->getPosition()).length());
+		shortestDistance = (entity->getPosition() - EntityHandler::m_entities[0]->getPosition()).length();
 		shortestIndex = 0;
 	}
 
 	for(int i = shortestIndex; i < EntityHandler::m_entities.size(); i++)
 	{
-		if(EntityHandler::m_entities[i] != entity && abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length()) < shortestDistance)
+		if(EntityHandler::m_entities[i] != entity && (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance)
 		{
-			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestDistance = (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length();
 			shortestIndex = i;
 		}
 	}
@@ -148,7 +148,7 @@ ServerEntity* EntityHandler::getClosestEnemy(ServerEntity *entity)
 
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
-		if(EntityHandler::m_entities[i] != entity && abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length()) < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::EnemyType)
+		if(EntityHandler::m_entities[i] != entity && (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::EnemyType)
 		{
 			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
 			shortestIndex = i;
