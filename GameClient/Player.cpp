@@ -10,6 +10,7 @@ Player::Player(unsigned int id)
 	this->m_chainStrike = new ChainStrike();
 	this->m_cloudOfDarkness = new CloudOfDarkness();
 	this->m_stunningStrike = new StunningStrike();
+	this->m_teleport = new Teleport();
 	EntityHandler::addEntity(m_hero);
 }
 
@@ -19,6 +20,7 @@ Player::~Player()
 	delete this->m_cloudOfDarkness;
 	delete this->m_stunningStrike;
 	delete this->m_messageQueue;
+	delete m_teleport;
 }
 
 void Player::handleEntityMessage(EntityMessage e)
@@ -65,6 +67,7 @@ void Player::update(float _dt)
 	m_chainStrike->update(_dt);
 	m_cloudOfDarkness->update(_dt);
 	m_stunningStrike->update(_dt);
+	m_teleport->update(_dt);
 }
 
 bool Player::getReady()
@@ -89,6 +92,10 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		this->m_cloudOfDarkness->activate(usm.getPosition(), this->m_hero->getId());
 		break;
 
+	case Skill::TELEPORT:
+		this->m_teleport->activate(usm.getPosition(), this->m_hero->getId());
+		break;
+
 	default:
 		//Check if the player has the ability and use it
 		break;
@@ -100,6 +107,7 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 	switch(usm.getActionId())
 	{
 	case Skill::STUNNING_STRIKE:
+		//EntityHandler::addEntity(new Tower(this->m_hero->getPosition()));
 		m_stunningStrike->activate(this->m_hero->getId());
 		break;
 

@@ -46,8 +46,6 @@ DeviceHandler::DeviceHandler(HWND _hWnd, bool _windowed, INT2 _screenSize)
 		}
 	}
 
-	this->m_device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-
 	this->setupViewPort(&this->m_viewport, this->m_screenSize.x, this->m_screenSize.y);
 	this->m_device->RSSetViewports( 1, &this->m_viewport );
 }

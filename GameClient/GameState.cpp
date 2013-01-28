@@ -130,6 +130,7 @@ void GameState::update(float _dt)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
 		
+
 		// Do something!
 	}
 
@@ -170,12 +171,8 @@ void GameState::update(float _dt)
 		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 15.0f));
 	}
 
-	if(g_keyboard->getKeyState(VK_OEM_1))
+	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
 	{
-
-	}
-	if(g_mouse->isLButtonPressed())
-	{			
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
@@ -183,6 +180,16 @@ void GameState::update(float _dt)
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 		this->m_network->sendMessage(NetworkUseActionMessage(Skill::STUNNING_STRIKE));
+	}
+	if(g_mouse->isLButtonPressed())
+	{
+		D3DXVECTOR3 pickDir;
+		D3DXVECTOR3 pickOrig;
+		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+		float k = (-pickOrig.y)/pickDir.y;
+		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::TELEPORT, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
 
 		for(int i = 0; i < m_entities.size(); i++)
 		{
