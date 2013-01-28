@@ -11,11 +11,29 @@ Player::Player(unsigned int id)
 	this->m_cloudOfDarkness = new CloudOfDarkness();
 	this->m_stunningStrike = new StunningStrike();
 	this->m_teleport = new Teleport();
+
 	EntityHandler::addEntity(m_hero);
+
+	this->m_skills.push_back(new PoisonStrike());
+	this->m_skills.push_back(new PoisonStrike());
+	this->m_skills.push_back(new LifestealingStrike());
+	this->m_skills.push_back(new LifestealingStrike());
+
+	this->m_skills[0]->activate(this->m_hero->getId());
+	this->m_skills[1]->activate(this->m_hero->getId());
+	this->m_skills[2]->activate(this->m_hero->getId());
+	this->m_skills[3]->activate(this->m_hero->getId());
+
+
 }
 
 Player::~Player()
 {
+	for(int i = 0; i < this->m_skills.size(); i++)
+	{
+		delete this->m_skills[i];
+	}
+
 	delete this->m_chainStrike;
 	delete this->m_cloudOfDarkness;
 	delete this->m_stunningStrike;
@@ -53,7 +71,7 @@ void Player::handleAttackMessage(AttackMessage am)
 
 	if(direction.length() > 0)
 	{
-		EntityHandler::addEntity(new Projectile(this->m_hero->getPosition(), direction, 2, 10.0f));
+		EntityHandler::addEntity(new Projectile(this->m_hero->getPosition(), direction, 2, 10.0f, this->m_hero));
 	}
 }
 

@@ -29,3 +29,8 @@ bool MentalResistance::activate(unsigned int _senderId)
 
 	return true;
 }
+
+void MentalResistance::updateSpecificSkill(float dt)
+{
+
+}

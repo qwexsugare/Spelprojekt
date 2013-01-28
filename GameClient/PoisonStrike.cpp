@@ -12,7 +12,7 @@ PoisonStrike::~PoisonStrike()
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setPoisonChance(ue->getPoisonChance() + 0.25f);
+		ue->setPoisonChance(ue->getPoisonChance() - 25);
 	}
 }
 
@@ -24,8 +24,13 @@ bool PoisonStrike::activate(unsigned int _senderId)
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setPoisonChance(ue->getPoisonChance() + 0.25f);
+		ue->setPoisonChance(ue->getPoisonChance() + 25);
 	}	
 
 	return true;
+}
+
+void PoisonStrike::updateSpecificSkill(float dt)
+{
+
 }

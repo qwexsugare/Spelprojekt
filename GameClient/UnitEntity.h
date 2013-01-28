@@ -27,8 +27,8 @@ protected:
 	float m_mentalDamage;
 	float m_physicalResistance;
 	float m_mentalResistance;
-	float m_lifeStealChance;
-	float m_poisonChance;
+	unsigned int m_lifeStealChance;
+	int m_poisonChance;
 	float m_stunTimer;
 	unsigned int m_poisonCounter;
 	unsigned int m_deadlyStrikeChance;
@@ -54,8 +54,8 @@ public:
 	void setMentalDamage(float _mentalDamage);
 	void setPhysicalResistance(float _physicalResistance);
 	void setMentalResistance(float _mentalResistance);
-	void setLifeStealChance(float _lifeStealChance);
-	void setPoisonChance(float _poisonChance);
+	void setLifeStealChance(unsigned int _lifeStealChance);
+	void setPoisonChance(unsigned int _poisonChance);
 	void setDeadlyStrikeChance(unsigned int _deadlyStrikeChance);
 	void stun(float _time);
 
@@ -72,8 +72,8 @@ public:
 	float getMentalDamage();
 	float getPhysicalResistance();
 	float getMentalResistance();
-	float getLifeStealChance();
-	float getPoisonChance( );
+	unsigned int getLifeStealChance();
+	unsigned int getPoisonChance( );
 	unsigned int getDeadlyStrikeChance();
 	float getGreed();
 	float getTurretDuration();

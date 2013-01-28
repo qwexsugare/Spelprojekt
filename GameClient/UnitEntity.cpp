@@ -10,7 +10,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_wits = 1;
 	this->m_fortitude = 1;
 	
-	this->m_movementSpeed = 1.0f;
+	this->m_movementSpeed = 2.0f;
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
@@ -35,15 +35,15 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_wits = 1;
 	this->m_fortitude = 1;
 
-	this->m_movementSpeed = 1.0f;
+	this->m_movementSpeed = 2.0f;
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
 	this->m_physicalResistance = 1.0f;
 	this->m_mentalResistance = 1.0f;
-	this->m_lifeStealChance = 0.0f;
-	this->m_poisonChance = 0.0f;
-	this->m_deadlyStrikeChance = 0.0f;
+	this->m_lifeStealChance = 0;
+	this->m_poisonChance = 0;
+	this->m_deadlyStrikeChance = 0;
 	this->m_poisonCounter = 0;
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
@@ -141,12 +141,12 @@ void UnitEntity::setMentalResistance(float _mentalResistance)
 {
 	this->m_mentalResistance = _mentalResistance;
 }
-void UnitEntity::setLifeStealChance(float _lifeStealChance)
+void UnitEntity::setLifeStealChance(unsigned int _lifeStealChance)
 {
 	this->m_lifeStealChance = _lifeStealChance;
 }
 
-void UnitEntity::setPoisonChance(float _poisonChance)
+void UnitEntity::setPoisonChance(unsigned int _poisonChance)
 {
 	this->m_poisonChance = _poisonChance;
 }
@@ -226,12 +226,12 @@ float UnitEntity::getMentalResistance()
 	return this->m_mentalResistance;
 }
 
-float UnitEntity::getLifeStealChance()
+unsigned int UnitEntity::getLifeStealChance()
 {
 	return this->m_lifeStealChance;
 }
 
-float UnitEntity::getPoisonChance()
+unsigned int UnitEntity::getPoisonChance()
 {
 	return this->m_poisonChance;
 }
@@ -262,18 +262,19 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 	int lifesteal = rand() % 100 + 1;
 	int poison = rand() % 100 + 1;
 
-	if(lifesteal > this->m_lifeStealChance)
+	if(lifesteal < this->m_lifeStealChance)
 	{
 		this->heal(physicalDamage * 0.5f);
 	}
 
-	if(poison > this->m_poisonChance)
+	if(poison < this->m_poisonChance)
 	{
 		if(this->m_poisonCounter < 4)
 		{
 			this->m_poisonCounter++;
-			target->takeDamage(100 + this->m_poisonCounter * 5, false);
 		}
+		
+		target->takeDamage(100 + this->m_poisonCounter * 5, false);
 	}
 
 	target->takeDamage(physicalDamage, mentalDamage);

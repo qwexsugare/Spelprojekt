@@ -29,3 +29,8 @@ bool Aim::activate(unsigned int _senderId)
 
 	return true;
 }
+
+void Aim::updateSpecificSkill(float dt)
+{
+
+}

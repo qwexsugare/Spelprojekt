@@ -29,3 +29,8 @@ bool DeadlyStrike::activate(unsigned int _senderId)
 
 	return true;
 }
+
+void DeadlyStrike::updateSpecificSkill(float dt)
+{
+
+}

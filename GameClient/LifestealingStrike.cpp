@@ -29,3 +29,8 @@ bool LifestealingStrike::activate(unsigned int _senderId)
 
 	return true;
 }
+
+void LifestealingStrike::updateSpecificSkill(float dt)
+{
+
+}
