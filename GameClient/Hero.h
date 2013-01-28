@@ -23,8 +23,8 @@ private:
 public:
 	Hero();
 	virtual ~Hero();
-
-	void update(float dt);
+	
+	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setTarget(unsigned int _target);
 	FLOAT3 getDirection();

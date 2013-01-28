@@ -22,7 +22,7 @@ Hero::~Hero()
 
 }
 
-void Hero::update(float dt)
+void Hero::updateSpecificUnitEntity(float dt)
 {
 	//Handle incoming messages
 	Message *m;

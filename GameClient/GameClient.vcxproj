@@ -189,6 +189,7 @@
     <ClCompile Include="ModelIdHolder.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Msg.cpp" />
+    <ClCompile Include="MyAlgorithms.cpp" />
     <ClCompile Include="NetworkDisconnectMessage.cpp" />
     <ClCompile Include="NetworkEntityMessage.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
@@ -209,6 +210,8 @@
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
+    <ClCompile Include="StunningStrike.cpp" />
+    <ClCompile Include="StunningStrikeEffect.cpp" />
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="Tower.cpp" />
@@ -267,6 +270,7 @@
     <ClInclude Include="ModelIdHolder.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Msg.h" />
+    <ClInclude Include="MyAlgorithms.h" />
     <ClInclude Include="NetworkDisconnectMessage.h" />
     <ClInclude Include="NetworkEntityMessage.h" />
     <ClInclude Include="NetworkMessage.h" />
@@ -287,6 +291,8 @@
     <ClInclude Include="Skill_Buttons.h" />
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="StunningStrike.h" />
+    <ClInclude Include="StunningStrikeEffect.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Tower.h" />

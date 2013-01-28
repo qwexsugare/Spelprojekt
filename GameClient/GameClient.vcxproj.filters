@@ -148,7 +148,6 @@
     <ClCompile Include="UsePositionalSkillMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="UnitEntity.cpp" />
     <ClCompile Include="ChainStrike.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
@@ -169,16 +168,19 @@
     </ClCompile>
     <ClCompile Include="NetworkDisconnectMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="ClientSkill.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkRemoveEntityMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
     <ClCompile Include="NetworkUseActionMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
@@ -187,6 +189,18 @@
     </ClCompile>
     <ClCompile Include="NetworkUseActionTargetMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrikeEffect.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitEntity.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MyAlgorithms.cpp">
+      <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,10 +357,6 @@
     <ClInclude Include="UsePositionalSkillMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="UnitEntity.h">
-      <Filter>Server</Filter>
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="ChainStrikeEffect.h">
       <Filter>Server\Skill</Filter>
       <Filter>Server\Skill</Filter>
@@ -381,16 +391,19 @@
     </ClInclude>
     <ClInclude Include="NetworkDisconnectMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
     <ClInclude Include="ClientSkill.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
+    </ClInclude>
     <ClInclude Include="NetworkRemoveEntityMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Client\Controls</Filter>
+    </ClInclude>
     <ClInclude Include="NetworkUseActionMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -399,6 +412,18 @@
     </ClInclude>
     <ClInclude Include="NetworkUseActionTargetMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrikeEffect.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitEntity.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MyAlgorithms.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
