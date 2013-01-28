@@ -6,7 +6,7 @@ class Teleport : public Skill
 {
 private:
 	static const float COOLDOWN;
-	static const int RANGE = 5;
+	static const int RANGE = 50;
 public:
 	Teleport();
 	~Teleport();

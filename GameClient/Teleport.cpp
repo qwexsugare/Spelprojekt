@@ -20,6 +20,7 @@ void Teleport::activate(FLOAT3 _position, unsigned int _senderId)
 
 	if(this->getCurrentCooldown() == 0 && (caster->getPosition() - _position).length() <= RANGE)
 	{
+		((Hero*)caster)->setNextPosition(((Hero*)caster)->getPosition());
 		((Hero*)caster)->setPosition(_position);
 		this->resetCooldown();
 	}

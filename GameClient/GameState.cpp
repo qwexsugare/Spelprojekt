@@ -130,6 +130,7 @@ void GameState::update(float _dt)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
 		
+
 		// Do something!
 	}
 

@@ -184,8 +184,12 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
+    <ClCompile Include="NetworkUseActionPositionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkUseActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="StunningStrike.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
@@ -197,13 +201,20 @@
     </ClCompile>
     <ClCompile Include="MyAlgorithms.cpp">
       <Filter>Server</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Teleport.cpp">
+      <Filter>Server\Skill</Filter>
 =======
-    <ClCompile Include="NetworkUseActionPositionMessage.cpp">
+    <ClCompile Include="NetworkCreateActionMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkUseActionTargetMessage.cpp">
+    <ClCompile Include="NetworkCreateActionPositionMessage.cpp">
       <Filter>Network</Filter>
->>>>>>> 69d603b8b95d30ee472fde96df04a3ec2142aeeb
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+>>>>>>> 69ec2a1a5632904a7bc0d826e9b167f16604795e
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -410,8 +421,12 @@
     <ClInclude Include="NetworkUseActionMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="NetworkUseActionPositionMessage.h" />
+    <ClInclude Include="NetworkUseActionPositionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUseActionTargetMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
     <ClInclude Include="StunningStrike.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
@@ -423,13 +438,20 @@
     </ClInclude>
     <ClInclude Include="MyAlgorithms.h">
       <Filter>Server</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Teleport.h">
+      <Filter>Server\Skill</Filter>
 =======
-    <ClInclude Include="NetworkUseActionPositionMessage.h">
+    <ClInclude Include="NetworkCreateActionMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkUseActionTargetMessage.h">
+    <ClInclude Include="NetworkCreateActionPositionMessage.h">
       <Filter>Network</Filter>
->>>>>>> 69d603b8b95d30ee472fde96df04a3ec2142aeeb
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionTargetMessage.h">
+      <Filter>Network</Filter>
+>>>>>>> 69ec2a1a5632904a7bc0d826e9b167f16604795e
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

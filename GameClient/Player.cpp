@@ -90,7 +90,6 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 
 	case Skill::CLOUD_OF_DARKNESS:
 		this->m_cloudOfDarkness->activate(usm.getPosition(), this->m_hero->getId());
-		
 		break;
 
 	case Skill::TELEPORT:
@@ -108,8 +107,8 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 	switch(usm.getActionId())
 	{
 	case Skill::STUNNING_STRIKE:
-		EntityHandler::addEntity(new Tower(this->m_hero->getPosition()));
-		//m_stunningStrike->activate(this->m_hero->getId());
+		//EntityHandler::addEntity(new Tower(this->m_hero->getPosition()));
+		m_stunningStrike->activate(this->m_hero->getId());
 		break;
 
 	default:
