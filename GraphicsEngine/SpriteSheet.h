@@ -26,6 +26,7 @@ private:
 	FLOAT2 m_size;
 	FLOAT2 m_position;
 	int m_layer;
+	bool m_visible;
 public:
 	SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView* _texture, FLOAT2 _position, FLOAT2 _size, INT2 _nrOfFrames, int _layer);
 
@@ -35,9 +36,11 @@ public:
 	int getStartIndex();
 	int getNrOfVertices();
 	int getLayer();
+	bool getVisible();
 
 	DECLDIR void setPosition(FLOAT2 _position);
 	DECLDIR void setSize(FLOAT2 _size);
+	DECLDIR void setVisible(bool _visible);
 
 	DECLDIR void setCurrentFrame(INT2 _currentFrame);
 	DECLDIR INT2 getCurrentFrame();

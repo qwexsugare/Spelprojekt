@@ -324,18 +324,21 @@ void World::render()
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer(), sizeof(Vertex));
-
-		this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
-		this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
-
-		D3D10_TECHNIQUE_DESC techDesc;
-		this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
-
-		for( UINT p = 0; p < techDesc.Passes; p++ )
+		if(this->m_sprites[i]->getVisible() == true)
 		{
-			this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(m_sprites[i]->getNrOfVertices(), this->m_sprites[i]->getStartIndex());
+			this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer(), sizeof(Vertex));
+
+			this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
+			this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
+
+			D3D10_TECHNIQUE_DESC techDesc;
+			this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{
+				this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(m_sprites[i]->getNrOfVertices(), this->m_sprites[i]->getStartIndex());
+			}
 		}
 	}
 

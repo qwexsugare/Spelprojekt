@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Aim.cpp" />
     <ClCompile Include="AttackEntityMessage.cpp" />
     <ClCompile Include="AttackMessage.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -166,15 +167,18 @@
     <ClCompile Include="CreateGameState.cpp" />
     <ClCompile Include="CreditsMenu.cpp" />
     <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="DeadlyStrike.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Greed.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HudMenu.cpp" />
     <ClCompile Include="JoinGameMenu.cpp" />
     <ClCompile Include="JoinGameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LifestealingStrike.cpp" />
     <ClCompile Include="LobbyMenu.cpp" />
     <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="LoreMenu.cpp" />
@@ -182,6 +186,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MapHandler.cpp" />
+    <ClCompile Include="MentalResistance.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="MessageQueue.cpp" />
@@ -200,7 +205,9 @@
     <ClCompile Include="NetworkUseActionMessage.cpp" />
     <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
     <ClCompile Include="NetworkUseActionTargetMessage.cpp" />
+    <ClCompile Include="PhysicalResistance.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PoisonStrike.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RemoveEntityMessage.cpp" />
     <ClCompile Include="ScoreMenu.cpp" />
@@ -232,6 +239,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Aim.h" />
     <ClInclude Include="AttackEntityMessage.h" />
     <ClInclude Include="AttackMessage.h" />
     <ClInclude Include="Button.h" />
@@ -249,18 +257,21 @@
     <ClInclude Include="CreateGameState.h" />
     <ClInclude Include="CreditsMenu.h" />
     <ClInclude Include="Cursor.h" />
+    <ClInclude Include="DeadlyStrike.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
     <ClInclude Include="EntityMessage.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Greed.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="HudMenu.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="JoinGameMenu.h" />
     <ClInclude Include="JoinGameState.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LifestealingStrike.h" />
     <ClInclude Include="LobbyMenu.h" />
     <ClInclude Include="LobbyState.h" />
     <ClInclude Include="LoreMenu.h" />
@@ -268,6 +279,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MapHandler.h" />
     <ClInclude Include="MeleeAttack.h" />
+    <ClInclude Include="MentalResistance.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
@@ -287,7 +299,9 @@
     <ClInclude Include="NetworkUseActionMessage.h" />
     <ClInclude Include="NetworkUseActionPositionMessage.h" />
     <ClInclude Include="NetworkUseActionTargetMessage.h" />
+    <ClInclude Include="PhysicalResistance.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PoisonStrike.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RemoveEntityMessage.h" />
     <ClInclude Include="ScoreMenu.h" />
