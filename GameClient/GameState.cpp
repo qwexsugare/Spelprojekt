@@ -13,7 +13,7 @@ GameState::GameState()
 	this->m_emilmackesFpsText = new TextInput("text3.png", INT2(1100, 1053), 100);
 	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 	this->m_network = new Client();
-	m_testModel = g_graphicsEngine->createModel("TestObject", FLOAT3(25.0f, 0.0f, 25.0f));
+	//m_testModel = g_graphicsEngine->createModel("TestObject", FLOAT3(25.0f, 0.0f, 25.0f));
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
@@ -79,9 +79,9 @@ void GameState::update(float _dt)
 	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
 	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
 
-	while(this->m_network->entityMessageQueueEmpty() == false)
+	while(this->m_network->entityQueueEmpty() == false)
 	{
-		NetworkEntityMessage e = this->m_network->entityMessageQueueFront();
+		NetworkEntityMessage e = this->m_network->entityQueueFront();
 		bool found = false;
 
 		if(e.getEntityId() > 3)
@@ -110,9 +110,9 @@ void GameState::update(float _dt)
 		}
 	}
 
-	while(this->m_network->removeEntityMessageQueueEmpty() == false)
+	while(this->m_network->removeEntityQueueEmpty() == false)
 	{
-		NetworkRemoveEntityMessage rem = this->m_network->removeEntityMessageQueueFront();
+		NetworkRemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
 		bool found = false;
 
 		for(int i = 0; i < this->m_entities.size() && found == false; i++)
@@ -125,6 +125,29 @@ void GameState::update(float _dt)
 				i = this->m_entities.size();
 			}
 		}
+	}
+
+	while(this->m_network->createActionQueueEmpty() == false)
+	{
+		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
+		
+		// Do something!
+	}
+
+
+	while(this->m_network->createActionPositionQueueEmpty() == false)
+	{
+		NetworkCreateActionPositionMessage e = this->m_network->createActionPositionQueueFront();
+		
+		// Do something!
+	}
+
+
+	while(this->m_network->createActionTargetQueueEmpty() == false)
+	{
+		NetworkCreateActionTargetMessage e = this->m_network->createActionTargetQueueFront();
+		
+		// Do something!
 	}
 
 	//this->m_network->sendMsg(Msg("Ready"));
@@ -158,17 +181,17 @@ void GameState::update(float _dt)
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
 
-		float dist;
-		if(m_testModel->intersects(dist, pickOrig, pickDir))
-		{
-			OutputDebugString("pick ray intersects with test model 1\n");
-		}
-		else
-		{
-			stringstream cnv;
-			cnv << dist << endl;
-			OutputDebugString(cnv.str().c_str());
-		}
+		//float dist;
+		//if(m_testModel->intersects(dist, pickOrig, pickDir))
+		//{
+		//	OutputDebugString("pick ray intersects with test model 1\n");
+		//}
+		//else
+		//{
+		//	stringstream cnv;
+		//	cnv << dist << endl;
+		//	OutputDebugString(cnv.str().c_str());
+		//}
 
 
 		for(int i = 0; i < m_entities.size(); i++)
@@ -190,7 +213,7 @@ void GameState::update(float _dt)
 	}
 	if(g_mouse->isRButtonPressed())
 	{
-		m_testModel->rotate(D3DX_PI/8.0f, 0.0f, 0.0f);
+		//m_testModel->rotate(D3DX_PI/8.0f, 0.0f, 0.0f);
 
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{

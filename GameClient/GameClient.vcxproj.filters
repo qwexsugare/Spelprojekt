@@ -202,6 +202,15 @@
     <ClCompile Include="MyAlgorithms.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkCreateActionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionPositionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -424,6 +433,15 @@
     </ClInclude>
     <ClInclude Include="MyAlgorithms.h">
       <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionPositionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionTargetMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -190,6 +190,9 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Msg.cpp" />
     <ClCompile Include="MyAlgorithms.cpp" />
+    <ClCompile Include="NetworkCreateActionMessage.cpp" />
+    <ClCompile Include="NetworkCreateActionPositionMessage.cpp" />
+    <ClCompile Include="NetworkCreateActionTargetMessage.cpp" />
     <ClCompile Include="NetworkDisconnectMessage.cpp" />
     <ClCompile Include="NetworkEntityMessage.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
@@ -271,6 +274,9 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Msg.h" />
     <ClInclude Include="MyAlgorithms.h" />
+    <ClInclude Include="NetworkCreateActionMessage.h" />
+    <ClInclude Include="NetworkCreateActionPositionMessage.h" />
+    <ClInclude Include="NetworkCreateActionTargetMessage.h" />
     <ClInclude Include="NetworkDisconnectMessage.h" />
     <ClInclude Include="NetworkEntityMessage.h" />
     <ClInclude Include="NetworkMessage.h" />
