@@ -78,9 +78,9 @@ void GameState::update(float _dt)
 	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
 	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
 
-	while(this->m_network->entityMessageQueueEmpty() == false)
+	while(this->m_network->entityQueueEmpty() == false)
 	{
-		NetworkEntityMessage e = this->m_network->entityMessageQueueFront();
+		NetworkEntityMessage e = this->m_network->entityQueueFront();
 		bool found = false;
 
 		if(e.getEntityId() > 3)
@@ -109,9 +109,9 @@ void GameState::update(float _dt)
 		}
 	}
 
-	while(this->m_network->removeEntityMessageQueueEmpty() == false)
+	while(this->m_network->removeEntityQueueEmpty() == false)
 	{
-		NetworkRemoveEntityMessage rem = this->m_network->removeEntityMessageQueueFront();
+		NetworkRemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
 		bool found = false;
 
 		for(int i = 0; i < this->m_entities.size() && found == false; i++)
@@ -124,6 +124,29 @@ void GameState::update(float _dt)
 				i = this->m_entities.size();
 			}
 		}
+	}
+
+	while(this->m_network->createActionQueueEmpty() == false)
+	{
+		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
+		
+		// Do something!
+	}
+
+
+	while(this->m_network->createActionPositionQueueEmpty() == false)
+	{
+		NetworkCreateActionPositionMessage e = this->m_network->createActionPositionQueueFront();
+		
+		// Do something!
+	}
+
+
+	while(this->m_network->createActionTargetQueueEmpty() == false)
+	{
+		NetworkCreateActionTargetMessage e = this->m_network->createActionTargetQueueFront();
+		
+		// Do something!
 	}
 
 	//this->m_network->sendMsg(Msg("Ready"));

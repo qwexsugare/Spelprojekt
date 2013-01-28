@@ -204,6 +204,15 @@
     </ClCompile>
     <ClCompile Include="Teleport.cpp">
       <Filter>Server\Skill</Filter>
+    </ClCompile>  
+    <ClCompile Include="NetworkCreateActionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionPositionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +439,15 @@
     </ClInclude>
     <ClInclude Include="Teleport.h">
       <Filter>Server\Skill</Filter>
+    </CIInclude>
+    <ClInclude Include="NetworkCreateActionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionPositionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionTargetMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

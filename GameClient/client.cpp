@@ -50,6 +50,9 @@ void Client::Run()
 		{
 			NetworkEntityMessage em;
 			NetworkRemoveEntityMessage rem;
+			NetworkCreateActionMessage cam;
+			NetworkCreateActionPositionMessage capm;
+			NetworkCreateActionTargetMessage catm;
 
 			int type;
 			packet >> type;
@@ -83,6 +86,48 @@ void Client::Run()
 				this->m_mutex.Unlock();
 				break;
 
+			case NetworkMessage::CreateAction:
+				packet >> cam;
+
+				this->m_mutex.Lock();
+				this->m_createActionQueue.push(cam);
+
+				if(this->m_createActionQueue.size() > 50)
+				{
+					this->m_createActionQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::CreateActionPos:
+				packet >> capm;
+
+				this->m_mutex.Lock();
+				this->m_createActionPositionQueue.push(capm);
+
+				if(this->m_createActionPositionQueue.size() > 50)
+				{
+					this->m_createActionPositionQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::CreateActionTarget:
+				packet >> catm;
+
+				this->m_mutex.Lock();
+				this->m_createActionTargetQueue.push(catm);
+
+				if(this->m_createActionTargetQueue.size() > 50)
+				{
+					this->m_createActionTargetQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
 			case NetworkMessage::Disconnect:
 				this->disconnect();
 				break;
@@ -96,17 +141,32 @@ bool Client::isConnected()
 	return this->m_hostSocket.IsValid();
 }
 
-bool Client::entityMessageQueueEmpty()
+bool Client::entityQueueEmpty()
 {
 	return this->m_entityMessageQueue.empty();
 }
 
-bool Client::removeEntityMessageQueueEmpty()
+bool Client::removeEntityQueueEmpty()
 {
 	return this->m_removeEntityMessageQueue.empty();
 }
 
-NetworkEntityMessage Client::entityMessageQueueFront()
+bool Client::createActionQueueEmpty()
+{
+	return this->m_createActionQueue.empty();
+}
+
+bool Client::createActionPositionQueueEmpty()
+{
+	return this->m_createActionPositionQueue.empty();
+}
+
+bool Client::createActionTargetQueueEmpty()
+{
+	return this->m_createActionTargetQueue.empty();
+}
+
+NetworkEntityMessage Client::entityQueueFront()
 {
 	this->m_mutex.Lock();
 
@@ -118,11 +178,47 @@ NetworkEntityMessage Client::entityMessageQueueFront()
 	return ret;
 }
 
-NetworkRemoveEntityMessage Client::removeEntityMessageQueueFront()
+NetworkRemoveEntityMessage Client::removeEntityQueueFront()
 {
 	this->m_mutex.Lock();
 
 	NetworkRemoveEntityMessage ret = this->m_removeEntityMessageQueue.front();
+	this->m_removeEntityMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkCreateActionMessage Client::createActionQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkCreateActionMessage ret = this->m_createActionQueue.front();
+	this->m_removeEntityMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkCreateActionPositionMessage Client::createActionPositionQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkCreateActionPositionMessage ret = this->m_createActionPositionQueue.front();
+	this->m_removeEntityMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkCreateActionTargetMessage Client::createActionTargetQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkCreateActionTargetMessage ret = this->m_createActionTargetQueue.front();
 	this->m_removeEntityMessageQueue.pop();
 
 	this->m_mutex.Unlock();

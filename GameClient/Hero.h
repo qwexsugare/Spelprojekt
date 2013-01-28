@@ -14,7 +14,6 @@ private:
 	bool m_reachedPosition;
 	float m_movementSpeed;
 
-	unsigned int m_hp;
 	unsigned int m_target;
 	bool m_hasTarget;
 

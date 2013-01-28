@@ -18,6 +18,9 @@
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"
 #include "NetworkUseActionTargetMessage.h"
+#include "NetworkCreateActionMessage.h"
+#include "NetworkCreateActionPositionMessage.h"
+#include "NetworkCreateActionTargetMessage.h"
 
 using namespace std;
 
@@ -35,6 +38,9 @@ private:
 	virtual void Run();
 	queue<NetworkEntityMessage> m_entityMessageQueue;
 	queue<NetworkRemoveEntityMessage> m_removeEntityMessageQueue;
+	queue<NetworkCreateActionMessage> m_createActionQueue;
+	queue<NetworkCreateActionPositionMessage> m_createActionPositionQueue;
+	queue<NetworkCreateActionTargetMessage> m_createActionTargetQueue;
 public:
 	Client();
 	~Client();
@@ -47,10 +53,16 @@ public:
 	void sendMessage(NetworkUseActionPositionMessage _usm);
 	void sendMessage(NetworkUseActionTargetMessage _usm);
 
-	NetworkEntityMessage entityMessageQueueFront();
-	NetworkRemoveEntityMessage removeEntityMessageQueueFront();
-	bool entityMessageQueueEmpty();
-	bool removeEntityMessageQueueEmpty();
+	NetworkEntityMessage entityQueueFront();
+	NetworkRemoveEntityMessage removeEntityQueueFront();
+	NetworkCreateActionMessage createActionQueueFront();
+	NetworkCreateActionPositionMessage createActionPositionQueueFront();
+	NetworkCreateActionTargetMessage createActionTargetQueueFront();
+	bool entityQueueEmpty();
+	bool removeEntityQueueEmpty();
+	bool createActionQueueEmpty();
+	bool createActionPositionQueueEmpty();
+	bool createActionTargetQueueEmpty();
 };
 
 #endif // CLIENT_H
