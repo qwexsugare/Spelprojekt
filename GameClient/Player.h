@@ -28,6 +28,9 @@ private:
 	Skill* m_cloudOfDarkness;
 	Skill* m_stunningStrike;
 	Skill* m_teleport;
+
+	vector<Skill*> m_skills;
+
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;

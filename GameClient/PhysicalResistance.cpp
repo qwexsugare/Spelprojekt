@@ -29,3 +29,8 @@ bool PhysicalResistance::activate(unsigned int _senderId)
 
 	return true;
 }
+
+void PhysicalResistance::updateSpecificSkill(float dt)
+{
+
+}

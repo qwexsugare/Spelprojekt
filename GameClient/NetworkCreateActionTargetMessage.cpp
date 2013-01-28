@@ -40,10 +40,10 @@ FLOAT3 NetworkCreateActionTargetMessage::getPosition()
 
 sf::Packet& operator<<(sf::Packet& packet,const NetworkCreateActionTargetMessage& e)
 {
-	return packet<<*((int*)&e.m_type)<<e.m_actionId<<e.m_senderId<<e.m_targetId;
+	return packet<<*((int*)&e.m_type)<<e.m_actionId<<e.m_senderId<<e.m_targetId<<e.m_position.x<<e.m_position.y<<e.m_position.z;
 }
 
 sf::Packet& operator>>(sf::Packet& packet, NetworkCreateActionTargetMessage& e)
 {
-	return packet>>e.m_actionId>>e.m_senderId>>e.m_targetId;
+	return packet>>e.m_actionId>>e.m_senderId>>e.m_targetId>>e.m_position.x>>e.m_position.y>>e.m_position.z;
 }

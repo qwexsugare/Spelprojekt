@@ -31,7 +31,7 @@ void Tower::update(float dt)
 
 		if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRange)
 		{
-			EntityHandler::addEntity(new Projectile(this->m_position, se->getPosition() - this->m_position, 2.0f, 6.0f));
+			EntityHandler::addEntity(new Projectile(this->m_position, se->getPosition() - this->m_position, 2.0f, 6.0f, (UnitEntity*)this));
 			this->m_attackCooldown = 2.0f;
 		}
 	}
