@@ -11,6 +11,6 @@ public:
 	MentalResistance();
 	~MentalResistance();
 
-	void activate(unsigned int _senderId);
+	bool activate(unsigned int _senderId);
 };
 

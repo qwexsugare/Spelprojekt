@@ -11,6 +11,6 @@ public:
 	Aim();
 	~Aim();
 
-	void activate(unsigned int _senderId);
+	bool activate(unsigned int _senderId);
 };
 

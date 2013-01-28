@@ -10,6 +10,6 @@ public:
 	StunningStrike();
 	~StunningStrike();
 
-	virtual void activate(unsigned int _senderId);
+	virtual bool activate(unsigned int _senderId);
 	void updateSpecificSkill(float _dt);
 };

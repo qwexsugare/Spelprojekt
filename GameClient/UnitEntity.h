@@ -19,8 +19,8 @@ protected:
 	int m_wits;
 	int m_fortitude;
 
-	float m_turretlife;
-
+	float m_turretDuration;
+	float m_greed;
 	float m_movementSpeed;
 	float m_attackSpeed;
 	float m_physicalDamage;
@@ -29,9 +29,9 @@ protected:
 	float m_mentalResistance;
 	float m_lifeStealChance;
 	float m_poisonChance;
-	float m_deadlyStrikeChance;
 	float m_stunTimer;
 	unsigned int m_poisonCounter;
+	unsigned int m_deadlyStrikeChance;
 public:
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
@@ -45,6 +45,8 @@ public:
 	void increaseWits(int _wits);
 	void increaseFortitude(int _fortitude);
 
+	void setGreed(float _greed);
+	void setTurretDuration(float _turretLife);
 	void setMaxHealth(int _maxHealth);
 	void setMovementSpeed(float _movementSpeed);
 	void setAttackSpeed(float _attackSpeed);
@@ -54,7 +56,7 @@ public:
 	void setMentalResistance(float _mentalResistance);
 	void setLifeStealChance(float _lifeStealChance);
 	void setPoisonChance(float _poisonChance);
-	void setDeadlyStrikeChance(float _deadlyStrikeChance);
+	void setDeadlyStrikeChance(unsigned int _deadlyStrikeChance);
 	void stun(float _time);
 
 	int getStrength();
@@ -72,7 +74,9 @@ public:
 	float getMentalResistance();
 	float getLifeStealChance();
 	float getPoisonChance( );
-	float getDeadlyStrikeChance();
+	unsigned int getDeadlyStrikeChance();
+	float getGreed();
+	float getTurretDuration();
 
 	void takeDamage(int physicalDamage, int mentalDamage);
 	void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);

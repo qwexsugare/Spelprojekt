@@ -82,6 +82,8 @@ MessageQueue *Player::getMessageQueue()
 
 void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 {
+	bool usedSomething = false;
+
 	switch(usm.getActionId())
 	{
 	case Skill::MOVE:
@@ -89,36 +91,50 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		break;
 
 	case Skill::CLOUD_OF_DARKNESS:
-		this->m_cloudOfDarkness->activate(usm.getPosition(), this->m_hero->getId());
+		usedSomething = this->m_cloudOfDarkness->activate(usm.getPosition(), this->m_hero->getId());
 		break;
 
 	case Skill::TELEPORT:
-		this->m_teleport->activate(usm.getPosition(), this->m_hero->getId());
+		usedSomething = this->m_teleport->activate(usm.getPosition(), this->m_hero->getId());
 		break;
 
 	default:
 		//Check if the player has the ability and use it
 		break;
+	}
+	
+	if(usedSomething)
+	{
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(usm.getActionId(), this->m_hero->getId(), usm.getPosition()));
 	}
 }
 
 void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
+	bool usedSomething = false;
+
 	switch(usm.getActionId())
 	{
 	case Skill::STUNNING_STRIKE:
 		//EntityHandler::addEntity(new Tower(this->m_hero->getPosition()));
-		m_stunningStrike->activate(this->m_hero->getId());
+		usedSomething = m_stunningStrike->activate(this->m_hero->getId());
 		break;
 
 	default:
 		//Check if the player has the ability and use it
 		break;
 	}
+
+	if(usedSomething)
+	{
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(usm.getActionId(), this->m_hero->getId(), this->m_hero->getPosition()));
+	}
 }
 
 void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 {
+	bool usedSomething = false;
+
 	switch(usm.getActionId())
 	{
 	case Skill::ATTACK:
@@ -126,11 +142,16 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		break;
 
 	case Skill::CHAIN_STRIKE:
-		m_chainStrike->activate(usm.getTargetId(), m_hero->getId());
+		usedSomething = m_chainStrike->activate(usm.getTargetId(), m_hero->getId());
 		break;
 
 	default:
 		//Check if the player has the ability and use it
 		break;
+	}
+
+	if(usedSomething)
+	{
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(usm.getActionId(), this->m_hero->getId(), usm.getTargetId(), this->m_hero->getPosition()));
 	}
 }

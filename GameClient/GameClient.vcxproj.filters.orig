@@ -185,9 +185,6 @@
     <ClCompile Include="NetworkDisconnectMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="ClientSkill.cpp">
-      <Filter>Client\Skills</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkRemoveEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -247,6 +244,10 @@
     </ClCompile>
     <ClCompile Include="PhysicalResistance.cpp">
       <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonStrike.cpp">
+      <Filter>Server\Skill</Filter>
+>>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
     </ClCompile>
     <ClCompile Include="PoisonStrike.cpp">
       <Filter>Server\Skill</Filter>
@@ -458,9 +459,6 @@
     <ClInclude Include="NetworkDisconnectMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="ClientSkill.h">
-      <Filter>Client\Skills</Filter>
-    </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
     </ClInclude>
@@ -514,6 +512,16 @@
     </ClInclude>
     <ClInclude Include="LifestealingStrike.h">
       <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="MentalResistance.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalResistance.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonStrike.h">
+      <Filter>Server\Skill</Filter>
+>>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
     </ClInclude>
     <ClInclude Include="MentalResistance.h">
       <Filter>Server\Skill</Filter>

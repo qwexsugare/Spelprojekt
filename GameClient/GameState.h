@@ -8,6 +8,7 @@
 #include "ModelIdHolder.h"
 #include "Minimap.h"
 #include "HudMenu.h"
+#include "ClientSkillEffect.h"
 //#include "Cursor.h"
 
 class GameState : public State
@@ -24,6 +25,7 @@ private:
 	ModelIdHolder m_modelIdHolder;
 	Minimap* m_minimap;
 	vector<Road*> m_roads;
+	vector<ClientSkillEffect*> m_ClientSkillEffects;
 
 	SpotLight* s;
 	//Cursor m_cursor;

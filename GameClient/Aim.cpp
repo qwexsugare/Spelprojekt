@@ -16,7 +16,7 @@ Aim::~Aim()
 	}
 }
 
-void Aim::activate(unsigned int _senderId)
+bool Aim::activate(unsigned int _senderId)
 {
 	this->m_senderId = _senderId;
 	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
@@ -26,4 +26,6 @@ void Aim::activate(unsigned int _senderId)
 		UnitEntity* ue = (UnitEntity*)e;
 		ue->setAttackSpeed(ue->getAttackSpeed() - 0.15f);
 	}
+
+	return true;
 }

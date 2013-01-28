@@ -14,7 +14,7 @@ Teleport::~Teleport()
 
 }
 
-void Teleport::activate(FLOAT3 _position, unsigned int _senderId)
+bool Teleport::activate(FLOAT3 _position, unsigned int _senderId)
 {
 	ServerEntity* caster = EntityHandler::getServerEntity(_senderId);
 
@@ -23,7 +23,10 @@ void Teleport::activate(FLOAT3 _position, unsigned int _senderId)
 		((Hero*)caster)->setNextPosition(((Hero*)caster)->getPosition());
 		((Hero*)caster)->setPosition(_position);
 		this->resetCooldown();
+		return true;
 	}
+	else
+		return false;
 }
 
 void Teleport::updateSpecificSkill(float _dt)

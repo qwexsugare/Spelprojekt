@@ -14,13 +14,16 @@ StunningStrike::~StunningStrike()
 
 }
 
-void StunningStrike::activate(unsigned int _senderId)
+bool StunningStrike::activate(unsigned int _senderId)
 {
 	if(this->getCurrentCooldown() == 0)
 	{
 		EntityHandler::addEntity(new StunningStrikeEffect(EntityHandler::getServerEntity(_senderId)->getPosition()));
 		this->resetCooldown();
+		return true;
 	}
+	else
+		return false;
 }
 
 void StunningStrike::updateSpecificSkill(float _dt)

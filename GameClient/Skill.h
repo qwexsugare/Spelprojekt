@@ -15,9 +15,9 @@ public:
 	Skill(int _id, float _cooldown);
 	virtual ~Skill();
 	
-	virtual void activate(unsigned int _senderId);
-	virtual void activate(unsigned int _targetId, unsigned int _senderId);
-	virtual void activate(FLOAT3 position, unsigned int _senderId);
+	virtual bool activate(unsigned int _senderId);
+	virtual bool activate(unsigned int _targetId, unsigned int _senderId);
+	virtual bool activate(FLOAT3 position, unsigned int _senderId);
 	float getCurrentCooldown()const { return m_currentCooldown; }
 	int getId()const { return m_id; }
 	void resetCooldown();

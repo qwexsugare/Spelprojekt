@@ -12,12 +12,11 @@ ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon,
 	m_modelId = 0;
 	m_jumpTimer = 0.0f;
 	m_jumps = 0;
-	m_sound = createSoundHandle("knife.wav", false);
 }
 
 ChainStrikeEffect::~ChainStrikeEffect()
 {
-	deactivateSound(m_sound);
+
 }
 
 void ChainStrikeEffect::update(float _dt)
@@ -35,7 +34,6 @@ void ChainStrikeEffect::update(float _dt)
 			{
 				m_position = target->getPosition();
 				this->dealDamage(target, 200/(++m_jumps), false);
-				playSound(m_sound);
 
 				// If max number of jumps is reached, delete me
 				if(m_jumps == m_maxJumps)
@@ -103,7 +101,6 @@ void ChainStrikeEffect::update(float _dt)
 			{
 				m_position = closestValidTarget->getPosition();
 				closestValidTarget->takeDamage(200/(++m_jumps), false);
-				playSound(m_sound);
 
 				// If max number of jumps is reached, delete me
 				if(m_jumps == m_maxJumps)
