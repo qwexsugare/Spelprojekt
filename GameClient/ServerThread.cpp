@@ -51,6 +51,11 @@ void ServerThread::Run()
 		prevTimeStamp = currTimeStamp;
 
 		this->update(dt);
+
+		if(dt < 0.005f)
+		{
+			sf::Sleep(0.005f - dt);
+		}
 	}
 }
 

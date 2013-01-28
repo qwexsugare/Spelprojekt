@@ -235,7 +235,9 @@
     <ClCompile Include="PoisonStrike.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
+    <ClCompile Include="StunningStrikeClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -498,7 +500,9 @@
     <ClInclude Include="PoisonStrike.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="StunningStrikeClientSkillEffect.h" />
+    <ClInclude Include="StunningStrikeClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

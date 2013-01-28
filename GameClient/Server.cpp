@@ -33,64 +33,67 @@ bool Server::start(int port)
 //the selector is blocking, so runs in a thread
 void Server::goThroughSelector()
 {
-	unsigned int itemsInSelector= this->selector.Wait();
+	unsigned int itemsInSelector= this->selector.Wait(0.01f);
 	
-	if(this->isRunning())
-	for(unsigned int i =0;i<itemsInSelector;i++)
+	if(itemsInSelector > 0)
 	{
-		//fetches a ready socket from the selector
-		sf::SocketTCP sock = this->selector.GetSocketReady(i);
+		if(this->isRunning())
+		for(unsigned int i =0;i<itemsInSelector;i++)
+		{
+			//fetches a ready socket from the selector
+			sf::SocketTCP sock = this->selector.GetSocketReady(i);
 		
-		if(sock==this->listener)
-		{
-			sf::IPAddress ip;
-			sf::SocketTCP incSocket;
-			//accept the new socket
-			this->listener.Accept(incSocket, &ip);
-			cout << "client connected: " << ip.ToString()<<endl;
-			//and add it to the selector
-			this->selector.Add(incSocket);
-			this->clients[this->clientArrPos++]=incSocket;
-
-			Player *p = new Player(this->m_players.size());
-			this->m_players.push_back(p);
-			this->m_messageHandler->addQueue(p->getMessageQueue());
-		}
-		//else its a client socket who wants to sent a message
-		else
-		{
-			sf::Packet packet;
-			if (sock.Receive(packet) == sf::Socket::Done)
+			if(sock==this->listener)
 			{
-				// Extract what type of data sent by the client
-				unsigned int type;
-				packet >> type;
+				sf::IPAddress ip;
+				sf::SocketTCP incSocket;
+				//accept the new socket
+				this->listener.Accept(incSocket, &ip);
+				cout << "client connected: " << ip.ToString()<<endl;
+				//and add it to the selector
+				this->selector.Add(incSocket);
+				this->clients[this->clientArrPos++]=incSocket;
 
-				int socketIndex = 0;
-
-				for(int j = 1; j < this->clientArrPos; j++)
-				{
-					if(sock == this->clients[j])
-					{
-						socketIndex = j;
-					}
-				}
-
-				//handles the protocols, what should be done if the server recives a MSG, ENT etc
-				this->handleClientInData(socketIndex, packet,(NetworkMessage::MESSAGE_TYPE)type);
+				Player *p = new Player(this->m_players.size());
+				this->m_players.push_back(p);
+				this->m_messageHandler->addQueue(p->getMessageQueue());
 			}
+			//else its a client socket who wants to sent a message
 			else
 			{
-				// if done wasnt completed, the socket will be removed from the selector
-				if(this->listener.IsValid())
+				sf::Packet packet;
+				if (sock.Receive(packet) == sf::Socket::Done)
 				{
-					this->selector.Remove(sock);
-					cout<<"A client disconnected!"<<endl;
-					for(int i=0;i<this->clientArrPos;i++)
+					// Extract what type of data sent by the client
+					unsigned int type;
+					packet >> type;
+
+					int socketIndex = 0;
+
+					for(int j = 1; j < this->clientArrPos; j++)
 					{
-						if(this->clients[i]==sock)
+						if(sock == this->clients[j])
 						{
-							this->clients[i]=this->clients[--this->clientArrPos];
+							socketIndex = j;
+						}
+					}
+
+					//handles the protocols, what should be done if the server recives a MSG, ENT etc
+					this->handleClientInData(socketIndex, packet,(NetworkMessage::MESSAGE_TYPE)type);
+				}
+				else
+				{
+					// if done wasnt completed, the socket will be removed from the selector
+					if(this->listener.IsValid())
+					{
+						this->selector.Remove(sock);
+						cout<<"A client disconnected!"<<endl;
+						for(int i=0;i<this->clientArrPos;i++)
+						{
+							if(this->clients[i]==sock)
+							{
+								this->clients[i]=this->clients[--this->clientArrPos];
+							}
 						}
 					}
 				}
