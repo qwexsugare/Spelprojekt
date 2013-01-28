@@ -6,7 +6,7 @@ class CloudOfDarkness : public Skill
 {
 private:
 	static const float COOLDOWN;
-	static const int RANGE = 200;
+	static const int RANGE = 5;
 public:
 	CloudOfDarkness();
 	~CloudOfDarkness();

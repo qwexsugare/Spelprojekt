@@ -63,8 +63,8 @@ void Server::goThroughSelector()
 			if (sock.Receive(packet) == sf::Socket::Done)
 			{
 				// Extract what type of data sent by the client
-				string prot;
-				packet >> prot;
+				unsigned int type;
+				packet >> type;
 
 				int socketIndex = 0;
 
@@ -77,7 +77,7 @@ void Server::goThroughSelector()
 				}
 
 				//handles the protocols, what should be done if the server recives a MSG, ENT etc
-				this->handleClientInData(socketIndex, packet,prot);
+				this->handleClientInData(socketIndex, packet,(NetworkMessage::MESSAGE_TYPE)type);
 			}
 			else
 			{
@@ -103,17 +103,54 @@ void Server::handleMessages()
 {
 	//Handle incoming messages
 	Message *m;
+	NetworkRemoveEntityMessage rem;
+	NetworkCreateActionMessage cam;
+	NetworkCreateActionPositionMessage capm;
+	NetworkCreateActionTargetMessage catm;
+
+	RemoveServerEntityMessage *m1;
+	CreateActionMessage *m2;
+	CreateActionPositionMessage *m3;
+	CreateActionTargetMessage *m4;
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
 		m = this->m_messageQueue->pullIncomingMessage();
 
-		if(m->type == Message::RemoveEntity)
+
+		switch(m->type)
 		{
-			RemoveServerEntityMessage *rsem = (RemoveServerEntityMessage*)m;			
-			RemoveEntityMessage rem = RemoveEntityMessage(rsem->removedId);
+		case Message::RemoveEntity:
+			m1 = (RemoveServerEntityMessage*)m;			
+			rem = NetworkRemoveEntityMessage(m1->removedId);
 			this->broadcast(rem);
+			break;
+
+		case Message::CreateAction:
+			m2 = (CreateActionMessage*)m;			
+			cam = NetworkCreateActionMessage(m2->actionId, m2->senderId);
+			this->broadcast(cam);
+			break;
+
+		case Message::CreateActionPosition:
+			m3 = (CreateActionPositionMessage*)m;			
+			capm = NetworkCreateActionPositionMessage(m3->actionId, m3->senderId, m3->position);
+			this->broadcast(capm);
+			break;
+
+		case Message::CreateActionTarget:
+			m4 = (CreateActionTargetMessage*)m;			
+			catm = NetworkCreateActionTargetMessage(m4->actionId, m4->senderId, m4->targetId);
+			this->broadcast(catm);		
+			break;
 		}
+
+		//if(m->type == Message::RemoveEntity)
+		//{
+		//	RemoveServerEntityMessage *rsem = (RemoveServerEntityMessage*)m;			
+		//	NetworkRemoveEntityMessage rem = NetworkRemoveEntityMessage(rsem->removedId);
+		//	this->broadcast(rem);
+		//}	
 
 		delete m;
 	}
@@ -121,15 +158,15 @@ void Server::handleMessages()
 
 void Server::shutDown()
 {
-
+	NetworkDisconnectMessage message = NetworkDisconnectMessage("Server is shutting down");
 
 	for(int i=0;i<this->clientArrPos;i++)
 	{
-		sf::Packet msg;
-		msg << "disconnect";
+		sf::Packet packet;
+		packet << message;
 		if(this->clients[i].IsValid())
 		{
-			this->clients[i].Send(msg);
+			this->clients[i].Send(packet);
 			this->clients[i].Close();
 		}
 	}
@@ -141,10 +178,10 @@ void Server::shutDown()
 	this->Wait();
 }
 
-void Server::broadcast(string msg)
+void Server::broadcast(NetworkEntityMessage networkMessage)
 {
 	sf::Packet packet;
-	packet<<msg;
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -156,10 +193,10 @@ void Server::broadcast(string msg)
 	this->m_mutex.Unlock();
 }
 
-void Server::broadcast(EntityMessage ent)
+void Server::broadcast(NetworkRemoveEntityMessage networkMessage)
 {
 	sf::Packet packet;
-	packet<<ent;
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -171,10 +208,10 @@ void Server::broadcast(EntityMessage ent)
 	this->m_mutex.Unlock();
 }
 
-void Server::broadcast(Msg msg)
+void Server::broadcast(NetworkCreateActionMessage networkMessage)
 {
 	sf::Packet packet;
-	packet<<msg;
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -186,10 +223,10 @@ void Server::broadcast(Msg msg)
 	this->m_mutex.Unlock();
 }
 
-void Server::broadcast(RemoveEntityMessage rem)
+void Server::broadcast(NetworkCreateActionPositionMessage networkMessage)
 {
 	sf::Packet packet;
-	packet<<rem;
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -201,9 +238,10 @@ void Server::broadcast(RemoveEntityMessage rem)
 	this->m_mutex.Unlock();
 }
 
-void Server::broadcast(NetworkMessage _networkMessage)
+void Server::broadcast(NetworkCreateActionTargetMessage networkMessage)
 {
-	sf::Packet packet = _networkMessage.toPacket();
+	sf::Packet packet;
+	packet<<networkMessage;
 
 	this->m_mutex.Lock();
 
@@ -246,80 +284,48 @@ bool Server::isRunning()
 	return this->listener.IsValid();
 }
 
-bool Server::handleClientInData(int socketIndex, sf::Packet packet, string prot)
+bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessage::MESSAGE_TYPE type)
 {
 	bool protFound=false;
 
-	if(prot=="ENT")
+	NetworkUseActionMessage ua;
+	NetworkUseActionPositionMessage uap;
+	NetworkUseActionTargetMessage uat;
+
+	switch(type)
 	{
-		EntityMessage ent;
-		packet >> ent;
+	case NetworkMessage::MESSAGE_TYPE::UseAction:		
+		packet >> ua;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleEntityMessage(ent);
-
+		this->m_players[socketIndex]->handleUseActionMessage(ua);
 		this->m_mutex.Unlock();
+		break;
 
-		protFound=true;
-	}
-	else if(prot=="MSG")
-	{
-		Msg msg;
-		packet >> msg;
+	case NetworkMessage::MESSAGE_TYPE::UseActionPos:
+		packet >> uap;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleMsgMessage(msg);
-
+		this->m_players[socketIndex]->handleUseActionPositionMessage(uap);
 		this->m_mutex.Unlock();
-		protFound=true;
-	}
-	else if(prot=="ATTACK")
-	{
-		AttackMessage msg;
-		packet >> msg;
+		break;
 
+	case NetworkMessage::MESSAGE_TYPE::UseActionTarget:
+		packet >> uat;
 		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleAttackMessage(msg);
-
+		this->m_players[socketIndex]->handleUseActionTargetMessage(uat);
 		this->m_mutex.Unlock();
-		protFound = true;
-	}
-	else if(prot == "ATTACKENTITY")
-	{
-		AttackEntityMessage msg;
-		packet >> msg;
+		break;
 
-		this->m_mutex.Lock();
+	case NetworkMessage::MESSAGE_TYPE::BuySkill:
 
-		this->m_players[socketIndex]->handleEntityAttackMessage(msg);
+		break;
 
-		this->m_mutex.Unlock();
-		protFound = true;
-	}
-	else if(prot == "USE_SKILL")
-	{
-		UseSkillMessage msg;
-		packet >> msg;
+	case NetworkMessage::MESSAGE_TYPE::SelectHero:
 
-		this->m_mutex.Lock();
+		break;
 
-		this->m_players[socketIndex]->handleUseSkillMessage(msg);
+	case NetworkMessage::MESSAGE_TYPE::Ready:
 
-		this->m_mutex.Unlock();
-		protFound = true;
-	}
-	else if(prot == "USE_POSITIONAL_SKILL")
-	{
-		UsePositionalSkillMessage msg;
-		packet >> msg;
-
-		this->m_mutex.Lock();
-
-		this->m_players[socketIndex]->handleUsePositionalSkillMessage(msg);
-
-		this->m_mutex.Unlock();
-		protFound = true;
+		break;
 	}
 
 	return protFound;

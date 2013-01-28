@@ -4,6 +4,7 @@
 #include "FishStructs.h"
 #include "TexturePack.h"
 #include "stdafx.h"
+#include <map>
 
 using namespace std;
 
@@ -11,13 +12,18 @@ using namespace std;
 class Animation
 {
 private:
-	vector<string> names;
-	vector<AnimationFile> animations;
+	map<string, AnimationFile> animations;
 	TexturePack texPack;
 	float time;
 	int currentKey;
 	float nextKey;
 	void UpdateSkeletonTexture(vector<D3DXMATRIX>* mat);
+	string currentAnimation;
+	string pendingAnimation;
+	void RandomAnimationFunc(float dt);
+	void FFloat3ToD3DXVECTOR3(D3DXVECTOR3 &out, FFloat3 &in);
+	void FFloat4ToD3DXQUATERNION(D3DXQUATERNION &out, FFloat4 &in);
+	
 public:
 	Animation();
 	~Animation();

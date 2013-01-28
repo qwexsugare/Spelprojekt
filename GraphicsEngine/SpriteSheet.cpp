@@ -111,6 +111,11 @@ int SpriteSheet::getLayer()
 	return this->m_layer;
 }
 
+bool SpriteSheet::getVisible()
+{
+	return this->m_visible;
+}
+
 void SpriteSheet::setPosition(FLOAT2 _position)
 {
 	//D3DXMatrixTranslation(&this->m_modelMatrix, this->m_position.x, this->m_position.y, 0.0f);
@@ -121,6 +126,11 @@ void SpriteSheet::setPosition(FLOAT2 _position)
 void SpriteSheet::setSize(FLOAT2 _size)
 {
 	//Scaling?
+}
+
+void SpriteSheet::setVisible(bool _visible)
+{
+	this->m_visible = _visible;
 }
 
 void SpriteSheet::setCurrentFrame(INT2 _currentFrame)

@@ -15,7 +15,6 @@ private:
 public:
 	NetworkEntityMessage();
 	NetworkEntityMessage(unsigned int _entityId, unsigned int _entityType, unsigned int _modelId, FLOAT3 _position, FLOAT3 _rotation, FLOAT3 _scale);
-	NetworkEntityMessage(sf::Packet packet);
 	~NetworkEntityMessage();
 
 	unsigned int getEntityId();
@@ -24,8 +23,6 @@ public:
 	FLOAT3 getPosition();
 	FLOAT3 getRotation();
 	FLOAT3 getScale();
-
-	sf::Packet toPacket();
 
 	friend sf::Packet& operator<<(sf::Packet& packet,const NetworkEntityMessage& e);
 	friend sf::Packet& operator>>(sf::Packet& packet, NetworkEntityMessage& e);

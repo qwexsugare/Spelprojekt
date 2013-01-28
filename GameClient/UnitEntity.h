@@ -30,13 +30,15 @@ protected:
 	float m_lifeStealChance;
 	float m_poisonChance;
 	float m_deadlyStrikeChance;
+	float m_stunTimer;
 	unsigned int m_poisonCounter;
 public:
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
 	~UnitEntity();
-
-	virtual void update(float dt);
+	
+	void update(float dt);
+	virtual void updateSpecificUnitEntity(float dt) = 0;
 
 	void increaseStrength(int _strength);
 	void increaseAgility(int _agility);
@@ -53,6 +55,7 @@ public:
 	void setLifeStealChance(float _lifeStealChance);
 	void setPoisonChance(float _poisonChance);
 	void setDeadlyStrikeChance(float _deadlyStrikeChance);
+	void stun(float _time);
 
 	int getStrength();
 	int getAgility();

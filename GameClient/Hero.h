@@ -14,7 +14,6 @@ private:
 	bool m_reachedPosition;
 	float m_movementSpeed;
 
-	unsigned int m_hp;
 	unsigned int m_target;
 	bool m_hasTarget;
 
@@ -23,13 +22,11 @@ private:
 public:
 	Hero();
 	virtual ~Hero();
-
-	void update(float dt);
+	
+	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setTarget(unsigned int _target);
 	FLOAT3 getDirection();
-	
-	void takeDamage(int damage);
 };
 
 #endif

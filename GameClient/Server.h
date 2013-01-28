@@ -10,6 +10,13 @@
 
 #include "NetworkMessage.h"
 #include "NetworkEntityMessage.h"
+#include "NetworkDisconnectMessage.h"
+#include "NetworkRemoveEntityMessage.h"
+#include "NetworkUseActionMessage.h"
+#include "NetworkUseActionPositionMessage.h"
+#include "NetworkCreateActionMessage.h"
+#include "NetworkCreateActionPositionMessage.h"
+#include "NetworkCreateActionTargetMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -32,7 +39,6 @@ private:
 	queue<EntityMessage> entityQueue;
 	queue<AttackMessage> attackMessageQueue;
 	queue<AttackEntityMessage> attackEntityMessageQueue;
-	queue<UseSkillMessage> useSkillMessage;
 
 	vector<Player*> m_players;
 
@@ -43,18 +49,17 @@ private:
 	virtual void Run();
 	void goThroughSelector();
 	void handleMessages();
-	bool handleClientInData(int socketIndex, sf::Packet packet, string prot);
+	bool handleClientInData(int socketIndex, sf::Packet packet, NetworkMessage::MESSAGE_TYPE type);
 public:
 	Server(MessageHandler *_messageHandler);
 	~Server();
 	bool start(int port);
 	void shutDown();
-	void broadcast(string msg);
-	void broadcast(EntityMessage ent);
-	void broadcast(Msg msg);
-	void broadcast(RemoveEntityMessage rem);
-
-	void broadcast(NetworkMessage _networkMessage);
+	void broadcast(NetworkEntityMessage networkMessage);
+	void broadcast(NetworkRemoveEntityMessage networkMessage);
+	void broadcast(NetworkCreateActionMessage networkMessage);
+	void broadcast(NetworkCreateActionPositionMessage networkMessage);
+	void broadcast(NetworkCreateActionTargetMessage networkMessage);
 
 	bool isRunning();
 

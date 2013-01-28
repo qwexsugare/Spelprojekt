@@ -2,8 +2,9 @@
 
 ModelIdHolder::ModelIdHolder()
 {
-	this->m_modelId[0] = "Kyrka";
-	this->m_modelId[1] = "Kyrka";
+	this->m_modelId[0] = "Char1_5";
+	this->m_modelId[1] = "Beast1_5";
+	this->m_modelId[2] = "Church";
 }
 
 std::string ModelIdHolder::getModel(unsigned int id)

@@ -8,7 +8,7 @@ GraphicsHandler::GraphicsHandler()
 GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 {
 	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile->getWindowed(), _configFile->getScreenSize());
-	this->m_world = new World(this->m_deviceHandler, _hWnd);
+	this->m_world = new World(this->m_deviceHandler, _hWnd, _configFile->getWindowed());
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
 	this->m_windowed = _configFile->getWindowed();
 	
@@ -60,7 +60,7 @@ Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _
 		blendMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_blendMaps[i]);
 
 	// Shove that heap of trash vars into the terrains crappy constructor.
-	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, 32, 32, textures, _textures.size(), blendMaps, _blendMaps.size());
+	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, v2.x / 8, v2.z / 8, textures, _textures.size(), blendMaps, _blendMaps.size());
 	
 	this->m_world->addTerrain(terrain);
 
@@ -128,7 +128,7 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 		Animation animation;
 		animation = this->m_resourceHolder->getAnimation(_filename);
 		animation.setTexturePack(&this->m_resourceHolder->getTextureHolder()->getBoneTexture(_filename));
-		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{

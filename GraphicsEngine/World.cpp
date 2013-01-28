@@ -5,7 +5,7 @@ World::World()
 
 }
 
-World::World(DeviceHandler* _deviceHandler, HWND _hWnd)
+World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 {
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
@@ -15,8 +15,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd)
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
 	INT2 actualScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
-	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize(), actualScreenSize);
 
+	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize(), actualScreenSize);
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -324,18 +324,21 @@ void World::render()
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer(), sizeof(Vertex));
-
-		this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
-		this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
-
-		D3D10_TECHNIQUE_DESC techDesc;
-		this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
-
-		for( UINT p = 0; p < techDesc.Passes; p++ )
+		if(this->m_sprites[i]->getVisible() == true)
 		{
-			this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(m_sprites[i]->getNrOfVertices(), this->m_sprites[i]->getStartIndex());
+			this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer(), sizeof(Vertex));
+
+			this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
+			this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
+
+			D3D10_TECHNIQUE_DESC techDesc;
+			this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{
+				this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(m_sprites[i]->getNrOfVertices(), this->m_sprites[i]->getStartIndex());
+			}
 		}
 	}
 

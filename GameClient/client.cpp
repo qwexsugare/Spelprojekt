@@ -11,76 +11,126 @@ Client::~Client()
 bool Client::connect(sf::IPAddress ip, int port)
 {
 	//connects to the server
-	if(this->hostSocket.Connect(port,ip)!=sf::Socket::Done)
+	if(this->m_hostSocket.Connect(port,ip)!=sf::Socket::Done)
 	{
 		cout << "error connecting"<<endl;
 		return false;
 	}
 	
-	this->hostSocket.SetBlocking(false);
+	this->m_hostSocket.SetBlocking(false);
 	//launches the thread that listen to messages from the server
 	this->Launch();
 	
-	this->hostPort=port;
-	this->hostIp=ip;
+	this->m_hostPort=port;
+	this->m_hostIp=ip;
 	
-	return this->hostSocket.IsValid();
+	return this->m_hostSocket.IsValid();
 }
 
 void Client::disconnect()
 {
 	//if(this->hostSocket.IsValid())
-	this->hostSocket.Close();
+	this->m_hostSocket.Close();
 }
 
 void Client::tellServer(string msg)
 {
 	sf::Packet packet;
 	packet << msg;
-	if(this->hostSocket.IsValid())
-		this->hostSocket.Send(packet);
+	if(this->m_hostSocket.IsValid())
+		this->m_hostSocket.Send(packet);
 }
 
 void Client::Run()
 {
-	while(this->hostSocket.IsValid())
+	while(this->m_hostSocket.IsValid())
 	{
 		sf::Packet packet;
-		if (this->hostSocket.Receive(packet) == sf::Socket::Done)
+		if (this->m_hostSocket.Receive(packet) == sf::Socket::Done)
 		{
-			string prot;
-			packet >>prot;
-			if(prot=="disconnect")
+			NetworkEntityMessage em;
+			NetworkRemoveEntityMessage rem;
+			NetworkCreateActionMessage cam;
+			NetworkCreateActionPositionMessage capm;
+			NetworkCreateActionTargetMessage catm;
+
+			int type;
+			packet >> type;
+
+			switch(type)
 			{
-				this->disconnect();
-			}
-			else if(prot=="ENT")
-			{
+			case NetworkMessage::Entity:
+				packet >> em;
 				this->m_mutex.Lock();
+				this->m_entityMessageQueue.push(em);
 
-				EntityMessage ent;
-				packet >> ent;
-				this->entityQueue.push(ent);
-
-				
-				if(this->entityQueue.size() > 100)
+				if(this->m_entityMessageQueue.size() > 50)
 				{
-					this->entityQueue.pop();
+					this->m_entityMessageQueue.pop();
 				}
 
 				this->m_mutex.Unlock();
-			}
-			else if(prot=="MSG")
-			{
-				Msg msg;
-				packet >> msg;
-				this->msgQueue.push(msg);
-			}
-			else if(prot == "REMOVE")
-			{
-				RemoveEntityMessage rem;
+				break;
+
+			case NetworkMessage::RemoveEntity:
 				packet >> rem;
-				this->removeEntityQueue.push(rem);
+
+				this->m_mutex.Lock();
+				this->m_removeEntityMessageQueue.push(rem);
+
+				if(this->m_removeEntityMessageQueue.size() > 50)
+				{
+					this->m_removeEntityMessageQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::CreateAction:
+				packet >> cam;
+
+				this->m_mutex.Lock();
+				this->m_createActionQueue.push(cam);
+
+				if(this->m_createActionQueue.size() > 50)
+				{
+					this->m_createActionQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::CreateActionPos:
+				packet >> capm;
+
+				this->m_mutex.Lock();
+				this->m_createActionPositionQueue.push(capm);
+
+				if(this->m_createActionPositionQueue.size() > 50)
+				{
+					this->m_createActionPositionQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::CreateActionTarget:
+				packet >> catm;
+
+				this->m_mutex.Lock();
+				this->m_createActionTargetQueue.push(catm);
+
+				if(this->m_createActionTargetQueue.size() > 50)
+				{
+					this->m_createActionTargetQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::Disconnect:
+				this->disconnect();
+				break;
 			}
 		}
 	}
@@ -88,112 +138,120 @@ void Client::Run()
 
 bool Client::isConnected()
 {
-	return this->hostSocket.IsValid();
-}
-
-
-void Client::sendEntity(EntityMessage ent)
-{
-	if(this->isConnected())
-	{
-		sf::Packet packet;
-		packet << ent;
-
-		this->hostSocket.Send(packet);
-	}
-}
-
-void Client::sendMsg(Msg m)
-{
-	if(this->isConnected())
-	{
-		sf::Packet packet;
-		packet << m;
-		this->hostSocket.Send(packet);
-	}
-}
-
-void Client::sendAttackMessage(AttackMessage am)
-{
-	if(this->isConnected())
-	{
-		sf::Packet packet;
-		packet << am;
-		this->hostSocket.Send(packet);
-	}
-}
-
-void Client::sendAttackEntityMessage(AttackEntityMessage aem)
-{
-	if(this->isConnected())
-	{
-		sf::Packet packet;
-		packet << aem;
-		this->hostSocket.Send(packet);
-	}
-}
-
-bool Client::msgQueueEmpty()
-{
-	return this->msgQueue.empty();
+	return this->m_hostSocket.IsValid();
 }
 
 bool Client::entityQueueEmpty()
 {
-	return this->entityQueue.empty();
+	return this->m_entityMessageQueue.empty();
 }
 
 bool Client::removeEntityQueueEmpty()
 {
-	return this->removeEntityQueue.empty();
+	return this->m_removeEntityMessageQueue.empty();
 }
 
-Msg Client::msgQueueFront()
+bool Client::createActionQueueEmpty()
 {
-	Msg ret = this->msgQueue.front();
-	this->msgQueue.pop();
-	return ret;
+	return this->m_createActionQueue.empty();
 }
 
-EntityMessage Client::entityQueueFront()
+bool Client::createActionPositionQueueEmpty()
 {
-	this->m_mutex.Lock();
-
-	EntityMessage ret= this->entityQueue.front();
-	this->entityQueue.pop();
-
-	this->m_mutex.Unlock();
-	return ret;
+	return this->m_createActionPositionQueue.empty();
 }
 
-RemoveEntityMessage Client::removeEntityQueueFront()
+bool Client::createActionTargetQueueEmpty()
+{
+	return this->m_createActionTargetQueue.empty();
+}
+
+NetworkEntityMessage Client::entityQueueFront()
 {
 	this->m_mutex.Lock();
 
-	RemoveEntityMessage ret = this->removeEntityQueue.front();
-	this->removeEntityQueue.pop();
+	NetworkEntityMessage ret = this->m_entityMessageQueue.front();
+	this->m_entityMessageQueue.pop();
 
 	this->m_mutex.Unlock();
 
 	return ret;
 }
 
-void Client::sendUseSkillMessage(UseSkillMessage _usm)
+NetworkRemoveEntityMessage Client::removeEntityQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkRemoveEntityMessage ret = this->m_removeEntityMessageQueue.front();
+	this->m_removeEntityMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkCreateActionMessage Client::createActionQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkCreateActionMessage ret = this->m_createActionQueue.front();
+	this->m_removeEntityMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkCreateActionPositionMessage Client::createActionPositionQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkCreateActionPositionMessage ret = this->m_createActionPositionQueue.front();
+	this->m_removeEntityMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkCreateActionTargetMessage Client::createActionTargetQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkCreateActionTargetMessage ret = this->m_createActionTargetQueue.front();
+	this->m_removeEntityMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
 	{
 		sf::Packet packet;
 		packet << _usm;
-		this->hostSocket.Send(packet);
+		this->m_hostSocket.Send(packet);
 	}
 }
 
-void Client::sendUsePositionalSkillMessage(UsePositionalSkillMessage _usm)
+void Client::sendMessage(NetworkUseActionPositionMessage _usm)
 {
 	if(this->isConnected())
 	{
 		sf::Packet packet;
 		packet << _usm;
-		this->hostSocket.Send(packet);
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkUseActionTargetMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
 	}
 }

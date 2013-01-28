@@ -6,6 +6,7 @@ Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D1
 	this->m_texture = _texture;
 	this->m_nrOfVertices = 6;
 	this->m_layer = _layer;
+	this->m_visible = true;
 
 	//Convert the position and size to projection space
 	//position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
@@ -123,6 +124,16 @@ void Sprite::setRotation(float rotation)
 	this->m_modelMatrix._22 = rotationMatrix._22;
 
 	//D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
+}
+
+void Sprite::setVisible(bool _visible)
+{
+	this->m_visible = _visible;
+}
+
+bool Sprite::getVisible()
+{
+	return this->m_visible;
 }
 
 ID3D10Buffer *Sprite::getBuffer()

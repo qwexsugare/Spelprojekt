@@ -46,9 +46,6 @@
     <ClCompile Include="JoinGameState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="LobbyMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -71,9 +68,6 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="ModelIdHolder.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="ScoreMenu.cpp">
@@ -154,7 +148,6 @@
     <ClCompile Include="UsePositionalSkillMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="UnitEntity.cpp" />
     <ClCompile Include="ChainStrike.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
@@ -167,7 +160,6 @@
     <ClCompile Include="CloudOfDarknessEffect.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="ClientSkill.cpp" />
     <ClCompile Include="NetworkMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -176,18 +168,82 @@
     </ClCompile>
     <ClCompile Include="LoreState.cpp">
       <Filter>Client</Filter>
+    <ClCompile Include="NetworkDisconnectMessage.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="CreditState.cpp">
       <Filter>Client</Filter>
+    <ClCompile Include="ClientSkill.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="SettingsState.cpp">
       <Filter>Client</Filter>
+    <ClCompile Include="NetworkRemoveEntityMessage.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="IntroMenu.cpp">
       <Filter>Client</Filter>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Client\Controls</Filter>
     </ClCompile>
     <ClCompile Include="IntroState.cpp">
       <Filter>Client</Filter>
+    <ClCompile Include="NetworkUseActionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Client\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkUseActionPositionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkUseActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrikeEffect.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitEntity.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MyAlgorithms.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Teleport.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>  
+    <ClCompile Include="NetworkCreateActionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionPositionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Aim.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadlyStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Greed.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="LifestealingStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="MentalResistance.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicalResistance.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonStrike.cpp">
+      <Filter>Server\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,9 +298,6 @@
     <ClInclude Include="JoinGameState.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="LobbyMenu.h">
       <Filter>Client</Filter>
     </ClInclude>
@@ -264,9 +317,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ModelIdHolder.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="ScoreMenu.h">
@@ -350,10 +400,6 @@
     <ClInclude Include="UsePositionalSkillMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="UnitEntity.h">
-      <Filter>Server</Filter>
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="ChainStrikeEffect.h">
       <Filter>Server\Skill</Filter>
       <Filter>Server\Skill</Filter>
@@ -365,7 +411,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="ClientSkill.h" />
     <ClInclude Include="NetworkMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -389,18 +434,82 @@
     </ClInclude>
     <ClInclude Include="LoreState.h">
       <Filter>Client</Filter>
+    <ClInclude Include="NetworkDisconnectMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="CreditState.h">
       <Filter>Client</Filter>
+    <ClInclude Include="ClientSkill.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="SettingsState.h">
       <Filter>Client</Filter>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Client\Controls</Filter>
     </ClInclude>
     <ClInclude Include="IntroMenu.h">
       <Filter>Client</Filter>
+    <ClInclude Include="NetworkRemoveEntityMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="IntroState.h">
       <Filter>Client</Filter>
+    <ClInclude Include="Mouse.h">
+      <Filter>Client\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUseActionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUseActionPositionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUseActionTargetMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrikeEffect.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitEntity.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MyAlgorithms.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Teleport.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionPositionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionTargetMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Aim.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadlyStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Greed.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="LifestealingStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="MentalResistance.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalResistance.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonStrike.h">
+      <Filter>Server\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +530,9 @@
     </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Controls">
+      <UniqueIdentifier>{7858784e-5d66-4547-9256-5e2ec0e84fda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

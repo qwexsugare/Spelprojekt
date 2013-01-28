@@ -22,7 +22,7 @@ Hero::~Hero()
 
 }
 
-void Hero::update(float dt)
+void Hero::updateSpecificUnitEntity(float dt)
 {
 	//Handle incoming messages
 	Message *m;
@@ -136,9 +136,3 @@ FLOAT3 Hero::getDirection()
 	else
 		return m_position;
 }
-
-void Hero::takeDamage(int damage)
-{
-	this->m_health = this->m_health - damage;
-}
-

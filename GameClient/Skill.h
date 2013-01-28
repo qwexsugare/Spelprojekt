@@ -7,8 +7,9 @@ class Skill
 private:
 	int m_id;
 	float m_cooldown;
+	float m_currentCooldown;
 public:
-	static enum SKILLS {CHAIN_STRIKE, CLOUD_OF_DARKNESS};
+	static enum SKILLS {MOVE, ATTACK, CHAIN_STRIKE, CLOUD_OF_DARKNESS, STUNNING_STRIKE, TELEPORT};
 
 	Skill();
 	Skill(int _id, float _cooldown);
@@ -17,9 +18,9 @@ public:
 	virtual void activate(unsigned int _senderId);
 	virtual void activate(unsigned int _targetId, unsigned int _senderId);
 	virtual void activate(FLOAT3 position, unsigned int _senderId);
-	float getCooldown()const { return m_cooldown; }
+	float getCurrentCooldown()const { return m_currentCooldown; }
 	int getId()const { return m_id; }
-	void setCooldown(int _cooldown) { m_cooldown = _cooldown; }
+	void resetCooldown();
 	void update(float _dt);
 	virtual void updateSpecificSkill(float _dt) = 0;
 };

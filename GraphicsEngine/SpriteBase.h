@@ -19,6 +19,7 @@ public:
 	virtual int getStartIndex() = 0;
 	virtual int getNrOfVertices() = 0;
 	virtual int getLayer() = 0;
+	virtual bool getVisible() = 0;
 };
 
 #endif
