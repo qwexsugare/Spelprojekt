@@ -6,7 +6,7 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _posit
 {
 	m_position = _position;
 
-	m_sound = createSoundHandle("rain.wav", false);
+	m_sound = createSoundHandle("orb.wav", false);
 	playSound(m_sound);
 }
 

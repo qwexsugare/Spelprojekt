@@ -33,6 +33,8 @@ GameState::~GameState()
 		delete this->m_entities[i];
 	for(int i = 0; i < this->m_roads.size(); i++)
 		g_graphicsEngine->removeRoad(m_roads[i]);
+	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+		delete m_ClientSkillEffects[i];
 
 	if(m_minimap)
 		delete this->m_minimap;
@@ -130,8 +132,14 @@ void GameState::update(float _dt)
 	while(this->m_network->createActionQueueEmpty() == false)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
+		
+		switch(e.getActionId())
+		{
+		case Skill::STUNNING_STRIKE:
+			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
+			break;
+		}
 	}
-
 
 	while(this->m_network->createActionPositionQueueEmpty() == false)
 	{
