@@ -14,13 +14,15 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
-	this->m_physicalResistance = 0.0f;
-	this->m_mentalResistance = 0.0f;
+	this->m_physicalResistance = 1.0f;
+	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0.0f;
 	this->m_poisonChance = 0.0f;
 	this->m_deadlyStrikeChance = 0.0f;
 	this->m_poisonCounter = 0;
 	this->m_stunTimer = 0.0f;
+	this->m_greed = 1.0f;
+	this->m_turretDuration = 10.0f;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -37,12 +39,14 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
-	this->m_physicalResistance = 0.0f;
-	this->m_mentalResistance = 0.0f;
+	this->m_physicalResistance = 1.0f;
+	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0.0f;
 	this->m_poisonChance = 0.0f;
 	this->m_deadlyStrikeChance = 0.0f;
 	this->m_poisonCounter = 0;
+	this->m_greed = 1.0f;
+	this->m_turretDuration = 10.0f;
 }
 
 UnitEntity::~UnitEntity()
@@ -89,7 +93,7 @@ void UnitEntity::increaseWits(int _wits)
 	}
 
 	this->m_mentalDamage = this->m_mentalDamage + _wits * 5;
-	this->m_turretlife = this->m_turretlife + _wits * 0.5f;
+	this->m_turretDuration = this->m_turretDuration + _wits * 0.5f;
 }
 
 void UnitEntity::increaseFortitude(int _fortitude)
@@ -147,9 +151,19 @@ void UnitEntity::setPoisonChance(float _poisonChance)
 	this->m_poisonChance = _poisonChance;
 }
 
-void UnitEntity::setDeadlyStrikeChance(float _deadlyStrikeChance)
+void UnitEntity::setDeadlyStrikeChance(unsigned int _deadlyStrikeChance)
 {
 	this->m_deadlyStrikeChance = _deadlyStrikeChance;
+}
+
+void UnitEntity::setGreed(float _greed)
+{
+	this->m_greed = _greed;
+}
+
+void UnitEntity::setTurretDuration(float _turretDuration)
+{
+	this->m_turretDuration = _turretDuration;
 }
 
 int UnitEntity::getStrength()
@@ -222,15 +236,25 @@ float UnitEntity::getPoisonChance()
 	return this->m_poisonChance;
 }
 
-float UnitEntity::getDeadlyStrikeChance()
+unsigned int UnitEntity::getDeadlyStrikeChance()
 {
 	return this->m_deadlyStrikeChance;
 }
 
+float UnitEntity::getGreed()
+{
+	return this->m_greed;
+}
+
+float UnitEntity::getTurretDuration()
+{
+	return this->m_turretDuration;
+}
+
 void UnitEntity::takeDamage(int physicalDamage, int mentalDamage)
 {
-	this->m_health = this->m_health - physicalDamage * (1 - this->m_physicalResistance);
-	this->m_health = this->m_health - mentalDamage * (1 - this->m_mentalResistance);
+	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
+	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
 }
 
 void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)
