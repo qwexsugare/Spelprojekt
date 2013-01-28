@@ -52,7 +52,6 @@ Message *MessageQueue::pullOutgoingMessage()
 
 bool MessageQueue::incomingQueueEmpty()
 {
-
 	return this->m_incomingMessages.empty();
 }
 

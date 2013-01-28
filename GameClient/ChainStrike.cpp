@@ -15,7 +15,7 @@ ChainStrike::~ChainStrike()
 
 }
 
-void ChainStrike::activate(unsigned int _targetId, unsigned int _senderId)
+bool ChainStrike::activate(unsigned int _targetId, unsigned int _senderId)
 {
 	ServerEntity* target = EntityHandler::getServerEntity(_targetId);
 	if(target)
@@ -24,7 +24,16 @@ void ChainStrike::activate(unsigned int _targetId, unsigned int _senderId)
 		{
 			EntityHandler::addEntity(new ChainStrikeEffect(target->getId(), target->getPosition(), max(((Hero*)EntityHandler::getServerEntity(_senderId))->getWits()/2, 1)));
 			this->resetCooldown();
+			return true;
 		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
 	}
 }
 

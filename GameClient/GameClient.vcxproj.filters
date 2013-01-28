@@ -169,9 +169,6 @@
     <ClCompile Include="NetworkDisconnectMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="ClientSkill.cpp">
-      <Filter>Client\Skills</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkRemoveEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -204,7 +201,7 @@
     </ClCompile>
     <ClCompile Include="Teleport.cpp">
       <Filter>Server\Skill</Filter>
-    </ClCompile>  
+    </ClCompile>
     <ClCompile Include="NetworkCreateActionMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -213,6 +210,9 @@
     </ClCompile>
     <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +404,6 @@
     <ClInclude Include="NetworkDisconnectMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="ClientSkill.h">
-      <Filter>Client\Skills</Filter>
-    </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
     </ClInclude>
@@ -448,6 +445,15 @@
     </ClInclude>
     <ClInclude Include="NetworkCreateActionTargetMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSkillEffects.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
