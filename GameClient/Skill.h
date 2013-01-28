@@ -8,7 +8,7 @@ private:
 	int m_id;
 	float m_cooldown;
 public:
-	static enum SKILLS {MOVE, ATTACK, CHAIN_STRIKE, CLOUD_OF_DARKNESS};
+	static enum SKILLS {MOVE, ATTACK, CHAIN_STRIKE, CLOUD_OF_DARKNESS, STUNNING_STRIKE};
 
 	Skill();
 	Skill(int _id, float _cooldown);

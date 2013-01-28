@@ -13,7 +13,6 @@ GameState::GameState()
 	this->m_emilmackesFpsText = new TextInput("text3.png", INT2(1100, 1053), 100);
 	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 	this->m_network = new Client();
-	m_testModel = g_graphicsEngine->createModel("TestObject", FLOAT3(25.0f, 0.0f, 25.0f));
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
@@ -148,6 +147,10 @@ void GameState::update(float _dt)
 		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 15.0f));
 	}
 
+	if(g_keyboard->getKeyState(VK_OEM_1))
+	{
+
+	}
 	if(g_mouse->isLButtonPressed())
 	{			
 		D3DXVECTOR3 pickDir;
@@ -156,20 +159,7 @@ void GameState::update(float _dt)
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
-
-		float dist;
-		if(m_testModel->intersects(dist, pickOrig, pickDir))
-		{
-			OutputDebugString("pick ray intersects with test model 1\n");
-		}
-		else
-		{
-			stringstream cnv;
-			cnv << dist << endl;
-			OutputDebugString(cnv.str().c_str());
-		}
-
+		this->m_network->sendMessage(NetworkUseActionMessage(Skill::STUNNING_STRIKE));
 
 		for(int i = 0; i < m_entities.size(); i++)
 		{
@@ -190,13 +180,11 @@ void GameState::update(float _dt)
 	}
 	if(g_mouse->isRButtonPressed())
 	{
-		m_testModel->rotate(D3DX_PI/8.0f, 0.0f, 0.0f);
-
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 1.0f, pos.y));
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y));
 			this->m_network->sendMessage(e);
 		}
 		else

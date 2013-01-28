@@ -2,9 +2,8 @@
 #include "EntityHandler.h"
 #include "MyAlgorithms.h"
 
-StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position, int _damage)
+StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position)
 {
-	m_damage = _damage;
 	m_position = _position;
 
 	this->m_obb = new BoundingOrientedBox();
@@ -12,25 +11,20 @@ StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position, int _damage)
 	m_timer = 0.0f;
 	m_type = OtherType;
 
-	if(random(1, 100) <= 50)
-	{
-		vector<ServerEntity*>* enemies = EntityHandler::getAllEnemies();
+	vector<ServerEntity*>* enemies = EntityHandler::getAllEnemies();
 
-		for(int i = 0; i < enemies->size(); i++)
+	for(int i = 0; i < enemies->size(); i++)
+	{
+		if(((*enemies)[i]->getPosition()-m_position).length() <= AOE)
 		{
-			if(((*enemies)[i]->getPosition()-m_position).length() <= AOE)
+			if(random(1, 100) <= 50)
 			{
-				((UnitEntity*)EntityHandler::getClosestEnemy(this))->stun(8);
-				this->dealDamage((*enemies)[i], this->m_damage, false);
+				((UnitEntity*)(*enemies)[i])->stun(8);
 			}
 		}
+	}
 
-		delete enemies;
-	}
-	else
-	{
-		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
-	}
+	delete enemies;
 }
 
 StunningStrikeEffect::~StunningStrikeEffect()

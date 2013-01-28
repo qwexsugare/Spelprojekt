@@ -3,7 +3,7 @@
 #include "CloudOfDarknessEffect.h"
 #include "Hero.h"
 
-const float CloudOfDarkness::COOLDOWN = 1.0f;
+const float CloudOfDarkness::COOLDOWN = 180.0f;
 
 CloudOfDarkness::CloudOfDarkness() : Skill(Skill::CLOUD_OF_DARKNESS, 0.0f)
 {

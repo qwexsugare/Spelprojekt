@@ -1,11 +1,10 @@
 #include "StunningStrike.h"
 #include "EntityHandler.h"
 #include "StunningStrikeEffect.h"
-#include "Hero.h"
 
-const float StunningStrike::COOLDOWN = 1.0f;
+const float StunningStrike::COOLDOWN = 120.0f;
 
-StunningStrike::StunningStrike() : Skill(Skill::CLOUD_OF_DARKNESS, 0.0f)
+StunningStrike::StunningStrike() : Skill(Skill::STUNNING_STRIKE, 0.0f)
 {
 	
 }
@@ -15,11 +14,11 @@ StunningStrike::~StunningStrike()
 
 }
 
-void StunningStrike::activate(FLOAT3 _position, unsigned int _senderId)
+void StunningStrike::activate(unsigned int _senderId)
 {
-	if(this->getCooldown() == 0 && (EntityHandler::getServerEntity(_senderId)->getPosition() - _position).length() < RANGE)
+	if(this->getCooldown() == 0)
 	{
-		EntityHandler::addEntity(new StunningStrikeEffect(_position, ((Hero*)EntityHandler::getServerEntity(_senderId))->getWits()*20));
+		EntityHandler::addEntity(new StunningStrikeEffect(EntityHandler::getServerEntity(_senderId)->getPosition()));
 		this->setCooldown(COOLDOWN);
 	}
 }

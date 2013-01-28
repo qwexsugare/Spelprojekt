@@ -9,6 +9,7 @@ Player::Player(unsigned int id)
 	this->m_hero->setNextPosition(FLOAT3(50.0f, 0.0f, 50.0f));
 	this->m_chainStrike = new ChainStrike();
 	this->m_cloudOfDarkness = new CloudOfDarkness();
+	this->m_stunningStrike = new StunningStrike();
 	EntityHandler::addEntity(m_hero);
 }
 
@@ -16,6 +17,7 @@ Player::~Player()
 {
 	delete this->m_chainStrike;
 	delete this->m_cloudOfDarkness;
+	delete this->m_stunningStrike;
 	delete this->m_messageQueue;
 }
 
@@ -62,6 +64,7 @@ void Player::update(float _dt)
 {
 	m_chainStrike->update(_dt);
 	m_cloudOfDarkness->update(_dt);
+	m_stunningStrike->update(_dt);
 }
 
 bool Player::getReady()
@@ -94,10 +97,16 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 
 void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
-	/*if(usm.getSkillId() == m_chainStrike->getId())
+	switch(usm.getActionId())
 	{
-		m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
-	}*/
+	case Skill::STUNNING_STRIKE:
+		m_stunningStrike->activate(this->m_hero->getId());
+		break;
+
+	default:
+		//Check if the player has the ability and use it
+		break;
+	}
 }
 
 void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
@@ -106,10 +115,6 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 	{
 	case Skill::ATTACK:
 		this->m_hero->setTarget(usm.getTargetId());
-		break;
-
-	case Skill::CLOUD_OF_DARKNESS:
-		this->m_chainStrike->activate(usm.getTargetId(), this->m_hero->getId());
 		break;
 
 	default:
