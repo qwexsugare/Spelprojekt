@@ -8,7 +8,7 @@ private:
 	float m_timer;
 	
 	static const int LIFETIME = 3;
-	static const int AOE = 5;
+	static const int AOE = 10;
 public:
 	StunningStrikeEffect(FLOAT3 _position);
 	~StunningStrikeEffect();

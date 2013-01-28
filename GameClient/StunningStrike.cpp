@@ -2,9 +2,9 @@
 #include "EntityHandler.h"
 #include "StunningStrikeEffect.h"
 
-const float StunningStrike::COOLDOWN = 120.0f;
+const float StunningStrike::COOLDOWN = 1.0f;
 
-StunningStrike::StunningStrike() : Skill(Skill::STUNNING_STRIKE, 0.0f)
+StunningStrike::StunningStrike() : Skill(Skill::STUNNING_STRIKE, COOLDOWN)
 {
 	
 }
@@ -16,10 +16,10 @@ StunningStrike::~StunningStrike()
 
 void StunningStrike::activate(unsigned int _senderId)
 {
-	if(this->getCooldown() == 0)
+	if(this->getCurrentCooldown() == 0)
 	{
 		EntityHandler::addEntity(new StunningStrikeEffect(EntityHandler::getServerEntity(_senderId)->getPosition()));
-		this->setCooldown(COOLDOWN);
+		this->resetCooldown();
 	}
 }
 

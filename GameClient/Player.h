@@ -13,6 +13,7 @@
 #include "UseSkillMessage.h"
 #include "UsePositionalSkillMessage.h"
 #include "Skills.h"
+#include "Tower.h"
 
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"
@@ -26,6 +27,7 @@ private:
 	Skill* m_chainStrike;
 	Skill* m_cloudOfDarkness;
 	Skill* m_stunningStrike;
+	Skill* m_teleport;
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;
