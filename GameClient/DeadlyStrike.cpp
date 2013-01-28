@@ -12,7 +12,7 @@ DeadlyStrike::~DeadlyStrike()
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setDeadlyStrikeChance(ue->getDeadlyStrikeChance() - 1.0f);
+		ue->setDeadlyStrikeChance(ue->getDeadlyStrikeChance() - 1);
 	}
 }
 
@@ -24,6 +24,6 @@ void DeadlyStrike::activate(unsigned int _senderId)
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setDeadlyStrikeChance(ue->getDeadlyStrikeChance() + 1.0f);
+		ue->setDeadlyStrikeChance(ue->getDeadlyStrikeChance() + 1);
 	}
 }
