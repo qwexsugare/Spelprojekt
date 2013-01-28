@@ -16,7 +16,7 @@ Greed::~Greed()
 	}	
 }
 
-void Greed::activate(unsigned int _senderId)
+bool Greed::activate(unsigned int _senderId)
 {
 	this->m_senderId = _senderId;
 	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
@@ -25,5 +25,7 @@ void Greed::activate(unsigned int _senderId)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
 		ue->setGreed(ue->getGreed() + 0.2f);
-	}	
+	}
+
+	return true;
 }

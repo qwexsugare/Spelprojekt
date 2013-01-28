@@ -16,7 +16,7 @@ DeadlyStrike::~DeadlyStrike()
 	}
 }
 
-void DeadlyStrike::activate(unsigned int _senderId)
+bool DeadlyStrike::activate(unsigned int _senderId)
 {
 	this->m_senderId = _senderId;
 	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
@@ -26,4 +26,6 @@ void DeadlyStrike::activate(unsigned int _senderId)
 		UnitEntity* ue = (UnitEntity*)e;
 		ue->setDeadlyStrikeChance(ue->getDeadlyStrikeChance() + 1);
 	}
+
+	return true;
 }

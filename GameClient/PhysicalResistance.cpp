@@ -16,7 +16,7 @@ PhysicalResistance::~PhysicalResistance()
 	}	
 }
 
-void PhysicalResistance::activate(unsigned int _senderId)
+bool PhysicalResistance::activate(unsigned int _senderId)
 {
 	this->m_senderId = _senderId;
 	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
@@ -26,4 +26,6 @@ void PhysicalResistance::activate(unsigned int _senderId)
 		UnitEntity* ue = (UnitEntity*)e;
 		ue->setPhysicalResistance(ue->getPhysicalResistance() - 15.0f);
 	}	
+
+	return true;
 }

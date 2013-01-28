@@ -16,7 +16,7 @@ PoisonStrike::~PoisonStrike()
 	}
 }
 
-void PoisonStrike::activate(unsigned int _senderId)
+bool PoisonStrike::activate(unsigned int _senderId)
 {
 	this->m_senderId = _senderId;
 	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
@@ -26,4 +26,6 @@ void PoisonStrike::activate(unsigned int _senderId)
 		UnitEntity* ue = (UnitEntity*)e;
 		ue->setPoisonChance(ue->getPoisonChance() + 0.25f);
 	}	
+
+	return true;
 }

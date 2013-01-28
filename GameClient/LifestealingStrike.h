@@ -11,6 +11,6 @@ public:
 	LifestealingStrike();
 	~LifestealingStrike();
 
-	void activate(unsigned int _senderId);
+	bool activate(unsigned int _senderId);
 };
 
