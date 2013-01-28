@@ -117,7 +117,6 @@ void Server::handleMessages()
 	{
 		m = this->m_messageQueue->pullIncomingMessage();
 
-
 		switch(m->type)
 		{
 		case Message::RemoveEntity:

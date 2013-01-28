@@ -65,6 +65,7 @@ struct CreateActionMessage : Message
 	CreateActionMessage(unsigned int _actionId, unsigned int _senderId)
 	{
 		this->type = Type::CreateAction;
+		this->reciverId = 1;
 		this->actionId = _actionId;
 		this->senderId = _senderId;
 	}
@@ -79,6 +80,7 @@ struct CreateActionPositionMessage : Message
 	CreateActionPositionMessage(unsigned int _actionId, unsigned int _senderId, FLOAT3 _position)
 	{
 		this->type = Type::CreateActionPosition;
+		this->reciverId = 1;
 		this->actionId = _actionId;
 		this->senderId = _senderId;
 		this->position = _position;
@@ -94,6 +96,7 @@ struct CreateActionTargetMessage : Message
 	CreateActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId)
 	{
 		this->type = Type::CreateActionTarget;
+		this->reciverId = 1;
 		this->actionId = _actionId;
 		this->senderId = _senderId;
 		this->targetId = _targetId;

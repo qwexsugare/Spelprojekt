@@ -11,8 +11,6 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 	m_modelId = 0;
 	m_timer = 0.0f;
 	m_type = OtherType;
-	m_sound = createSoundHandle("collision.wav", false);
-	playSound(m_sound);
 
 	vector<ServerEntity*>* enemies = EntityHandler::getAllEnemies();
 
@@ -29,7 +27,7 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 
 CloudOfDarknessEffect::~CloudOfDarknessEffect()
 {
-	deactivateSound(m_sound);
+
 }
 
 void CloudOfDarknessEffect::update(float _dt)

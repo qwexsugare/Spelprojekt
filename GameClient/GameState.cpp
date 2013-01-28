@@ -4,6 +4,7 @@
 #include "SoundWrapper.h"
 #include <sstream>
 #include "Skill.h"
+#include "ClientSkillEffects.h"
 
 GameState::GameState()
 {
@@ -129,9 +130,6 @@ void GameState::update(float _dt)
 	while(this->m_network->createActionQueueEmpty() == false)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
-		
-
-		// Do something!
 	}
 
 
@@ -139,7 +137,12 @@ void GameState::update(float _dt)
 	{
 		NetworkCreateActionPositionMessage e = this->m_network->createActionPositionQueueFront();
 		
-		// Do something!
+		switch(e.getActionId())
+		{
+		case Skill::CLOUD_OF_DARKNESS:
+			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
+			break;
+		}
 	}
 
 
@@ -150,8 +153,16 @@ void GameState::update(float _dt)
 		// Do something!
 	}
 
-	//this->m_network->sendMsg(Msg("Ready"));
-	//this->m_network->sendMsg(Msg("Start"));
+	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+	{
+		m_ClientSkillEffects[i]->update(_dt);
+		if(!m_ClientSkillEffects[i]->getActive())
+		{
+			delete m_ClientSkillEffects[i];
+			m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+			i--;
+		}
+	}
 
 	static float CAMERA_SPEED = 16.0f;
 	if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-5.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
@@ -189,7 +200,7 @@ void GameState::update(float _dt)
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::TELEPORT, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
 
 		for(int i = 0; i < m_entities.size(); i++)
 		{

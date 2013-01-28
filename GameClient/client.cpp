@@ -195,7 +195,7 @@ NetworkCreateActionMessage Client::createActionQueueFront()
 	this->m_mutex.Lock();
 
 	NetworkCreateActionMessage ret = this->m_createActionQueue.front();
-	this->m_removeEntityMessageQueue.pop();
+	this->m_createActionQueue.pop();
 
 	this->m_mutex.Unlock();
 
@@ -207,7 +207,7 @@ NetworkCreateActionPositionMessage Client::createActionPositionQueueFront()
 	this->m_mutex.Lock();
 
 	NetworkCreateActionPositionMessage ret = this->m_createActionPositionQueue.front();
-	this->m_removeEntityMessageQueue.pop();
+	this->m_createActionPositionQueue.pop();
 
 	this->m_mutex.Unlock();
 
@@ -219,7 +219,7 @@ NetworkCreateActionTargetMessage Client::createActionTargetQueueFront()
 	this->m_mutex.Lock();
 
 	NetworkCreateActionTargetMessage ret = this->m_createActionTargetQueue.front();
-	this->m_removeEntityMessageQueue.pop();
+	this->m_createActionTargetQueue.pop();
 
 	this->m_mutex.Unlock();
 
