@@ -8,7 +8,6 @@ public:
 	~CreditsMenu(void);
 
 	void Update();
-	bool StartGameIsDown();
-	bool MainMenuGameIsDone();
+	bool MainMenuGameIsDown();
 };
 

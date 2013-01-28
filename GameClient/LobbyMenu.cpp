@@ -19,8 +19,8 @@ LobbyMenu::LobbyMenu(void)
 	m_size.y = 0;
 	m_side.x = 0;
 	m_side.y = 0;
-	m_size.x = g_graphicsEngine->getRealScreenSize().x;
-	m_size.y = g_graphicsEngine->getRealScreenSize().y;
+	m_size.x = 1920;
+	m_size.y = 1080;
 	m_side.x = (122.0f/m_size.x)*2.0f;
 	m_side.y = (1920.0f/m_size.y)*2.0f;
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Left.png", FLOAT2(-0.94f,0),  FLOAT2(m_side.x,m_side.y),3));

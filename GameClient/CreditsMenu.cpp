@@ -18,7 +18,7 @@ void CreditsMenu::Update()
 	}
 }
 
-bool CreditsMenu::MainMenuGameIsDone()
+bool CreditsMenu::MainMenuGameIsDown()
 {
 	if(this->m_Buttons[0]->Clicked() == 1)
 	{

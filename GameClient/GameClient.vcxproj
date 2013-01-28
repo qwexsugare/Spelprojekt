@@ -165,6 +165,7 @@
     <ClCompile Include="CreateGameMenu.cpp" />
     <ClCompile Include="CreateGameState.cpp" />
     <ClCompile Include="CreditsMenu.cpp" />
+    <ClCompile Include="CreditState.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
@@ -172,12 +173,15 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HudMenu.cpp" />
+    <ClCompile Include="IntroMenu.cpp" />
+    <ClCompile Include="IntroState.cpp" />
     <ClCompile Include="JoinGameMenu.cpp" />
     <ClCompile Include="JoinGameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="LobbyMenu.cpp" />
     <ClCompile Include="LobbyState.cpp" />
     <ClCompile Include="LoreMenu.cpp" />
+    <ClCompile Include="LoreState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
@@ -199,6 +203,7 @@
     <ClCompile Include="ServerEntity.cpp" />
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Skill_Buttons.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
@@ -234,6 +239,7 @@
     <ClInclude Include="CreateGameMenu.h" />
     <ClInclude Include="CreateGameState.h" />
     <ClInclude Include="CreditsMenu.h" />
+    <ClInclude Include="CreditState.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
@@ -244,12 +250,15 @@
     <ClInclude Include="Hero.h" />
     <ClInclude Include="HudMenu.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="IntroMenu.h" />
+    <ClInclude Include="IntroState.h" />
     <ClInclude Include="JoinGameMenu.h" />
     <ClInclude Include="JoinGameState.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LobbyMenu.h" />
     <ClInclude Include="LobbyState.h" />
     <ClInclude Include="LoreMenu.h" />
+    <ClInclude Include="LoreState.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MapHandler.h" />
@@ -272,6 +281,7 @@
     <ClInclude Include="ServerEntity.h" />
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="SettingsState.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="Skills.h" />
     <ClInclude Include="Skill_Buttons.h" />
