@@ -221,6 +221,7 @@
     <ClCompile Include="State.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="StunningStrike.cpp" />
+    <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="TextInput.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StunningStrike.h" />
+    <ClInclude Include="StunningStrikeClientSkillEffect.h" />
     <ClInclude Include="StunningStrikeEffect.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="TextInput.h" />

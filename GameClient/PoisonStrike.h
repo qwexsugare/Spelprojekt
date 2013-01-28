@@ -13,4 +13,3 @@ public:
 
 	void activate(unsigned int _senderId);
 };
-
