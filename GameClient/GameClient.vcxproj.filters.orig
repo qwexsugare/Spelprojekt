@@ -166,6 +166,22 @@
     <ClCompile Include="NetworkEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="LoreState.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditState.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsState.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroMenu.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroState.cpp">
+      <Filter>Client</Filter>
+=======
     <ClCompile Include="NetworkDisconnectMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -202,10 +218,9 @@
     <ClCompile Include="MyAlgorithms.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Teleport.cpp">
       <Filter>Server\Skill</Filter>
-=======
+    </ClCompile>  
     <ClCompile Include="NetworkCreateActionMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -214,7 +229,28 @@
     </ClCompile>
     <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
       <Filter>Network</Filter>
->>>>>>> 69ec2a1a5632904a7bc0d826e9b167f16604795e
+    </ClCompile>
+    <ClCompile Include="Aim.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadlyStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Greed.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="LifestealingStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="MentalResistance.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicalResistance.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonStrike.cpp">
+      <Filter>Server\Skill</Filter>
+>>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +439,22 @@
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="LoreState.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditState.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsState.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroMenu.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroState.h">
+      <Filter>Client</Filter>
+=======
     <ClInclude Include="NetworkDisconnectMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -439,10 +491,9 @@
     <ClInclude Include="MyAlgorithms.h">
       <Filter>Server</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Teleport.h">
       <Filter>Server\Skill</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="NetworkCreateActionMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -451,7 +502,28 @@
     </ClInclude>
     <ClInclude Include="NetworkCreateActionTargetMessage.h">
       <Filter>Network</Filter>
->>>>>>> 69ec2a1a5632904a7bc0d826e9b167f16604795e
+    </ClInclude>
+    <ClInclude Include="Aim.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadlyStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Greed.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="LifestealingStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="MentalResistance.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalResistance.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonStrike.h">
+      <Filter>Server\Skill</Filter>
+>>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,8 +545,11 @@
     <Filter Include="Network">
       <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
+=======
     <Filter Include="Client\Controls">
       <UniqueIdentifier>{7858784e-5d66-4547-9256-5e2ec0e84fda}</UniqueIdentifier>
     </Filter>
+>>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
   </ItemGroup>
 </Project>
