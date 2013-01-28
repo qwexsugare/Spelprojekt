@@ -213,7 +213,7 @@
     </ClCompile>
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
- 	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Aim.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
@@ -235,6 +235,7 @@
     <ClCompile Include="PoisonStrike.cpp">
       <Filter>Server\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -469,19 +470,19 @@
     </ClInclude>
     <ClInclude Include="ClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
-	 </ClInclude>
+    </ClInclude>
     <ClInclude Include="Aim.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
     <ClInclude Include="ClientSkillEffects.h">
       <Filter>Client\Skills</Filter>
-</ClInclude>
+    </ClInclude>
     <ClInclude Include="DeadlyStrike.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Greed.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
@@ -497,6 +498,7 @@
     <ClInclude Include="PoisonStrike.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="StunningStrikeClientSkillEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
