@@ -5,11 +5,12 @@ NetworkCreateActionTargetMessage::NetworkCreateActionTargetMessage() : NetworkMe
 
 }
 
-NetworkCreateActionTargetMessage::NetworkCreateActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId) : NetworkMessage(MESSAGE_TYPE::CreateActionTarget)
+NetworkCreateActionTargetMessage::NetworkCreateActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId, FLOAT3 _position) : NetworkMessage(MESSAGE_TYPE::CreateActionTarget)
 {
 	this->m_actionId = _actionId;
 	this->m_senderId = _senderId;
 	this->m_targetId = _targetId;
+	this->m_position = _position;
 }
 
 NetworkCreateActionTargetMessage::~NetworkCreateActionTargetMessage(void)
@@ -30,6 +31,11 @@ unsigned int NetworkCreateActionTargetMessage::getSenderId()
 unsigned int NetworkCreateActionTargetMessage::getTargetId()
 {
 	return this->m_targetId;
+}
+
+FLOAT3 NetworkCreateActionTargetMessage::getPosition()
+{
+	return this->m_position;
 }
 
 sf::Packet& operator<<(sf::Packet& packet,const NetworkCreateActionTargetMessage& e)

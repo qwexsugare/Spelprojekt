@@ -127,7 +127,7 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 
 	if(usedSomething)
 	{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(usm.getActionId(), this->m_hero->getId()));
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(usm.getActionId(), this->m_hero->getId(), this->m_hero->getPosition()));
 	}
 }
 
@@ -152,6 +152,6 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 
 	if(usedSomething)
 	{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(usm.getActionId(), this->m_hero->getId(), usm.getTargetId()));
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(usm.getActionId(), this->m_hero->getId(), usm.getTargetId(), this->m_hero->getPosition()));
 	}
 }
