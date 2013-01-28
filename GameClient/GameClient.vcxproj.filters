@@ -211,6 +211,27 @@
     <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="Aim.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadlyStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Greed.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="LifestealingStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="MentalResistance.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicalResistance.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonStrike.cpp">
+      <Filter>Server\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -442,6 +463,27 @@
     </ClInclude>
     <ClInclude Include="NetworkCreateActionTargetMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Aim.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadlyStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Greed.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="LifestealingStrike.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="MentalResistance.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalResistance.h">
+      <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonStrike.h">
+      <Filter>Server\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
