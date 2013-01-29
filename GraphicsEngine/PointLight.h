@@ -27,7 +27,7 @@ public:
 	DECLDIR FLOAT3 getSpecularColor();
 	DECLDIR float getRadius();
 
-	DirectX::BoundingSphere* getBoundingSphere();
+	DirectX::BoundingSphere* getBs();
 	D3DXVECTOR2 getPosition2D();
 
 	DECLDIR void setPosition(FLOAT3 _position);

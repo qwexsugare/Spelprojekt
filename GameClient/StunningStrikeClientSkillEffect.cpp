@@ -5,13 +5,14 @@
 StunningStrikeClientSkillEffect::StunningStrikeClientSkillEffect(FLOAT3 _position)
 {
 	m_position = _position;
-
-	m_sound = createSoundHandle("collision.wav", false);
+	m_lifetime = 0.0f;
+	m_sound = createSoundHandle("orb.wav", false);
 	playSound(m_sound);
 }
 
 StunningStrikeClientSkillEffect::~StunningStrikeClientSkillEffect()
 {
+	stopSound(m_sound);
 	deactivateSound(m_sound);
 }
 

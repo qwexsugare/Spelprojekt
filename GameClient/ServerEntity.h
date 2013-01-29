@@ -31,7 +31,7 @@ public:
 	virtual ~ServerEntity();
 
 	virtual void update(float dt);
-	const BoundingSphere* getBoundingSphere()const { return this->m_bs; }
+	const BoundingSphere* getBs()const { return this->m_bs; }
 	const BoundingOrientedBox* getObb()const { return this->m_obb; }
 	MessageQueue *getMessageQueue();
 	//EntityMessage getUpdate();

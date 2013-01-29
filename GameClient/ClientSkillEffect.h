@@ -6,6 +6,9 @@
 class ClientSkillEffect
 {
 public:
+	ClientSkillEffect();
+	virtual ~ClientSkillEffect();
+
 	virtual void update(float _dt) = 0;
 	virtual bool getActive() = 0;
 };

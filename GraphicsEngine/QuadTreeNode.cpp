@@ -149,7 +149,7 @@ bool QuadTreeNode::intersects(const Model* _model)const
 
 bool QuadTreeNode::intersects(PointLight* _light)const
 {
-	return _light->getBoundingSphere()->Intersects(*this->m_obb);
+	return _light->getBs()->Intersects(*this->m_obb);
 }
 
 void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const
@@ -222,7 +222,7 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPo
 		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
 		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
 		// Find the greatest extent of the model bounding box
-		float greatestExtent = this->m_lights[i]->getBoundingSphere()->Radius;
+		float greatestExtent = this->m_lights[i]->getBs()->Radius;
 
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;

@@ -5,9 +5,10 @@
 StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position)
 {
 	m_position = _position;
-
-	this->m_obb = new BoundingOrientedBox();
-	m_modelId = 0;
+	
+	this->m_obb = NULL;
+	this->m_bs = new BoundingSphere(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), AOE);
+	m_visible = false;
 	m_timer = 0.0f;
 	m_type = OtherType;
 
@@ -15,11 +16,22 @@ StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position)
 
 	for(int i = 0; i < enemies->size(); i++)
 	{
-		if(((*enemies)[i]->getPosition()-m_position).length() <= AOE)
+		if(random(1, 100) <= 50)
 		{
-			if(random(1, 100) <= 50)
+			ServerEntity* enemy = (*enemies)[i];
+			if(enemy->getObb())
 			{
-				((UnitEntity*)(*enemies)[i])->stun(8);
+				if(enemy->getObb()->Intersects(*m_bs))
+				{
+					((UnitEntity*)(*enemies)[i])->stun(8);
+				}
+			}
+			else if(enemy->getBs())
+			{
+				if(enemy->getBs()->Intersects(*m_bs))
+				{
+					((UnitEntity*)(*enemies)[i])->stun(8);
+				}
 			}
 		}
 	}

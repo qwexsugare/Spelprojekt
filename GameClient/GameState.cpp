@@ -153,7 +153,6 @@ void GameState::update(float _dt)
 		}
 	}
 
-
 	while(this->m_network->createActionTargetQueueEmpty() == false)
 	{
 		NetworkCreateActionTargetMessage e = this->m_network->createActionTargetQueueFront();
