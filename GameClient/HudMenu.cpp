@@ -596,7 +596,7 @@ void  HudMenu::UpdateShop()
 
 			m_Init_Tower = 0;
 		}
-		for(int i = 0; i < BuyButtonTower.size(); i++)
+		for(int i = 0; i < 2; i++)
 		{
 			this->BuyButtonTower[i]->Update();
 			if(this->BuyButtonTower[i]->Clicked() == true)
@@ -724,7 +724,7 @@ void  HudMenu::UpdateShop()
 			this->BuyButtonStrength[9]->Init(FLOAT2(-0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,200));
 			m_Init_Strength = 0;
 		}
-		for(int i = 0; i < BuyButtonStrength.size(); i++)
+		for(int i = 0; i < 5; i++)
 		{
 			this->BuyButtonStrength[i]->Update();
 			if(this->BuyButtonStrength[i]->Clicked() == true)
@@ -838,7 +838,7 @@ void  HudMenu::UpdateShop()
 
 			m_Init_Agility = 0;
 		}
-		for(int i = 0; i < BuyButtonAgility.size(); i++)
+		for(int i = 0; i < 4; i++)
 		{
 			this->BuyButtonAgility[i]->Update();
 			if(this->BuyButtonAgility[i]->Clicked() == true)
@@ -952,7 +952,7 @@ void  HudMenu::UpdateShop()
 			this->BuyButtonWits[7]->Init(FLOAT2(0.34f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,200));
 			m_Init_Wits = 0;
 		}
-		for(int i = 0; i < BuyButtonWits.size(); i++)
+		for(int i = 0; i < 4; i++)
 		{
 			this->BuyButtonWits[i]->Update();
 			if(this->BuyButtonWits[i]->Clicked() == true)
@@ -1065,7 +1065,7 @@ void  HudMenu::UpdateShop()
 			this->BuyButtonFortitude[7]->Init(FLOAT2(0.61f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,200));
 			m_Init_Fortitude = 0;
 		}
-		for(int i = 0; i < BuyButtonFortitude.size(); i++)
+		for(int i = 0; i < 4; i++)
 		{
 			this->BuyButtonFortitude[i]->Update();
 			if(this->BuyButtonFortitude[i]->Clicked() == true)

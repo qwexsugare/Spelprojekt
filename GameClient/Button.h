@@ -31,14 +31,15 @@ private:
 	// Button position
 	//----------------------------------------------------------------------------------------------
 		FLOAT2		m_Pos;
-		int			m_Max,
-					m_Min,
-					m_Keep,
+		int			m_Keep,
 					m_Layer,
 					m_Cost,
 					m_ID;
 		INT2		m_TextPos;
-		float		m_Value;
+		float		m_Value,
+					m_Max,
+					m_Min;
+		bool		m_TextBox;
 	//----------------------------------------------------------------------------------------------
 	// Wave name
 	//----------------------------------------------------------------------------------------------
@@ -67,7 +68,9 @@ public:
 				int _layer = 2,
 				int _DelayTime = 100,
 				int _Cost = 0,
-				INT2 _TextPos = INT2(0,0));
+				INT2 _TextPos = INT2(0,0),
+				bool _TextBox = false);
+
 	void Button::RemoveSprite();
 	int Clicked();
 	void Update();
@@ -77,5 +80,7 @@ public:
 	void SetID(int _id);
 	string GetID();
 	int LoseAmountOfResources(int _resources);
+	int GetValue();
+	void SetTextBoxValue(bool _change);
 };
 

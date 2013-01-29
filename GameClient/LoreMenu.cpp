@@ -5,7 +5,7 @@ LoreMenu::LoreMenu(void)
 {
 	ThisPage = 0;
 	Change = false;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-LOREBOOK.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-0.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 
 	this->m_Buttons.resize(3);
 	this->m_Buttons[0] = new Button();
@@ -40,7 +40,7 @@ bool LoreMenu::Minus()
 	}
 	return false;
 }
-bool LoreMenu::MainMenuGameIsDone()
+bool LoreMenu::MainMenuIsDown()
 {
 	if(this->m_Buttons[2]->Clicked() == 1)
 	{
@@ -72,91 +72,11 @@ void LoreMenu::ChangeStates()
 
 	if (Change == true)
 	{
-		if(ThisPage == 0)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-LOREBOOK.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if(ThisPage == 1)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-Attributes.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if(ThisPage == 2)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-Skill-0.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if(ThisPage == 3)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-Skill-1.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 4)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-Engineer.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 5)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-Doctor.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 6)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-Officer.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 7)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-Mentalist.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		} 
-		else if (ThisPage == 8)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-RedKnight.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 9)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-TeslaChainTurret.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 10)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-PoisonTurret.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 11)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-DeathPulseTurret.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 12)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-FrostTurret.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 13)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-FrostDemon.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 14)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-Imp.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 15)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-SpittingDemon.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
-		else if (ThisPage == 16)
-		{
-			g_graphicsEngine->removeSprite( m_Images[0]);
-			this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-ShadeFromTheUnderworld.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-		}
+		stringstream ss;
+		ss << ThisPage;
+
+		g_graphicsEngine->removeSprite( m_Images[0]);
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-" +ss.str()+ ".png", FLOAT2(0,0),  FLOAT2(2,2),0));
 	}
 	Change = false;
 }

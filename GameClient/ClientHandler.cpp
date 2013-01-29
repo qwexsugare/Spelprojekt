@@ -102,6 +102,9 @@ void ClientHandler::update(float _dt)
 		
 		switch(this->m_state->nextState())
 		{
+		case State::INTRO:
+			this->m_state = new IntroState();
+			break;
 		case State::MAIN_MENU:
 			this->m_state = new MainMenuState();
 			break;
@@ -111,8 +114,17 @@ void ClientHandler::update(float _dt)
 		case State::LOBBY:
 			this->m_state = new LobbyState();
 			break;
+		case State::LORE:
+			this->m_state = new LoreState();
+			break;
 		case State::GAME:
 			this->m_state = new GameState();
+			break;
+		case State::SETTINGS:
+			this->m_state = new SettingsState();
+			break;
+		case State::CREDITS:
+			this->m_state = new CreditState();
 			break;
 		case State::EXIT:
 			PostQuitMessage(0);

@@ -1,7 +1,7 @@
 #pragma once
 #include "menu.h"
 #include "TextLabel.h"
-
+#include <sstream>
 class LoreMenu :
 	public Menu
 {
@@ -13,7 +13,7 @@ public:
 
 	bool Minus();
 	bool Plus();
-	bool MainMenuGameIsDone();
+	bool MainMenuIsDown();
 	void Update();
 	void ChangeStates();
 

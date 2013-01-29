@@ -166,15 +166,25 @@
     <ClCompile Include="NetworkEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="LoreState.cpp">
+      <Filter>Client</Filter>
     <ClCompile Include="NetworkDisconnectMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="CreditState.cpp">
+      <Filter>Client</Filter>
+    <ClCompile Include="SettingsState.cpp">
+      <Filter>Client</Filter>
     <ClCompile Include="NetworkRemoveEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="IntroMenu.cpp">
+      <Filter>Client</Filter>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="IntroState.cpp">
+      <Filter>Client</Filter>
     <ClCompile Include="NetworkUseActionMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -428,15 +438,25 @@
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="LoreState.h">
+      <Filter>Client</Filter>
     <ClInclude Include="NetworkDisconnectMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="CreditState.h">
+      <Filter>Client</Filter>
+    <ClInclude Include="SettingsState.h">
+      <Filter>Client</Filter>
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="IntroMenu.h">
+      <Filter>Client</Filter>
     <ClInclude Include="NetworkRemoveEntityMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="IntroState.h">
+      <Filter>Client</Filter>
     <ClInclude Include="Mouse.h">
       <Filter>Client\Controls</Filter>
     </ClInclude>

@@ -166,31 +166,31 @@
     <ClCompile Include="NetworkEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="LoreState.cpp">
       <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="CreditState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="SettingsState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="IntroMenu.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="IntroState.cpp">
-      <Filter>Client</Filter>
-=======
     <ClCompile Include="NetworkDisconnectMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="CreditState.cpp">
+      <Filter>Client</Filter>
+    <ClCompile Include="ClientSkill.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsState.cpp">
+      <Filter>Client</Filter>
+=======
+>>>>>>> 158c03d70378374006489c3c9ee93d2731cbee7e
     <ClCompile Include="NetworkRemoveEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="IntroMenu.cpp">
+      <Filter>Client</Filter>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="IntroState.cpp">
+      <Filter>Client</Filter>
     <ClCompile Include="NetworkUseActionMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -217,7 +217,7 @@
     </ClCompile>
     <ClCompile Include="Teleport.cpp">
       <Filter>Server\Skill</Filter>
-    </ClCompile>  
+    </ClCompile>
     <ClCompile Include="NetworkCreateActionMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -226,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="Aim.cpp">
       <Filter>Server\Skill</Filter>
@@ -247,12 +250,8 @@
     </ClCompile>
     <ClCompile Include="PoisonStrike.cpp">
       <Filter>Server\Skill</Filter>
->>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
     </ClCompile>
-    <ClCompile Include="PoisonStrike.cpp">
-      <Filter>Server\Skill</Filter>
->>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
-    </ClCompile>
+    <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -440,31 +439,31 @@
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="LoreState.h">
       <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="CreditState.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingsState.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="IntroMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="IntroState.h">
-      <Filter>Client</Filter>
-=======
     <ClInclude Include="NetworkDisconnectMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="CreditState.h">
+      <Filter>Client</Filter>
+    <ClInclude Include="ClientSkill.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsState.h">
+      <Filter>Client</Filter>
+=======
+>>>>>>> 158c03d70378374006489c3c9ee93d2731cbee7e
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="IntroMenu.h">
+      <Filter>Client</Filter>
     <ClInclude Include="NetworkRemoveEntityMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="IntroState.h">
+      <Filter>Client</Filter>
     <ClInclude Include="Mouse.h">
       <Filter>Client\Controls</Filter>
     </ClInclude>
@@ -501,11 +500,20 @@
     <ClInclude Include="NetworkCreateActionTargetMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="ClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
     <ClInclude Include="Aim.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="ClientSkillEffects.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
     <ClInclude Include="DeadlyStrike.h">
       <Filter>Server\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="Greed.h">
       <Filter>Server\Skill</Filter>
@@ -521,18 +529,8 @@
     </ClInclude>
     <ClInclude Include="PoisonStrike.h">
       <Filter>Server\Skill</Filter>
->>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
     </ClInclude>
-    <ClInclude Include="MentalResistance.h">
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicalResistance.h">
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="PoisonStrike.h">
-      <Filter>Server\Skill</Filter>
->>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
-    </ClInclude>
+    <ClInclude Include="StunningStrikeClientSkillEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -553,11 +551,8 @@
     <Filter Include="Network">
       <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
-=======
     <Filter Include="Client\Controls">
       <UniqueIdentifier>{7858784e-5d66-4547-9256-5e2ec0e84fda}</UniqueIdentifier>
     </Filter>
->>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
   </ItemGroup>
 </Project>

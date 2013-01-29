@@ -12,5 +12,6 @@ public:
 	~MentalResistance();
 
 	bool activate(unsigned int _senderId);
+	void updateSpecificSkill(float dt);
 };
 

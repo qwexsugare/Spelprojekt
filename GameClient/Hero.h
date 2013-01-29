@@ -12,7 +12,6 @@ class Hero : public UnitEntity
 private:
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
-	float m_movementSpeed;
 
 	unsigned int m_target;
 	bool m_hasTarget;

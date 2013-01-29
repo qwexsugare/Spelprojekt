@@ -3,8 +3,12 @@
 #include "GameState.h"
 #include "MainMenuState.h"
 #include "LobbyState.h"
+#include "LoreState.h"
 #include "CreateGameState.h"
 #include "ServerThread.h"
+#include "CreditState.h"
+#include "SettingsState.h"
+#include "IntroState.h"
 #include <string>
 using namespace std;
 

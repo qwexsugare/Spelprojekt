@@ -29,3 +29,8 @@ bool Greed::activate(unsigned int _senderId)
 
 	return true;
 }
+
+void Greed::updateSpecificSkill(float dt)
+{
+
+}
