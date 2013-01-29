@@ -5,7 +5,7 @@ SpriteSheet::SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView*
 	this->m_texture = _texture;
 	this->m_nrOfFrames = _nrOfFrames;
 	this->m_layer = _layer;
-
+	this->m_visible = true;
 	this->m_currentFrame = 0;
 	this->m_startFrame = 0;
 	this->m_endFrame = 0;

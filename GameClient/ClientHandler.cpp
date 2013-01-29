@@ -29,7 +29,7 @@ ClientHandler::~ClientHandler()
 HRESULT ClientHandler::run()
 {
 	this->m_serverThread->Launch();
-	this->m_state = new GameState();
+	this->m_state = new IntroState();
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);

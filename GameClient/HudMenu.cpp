@@ -26,8 +26,9 @@ HudMenu::HudMenu(void)
     m_Init_Agility = false;
 	m_Init_Wits = false;
 	m_Init_Fortitude = false;
+	m_DontChange == false;
 	m_OncePerBuy = false;
-	m_Resources = 4000;
+	m_Resources = 200000;
 	m_First = 0;
 	m_First_Tower = 0;
 	m_First_Strength = 0;
@@ -150,51 +151,6 @@ void HudMenu::Update(float _dt)
 {
 	if(m_Chat == false)
 	{
-			if(::GetAsyncKeyState('0') && ::GetAsyncKeyState('S'))
-			{
-				m_NumberOfSkills = 0;
-				m_SkillValue =-5;
-				m_DontChange = false;
-			}
-			if(::GetAsyncKeyState('1') && ::GetAsyncKeyState('S'))
-			{
-				m_NumberOfSkills = 1;
-				m_SkillValue = -4;
-				m_DontChange = false;
-			}
-			if(::GetAsyncKeyState('2') && ::GetAsyncKeyState('S'))
-			{
-				m_NumberOfSkills = 2;
-				m_SkillValue = -3;
-				m_DontChange = false;
-			}
-			//if(::GetAsyncKeyState('3') && ::GetAsyncKeyState('S'))
-			//{
-			//	m_NumberOfSkills = 3;
-			//	m_SkillValue = -2;
-			//	m_DontChange = false;
-			//}
-			//if(::GetAsyncKeyState('4') && ::GetAsyncKeyState('S'))
-			//{
-			//	m_NumberOfSkills = 4;
-			//	m_SkillValue = -1;
-			//	m_DontChange = false;
-			//	this->m_SkillButtons[3]->ChangeButton("10", true);
-			//}
-			//if(::GetAsyncKeyState('5') && ::GetAsyncKeyState('S'))
-			//{
-			//	m_NumberOfSkills = 5;
-			//	m_SkillValue = 0;
-			//	m_DontChange = false;
-			//	this->m_SkillButtons[4]->ChangeButton("11", true);
-			//}
-			//if(::GetAsyncKeyState('6') && ::GetAsyncKeyState('S'))
-			//{
-			//	m_NumberOfSkills = 6;
-			//	m_SkillValue = 1;
-			//	m_DontChange = false;
-			//	this->m_SkillButtons[5]->ChangeButton("12", true);
-			//}
 			float max = -0.897916667f+0.001041667f+(0.102083333f*6)+0.025f;
 			m_Delay += 1;
 
@@ -353,6 +309,7 @@ void HudMenu::Update(float _dt)
 		this->m_Chattext[3]->setText("");
 		m_Chat = false;
 	}
+	LockIsDown();
 }
 void HudMenu::UnInit(int _Type)
 {
@@ -360,8 +317,16 @@ void HudMenu::UnInit(int _Type)
 }
 bool HudMenu::LockIsDown()
 {
-	if(this->m_Buttons[0]->Clicked() > 0)
+	if(this->m_Buttons[0]->Clicked() == 1)
 	{
+		m_NumberOfSkills = 2;
+		m_SkillValue = -3;
+		m_SkillHud = 0;
+		this->m_SkillButtons[5]->ChangeButton("30", false);
+		this->m_SkillButtons[4]->ChangeButton("30", false);
+		this->m_SkillButtons[3]->ChangeButton("30", false);
+		this->m_SkillButtons[2]->ChangeButton("30", false);
+		m_DontChange == false;
 		return true;
 	}
 	else
@@ -603,7 +568,7 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					if(m_NumberOfSkills <= 6)
+					if(m_NumberOfSkills <  6)
 					{
 						string type;
 						type = this->BuyButtonTower[i]->GetID();
@@ -628,6 +593,9 @@ void  HudMenu::UpdateShop()
 						m_NumberOfSkills = 6;
 						m_SkillValue = 1;
 					}
+				}
+				else
+				{
 				}
 			}
 		}
@@ -731,7 +699,7 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					if(m_NumberOfSkills <= 6)
+					if(m_NumberOfSkills < 6)
 					{
 						string type;
 						type = this->BuyButtonStrength[i]->GetID();
@@ -756,6 +724,10 @@ void  HudMenu::UpdateShop()
 						m_NumberOfSkills = 6;
 						m_SkillValue = 1;
 					}
+				}
+				else
+				{
+
 				}
 			}
 		}
@@ -845,7 +817,7 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					if(m_NumberOfSkills  <= 6)
+					if(m_NumberOfSkills  < 6)
 					{
 						string type;
 						type = this->BuyButtonAgility[i]->GetID();
@@ -870,6 +842,9 @@ void  HudMenu::UpdateShop()
 						m_NumberOfSkills = 6;
 						m_SkillValue = 1;
 					}
+				}
+				else
+				{
 				}
 			}
 		}
@@ -959,7 +934,7 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					if(m_NumberOfSkills <= 6)
+					if(m_NumberOfSkills < 6)
 					{
 						string type;
 						type = this->BuyButtonWits[i]->GetID();
@@ -984,6 +959,9 @@ void  HudMenu::UpdateShop()
 						m_NumberOfSkills = 6;
 						m_SkillValue = 1;
 					}
+				}
+								else
+				{
 				}
 			}
 		}
@@ -1072,7 +1050,7 @@ void  HudMenu::UpdateShop()
 			{
 				if(i !=0)
 				{
-					if(m_NumberOfSkills <= 6)
+					if(m_NumberOfSkills < 6)
 					{
 						string type;
 						type = this->BuyButtonFortitude[i]->GetID();
@@ -1097,6 +1075,9 @@ void  HudMenu::UpdateShop()
 						m_NumberOfSkills = 6;
 						m_SkillValue = 1;
 					}
+				}
+				else
+				{
 				}
 			}
 		}

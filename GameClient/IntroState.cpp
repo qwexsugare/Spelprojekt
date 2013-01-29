@@ -15,7 +15,7 @@ void IntroState::update(float dt)
 {
 	this->m_menu->Update(dt);
 	time += dt;
-	if(g_keyboard->getKeyState(VK_SPACE) == g_keyboard->KEY_PRESSED || this->m_menu->m_counter < time)
+	if(g_keyboard->getKeyState(VK_SPACE) == g_keyboard->KEY_PRESSED || this->m_menu->m_counter < time && this->m_menu->forthRun == true)
 	{
 		this->setDone(true);
 		this->m_nextState = State::MAIN_MENU;

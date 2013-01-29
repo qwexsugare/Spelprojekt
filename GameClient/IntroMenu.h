@@ -11,7 +11,11 @@ public:
 	void Update(float _dt);
 	bool MainMenuGameIsDown();
 	float m_counter;
+	float m_time;
+	bool forthRun;
 private:
 	bool firstRun;
+	bool secondRun;
+	bool thirdRun;
 };
 
