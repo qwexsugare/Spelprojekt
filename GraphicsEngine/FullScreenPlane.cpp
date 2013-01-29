@@ -27,11 +27,11 @@ FullScreenPlane::FullScreenPlane(ID3D10Device *device, ID3D10Texture2D *_texture
 
 	this->m_mesh->buffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
 
-	vertexData[2].pos = D3DXVECTOR3(position.x, position.y, 0.0f);
-	vertexData[2].texCoord = D3DXVECTOR2(0.0f, 0.0f);
+	vertexData[2].pos = D3DXVECTOR3(position.x, position.y + 0.25f, 0.0f);
+	vertexData[2].texCoord = D3DXVECTOR2(0.0f, 0.125f);
 
-	vertexData[1].pos = D3DXVECTOR3(position.x + size.x, position.y, 0.0f);
-	vertexData[1].texCoord = D3DXVECTOR2(1.0f, 0.0f);
+	vertexData[1].pos = D3DXVECTOR3(position.x + size.x, position.y + 0.25f, 0.0f);
+	vertexData[1].texCoord = D3DXVECTOR2(1.0f, 0.125f);
 
 	vertexData[0].pos = D3DXVECTOR3(position.x, position.y + size.y, 0.0f);
 	vertexData[0].texCoord = D3DXVECTOR2(0.0f, 1.0f);
@@ -42,8 +42,8 @@ FullScreenPlane::FullScreenPlane(ID3D10Device *device, ID3D10Texture2D *_texture
 	vertexData[4].pos = D3DXVECTOR3(position.x, position.y + size.y, 0.0f);
 	vertexData[4].texCoord = D3DXVECTOR2(0.0f, 1.0f);
 
-	vertexData[3].pos = D3DXVECTOR3(position.x + size.x, position.y, 0.0f);
-	vertexData[3].texCoord = D3DXVECTOR2(1.0f, 0.0f);
+	vertexData[3].pos = D3DXVECTOR3(position.x + size.x, position.y + 0.25f, 0.0f);
+	vertexData[3].texCoord = D3DXVECTOR2(1.0f, 0.125f);
 	
 	this->m_mesh->buffer->Unmap();
 }
