@@ -1032,6 +1032,7 @@ void  HudMenu::UpdateShop()
 				this->BuyButtonFortitude[3]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","3000",0,0,1,12,100,0,INT2(1498,440));
 				this->BuyButtonFortitude[3]->SetID(30);
 			}
+
 			this->BuyButtonFortitude[4] = new Button();
 			this->BuyButtonFortitude[4]->Init(FLOAT2(0.61f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,80));
 
