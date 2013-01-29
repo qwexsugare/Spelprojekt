@@ -168,7 +168,7 @@ void GameState::update(float _dt)
 			i--;
 		}
 	}
-	
+	int gitcommit = 0;
 	static float CAMERA_SPEED = 16.0f;
 	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
