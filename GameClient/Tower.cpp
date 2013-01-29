@@ -10,6 +10,7 @@ Tower::Tower() : ServerEntity()
 
 Tower::Tower(FLOAT3 position)
 {
+	this->m_lifeTime = 10.0f;
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 10.0f;
 	this->m_type = ServerEntity::OtherType;
@@ -25,6 +26,8 @@ Tower::~Tower()
 
 void Tower::update(float dt)
 {
+	this->m_lifeTime = this->m_lifeTime - dt;
+
 	if(this->m_attackCooldown <= 0.0f)
 	{
 		ServerEntity* se = EntityHandler::getClosestEnemy(this);
@@ -38,5 +41,10 @@ void Tower::update(float dt)
 	else
 	{
 		this->m_attackCooldown = this->m_attackCooldown - dt;
+	}
+
+	if(this->m_lifeTime <= 0.0f)
+	{
+		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 	}
 }
