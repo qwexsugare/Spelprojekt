@@ -52,18 +52,55 @@ SettingsMenu::SettingsMenu(void)
 		this->m_Buttons[0]->SetTextBoxValue(true);
 		this->m_Buttons[1]->SetTextBoxValue(false);
 		this->m_Buttons[2]->SetTextBoxValue(false);
+		this->m_Buttons[3]->SetTextBoxValue(false);
+		this->m_Buttons[4]->SetTextBoxValue(false);
+		this->m_Buttons[5]->SetTextBoxValue(false);
 	}
 	if (graphics == 900)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(false);
 		this->m_Buttons[1]->SetTextBoxValue(true);
 		this->m_Buttons[2]->SetTextBoxValue(false);
+		this->m_Buttons[3]->SetTextBoxValue(false);
+		this->m_Buttons[4]->SetTextBoxValue(false);
+		this->m_Buttons[5]->SetTextBoxValue(false);
 	}
 	if (graphics == 1080)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(false);
 		this->m_Buttons[1]->SetTextBoxValue(false);
 		this->m_Buttons[2]->SetTextBoxValue(true);
+		this->m_Buttons[3]->SetTextBoxValue(false);
+		this->m_Buttons[4]->SetTextBoxValue(false);
+		this->m_Buttons[5]->SetTextBoxValue(false);
+	}
+	if (graphics == 800)
+	{
+		this->m_Buttons[0]->SetTextBoxValue(false);
+		this->m_Buttons[1]->SetTextBoxValue(false);
+		this->m_Buttons[2]->SetTextBoxValue(false);
+		this->m_Buttons[3]->SetTextBoxValue(true);
+		this->m_Buttons[4]->SetTextBoxValue(false);
+		this->m_Buttons[5]->SetTextBoxValue(false);
+
+	}
+	if (graphics == 1050)
+	{
+		this->m_Buttons[0]->SetTextBoxValue(false);
+		this->m_Buttons[1]->SetTextBoxValue(false);
+		this->m_Buttons[2]->SetTextBoxValue(false);
+		this->m_Buttons[3]->SetTextBoxValue(false);
+		this->m_Buttons[4]->SetTextBoxValue(true);
+		this->m_Buttons[5]->SetTextBoxValue(false);
+	}
+	if (graphics == 1200)
+	{
+		this->m_Buttons[0]->SetTextBoxValue(false);
+		this->m_Buttons[1]->SetTextBoxValue(false);
+		this->m_Buttons[2]->SetTextBoxValue(false);
+		this->m_Buttons[3]->SetTextBoxValue(false);
+		this->m_Buttons[4]->SetTextBoxValue(false);
+		this->m_Buttons[5]->SetTextBoxValue(true);
 	}
 	/*this->m_Buttons[7] = new Button();
 	this->m_Buttons[7]->Init(FLOAT2(-0.177083333f,  1),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);*/

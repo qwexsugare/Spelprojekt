@@ -11,7 +11,6 @@ GameState::GameState()
 	this->m_hud = new HudMenu();
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_emilmackesFpsText = new TextInput("text3.png", INT2(1100, 1053), 100);
 	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 	this->m_network = new Client();
 
@@ -39,7 +38,6 @@ GameState::~GameState()
 	if(m_minimap)
 		delete this->m_minimap;
 	delete this->m_network;
-	delete this->m_emilmackesFpsText;
 	delete this->m_emilsFps;
 	delete this->m_hud;
 }
@@ -170,9 +168,25 @@ void GameState::update(float _dt)
 			i--;
 		}
 	}
-
+	
 	static float CAMERA_SPEED = 16.0f;
-	if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-5.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
+	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
+	{
+		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt);
+	}
+	else if((g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
+	{
+		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt);
+	}
+	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
+	{
+		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
+	}
+	else if((g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
+	{
+		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt);
+	}
+	/*if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-5.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt, m_terrain->getWidth()-5.0f));
 	}
@@ -187,7 +201,7 @@ void GameState::update(float _dt)
 	else if(g_graphicsEngine->getCamera()->getPos().z > 15.0f && (g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 15.0f));
-	}
+	}*/
 
 	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
 	{
@@ -287,7 +301,6 @@ void GameState::update(float _dt)
 	}
 
 	this->m_hud->Update(_dt);
-	this->m_emilmackesFpsText->update(_dt);
 	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }

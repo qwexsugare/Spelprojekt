@@ -26,7 +26,7 @@ HudMenu::HudMenu(void)
     m_Init_Agility = false;
 	m_Init_Wits = false;
 	m_Init_Fortitude = false;
-	m_DontChange == false;
+	m_DontChange = false;
 	m_OncePerBuy = false;
 	m_Resources = 200000;
 	m_First = 0;
@@ -285,30 +285,32 @@ void HudMenu::Update(float _dt)
 				}
 			}
 			BuyHud();
-			if (g_keyboard->getKeyState(VK_SPACE) == Keyboard::KEY_PRESSED && m_Chat == false)
+			if (g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED && m_Chat == false)
 			{
 				m_Chat = true;
 			}
-		}
-		if(m_Chat == true)
-		{
-			this->m_LabelInput->update(_dt);
-		}
-	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
-	{
-		string m_String = "";
-		m_String.erase(m_String.begin());
-		for(int i = m_Chattext.size()-1; i > 0;i--)
-		{
-			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
-		}
-		m_String = this->m_LabelInput->getText();
-		m_String.erase(m_String.end());
-		this->m_Chattext[0]->setText(m_String);
-		this->m_LabelInput->setText(""); 
-		this->m_Chattext[3]->setText("");
-		m_Chat = false;
 	}
+	else
+	{
+		this->m_LabelInput->update(_dt);
+
+		if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
+		{
+			string m_String = "";
+			m_String.erase(m_String.begin());
+			for(int i = m_Chattext.size()-1; i > 0;i--)
+			{
+				m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+			}
+			m_String = this->m_LabelInput->getText();
+			m_String.erase(m_String.end());
+			this->m_Chattext[0]->setText(m_String);
+			this->m_LabelInput->setText(""); 
+			this->m_Chattext[3]->setText("");
+			m_Chat = false;
+		}
+	}
+
 	LockIsDown();
 }
 void HudMenu::UnInit(int _Type)
@@ -326,7 +328,7 @@ bool HudMenu::LockIsDown()
 		this->m_SkillButtons[4]->ChangeButton("30", false);
 		this->m_SkillButtons[3]->ChangeButton("30", false);
 		this->m_SkillButtons[2]->ChangeButton("30", false);
-		m_DontChange == false;
+		m_DontChange = false;
 		return true;
 	}
 	else
