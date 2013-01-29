@@ -1,10 +1,12 @@
 #include "CloudOfDarknessClientSkillEffect.h"
 #include "SoundWrapper.h"
 #include "CloudOfDarknessEffect.h"
+#include "Graphics.h"
 
 CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _position)
 {
 	m_position = _position;
+	m_graphicalEffect = g_graphicsEngine->createModel("Char1_5", _position);
 	m_lifetime = 0.0f;
 	m_sound = createSoundHandle("rain.wav", false);
 	playSound(m_sound);
@@ -12,6 +14,7 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _posit
 
 CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
 {
+	g_graphicsEngine->removeModel(m_graphicalEffect);
 	stopSound(m_sound);
 	deactivateSound(m_sound);
 }

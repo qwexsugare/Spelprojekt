@@ -120,11 +120,11 @@ HudMenu::HudMenu(Client *_network)
 
 	this->m_SkillButtons.resize(6);
 	this->m_SkillButtons[0] = new Skill_Buttons();
-	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","1",".png",Skill::STUNNING_STRIKE,0,0,1,4,100,false);
+	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","13",".png",Skill::STUNNING_STRIKE,0,0,1,4,100,true);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 
 	this->m_SkillButtons[1] = new Skill_Buttons();
-	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","2",".png",Skill::CLOUD_OF_DARKNESS,0,0,1,4,100,true);
+	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","17",".png",Skill::CLOUD_OF_DARKNESS,0,0,1,4,100,true);
 	this->m_SkillButtons[2] = new Skill_Buttons();
 	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::TELEPORT,0,0,1,4,100,false);
 	this->m_SkillButtons[3] = new Skill_Buttons();

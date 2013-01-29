@@ -19,11 +19,11 @@ GameState::GameState()
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
-	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.8f, 0.8f, 0.8f), FLOAT3(0.2f, 0.2f, 0.2f));
+	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.8f, 0.8f, 0.8f), FLOAT3(0.01f, 0.01f, 0.01f));
 	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT2(0.6f, 0.3f), 50.0f);
 	this->importMap("race");
 }
@@ -68,7 +68,7 @@ void GameState::update(float _dt)
 	if(lol > 1.0f)
 	{
 		stringstream ss;
-		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
+		ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f << " Entities: " << this->m_entities.size();
 		this->m_fpsText->setString(ss.str());
 		lol = -0.5f;
 	}
@@ -310,7 +310,7 @@ void GameState::importMap(string _map)
 {
 	string path = "maps/" + _map + "/";
 
-	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
+	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f);
 	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
 
 	vector<string> blendMaps = vector<string>(2);
@@ -389,7 +389,7 @@ void GameState::importMap(string _map)
 					float x, z;
 					sscanf(buf, "%f %f %f", &rot, &x, &z);
 
-					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, v2.z+z), -rot));
+					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, v2.z+z), rot));
 				}
 			}
 		}
@@ -406,7 +406,7 @@ void GameState::importMap(string _map)
 				{
 					done = true;
 				}
-				else // Else its an actual road piece (at least we hope so because else we are screwed)
+				else
 				{
 					char in[100];
 					FLOAT3 position;
@@ -415,16 +415,16 @@ void GameState::importMap(string _map)
 
 					position.z = v2.z+position.z;
 					rotation.x = rotation.x * (D3DX_PI/180.0f);
-
+					
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);
 
 					position.y = position.y + 1.0f;
 
-					//if(strcmp(in, "Lamp") == 0)
-					//{
-					//	g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f,1.0f), FLOAT3(1.0f, 1.0f,1.0f), 1.5f);
-					//}
+					if(strcmp(in, "Lamp") == 0)
+					{
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f,0.9f), FLOAT3(0.0f, 0.0f,0.0f), 0.7f);
+					}
 				}
 			}
 		}

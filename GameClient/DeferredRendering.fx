@@ -4,7 +4,7 @@ Texture2D diffuseTexture;
 
 SamplerState linearSampler 
 {
-	Filter = MIN_MAG_MIP_LINEAR; // coming up after the break!
+	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Wrap;
 	AddressV = Wrap;
 };
@@ -17,7 +17,7 @@ struct VSSceneIn
 
 struct PSSceneIn
 {
-	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
+	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
 };
 
