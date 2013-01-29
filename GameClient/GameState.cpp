@@ -8,21 +8,23 @@
 
 GameState::GameState()
 {
-	this->m_hud = new HudMenu();
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 	this->m_network = new Client();
+	this->m_hud = new HudMenu(this->m_network);
+
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.50f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.8f, 0.8f, 0.8f), FLOAT3(0.1f, 0.1f, 0.1f));
-	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT2(0.6f, 0.3f), 50.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.8f, 0.8f, 0.8f), FLOAT3(0.01f, 0.01f, 0.01f));
+	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT2(0.6f, 0.3f), 50.0f);
 	this->importMap("race");
 }
 
@@ -38,7 +40,6 @@ GameState::~GameState()
 	if(m_minimap)
 		delete this->m_minimap;
 	delete this->m_network;
-	delete this->m_emilsFps;
 	delete this->m_hud;
 }
 
@@ -67,9 +68,8 @@ void GameState::update(float _dt)
 	if(lol > 1.0f)
 	{
 		stringstream ss;
-		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
+		ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f << " Entities: " << this->m_entities.size();
 		this->m_fpsText->setString(ss.str());
-		this->m_emilsFps->setText(ss.str());
 		lol = -0.5f;
 	}
 
@@ -168,7 +168,7 @@ void GameState::update(float _dt)
 			i--;
 		}
 	}
-	
+
 	static float CAMERA_SPEED = 16.0f;
 	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
@@ -205,13 +205,14 @@ void GameState::update(float _dt)
 
 	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
 	{
+		// Calc some fucken pick ray out mofos
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendMessage(NetworkUseActionMessage(Skill::STUNNING_STRIKE));
+		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z)));
 	}
 	if(g_mouse->isLButtonPressed())
 	{
@@ -290,7 +291,7 @@ void GameState::update(float _dt)
 			float k = (-pickOrig.y)/pickDir.y;
 			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 1.0f, terrainPos.z));
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
 			//e.setPosition(FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
 			this->m_network->sendMessage(e);
 		}
@@ -309,7 +310,7 @@ void GameState::importMap(string _map)
 {
 	string path = "maps/" + _map + "/";
 
-	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
+	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f);
 	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
 
 	vector<string> blendMaps = vector<string>(2);
@@ -410,11 +411,20 @@ void GameState::importMap(string _map)
 					char in[100];
 					FLOAT3 position;
 					FLOAT3 rotation;
-					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.x, &rotation.y, &rotation.z);
+					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
 
 					position.z = v2.z+position.z;
+					rotation.x = rotation.x * (D3DX_PI/180.0f);
 
-					g_graphicsEngine->createModel(key, position);
+					Model *m = g_graphicsEngine->createModel(key, position);
+					m->setRotation(rotation);
+
+					position.y = position.y + 1.0f;
+
+					if(strcmp(in, "Lamp") == 0)
+					{
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f,0.9f), FLOAT3(0.0f, 0.0f,0.0f), 0.7f);
+					}
 				}
 			}
 		}

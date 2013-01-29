@@ -1,8 +1,9 @@
 #include "HudMenu.h"
 
 
-HudMenu::HudMenu(void)
+HudMenu::HudMenu(Client *_network)
 {
+	this->m_network = _network;
 	m_Chat = false;
 	m_Time = 0;
 	m_Delay = 0;
@@ -119,19 +120,19 @@ HudMenu::HudMenu(void)
 
 	this->m_SkillButtons.resize(6);
 	this->m_SkillButtons[0] = new Skill_Buttons();
-	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","1",".png",0,0,1,4,100,false);
+	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","13",".png",Skill::STUNNING_STRIKE,0,0,1,4,100,true);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 
 	this->m_SkillButtons[1] = new Skill_Buttons();
-	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","2",".png",0,0,1,4,100,true);
+	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","17",".png",Skill::CLOUD_OF_DARKNESS,0,0,1,4,100,true);
 	this->m_SkillButtons[2] = new Skill_Buttons();
-	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",0,0,1,4,100,false);
+	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::TELEPORT,0,0,1,4,100,false);
 	this->m_SkillButtons[3] = new Skill_Buttons();
-	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",0,0,1,4,100,true);
+	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::AIM,0,0,1,4,100,true);
 	this->m_SkillButtons[4] = new Skill_Buttons();
-	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",0,0,1,4,100,false);
+	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::AIM,0,0,1,4,100,false);
 	this->m_SkillButtons[5] = new Skill_Buttons();
-	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",0,0,1,4,100,false);
+	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::AIM,0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
 	m_Sprite[0]->playAnimation(INT2(0,0),INT2(9,0),true,10);
@@ -177,6 +178,24 @@ void HudMenu::Update(float _dt)
 			for(int i =m_NumberOfSkills-1; i >=0; i--)
 			{
 				this->m_SkillButtons[i]->Update();
+
+				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
+				{
+					if(this->m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS)
+					{
+						D3DXVECTOR3 pickDir;
+						D3DXVECTOR3 pickOrig;
+						g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+						float k = (-pickOrig.y)/pickDir.y;
+						D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+						this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+					}
+					else if(this->m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE)
+					{
+						this->m_network->sendMessage(NetworkUseActionMessage(this->m_SkillButtons[i]->getSkillId()));
+					}
+				}
 			}
 
 			for(int i = 0; i < m_Buttons.size(); i++)

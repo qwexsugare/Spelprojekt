@@ -194,7 +194,7 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 		modelDistanceToCamera.y -= greatestExtent;
 
 		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
-		if(modelDistanceToCamera.x < 30.0f && modelDistanceToCamera.y < 25.0f)
+		if(modelDistanceToCamera.x < 10.0f && modelDistanceToCamera.y < 8.33f)
 			_models.push(this->m_models[i]);
 
 		// END ADVANCED CHEAT CULLING
@@ -229,7 +229,7 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPo
 		modelDistanceToCamera.y -= greatestExtent;
 
 		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
-		if(modelDistanceToCamera.x < 30.0f && modelDistanceToCamera.y < 25.0f)
+		if(modelDistanceToCamera.x < 10.0f && modelDistanceToCamera.y < 8.33f)
 			_lights.push_back(this->m_lights[i]);
 
 		// END ADVANCED CHEAT CULLING

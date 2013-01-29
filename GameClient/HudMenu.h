@@ -3,12 +3,14 @@
 #include "TextLabel.h"
 #include "TextInput.h"
 #include "Input.h"
+#include "client.h"
+#include "Skill.h"
 #include <sstream>
 class HudMenu :
 	public Menu
 {
 public:
-	HudMenu(void);
+	HudMenu(Client *_network);
 	~HudMenu(void);
 
 	void Update(float _dt);
@@ -16,6 +18,7 @@ public:
 	int SkilledBougth();
 	int ReturnID();
 private:
+	Client *m_network;
 	int		m_Time, 
 			m_NumberOfSkills, 
 			m_SkillValue, 

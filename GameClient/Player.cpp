@@ -116,6 +116,10 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		usedSomething = this->m_teleport->activate(usm.getPosition(), this->m_hero->getId());
 		break;
 
+	case Skill::DEATH_TOWER:
+		EntityHandler::addEntity(new Tower(usm.getPosition()));
+		break;
+
 	default:
 		//Check if the player has the ability and use it
 		break;

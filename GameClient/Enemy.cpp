@@ -4,13 +4,13 @@ Enemy::Enemy() : UnitEntity()
 {
 	m_type = Type::EnemyType;
 	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
-	this->m_goalPosition = FLOAT3(100.0f, 0.0f, 100.0f);
+	this->m_goalPosition = FLOAT3(32.0f, 0.0f, 32.0f);
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
 
-	this->m_movementSpeed = 3.0f;
+	this->m_movementSpeed = 1.5f;
 	this->m_aggroRange = 10.0f;
 	this->m_willPursue = false;
 	this->m_closestHero = 999;
@@ -19,13 +19,13 @@ Enemy::Enemy() : UnitEntity()
 Enemy::Enemy(FLOAT3 _pos) : UnitEntity(_pos)
 {
 	m_type = Type::EnemyType;
-	this->m_goalPosition = FLOAT3(100.0f, 0.0f, 100.0f);
+	this->m_goalPosition = FLOAT3(32.0f, 0.0f, 32.0f);
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
 
-	this->m_movementSpeed = 3.0f;
+	this->m_movementSpeed = 1.5f;
 	this->m_aggroRange = 10.0f;
 	this->m_willPursue = false;
 	this->m_closestHero = 999;
@@ -65,7 +65,8 @@ FLOAT3 avDir = FLOAT3(0,0,0);
 			ServerEntity *se = EntityHandler::getServerEntity(cm->affectedDudeId);
 			if(se != NULL && se->getType() == ServerEntity::HeroType && this->m_attackCooldown <= 0.0f)
 			{
-				EntityHandler::addEntity(new MeleeAttack(this->m_position, 10.0f, cm->affectedDudeId));
+				//EntityHandler::addEntity(new MeleeAttack(this->m_position, 10.0f, cm->affectedDudeId));
+				this->dealDamage(se, 10, 0);
 				this->m_attackCooldown = 1.0f;
 			}
 		}
