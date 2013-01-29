@@ -7,7 +7,8 @@ void Skill_Buttons::Init(FLOAT2 _ScreenPos,
 			 FLOAT2 _Size, 
 			 string _TextureName, 
 			 string _Number, 
-			 string _TextType, 
+			 string _TextType,
+			 unsigned int _skillId, 
 			 float _min, 
 			 float _max, 
 			 float _textSize,
@@ -15,6 +16,7 @@ void Skill_Buttons::Init(FLOAT2 _ScreenPos,
 			 int _DelayTime,
 			 bool _Active)
 {
+	this->m_skillId = _skillId;
 	this->m_ButtonReaction	=	0;
 	this->m_Value			=	0;
 	this->m_id				=	StringtoINT(_Number);	
@@ -89,6 +91,12 @@ void Skill_Buttons::Update()
 		this->m_Delay += 1;
 	}
 }
+
+unsigned int Skill_Buttons::getSkillId()
+{
+	return this->m_skillId;
+}
+
 int Skill_Buttons::GetButtonReaction()
 {
 	return this->m_ButtonReaction;

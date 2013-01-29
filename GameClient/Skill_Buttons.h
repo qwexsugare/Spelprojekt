@@ -20,6 +20,7 @@ private:
 	//----------------------------------------------------------------------------------------------
 		int m_ButtonReaction ;
 		SpriteSheet* m_SkillButton;
+		unsigned int m_skillId;
 		
 		int m_Delay;
 		int m_DelayTime;
@@ -62,7 +63,8 @@ public:
 				FLOAT2 _Size, 
 				string _TextureName, 
 				string _Number,
-				string _TextName,  
+				string _TextName, 
+				unsigned int _skillId,
 				float _min = 0, 
 				float _max = 0, 
 				float _textSize = 1,
@@ -72,6 +74,7 @@ public:
 
 	int Clicked();
 	void Update();
+	unsigned int getSkillId();
 	int GetButtonReaction();
 	void RemoveCooldown();
 	float ReturnSliderValue();

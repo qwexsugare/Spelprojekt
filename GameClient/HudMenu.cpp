@@ -1,8 +1,9 @@
 #include "HudMenu.h"
 
 
-HudMenu::HudMenu(void)
+HudMenu::HudMenu(Client *_network)
 {
+	this->m_network = _network;
 	m_Chat = false;
 	m_Time = 0;
 	m_Delay = 0;
@@ -26,7 +27,7 @@ HudMenu::HudMenu(void)
     m_Init_Agility = false;
 	m_Init_Wits = false;
 	m_Init_Fortitude = false;
-	m_DontChange == false;
+	m_DontChange = false;
 	m_OncePerBuy = false;
 	m_Resources = 200000;
 	m_First = 0;
@@ -119,19 +120,19 @@ HudMenu::HudMenu(void)
 
 	this->m_SkillButtons.resize(6);
 	this->m_SkillButtons[0] = new Skill_Buttons();
-	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","1",".png",0,0,1,4,100,false);
+	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","1",".png",Skill::STUNNING_STRIKE,0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 
 	this->m_SkillButtons[1] = new Skill_Buttons();
-	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","2",".png",0,0,1,4,100,true);
+	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","2",".png",Skill::CLOUD_OF_DARKNESS,0,0,1,4,100,true);
 	this->m_SkillButtons[2] = new Skill_Buttons();
-	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",0,0,1,4,100,false);
+	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::TELEPORT,0,0,1,4,100,false);
 	this->m_SkillButtons[3] = new Skill_Buttons();
-	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",0,0,1,4,100,true);
+	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::AIM,0,0,1,4,100,true);
 	this->m_SkillButtons[4] = new Skill_Buttons();
-	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",0,0,1,4,100,false);
+	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::AIM,0,0,1,4,100,false);
 	this->m_SkillButtons[5] = new Skill_Buttons();
-	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",0,0,1,4,100,false);
+	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::AIM,0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
 	m_Sprite[0]->playAnimation(INT2(0,0),INT2(9,0),true,10);
@@ -177,6 +178,24 @@ void HudMenu::Update(float _dt)
 			for(int i =m_NumberOfSkills-1; i >=0; i--)
 			{
 				this->m_SkillButtons[i]->Update();
+
+				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
+				{
+					if(this->m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS)
+					{
+						D3DXVECTOR3 pickDir;
+						D3DXVECTOR3 pickOrig;
+						g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+						float k = (-pickOrig.y)/pickDir.y;
+						D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+						this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+					}
+					else if(this->m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE)
+					{
+						this->m_network->sendMessage(NetworkUseActionMessage(this->m_SkillButtons[i]->getSkillId()));
+					}
+				}
 			}
 
 			for(int i = 0; i < m_Buttons.size(); i++)
@@ -285,30 +304,32 @@ void HudMenu::Update(float _dt)
 				}
 			}
 			BuyHud();
-			if (g_keyboard->getKeyState(VK_SPACE) == Keyboard::KEY_PRESSED && m_Chat == false)
+			if (g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED && m_Chat == false)
 			{
 				m_Chat = true;
 			}
-		}
-		if(m_Chat == true)
-		{
-			this->m_LabelInput->update(_dt);
-		}
-	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
-	{
-		string m_String = "";
-		m_String.erase(m_String.begin());
-		for(int i = m_Chattext.size()-1; i > 0;i--)
-		{
-			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
-		}
-		m_String = this->m_LabelInput->getText();
-		m_String.erase(m_String.end());
-		this->m_Chattext[0]->setText(m_String);
-		this->m_LabelInput->setText(""); 
-		this->m_Chattext[3]->setText("");
-		m_Chat = false;
 	}
+	else
+	{
+		this->m_LabelInput->update(_dt);
+
+		if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
+		{
+			string m_String = "";
+			m_String.erase(m_String.begin());
+			for(int i = m_Chattext.size()-1; i > 0;i--)
+			{
+				m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+			}
+			m_String = this->m_LabelInput->getText();
+			m_String.erase(m_String.end());
+			this->m_Chattext[0]->setText(m_String);
+			this->m_LabelInput->setText(""); 
+			this->m_Chattext[3]->setText("");
+			m_Chat = false;
+		}
+	}
+
 	LockIsDown();
 }
 void HudMenu::UnInit(int _Type)
@@ -326,7 +347,7 @@ bool HudMenu::LockIsDown()
 		this->m_SkillButtons[4]->ChangeButton("30", false);
 		this->m_SkillButtons[3]->ChangeButton("30", false);
 		this->m_SkillButtons[2]->ChangeButton("30", false);
-		m_DontChange == false;
+		m_DontChange = false;
 		return true;
 	}
 	else

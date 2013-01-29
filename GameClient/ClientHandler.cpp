@@ -9,9 +9,6 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_graphicsEngine = new GraphicsHandler(_hWnd, g_configFile);
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
-	
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 15.0f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
-	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
 	this->m_serverThread = new ServerThread();
 }
@@ -19,7 +16,10 @@ ClientHandler::ClientHandler(HWND _hWnd)
 ClientHandler::~ClientHandler()
 {
 	delete this->m_serverThread;
-	delete this->m_state;
+	if(this->m_state)
+	{
+		delete this->m_state;
+	}
 	delete g_graphicsEngine;
 	delete g_mouse;
 	delete g_keyboard;
@@ -28,7 +28,6 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	this->m_serverThread->Launch();
 	this->m_state = new IntroState();
 
 	__int64 cntsPerSec = 0;
@@ -45,7 +44,7 @@ HRESULT ClientHandler::run()
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
-
+			 
 			this->m_messages.push_back(msg);
 		}
 		else
@@ -118,6 +117,7 @@ void ClientHandler::update(float _dt)
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
+			this->m_serverThread->Launch();
 			this->m_state = new GameState();
 			break;
 		case State::SETTINGS:
@@ -127,6 +127,7 @@ void ClientHandler::update(float _dt)
 			this->m_state = new CreditState();
 			break;
 		case State::EXIT:
+			this->m_state = NULL;
 			PostQuitMessage(0);
 			break;
 		}

@@ -10,6 +10,7 @@ class Tower : public ServerEntity
 private:
 	float m_attackRange;
 	float m_attackCooldown;
+	float m_lifeTime;
 public:
 	Tower();
 	Tower(FLOAT3 position);

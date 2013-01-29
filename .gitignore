@@ -183,6 +183,7 @@ GameClient/menu_textures/Beast-3.png
 GameClient/menu_textures/Button-Buy.png
 GameClient/menu_textures/Button-CharacterMenu-SaveChanges.png
 GameClient/menu_textures/Button-CharacterMenu-StartGame.png
+GameClient/menu_textures/Button-Large.png
 GameClient/menu_textures/Button-LobbyMenu-CharacterInformation.png
 GameClient/menu_textures/Button-LobbyMenu-Chat.png
 GameClient/menu_textures/Button-LobbyMenu-CloseCombat.dds
@@ -203,6 +204,7 @@ GameClient/menu_textures/Button-MainMenu-JoinGame.png
 GameClient/menu_textures/Button-MainMenu-Lore.png
 GameClient/menu_textures/Button-MainMenu-RangeCombat.png
 GameClient/menu_textures/Button-MainMenu-Settings.png
+GameClient/menu_textures/Button-Medium.png
 GameClient/menu_textures/Button-Menu.png
 GameClient/menu_textures/Button-SettingsMenu-SaveChanges.png
 GameClient/menu_textures/Button-Skill-0.png
@@ -237,6 +239,7 @@ GameClient/menu_textures/Button-Skill-7.png
 GameClient/menu_textures/Button-Skill-8.png
 GameClient/menu_textures/Button-Skill-9.png
 GameClient/menu_textures/Button-Skill-Resource.png
+GameClient/menu_textures/Button-Small.png
 GameClient/menu_textures/Button-Text.png
 GameClient/menu_textures/Button-Unlock.png
 GameClient/menu_textures/Button-Unlock.psd
@@ -267,7 +270,12 @@ GameClient/menu_textures/Frame_UP.png
 GameClient/menu_textures/Game-Icon-Big.png
 GameClient/menu_textures/gear.png
 GameClient/menu_textures/GUI-HealtbarHud.png
+GameClient/menu_textures/GUI-Load.png
 GameClient/menu_textures/GUI-Map.png
+GameClient/menu_textures/GUI-New.png
+GameClient/menu_textures/GUI-Save.png
+GameClient/menu_textures/GUI-Side-RemoveSelectionPushed.png
+GameClient/menu_textures/GUI-Side-Road.png
 GameClient/menu_textures/HealthBar.dds
 GameClient/menu_textures/Image_Resource.png
 GameClient/menu_textures/LowerHud-Bar.png
@@ -309,6 +317,16 @@ GameClient/menu_textures/Menu_Hud_Back.dds
 GameClient/menu_textures/Menu_Hud_Back.png
 GameClient/menu_textures/Menu_Hud_Front.dds
 GameClient/menu_textures/Menu_INGAME.png
+GameClient/menu_textures/menu_textures.rar
+GameClient/menu_textures/Mouse_Circle-0.png
+GameClient/menu_textures/Mouse_Circle-1.png
+GameClient/menu_textures/Mouse_Circle-2.png
+GameClient/menu_textures/Mouse_Circle-3.png
+GameClient/menu_textures/Mouse_Circle-4.png
+GameClient/menu_textures/Mouse_Circle-5.png
+GameClient/menu_textures/Mouse_Circle-6.png
+GameClient/menu_textures/Mouse_Circle-7.png
+GameClient/menu_textures/Mouse_Circle-8.png
 GameClient/menu_textures/Resourcehud.png
 GameClient/menu_textures/Upgradebar.png
 GameClient/menu_textures/Upgradebar_Agility.png
