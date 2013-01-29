@@ -128,7 +128,6 @@ PSSceneOut PSScene(PSSceneIn input)
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = color;
-	output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	return output;
 }

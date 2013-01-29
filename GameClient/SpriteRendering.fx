@@ -1,8 +1,8 @@
 Texture2D tex2D;
 
-SamplerState linearSampler 
+SamplerState linearSampler
 {
-	Filter = MIN_MAG_MIP_POINT;
+	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Wrap;
 	AddressV = Wrap;
 };
