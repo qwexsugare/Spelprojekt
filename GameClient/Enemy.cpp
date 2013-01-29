@@ -10,7 +10,7 @@ Enemy::Enemy() : UnitEntity()
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
 
-	this->m_movementSpeed = 3.0f;
+	this->m_movementSpeed = 1.5f;
 	this->m_aggroRange = 10.0f;
 	this->m_willPursue = false;
 	this->m_closestHero = 999;
@@ -25,7 +25,7 @@ Enemy::Enemy(FLOAT3 _pos) : UnitEntity(_pos)
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
 
-	this->m_movementSpeed = 3.0f;
+	this->m_movementSpeed = 1.5f;
 	this->m_aggroRange = 10.0f;
 	this->m_willPursue = false;
 	this->m_closestHero = 999;

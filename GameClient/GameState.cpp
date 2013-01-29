@@ -8,10 +8,10 @@
 
 GameState::GameState()
 {
-	this->m_hud = new HudMenu();
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_network = new Client();
+	this->m_hud = new HudMenu(this->m_network);
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
@@ -202,12 +202,6 @@ void GameState::update(float _dt)
 
 	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
 	{
-		D3DXVECTOR3 pickDir;
-		D3DXVECTOR3 pickOrig;
-		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
-		float k = (-pickOrig.y)/pickDir.y;
-		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 		this->m_network->sendMessage(NetworkUseActionMessage(Skill::STUNNING_STRIKE));
 	}
 	if(g_mouse->isLButtonPressed())

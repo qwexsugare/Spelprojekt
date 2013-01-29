@@ -1,8 +1,9 @@
 #include "HudMenu.h"
 
 
-HudMenu::HudMenu(void)
+HudMenu::HudMenu(Client *_network)
 {
+	this->m_network = _network;
 	m_Chat = false;
 	m_Time = 0;
 	m_Delay = 0;
@@ -177,6 +178,11 @@ void HudMenu::Update(float _dt)
 			for(int i =m_NumberOfSkills-1; i >=0; i--)
 			{
 				this->m_SkillButtons[i]->Update();
+
+				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
+				{
+					this->m_network->sendMessage(NetworkUseActionMessage(Skill::STUNNING_STRIKE));
+				}
 			}
 
 			for(int i = 0; i < m_Buttons.size(); i++)
