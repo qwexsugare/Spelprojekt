@@ -5,13 +5,14 @@
 CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _position)
 {
 	m_position = _position;
-
-	m_sound = createSoundHandle("orb.wav", false);
+	m_lifetime = 0.0f;
+	m_sound = createSoundHandle("rain.wav", false);
 	playSound(m_sound);
 }
 
 CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
 {
+	stopSound(m_sound);
 	deactivateSound(m_sound);
 }
 

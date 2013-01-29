@@ -49,7 +49,7 @@ float PointLight::getRadius()
 	return this->m_radius;
 }
 
-DirectX::BoundingSphere* PointLight::getBoundingSphere()
+DirectX::BoundingSphere* PointLight::getBs()
 {
 	return this->m_boundingSphere;
 }

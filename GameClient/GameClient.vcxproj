@@ -159,6 +159,7 @@
     <ClCompile Include="ChainStrikeEffect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
+    <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarknessEffect.cpp" />

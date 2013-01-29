@@ -7,8 +7,9 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 	m_damage = _damage;
 	m_position = _position;
 
-	this->m_obb = new BoundingOrientedBox();
-	m_modelId = 0;
+	this->m_obb = NULL;
+	this->m_bs = new BoundingSphere(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), AOE);
+	m_visible = false;
 	m_timer = 0.0f;
 	m_type = OtherType;
 
@@ -16,9 +17,20 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 
 	for(int i = 0; i < enemies->size(); i++)
 	{
-		if(((*enemies)[i]->getPosition()-m_position).length() <= AOE)
+		ServerEntity* enemy = (*enemies)[i];
+		if(enemy->getObb())
 		{
-			this->dealDamage((*enemies)[i], this->m_damage, false);
+			if(enemy->getObb()->Intersects(*m_bs))
+			{
+				this->dealDamage((*enemies)[i], this->m_damage, false);
+			}
+		}
+		else if(enemy->getBs())
+		{
+			if(enemy->getBs()->Intersects(*m_bs))
+			{
+				this->dealDamage((*enemies)[i], this->m_damage, false);
+			}
 		}
 	}
 

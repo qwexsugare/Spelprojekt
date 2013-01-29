@@ -9,7 +9,7 @@ ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon,
 	m_maxJumps = _maxJumps;
 	this->m_type = OtherType;
 	this->m_obb = new BoundingOrientedBox();
-	m_modelId = 0;
+	m_visible = false;
 	m_jumpTimer = 0.0f;
 	m_jumps = 0;
 }
