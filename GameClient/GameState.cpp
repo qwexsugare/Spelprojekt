@@ -11,7 +11,6 @@ GameState::GameState()
 	this->m_hud = new HudMenu();
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 	this->m_network = new Client();
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
@@ -38,7 +37,6 @@ GameState::~GameState()
 	if(m_minimap)
 		delete this->m_minimap;
 	delete this->m_network;
-	delete this->m_emilsFps;
 	delete this->m_hud;
 }
 
@@ -69,7 +67,6 @@ void GameState::update(float _dt)
 		stringstream ss;
 		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
 		this->m_fpsText->setString(ss.str());
-		this->m_emilsFps->setText(ss.str());
 		lol = -0.5f;
 	}
 

@@ -16,7 +16,6 @@ class GameState : public State
 private:
 	HudMenu *m_hud;
 	Text* m_fpsText;
-	TextLabel* m_emilsFps;
 	vector<Entity*> m_entities;
 	float m_rotation;
 	Terrain* m_terrain;
