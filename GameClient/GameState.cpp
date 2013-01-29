@@ -389,7 +389,7 @@ void GameState::importMap(string _map)
 					float x, z;
 					sscanf(buf, "%f %f %f", &rot, &x, &z);
 
-					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, v2.z+z), -rot));
+					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, v2.z+z), rot));
 				}
 			}
 		}
@@ -406,7 +406,7 @@ void GameState::importMap(string _map)
 				{
 					done = true;
 				}
-				else // Else its an actual road piece (at least we hope so because else we are screwed)
+				else
 				{
 					char in[100];
 					FLOAT3 position;
@@ -415,7 +415,7 @@ void GameState::importMap(string _map)
 
 					position.z = v2.z+position.z;
 					rotation.x = rotation.x * (D3DX_PI/180.0f);
-
+					
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);
 
