@@ -144,12 +144,10 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 	switch(usm.getActionId())
 	{
 	case Skill::STUNNING_STRIKE:
-		//EntityHandler::addEntity(new Tower(this->m_hero->getPosition()));
 		usedSomething = m_stunningStrike->activate(this->m_hero->getId());
 		break;
 		
 	case Skill::DEMONIC_PRESENCE:
-		//EntityHandler::addEntity(new Tower(this->m_hero->getPosition()));
 		usedSomething = m_demonicPresence->activate(this->m_hero->getId());
 		break;
 

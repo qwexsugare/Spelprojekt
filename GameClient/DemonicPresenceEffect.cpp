@@ -97,7 +97,28 @@ void DemonicPresenceEffect::update(float _dt)
 			vector<ServerEntity*> heroes = EntityHandler::getAllHeroes();
 			for(int i = 0; i < heroes.size(); i++)
 			{
+				if(heroes[i]->getId() != m_caster)
+				{
+					bool alreadyAffected = false;
+					for(int j = 0; m_affectedGuys.size(); j++)
+					{
+						if(heroes[i]->getId() == m_affectedGuys[i])
+						{
+							alreadyAffected = true;
+							j = m_affectedGuys.size();
+						}
+					}
 
+					if(!alreadyAffected)
+					{
+						if(heroes[i]->contains(*m_bs) != ContainmentType::DISJOINT)
+						{
+							m_affectedGuys.push_back(heroes[i]->getId());
+							((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED_BOOST);
+							((UnitEntity*)heroes.at(i))->alterAttackSpeed(ATTACK_SPEED_BOOST);
+						}
+					}
+				}
 			}
 		}
 	}
