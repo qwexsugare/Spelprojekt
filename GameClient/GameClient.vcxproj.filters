@@ -251,8 +251,6 @@
 <Filter>Server\Network</Filter>
     </ClCompile>    
     <ClCompile Include="HealingTouch.cpp">
-      <Filter>Skills</Filter>
-    </ClCompile>
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkSkillBoughtMessage.cpp">
