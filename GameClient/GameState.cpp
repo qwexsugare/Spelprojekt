@@ -158,6 +158,15 @@ void GameState::update(float _dt)
 		// Do something!
 	}
 
+	while(this->m_network->skillBoughtQueueEmpty() == false)
+	{
+		NetworkSkillBoughtMessage e = this->m_network->skillBoughtQueueFront();
+		
+		// Do something!
+		this->m_hud->addSkill(e.getActionId());
+		this->m_hud->setResources(e.getResources());
+	}
+
 	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 	{
 		m_ClientSkillEffects[i]->update(_dt);

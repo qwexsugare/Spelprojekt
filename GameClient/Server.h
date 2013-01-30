@@ -17,6 +17,7 @@
 #include "NetworkCreateActionMessage.h"
 #include "NetworkCreateActionPositionMessage.h"
 #include "NetworkCreateActionTargetMessage.h"
+#include "NetworkSkillBoughtMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>

@@ -110,11 +110,15 @@ void Server::handleMessages()
 	NetworkCreateActionMessage cam;
 	NetworkCreateActionPositionMessage capm;
 	NetworkCreateActionTargetMessage catm;
+	NetworkSkillBoughtMessage sbm;
 
 	RemoveServerEntityMessage *m1;
 	CreateActionMessage *m2;
 	CreateActionPositionMessage *m3;
 	CreateActionTargetMessage *m4;
+	SkillBoughtMessage *m5;
+
+	sf::Packet packet;
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
@@ -144,6 +148,17 @@ void Server::handleMessages()
 			m4 = (CreateActionTargetMessage*)m;			
 			catm = NetworkCreateActionTargetMessage(m4->actionId, m4->senderId, m4->targetId, m4->position);
 			this->broadcast(catm);		
+			break;
+
+		case Message::SkillBought:
+			m5 = (SkillBoughtMessage*)m;
+			sbm = NetworkSkillBoughtMessage(m5->actionId, m5->resources);
+			packet<<sbm;
+
+			this->m_mutex.Lock();
+			this->clients[m5->playerId].Send(packet);
+			this->m_mutex.Unlock();
+
 			break;
 		}
 
@@ -293,6 +308,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 	NetworkUseActionMessage ua;
 	NetworkUseActionPositionMessage uap;
 	NetworkUseActionTargetMessage uat;
+	NetworkBuySkillMessage bs;
 
 	switch(type)
 	{
@@ -318,7 +334,10 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		break;
 
 	case NetworkMessage::MESSAGE_TYPE::BuySkill:
-
+		packet >> bs;
+		this->m_mutex.Lock();
+		this->m_players[socketIndex]->handleBuySkillMessage(bs);
+		this->m_mutex.Unlock();
 		break;
 
 	case NetworkMessage::MESSAGE_TYPE::SelectHero:

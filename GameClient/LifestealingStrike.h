@@ -8,6 +8,8 @@ class LifestealingStrike : public Skill
 private:
 	unsigned int m_senderId;
 public:
+	static const unsigned int COST = 2200;
+
 	LifestealingStrike();
 	~LifestealingStrike();
 

@@ -8,6 +8,8 @@ class PhysicalResistance : public Skill
 private:
 	unsigned int m_senderId;
 public:
+	static const unsigned int COST = 900;
+
 	PhysicalResistance();
 	~PhysicalResistance();
 

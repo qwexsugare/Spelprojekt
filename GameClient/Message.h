@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, SkillBought};
 
 	Type type;
 	int senderId;
@@ -104,5 +104,21 @@ struct CreateActionTargetMessage : Message
 		this->senderId = _senderId;
 		this->targetId = _targetId;
 		this->position = _position;
+	}
+};
+
+struct SkillBoughtMessage : Message
+{
+	unsigned int actionId;
+	unsigned int playerId;
+	unsigned int resources;
+
+	SkillBoughtMessage(unsigned int _actionId, unsigned int _playerId, unsigned int _resources)
+	{
+		this->type = Type::SkillBought;
+		this->reciverId = 1;
+		this->actionId = _actionId;
+		this->playerId = _playerId;
+		this->resources = _resources;
 	}
 };

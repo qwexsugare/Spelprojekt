@@ -69,7 +69,8 @@ public:
 				int _DelayTime = 100,
 				int _Cost = 0,
 				INT2 _TextPos = INT2(0,0),
-				bool _TextBox = false);
+				bool _TextBox = false,
+				int _id = 0);
 
 	void Button::RemoveSprite();
 	int Clicked();
@@ -78,9 +79,15 @@ public:
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
 	void SetID(int _id);
-	string GetID();
+	int GetID();
 	int LoseAmountOfResources(int _resources);
 	int GetValue();
 	void SetTextBoxValue(bool _change);
+	void setVisible(bool _visible);
+	FLOAT2 getPos();
+	int getCost();
+	string getText();
+	INT2 getTextPos();
+	string getTextureName();
 };
 

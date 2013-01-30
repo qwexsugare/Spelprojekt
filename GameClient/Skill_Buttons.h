@@ -80,7 +80,7 @@ public:
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
 	int StringtoINT(string stringInput);
-	void ChangeButton(string _Number, bool _Active);
+	void ChangeButton(string _Number, bool _Active, int id);
 	void ChangAbleBind(bool _Change);
 	int Skill_Buttons::ReturnClicked();
 	string setID(string _ID);

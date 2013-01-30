@@ -3,6 +3,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
+	this->m_resources = 20000;
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = new Hero();
 	this->m_hero->setPosition(FLOAT3(50.0f, 0.0f, 50.0f));
@@ -15,15 +16,10 @@ Player::Player(unsigned int id)
 	EntityHandler::addEntity(m_hero);
 
 	this->m_skills.push_back(new PoisonStrike());
-	this->m_skills.push_back(new PoisonStrike());
-	this->m_skills.push_back(new LifestealingStrike());
 	this->m_skills.push_back(new LifestealingStrike());
 
 	this->m_skills[0]->activate(this->m_hero->getId());
 	this->m_skills[1]->activate(this->m_hero->getId());
-	this->m_skills[2]->activate(this->m_hero->getId());
-	this->m_skills[3]->activate(this->m_hero->getId());
-
 
 }
 
@@ -78,6 +74,64 @@ void Player::handleAttackMessage(AttackMessage am)
 void Player::handleEntityAttackMessage(AttackEntityMessage eam)
 {
 	this->m_hero->setTarget(eam.getTargetId());
+}
+
+void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
+{
+	if(this->m_skills.size() < 6)
+	{
+		bool skillBought = false;
+
+		switch(bsm.getActionId())
+		{
+		case Skill::AIM:
+			if(this->m_resources >= Aim::COST)
+			{
+				Aim* a = new Aim();
+				a->activate(this->m_hero->getId());
+				this->m_skills.push_back(a);
+				this->m_resources = this->m_resources - Aim::COST;
+				skillBought = true;
+			}
+
+			break;
+		case Skill::CHAIN_STRIKE:
+			if(this->m_resources >= ChainStrike::COST)
+			{
+				this->m_skills.push_back(new ChainStrike());
+				this->m_resources = this->m_resources - ChainStrike::COST;
+				skillBought = true;
+			}
+
+			break;
+		case Skill::CLOUD_OF_DARKNESS:
+			if(this->m_resources >= CloudOfDarkness::COST)
+			{
+				skillBought = true;
+			}
+
+			break;
+		case Skill::DEADLY_STRIKE:
+			if(this->m_resources >= DeadlyStrike::COST)
+			{
+				skillBought = true;
+			}
+
+			break;
+		case Skill::GREED:
+			if(this->m_resources >= Greed::COST)
+			{
+				skillBought = true;
+			}
+
+			break;
+		}
+
+		if(skillBought == true)
+		{
+			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(bsm.getActionId(), this->m_id, this->m_resources));
+		}
+	}
 }
 
 void Player::update(float _dt)

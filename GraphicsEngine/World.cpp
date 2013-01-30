@@ -345,18 +345,21 @@ void World::render()
 	// Render texts
 	for(int i = 0; i < this->m_myTexts.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(m_myTexts[i]->getBuffer(), sizeof(Vertex));
-
-		this->m_spriteRendering->setModelMatrix(this->m_myTexts[i]->getModelMatrix());
-		this->m_spriteRendering->setTexture(m_myTexts[i]->getTexture());
-
-		D3D10_TECHNIQUE_DESC techDesc;
-		this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
-
-		for( UINT p = 0; p < techDesc.Passes; p++ )
+		if(this->m_myTexts[i]->getVisible() == true)
 		{
-			this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(m_myTexts[i]->getNumberOfPoints(), 0);
+			this->m_deviceHandler->setVertexBuffer(m_myTexts[i]->getBuffer(), sizeof(Vertex));
+
+			this->m_spriteRendering->setModelMatrix(this->m_myTexts[i]->getModelMatrix());
+			this->m_spriteRendering->setTexture(m_myTexts[i]->getTexture());
+
+			D3D10_TECHNIQUE_DESC techDesc;
+			this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{
+				this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(m_myTexts[i]->getNumberOfPoints(), 0);
+			}
 		}
 	}
 	

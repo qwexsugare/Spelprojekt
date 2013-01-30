@@ -8,6 +8,8 @@ private:
 	static const float COOLDOWN;
 	static const int RANGE = 5;
 public:
+	static const unsigned int COST = 3500;
+
 	CloudOfDarkness();
 	~CloudOfDarkness();
 

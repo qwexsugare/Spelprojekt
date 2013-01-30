@@ -8,6 +8,8 @@ private:
 	static const float COOLDOWN;
 	static const int RANGE = 50;
 public:
+	static const unsigned int COST = 500;
+
 	Teleport();
 	~Teleport();
 

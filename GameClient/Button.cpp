@@ -14,7 +14,8 @@ void Button::Init(FLOAT2 _ScreenPos,
 			 int _DelayTime,
 			 int _Cost,
 			 INT2 _TextPos,
-			 bool _TextBox)
+			 bool _TextBox,
+			 int _id)
 {
 	this->m_ButtonReaction	=	0;
 	this->m_Value = 0;
@@ -45,7 +46,7 @@ void Button::Init(FLOAT2 _ScreenPos,
 	this->m_Cost			=   _Cost;
 	this->m_TextPos.x		=	_TextPos.x;
 	this->m_TextPos.y		=	_TextPos.y;
-	this->m_ID				=	0;
+	this->m_ID				=	_id;
 	this->m_TextBox			=	_TextBox;
 	this->m_Label			=	new TextLabel(_TextName, "text1.png",INT2(m_TextPos.x, m_TextPos.y),100);
 	m_Button				=	g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
@@ -197,12 +198,9 @@ void Button::SetID(int _id)
 {
 	this->m_ID = _id;
 }
-string Button::GetID()
+int Button::GetID()
 {
-	stringstream ss;
-	ss << this->m_ID;
-	string tmp = ss.str();
-	return tmp;
+	return this->m_ID;
 }
 int Button::GetValue()
 {
@@ -211,4 +209,35 @@ int Button::GetValue()
 void Button::SetTextBoxValue(bool _change)
 {
 	this->m_TextBox = _change;
+}
+
+void Button::setVisible(bool _visible)
+{
+	this->m_Button->setVisible(_visible);
+	this->m_Label->setVisible(_visible);
+}
+
+FLOAT2 Button::getPos()
+{
+	return this->m_Pos;
+}
+
+int Button::getCost()
+{
+	return this->m_Cost;
+}
+
+string Button::getText()
+{
+	return this->m_ButtonText;
+}
+
+INT2 Button::getTextPos()
+{
+	return this->m_TextPos;
+}
+
+string Button::getTextureName()
+{
+	return this->m_TextureName;
 }

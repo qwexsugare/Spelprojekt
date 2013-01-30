@@ -8,6 +8,8 @@ class PoisonStrike : public Skill
 private:
 	unsigned int m_senderId;
 public:
+	static const unsigned int COST = 1700;
+
 	PoisonStrike();
 	~PoisonStrike();
 
