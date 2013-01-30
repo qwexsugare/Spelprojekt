@@ -364,6 +364,7 @@ void  HudMenu::UpdateShop()
 }
 int HudMenu::ButtonClicked()
 {
+<<<<<<< HEAD
 	return 0;
 }
 int HudMenu::SkilledBougth()
@@ -374,6 +375,62 @@ int  HudMenu::ReturnID()
 {
 	return 0;
 }
+=======
+	if(m_Buy_Tower == true)
+	{
+		if (m_Init_Tower == 1 && BuyButtonTower.size() == 0)
+		{
+			this->m_Images[5]->setPosition(FLOAT2(-0.56f,0.3f));
+			this->BuyButtonTower.resize(4);
+			if(m_Resources >= 0)
+			{
+				this->BuyButtonTower[0] = new Button();
+				this->BuyButtonTower[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-0.png","0",0,0,1,12,100,0,INT2(422,80));
+				this->BuyButtonTower[0]->SetID(0);
+			}
+			else
+			{
+				this->BuyButtonTower[0] = new Button();
+				this->BuyButtonTower[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","0",0,0,1,12,100,0,INT2(422,80));
+				this->BuyButtonTower[0]->SetID(30);
+			}
+			if(m_Resources >= 3500)
+			{
+				this->BuyButtonTower[1] = new Button();
+				this->BuyButtonTower[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-12.png","3500",0,0,1,12,100,3500,INT2(422,200));
+				this->BuyButtonTower[1]->SetID(12);
+			}
+			else
+			{
+				this->BuyButtonTower[1] = new Button();
+				this->BuyButtonTower[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","3500",0,0,1,12,100,0,INT2(422,200));
+				this->BuyButtonTower[1]->SetID(30);
+			}
+			this->BuyButtonTower[2] = new Button();
+			this->BuyButtonTower[2]->Init(FLOAT2(-0.50f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,80));
+
+			this->BuyButtonTower[3] = new Button();
+			this->BuyButtonTower[3]->Init(FLOAT2(-0.50f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,200));
+
+			m_Init_Tower = 0;
+		}
+		for(int i = 0; i < 2; i++)
+		{
+			this->BuyButtonTower[i]->Update();
+			if(bool(this->BuyButtonTower[i]->Clicked()) == true)
+			{
+				if(i !=0)
+				{
+					if(m_NumberOfSkills <  6)
+					{
+						string type;
+						type = this->BuyButtonTower[i]->GetID();
+						if (type != "30")
+						{
+							m_NumberOfSkills++;
+							m_DontChange = false;
+							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
+>>>>>>> 248bda33054c0c0ccf402e1f15d5199f0f80a73f
 
 void HudMenu::displayShop(bool _visible)
 {
@@ -387,13 +444,186 @@ void HudMenu::displayShop(bool _visible)
 		{
 			this->m_disabledShopButtons[i]->setVisible(_visible);
 		}
+<<<<<<< HEAD
+=======
+		for(int i = 0; i < 5; i++)
+		{
+			this->BuyButtonStrength[i]->Update();
+			if(bool(this->BuyButtonStrength[i]->Clicked()) == true)
+			{
+				if(i !=0)
+				{
+					if(m_NumberOfSkills < 6)
+					{
+						string type;
+						type = this->BuyButtonStrength[i]->GetID();
+						if (type != "30")
+						{
+							m_NumberOfSkills++;
+							m_DontChange = false;
+							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
+>>>>>>> 248bda33054c0c0ccf402e1f15d5199f0f80a73f
 
 		this->m_resourceImages[i]->setVisible(_visible);
 	}
 
+<<<<<<< HEAD
 	for(int i = 0; i < this->m_shopBackground.size(); i++)
 	{
 		this->m_shopBackground[i]->setVisible(_visible);
+=======
+			this->BuyButtonAgility[6] = new Button();
+			this->BuyButtonAgility[6]->Init(FLOAT2(0.06f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,80));
+
+			this->BuyButtonAgility[7] = new Button();
+			this->BuyButtonAgility[7]->Init(FLOAT2(0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,200));
+
+			m_Init_Agility = 0;
+		}
+		for(int i = 0; i < 4; i++)
+		{
+			this->BuyButtonAgility[i]->Update();
+			if(bool(this->BuyButtonAgility[i]->Clicked()) == true)
+			{
+				if(i !=0)
+				{
+					if(m_NumberOfSkills  < 6)
+					{
+						string type;
+						type = this->BuyButtonAgility[i]->GetID();
+						if (type != "30")
+						{
+							m_NumberOfSkills++;
+							m_DontChange = false;
+							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
+	
+							m_Resources = this->BuyButtonAgility[i]->LoseAmountOfResources(m_Resources);
+							m_LoseMoney = 1;        
+						}
+					}
+					if(m_NumberOfSkills  >= 6)
+					{
+						m_DontChange = false;
+						m_NumberOfSkills = 6;
+					}
+				}
+				else
+				{
+				}
+			}
+		}
+	}
+	else if (m_Buy_Agility == false && BuyButtonAgility.size() > 0)
+	{	
+		this->m_Images[7]->setPosition(FLOAT2(0.0f,1.8f));
+		for(int i = 0; i < this->BuyButtonAgility.size();i++)
+		{
+			this->BuyButtonAgility[i]->RemoveSprite();
+			delete this->BuyButtonAgility[i];
+		}
+		this->BuyButtonAgility.clear();
+	}
+	if (m_Buy_Wits == true)
+	{
+		if (m_Init_Wits == 1 &&  BuyButtonWits.size() == 0)
+		{
+			this->m_Images[8]->setPosition(FLOAT2(0.28f,0.3f));
+			this->BuyButtonWits.resize(8);
+			if(m_Resources >= 0)
+			{
+				this->BuyButtonWits[0] = new Button();
+				this->BuyButtonWits[0]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-3.png","0",0,0,1,12,100,0,INT2(1228,80));
+				this->BuyButtonWits[0]->SetID(3);
+			}
+			else
+			{
+				this->BuyButtonWits[0] = new Button();
+				this->BuyButtonWits[0]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","0",0,0,1,12,100,0,INT2(1228,80));
+				this->BuyButtonWits[0]->SetID(30);
+			}
+			if(m_Resources >= 1700)
+			{
+				this->BuyButtonWits[1] = new Button();
+				this->BuyButtonWits[1]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-10.png","1700",0,0,1,12,100,1700,INT2(1228,200));
+				this->BuyButtonWits[1]->SetID(10);
+			}
+			else
+			{
+				this->BuyButtonWits[1] = new Button();
+				this->BuyButtonWits[1]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","1700",0,0,1,12,100,0,INT2(1228,200));
+				this->BuyButtonWits[1]->SetID(30);
+			}
+			if(m_Resources >= 2500)
+			{
+				this->BuyButtonWits[2] = new Button();
+				this->BuyButtonWits[2]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-14.png","2500",0,0,1,12,100,2500,INT2(1228,324));
+				this->BuyButtonWits[2]->SetID(14);
+			}
+			else
+			{
+				this->BuyButtonWits[2] = new Button();
+				this->BuyButtonWits[2]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","2500",0,0,1,12,100,0,INT2(1228,324));
+				this->BuyButtonWits[2]->SetID(30);
+			}
+			if(m_Resources >= 3500)
+			{
+				this->BuyButtonWits[3] = new Button();
+				this->BuyButtonWits[3]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-17.png","3500",0,0,1,12,100,3500,INT2(1228,440));
+				this->BuyButtonWits[3]->SetID(17);
+			}
+			else
+			{
+				this->BuyButtonWits[3] = new Button();
+				this->BuyButtonWits[3]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","3500",0,0,1,12,100,0,INT2(1228,440));
+				this->BuyButtonWits[3]->SetID(30);
+			}
+
+			this->BuyButtonWits[4] = new Button();
+			this->BuyButtonWits[4]->Init(FLOAT2(0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,80));
+
+			this->BuyButtonWits[5] = new Button();
+			this->BuyButtonWits[5]->Init(FLOAT2(0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,200));
+
+			this->BuyButtonWits[6] = new Button();
+			this->BuyButtonWits[6]->Init(FLOAT2(0.34f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,80));
+
+			this->BuyButtonWits[7] = new Button();
+			this->BuyButtonWits[7]->Init(FLOAT2(0.34f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-Resource.png","",0,0,1,12,100,0,INT2(422,200));
+			m_Init_Wits = 0;
+		}
+		for(int i = 0; i < 4; i++)
+		{
+			this->BuyButtonWits[i]->Update();
+			if(bool(this->BuyButtonWits[i]->Clicked()) == true)
+			{
+				if(i !=0)
+				{
+					if(m_NumberOfSkills < 6)
+					{
+						string type;
+						type = this->BuyButtonWits[i]->GetID();
+						if (type != "30")
+						{
+							m_NumberOfSkills++;
+							m_DontChange = false;
+							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
+
+							m_Resources = this->BuyButtonWits[i]->LoseAmountOfResources(m_Resources);
+							m_LoseMoney = 1;
+						}
+					}
+					if(m_NumberOfSkills >= 6)
+					{
+						m_DontChange = false;
+						m_NumberOfSkills = 6;
+					}
+				}
+								else
+				{
+				}
+			}
+		}
+>>>>>>> 248bda33054c0c0ccf402e1f15d5199f0f80a73f
 	}
 }
 
@@ -405,6 +635,7 @@ void HudMenu::addSkill(unsigned int _skillId)
 		{
 			this->m_SkillButtons[this->m_NumberOfSkills - 1]->ChangeButton(this->m_shopButtons[i]->getTextureName(), true, _skillId);
 			this->m_NumberOfSkills++;
+			this->m_SkillValue++;
 		}
 	}
 }
@@ -422,9 +653,41 @@ void HudMenu::setResources(unsigned int _resources)
 	{
 		if(this->m_shopButtons[i]->getCost() > this->m_Resources)
 		{
+<<<<<<< HEAD
 			this->m_shopButtons[i]->setVisible(false);
 			this->m_disabledShopButtons[i]->setVisible(true);
 			this->m_canAfford[i] = false;
+=======
+			this->BuyButtonFortitude[i]->Update();
+			if(bool(this->BuyButtonFortitude[i]->Clicked()) == true)
+			{
+				if(i !=0)
+				{
+					if(m_NumberOfSkills < 6)
+					{
+						string type;
+						type = this->BuyButtonFortitude[i]->GetID();
+						if (type != "30")
+						{
+							m_NumberOfSkills++;
+							m_DontChange = false;
+							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
+
+							m_Resources = this->BuyButtonFortitude[i]->LoseAmountOfResources(m_Resources);
+							m_LoseMoney = 1;
+						}
+					}
+					if(m_NumberOfSkills >= 6)
+					{
+						m_DontChange = false;
+						m_NumberOfSkills = 6;
+					}
+				}
+				else
+				{
+				}
+			}
+>>>>>>> 248bda33054c0c0ccf402e1f15d5199f0f80a73f
 		}
 		else
 		{
