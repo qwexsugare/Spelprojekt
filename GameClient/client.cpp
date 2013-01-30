@@ -46,6 +46,7 @@ void Client::Run()
 	while(this->m_hostSocket.IsValid())
 	{
 		sf::Packet packet;
+
 		if (this->m_hostSocket.Receive(packet) == sf::Socket::Done)
 		{
 			NetworkEntityMessage em;

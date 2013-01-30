@@ -9,7 +9,7 @@ HudMenu::HudMenu(Client *_network)
 	m_Delay = 0;
 	m_DelayTime = 10;
 	m_SkillHud = -1.0f;
-	m_NumberOfSkills = 6;
+	m_NumberOfSkills = 0;
 	int TmpPos = m_NumberOfSkills * 98;
 	m_DontChange = false;
 	m_Buy = false;
@@ -93,19 +93,18 @@ HudMenu::HudMenu(Client *_network)
 
 	this->m_SkillButtons.resize(6);
 	this->m_SkillButtons[0] = new Skill_Buttons();
-	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","13",".png",Skill::STUNNING_STRIKE,0,0,1,4,100,true);
+	this->m_SkillButtons[0]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
-
 	this->m_SkillButtons[1] = new Skill_Buttons();
-	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","17",".png",Skill::CLOUD_OF_DARKNESS,0,0,1,4,100,true);
+	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,4,100,false);
 	this->m_SkillButtons[2] = new Skill_Buttons();
-	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","18",".png",Skill::TELEPORT,0,0,1,4,100,true);
+	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,4,100,false);
 	this->m_SkillButtons[3] = new Skill_Buttons();
-	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","19",".png",Skill::HEALING_TOUCH, 0,0,1,4,100,true);
+	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE, 0,0,1,4,100,false);
 	this->m_SkillButtons[4] = new Skill_Buttons();
-	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","16",".png",Skill::DEMONIC_PRESENCE,0,0,1,4,100,true);
+	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,4,100,false);
 	this->m_SkillButtons[5] = new Skill_Buttons();
-	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","14",".png",Skill::CHAIN_STRIKE,0,0,1,4,100,true);
+	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
 	m_Sprite[0]->playAnimation(INT2(0,0),INT2(9,0),true,10);
@@ -403,8 +402,9 @@ void HudMenu::addSkill(unsigned int _skillId)
 	{
 		if(this->m_shopButtons[i]->GetID() == _skillId)
 		{
-			this->m_SkillButtons[this->m_NumberOfSkills - 1]->ChangeButton(this->m_shopButtons[i]->getTextureName(), true, _skillId);
+			this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_shopButtons[i]->getTextureName(), true, _skillId);
 			this->m_NumberOfSkills++;
+			this->m_DontChange = false;
 		}
 	}
 }
@@ -422,14 +422,10 @@ void HudMenu::setResources(unsigned int _resources)
 	{
 		if(this->m_shopButtons[i]->getCost() > this->m_Resources)
 		{
-			this->m_shopButtons[i]->setVisible(false);
-			this->m_disabledShopButtons[i]->setVisible(true);
 			this->m_canAfford[i] = false;
 		}
 		else
 		{
-			this->m_shopButtons[i]->setVisible(true);
-			this->m_disabledShopButtons[i]->setVisible(false);
 			this->m_canAfford[i] = true;
 		}
 	}

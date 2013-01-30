@@ -106,6 +106,7 @@ void Server::handleMessages()
 {
 	//Handle incoming messages
 	Message *m;
+
 	NetworkRemoveEntityMessage rem;
 	NetworkCreateActionMessage cam;
 	NetworkCreateActionPositionMessage capm;
@@ -118,10 +119,9 @@ void Server::handleMessages()
 	CreateActionTargetMessage *m4;
 	SkillBoughtMessage *m5;
 
-	sf::Packet packet;
-
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
+		sf::Packet packet;
 		m = this->m_messageQueue->pullIncomingMessage();
 
 		switch(m->type)

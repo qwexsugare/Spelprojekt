@@ -23,6 +23,8 @@ Player::Player(unsigned int id)
 	this->m_skills[0]->activate(this->m_hero->getId());
 	this->m_skills[1]->activate(this->m_hero->getId());
 
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::AIM, this->m_id, this->m_resources));
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::LIFESTEALING_STRIKE, this->m_id, this->m_resources));
 }
 
 Player::~Player()
@@ -111,6 +113,8 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::CLOUD_OF_DARKNESS:
 			if(this->m_resources >= CloudOfDarkness::COST)
 			{
+				this->m_skills.push_back(new CloudOfDarkness());
+				this->m_resources = this->m_resources - CloudOfDarkness::COST;
 				skillBought = true;
 			}
 
@@ -118,6 +122,8 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::DEADLY_STRIKE:
 			if(this->m_resources >= DeadlyStrike::COST)
 			{
+				this->m_skills.push_back(new DeadlyStrike());
+				this->m_resources = this->m_resources - DeadlyStrike::COST;
 				skillBought = true;
 			}
 
@@ -125,6 +131,8 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::GREED:
 			if(this->m_resources >= Greed::COST)
 			{
+				this->m_skills.push_back(new Greed());
+				this->m_resources = this->m_resources - Greed::COST;
 				skillBought = true;
 			}
 

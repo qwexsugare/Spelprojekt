@@ -142,6 +142,52 @@ void QuadTreeNode::addLight(bool& _success, PointLight* _light)
 	}
 }
 
+void QuadTreeNode::addRoad(bool& _success, Road* _road)
+{
+	if(this->intersects(_road))
+	{
+		if(!this->m_children[0])
+		{
+			this->m_roads.push_back(_road);
+			_success = true;
+		}
+		else
+		{
+			int fittIndex = -1;
+			int fittCounter = 0;
+			for(int i = 0; i < 4; i++)
+			{
+				if(this->m_children[i]->intersects(_road))
+				{
+					fittIndex = i;
+					fittCounter++;
+				}
+			}
+
+			if(fittCounter > 1)
+			{
+				this->m_roads.push_back(_road);
+				_success = true;
+			}
+			else if(fittCounter > 0)
+			{
+				// This fucker is now my child's problem!!!! IM FREE!!!!111
+				this->m_children[fittIndex]->addRoad(_success, _road);
+			}
+			// Else we're fucked
+			else
+			{
+				_success = false;
+			}
+		}
+	}
+	// Else the model is outside of the world tree and no one can take care of this poor sucker :(
+	else
+	{
+		_success = false;
+	}
+}
+
 bool QuadTreeNode::intersects(const Model* _model)const
 {
 	return _model->intersects(*this->m_obb);
@@ -150,6 +196,11 @@ bool QuadTreeNode::intersects(const Model* _model)const
 bool QuadTreeNode::intersects(PointLight* _light)const
 {
 	return _light->getBs()->Intersects(*this->m_obb);
+}
+
+bool QuadTreeNode::intersects(Road* _road)const
+{
+	return _road->getOBB()->Intersects(*this->m_obb);
 }
 
 void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const
@@ -194,12 +245,14 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 		modelDistanceToCamera.y -= greatestExtent;
 
 		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
-		if(modelDistanceToCamera.x < 10.0f && modelDistanceToCamera.y < 8.33f)
+		if(modelDistanceToCamera.x < 8.0f && modelDistanceToCamera.y < 7.33f)
 			_models.push(this->m_models[i]);
 
 		// END ADVANCED CHEAT CULLING
 	}
 }
+
+//if(modelDistanceToCamera.x < 10.0f && modelDistanceToCamera.y < 8.33f)
 
 void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPos)const
 {
@@ -229,8 +282,48 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPo
 		modelDistanceToCamera.y -= greatestExtent;
 
 		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
-		if(modelDistanceToCamera.x < 10.0f && modelDistanceToCamera.y < 8.33f)
+		if(modelDistanceToCamera.x < 8.0f && modelDistanceToCamera.y < 7.33f)
 			_lights.push_back(this->m_lights[i]);
+
+		// END ADVANCED CHEAT CULLING
+	}
+}
+
+void QuadTreeNode::getRoads(vector<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
+{
+	if(this->m_children[0])
+	{
+		// ADD ALL CHILD MODELS TO STACK
+		this->m_children[0]->getRoads(_roads, _cameraPos);
+		this->m_children[1]->getRoads(_roads, _cameraPos);
+		this->m_children[2]->getRoads(_roads, _cameraPos);
+		this->m_children[3]->getRoads(_roads, _cameraPos);
+	}
+	
+	// ADD MY MODELS TO STACK
+	for(int i = 0; i < this->m_roads.size(); i++)
+	{
+		// COMMENCE ADVANCED CHEAT CULLING
+
+		// Calculate models distance to camera and make it positive +
+		D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_roads[i]->getPosition2D()-D3DXVECTOR2(_cameraPos.x, _cameraPos.z));
+		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
+		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
+		// Find the greatest extent of the model bounding box
+		float greatestExtent;
+
+		if(this->m_roads[i]->getOBB()->Extents.x > this->m_roads[i]->getOBB()->Extents.z)
+			greatestExtent = this->m_roads[i]->getOBB()->Extents.x;
+		else
+			greatestExtent = this->m_roads[i]->getOBB()->Extents.z;
+
+		// Subtract the greatest extent from the distance
+		modelDistanceToCamera.x -= greatestExtent;
+		modelDistanceToCamera.y -= greatestExtent;
+
+		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
+		if(modelDistanceToCamera.x < 8.0f && modelDistanceToCamera.y < 7.33f)
+			_roads.push_back(this->m_roads[i]);
 
 		// END ADVANCED CHEAT CULLING
 	}
