@@ -35,7 +35,7 @@ public:
 	const BoundingOrientedBox* getObb()const { return this->m_obb; }
 	MessageQueue *getMessageQueue();
 	//EntityMessage getUpdate();
-	NetworkEntityMessage getUpdate();
+	virtual NetworkEntityMessage getUpdate();
 
 	void setId(unsigned int _id);
 	void setModelId(unsigned int _modelId);
@@ -47,6 +47,8 @@ public:
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
+
+	ContainmentType contains(const BoundingSphere& _bs)const;
 
 	virtual void takeDamage(int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);

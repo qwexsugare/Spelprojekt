@@ -6,6 +6,7 @@
 struct Entity
 {
 	unsigned int m_id;
+	unsigned int m_health;
 	Model* m_model;
 	ServerEntity::Type m_type;
 

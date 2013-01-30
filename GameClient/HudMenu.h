@@ -6,6 +6,7 @@
 #include "client.h"
 #include "Skill.h"
 #include <sstream>
+#include "Entity.h"
 class HudMenu :
 	public Menu
 {
@@ -13,7 +14,7 @@ public:
 	HudMenu(Client *_network);
 	~HudMenu(void);
 
-	void Update(float _dt);
+	void Update(float _dt, const vector<Entity*>& _entities);
 	int ButtonClicked();
 	int SkilledBougth();
 	int ReturnID();

@@ -1,6 +1,5 @@
 #include "CloudOfDarknessEffect.h"
 #include "EntityHandler.h"
-#include "SoundWrapper.h"
 
 CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 {
@@ -13,28 +12,26 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 	m_timer = 0.0f;
 	m_type = OtherType;
 
-	vector<ServerEntity*>* enemies = EntityHandler::getAllEnemies();
+	vector<ServerEntity*> enemies = EntityHandler::getAllEnemies();
 
-	for(int i = 0; i < enemies->size(); i++)
+	for(int i = 0; i < enemies.size(); i++)
 	{
-		ServerEntity* enemy = (*enemies)[i];
+		ServerEntity* enemy = enemies[i];
 		if(enemy->getObb())
 		{
 			if(enemy->getObb()->Intersects(*m_bs))
 			{
-				this->dealDamage((*enemies)[i], this->m_damage, false);
+				this->dealDamage((enemies)[i], this->m_damage, false);
 			}
 		}
 		else if(enemy->getBs())
 		{
 			if(enemy->getBs()->Intersects(*m_bs))
 			{
-				this->dealDamage((*enemies)[i], this->m_damage, false);
+				this->dealDamage((enemies)[i], this->m_damage, false);
 			}
 		}
 	}
-
-	delete enemies;
 }
 
 CloudOfDarknessEffect::~CloudOfDarknessEffect()

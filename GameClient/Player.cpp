@@ -11,6 +11,8 @@ Player::Player(unsigned int id)
 	this->m_cloudOfDarkness = new CloudOfDarkness();
 	this->m_stunningStrike = new StunningStrike();
 	this->m_teleport = new Teleport();
+	this->m_healingTouch = new HealingTouch();
+	this->m_demonicPresence = new DemonicPresence();
 
 	EntityHandler::addEntity(m_hero);
 
@@ -39,6 +41,8 @@ Player::~Player()
 	delete this->m_stunningStrike;
 	delete this->m_messageQueue;
 	delete m_teleport;
+	delete m_healingTouch;
+	delete m_demonicPresence;
 }
 
 void Player::handleEntityMessage(EntityMessage e)
@@ -86,6 +90,8 @@ void Player::update(float _dt)
 	m_cloudOfDarkness->update(_dt);
 	m_stunningStrike->update(_dt);
 	m_teleport->update(_dt);
+	m_healingTouch->update(_dt);
+	m_demonicPresence->update(_dt);
 }
 
 bool Player::getReady()
@@ -141,6 +147,11 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 		//EntityHandler::addEntity(new Tower(this->m_hero->getPosition()));
 		usedSomething = m_stunningStrike->activate(this->m_hero->getId());
 		break;
+		
+	case Skill::DEMONIC_PRESENCE:
+		//EntityHandler::addEntity(new Tower(this->m_hero->getPosition()));
+		usedSomething = m_demonicPresence->activate(this->m_hero->getId());
+		break;
 
 	default:
 		//Check if the player has the ability and use it
@@ -165,6 +176,10 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 
 	case Skill::CHAIN_STRIKE:
 		usedSomething = m_chainStrike->activate(usm.getTargetId(), m_hero->getId());
+		break;
+
+	case Skill::HEALING_TOUCH:
+		usedSomething = m_healingTouch->activate(usm.getTargetId(), m_hero->getId());
 		break;
 
 	default:

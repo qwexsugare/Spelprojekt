@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ServerEntity.h"
-#include "EntityHandler.h"
 
 class CloudOfDarknessEffect
  : public ServerEntity
