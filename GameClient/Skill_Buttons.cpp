@@ -101,11 +101,12 @@ int Skill_Buttons::GetButtonReaction()
 {
 	return this->m_ButtonReaction;
 }
-void Skill_Buttons::ChangeButton(string _Number, bool _Active)
+void Skill_Buttons::ChangeButton(string _Number, bool _Active, int id)
 {
 	this->m_id				=	StringtoINT(_Number);	
 	this->m_Number			=	_Number;
-	this->m_FullName		=	m_TextureName + m_Number + m_TextType;
+	//this->m_FullName		=	m_TextureName + m_Number + m_TextType;
+	this->m_FullName = _Number;
 	this->m_Active			=	_Active;
 
 	g_graphicsEngine->removeSpriteSheet(m_SkillButton);

@@ -8,6 +8,8 @@ class DeadlyStrike : public Skill
 private:
 	unsigned int m_senderId;
 public:
+	static const unsigned int COST = 2000;
+
 	DeadlyStrike();
 	~DeadlyStrike();
 

@@ -8,6 +8,8 @@ class Aim : public Skill
 private:
 	unsigned int m_senderId;
 public:
+	static const unsigned int COST = 1100;
+
 	Aim();
 	~Aim();
 

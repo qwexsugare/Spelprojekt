@@ -52,9 +52,9 @@ void ServerThread::Run()
 
 		this->update(dt);
 
-		if(dt < 0.005f)
+		if(dt < 0.015f)
 		{
-			sf::Sleep(0.005f - dt);
+			sf::Sleep(0.015f - dt);
 		}
 	}
 }

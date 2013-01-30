@@ -247,9 +247,17 @@
     <ClCompile Include="ClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkBuySkillMessage.cpp">
+<Filter>Server\Network</Filter>
+    </ClCompile>    
     <ClCompile Include="HealingTouch.cpp">
+      <Filter>Skills</Filter>
+    </ClCompile>
       <Filter>Server\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkSkillBoughtMessage.cpp">
+      <Filter>Network</Filter>
+      </ClCompile>
     <ClCompile Include="HealingTouchClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
@@ -539,6 +547,12 @@
     </ClInclude>
     <ClInclude Include="StunningStrikeClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkBuySkillMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSkillBoughtMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="HealingTouch.h">
       <Filter>Server\Skills</Filter>

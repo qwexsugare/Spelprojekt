@@ -53,6 +53,7 @@ void Client::Run()
 			NetworkCreateActionMessage cam;
 			NetworkCreateActionPositionMessage capm;
 			NetworkCreateActionTargetMessage catm;
+			NetworkSkillBoughtMessage sbm;
 
 			int type;
 			packet >> type;
@@ -62,9 +63,10 @@ void Client::Run()
 			case NetworkMessage::Entity:
 				packet >> em;
 				this->m_mutex.Lock();
+
 				this->m_entityMessageQueue.push(em);
 
-				if(this->m_entityMessageQueue.size() > 100)
+				if(this->m_entityMessageQueue.size() > 50)
 				{
 					this->m_entityMessageQueue.pop();
 				}
@@ -128,6 +130,20 @@ void Client::Run()
 				this->m_mutex.Unlock();
 				break;
 
+			case NetworkMessage::SkillBought:
+				packet >> sbm;
+
+				this->m_mutex.Lock();
+				this->m_skilllBoughtQueue.push(sbm);
+
+				if(this->m_skilllBoughtQueue.size() > 50)
+				{
+					this->m_skilllBoughtQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
 			case NetworkMessage::Disconnect:
 				this->disconnect();
 				break;
@@ -148,7 +164,8 @@ bool Client::entityQueueEmpty()
 
 bool Client::removeEntityQueueEmpty()
 {
-	return this->m_removeEntityMessageQueue.empty();
+	//return this->m_removeEntityMessageQueue.empty();
+	return this->m_hasMessage;
 }
 
 bool Client::createActionQueueEmpty()
@@ -164,6 +181,11 @@ bool Client::createActionPositionQueueEmpty()
 bool Client::createActionTargetQueueEmpty()
 {
 	return this->m_createActionTargetQueue.empty();
+}
+
+bool Client::skillBoughtQueueEmpty()
+{
+	return this->m_skilllBoughtQueue.empty();
 }
 
 NetworkEntityMessage Client::entityQueueFront()
@@ -226,6 +248,18 @@ NetworkCreateActionTargetMessage Client::createActionTargetQueueFront()
 	return ret;
 }
 
+NetworkSkillBoughtMessage Client::skillBoughtQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkSkillBoughtMessage ret = this->m_skilllBoughtQueue.front();
+	this->m_skilllBoughtQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
@@ -247,6 +281,16 @@ void Client::sendMessage(NetworkUseActionPositionMessage _usm)
 }
 
 void Client::sendMessage(NetworkUseActionTargetMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkBuySkillMessage _usm)
 {
 	if(this->isConnected())
 	{

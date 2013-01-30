@@ -18,6 +18,7 @@
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"
 #include "NetworkUseActionTargetMessage.h"
+#include "NetworkBuySkillMessage.h"
 
 class Player
 {
@@ -33,6 +34,8 @@ private:
 
 	vector<Skill*> m_skills;
 
+	unsigned int m_resources;
+
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;
@@ -47,6 +50,7 @@ public:
 	void handleUseActionPositionMessage(NetworkUseActionPositionMessage usm);
 	void handleUseActionMessage(NetworkUseActionMessage usm);
 	void handleUseActionTargetMessage(NetworkUseActionTargetMessage usm);
+	void handleBuySkillMessage(NetworkBuySkillMessage bsm);
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
 

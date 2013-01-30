@@ -8,6 +8,8 @@ class Greed : public Skill
 private:
 	unsigned int m_senderId;
 public:
+	static const unsigned int COST = 700;
+
 	Greed();
 	~Greed();
 

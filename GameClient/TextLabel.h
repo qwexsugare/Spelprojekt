@@ -15,4 +15,5 @@ public:
 	string IntToString(int intInput);
 	string getText();
 	void setText(string _text);
+	void setVisible(bool _visible);
 };

@@ -22,6 +22,7 @@ MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string
 	this->m_pos.x = _pos.x -(_size/3.0f);
 	this->m_pos.y = _pos.y/1200.0f*m_height;
 	this->m_pos.z = _pos.z;
+	this->m_visible= true;
 
 	//Create the buffer
 	D3D10_BUFFER_DESC tbd;
@@ -443,4 +444,14 @@ string MyText::IntToString(int intInput)
 	stringstream ss;
 	ss << intInput;
 	return ss.str();
+}
+
+void MyText::setVisible(bool _visible)
+{
+	this->m_visible = _visible;
+}
+
+bool MyText::getVisible()
+{
+	return this->m_visible;
 }

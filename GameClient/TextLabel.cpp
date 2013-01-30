@@ -40,3 +40,8 @@ string TextLabel::IntToString(int intInput)
 	ss << intInput;
 	return ss.str();
 }
+
+void TextLabel::setVisible(bool _visible)
+{
+	this->m_myText->setVisible(_visible);
+}

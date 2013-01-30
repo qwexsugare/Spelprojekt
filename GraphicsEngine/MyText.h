@@ -30,6 +30,7 @@ private:
 	float m_width;
 	float m_FontSize;
 	MyTextOffsets m_myTextOffsets;
+	bool m_visible;
 public:
 	MyText();
 	MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string _offsetPath, string _offsetFilename, float _height, float _width, D3DXVECTOR3 _pos, float _size);
@@ -47,6 +48,7 @@ public:
 	//	Used to type the text on to the screen
 	//----------------------------------------------------------------------------------------------------------------------------
 		DECLDIR void DrawString(string str, float _size = -2);
+		DECLDIR void setVisible(bool _visible);
 	//----------------------------------------------------------------------------------------------------------------------------
 	//	Convert float to string
 	//----------------------------------------------------------------------------------------------------------------------------
@@ -57,4 +59,5 @@ public:
 	//----------------------------------------------------------------------------------------------------------------------------
 		UINT GetStride();
 		int GetVertexNumber();
+		bool getVisible();
 };
