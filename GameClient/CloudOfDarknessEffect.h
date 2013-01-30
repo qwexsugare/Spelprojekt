@@ -3,7 +3,8 @@
 #include "ServerEntity.h"
 #include "EntityHandler.h"
 
-class CloudOfDarknessEffect : public ServerEntity
+class CloudOfDarknessEffect
+ : public ServerEntity
 {
 private:
 	float m_timer;

@@ -21,7 +21,6 @@ private:
 	Client *m_network;
 	int		m_Time, 
 			m_NumberOfSkills, 
-			m_SkillValue, 
 			m_DelayTime, 
 			m_Delay,
 			m_Change,

@@ -21,6 +21,8 @@ protected:
 
 	float m_turretDuration;
 	float m_greed;
+	float m_movementSpeedChange;
+	float m_baseMovementSpeed;
 	float m_movementSpeed;
 	float m_attackSpeed;
 	float m_physicalDamage;
@@ -44,7 +46,8 @@ public:
 	void increaseAgility(int _agility);
 	void increaseWits(int _wits);
 	void increaseFortitude(int _fortitude);
-
+	
+	void alterMovementSpeed(float _value);
 	void setGreed(float _greed);
 	void setTurretDuration(float _turretLife);
 	void setMaxHealth(int _maxHealth);

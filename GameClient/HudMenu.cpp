@@ -9,8 +9,7 @@ HudMenu::HudMenu(Client *_network)
 	m_Delay = 0;
 	m_DelayTime = 10;
 	m_SkillHud = -1.0f;
-	m_NumberOfSkills = 2;
-	m_SkillValue = -3;
+	m_NumberOfSkills = 3;
 	int TmpPos = m_NumberOfSkills * 98;
 	m_DontChange = false;
 	m_Buy = false;
@@ -126,7 +125,7 @@ HudMenu::HudMenu(Client *_network)
 	this->m_SkillButtons[1] = new Skill_Buttons();
 	this->m_SkillButtons[1]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","17",".png",Skill::CLOUD_OF_DARKNESS,0,0,1,4,100,true);
 	this->m_SkillButtons[2] = new Skill_Buttons();
-	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::TELEPORT,0,0,1,4,100,false);
+	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","18",".png",Skill::TELEPORT,0,0,1,4,100,true);
 	this->m_SkillButtons[3] = new Skill_Buttons();
 	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::AIM,0,0,1,4,100,true);
 	this->m_SkillButtons[4] = new Skill_Buttons();
@@ -166,7 +165,7 @@ void HudMenu::Update(float _dt)
 				this->m_Images[1]->setPosition(FLOAT2(-1.0f +((0.102083333f*(float)m_SkillHud)), -0.814814815f));
 				for(int i=0 ; i < m_SkillButtons.size(); i++)
 				{
-					this->m_SkillButtons[i]->setPosition(FLOAT2(-1.1782f +(0.102083333f*(((m_SkillHud+((m_NumberOfSkills-1)-i-m_SkillValue))))),  -0.883333333f-0.004f));
+					this->m_SkillButtons[i]->setPosition(FLOAT2(-1.1782f +(0.102083333f*(((m_SkillHud+((m_NumberOfSkills-1)-i-(m_NumberOfSkills-5)))))),  -0.883333333f-0.004f));
 				}
 
 				if (m_SkillHud >= m_NumberOfSkills-1)
@@ -181,7 +180,7 @@ void HudMenu::Update(float _dt)
 
 				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
 				{
-					if(this->m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS)
+					if(this->m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || this->m_SkillButtons[i]->getSkillId() == Skill::TELEPORT)
 					{
 						D3DXVECTOR3 pickDir;
 						D3DXVECTOR3 pickOrig;
@@ -189,7 +188,7 @@ void HudMenu::Update(float _dt)
 
 						float k = (-pickOrig.y)/pickDir.y;
 						D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-						this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+						this->m_network->sendMessage(NetworkUseActionPositionMessage(m_SkillButtons[i]->getSkillId(), FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
 					}
 					else if(this->m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE)
 					{
@@ -341,7 +340,6 @@ bool HudMenu::LockIsDown()
 	if(this->m_Buttons[0]->Clicked() == 1)
 	{
 		m_NumberOfSkills = 2;
-		m_SkillValue = -3;
 		m_SkillHud = 0;
 		this->m_SkillButtons[5]->ChangeButton("30", false);
 		this->m_SkillButtons[4]->ChangeButton("30", false);
@@ -596,23 +594,17 @@ void  HudMenu::UpdateShop()
 						if (type != "30")
 						{
 							m_NumberOfSkills++;
-							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
 
 							m_Resources = this->BuyButtonTower[i]->LoseAmountOfResources(m_Resources);
 							m_LoseMoney = 1;
-							if (m_SkillValue >= 1)
-							{
-								m_SkillValue = 1;
-							}
 						}
 					}
 					if(m_NumberOfSkills >= 6)
 					{
 						m_DontChange = false;
 						m_NumberOfSkills = 6;
-						m_SkillValue = 1;
 					}
 				}
 				else
@@ -727,23 +719,17 @@ void  HudMenu::UpdateShop()
 						if (type != "30")
 						{
 							m_NumberOfSkills++;
-							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
 
 							m_Resources = this->BuyButtonStrength[i]->LoseAmountOfResources(m_Resources);
 							m_LoseMoney = 1;
-							if (m_SkillValue >= 1)
-							{
-								m_SkillValue = 1;
-							}
 						}
 					}
 					if(m_NumberOfSkills >= 6)
 					{
 						m_DontChange = false;
 						m_NumberOfSkills = 6;
-						m_SkillValue = 1;
 					}
 				}
 				else
@@ -845,23 +831,17 @@ void  HudMenu::UpdateShop()
 						if (type != "30")
 						{
 							m_NumberOfSkills++;
-							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
 	
 							m_Resources = this->BuyButtonAgility[i]->LoseAmountOfResources(m_Resources);
-							m_LoseMoney = 1;
-							if (m_SkillValue >= 1)
-							{
-								m_SkillValue = 1;
-							}
+							m_LoseMoney = 1;        
 						}
 					}
 					if(m_NumberOfSkills  >= 6)
 					{
 						m_DontChange = false;
 						m_NumberOfSkills = 6;
-						m_SkillValue = 1;
 					}
 				}
 				else
@@ -962,23 +942,17 @@ void  HudMenu::UpdateShop()
 						if (type != "30")
 						{
 							m_NumberOfSkills++;
-							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
 
 							m_Resources = this->BuyButtonWits[i]->LoseAmountOfResources(m_Resources);
 							m_LoseMoney = 1;
 						}
-						if (m_SkillValue >= 1)
-						{
-							m_SkillValue = 1;
-						}
 					}
 					if(m_NumberOfSkills >= 6)
 					{
 						m_DontChange = false;
 						m_NumberOfSkills = 6;
-						m_SkillValue = 1;
 					}
 				}
 								else
@@ -1078,23 +1052,17 @@ void  HudMenu::UpdateShop()
 						if (type != "30")
 						{
 							m_NumberOfSkills++;
-							m_SkillValue += 1;
 							m_DontChange = false;
 							this->m_SkillButtons[m_NumberOfSkills-1]->ChangeButton(type, true);
 
 							m_Resources = this->BuyButtonFortitude[i]->LoseAmountOfResources(m_Resources);
 							m_LoseMoney = 1;
-							if (m_SkillValue >= 1)
-							{
-								m_SkillValue = 1;
-							}
 						}
 					}
 					if(m_NumberOfSkills >= 6)
 					{
 						m_DontChange = false;
 						m_NumberOfSkills = 6;
-						m_SkillValue = 1;
 					}
 				}
 				else

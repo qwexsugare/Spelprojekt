@@ -10,6 +10,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_wits = 1;
 	this->m_fortitude = 1;
 	
+	this->m_movementSpeedChange = 0.0f;
 	this->m_movementSpeed = 2.0f;
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
@@ -105,6 +106,12 @@ void UnitEntity::increaseFortitude(int _fortitude)
 		_fortitude = UnitEntity::MAX_FORTITUDE - this->m_fortitude;
 		this->m_fortitude = UnitEntity::MAX_FORTITUDE;
 	}
+}
+
+void UnitEntity::alterMovementSpeed(float _value)
+{
+	m_movementSpeedChange += _value;
+	m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
 }
 
 void UnitEntity::setMaxHealth(int _maxHealth)
