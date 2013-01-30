@@ -28,7 +28,8 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	this->m_state = new IntroState();
+	this->m_serverThread->Launch();
+	this->m_state = new GameState();
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
@@ -117,7 +118,6 @@ void ClientHandler::update(float _dt)
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
-			this->m_serverThread->Launch();
 			this->m_state = new GameState();
 			break;
 		case State::SETTINGS:

@@ -1,10 +1,11 @@
 #include "Teleport.h"
 #include "EntityHandler.h"
 #include "Hero.h"
+#include "TeleportEffect.h"
 
-const float Teleport::COOLDOWN = 1.0f;
+const float Teleport::COOLDOWN = 30.0f;
 
-Teleport::Teleport() : Skill(Skill::CLOUD_OF_DARKNESS, COOLDOWN)
+Teleport::Teleport() : Skill(Skill::TELEPORT, COOLDOWN)
 {
 	
 }
@@ -20,9 +21,10 @@ bool Teleport::activate(FLOAT3 _position, unsigned int _senderId)
 
 	if(this->getCurrentCooldown() == 0 && (caster->getPosition() - _position).length() <= RANGE)
 	{
-		((Hero*)caster)->setNextPosition(((Hero*)caster)->getPosition());
 		((Hero*)caster)->setPosition(_position);
+		((Hero*)caster)->setNextPosition(((Hero*)caster)->getPosition());
 		this->resetCooldown();
+		EntityHandler::addEntity(new TeleportEffect(_senderId));
 		return true;
 	}
 	else

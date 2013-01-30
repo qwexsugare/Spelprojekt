@@ -6,14 +6,15 @@ Hero::Hero() : UnitEntity()
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
-
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 15.0f;
 	this->m_hasTarget = false;
-	m_strength = 5;
-	m_agility = 5;
-	m_wits = 20;
-	m_fortitude = 5;
+	this->m_baseMovementSpeed = 1.1f;
+	this->m_movementSpeed = this->m_baseMovementSpeed;
+	this->m_strength = 5;
+	this->m_agility = 5;
+	this->m_wits = 20;
+	this->m_fortitude = 5;
 }
 
 Hero::~Hero()

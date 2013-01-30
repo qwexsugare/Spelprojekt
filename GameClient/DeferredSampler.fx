@@ -119,7 +119,7 @@ PSSceneIn VSScene(VSSceneIn input)
 }
 
 PSSceneOut PSScene(PSSceneIn input)
-{	
+{
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w = modelAlpha;
@@ -127,7 +127,7 @@ PSSceneOut PSScene(PSSceneIn input)
 	output.Pos = float4(input.EyeCoord, 1.0f);
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
-	output.Diffuse = color;
+	output.Diffuse = color * float4(3,3, 3, 1.0f);
 
 	return output;
 }
