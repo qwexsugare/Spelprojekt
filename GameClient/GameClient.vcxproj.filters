@@ -151,13 +151,7 @@
     <ClCompile Include="ChainStrike.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="ChainStrikeEffect.cpp">
-      <Filter>Server\Skills</Filter>
-    </ClCompile>
     <ClCompile Include="CloudOfDarkness.cpp">
-      <Filter>Server\Skills</Filter>
-    </ClCompile>
-    <ClCompile Include="CloudOfDarknessEffect.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkMessage.cpp">
@@ -203,9 +197,6 @@
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="StunningStrike.cpp">
-      <Filter>Server\Skills</Filter>
-    </ClCompile>
-    <ClCompile Include="StunningStrikeEffect.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="UnitEntity.cpp">
@@ -257,13 +248,36 @@
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkBuySkillMessage.cpp">
-      <Filter>Network</Filter>
+<Filter>Server\Network</Filter>
+    </ClCompile>    
+    <ClCompile Include="HealingTouch.cpp">
+      <Filter>Skills</Filter>
     </ClCompile>
-    <ClCompile Include="TeleportEffect.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkSkillBoughtMessage.cpp">
       <Filter>Network</Filter>
+      </ClCompile>
+    <ClCompile Include="HealingTouchClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="DemonicPresence.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="ChainStrikeEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarknessEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="DemonicPresenceEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrikeEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -420,11 +434,6 @@
     <ClInclude Include="UsePositionalSkillMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="ChainStrikeEffect.h">
-      <Filter>Server\Skill</Filter>
-      <Filter>Server\Skill</Filter>
-      <Filter>Server\Skills</Filter>
-    </ClInclude>
     <ClInclude Include="Skills.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
@@ -436,9 +445,6 @@
     </ClInclude>
     <ClInclude Include="NetworkEntityMessage.h">
       <Filter>Network</Filter>
-    </ClInclude>
-    <ClInclude Include="CloudOfDarknessEffect.h">
-      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="ChainStrike.h">
       <Filter>Server\Skills</Filter>
@@ -489,9 +495,6 @@
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="StunningStrike.h">
-      <Filter>Server\Skills</Filter>
-    </ClInclude>
-    <ClInclude Include="StunningStrikeEffect.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="UnitEntity.h">
@@ -551,8 +554,29 @@
     <ClInclude Include="NetworkSkillBoughtMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="TeleportEffect.h">
+    <ClInclude Include="HealingTouch.h">
       <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="HealingTouchClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="DemonicPresence.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="DemonicPresenceEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrikeEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -576,6 +600,9 @@
     </Filter>
     <Filter Include="Server\Skills">
       <UniqueIdentifier>{f6ca3c67-71f1-4034-9b97-c4048c7d31ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Skills\Effects">
+      <UniqueIdentifier>{5ab2109f-83a8-46f4-9496-d42420f16270}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -68,7 +68,14 @@ void GameState::update(float _dt)
 	if(lol > 1.0f)
 	{
 		stringstream ss;
-		ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f << " Entities: " << this->m_entities.size();
+		ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f << " Entities: " << this->m_entities.size() << "\nLifezorz: ";
+		for(int i = 0; i < m_entities.size(); i++)
+		{
+			if(m_entities[i]->m_type == ServerEntity::HeroType)
+			{
+				ss << m_entities[i]->m_health;
+			}
+		}
 		this->m_fpsText->setString(ss.str());
 		lol = -0.5f;
 	}
@@ -96,6 +103,7 @@ void GameState::update(float _dt)
 				this->m_entities[i]->m_model->setPosition(e.getPosition());
 				this->m_entities[i]->m_model->setRotation(e.getRotation());
 				this->m_entities[i]->m_type = (ServerEntity::Type)e.getEntityType();
+				this->m_entities[i]->m_health = e.getHealth();
 				found = true;
 			}
 		}
@@ -136,6 +144,9 @@ void GameState::update(float _dt)
 		case Skill::STUNNING_STRIKE:
 			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
 			break;
+		/*case Skill::DEMONIC_PRESENCE:
+			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
+			break;*/
 		}
 	}
 
@@ -155,7 +166,15 @@ void GameState::update(float _dt)
 	{
 		NetworkCreateActionTargetMessage e = this->m_network->createActionTargetQueueFront();
 		
-		// Do something!
+		switch(e.getActionId())
+		{
+		case Skill::HEALING_TOUCH:
+			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
+			break;
+		/*case Skill::CHAIN_STRIKE:
+			m_ClientSkillEffects.push_back(new ChainStrikeSkillEffect(e.getPosition()));
+			break;*/
+		}
 	}
 
 	while(this->m_network->skillBoughtQueueEmpty() == false)
@@ -301,7 +320,6 @@ void GameState::update(float _dt)
 			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
 			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
-			//e.setPosition(FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
 			this->m_network->sendMessage(e);
 		}
 	}
@@ -310,7 +328,7 @@ void GameState::update(float _dt)
 
 	}
 
-	this->m_hud->Update(_dt);
+	this->m_hud->Update(_dt, m_entities);
 	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }

@@ -50,7 +50,6 @@ void MapHandler::loadMap(std::string filename)
 
 void MapHandler::update(float _dt)
 {
-	vector<ServerEntity*>* enemies = EntityHandler::getAllEnemies();
 	if(m_waveTimer > 0.0f)
 	{
 		m_waveTimer = max(m_waveTimer-_dt, 0.0f);
@@ -64,9 +63,11 @@ void MapHandler::update(float _dt)
 			m_currentWave++;
 		}
 	}
-	else if(enemies->size() == 0 && m_currentWave < m_waves.size())
+	else
 	{
-		m_waveTimer = 10.0f;
+		if(EntityHandler::getNrOfEnemies() == 0 && m_currentWave < m_waves.size())
+		{
+			m_waveTimer = 10.0f;
+		}
 	}
-	delete enemies;
 }

@@ -11,6 +11,8 @@ Hero::Hero() : UnitEntity()
 	this->m_hasTarget = false;
 	this->m_baseMovementSpeed = 1.1f;
 	this->m_movementSpeed = this->m_baseMovementSpeed;
+	this->m_baseAttackSpeed = 1.0f;
+	this->m_attackSpeed = this->m_baseAttackSpeed;
 	this->m_strength = 5;
 	this->m_agility = 5;
 	this->m_wits = 20;

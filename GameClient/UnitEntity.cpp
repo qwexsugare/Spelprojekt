@@ -12,6 +12,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	
 	this->m_movementSpeedChange = 0.0f;
 	this->m_movementSpeed = 2.0f;
+	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
@@ -35,8 +36,10 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_agility = 1;
 	this->m_wits = 1;
 	this->m_fortitude = 1;
-
+	
+	this->m_movementSpeedChange = 0.0f;
 	this->m_movementSpeed = 2.0f;
+	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
@@ -106,6 +109,12 @@ void UnitEntity::increaseFortitude(int _fortitude)
 		_fortitude = UnitEntity::MAX_FORTITUDE - this->m_fortitude;
 		this->m_fortitude = UnitEntity::MAX_FORTITUDE;
 	}
+}
+
+void UnitEntity::alterAttackSpeed(float _value)
+{
+	m_attackSpeedChange += _value;
+	m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
 }
 
 void UnitEntity::alterMovementSpeed(float _value)
@@ -289,14 +298,7 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 
 void UnitEntity::heal(int health)
 {
-	if(this->m_health + health > this->m_maxHealth)
-	{
-		this->m_health = this->m_maxHealth;
-	}
-	else
-	{
-		this->m_maxHealth = this->m_maxHealth + health;
-	}
+	this->m_health = min(m_health+health, m_maxHealth);
 }
 
 void UnitEntity::stun(float _time)
@@ -314,4 +316,11 @@ void UnitEntity::update(float dt)
 	{
 		this->m_stunTimer -= dt;
 	}
+}
+
+NetworkEntityMessage UnitEntity::getUpdate()
+{
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_health, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
+
+	return e;
 }

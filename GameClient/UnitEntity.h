@@ -24,6 +24,8 @@ protected:
 	float m_movementSpeedChange;
 	float m_baseMovementSpeed;
 	float m_movementSpeed;
+	float m_baseAttackSpeed;
+	float m_attackSpeedChange;
 	float m_attackSpeed;
 	float m_physicalDamage;
 	float m_mentalDamage;
@@ -42,11 +44,14 @@ public:
 	void update(float dt);
 	virtual void updateSpecificUnitEntity(float dt) = 0;
 
+	virtual NetworkEntityMessage getUpdate();
+
 	void increaseStrength(int _strength);
 	void increaseAgility(int _agility);
 	void increaseWits(int _wits);
 	void increaseFortitude(int _fortitude);
 	
+	void alterAttackSpeed(float _value);
 	void alterMovementSpeed(float _value);
 	void setGreed(float _greed);
 	void setTurretDuration(float _turretLife);

@@ -12,31 +12,29 @@ StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position)
 	m_timer = 0.0f;
 	m_type = OtherType;
 
-	vector<ServerEntity*>* enemies = EntityHandler::getAllEnemies();
+	vector<ServerEntity*> enemies = EntityHandler::getAllEnemies();
 
-	for(int i = 0; i < enemies->size(); i++)
+	for(int i = 0; i < enemies.size(); i++)
 	{
 		if(random(1, 100) <= 50)
 		{
-			ServerEntity* enemy = (*enemies)[i];
+			ServerEntity* enemy = (enemies)[i];
 			if(enemy->getObb())
 			{
 				if(enemy->getObb()->Intersects(*m_bs))
 				{
-					((UnitEntity*)(*enemies)[i])->stun(8);
+					((UnitEntity*)(enemies)[i])->stun(8);
 				}
 			}
 			else if(enemy->getBs())
 			{
 				if(enemy->getBs()->Intersects(*m_bs))
 				{
-					((UnitEntity*)(*enemies)[i])->stun(8);
+					((UnitEntity*)(enemies)[i])->stun(8);
 				}
 			}
 		}
 	}
-
-	delete enemies;
 }
 
 StunningStrikeEffect::~StunningStrikeEffect()

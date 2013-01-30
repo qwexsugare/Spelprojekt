@@ -170,11 +170,15 @@
     <ClCompile Include="CreditState.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="DeadlyStrike.cpp" />
+    <ClCompile Include="DemonicPresence.cpp" />
+    <ClCompile Include="DemonicPresenceEffect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Greed.cpp" />
+    <ClCompile Include="HealingTouch.cpp" />
+    <ClCompile Include="HealingTouchClientSkillEffect.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HudMenu.cpp" />
     <ClCompile Include="IntroMenu.cpp" />
@@ -269,6 +273,8 @@
     <ClInclude Include="CreditState.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="DeadlyStrike.h" />
+    <ClInclude Include="DemonicPresence.h" />
+    <ClInclude Include="DemonicPresenceEffect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
@@ -276,6 +282,8 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Greed.h" />
+    <ClInclude Include="HealingTouch.h" />
+    <ClInclude Include="HealingTouchClientSkillEffect.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="HudMenu.h" />
     <ClInclude Include="Input.h" />
