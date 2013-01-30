@@ -164,8 +164,7 @@ bool Client::entityQueueEmpty()
 
 bool Client::removeEntityQueueEmpty()
 {
-	//return this->m_removeEntityMessageQueue.empty();
-	return this->m_hasMessage;
+	return this->m_removeEntityMessageQueue.empty();
 }
 
 bool Client::createActionQueueEmpty()

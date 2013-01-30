@@ -405,7 +405,6 @@ void HudMenu::addSkill(unsigned int _skillId)
 		{
 			this->m_SkillButtons[this->m_NumberOfSkills - 1]->ChangeButton(this->m_shopButtons[i]->getTextureName(), true, _skillId);
 			this->m_NumberOfSkills++;
-			this->m_SkillValue++;
 		}
 	}
 }
