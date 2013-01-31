@@ -46,6 +46,11 @@ QuadTreeNode::~QuadTreeNode()
 		delete this->m_lights[i];
 	}
 
+	for(int i = 0; i < this->m_roads.size(); i++)
+	{
+		delete this->m_roads[i];
+	}
+
 	if(this->m_obb)
 		delete this->m_obb;
 }

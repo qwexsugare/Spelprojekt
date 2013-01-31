@@ -52,6 +52,7 @@ private:
 	TextLabel* m_ResourceLabel;	
 
 	bool m_canAfford[20];
+	bool m_shopVisible;
 	vector<Button*> m_shopButtons;
 	vector<Button*> m_disabledShopButtons;
 	vector<Button*> m_resourceImages;

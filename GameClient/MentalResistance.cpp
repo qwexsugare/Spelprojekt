@@ -12,7 +12,7 @@ MentalResistance::~MentalResistance()
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setMentalResistance(ue->getMentalResistance() + 15.0f);
+		ue->setMentalResistance(ue->getMentalResistance() + 0.15f);
 	}	
 }
 
@@ -24,7 +24,7 @@ bool MentalResistance::activate(unsigned int _senderId)
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setMentalResistance(ue->getMentalResistance() - 15.0f);
+		ue->setMentalResistance(ue->getMentalResistance() - 0.15f);
 	}	
 
 	return true;

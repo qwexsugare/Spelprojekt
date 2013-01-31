@@ -7,6 +7,8 @@ class DemonicPresence : public Skill
 private:
 	static const float COOLDOWN;
 public:
+	static const int COST = 4000;
+
 	DemonicPresence();
 	~DemonicPresence();
 
