@@ -14,6 +14,7 @@ private:
 	D3DXVECTOR2 m_min;
 	D3DXVECTOR2 m_max;
 	vector<Model*> m_models;
+
 	vector<PointLight*> m_lights;
 	vector<Road*> m_roads;
 	QuadTreeNode* m_children[4];
@@ -31,7 +32,7 @@ public:
 	bool intersects(Road* _road)const;
 	void getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const;
 	void getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPos)const;
-	void getRoads(vector<Road*>& _roads, D3DXVECTOR3 _cameraPos)const;
+	void getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const;
 	void pullAllModels(stack<Model*>& _models);
 	bool removeModel(Model* _model);
 };

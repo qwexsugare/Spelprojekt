@@ -249,16 +249,14 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 
-		if((m_models[i]->getPosition().z+greatestExtent) < _cameraPos.z+1)
-			// If the bounding box is within camera bounds, add it, otherwise it is "culled".
-			if(modelDistanceToCamera.x < 8.0f && modelDistanceToCamera.y < 7.33f)
-				_models.push(this->m_models[i]);
+		if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+		{
+			_models.push(this->m_models[i]);
+		}
 
 		// END ADVANCED CHEAT CULLING
 	}
 }
-
-//if(modelDistanceToCamera.x < 10.0f && modelDistanceToCamera.y < 8.33f)
 
 void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPos)const
 {
@@ -286,16 +284,17 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPo
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
-
-		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
-		if(modelDistanceToCamera.x < 8.0f && modelDistanceToCamera.y < 7.33f)
+		
+		if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+		{
 			_lights.push_back(this->m_lights[i]);
+		}
 
 		// END ADVANCED CHEAT CULLING
 	}
 }
 
-void QuadTreeNode::getRoads(vector<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
+void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
 {
 	if(this->m_children[0])
 	{
@@ -326,10 +325,11 @@ void QuadTreeNode::getRoads(vector<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
-
-		// If the bounding box is within camera bounds, add it, otherwise it is "culled".
-		if(modelDistanceToCamera.x < 8.0f && modelDistanceToCamera.y < 7.33f)
-			_roads.push_back(this->m_roads[i]);
+		
+		if(modelDistanceToCamera.x < 6.0f && (m_roads[i]->getPosition2D().y-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+		{
+			_roads.push(this->m_roads[i]);
+		}
 
 		// END ADVANCED CHEAT CULLING
 	}

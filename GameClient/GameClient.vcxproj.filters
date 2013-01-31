@@ -277,6 +277,12 @@
     <ClCompile Include="NetworkBuySkillMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinder.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -575,6 +581,15 @@
     </ClInclude>
     <ClInclude Include="ChainStrikeEffect.h">
       <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinder.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

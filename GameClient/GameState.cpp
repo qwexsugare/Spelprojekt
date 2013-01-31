@@ -342,14 +342,14 @@ void GameState::importMap(string _map)
 
 	vector<string> blendMaps = vector<string>(2);
 	vector<string> textures;
-	textures.push_back("textures\\1.jpg");
-	textures.push_back("textures\\2.jpg");
-	textures.push_back("textures\\3.jpg");
-	textures.push_back("textures\\4.jpg");
-	textures.push_back("textures\\5.jpg");
-	textures.push_back("textures\\6.jpg");
-	textures.push_back("textures\\7.jpg");
-	textures.push_back("textures\\8.jpg");
+	textures.push_back("textures\\1.png");
+	textures.push_back("textures\\2.png");
+	textures.push_back("textures\\3.png");
+	textures.push_back("textures\\4.png");
+	textures.push_back("textures\\5.png");
+	textures.push_back("textures\\6.png");
+	textures.push_back("textures\\7.png");
+	textures.push_back("textures\\8.png");
 
 	string minimap;
 	ifstream stream;
@@ -357,7 +357,7 @@ void GameState::importMap(string _map)
 	while(!stream.eof())
 	{
 		char buf[1024];
-		char key[256];
+		char key[1024];
 		stream.getline(buf, 1024);
 		sscanf(buf, "%s", key);
 
@@ -455,6 +455,7 @@ void GameState::importMap(string _map)
 				}
 			}
 		}
+
 
 		sscanf("bugfix", "%s", key);
 	}
