@@ -9,6 +9,7 @@ ServerThread::ServerThread() : sf::Thread()
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_collisionHandler = new CollisionHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
+	this->m_mapHandler->loadMap("maps/race/race.txt");
 
 	this->m_network->broadcast(NetworkEntityMessage());
 }

@@ -16,7 +16,7 @@ Enemy::Enemy() : UnitEntity()
 	this->m_closestHero = 999;
 }
 
-Enemy::Enemy(FLOAT3 _pos) : UnitEntity(_pos)
+Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 {
 	m_type = Type::EnemyType;
 	this->m_goalPosition = FLOAT3(32.0f, 0.0f, 32.0f);
@@ -29,6 +29,14 @@ Enemy::Enemy(FLOAT3 _pos) : UnitEntity(_pos)
 	this->m_aggroRange = 10.0f;
 	this->m_willPursue = false;
 	this->m_closestHero = 999;
+
+	this->m_path = _path;
+	this->m_currentPoint = 0;
+
+	if(this->m_path.nrOfPoints > 0)
+	{
+		this->m_goalPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
+	}
 }
 
 void Enemy::updateSpecificUnitEntity(float dt)
@@ -36,7 +44,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	//Handle incoming messages
 	Message *m;
 
-	this->m_reachedPosition = false;
+	//this->m_reachedPosition = false;
 
 	this->checkPursue();
 	
@@ -96,6 +104,16 @@ FLOAT3 avDir = FLOAT3(0,0,0);
 		}
 
 		this->m_rotation.x = atan2(-m_dir.x, -m_dir.z);
+	}
+	else
+	{
+		//Check if there's a new position in the path
+		if(this->m_currentPoint < this->m_path.nrOfPoints)
+		{
+			this->m_currentPoint++;
+			this->m_goalPosition = FLOAT3(this->m_path.points[this->m_currentPoint].x, 0.0f, this->m_path.points[this->m_currentPoint].y);
+			this->m_reachedPosition = false;
+		}
 	}
 
 	if(this->m_health <= 0)

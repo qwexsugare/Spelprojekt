@@ -176,17 +176,17 @@ void World::render()
 		this->m_deviceHandler->getDevice()->Draw(m_terrains[i]->getNrOfVertices(), 0);
 	}
 
-	vector<Road*> roads = this->m_quadTree->getRoads(this->m_camera->getPos());
+	stack<Road*> roads = this->m_quadTree->getRoads(this->m_camera->getPos());
 	
 	// Render roads yo dawg y u be messin' about
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	for(int i = 0; i < roads.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(roads[i]->getVertexBuffer(), sizeof(Vertex));
-		this->m_deferredSampler->setModelMatrix(roads[i]->getModelMatrix());
-		this->m_deferredSampler->setTexture(roads[i]->getTexture());
+		this->m_deviceHandler->setVertexBuffer(roads.top()->getVertexBuffer(), sizeof(Vertex));
+		this->m_deferredSampler->setModelMatrix(roads.top()->getModelMatrix());
+		this->m_deferredSampler->setTexture(roads.top()->getTexture());
 		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
-		this->m_deviceHandler->getDevice()->Draw(roads[i]->getNrOfVertices(), 0);
+		this->m_deviceHandler->getDevice()->Draw(roads.top()->getNrOfVertices(), 0);
 	}
 
 	/* Retard Frustum

@@ -216,6 +216,8 @@
     <ClCompile Include="NetworkUseActionMessage.cpp" />
     <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
     <ClCompile Include="NetworkUseActionTargetMessage.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="PhysicalResistance.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoisonStrike.cpp" />
@@ -323,6 +325,9 @@
     <ClInclude Include="NetworkUseActionMessage.h" />
     <ClInclude Include="NetworkUseActionPositionMessage.h" />
     <ClInclude Include="NetworkUseActionTargetMessage.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Path.h" />
+    <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="PhysicalResistance.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PoisonStrike.h" />

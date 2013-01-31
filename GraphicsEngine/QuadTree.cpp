@@ -55,9 +55,9 @@ vector<PointLight*> QuadTree::getPointLights(D3DXVECTOR3 _cameraPos)const
 	return lights;
 }
 
-vector<Road*> QuadTree::getRoads(D3DXVECTOR3 _cameraPos)const
+stack<Road*> QuadTree::getRoads(D3DXVECTOR3 _cameraPos)const
 {
-	vector<Road*> roads;
+	stack<Road*> roads;
 	this->m_parent->getRoads(roads, _cameraPos);
 	return roads;
 }
