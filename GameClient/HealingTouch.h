@@ -8,6 +8,8 @@ private:
 	static const float COOLDOWN;
 	static const int RANGE = 10;
 public:
+	static const int COST = 1700;
+
 	HealingTouch();
 	~HealingTouch();
 

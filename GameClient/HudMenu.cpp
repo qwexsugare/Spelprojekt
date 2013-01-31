@@ -193,7 +193,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					m_DontChange = true;
 				}
 			}
-			for(int i =m_NumberOfSkills-1; i >=0; i--)
+			for(int i = 0; i < m_NumberOfSkills; i++)
 			{
 				this->m_SkillButtons[i]->Update();
 

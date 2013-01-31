@@ -103,7 +103,7 @@ int Skill_Buttons::GetButtonReaction()
 }
 void Skill_Buttons::ChangeButton(string _Number, bool _Active, int id)
 {
-	this->m_id				=	StringtoINT(_Number);	
+	this->m_skillId				=	id;	
 	this->m_Number			=	_Number;
 	//this->m_FullName		=	m_TextureName + m_Number + m_TextType;
 	this->m_FullName = _Number;

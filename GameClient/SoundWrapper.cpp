@@ -8,9 +8,9 @@ void clearSoundEngine()
 	g_soundEngine->clear();
 }
 
-int createSoundHandle(string _filename, bool _music)
+int createSoundHandle(string _filename, bool _music, float _volume)
 {
-	return g_soundEngine->createSoundHandle(_filename, _music);
+	return g_soundEngine->createSoundHandle(_filename, _music, _volume);
 }
 
 void deactivateSound(int _handle)
@@ -46,6 +46,11 @@ void setMusicVolume(float _value)
 void setSoundEffectsVolume(float _value)
 {
 	g_soundEngine->setSoundEffectsVolume(_value);
+}
+
+void setSoundVolume(int _handle, float _volume)
+{
+	g_soundEngine->setSoundVolume(_handle, _volume);
 }
 
 void stopSound(int _handle)

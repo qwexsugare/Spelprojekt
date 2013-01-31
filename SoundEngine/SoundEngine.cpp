@@ -32,7 +32,7 @@ void SoundEngine::clear()
 		alDeleteBuffers(1, &i->second);
 }
 
-int SoundEngine::createSoundHandle(string _filename, bool _music)
+int SoundEngine::createSoundHandle(string _filename, bool _music, float _volume)
 {
 	int soundHandle = this->m_handleCounter++;
 	if(this->m_handleCounter == INT_MAX)
@@ -43,14 +43,13 @@ int SoundEngine::createSoundHandle(string _filename, bool _music)
 	alGenSources(1, &source);
 	alSourcei(source, AL_BUFFER, buffer);
 
-	float volume;
-
+	float finalVolume = _volume;
 	if(_music)
-		volume = this->m_musicVolume;
+		finalVolume *= this->m_musicVolume;
 	else
-		volume = this->m_soundEffectsVolume;
+		finalVolume *= this->m_soundEffectsVolume;
 
-	this->m_sounds.insert(pair<int, Sound*>(soundHandle, new Sound(source, volume, _music)));
+	this->m_sounds.insert(pair<int, Sound*>(soundHandle, new Sound(source, _volume, finalVolume, _music)));
 
 	return soundHandle;
 }
@@ -120,7 +119,7 @@ void SoundEngine::setMusicVolume(float _value)
 	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != this->m_sounds.end(); i++)
 	{
 		if(i->second->isMusic())
-			i->second->setVolume(this->m_musicVolume);
+			i->second->setVolume(this->m_musicVolume*i->second->getVolume());
 	}
 }
 
@@ -131,7 +130,21 @@ void SoundEngine::setSoundEffectsVolume(float _value)
 	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != this->m_sounds.end(); i++)
 	{
 		if(!i->second->isMusic())
-			i->second->setVolume(this->m_soundEffectsVolume);
+			i->second->setVolume(this->m_soundEffectsVolume*i->second->getVolume());
+	}
+}
+
+void SoundEngine::setSoundVolume(int _handle, float _volume)
+{
+	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != this->m_sounds.end(); i++)
+	{
+		if(i->first == _handle)
+		{
+			if(i->second->isMusic())
+				i->second->setVolume(_volume, this->m_musicVolume*_volume);
+			else
+				i->second->setVolume(_volume, this->m_soundEffectsVolume*_volume);
+		}
 	}
 }
 

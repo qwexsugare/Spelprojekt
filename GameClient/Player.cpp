@@ -19,12 +19,14 @@ Player::Player(unsigned int id)
 
 	this->m_skills.push_back(new PoisonStrike());
 	this->m_skills.push_back(new LifestealingStrike());
+	this->m_skills.push_back(new StunningStrike());
 
 	this->m_skills[0]->activate(this->m_hero->getId());
 	this->m_skills[1]->activate(this->m_hero->getId());
 
 	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::AIM, this->m_id, this->m_resources));
 	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::LIFESTEALING_STRIKE, this->m_id, this->m_resources));
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::STUNNING_STRIKE, this->m_id, this->m_resources));
 }
 
 Player::~Player()
@@ -133,6 +135,38 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			{
 				this->m_skills.push_back(new Greed());
 				this->m_resources = this->m_resources - Greed::COST;
+				skillBought = true;
+			}
+
+			break;
+
+		case Skill::HEALING_TOUCH:
+			if(this->m_resources >= HealingTouch::COST)
+			{
+				this->m_skills.push_back(new HealingTouch());
+				this->m_resources = this->m_resources - HealingTouch::COST;
+				skillBought = true;
+			}
+
+			break;
+
+		case Skill::TELEPORT:
+			if(this->m_resources >= Greed::TELEPORT)
+			{
+				this->m_skills.push_back(new Teleport());
+				this->m_resources = this->m_resources - Teleport::COST;
+				skillBought = true;
+			}
+
+			break;
+
+		case Skill::PHYSICAL_RESISTANCE:
+			if(this->m_resources >= Greed::COST)
+			{
+				PhysicalResistance* a = new PhysicalResistance();
+				a->activate(this->m_hero->getId());
+				this->m_skills.push_back(a);
+				this->m_resources = this->m_resources - PhysicalResistance::COST;
 				skillBought = true;
 			}
 

@@ -5,13 +5,13 @@ Sound::Sound()
 
 }
 
-Sound::Sound(ALuint _source, float _volume, bool _music)
+Sound::Sound(ALuint _source, float _volume, float _finalVolume, bool _music)
 {
 	this->m_source = _source;
 	this->m_volume = _volume;
+	alSourcef(this->m_source, AL_GAIN, _finalVolume);
 	this->m_looped = false;
 	this->m_active = true;
-	alSourcef(this->m_source, AL_GAIN, this->m_volume);
 	this->m_music = _music;
 }
 
@@ -50,10 +50,15 @@ void Sound::play()
 	alSourcePlay(this->m_source);
 }
 
-void Sound::setVolume(float _volume)
+void Sound::setVolume(float _volume, float _finalVolume)
 {
 	this->m_volume = _volume;
-	alSourcef(this->m_source, AL_GAIN, this->m_volume);
+	alSourcef(this->m_source, AL_GAIN, _finalVolume);
+}
+
+void Sound::setVolume(float _finalVolume)
+{
+	alSourcef(this->m_source, AL_GAIN, _finalVolume);
 }
 
 void Sound::stop()
