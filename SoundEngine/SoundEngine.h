@@ -19,11 +19,12 @@ private:
 	map<string, ALuint> m_buffers;
 	map<int, Sound*> m_sounds;
 	float m_musicVolume;
-	float m_soundEffectsVolume;
+	float m_soundVolume;
 
 	ALuint getWavBuffer(string _filename);
 public:
 	SOUND_EXPORT SoundEngine();
+	SOUND_EXPORT SoundEngine(float _musicVolume, float _soundVolume);
 	SOUND_EXPORT ~SoundEngine();
 
 	SOUND_EXPORT void clear();
@@ -33,7 +34,7 @@ public:
 	SOUND_EXPORT void play(int _handle)const;
 	SOUND_EXPORT void loop(int _handle);
 	SOUND_EXPORT void setMusicVolume(float _value);
-	SOUND_EXPORT void setSoundEffectsVolume(float _value);
+	SOUND_EXPORT void setSoundVolume(float _value);
 	SOUND_EXPORT void setSoundVolume(int _handle, float _volume);
 	SOUND_EXPORT void stop(int _handle)const;
 	SOUND_EXPORT void update();

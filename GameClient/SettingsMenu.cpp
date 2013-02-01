@@ -1,5 +1,6 @@
 #include "SettingsMenu.h"
-
+#include "Graphics.h"
+#include "SoundWrapper.h"
 
 SettingsMenu::SettingsMenu(void)
 {
@@ -19,7 +20,7 @@ SettingsMenu::SettingsMenu(void)
 	m_side.y = (122.0f/m_size.y)*2.0f;
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
-	this->m_Buttons.resize(12);
+	this->m_Buttons.resize(10);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.55, 0.3f),FLOAT2(0.086458333f,0.033333333f),"menu_textures\\720p.png","",0,0,1,5);
 	this->m_Buttons[1] = new Button();
@@ -42,11 +43,15 @@ SettingsMenu::SettingsMenu(void)
 	this->m_Buttons[8]->Init(FLOAT2(-0.708333333f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);
 	this->m_Buttons[9] = new Button();
 	this->m_Buttons[9]->Init(FLOAT2(-0.708333333f, 0.018518519f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);
-	this->m_Buttons[10] = new Button();
-	this->m_Buttons[10]->Init(FLOAT2(-0.177083333f, 0.262962963f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);
-	this->m_Buttons[11] = new Button();
-	this->m_Buttons[11]->Init(FLOAT2(-0.177083333f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);
-	int graphics = g_graphicsEngine->getRealScreenSize().y;
+	
+	/*this->m_soundVolumeSlider.Init(FLOAT2(-0.177083333f+g_configFile->getSoundVolume()*0.4f, 0.262962963f),FLOAT2(0.026041667f,0.051851852f),
+		"menu_textures\\Arrow-Up.png","",-g_configFile->getSoundVolume()*0.4f,0.4f-g_configFile->getSoundVolume()*0.4f,2,1);
+	this->m_musicVolumeSlider.Init(FLOAT2(-0.177083333f+g_configFile->getMusicVolume()*0.4f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),
+		"menu_textures\\Arrow-Up.png","",-g_configFile->getMusicVolume()*0.4f,0.4f-g_configFile->getMusicVolume()*0.4f,2,1);*/
+	this->m_soundVolumeSlider.Init(FLOAT2(-0.177083333f, 0.262962963f), g_configFile->getSoundVolume()*0.4f,FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0.0f,0.4f,2,1);
+	this->m_musicVolumeSlider.Init(FLOAT2(-0.177083333f, 0.138888889f), g_configFile->getMusicVolume()*0.4f, FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0.0f,0.4f,2,1);
+
+	int graphics = g_configFile->getScreenSize().y;
 	if (graphics == 720)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(true);
@@ -111,16 +116,26 @@ void SettingsMenu::Update()
 	{
 		this->m_Buttons[i]->Update();
 	}
+	m_soundVolumeSlider.Update();
+	m_musicVolumeSlider.Update();
 	LowIsDownS();
 	MediumIsDownS();
 	HighIsDownS();
 	LowIsDown();
 	MediumIsDown();
 	HighIsDown();
-	SaveSettingsIsDown();
+	setMusicVolume(this->m_musicVolumeSlider.GetValue());
+	setSoundVolume(this->m_soundVolumeSlider.GetValue());
+	if(SaveSettingsIsDown())
+	{
+		g_configFile->setMusicVolume(m_musicVolumeSlider.GetValue());
+		g_configFile->setSoundVolume(m_soundVolumeSlider.GetValue());
+		g_configFile->save();
+	}
 }
 bool SettingsMenu::LowIsDownS()
 {
+	// 1280 x 720
 	if(this->m_Buttons[0]->Clicked() == 1)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(true);
@@ -129,12 +144,14 @@ bool SettingsMenu::LowIsDownS()
 		this->m_Buttons[3]->SetTextBoxValue(false);
 		this->m_Buttons[4]->SetTextBoxValue(false);
 		this->m_Buttons[5]->SetTextBoxValue(false);
+		g_configFile->setScreenSize(INT2(1280, 720));
 		return true;
 	}
 	return false;
 }
 bool SettingsMenu::MediumIsDownS()
 {
+	// 1600 x 900
 	if(this->m_Buttons[1]->Clicked() == 1)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(false);
@@ -143,12 +160,14 @@ bool SettingsMenu::MediumIsDownS()
 		this->m_Buttons[3]->SetTextBoxValue(false);
 		this->m_Buttons[4]->SetTextBoxValue(false);
 		this->m_Buttons[5]->SetTextBoxValue(false);
+		g_configFile->setScreenSize(INT2(1600, 900));
 		return true;
 	}
 	return false;
 }
 bool SettingsMenu::HighIsDownS()
 {
+	// 1920 x 1080
 	if(this->m_Buttons[2]->Clicked() == 1)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(false);
@@ -157,12 +176,14 @@ bool SettingsMenu::HighIsDownS()
 		this->m_Buttons[3]->SetTextBoxValue(false);
 		this->m_Buttons[4]->SetTextBoxValue(false);
 		this->m_Buttons[5]->SetTextBoxValue(false);
+		g_configFile->setScreenSize(INT2(1920, 1080));
 		return true;
 	}
 	return false;
 }
 bool SettingsMenu::LowIsDown()
 {
+	// 1280 x 800
 	if(this->m_Buttons[3]->Clicked() == 1)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(false);
@@ -171,12 +192,14 @@ bool SettingsMenu::LowIsDown()
 		this->m_Buttons[3]->SetTextBoxValue(true);
 		this->m_Buttons[4]->SetTextBoxValue(false);
 		this->m_Buttons[5]->SetTextBoxValue(false);
+		g_configFile->setScreenSize(INT2(1280, 800));
 		return true;
 	}
 	return false;
 }
 bool SettingsMenu::MediumIsDown()
 {
+	// 1680 x 1050
 	if(this->m_Buttons[4]->Clicked() == 1)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(false);
@@ -185,12 +208,14 @@ bool SettingsMenu::MediumIsDown()
 		this->m_Buttons[3]->SetTextBoxValue(false);
 		this->m_Buttons[4]->SetTextBoxValue(true);
 		this->m_Buttons[5]->SetTextBoxValue(false);
+		g_configFile->setScreenSize(INT2(1680, 1050));
 		return true;
 	}
 	return false;
 }
 bool SettingsMenu::HighIsDown()
 {
+	// 1920 x 1200
 	if(this->m_Buttons[5]->Clicked() == 1)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(false);
@@ -199,6 +224,7 @@ bool SettingsMenu::HighIsDown()
 		this->m_Buttons[3]->SetTextBoxValue(false);
 		this->m_Buttons[4]->SetTextBoxValue(false);
 		this->m_Buttons[5]->SetTextBoxValue(true);
+		g_configFile->setScreenSize(INT2(1920, 1200));
 		return true;
 	}
 	return false;
@@ -237,24 +263,7 @@ int SettingsMenu::GetValueBrigtness()
 	}
 	return m_Brigtness;
 }
-int SettingsMenu::GetValueSoundVolume()
-{
-	if(this->m_Buttons[10]->Clicked() == 1)
-	{
-		m_SoundVolume = this->m_Buttons[10]->GetValue();
-		return m_SoundVolume;
-	}
-	return m_SoundVolume;
-}
-int SettingsMenu::GetValueMusicVolume()
-{
-	if(this->m_Buttons[11]->Clicked() == 1)
-	{
-		m_MusicVolume = this->m_Buttons[11]->GetValue();
-		return m_MusicVolume;
-	}
-	return m_MusicVolume;
-}
+
 SettingsMenu::~SettingsMenu(void)
 {
 }

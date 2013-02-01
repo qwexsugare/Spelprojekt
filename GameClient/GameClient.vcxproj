@@ -231,6 +231,7 @@
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Skill_Buttons.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
@@ -342,6 +343,7 @@
     <ClInclude Include="Skill.h" />
     <ClInclude Include="Skills.h" />
     <ClInclude Include="Skill_Buttons.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="SoundWrapper.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StunningStrike.h" />

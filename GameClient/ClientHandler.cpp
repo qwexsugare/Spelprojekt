@@ -11,10 +11,14 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_keyboard = new Keyboard();
 
 	this->m_serverThread = new ServerThread();
+	m_testMusic = createSoundHandle("collision.wav", true);
+	m_testSound = createSoundHandle("click_button.wav", false);
 }
 
 ClientHandler::~ClientHandler()
 {
+	deactivateSound(m_testMusic);
+	deactivateSound(m_testSound);
 	delete this->m_serverThread;
 	if(this->m_state)
 	{
@@ -28,8 +32,10 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
+	loopSound(m_testMusic);
+	loopSound(m_testSound);
 	this->m_serverThread->Launch();
-	this->m_state = new GameState();
+	this->m_state = new IntroState; //GameState();
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
