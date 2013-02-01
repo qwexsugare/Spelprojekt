@@ -50,7 +50,7 @@ bool GraphicsHandler::removeRoad(Road* _road)
 	return this->m_world->removeRoad(_road);
 }
 	
-Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps)
+Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps)
 {
 	// Pre-define a shitload of vars
 	D3DXVECTOR3 v1(_v1.x, _v1.y, _v1.z);
@@ -63,7 +63,7 @@ Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _
 		blendMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_blendMaps[i]);
 
 	// Shove that heap of trash vars into the terrains crappy constructor.
-	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, v2.x / 8, v2.z / 8, textures, _textures.size(), blendMaps, _blendMaps.size());
+	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, v2.x / 8, v2.z / 8, textures, _textures.size(), blendMaps, _blendMaps.size(), this->m_resourceHolder->getTextureHolder()->getTexture(_normalMaps[0]));
 	
 	this->m_world->addTerrain(terrain);
 

@@ -20,6 +20,7 @@ private:
 	ID3D10EffectTechnique* m_renderTerrain;
 	ID3D10EffectShaderResourceVariable* m_terrainTextures;
 	ID3D10EffectShaderResourceVariable* m_terrainBlendMaps;
+	ID3D10EffectShaderResourceVariable* m_normalMaps;
 	
 	// Road
 	ID3D10EffectTechnique* m_renderRoad;
@@ -43,6 +44,7 @@ public:
 	ID3D10EffectTechnique *getAnimationTechnique();
 
 	ID3D10EffectTechnique *getRenderTerrainTechnique();
+	void setNormalMaps(ID3D10ShaderResourceView* _texture);
 	void setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size);
 	void setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size);
 	

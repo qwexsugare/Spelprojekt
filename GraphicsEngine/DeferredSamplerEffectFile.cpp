@@ -51,6 +51,7 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_renderTerrain = this->m_effect->GetTechniqueByName("RenderTerrain");
 	this->m_terrainTextures = this->m_effect->GetVariableByName("terrainTextures")->AsShaderResource();
 	this->m_terrainBlendMaps = this->m_effect->GetVariableByName("terrainBlendMaps")->AsShaderResource();
+	this->m_normalMaps = this->m_effect->GetVariableByName("normalMap")->AsShaderResource();
 	 
 	// Road
 	this->m_renderRoad = this->m_effect->GetTechniqueByName("RenderRoad");
@@ -120,6 +121,11 @@ ID3D10EffectTechnique* DeferredSamplerEffectFile::getRenderRoadTechnique()
 ID3D10EffectTechnique* DeferredSamplerEffectFile::getRenderTerrainTechnique()
 {
 	return this->m_renderTerrain;
+}
+
+void DeferredSamplerEffectFile::setNormalMaps(ID3D10ShaderResourceView* _texture)
+{
+	this->m_normalMaps->SetResource(_texture);
 }
 
 void DeferredSamplerEffectFile::setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size)
