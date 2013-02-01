@@ -120,9 +120,11 @@ Path Pathfinder::getPath()
 		int y=this->startY;
 
 		int pos=0;
+		int timeout = 500;
 		
-		while(!currentNode.isEndNode()&&!openList.empty())
+		while(!currentNode.isEndNode()&&!openList.empty() && timeout > 0)
 		{
+			timeout--;
 			F=openList[0].getH()+openList[0].getG();
 			pos=0;
 			for(int i=0;i<(int)openList.size();i++)
@@ -213,6 +215,9 @@ Path Pathfinder::getPath()
 			this->nodes[i][j].resetNode(j,i);
 		}
 	}
+
+	delete[] points2;
+
 	return p;
 }
 
