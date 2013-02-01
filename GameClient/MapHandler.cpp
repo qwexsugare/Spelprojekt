@@ -1,6 +1,8 @@
 #include "MapHandler.h"
 #include <fstream>
 
+Pathfinder *g_pathfinder;
+
 MapHandler::MapHandler()
 {
 	m_currentWave = 0;
@@ -32,6 +34,8 @@ MapHandler::~MapHandler()
 			delete m_paths[i].points;
 		delete m_paths;
 	}
+
+	delete g_pathfinder;
 }
 
 bool MapHandler::isDone()
@@ -69,7 +73,7 @@ void MapHandler::loadMap(std::string filename)
 			stream.getline(buf, 1024);
 			sscanf(buf, "width, height %d %d", &m_gridWidth, &m_gridHeight);
 
-			this->m_pathfinder = new Pathfinder(this->m_gridWidth, this->m_gridHeight);
+			g_pathfinder = new Pathfinder(this->m_gridWidth, this->m_gridHeight, width, height);
 			
 			m_grid = new bool*[m_gridHeight];
 			for(int j = m_gridHeight-1; j >= 0; j--)
@@ -86,7 +90,7 @@ void MapHandler::loadMap(std::string filename)
 
 					if(m_grid[j][i] == true)
 					{
-						this->m_pathfinder->setAsWall(i, j);
+						g_pathfinder->setAsWall(i, j);
 					}
 				}
 			}
@@ -129,25 +133,25 @@ void MapHandler::loadMap(std::string filename)
 		m_paths[i].points = paths[i].points;
 	}
 
-	this->m_pathfinder->setStart(240,240);
-	this->m_pathfinder->setEnd(15,15);
+	g_pathfinder->setStart(255 * this->m_paths[0].points[0].x / 64, 255 * this->m_paths[0].points[0].y / 64);
+	g_pathfinder->setEnd(255 * this->m_paths[0].points[2].x / 64, 255 * this->m_paths[0].points[2].y / 64);
 
-	Path p = this->m_pathfinder->getPath();
+	//Path p = g_pathfinder->getPath();
 
-	for(int i = 0; i < p.nrOfPoints; i++)
-	{
-		p.points[i].x = (p.points[i].x / 256) * 64;
-		p.points[i].y = (p.points[i].y / 256) * 64;
-	}
+	//for(int i = 0; i < p.nrOfPoints; i++)
+	//{
+	//	p.points[i].x = (p.points[i].x / 255) * 64;
+	//	p.points[i].y = (p.points[i].y / 255) * 64;
+	//}
 
 
 	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 0.0f, 0.0f), p));
-	m_waves[0].push_back(new Enemy(FLOAT3(10.0f, 0.0f, 0.0f), p));
-	m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 0.0f), p));
-	m_waves[0].push_back(new Enemy(FLOAT3(15.0f, 0.0f, 5.0f), p));
-	m_waves[0].push_back(new Enemy(FLOAT3(25.0f, 0.0f, 10.0f), p));
-	m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 15.0f), p));
+	//m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 0.0f, 0.0f), p));
+	//m_waves[0].push_back(new Enemy(FLOAT3(10.0f, 0.0f, 0.0f), p));
+	//m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 0.0f), p));
+	//m_waves[0].push_back(new Enemy(FLOAT3(15.0f, 0.0f, 5.0f), p));
+	//m_waves[0].push_back(new Enemy(FLOAT3(25.0f, 0.0f, 10.0f), p));
+	//m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 15.0f), p));
 	m_waves[0].push_back(new Enemy(FLOAT3(30.0f, 0.0f, 8.0f), this->m_paths[0]));
 	m_waves[0].push_back(new Enemy(FLOAT3(35.0f, 0.0f, 15.0f), this->m_paths[0]));
 	m_waves[0].push_back(new Enemy(FLOAT3(40.0f, 0.0f, 18.0f), this->m_paths[0]));

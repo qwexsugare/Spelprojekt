@@ -18,10 +18,13 @@ Pathfinder::~Pathfinder()
 	}
 	delete this->nodes;
 }
-Pathfinder::Pathfinder(int x, int y)
+Pathfinder::Pathfinder(int gridWidth, int gridHeight, int mapWidth, int mapHeight)
 {
-	this->rows=y;
-	this->cols=x;
+	this->rows = gridHeight;
+	this->cols = gridWidth;
+	this->mapWidth = mapWidth;
+	this->mapHeight = mapHeight;
+
 	this->nodes = new Node* [rows];
 	for(int i=0;i<rows;i++)
 	{
@@ -92,10 +95,11 @@ bool Pathfinder::setEnd(int x, int y)
 
 Path Pathfinder::getPath()
 {
-	FLOAT2 *points = new FLOAT2[500];
+	FLOAT2 points[500];
 	int nrOfPoints = 0;
 
 	openList.clear();
+	closedList.clear();
 	bool startIsEnd=false;
 	bool invalidStartEndPos=false;
 	
@@ -105,7 +109,7 @@ Path Pathfinder::getPath()
 	if(this->startX!=-1&&this->startY!=-1&&this->endX!=-1&&this->endY!=-1)
 			invalidStartEndPos=true;
 			
-	if(!startIsEnd&&invalidStartEndPos)
+	if(!startIsEnd&&invalidStartEndPos && this->nodes[endX][endY].isWall() == false)
 	{
 		Node currentNode;
 		this->nodes[startY][startX].setH(this->getDistance(startX,startY,endX,endY)*vertMoveCost);
@@ -152,6 +156,22 @@ Path Pathfinder::getPath()
 		//currentNode = this->nodes[endY][endX];
 		stringstream ss;
 		vector<Node> tmp;
+
+		/*
+		if(this->openList.empty())
+		{
+			int lowestF=99999;
+			Node tmpNode;
+			for(int i=0;i<this->closedList.size();i++)
+			{
+				if(this->closedList[i].getG()+this->closedList[i].getH()<lowestF)
+				{
+					lowestF=this->closedList[i].getG()+this->closedList[i].getH();
+					tmpNode=this->closedList[i];
+				}
+			}
+			currentNode=tmpNode;
+		}*/
 		while(!currentNode.isStartNode())
 		{
 			tmp.push_back(currentNode);
@@ -169,17 +189,30 @@ Path Pathfinder::getPath()
 
 			tmp.pop_back();
 		}
+		ss.str();
+
 	}
+	
 
 	FLOAT2 *points2 = new FLOAT2[nrOfPoints];
 
-	for(int i = 0; i < nrOfPoints; i++)
+	if(this->openList.empty() == false)
 	{
-		points2[i] = points[i];
+		for(int i = 0; i < nrOfPoints; i++)
+		{
+			points2[i] = points[i];
+		}
 	}
 
 	Path p = Path(nrOfPoints, points2);
-			
+	int k=0;
+	for(int i=0;i<rows;i++)
+	{
+		for(int j=0;j<cols;j++)
+		{
+			this->nodes[i][j].resetNode(j,i);
+		}
+	}
 	return p;
 }
 
@@ -315,4 +348,26 @@ int Pathfinder::getDistance(int x1,int y1, int x2, int y2)
 		*/
 
 	return x+y;
+}
+
+Path Pathfinder::getPath(FLOAT2 startPos, FLOAT2 endPos)
+{
+	Path p;
+
+	if(this->setStart(this->cols * startPos.x / this->mapWidth, this->rows * startPos.y / this->mapHeight) == true && this->setEnd(this->cols * endPos.x / this->mapWidth, this->rows * endPos.y / this->mapHeight) == true)
+	{
+		p = this->getPath();
+
+		for(int i = 0; i < p.nrOfPoints; i++)
+		{
+			p.points[i].x = (p.points[i].x / this->cols) * this->mapWidth;
+			p.points[i].y = (p.points[i].y / this->rows) * this->mapHeight;
+		}
+	}
+	else
+	{
+		p = Path(0, NULL);
+	}
+
+	return p;
 }

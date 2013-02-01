@@ -6,8 +6,8 @@ Player::Player(unsigned int id)
 	this->m_resources = 20000;
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = new Hero();
-	this->m_hero->setPosition(FLOAT3(50.0f, 0.0f, 50.0f));
-	this->m_hero->setNextPosition(FLOAT3(50.0f, 0.0f, 50.0f));
+	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
+	//this->m_hero->setNextPosition(FLOAT3(60.0f, 0.0f, 40.0f));
 	this->m_chainStrike = new ChainStrike();
 	this->m_cloudOfDarkness = new CloudOfDarkness();
 	this->m_stunningStrike = new StunningStrike();

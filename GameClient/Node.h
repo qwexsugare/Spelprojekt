@@ -29,6 +29,7 @@ public:
 	int getParentY();
 	void actAsWall();
 	bool isWall();
+	void resetNode(int x, int y);
 };
 
 #endif;

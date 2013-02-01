@@ -6,11 +6,14 @@
 #include "ServerEntity.h"
 #include "EntityHandler.h"
 #include "Projectile.h"
+#include "MapHandler.h"
+#include "Path.h"
 
 class Hero : public UnitEntity
 {
 private:
 	FLOAT3 m_nextPosition;
+	FLOAT3 m_goalPosition;
 	bool m_reachedPosition;
 
 	unsigned int m_target;
@@ -18,6 +21,9 @@ private:
 
 	float m_attackRange;
 	float m_attackCooldown;
+
+	Path m_path;
+	int m_pathCounter;
 public:
 	Hero();
 	virtual ~Hero();

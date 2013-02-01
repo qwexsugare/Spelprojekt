@@ -19,8 +19,6 @@ private:
 	int m_gridHeight;
 	int m_gridWidth;
 	bool** m_grid;
-
-	Pathfinder *m_pathfinder;
 public:
 	MapHandler();
 	~MapHandler();

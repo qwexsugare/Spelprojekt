@@ -34,7 +34,8 @@ bool Server::start(int port)
 void Server::goThroughSelector()
 {
 	unsigned int itemsInSelector= this->selector.Wait(0.01f);
-	
+	sf::Packet packet;
+
 	if(itemsInSelector > 0)
 	{
 		if(this->isRunning())
@@ -61,7 +62,6 @@ void Server::goThroughSelector()
 			//else its a client socket who wants to sent a message
 			else
 			{
-				sf::Packet packet;
 				if (sock.Receive(packet) == sf::Socket::Done)
 				{
 					// Extract what type of data sent by the client

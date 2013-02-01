@@ -2,6 +2,7 @@
 #define PATHFINDER_H
 #include "Node.h"
 #include "Path.h"
+#include "DataStructures.h"
 #include <vector>
 #include <string>
 
@@ -12,6 +13,8 @@ class Pathfinder
 private:
 	Node **nodes;
 	int rows,cols;
+	int mapWidth;
+	int mapHeight;
 	vector<Node> openList;
 	vector<Node> closedList;
 	int startX,startY,endX,endY;
@@ -22,7 +25,7 @@ private:
 	bool p;
 
 public:
-	Pathfinder(int width,int height);
+	Pathfinder(int gridWidth, int gridHeight, int mapWidth, int mapHeight);
 	Pathfinder();
 	Path getPath();
 	virtual ~Pathfinder();
@@ -31,6 +34,7 @@ public:
 	void reset();
 	void setAsWall(int x, int y);
 
+	Path getPath(FLOAT2 startPos, FLOAT2 endPos);
 };
 
 #endif
