@@ -19,6 +19,12 @@ struct Path
 		nrOfPoints = _nrOfPoints;
 		points = _points;
 	}
+
+	~Path()
+	{
+		if(points)
+			delete points;
+	}
 };
 
 #endif
