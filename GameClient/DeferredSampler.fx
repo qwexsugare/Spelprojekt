@@ -1,6 +1,7 @@
 Texture2D tex2D;
 Texture1D boneTex;
 Texture2D terrainTextures[8];
+Texture2D normalMap;
 Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
@@ -236,6 +237,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 
 	output.Pos = float4(input.EyeCoord, 1.0f);
 	output.Normal = float4(input.Normal, 1.0f);
+	//output.Normal = float4(normalMap.Sample(linearSampler, input.UVCoord/8.0f, 1.0f);
 
 	float4 texColors[8];
 	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);
@@ -247,8 +249,8 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	texColors[6] = terrainTextures[6].Sample(linearSampler, input.UVCoord);
 	texColors[7] = terrainTextures[7].Sample(linearSampler, input.UVCoord);
 	
-	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/8.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
-	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/8.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
+	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/8.0f); // /x is the number of tiles for the terrain that you specified in the constructor
+	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/8.0f); // /x is the number of tiles for the terrain that you specified in the constructor
 	
 	output.Diffuse =  texColors[0]* blendSample1.x;
 	output.Diffuse += texColors[1]* blendSample1.y;
