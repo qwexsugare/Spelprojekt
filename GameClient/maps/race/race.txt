@@ -4,8 +4,6 @@ bmp1: racebmp1.png
 bmp2: racebmp2.png
 minimap: raceminimap.png
 
-Surfaceplanes: (format rotY, posX,posZ) 
-SF: stone.png
 53.3825 19.1047 -15.5135 
 54.0432 19.8463 -14.9755 
 54.0013 20.5745 -14.4465 

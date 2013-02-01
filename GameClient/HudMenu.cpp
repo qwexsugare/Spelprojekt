@@ -123,7 +123,6 @@ HudMenu::HudMenu(Client *_network)
 	for(int i = 0; i < 20; i++)
 	{
 		this->m_shopButtons.push_back(new Button());
-		this->m_resourceImages.push_back(new Button());
 	}
 
 	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-0.png","0",0,0,1,12,100,0,INT2(422,80), false, Skill::TOWER);
@@ -139,9 +138,9 @@ HudMenu::HudMenu(Client *_network)
 	this->m_shopButtons[10]->Init(FLOAT2(-0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-11.png","2000",0,0,1,12,100,2000,INT2(1920/2,440), false, Skill::DEADLY_STRIKE);
 	this->m_shopButtons[11]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-3.png","0",0,0,1,12,100,0,INT2(1228,80), false, Skill::WITS);
 	this->m_shopButtons[12]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-10.png","1700",0,0,1,12,100,1700,INT2(1228,200), false, Skill::POISON_STRIKE);
-	this->m_shopButtons[13]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-14.png","2500",0,0,1,12,100,2500,INT2(1228,324), false, Skill::CHAIN_STRIKE);
-	this->m_shopButtons[14]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-17.png","3500",0,0,1,12,100,3500,INT2(1228,440), false, Skill::CLOUD_OF_DARKNESS);
-	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-19.png","1700",0,0,1,12,100,1700,INT2(1228,560), false, Skill::HEALING_TOUCH);
+	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-19.png","1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH);
+	this->m_shopButtons[13]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-14.png","2500",0,0,1,12,100,2500,INT2(1228,440), false, Skill::CHAIN_STRIKE);
+	this->m_shopButtons[14]->Init(FLOAT2(0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-17.png","3500",0,0,1,12,100,3500,INT2(1228,560), false, Skill::CLOUD_OF_DARKNESS);
 	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-4.png","0",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE);
 	this->m_shopButtons[17]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-6.png","700",0,0,1,12,100,700,INT2(1498,200), false, Skill::GREED);
 	this->m_shopButtons[18]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-8.png","900",0,0,1,12,100,900,INT2(1498,324), false, Skill::MENTAL_RESISTANCE);
@@ -164,6 +163,7 @@ HudMenu::HudMenu(Client *_network)
 	this->m_shopBackground.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Wits.png", FLOAT2(0.28f,0.3f),  FLOAT2(0.260416667f,1.451851852f),10));
 	this->m_shopBackground.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Fortitude.png", FLOAT2(0.56f,0.3f),  FLOAT2(0.260416667f,1.451851852f),10));
 
+	this->m_shopVisible = false;
 	this->displayShop(false);
 }
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
@@ -190,6 +190,14 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 				if (m_SkillHud >= m_NumberOfSkills-1)
 				{
 					m_SkillHud = m_NumberOfSkills-1;
+
+					//Set all skill buttons to the correct position in the end
+					this->m_Images[1]->setPosition(FLOAT2(-1.0f +((0.102083333f*(float)m_SkillHud)), -0.814814815f));
+					for(int i=0 ; i < m_SkillButtons.size(); i++)
+					{
+						this->m_SkillButtons[i]->setPosition(FLOAT2(-1.1782f +(0.102083333f*(((m_SkillHud+((m_NumberOfSkills-1)-i-(m_NumberOfSkills-5)))))),  -0.883333333f-0.004f));
+					}
+
 					m_DontChange = true;
 				}
 			}
@@ -338,6 +346,11 @@ HudMenu::~HudMenu(void)
 		delete this->m_disabledShopButtons[i];
 	}
 
+	for(int i = 0; i < this->m_shopBackground.size(); i++)
+	{
+		g_graphicsEngine->removeSprite(this->m_shopBackground[i]);
+	}
+
 	delete this->m_LabelInput;
 	for(int i=0 ; i < this->m_Chattext.size();i++)
 	{
@@ -376,6 +389,8 @@ int  HudMenu::ReturnID()
 
 void HudMenu::displayShop(bool _visible)
 {
+	this->m_shopVisible = _visible;
+
 	for(int i = 0; i < this->m_shopButtons.size(); i++)
 	{
 		if(this->m_canAfford[i] == true)
@@ -423,10 +438,16 @@ void HudMenu::setResources(unsigned int _resources)
 		if(this->m_shopButtons[i]->getCost() > this->m_Resources)
 		{
 			this->m_canAfford[i] = false;
+			this->m_shopButtons[i]->setVisible(false);
 		}
 		else
 		{
 			this->m_canAfford[i] = true;
 		}
+	}
+
+	if(this->m_shopVisible == true)
+	{
+		this->displayShop(true);
 	}
 }
