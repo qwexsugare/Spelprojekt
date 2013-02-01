@@ -16,9 +16,6 @@
     <ClCompile Include="EntityMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="ClientHandler.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -35,9 +32,6 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="Skill_Buttons.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="JoinGameMenu.cpp">
@@ -77,9 +71,6 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="SoundWrapper.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="TextInput.cpp">
@@ -283,6 +274,18 @@
     <ClCompile Include="Pathfinder.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Client\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Client\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill_Buttons.cpp">
+      <Filter>Client\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -301,9 +304,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="ClientHandler.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="CreateGameMenu.h">
@@ -428,9 +428,6 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Skill_Buttons.h">
-      <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="UseSkillMessage.h">
       <Filter>Server</Filter>
@@ -591,6 +588,15 @@
     <ClInclude Include="Path.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Client\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Client\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill_Buttons.h">
+      <Filter>Client\Buttons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -616,6 +622,9 @@
     </Filter>
     <Filter Include="Server\Skills\Effects">
       <UniqueIdentifier>{5ab2109f-83a8-46f4-9496-d42420f16270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Buttons">
+      <UniqueIdentifier>{6407d00a-14e0-45d2-9bd5-d12346e7e2ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

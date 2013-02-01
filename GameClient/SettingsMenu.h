@@ -1,11 +1,12 @@
 #pragma once
 #include "menu.h"
+#include "Slider.h"
 class SettingsMenu :
 	public Menu
 {
 public:
-	SettingsMenu(void);
-	~SettingsMenu(void);
+	SettingsMenu();
+	~SettingsMenu();
 	
 	void Update();
 	bool MainMenuIsDown();
@@ -18,9 +19,10 @@ public:
 	bool HighIsDown();
 	int GetValueContrast();
 	int GetValueBrigtness();
-	int GetValueSoundVolume();
-	int GetValueMusicVolume();
 private:
+	Slider m_soundVolumeSlider;
+	Slider m_musicVolumeSlider;
+
 	int m_Contrast,
 		m_Brigtness,
 		m_SoundVolume,

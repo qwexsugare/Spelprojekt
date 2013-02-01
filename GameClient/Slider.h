@@ -12,21 +12,21 @@
 #include <sstream>
 
 using namespace std;
-class Button
+class Slider
 {
 private:
 	//-----------------------------------------------------------------------------------------------
-	// int for if button is Pressed UnPressed or Hovered
+	// int for if Slider is Pressed UnPressed or Hovered
 	//----------------------------------------------------------------------------------------------
-		int m_ButtonReaction ;
-		SpriteSheet* m_Button;
+		int m_SliderReaction;
+		SpriteSheet* m_Slider;
 		TextLabel* m_Label;
 	//----------------------------------------------------------------------------------------------
-	// Button size
+	// Slider size
 	//----------------------------------------------------------------------------------------------
 		FLOAT2		m_Size;
 	//----------------------------------------------------------------------------------------------
-	// Button position
+	// Slider position
 	//----------------------------------------------------------------------------------------------
 		FLOAT2		m_Pos;
 		int			m_Keep,
@@ -43,20 +43,21 @@ private:
 	//----------------------------------------------------------------------------------------------
 		string			m_Sound;
 	//----------------------------------------------------------------------------------------------
-	// Textures used, text on button and active texture.
+	// Textures used, text on Slider and active texture.
 	//----------------------------------------------------------------------------------------------
-		string			m_ButtonText;
+		string			m_SliderText;
 
 		string			m_TextureName;
 
 	//----------------------------------------------------------------------------------------------
 
 public:
-	Button();
-	~Button();
+	Slider();
+	~Slider();
 	int m_Delay;
 	int m_DelayTime;
 	void Init(	FLOAT2 _ScreenPos,
+				float _offset,
 				FLOAT2 _Size, 
 				string _TextureName, 
 				string _TextName,  
@@ -70,10 +71,10 @@ public:
 				bool _TextBox = false,
 				int _id = 0);
 
-	void Button::RemoveSprite();
+	void Slider::RemoveSprite();
 	int Clicked();
 	void Update();
-	int GetButtonReaction();
+	int GetSliderReaction();
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
 	void SetID(int _id);
@@ -88,4 +89,3 @@ public:
 	INT2 getTextPos();
 	string getTextureName();
 };
-

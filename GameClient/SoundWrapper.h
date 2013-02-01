@@ -19,7 +19,7 @@ void playSound(int _handle);
 
 void setMusicVolume(float _value);
 
-void setSoundEffectsVolume(float _value);
+void setSoundVolume(float _value);
 
 void setSoundVolume(int _handle, float _volume);
 

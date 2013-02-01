@@ -10,6 +10,7 @@ MapHandler::MapHandler()
 	m_gridHeight = 0;
 	m_gridWidth = 0;
 	m_nrOfPaths = 0;
+	m_grid = NULL;
 	m_paths = NULL;
 }
 
@@ -24,18 +25,19 @@ MapHandler::~MapHandler()
 				delete m_waves[i][j];
 		}
 	}
+
+	delete m_pathfinder;
 	
-	for(int i = 0; i < m_gridHeight; i++)
-		delete m_grid[i];
-	delete m_grid;
-	if(m_paths)
+	if(m_grid)
 	{
-		for(int i = 0; i < m_nrOfPaths; i++)
-			delete m_paths[i].points;
-		delete m_paths;
+		for(int i = 0; i < m_gridHeight; i++)
+			delete m_grid[i];
+		delete []m_grid;
 	}
 
-	delete g_pathfinder;
+	if(m_nrOfPaths > 0)
+		if(m_paths)
+			delete []m_paths;
 }
 
 bool MapHandler::isDone()
@@ -46,7 +48,7 @@ bool MapHandler::isDone()
 void MapHandler::loadMap(std::string filename)
 {
 	this->m_waveTimer = 0.0f;
-
+	
 	int height;
 	int width;
 	Path paths[100];
@@ -59,11 +61,10 @@ void MapHandler::loadMap(std::string filename)
 		stream.getline(buf, 1024);
 		sscanf(buf, "%s", key);
 		
-		
 		if(strcmp(key, "width:") == 0)
 		{
 			sscanf(buf, "width: %d", &width);
-		}		
+		}
 		else if(strcmp(key, "height:") == 0)
 		{
 			sscanf(buf, "height: %d", &height);
@@ -122,20 +123,18 @@ void MapHandler::loadMap(std::string filename)
 			}
 
 			paths[m_nrOfPaths++] = Path(nrOfPoints, optimizedPoints);
+			delete []optimizedPoints;
 		}
 	}
-
+	
 	m_paths = new Path[m_nrOfPaths];
 
 	for(int i = 0; i < m_nrOfPaths; i++)
-	{
-		m_paths[i].nrOfPoints = paths[i].nrOfPoints;
-		m_paths[i].points = paths[i].points;
-	}
+		m_paths[i] = paths[i];
 
 	g_pathfinder->setStart(255 * this->m_paths[0].points[0].x / 64, 255 * this->m_paths[0].points[0].y / 64);
 	g_pathfinder->setEnd(255 * this->m_paths[0].points[2].x / 64, 255 * this->m_paths[0].points[2].y / 64);
-
+	
 	//Path p = g_pathfinder->getPath();
 
 	//for(int i = 0; i < p.nrOfPoints; i++)
@@ -143,8 +142,7 @@ void MapHandler::loadMap(std::string filename)
 	//	p.points[i].x = (p.points[i].x / 255) * 64;
 	//	p.points[i].y = (p.points[i].y / 255) * 64;
 	//}
-
-
+	
 	this->m_waves.push_back(vector<ServerEntity*>());
 	//m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 0.0f, 0.0f), p));
 	//m_waves[0].push_back(new Enemy(FLOAT3(10.0f, 0.0f, 0.0f), p));

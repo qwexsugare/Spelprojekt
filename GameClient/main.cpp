@@ -34,7 +34,7 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 	initSoundEngine();
 	
 	setMusicVolume(g_configFile->getMusicVolume());
-	setSoundEffectsVolume(g_configFile->getSoundEffectsVolume());
+	setSoundVolume(g_configFile->getSoundVolume());
 
 	ClientHandler* clientHandler = new ClientHandler(hwnd);
 	HRESULT hr = clientHandler->run();

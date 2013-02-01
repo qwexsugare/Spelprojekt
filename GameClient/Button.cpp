@@ -1,4 +1,6 @@
 #include "Button.h"
+#include "Input.h"
+#include "Graphics.h"
 
 Button::Button()
 {
@@ -67,14 +69,22 @@ void Button::Update()
 		   tmpPos.x <= this->m_Pos.x + halfSize.x && tmpPos.y <= this->m_Pos.y + halfSize.y) 
 		{
 			this->m_Delay += 1;
-			if (GetKeyState(VK_LBUTTON)< 0)
+			if (g_mouse->isLButtonReleased())
 			{
 				this->m_ButtonReaction = 1;
 				this->m_Button->setCurrentFrame(INT2(1,0));
 			}
-			else if(GetKeyState(VK_RBUTTON)< 0)
+			else if(g_mouse->isLButtonDown())
+			{
+				this->m_Button->setCurrentFrame(INT2(1,0));
+			}
+			else if(g_mouse->isRButtonReleased())
 			{
 				this->m_ButtonReaction = 2;
+				this->m_Button->setCurrentFrame(INT2(1,0));
+			}
+			else if(g_mouse->isRButtonDown())
+			{
 				this->m_Button->setCurrentFrame(INT2(1,0));
 			}
 			else
@@ -83,7 +93,7 @@ void Button::Update()
 				this->m_Button->setCurrentFrame(INT2(2,0));
 			}
 		} 
-		else 
+		else
 		{
 			this->m_ButtonReaction = 0;
 			this->m_Button->setCurrentFrame(INT2(0,0));
@@ -106,36 +116,6 @@ void Button::Update()
 				this->m_Keep = 1;
 			}
 		}
-	}
-	if(this->m_Keep == 1)
-	{
-		this->m_Pos.x = tmpPos.x;
-		this->m_Value = ((float)tmpPos.x/385.0f)*100.0f;
-		if (tmpPos.x > this->m_Max)
-		{
-			this->m_Pos.x = this->m_Max;
-			this->m_Value = 100.0f;
-			g_graphicsEngine->removeSpriteSheet(this->m_Button);
-			this->m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,this->m_Pos,this->m_Size,INT2(3,1),2);
-		}
-		if (tmpPos.x < this->m_Min)
-		{
-			this->m_Pos.x = this->m_Min;
-			this->m_Value = 0.0f;
-			g_graphicsEngine->removeSpriteSheet(this->m_Button);
-			this->m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,this->m_Pos,this->m_Size,INT2(3,1),2);
-		}
-		g_graphicsEngine->removeSpriteSheet(this->m_Button);
-		this->m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,this->m_Pos,this->m_Size,INT2(3,1),2);
-		if(GetKeyState(VK_LBUTTON) < 0)
-		{
-			this->m_Keep = 1;
-		}
-		else this->m_Keep =0;
-	}
-	if(m_TextBox == true)
-	{
-		this->m_Button->setCurrentFrame(INT2(1,0));
 	}
 
 }
@@ -202,7 +182,7 @@ int Button::GetID()
 {
 	return this->m_ID;
 }
-int Button::GetValue()
+float Button::GetValue()
 {
 	return this->m_Value;
 }

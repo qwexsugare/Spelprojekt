@@ -14,10 +14,47 @@ struct Path
 		points = NULL;
 	}
 
+	Path(const Path& _path)
+	{
+		nrOfPoints = _path.nrOfPoints;
+		points = new FLOAT2[nrOfPoints];
+		for(int i = 0; i < nrOfPoints; i++)
+		{
+			points[i] = _path.points[i];
+		}
+	}
+
 	Path(int _nrOfPoints, FLOAT2* _points)
 	{
 		nrOfPoints = _nrOfPoints;
-		points = _points;
+		points = new FLOAT2[nrOfPoints];
+		for(int i = 0; i < nrOfPoints; i++)
+			points[i] = _points[i];
+	}
+
+	Path& operator=(const Path& _path)
+	{
+		if(this == &_path)
+		{
+			return *this;
+		}
+		else
+		{
+			nrOfPoints = _path.nrOfPoints;
+			points = new FLOAT2[nrOfPoints];
+			for(int i = 0; i < nrOfPoints; i++)
+			{
+				points[i] = _path.points[i];
+			}
+			return *this;
+		}
+	}
+	
+	~Path()
+	{
+		if(nrOfPoints > 0)
+			if(points)
+				delete []points;
 	}
 };
 
