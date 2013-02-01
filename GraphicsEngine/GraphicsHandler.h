@@ -13,7 +13,7 @@
 #include "DirectionalLight.h"
 #include "SpotLight.h"
 
-class GraphicsHandler
+class GraphicsHandler : public sf::Thread
 {
 private:
 	World *m_world;
@@ -22,6 +22,10 @@ private:
 	INT2 m_configScreenSize;
 	INT2 m_realScreenSize;
 	bool m_windowed;
+	Text* m_fpsText;
+
+	bool m_running;
+	void Run();
 public:
 	DECLDIR GraphicsHandler();
 	DECLDIR GraphicsHandler(HWND _hWnd, ConfigFile* _configFile);
@@ -62,6 +66,7 @@ public:
 	DECLDIR bool removeSpotLight(SpotLight* spotLight);
 
 	DECLDIR void render();
+	void stop() { m_running = false; }
 	DECLDIR void update(float dt);
 	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 };

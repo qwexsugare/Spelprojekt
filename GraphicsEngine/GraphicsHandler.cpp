@@ -1,4 +1,5 @@
 #include "GraphicsHandler.h"
+#include <sstream>
 
 GraphicsHandler::GraphicsHandler()
 {
@@ -26,6 +27,8 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 		GetWindowRect(_hWnd, &rc);
 		this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
 	}
+	
+	this->m_fpsText = this->createText("", INT2(300, 300), 40, D3DXCOLOR(1.0f, 0.2f, 0.2f, 1.0f));
 }
 
 GraphicsHandler::~GraphicsHandler()
@@ -214,4 +217,38 @@ void GraphicsHandler::render()
 void GraphicsHandler::update(float dt)
 {
 	this->m_world->update(dt);
+}
+
+void GraphicsHandler::Run()
+{
+	m_running = true;
+
+	__int64 cntsPerSec = 0;
+	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
+	float secsPerCnt = 1.0f / (float)cntsPerSec;
+
+	__int64 prevTimeStamp = 0;
+	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
+
+	while(m_running)
+	{
+		__int64 currTimeStamp = 0;
+		QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
+		float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
+		
+		static float lol = 0.0f;
+		lol += dt;
+		if(lol > 1.0f)
+		{
+			stringstream ss;
+			ss << "GPU Fps: " << 1.0f/dt;
+			this->m_fpsText->setString(ss.str());
+			lol = -0.5f;
+		}
+
+		this->update(dt);
+		this->render();
+
+		prevTimeStamp = currTimeStamp;
+	}
 }

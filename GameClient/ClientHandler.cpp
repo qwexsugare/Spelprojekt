@@ -34,8 +34,14 @@ HRESULT ClientHandler::run()
 {
 	loopSound(m_testMusic);
 	loopSound(m_testSound);
+	
 	this->m_serverThread->Launch();
-	this->m_state = new IntroState; //GameState();
+
+	this->m_state = new GameState; //GameState();
+
+	// Retarded thread code
+	/*this->update(0.0f);
+	g_graphicsEngine->Launch();*/
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
@@ -51,7 +57,7 @@ HRESULT ClientHandler::run()
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
-			 
+			
 			this->m_messages.push_back(msg);
 		}
 		else
@@ -59,7 +65,7 @@ HRESULT ClientHandler::run()
 			__int64 currTimeStamp = 0;
 			QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
 			float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
-
+			
 			this->update(dt);
 			g_graphicsEngine->update(dt);
 			g_graphicsEngine->render();
@@ -67,6 +73,8 @@ HRESULT ClientHandler::run()
 			prevTimeStamp = currTimeStamp;
 		}
 	}
+
+	g_graphicsEngine->stop();
 
 	return msg.wParam;
 }
