@@ -11,7 +11,7 @@ Hero::Hero() : UnitEntity()
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 15.0f;
 	this->m_hasTarget = false;
-	this->m_baseMovementSpeed = 1.1f;
+	this->m_baseMovementSpeed = 3.1f;
 	this->m_movementSpeed = this->m_baseMovementSpeed;
 	this->m_baseAttackSpeed = 1.0f;
 	this->m_attackSpeed = this->m_baseAttackSpeed;
@@ -101,6 +101,12 @@ void Hero::updateSpecificUnitEntity(float dt)
 				this->m_nextPosition = FLOAT3(this->m_path.points[this->m_pathCounter].x, 0.0f, this->m_path.points[this->m_pathCounter].y);
 				this->m_pathCounter++;
 			}
+			else if(this->m_reallyReachedPosition == false)
+			{
+				this->m_position = this->m_nextPosition;
+				this->m_nextPosition = this->m_goalPosition;
+				this->m_reallyReachedPosition = true;
+			}
 			else
 			{
 				this->m_position = this->m_nextPosition;
@@ -131,6 +137,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 		this->m_pathCounter = 2;
 		this->m_reachedPosition = false;
 		this->m_hasTarget = false;
+		this->m_reallyReachedPosition = false;
 	}
 	else if(this->m_path.nrOfPoints == 1)
 	{
@@ -139,6 +146,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 		this->m_pathCounter = 1;
 		this->m_reachedPosition = false;
 		this->m_hasTarget = false;
+		this->m_reallyReachedPosition = false;
 	}
 }
 
