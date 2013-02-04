@@ -15,7 +15,6 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
 	INT2 actualScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
-
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize(), actualScreenSize);
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
@@ -35,15 +34,20 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_diffuseBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
-
 	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
+	
+	m_shadowMapViewport.Width = 2000;
+	m_shadowMapViewport.Height = 2000;
+	m_shadowMapViewport.MinDepth = 0.0f;
+	m_shadowMapViewport.MaxDepth = 1.0f;
+	m_shadowMapViewport.TopLeftX = 0;
+	m_shadowMapViewport.TopLeftY = 0;
 }
 
 World::~World()
 {
 	for(int i = 0; i < m_terrains.size(); i++)
 		delete m_terrains[i];
-
 	for(int i = 0; i < m_roads.size(); i++)
 		delete m_roads[i];
 
@@ -143,9 +147,7 @@ void World::render()
 {
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
-
 	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
-	
 	this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
 	
 	//clear render target
@@ -153,6 +155,8 @@ void World::render()
 	this->m_normalBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
+
+	this->renderShadowMap();
 
 	ID3D10RenderTargetView *renderTargets[3];
 	renderTargets[0] = *this->m_positionBuffer->getRenderTargetView();
@@ -190,25 +194,6 @@ void World::render()
 		this->m_deviceHandler->getDevice()->Draw(roads.top()->getNrOfVertices(), 0);
 	}
 
-	/* Retard Frustum
-	D3DXMATRIX mat;
-	//D3DXMatrixMultiply(&mat, &m_camera->getProjectionMatrix(), &m_camera->getViewMatrix());
-	D3DXMatrixMultiply(&mat, &m_camera->getViewMatrix(), &m_camera->getProjectionMatrix());
-  	
-	XMMATRIX projectionMatrixInCyborgForm = XMMATRIX(
-		mat._11, mat._12, mat._13, mat._14,
-		mat._21, mat._22, mat._23, mat._24,
-		mat._31, mat._32, mat._33, mat._34,
-		mat._41, mat._42, mat._43, mat._44);
-
-	BoundingFrustum bf = BoundingFrustum(projectionMatrixInCyborgForm);
-	bf.Near = 1.0f;
-	bf.Far = 100000000.0f;
-	bf.TopSlope = -10000000.0f;
-	bf.BottomSlope = 10000000.0f;
-	bf.Origin = XMFLOAT3(m_camera->getPos().x, m_camera->getPos().y+50.0f, m_camera->getPos().z);
-	*/
-	
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
@@ -236,7 +221,6 @@ void World::render()
 
 				if(models.top()->getMesh()->isAnimatied)
 				{
-					
 					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
 					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
@@ -377,6 +361,57 @@ void World::render()
 	this->m_deviceHandler->present();
 }
 
+void World::renderShadowMap()
+{
+	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
+
+	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[m_spotLights.size()];
+	D3DXMATRIX** wvps = new D3DXMATRIX*[m_spotLights.size()];
+
+	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	for(int i = 0; i < m_spotLights.size(); i++)
+	{
+		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
+		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
+
+		stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
+		while(!models.empty())
+		{
+			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
+			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
+
+			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+			{
+				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->diffuse);
+
+				if(models.top()->getMesh()->isAnimatied)
+				{
+					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+					m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+				}
+				else
+				{
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(Vertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
+					m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+				}
+
+				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+			}
+
+			models.pop();
+		}
+		
+		resources[i] = m_spotLights[i]->getResource();
+		wvps[i] = &m_spotLights[i]->getWvp();
+	}
+	
+	m_deferredSampler->setLightWvps(wvps, m_spotLights.size());
+	m_deferredRendering->setShadowMaps(resources, m_spotLights.size());
+}
+
 void World::update(float dt)
 {
 	//SpriteSheets
@@ -425,7 +460,7 @@ void World::addSprite(SpriteBase *sprite)
 
     if(found == false)
     {
-            this->m_sprites.push_back(sprite);
+		this->m_sprites.push_back(sprite);
     }
 }
 

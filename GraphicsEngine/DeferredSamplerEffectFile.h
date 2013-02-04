@@ -25,7 +25,11 @@ private:
 	// Road
 	ID3D10EffectTechnique* m_renderRoad;
 	ID3D10InputLayout *m_vertexAnimationLayout;
+	
+	ID3D10EffectMatrixVariable* m_lightWvps;
 public:
+	ID3D10EffectTechnique* renderShadowMap;
+
 	DeferredSamplerEffectFile();
 	DeferredSamplerEffectFile(ID3D10Device* _device);
 	~DeferredSamplerEffectFile();
@@ -49,5 +53,7 @@ public:
 	void setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size);
 	
 	ID3D10EffectTechnique* getRenderRoadTechnique();
+	
+	void setLightWvps(D3DXMATRIX** _wvps, int _size);
 };
 

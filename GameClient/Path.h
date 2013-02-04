@@ -52,9 +52,10 @@ struct Path
 	
 	~Path()
 	{
-		if(nrOfPoints > 0)
-			if(points)
-				delete []points;
+		if(points)
+			delete []points;
+
+		int **lol;
 	}
 };
 

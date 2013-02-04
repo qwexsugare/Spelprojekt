@@ -23,11 +23,12 @@ private:
 	ID3D10EffectVectorVariable* m_lightAngle;
 	ID3D10EffectScalarVariable* m_lightRadius;
 
-
 	ID3D10EffectVectorVariable* m_cameraPosition;
 
 	ID3D10EffectTechnique *m_technique;
 	ID3D10InputLayout *m_vertexLayout;
+
+	ID3D10EffectShaderResourceVariable* m_shadowMaps;
 public:
 	DeferredRenderingEffectFile();
 	DeferredRenderingEffectFile(ID3D10Device* _device);
@@ -41,4 +42,5 @@ public:
 
 	ID3D10EffectTechnique *getTechnique();
 	ID3D10InputLayout *getVertexLayout();
+	void setShadowMaps(ID3D10ShaderResourceView** _res, int _size);
 };

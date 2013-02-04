@@ -1,3 +1,5 @@
+static const int MAX_LIGHTS = 8;
+
 Texture2D tex2D;
 Texture1D boneTex;
 Texture2D terrainTextures[8];
@@ -50,6 +52,7 @@ cbuffer cbEveryFrame
 	matrix projectionMatrix;
 	matrix modelMatrix;
 	
+	matrix lightWvps[MAX_LIGHTS];
 	float modelAlpha;
 };
 
@@ -151,10 +154,12 @@ technique10 DeferredSample
 float4x4 GetBoneMatrix(int boneIndex, float4 _bone)
 {
 	float4x4 bone;
-	for(int row = 0; row < 4; row++)
-	{
-		bone[row] = boneTex.Load(int2((_bone[boneIndex]) * 4 + row, 0), 0); // int2(x, mipMapLevel), int(offset)
-	}
+	
+	bone[0] = boneTex.Load(int2((_bone[boneIndex]) * 4 + 0, 0), 0); // int2(x, mipMapLevel), int(offset)
+	bone[1] = boneTex.Load(int2((_bone[boneIndex]) * 4 + 1, 0), 0); // int2(x, mipMapLevel), int(offset)
+	bone[2] = boneTex.Load(int2((_bone[boneIndex]) * 4 + 2, 0), 0); // int2(x, mipMapLevel), int(offset)
+	bone[3] = boneTex.Load(int2((_bone[boneIndex]) * 4 + 3, 0), 0); // int2(x, mipMapLevel), int(offset)
+	
 	return bone;
 }
 
@@ -196,7 +201,6 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
 
 	return output;
-
 }
 
 technique10 DeferredAnimationSample
@@ -310,7 +314,7 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 technique10 RenderRoad
 {
     pass p0
-    { 
+    {
 		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader(CompileShader( vs_4_0, drawRoadVs()));
@@ -319,5 +323,25 @@ technique10 RenderRoad
 
 	    SetDepthStencilState(DisableDepth, 0);
 	    SetRasterizerState(rs);
-    }  
+    }
+}
+
+float4 vsShadowMap(float3 _pos : POS) : SV_POSITION
+{
+	// Render from light's perspective.
+	return mul(float4(_pos, 1.0f), mul(modelMatrix, lightWvps[0]));
+}
+
+technique10 RenderShadowMap
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_4_0, vsShadowMap()));
+		SetGeometryShader(NULL);
+		SetPixelShader(NULL);
+
+		SetDepthStencilState(EnableDepth, 0);
+		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetRasterizerState(rs);
+	}
 }

@@ -197,9 +197,9 @@ bool GraphicsHandler::removeDirectionalLight(DirectionalLight *directionalLight)
 	return this->m_world->removeDirectionalLight(directionalLight);
 }
 
-SpotLight *GraphicsHandler::createSpotLight(FLOAT3 position, FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range)
+SpotLight *GraphicsHandler::createSpotLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range)
 {
-	SpotLight *l = new SpotLight(position, direction, la, ld, ls, angle, range);
+	SpotLight *l = new SpotLight(m_deviceHandler->getDevice(), position, la, ld, ls, angle, range);
 	this->m_world->addSpotLight(l);
 	return l;
 }
