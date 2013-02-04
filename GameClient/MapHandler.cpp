@@ -35,14 +35,13 @@ MapHandler::~MapHandler()
 		delete []m_grid;
 	}
 
-	if(m_nrOfPaths > 0)
-		if(m_paths)
-			delete []m_paths;
+	if(m_paths)
+		delete []m_paths;
 }
 
 bool MapHandler::isDone()
 {
-	return false;	// Here to stay.
+	return m_currentWave >= m_waves.size();
 }
 
 void MapHandler::loadMap(std::string filename)

@@ -18,6 +18,7 @@ public:
 	ID3D10Texture2D *getTexture();
 	ID3D10ShaderResourceView *getShaderResource();
 	void clear(ID3D10Device *device);
+	const INT2& getSize()const { return m_size; }
 };
 
 #endif
