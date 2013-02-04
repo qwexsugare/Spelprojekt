@@ -6,7 +6,8 @@ Terrain::Terrain()
 
 }
 
-Terrain::Terrain(ID3D10Device* _device, D3DXVECTOR3 v1, D3DXVECTOR3 v2, int rows, int cols, ID3D10ShaderResourceView** _textures, int _nrOfTextures, ID3D10ShaderResourceView** _blendMaps, int _nrOfBlendMaps)
+Terrain::Terrain(ID3D10Device* _device, D3DXVECTOR3 v1, D3DXVECTOR3 v2, int rows, int cols, ID3D10ShaderResourceView** _textures, int _nrOfTextures,
+				 ID3D10ShaderResourceView** _blendMaps, int _nrOfBlendMaps, ID3D10ShaderResourceView* _normalMap)
 {
 	D3DXMatrixIdentity(&this->m_modelMatrix);
 
@@ -21,6 +22,7 @@ Terrain::Terrain(ID3D10Device* _device, D3DXVECTOR3 v1, D3DXVECTOR3 v2, int rows
 	this->m_textures = _textures;
 	this->m_nrOfBlendMaps = _nrOfBlendMaps;
 	this->m_blendMaps = _blendMaps;
+	m_normalMap = _normalMap;
 	this->m_nrOfVertices = 4;
 
 	float widthBetweenTexCoords = 1.0f/(cols-1);

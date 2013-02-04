@@ -171,6 +171,7 @@ void World::render()
 		this->m_deferredSampler->setModelMatrix(m_terrains[i]->getModelMatrix());
 		this->m_deferredSampler->setTerrainTextures(m_terrains[i]->getTextures(), m_terrains[i]->getNrOfTextures());
 		this->m_deferredSampler->setTerrainBlendMaps(m_terrains[i]->getBlendMaps(), m_terrains[i]->getNrOfBlendMaps());
+		this->m_deferredSampler->setNormalMaps(m_terrains[i]->getNormalMap());
 			
 		this->m_deferredSampler->getRenderTerrainTechnique()->GetPassByIndex(0)->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(m_terrains[i]->getNrOfVertices(), 0);
