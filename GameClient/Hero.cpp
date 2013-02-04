@@ -1,5 +1,7 @@
 #include "Hero.h"
 
+extern Pathfinder* g_pathfinder;
+
 Hero::Hero() : UnitEntity()
 {
 	this->m_type = Type::HeroType;
@@ -94,8 +96,16 @@ void Hero::updateSpecificUnitEntity(float dt)
 		}
 		else
 		{
-			this->m_position = this->m_nextPosition;
-			this->m_reachedPosition = true;
+			if(this->m_pathCounter < this->m_path.nrOfPoints)
+			{
+				this->m_nextPosition = FLOAT3(this->m_path.points[this->m_pathCounter].x, 0.0f, this->m_path.points[this->m_pathCounter].y);
+				this->m_pathCounter++;
+			}
+			else
+			{
+				this->m_position = this->m_nextPosition;
+				this->m_reachedPosition = true;
+			}
 		}
 
 		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
@@ -112,9 +122,24 @@ void Hero::updateSpecificUnitEntity(float dt)
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
-	this->m_nextPosition = _nextPosition;
-	this->m_reachedPosition = false;
-	this->m_hasTarget = false;
+	this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z));
+
+	if(this->m_path.nrOfPoints > 1)
+	{
+		this->m_nextPosition = FLOAT3(this->m_path.points[1].x, 0.0f, this->m_path.points[1].y);
+		this->m_goalPosition = _nextPosition;
+		this->m_pathCounter = 2;
+		this->m_reachedPosition = false;
+		this->m_hasTarget = false;
+	}
+	else if(this->m_path.nrOfPoints == 1)
+	{
+		this->m_nextPosition = _nextPosition;
+		this->m_goalPosition = _nextPosition;
+		this->m_pathCounter = 1;
+		this->m_reachedPosition = false;
+		this->m_hasTarget = false;
+	}
 }
 
 void Hero::setTarget(unsigned int _target)

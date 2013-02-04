@@ -98,3 +98,15 @@ bool Node::isStartNode()
 {
 	return this->startNode;
 }
+
+void Node::resetNode(int x, int y)
+{
+	this->parentX=0;
+	this->parentY=0;
+	this->x=x;
+	this->y=y;
+	this->g=0;
+	this->h=0;
+	this->endNode=false;
+	this->startNode=false;
+}

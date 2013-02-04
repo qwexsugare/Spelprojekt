@@ -74,7 +74,7 @@ FLOAT3 avDir = FLOAT3(0,0,0);
 			if(se != NULL && se->getType() == ServerEntity::HeroType && this->m_attackCooldown <= 0.0f)
 			{
 				//EntityHandler::addEntity(new MeleeAttack(this->m_position, 10.0f, cm->affectedDudeId));
-				this->dealDamage(se, 10, 0);
+				this->dealDamage(se, 0, 10);
 				this->m_attackCooldown = 1.0f;
 			}
 		}

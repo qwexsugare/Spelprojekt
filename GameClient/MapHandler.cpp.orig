@@ -26,7 +26,7 @@ MapHandler::~MapHandler()
 		}
 	}
 
-	delete g_pathfinder;
+	delete m_pathfinder;
 	
 	if(m_grid)
 	{
@@ -35,9 +35,13 @@ MapHandler::~MapHandler()
 		delete []m_grid;
 	}
 
+<<<<<<< HEAD
+	delete g_pathfinder;
+=======
 	if(m_nrOfPaths > 0)
 		if(m_paths)
 			delete []m_paths;
+>>>>>>> cb593b4104764a0f7e9ea6bc400aef6c5996eda1
 }
 
 bool MapHandler::isDone()
@@ -132,9 +136,10 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 
+<<<<<<< HEAD
 	g_pathfinder->setStart(255 * this->m_paths[0].points[0].x / 64, 255 * this->m_paths[0].points[0].y / 64);
 	g_pathfinder->setEnd(255 * this->m_paths[0].points[2].x / 64, 255 * this->m_paths[0].points[2].y / 64);
-	
+
 	//Path p = g_pathfinder->getPath();
 
 	//for(int i = 0; i < p.nrOfPoints; i++)
@@ -142,7 +147,21 @@ void MapHandler::loadMap(std::string filename)
 	//	p.points[i].x = (p.points[i].x / 255) * 64;
 	//	p.points[i].y = (p.points[i].y / 255) * 64;
 	//}
+
+
+=======
+	this->m_pathfinder->setStart(240,240);
+	this->m_pathfinder->setEnd(15,15);
 	
+	Path p = this->m_pathfinder->getPath();
+
+	for(int i = 0; i < p.nrOfPoints; i++)
+	{
+		p.points[i].x = (p.points[i].x / 256) * 64;
+		p.points[i].y = (p.points[i].y / 256) * 64;
+	}
+	
+>>>>>>> cb593b4104764a0f7e9ea6bc400aef6c5996eda1
 	this->m_waves.push_back(vector<ServerEntity*>());
 	//m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 0.0f, 0.0f), p));
 	//m_waves[0].push_back(new Enemy(FLOAT3(10.0f, 0.0f, 0.0f), p));

@@ -269,17 +269,12 @@ void GameState::update(float _dt)
 	{
 
 	}
-	if(g_mouse->isRButtonPressed())
+	if(g_mouse->isRButtonPressed() == true)
 	{
-		if(m_minimap->isMouseInMap(g_mouse->getPos()))
+		if(m_minimap->isMouseInMap(g_mouse->getPos()) == false)
 		{
-			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
+			bool validMove = true;
 
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y));
-			this->m_network->sendMessage(e);
-		}
-		else
-		{
 			for(int i = 0; i < m_entities.size(); i++)
 			{
 				D3DXVECTOR3 pickDir;
@@ -289,37 +284,29 @@ void GameState::update(float _dt)
 				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 				{
 					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
+					validMove = false;
 				}
 			}
-		}
-	}
-	if(g_mouse->isRButtonDown() && !m_minimap->isMouseInMap(g_mouse->getPos()))
-	{
-		bool validMove = true;
 
-		for(int i = 0; i < m_entities.size(); i++)
-		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-			float dist;
-			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			if(validMove)
 			{
-				validMove = false;
+				// Calc some fucken pick ray out mofos
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+				float k = (-pickOrig.y)/pickDir.y;
+				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
+				this->m_network->sendMessage(e);
 			}
 		}
-
-		if(validMove)
+		else
 		{
-			// Calc some fucken pick ray out mofos
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 
-			float k = (-pickOrig.y)/pickDir.y;
-			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y));
 			this->m_network->sendMessage(e);
 		}
 	}
