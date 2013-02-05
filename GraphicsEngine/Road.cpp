@@ -65,3 +65,8 @@ D3DXVECTOR2 Road::getPosition2D()
 {
 	return D3DXVECTOR2(this->m_modelMatrix._41, this->m_modelMatrix._43);
 }
+
+D3DXVECTOR3 Road::getPosition()
+{
+	return D3DXVECTOR3(this->m_modelMatrix._41, this->m_modelMatrix._42, this->m_modelMatrix._43);
+}

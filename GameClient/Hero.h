@@ -20,9 +20,6 @@ private:
 	unsigned int m_target;
 	bool m_hasTarget;
 
-	float m_attackRange;
-	float m_attackCooldown;
-
 	Path m_path;
 	int m_pathCounter;
 public:

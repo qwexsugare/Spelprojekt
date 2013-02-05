@@ -462,7 +462,7 @@ void GameState::importMap(string _map)
 					rotation.x = rotation.x * (D3DX_PI/180.0f);
 					rotation.y = rotation.y * (D3DX_PI/180.0f);
 					rotation.z = rotation.z * (D3DX_PI/180.0f);
-					
+
 					g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
 				}
 			}
