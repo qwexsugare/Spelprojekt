@@ -2,7 +2,7 @@
 #include "SoundEngine.h"
 
 static SoundEngine* g_soundEngine;
-/*
+
 void clearSoundEngine()
 {
 	g_soundEngine->clear();
@@ -66,70 +66,4 @@ void deleteSoundEngine()
 void updateSoundEngine()
 {
 	g_soundEngine->update();
-}*/
-
-
-void clearSoundEngine()
-{
-
-}
-
-int createSoundHandle(string _filename, bool _music, float _volume)
-{
-	return 0;
-}
-
-void deactivateSound(int _handle)
-{
-
-}
-
-void initSoundEngine()
-{
-
-}
-
-bool isSoundPlaying(int _handle)
-{
-	return false;
-}
-
-void loopSound(int _handle)
-{
-
-}
-
-void playSound(int _handle)
-{
-
-}
-
-void setMusicVolume(float _value)
-{
-
-}
-
-void setSoundVolume(float _value)
-{
-
-}
-
-void setSoundVolume(int _handle, float _volume)
-{
-
-}
-
-void stopSound(int _handle)
-{
-
-}
-
-void deleteSoundEngine()
-{
-
-}
-
-void updateSoundEngine()
-{
-
 }
