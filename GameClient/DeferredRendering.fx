@@ -143,18 +143,18 @@ PSSceneIn VSScene(VSSceneIn input)
 
 float calcShadow(float4 lightPos, int lightIndex)
 {
-	float shadowCoeff = 0;
+	float shadowCoeff = 0.0f;
 	float shadowEpsilon = 0.00001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
 	lightPos /= lightPos.w;
 	
 	// Check if the position is inside the lights unit cube.
-	/*if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 && length(float2(lightPos.x, lightPos.y)) < 1)
-	{*/
+	if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
+	{
 		//Compute shadow map tex coord
 		float2 smTex = float2(0.5f * lightPos.x, -0.5f * lightPos.y) + 0.5f;
-		return shadowMaps[lightIndex].Sample(shadowMapSampler, smTex);
+
 		// Compute pixel depth for shadowing.
 		float depth = lightPos.z;
 
@@ -176,11 +176,7 @@ float calcShadow(float4 lightPos, int lightIndex)
 		// Determine the lerp amounts.
 		float2 lerps = frac( texelPos );
 		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
-	/*}
-	else
-	{
-		shadowCoeff = 0.5f;
-	}*/
+	}
 
 	return shadowCoeff;
 }
@@ -232,16 +228,20 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
-		diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[0]), 0));
 		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
 	}
 
-	float shad = calcShadow(
-		mul(float4(lightPosition[nrOfPointLights + 0], 1.0f), lightWvps[0]),
-		0);
-	
-	//return float4(shad, shad, shad, 1.0f);
-	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f)) * shad;
+	/*float shad = nrOfSpotLights;
+	for(i = 0; i < nrOfSpotLights; i++)
+	{
+		shad = max(shad-calcShadow(mul(position, lightWvps[i]), i), 0.0f);
+	}*/
+
+	//float shad = calcShadow(mul(position, lightWvps[0]), 0);
+	//
+	//return (float4(ambientLight, 0.0f) + float4(diffuseLight*shad, 1.0f)*diffuse + float4(specularLight*shad, 0.0f));
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f));
 }
 
 technique10 RenderModelDeferred

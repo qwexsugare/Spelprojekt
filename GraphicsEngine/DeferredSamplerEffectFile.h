@@ -26,7 +26,7 @@ private:
 	ID3D10EffectTechnique* m_renderRoad;
 	ID3D10InputLayout *m_vertexAnimationLayout;
 	
-	ID3D10EffectMatrixVariable* m_lightWvps;
+	ID3D10EffectMatrixVariable* m_lightWvp;
 public:
 	ID3D10EffectTechnique* renderShadowMap;
 
@@ -54,6 +54,6 @@ public:
 	
 	ID3D10EffectTechnique* getRenderRoadTechnique();
 	
-	void setLightWvps(D3DXMATRIX* _wvps, int _size);
+	void setLightWvp(const D3DXMATRIX& _wvp);
 };
 

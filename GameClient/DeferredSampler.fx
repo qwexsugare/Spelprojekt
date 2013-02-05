@@ -52,7 +52,7 @@ cbuffer cbEveryFrame
 	matrix projectionMatrix;
 	matrix modelMatrix;
 	
-	matrix lightWvps[MAX_LIGHTS];
+	matrix lightWvp;
 	float modelAlpha;
 };
 
@@ -329,7 +329,7 @@ technique10 RenderRoad
 float4 vsShadowMap(float3 _pos : POS) : SV_POSITION
 {
 	// Render from light's perspective.
-	return mul(float4(_pos, 1.0f), mul(modelMatrix, lightWvps[0]));
+	return mul(float4(_pos, 1.0f), mul(modelMatrix, lightWvp));
 }
 
 technique10 RenderShadowMap
