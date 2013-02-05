@@ -41,7 +41,8 @@ MapHandler::~MapHandler()
 
 bool MapHandler::isDone()
 {
-	return m_currentWave >= m_waves.size();
+	//return m_currentWave >= m_waves.size();	//The work of Marcus the Game Destroyer
+	return false;
 }
 
 void MapHandler::loadMap(std::string filename)

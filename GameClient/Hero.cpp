@@ -89,21 +89,27 @@ void Hero::updateSpecificUnitEntity(float dt)
 	else if(this->m_reachedPosition == false)
 	{
 		FLOAT3 distance = this->m_nextPosition - this->m_position;
-		if(distance.length() > this->m_movementSpeed * dt)
+		float lol = 0.0f;
+
+		if(this->m_reallyReachedPosition == false)
+		{
+			lol = 0.125f;
+		}
+
+		if(distance.length() - lol > this->m_movementSpeed * dt)
 		{
 			distance = distance / distance.length();
 			this->m_position = this->m_position + (distance * this->m_movementSpeed * dt);
 		}
 		else
 		{
-			if(this->m_pathCounter < this->m_path.nrOfPoints)
+			if(this->m_pathCounter < this->m_path.nrOfPoints - 1)
 			{
 				this->m_nextPosition = FLOAT3(this->m_path.points[this->m_pathCounter].x, 0.0f, this->m_path.points[this->m_pathCounter].y);
 				this->m_pathCounter++;
 			}
 			else if(this->m_reallyReachedPosition == false)
 			{
-				this->m_position = this->m_nextPosition;
 				this->m_nextPosition = this->m_goalPosition;
 				this->m_reallyReachedPosition = true;
 			}
@@ -147,6 +153,14 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 		this->m_reachedPosition = false;
 		this->m_hasTarget = false;
 		this->m_reallyReachedPosition = false;
+	}
+	else
+	{
+		this->m_path = Path();
+		this->m_pathCounter = 0;
+		this->m_reachedPosition = true;
+		this->m_hasTarget = false;
+		this->m_reallyReachedPosition = true;
 	}
 }
 

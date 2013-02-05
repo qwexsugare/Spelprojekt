@@ -100,7 +100,6 @@ Path Pathfinder::getPath()
 
 	openList.clear();
 	closedList.clear();
-	came_from.clear();
 	bool startIsEnd=false;
 	bool invalidStartEndPos=false;
 	

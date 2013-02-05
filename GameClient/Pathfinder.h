@@ -17,7 +17,6 @@ private:
 	int mapHeight;
 	vector<Node> openList;
 	vector<Node> closedList;
-	vector<Node> came_from;
 	int startX,startY,endX,endY;
 	int getDistance(int x1,int y1, int x2, int y2);
 	bool isOnClosedList(Node node);
