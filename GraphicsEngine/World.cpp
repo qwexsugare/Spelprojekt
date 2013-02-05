@@ -36,8 +36,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
 	
-	m_shadowMapViewport.Width = 1024;
-	m_shadowMapViewport.Height = 1024;
+	m_shadowMapViewport.Width = 4000;
+	m_shadowMapViewport.Height = 4000;
 	m_shadowMapViewport.MinDepth = 0.0f;
 	m_shadowMapViewport.MaxDepth = 1.0f;
 	m_shadowMapViewport.TopLeftX = 0;
