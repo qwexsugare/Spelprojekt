@@ -24,10 +24,11 @@ protected:
 	bool m_visible;
 
 public:
-	static enum Type{EnemyType, HeroType, OtherType, ProjectileType};
+	static enum Type{EnemyType, HeroType, OtherType, ProjectileType, StaticType};
 	Type m_type;
 	ServerEntity();
 	ServerEntity(FLOAT3 m_pos);
+	ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedBox* _obb, Type _type);
 	virtual ~ServerEntity();
 
 	virtual void update(float dt);

@@ -20,6 +20,17 @@ ServerEntity::ServerEntity(FLOAT3 _pos)
 	this->m_visible = true;
 }
 
+ServerEntity::ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedBox* _obb, Type _type)
+{
+	this->m_position = _position;
+	this->m_rotation = _rotation;
+	this->m_obb = _obb;
+	this->m_bs = NULL;
+	this->m_type = _type;
+	this->m_modelId = 0;
+	this->m_visible = false;
+}
+
 ServerEntity::~ServerEntity()
 {
 	delete this->m_messageQueue;

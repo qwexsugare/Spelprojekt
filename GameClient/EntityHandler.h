@@ -40,6 +40,7 @@ public:
 	static vector<ServerEntity*> getAllEnemies();
 	static int getNrOfEnemies();
 	static vector<ServerEntity*> getAllHeroes();
+	static vector<ServerEntity*> getAllStaticObjects();
 
 	static unsigned int getId();
 };
