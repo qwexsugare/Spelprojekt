@@ -208,6 +208,20 @@ bool QuadTreeNode::intersects(Road* _road)const
 	return _road->getOBB()->Intersects(*this->m_obb);
 }
 
+void QuadTreeNode::getAllModels(stack<Model*>& _models)
+{
+	if(this->m_children[0])
+	{
+		this->m_children[0]->getAllModels(_models);
+		this->m_children[1]->getAllModels(_models);
+		this->m_children[2]->getAllModels(_models);
+		this->m_children[3]->getAllModels(_models);
+	}
+	
+	for(int i = 0; i < this->m_models.size(); i++)
+		_models.push(this->m_models[i]);
+}
+
 void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const
 {
 	if(this->m_children[0])
@@ -285,7 +299,7 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPo
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 		
-		if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+		if(modelDistanceToCamera.x < 6.0f && (m_lights[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
 		{
 			_lights.push_back(this->m_lights[i]);
 		}

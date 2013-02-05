@@ -74,7 +74,7 @@ public:
 	void render();
 	void update(float dt);
 	
-	void addRoad(Road* _road);
+	bool addRoad(Road* _road);
 	bool removeRoad(Road* _road);
 	
 	void addTerrain(Terrain* _terrain);

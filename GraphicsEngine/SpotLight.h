@@ -20,7 +20,6 @@ private:
 	D3DXVECTOR3 m_up;
 	D3DXMATRIX m_wvp;
 	DepthStencil* m_shadowMap;
-	ID3D10RenderTargetView* m_shadowMapRenderTarget;
 public:
 	SpotLight();
 	SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, FLOAT2 _angle, float range);
