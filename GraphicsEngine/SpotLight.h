@@ -20,6 +20,7 @@ private:
 	D3DXVECTOR3 m_up;
 	D3DXMATRIX m_wvp;
 	DepthStencil* m_shadowMap;
+	ID3D10RenderTargetView* m_shadowMapRenderTarget;
 public:
 	SpotLight();
 	SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, FLOAT2 _angle, float range);
@@ -36,7 +37,7 @@ public:
 	DECLDIR FLOAT3 getSpecularColor();
 	DECLDIR FLOAT2 getAngle();
 	DECLDIR float getRange();
-	D3DXMATRIX getWvp()const { return m_wvp; }
+	const D3DXMATRIX& getWvp()const { return m_wvp; }
 	DECLDIR void setPosition(FLOAT3 _position);
 	DECLDIR void setDirection(FLOAT3 _direction);
 	DECLDIR void setAmbientColor(FLOAT3 _la);

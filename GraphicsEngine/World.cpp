@@ -36,8 +36,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
 	
-	m_shadowMapViewport.Width = 2000;
-	m_shadowMapViewport.Height = 2000;
+	m_shadowMapViewport.Width = 1024;
+	m_shadowMapViewport.Height = 1024;
 	m_shadowMapViewport.MinDepth = 0.0f;
 	m_shadowMapViewport.MaxDepth = 1.0f;
 	m_shadowMapViewport.TopLeftX = 0;
@@ -305,7 +305,7 @@ void World::render()
 		this->m_deferredRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
-
+	
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
@@ -326,7 +326,7 @@ void World::render()
 			}
 		}
 	}
-
+	
 	// Render texts
 	for(int i = 0; i < this->m_myTexts.size(); i++)
 	{
@@ -361,13 +361,14 @@ void World::render()
 void World::renderShadowMap()
 {
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
-
+	
 	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[m_spotLights.size()];
 	D3DXMATRIX* wvps = new D3DXMATRIX[m_spotLights.size()];
-
+	
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	for(int i = 0; i < m_spotLights.size(); i++)
 	{
+		m_deferredSampler->setLightWvp(m_spotLights[i]->getWvp());
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
 
@@ -405,12 +406,11 @@ void World::renderShadowMap()
 		wvps[i] = m_spotLights[i]->getWvp();
 	}
 	
-	m_deferredSampler->setLightWvps(wvps, m_spotLights.size());
 	m_deferredRendering->setLightWvps(wvps, m_spotLights.size());
 	m_deferredRendering->setShadowMaps(resources, m_spotLights.size());
-
-	//delete []resources;
-	//delete []wvps;
+	
+	delete []resources;
+	delete []wvps;
 }
 
 void World::update(float dt)

@@ -22,14 +22,14 @@
     <Filter Include="Terrain">
       <UniqueIdentifier>{ab402ac7-ae17-450b-a8cb-9082d5817a71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Text">
-      <UniqueIdentifier>{b0f79350-bbdd-4cd7-bc1a-2130d2112a09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Road">
       <UniqueIdentifier>{7cdf0a2b-0938-4309-a6c0-44f85c99b1af}</UniqueIdentifier>
     </Filter>
     <Filter Include="Light">
       <UniqueIdentifier>{08d6d08d-12cf-4370-8d28-556c09166c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{cc9ad434-5a01-4619-8772-44ba467a5796}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,15 +114,6 @@
     <ClInclude Include="Terrain.h">
       <Filter>Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Text</Filter>
-    </ClInclude>
-    <ClInclude Include="MyText.h">
-      <Filter>Text</Filter>
-    </ClInclude>
-    <ClInclude Include="MyTextOffsets.h">
-      <Filter>Text</Filter>
-    </ClInclude>
     <ClInclude Include="Road.h">
       <Filter>Road</Filter>
     </ClInclude>
@@ -149,6 +140,15 @@
     </ClInclude>
     <ClInclude Include="DataStructures.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyText.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTextOffsets.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -218,15 +218,6 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Text</Filter>
-    </ClCompile>
-    <ClCompile Include="MyText.cpp">
-      <Filter>Text</Filter>
-    </ClCompile>
-    <ClCompile Include="MyTextOffsets.cpp">
-      <Filter>Text</Filter>
-    </ClCompile>
     <ClCompile Include="Road.cpp">
       <Filter>Road</Filter>
     </ClCompile>
@@ -244,6 +235,15 @@
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyText.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTextOffsets.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -20,7 +20,7 @@ SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction,
 	this->m_angle = FLOAT2(cos(_angle.x / 2), cos(_angle.y / 2));
 	this->m_range = _range;
 
-	m_shadowMap = new DepthStencil(_device, INT2(2000, 2000));
+	m_shadowMap = new DepthStencil(_device, INT2(1024, 1024));
 	this->setPosition(_position);
 }
 
@@ -31,7 +31,7 @@ SpotLight::~SpotLight()
 
 void SpotLight::clearShadowMap(ID3D10Device* _device)
 {
-	_device->ClearDepthStencilView(m_shadowMap->getDepthStencilView(), D3D10_CLEAR_DEPTH, 1.0f, 0);
+	this->m_shadowMap->clear(_device);
 }
 
 void SpotLight::setShadowMapAsRenderTarget(ID3D10Device* _device)
@@ -80,14 +80,13 @@ void SpotLight::setPosition(FLOAT3 _position)
 	
 	D3DXMATRIX projMatrix;
 	D3DXMATRIX viewMatrix;
-	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/4.0f,  16.0/9.0, 0.1f, INT_MAX);
+	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2.0f, 1.0f, 0.1f, INT_MAX);
 	D3DXVECTOR3 eye(m_position.x, m_position.y, m_position.z);
 	FLOAT3 dampDirection(m_direction.x, -m_direction.y, m_direction.z);
 	FLOAT3 temp(m_position+dampDirection);
-	D3DXVECTOR3 at(temp.x, -temp.y, temp.z);
+	D3DXVECTOR3 at(temp.x, temp.y, temp.z);
 
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &m_up);
-
 	D3DXMatrixMultiply(&m_wvp, &viewMatrix, &projMatrix);
 }
 
