@@ -15,6 +15,7 @@ private:
 
 	vector<vector<ServerEntity*>> m_waves;
 	float m_waveTimer;
+	float m_enemySpawnTimer;
 	int m_currentWave;
 
 	int m_gridHeight;
