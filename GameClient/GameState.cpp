@@ -24,7 +24,7 @@ GameState::GameState()
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
 	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 50.0f);
+	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.5f, 1.5f, 1.5f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 5000.0f);
 	this->importMap("race");
 }
 
@@ -79,12 +79,6 @@ void GameState::update(float _dt)
 		this->m_fpsText->setString(ss.str());
 		lol = -0.5f;
 	}
-
-	D3DXVECTOR3 pickDir;
-	D3DXVECTOR3 pickOrig;
-	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
-	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
 
 	while(this->m_network->entityQueueEmpty() == false)
 	{

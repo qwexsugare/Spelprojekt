@@ -54,6 +54,6 @@ public:
 	
 	ID3D10EffectTechnique* getRenderRoadTechnique();
 	
-	void setLightWvps(D3DXMATRIX** _wvps, int _size);
+	void setLightWvps(D3DXMATRIX* _wvps, int _size);
 };
 

@@ -206,11 +206,8 @@ void World::render()
 		}
 		else
 		{
-			
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
-		
-			
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 			{
@@ -366,7 +363,7 @@ void World::renderShadowMap()
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
 
 	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[m_spotLights.size()];
-	D3DXMATRIX** wvps = new D3DXMATRIX*[m_spotLights.size()];
+	D3DXMATRIX* wvps = new D3DXMATRIX[m_spotLights.size()];
 
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	for(int i = 0; i < m_spotLights.size(); i++)
@@ -405,11 +402,15 @@ void World::renderShadowMap()
 		}
 		
 		resources[i] = m_spotLights[i]->getResource();
-		wvps[i] = &m_spotLights[i]->getWvp();
+		wvps[i] = m_spotLights[i]->getWvp();
 	}
 	
 	m_deferredSampler->setLightWvps(wvps, m_spotLights.size());
+	m_deferredRendering->setLightWvps(wvps, m_spotLights.size());
 	m_deferredRendering->setShadowMaps(resources, m_spotLights.size());
+
+	//delete []resources;
+	//delete []wvps;
 }
 
 void World::update(float dt)
