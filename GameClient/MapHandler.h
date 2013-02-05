@@ -4,6 +4,7 @@
 #include "EntityHandler.h"
 #include "Enemy.h"
 #include "Pathfinder.h"
+#include "Graphics.h"
 
 //Import a map and update it, creating new enemies when needed
 class MapHandler

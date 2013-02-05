@@ -227,6 +227,21 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 	return heroes;
 }
 
+vector<ServerEntity*> EntityHandler::getAllStaticObjects()
+{
+	vector<ServerEntity*> staticObjects;
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
+		{
+			ServerEntity* staticObject = EntityHandler::m_entities[i];
+			staticObjects.push_back(staticObject);
+		}
+	}
+
+	return staticObjects;
+}
+
 unsigned int EntityHandler::getId()
 {
 	return EntityHandler::m_messageQueue->getId();

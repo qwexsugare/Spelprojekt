@@ -48,6 +48,8 @@ void MapHandler::loadMap(std::string filename)
 {
 	this->m_waveTimer = 0.0f;
 	
+	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f);
+	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
 	int height;
 	int width;
 	Path paths[100];
@@ -67,6 +69,38 @@ void MapHandler::loadMap(std::string filename)
 		else if(strcmp(key, "height:") == 0)
 		{
 			sscanf(buf, "height: %d", &height);
+		}
+		else if(strcmp(key, "MODELS:") == 0)
+		{
+			string s;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else
+				{
+					char in[100];
+					FLOAT3 position;
+					FLOAT3 rotation;
+					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
+
+					position.z = v2.z+position.z;
+					rotation.x = rotation.x * (D3DX_PI/180.0f);
+					
+					Model *m = g_graphicsEngine->createModel(key, position);
+					m->setRotation(rotation);
+
+					position.y = position.y + 1.0f;
+
+					//EntityHandler::addEntity(new ServerEntity(position, rotation, m->getObb(), ServerEntity::Type::StaticType));
+				}
+			}
 		}
 		else if(strcmp(key, "GRID") == 0)
 		{
