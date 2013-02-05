@@ -98,10 +98,9 @@ World::~World()
 	delete this->m_quadTree;
 }
 	
-void World::addRoad(Road* _road)
+bool World::addRoad(Road* _road)
 {
-	//m_roads.push_back(_road);
-	this->m_quadTree->addRoad(_road);
+	return this->m_quadTree->addRoad(_road);
 }
 
 bool World::removeRoad(Road* _road)
@@ -372,7 +371,7 @@ void World::renderShadowMap()
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
 
-		stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
+		stack<Model*> models = this->m_quadTree->getAllModels();
 		while(!models.empty())
 		{
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());

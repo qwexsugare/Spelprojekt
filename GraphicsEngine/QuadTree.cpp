@@ -37,6 +37,15 @@ bool QuadTree::addRoad(Road *_road)
 	return success;
 }
 
+stack<Model*> QuadTree::getAllModels()const
+{
+	stack<Model*> models;
+
+	this->m_parent->getAllModels(models);
+
+	return models;
+}
+
 stack<Model*> QuadTree::getModels(D3DXVECTOR3 _cameraPos)const
 {
 	stack<Model*> models;

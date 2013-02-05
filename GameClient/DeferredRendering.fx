@@ -34,11 +34,6 @@ struct PSSceneIn
 //Variables that updated often
 cbuffer cbEveryFrame
 {
-	//Transformation matrices
-	//matrix viewMatrix;
-	//matrix projectionMatrix;
-	//matrix modelMatrix;
-
 	int nrOfPointLights;
 	int nrOfDirectionalLights;
 	int nrOfSpotLights;
@@ -159,8 +154,8 @@ float calcShadow(float4 lightPos, int lightIndex)
 		float depth = lightPos.z;
 
 		//Get the shadow map size
-		int width;
-		int height;
+		int width = 1024;
+		int height = 1024;
 		shadowMaps[lightIndex].GetDimensions(width, height);
 		
 		// 2x2 percentage closest filter.
@@ -228,8 +223,8 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
-		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[0]), 0));
-		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), 0));
+		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), 0);
 	}
 
 	/*float shad = nrOfSpotLights;
@@ -241,7 +236,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	//float shad = calcShadow(mul(position, lightWvps[0]), 0);
 	//
 	//return (float4(ambientLight, 0.0f) + float4(diffuseLight*shad, 1.0f)*diffuse + float4(specularLight*shad, 0.0f));
-	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f));
+	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f);
 }
 
 technique10 RenderModelDeferred

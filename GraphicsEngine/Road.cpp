@@ -59,6 +59,8 @@ Road::~Road()
 {
 	if(m_vertexBuffer)
 		m_vertexBuffer->Release();
+
+	delete this->m_obb;
 }
 
 D3DXVECTOR2 Road::getPosition2D()

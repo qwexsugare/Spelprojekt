@@ -146,5 +146,5 @@ void DeferredRenderingEffectFile::setShadowMaps(ID3D10ShaderResourceView** _res,
 
 void DeferredRenderingEffectFile::setLightWvps(D3DXMATRIX* _wvps, int _size)
 {
-	m_lightWvps->SetMatrixArray((float*)*_wvps, 0, _size);
+	m_lightWvps->SetMatrixArray((float*)_wvps, 0, _size);
 }
