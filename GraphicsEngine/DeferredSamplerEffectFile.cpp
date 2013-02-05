@@ -141,7 +141,7 @@ void DeferredSamplerEffectFile::setTerrainBlendMaps(ID3D10ShaderResourceView** _
 	this->m_terrainBlendMaps->SetResourceArray(_blendMaps, 0, _size);
 }
 
-void DeferredSamplerEffectFile::setLightWvps(D3DXMATRIX** _wvps, int _size)
+void DeferredSamplerEffectFile::setLightWvps(D3DXMATRIX* _wvps, int _size)
 {
-	m_lightWvps->SetMatrixArray((float*)_wvps, 0, _size);
+	m_lightWvps->SetMatrixArray((float*)&_wvps, 0, _size);
 }

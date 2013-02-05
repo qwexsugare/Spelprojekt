@@ -29,6 +29,7 @@ private:
 	ID3D10InputLayout *m_vertexLayout;
 
 	ID3D10EffectShaderResourceVariable* m_shadowMaps;
+	ID3D10EffectMatrixVariable* m_lightWvps;
 public:
 	DeferredRenderingEffectFile();
 	DeferredRenderingEffectFile(ID3D10Device* _device);
@@ -43,4 +44,5 @@ public:
 	ID3D10EffectTechnique *getTechnique();
 	ID3D10InputLayout *getVertexLayout();
 	void setShadowMaps(ID3D10ShaderResourceView** _res, int _size);
+	void setLightWvps(D3DXMATRIX* _wvps, int _size);
 };
