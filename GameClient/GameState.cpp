@@ -23,7 +23,7 @@ GameState::GameState()
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.01f, 0.01f, 0.01f));
 	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.5f, 1.5f, 1.5f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 5000.0f);
 	this->importMap("race");
 }
@@ -433,6 +433,37 @@ void GameState::importMap(string _map)
 					{
 						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f,0.9f), FLOAT3(0.1f, 0.1f,0.1f), 0.6f);
 					}
+				}
+			}
+		}
+		else if(strcmp(key, "LIGHTS:") == 0)
+		{
+			string s;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else
+				{
+					char in[100];
+					FLOAT3 position;
+					FLOAT3 rotation;
+					FLOAT3 color;
+					float radius;
+					sscanf(buf, "%s %f %f %f %f %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.y, &color.x, &color.z, &radius);
+
+					position.z = v2.z+position.z;
+					rotation.x = rotation.x * (D3DX_PI/180.0f);
+					rotation.y = rotation.y * (D3DX_PI/180.0f);
+					rotation.z = rotation.z * (D3DX_PI/180.0f);
+					
+					g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
 				}
 			}
 		}
