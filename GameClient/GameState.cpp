@@ -437,6 +437,37 @@ void GameState::importMap(string _map)
 				}
 			}
 		}
+		else if(strcmp(key, "LIGHTS:") == 0)
+		{
+			string s;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else
+				{
+					char in[100];
+					FLOAT3 position;
+					FLOAT3 rotation;
+					FLOAT3 color;
+					float radius;
+					sscanf(buf, "%s %f %f %f %f %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.y, &color.x, &color.z, &radius);
+
+					position.z = v2.z+position.z;
+					rotation.x = rotation.x * (D3DX_PI/180.0f);
+					rotation.y = rotation.y * (D3DX_PI/180.0f);
+					rotation.z = rotation.z * (D3DX_PI/180.0f);
+					
+					g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
+				}
+			}
+		}
 
 
 		sscanf("bugfix", "%s", key);

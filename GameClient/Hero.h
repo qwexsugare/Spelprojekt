@@ -15,6 +15,7 @@ private:
 	FLOAT3 m_nextPosition;
 	FLOAT3 m_goalPosition;
 	bool m_reachedPosition;
+	bool m_reallyReachedPosition;
 
 	unsigned int m_target;
 	bool m_hasTarget;

@@ -109,7 +109,7 @@ Path Pathfinder::getPath()
 	if(this->startX!=-1&&this->startY!=-1&&this->endX!=-1&&this->endY!=-1)
 			invalidStartEndPos=true;
 			
-	if(!startIsEnd&&invalidStartEndPos && this->nodes[endX][endY].isWall() == false)
+	if(!startIsEnd&&invalidStartEndPos && this->nodes[endY][endX].isWall() == false)
 	{
 		Node currentNode;
 		this->nodes[startY][startX].setH(this->getDistance(startX,startY,endX,endY)*vertMoveCost);
@@ -120,11 +120,11 @@ Path Pathfinder::getPath()
 		int y=this->startY;
 
 		int pos=0;
-		int timeout = 500;
+		//int timeout = 1000;
 		
-		while(!currentNode.isEndNode()&&!openList.empty() && timeout > 0)
+		while(!currentNode.isEndNode() && !openList.empty() /*&& timeout > 0*/)
 		{
-			timeout--;
+			//timeout--;
 			F=openList[0].getH()+openList[0].getG();
 			pos=0;
 			for(int i=0;i<(int)openList.size();i++)
@@ -225,11 +225,10 @@ Path Pathfinder::getPath()
 void Pathfinder::checkNeighbor(Node currentNode,int x, int y,bool diag,string dir)
 {
 	if(x>=0&&y>=0&&y<rows&&x<cols)
-	{
-		
-		if(!this->isOnClosedList(this->nodes[y][x])&&!this->nodes[y][x].isWall())
+	{	
+		if(!this->isOnClosedList(this->nodes[y][x]) && !this->nodes[y][x].isWall())
 		{
-			if(!this->isOnOpenList(this->nodes[y][x]))
+			if(this->isOnOpenList(this->nodes[y][x]) == false)
 			{
 				if(!diag)
 				{
@@ -251,7 +250,7 @@ void Pathfinder::checkNeighbor(Node currentNode,int x, int y,bool diag,string di
 								this->openList.push_back(this->nodes[y][x]);
 							}
 					}
-					if(dir=="dl")
+					else if(dir=="dl")
 					{
 							if(!this->nodes[y-1][x].isWall()&&!this->nodes[y][x+1].isWall())
 							{
@@ -261,48 +260,49 @@ void Pathfinder::checkNeighbor(Node currentNode,int x, int y,bool diag,string di
 								this->openList.push_back(this->nodes[y][x]);
 							}
 					}
-						if(dir=="ur")
+					else if(dir=="ur")
+					{
+						if(!this->nodes[y+1][x].isWall()&&!this->nodes[y][x-1].isWall())
 						{
-							if(!this->nodes[y+1][x].isWall()&&!this->nodes[y][x-1].isWall())
-							{
-								this->nodes[y][x].setG(currentNode.getG()+diagMoveCost);
-								this->nodes[y][x].setH(this->getDistance(x,y,endX,endY)*vertMoveCost);
-								this->nodes[y][x].setParent(currentNode.getX(),currentNode.getY());
-								this->openList.push_back(this->nodes[y][x]);
-							}
+							this->nodes[y][x].setG(currentNode.getG()+diagMoveCost);
+							this->nodes[y][x].setH(this->getDistance(x,y,endX,endY)*vertMoveCost);
+							this->nodes[y][x].setParent(currentNode.getX(),currentNode.getY());
+							this->openList.push_back(this->nodes[y][x]);
 						}
-						if(dir=="ul")
+					}
+					else if(dir=="ul")
+					{
+						if(!this->nodes[y+1][x].isWall()&&!this->nodes[y][x+1].isWall())
 						{
-							if(!this->nodes[y+1][x].isWall()&&!this->nodes[y][x+1].isWall())
-							{
-								this->nodes[y][x].setG(currentNode.getG()+diagMoveCost);
-								this->nodes[y][x].setH(this->getDistance(x,y,endX,endY)*vertMoveCost);
-								this->nodes[y][x].setParent(currentNode.getX(),currentNode.getY());
-								this->openList.push_back(this->nodes[y][x]);
-							}
+							this->nodes[y][x].setG(currentNode.getG()+diagMoveCost);
+							this->nodes[y][x].setH(this->getDistance(x,y,endX,endY)*vertMoveCost);
+							this->nodes[y][x].setParent(currentNode.getX(),currentNode.getY());
+							this->openList.push_back(this->nodes[y][x]);
 						}
 					}
 				}
 			}
 			else
 			{
-					if(!diag)
+				if(!diag)
+				{
+					if(currentNode.getG()+vertMoveCost<this->nodes[y][x].getG())
 					{
-						if(currentNode.getG()+vertMoveCost<this->nodes[y][x].getG())
-						{
 						this->nodes[y][x].setG(currentNode.getG()+vertMoveCost);
-						this->nodes[y][x].setParent(currentNode.getX(),currentNode.getY());
-						
-						}
+						this->nodes[y][x].setH(this->getDistance(x,y,endX,endY)*vertMoveCost);
+						this->nodes[y][x].setParent(currentNode.getX(),currentNode.getY());		
 					}
-					else
+				}
+				else
+				{
+					if(currentNode.getG()+diagMoveCost<this->nodes[y][x].getG())
 					{
-						if(currentNode.getG()+diagMoveCost<this->nodes[y][x].getG())
-						{
 						this->nodes[y][x].setG(currentNode.getG()+diagMoveCost);
+						this->nodes[y][x].setH(this->getDistance(x,y,endX,endY)*vertMoveCost);
 						this->nodes[y][x].setParent(currentNode.getX(),currentNode.getY());
-						}
 					}
+				}
+			}
 		}
 	}
 }
@@ -313,7 +313,9 @@ bool Pathfinder::isOnOpenList(Node node)
 	for(int i=0;i<(int)this->openList.size()&&!onOpenList;i++)
 	{
 		if(this->openList[i].getId()==node.getId())
+		{
 			onOpenList=true;
+		}
 	}
 	return onOpenList;
 }
@@ -323,7 +325,9 @@ bool Pathfinder::isOnClosedList(Node node)
 	for(int i=0;i<(int)this->closedList.size()&&!onClosedList;i++)
 	{
 		if(this->closedList[i].getId()==node.getId())
+		{
 			onClosedList=true;
+		}
 	}
 	return onClosedList;
 }

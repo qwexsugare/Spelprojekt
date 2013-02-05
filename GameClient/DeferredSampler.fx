@@ -241,7 +241,10 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 
 	output.Pos = float4(input.EyeCoord, 1.0f);
 	//output.Normal = float4(input.Normal, 1.0f);
-	output.Normal = normalize(mul(float4(normalMap.Sample(linearSampler, input.UVCoord, 1.0f)), modelMatrix));
+	output.Normal = normalize(mul(normalMap.Sample(linearSampler, input.UVCoord), modelMatrix));
+	float tmp = output.Normal.z;
+	output.Normal.z = output.Normal.y;
+	output.Normal.y = tmp;
 
 	float4 texColors[8];
 	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);

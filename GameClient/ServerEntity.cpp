@@ -22,6 +22,7 @@ ServerEntity::ServerEntity(FLOAT3 _pos)
 
 ServerEntity::ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedBox* _obb, Type _type)
 {
+	this->m_messageQueue = new MessageQueue();
 	this->m_position = _position;
 	this->m_rotation = _rotation;
 	this->m_obb = _obb;
