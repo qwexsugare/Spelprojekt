@@ -252,7 +252,7 @@ void GameState::update(float _dt)
 			float dist;
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
+				//this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
 			}
 		}
 	}

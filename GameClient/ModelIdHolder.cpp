@@ -2,9 +2,9 @@
 
 ModelIdHolder::ModelIdHolder()
 {
-	this->m_modelId[0] = "Char1_5";
+	this->m_modelId[0] = "Test";
 	this->m_modelId[1] = "Beast1_5";
-	this->m_modelId[2] = "Church";
+	this->m_modelId[2] = "egg";
 	this->m_modelId[3] = "PoisonTurret";
 	this->m_modelId[4] = "LightningTurret";
 	this->m_modelId[5] = "DeathTurret";
