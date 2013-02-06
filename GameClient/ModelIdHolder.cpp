@@ -8,6 +8,7 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelId[3] = "LightningTurret";
 	this->m_modelId[4] = "DeathTurret";
 	this->m_modelId[5] = "FrostTurret";
+	this->m_modelId[6] = "CloudOfDarkness";
 }
 
 std::string ModelIdHolder::getModel(unsigned int id)
@@ -17,6 +18,7 @@ std::string ModelIdHolder::getModel(unsigned int id)
 		return this->m_modelId[id];
 	}
 	else
+
 	{
 		return "";
 	}

@@ -323,14 +323,14 @@ void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
 	for(int i = 0; i < this->m_roads.size(); i++)
 	{
 		// COMMENCE ADVANCED CHEAT CULLING
-
+		
 		// Calculate models distance to camera and make it positive +
 		D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_roads[i]->getPosition2D()-D3DXVECTOR2(_cameraPos.x, _cameraPos.z));
 		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
 		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
-		// Find the greatest extent of the model bounding box
-		float greatestExtent;
 
+		// Find the greatest extent of the bounding box
+		float greatestExtent;
 		if(this->m_roads[i]->getOBB()->Extents.x > this->m_roads[i]->getOBB()->Extents.z)
 			greatestExtent = this->m_roads[i]->getOBB()->Extents.x;
 		else
@@ -341,9 +341,7 @@ void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
 		modelDistanceToCamera.y -= greatestExtent;
 		
 		if(modelDistanceToCamera.x < 6.0f && (m_roads[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
-		{
 			_roads.push(this->m_roads[i]);
-		}
 
 		// END ADVANCED CHEAT CULLING
 	}
