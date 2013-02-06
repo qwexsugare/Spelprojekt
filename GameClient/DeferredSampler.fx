@@ -69,9 +69,22 @@ DepthStencilState EnableDepth
     DepthWriteMask = ALL;
 };
 
+DepthStencilState EnableDepthTestOnly
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ZERO;
+};
+
+
+RasterizerState testRS
+{
+	FillMode = Solid;
+	CullMode = BACK;
+};
+
 RasterizerState rs
 {
-	//FillMode = Solid;
+	FillMode = Solid;
 	CullMode = FRONT;
 };
 
@@ -131,7 +144,7 @@ PSSceneOut PSScene(PSSceneIn input)
 	output.Pos = float4(input.EyeCoord, 1.0f);
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
-	output.Diffuse = color * float4(3,3, 3, 1.0f);
+	output.Diffuse = color /** float4(3,3, 3, 1.0f)*/;
 
 	return output;
 }
@@ -230,7 +243,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 
 	//variables needed for lighting
 	output.Normal = normalize(mul(input.Normal, modelMatrix));
-	output.EyeCoord = mul(input.Pos, modelMatrix);
+	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
 
 	return output;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ServerEntity.h"
+#include "Skill.h"
 
 class DemonicPresenceEffect
  : public ServerEntity

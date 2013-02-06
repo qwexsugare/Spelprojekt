@@ -36,8 +36,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
 	
-	m_shadowMapViewport.Width = 1024;
-	m_shadowMapViewport.Height = 1024;
+	m_shadowMapViewport.Width = 2048;
+	m_shadowMapViewport.Height = 2048;
 	m_shadowMapViewport.MinDepth = 0.0f;
 	m_shadowMapViewport.MaxDepth = 1.0f;
 	m_shadowMapViewport.TopLeftX = 0;
@@ -370,17 +370,14 @@ void World::renderShadowMap()
 		m_deferredSampler->setLightWvp(m_spotLights[i]->getWvp());
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
-
 		stack<Model*> models = this->m_quadTree->getAllModels();
 		while(!models.empty())
 		{
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
+			//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 			{
-				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->diffuse);
-
 				if(models.top()->getMesh()->isAnimatied)
 				{
 					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());

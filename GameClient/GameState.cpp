@@ -20,12 +20,15 @@ GameState::GameState()
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
-	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 10.0f, 60.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createSpotLight(FLOAT3(30.0f, 5.0f, 30.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+
 	this->importMap("race");
 }
 
@@ -166,6 +169,9 @@ void GameState::update(float _dt)
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
 			break;
+		case Skill::DEMONIC_PRESENCE:
+			int lol = 0;
+			break;
 		/*case Skill::CHAIN_STRIKE:
 			m_ClientSkillEffects.push_back(new ChainStrikeSkillEffect(e.getPosition()));
 			break;*/
@@ -180,6 +186,14 @@ void GameState::update(float _dt)
 		this->m_hud->addSkill(e.getActionId());
 		this->m_hud->setResources(e.getResources());
 	}
+
+	while(this->m_network->removeActionTargetQueueEmpty() == false)
+	{
+		NetworkRemoveActionTargetMessage e = this->m_network->removeActionTargetQueueFront();
+		
+		// DO SOMETHING!!
+	}
+
 
 	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 	{
@@ -446,18 +460,58 @@ void GameState::importMap(string _map)
 				else
 				{
 					char in[100];
-					FLOAT3 position;
-					FLOAT3 rotation;
-					FLOAT3 color;
-					float radius;
-					sscanf(buf, "%s %f %f %f %f %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.y, &color.x, &color.z, &radius);
+					sscanf(buf, "%s", &in);
 
-					position.z = v2.z+position.z;
-					rotation.x = rotation.x * (D3DX_PI/180.0f);
-					rotation.y = rotation.y * (D3DX_PI/180.0f);
-					rotation.z = rotation.z * (D3DX_PI/180.0f);
+					if(strcmp(key, "AM") == 0)
+					{
+						FLOAT3 direction;
+						FLOAT3 color;
 
-					g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
+						sscanf(buf, "AM %f %f %f %f %f %f", &direction.x, &direction.y, &direction.z, &color.x, &color.y, &color.z);
+						g_graphicsEngine->createDirectionalLight(direction, FLOAT3(0.0f, 0.0f, 0.0f), color, color);
+					}
+					else if(strcmp(key, "PLS") == 0)
+					{
+						FLOAT3 position;
+						FLOAT3 rotation;
+						FLOAT3 color;
+						float radius;
+						sscanf(buf, "PLS %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.y, &color.x, &color.z, &radius);
+
+						position.z = v2.z+position.z;
+						rotation.x = rotation.x * (D3DX_PI/180.0f);
+						rotation.y = rotation.y * (D3DX_PI/180.0f);
+						rotation.z = rotation.z * (D3DX_PI/180.0f);
+
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
+					}
+					else if(strcmp(key, "PL") == 0)
+					{
+						FLOAT3 position;
+						FLOAT3 rotation;
+						FLOAT3 color;
+						float radius;
+						sscanf(buf, "PL %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.y, &color.x, &color.z, &radius);
+
+						position.z = v2.z+position.z;
+						rotation.x = rotation.x * (D3DX_PI/180.0f);
+						rotation.y = rotation.y * (D3DX_PI/180.0f);
+						rotation.z = rotation.z * (D3DX_PI/180.0f);
+
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
+					}
+					else if(strcmp(key, "SL") == 0)
+					{
+						FLOAT3 position;
+						FLOAT3 direction;
+						FLOAT3 color;
+						sscanf(buf, "SL %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &direction.x, &direction.y, &direction.z, &color.x, &color.y, &color.z);
+
+						position.z = v2.z+position.z;
+						direction.y = -direction.y;
+
+						g_graphicsEngine->createSpotLight(position, direction, FLOAT3(0.0f, 0.0f, 0.0f), color, color, FLOAT2(0.9f, 0.8f), 300.0f);
+					}
 				}
 			}
 		}

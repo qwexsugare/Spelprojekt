@@ -211,6 +211,7 @@
     <ClCompile Include="NetworkDisconnectMessage.cpp" />
     <ClCompile Include="NetworkEntityMessage.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
+    <ClCompile Include="NetworkRemoveActionTargetMessage.cpp" />
     <ClCompile Include="NetworkRemoveEntityMessage.cpp" />
     <ClCompile Include="NetworkSkillBoughtMessage.cpp" />
     <ClCompile Include="NetworkUseActionMessage.cpp" />
@@ -321,6 +322,7 @@
     <ClInclude Include="NetworkDisconnectMessage.h" />
     <ClInclude Include="NetworkEntityMessage.h" />
     <ClInclude Include="NetworkMessage.h" />
+    <ClInclude Include="NetworkRemoveActionTargetMessage.h" />
     <ClInclude Include="NetworkRemoveEntityMessage.h" />
     <ClInclude Include="NetworkSkillBoughtMessage.h" />
     <ClInclude Include="NetworkUseActionMessage.h" />

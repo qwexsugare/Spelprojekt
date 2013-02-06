@@ -154,16 +154,16 @@ float calcShadow(float4 lightPos, int lightIndex)
 		float depth = lightPos.z;
 
 		//Get the shadow map size
-		int width = 1024;
-		int height = 1024;
+		int width;
+		int height;
 		shadowMaps[lightIndex].GetDimensions(width, height);
 		
 		// 2x2 percentage closest filter.
 		float dx = 1.0f / width;
-		float s0 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
-		float s1 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, 0.0f)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
-		float s2 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(0.0f, dx)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
-		float s3 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, dx)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
+		float s0 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s1 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, 0.0f)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s2 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(0.0f, dx)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s3 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, dx)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
 		
 		// Transform to texel space
 		float2 texelPos = smTex * width;
@@ -196,7 +196,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 	for(i = 0; i < nrOfPointLights; i++)
 	{
-		distVector = (lightPosition[i] - position.xyz);
+		distVector = (lightPosition[i] - position);
 		distance = length(distVector);
 		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
@@ -223,8 +223,8 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
-		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), 0));
-		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), 0);
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(float4(position.xyz, 1.0f), lightWvps[i]), i));
+		specularLight = specularLight + (calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(float4(position.xyz, 1.0f), lightWvps[i]), i));
 	}
 
 	/*float shad = nrOfSpotLights;
@@ -234,7 +234,9 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	}*/
 
 	//float shad = calcShadow(mul(position, lightWvps[0]), 0);
-	//
+	
+	//return diffuse * shad;
+
 	//return (float4(ambientLight, 0.0f) + float4(diffuseLight*shad, 1.0f)*diffuse + float4(specularLight*shad, 0.0f));
 	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f);
 }
