@@ -221,16 +221,17 @@ void World::render()
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 		
-			
+			this->m_deferredSampler->setCameraPosition(this->m_camera->getPos());
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 			{
 			//for( UINT p = 0; p < techDesc.Passes; p++ )
 			//{
 
-				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->diffuse);
+				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->textures["color"]);
+				this->m_deferredSampler->setNormalMap(models.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
 
-				if(models.top()->getMesh()->isAnimatied)
+				if(models.top()->getMesh()->isAnimated)
 				{
 					
 					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
@@ -240,9 +241,9 @@ void World::render()
 				}
 				else
 				{
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(Vertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
-					this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
+				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
+					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
 				}
 
 				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);

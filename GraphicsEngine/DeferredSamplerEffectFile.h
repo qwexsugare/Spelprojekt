@@ -5,6 +5,7 @@ class DeferredSamplerEffectFile : public EffectFile
 private:
 	// Universal
 	ID3D10EffectShaderResourceVariable* m_texture;
+	ID3D10EffectShaderResourceVariable* m_normalMap;
 	ID3D10EffectMatrixVariable* m_modelMatrix;
 	ID3D10EffectMatrixVariable* m_viewMatrix;
 	ID3D10EffectMatrixVariable* m_projectionMatrix;
@@ -21,9 +22,14 @@ private:
 	ID3D10EffectShaderResourceVariable* m_terrainTextures;
 	ID3D10EffectShaderResourceVariable* m_terrainBlendMaps;
 	
+	//Anders
+	ID3D10InputLayout *m_vertexAnimationLayout;
+	ID3D10InputLayout *m_vertexSuperLayout;
+	ID3D10EffectTechnique *m_superTechnique;
+	ID3D10EffectVectorVariable* m_cameraPosition;
+
 	// Road
 	ID3D10EffectTechnique* m_renderRoad;
-	ID3D10InputLayout *m_vertexAnimationLayout;
 public:
 	DeferredSamplerEffectFile();
 	DeferredSamplerEffectFile(ID3D10Device* _device);
@@ -35,12 +41,17 @@ public:
 	void setProjectionMatrix(D3DXMATRIX _matrix);
 
 	void setTexture(ID3D10ShaderResourceView *_texture);
+	void setNormalMap(ID3D10ShaderResourceView *_texture);
 	void DeferredSamplerEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture);
 	ID3D10InputLayout *getInputLayout()const;
 	ID3D10InputLayout *getInputAnimationLayout() const;
+	ID3D10InputLayout *getSuperInputLayout() const;
 	
 	ID3D10EffectTechnique *getTechnique();
 	ID3D10EffectTechnique *getAnimationTechnique();
+	ID3D10EffectTechnique *getSuperTechnique();
+	//Anders
+	void setCameraPosition(D3DXVECTOR3 _cameraPosition);
 
 	ID3D10EffectTechnique *getRenderTerrainTechnique();
 	void setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size);

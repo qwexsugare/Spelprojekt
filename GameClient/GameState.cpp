@@ -13,7 +13,7 @@ GameState::GameState()
 	this->m_emilmackesFpsText = new TextInput("text3.png", INT2(1100, 1053), 100);
 	this->m_emilsFps = new TextLabel("fps = 10", "text3.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
 	this->m_network = new Client();
-	m_testModel = g_graphicsEngine->createModel("TestObject", FLOAT3(25.0f, 0.0f, 25.0f));
+	//m_testModel = g_graphicsEngine->createModel("TestObject", FLOAT3(25.0f, 0.0f, 25.0f));
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
@@ -23,7 +23,7 @@ GameState::GameState()
 	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
 	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.8f, 0.8f, 0.8f), FLOAT3(0.1f, 0.1f, 0.1f));
-	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT2(0.6f, 0.3f), 50.0f);
+	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 50.0f);
 	this->importMap("race");
 }
 
@@ -159,7 +159,7 @@ void GameState::update(float _dt)
 		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
 
 		float dist;
-		if(m_testModel->intersects(dist, pickOrig, pickDir))
+	/*	if(m_testModel->intersects(dist, pickOrig, pickDir))
 		{
 			OutputDebugString("pick ray intersects with test model 1\n");
 		}
@@ -168,7 +168,7 @@ void GameState::update(float _dt)
 			stringstream cnv;
 			cnv << dist << endl;
 			OutputDebugString(cnv.str().c_str());
-		}
+		}*/
 
 
 		for(int i = 0; i < m_entities.size(); i++)
@@ -176,7 +176,7 @@ void GameState::update(float _dt)
 			float dist;
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
+				//this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
 			}
 		}
 	}
@@ -190,13 +190,13 @@ void GameState::update(float _dt)
 	}
 	if(g_mouse->isRButtonPressed())
 	{
-		m_testModel->rotate(D3DX_PI/8.0f, 0.0f, 0.0f);
+		//m_testModel->rotate(D3DX_PI/8.0f, 0.0f, 0.0f);
 
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
-
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 1.0f, pos.y));
+			//Anders Var Här Och Pela
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y));
 			this->m_network->sendMessage(e);
 		}
 		else
@@ -240,7 +240,7 @@ void GameState::update(float _dt)
 			float k = (-pickOrig.y)/pickDir.y;
 			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 1.0f, terrainPos.z));
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
 			//e.setPosition(FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
 			this->m_network->sendMessage(e);
 		}

@@ -21,7 +21,7 @@ struct Mesh
 	BoundingOrientedBox* m_obb;
 	BoundingSphere* m_bs;
 
-	bool isAnimatied;
+	bool isAnimated;
 
 	Mesh()
 	{
@@ -31,7 +31,7 @@ struct Mesh
 		this->m_obb = NULL;
 		this->m_bs = NULL;
 		this->numSkeletons = 0;
-		this->isAnimatied = false;
+		this->isAnimated = false;
 	}
 
 	Mesh(ID3D10Buffer* _buffer, int _nrOfVertices)
@@ -41,7 +41,7 @@ struct Mesh
 		this->m_obb = NULL;
 		this->m_bs = NULL;
 		this->numSkeletons = 0;
-		this->isAnimatied = false;
+		this->isAnimated = false;
 	}
 	~Mesh()
 	{
