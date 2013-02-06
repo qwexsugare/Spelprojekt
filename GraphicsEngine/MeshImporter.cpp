@@ -183,7 +183,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	materials.push_back(matlol);
 
 	result = new Mesh(buffer, faceVertexPos1.size()*3);
-	result->m_texture = matlol.texture;
+	//result->m_texture = matlol.texture;
 
 	return result;
 }

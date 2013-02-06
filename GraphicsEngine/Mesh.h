@@ -12,7 +12,6 @@ struct Mesh
 {
 	int nrOfVertices;
 	int numSkeletons;
-	ID3D10ShaderResourceView* m_texture;
 	vector<SubMesh*> subMeshes;
 
 	vector<Material> materials;
@@ -26,7 +25,6 @@ struct Mesh
 	Mesh()
 	{
 		this->buffer = NULL;
-		this->m_texture = NULL;
 		this->nrOfVertices = 0;
 		this->m_obb = NULL;
 		this->m_bs = NULL;

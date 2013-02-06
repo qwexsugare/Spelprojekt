@@ -7,13 +7,14 @@ Model::Model()
 	this->animation = NULL;
 }
 
-Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
+Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha, string _textureIndex)
 {
 	this->m_alpha = _alpha;
 	this->m_mesh = _mesh;
 	this->m_position = _position;
 	this->m_scale = _scale;
 	this->m_rotation = _rotation;
+	this->m_textureIndex = _textureIndex;
 
 	if(_mesh->m_bs == NULL)
 	{

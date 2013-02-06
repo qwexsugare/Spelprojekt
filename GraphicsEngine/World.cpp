@@ -210,10 +210,7 @@ void World::render()
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 			{
-			//for( UINT p = 0; p < techDesc.Passes; p++ )
-			//{
-
-				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->textures["color"]);
+				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->textures[models.top()->getTextureIndex()]);
 				this->m_deferredSampler->setNormalMap(models.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
 
 				if(models.top()->getMesh()->isAnimated)
@@ -225,7 +222,7 @@ void World::render()
 				}
 				else
 				{
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
 					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
 				}
@@ -254,15 +251,27 @@ void World::render()
 		this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->buffer, sizeof(Vertex));
 
 		this->m_deferredSampler->setModelMatrix(transparantModels.top()->getModelMatrix());
-		this->m_deferredSampler->setTexture(transparantModels.top()->getMesh()->m_texture);
 		this->m_deferredSampler->setModelAlpha(transparantModels.top()->getAlpha());
 
-		D3D10_TECHNIQUE_DESC techDesc;
-		this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
-
-		for( UINT p = 0; p < techDesc.Passes; p++ )
+		for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 		{
-			this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
+			this->m_deferredSampler->setTexture(transparantModels.top()->getMesh()->subMeshes[m]->textures[models.top()->getTextureIndex()]);
+			this->m_deferredSampler->setNormalMap(transparantModels.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
+
+			if(models.top()->getMesh()->isAnimated)
+			{
+				this->m_deferredSampler->setBoneTexture(transparantModels.top()->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+			}
+			else
+			{
+				this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
+				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
+			}
+
 			this->m_deviceHandler->getDevice()->Draw(transparantModels.top()->getMesh()->nrOfVertices, 0);
 		}
 		
