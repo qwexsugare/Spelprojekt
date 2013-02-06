@@ -380,7 +380,7 @@ void World::renderShadowMap()
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 			{
-				if(models.top()->getMesh()->isAnimatied)
+				if(models.top()->getMesh()->isAnimated)
 				{
 					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
 					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));

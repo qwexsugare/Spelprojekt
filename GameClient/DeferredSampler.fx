@@ -4,7 +4,6 @@ Texture2D tex2D;
 Texture2D normalMap;
 Texture1D boneTex;
 Texture2D terrainTextures[8];
-Texture2D normalMap;
 Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
@@ -230,7 +229,6 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	float3 newNormal = normalize(mul(sampNormal, tbn));
 
 	float3 light = float3(0, -1, 0);
-	light = cameraPos - input.Pos;
 	light = normalize(light);
 	light = normalize(mul(light, tbn));
 
