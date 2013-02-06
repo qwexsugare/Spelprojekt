@@ -12,7 +12,7 @@ Aim::~Aim()
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setAttackSpeed(ue->getAttackSpeed() + 0.15f);
+		ue->alterAttackSpeed(0.15f);
 	}
 }
 
@@ -24,7 +24,7 @@ bool Aim::activate(unsigned int _senderId)
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setAttackSpeed(ue->getAttackSpeed() - 0.15f);
+		ue->alterAttackSpeed(-0.15f);
 	}
 
 	return true;

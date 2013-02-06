@@ -66,7 +66,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 				if(this->m_attackCooldown <= 0.0f)
 				{
 					EntityHandler::addEntity(new Projectile(this->m_position, se->getPosition() - this->m_position, 2.0f, 6.0f, this));
-					this->m_attackCooldown = 0.2f;
+					this->m_attackCooldown = this->m_attackSpeed;
 				}
 			}
 			else
