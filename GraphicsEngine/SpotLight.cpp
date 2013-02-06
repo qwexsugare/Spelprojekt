@@ -8,11 +8,7 @@ SpotLight::SpotLight()
 SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, FLOAT2 _angle, float _range)
 {
 	m_direction = _direction;
-	//D3DXMATRIX mat;
-	//D3DXMatrixRotationYawPitchRoll(&mat, 0.0f, D3DX_PI/2.0f, 0.0f);
-	//D3DXVECTOR4 temp;
-	//D3DXVec3Transform(&temp, &D3DXVECTOR3(m_direction.x, m_direction.y, m_direction.z), &mat);
-	//m_up = D3DXVECTOR3(temp.x, temp.y, temp.z);
+	this->m_up = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 	D3DXVECTOR3 evilVector;
 
 	//if(this->m_direction.x <= this->m_direction.y && this->m_direction.x <= this->m_direction.z && this->m_direction.x > 0)
@@ -98,7 +94,7 @@ void SpotLight::setPosition(FLOAT3 _position)
 	
 	D3DXMATRIX projMatrix;
 	D3DXMATRIX viewMatrix;
-	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2.0f, 1.0f, 0.1f, 500000.0f);
+	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/4.0f, 1.0f, 0.1f, 500000.0f);
 	D3DXVECTOR3 eye(m_position.x, m_position.y, m_position.z);
 	FLOAT3 dampDirection(m_direction.x, -m_direction.y, m_direction.z);
 	FLOAT3 temp(m_position+dampDirection);

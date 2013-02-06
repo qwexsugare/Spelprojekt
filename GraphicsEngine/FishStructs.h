@@ -2,12 +2,13 @@
 
 #include <string>
 #include <vector>
+#include "stdafx.h"
 
-#define _upperBody_ 1;
-#define _lowerBody_ 0;
-#define _rightHand_ 2;
-#define _leftHand_ 3;
-#define _hat_ 4;
+#define _upperBody_ 1
+#define _lowerBody_ 0
+#define _rightHand_ 2
+#define _leftHand_ 3
+#define _hat_ 4
 
 using namespace std;
 
@@ -113,6 +114,9 @@ struct FPropsLocators
 	float hatPos[3];
 	float rightHandPos[3];
 	float leftHandPos[3];
+	int hatIndex;
+	int rightHandIndex;
+	int leftHandIndex;
 	FPropsLocators()
 	{
 		this->hatPos[0] = 0;
@@ -124,6 +128,9 @@ struct FPropsLocators
 		this->leftHandPos[0] = 0;
 		this->leftHandPos[1] = 0;
 		this->leftHandPos[2] = 0;
+		this->hatIndex = 0;
+		this->rightHandIndex = 0;
+		this->leftHandIndex = 0;
 	}
 	~FPropsLocators()
 	{
@@ -137,4 +144,26 @@ struct AnimationFile
 	string name;
 	int numKeys;
 	vector<FSkeleton> skeletons;
+	int numLoops;
+	bool isAnimating;
+	float time;
+	float overlapTime;
+	AnimationFile()
+	{
+		this->numLoops = -1;
+		this->isAnimating = false;
+		this->time = 0.0f;
+		this->overlapTime = 0.5f;
+	}
+	~AnimationFile()
+	{
+
+	}
+};
+
+struct FishAnimationStuff
+{
+	D3DXQUATERNION rotation;
+	D3DXVECTOR3 translation;
+	D3DXVECTOR3 scale;
 };

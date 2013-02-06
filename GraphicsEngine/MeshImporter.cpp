@@ -183,7 +183,7 @@ Mesh* MeshImporter::loadOBJMesh(ID3D10Device *_device, TextureHolder *textureHol
 	materials.push_back(matlol);
 
 	result = new Mesh(buffer, faceVertexPos1.size()*3);
-	result->m_texture = matlol.texture;
+	//result->m_texture = matlol.texture;
 
 	return result;
 }
@@ -281,7 +281,7 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 
 	for(int m = 0; m < fishFile->FMeshes.size(); m++)
 	{
-		vector<Vertex> verts;
+		vector<SuperVertex> verts;
 		verts.resize(fishFile->FMeshes[m].numVertices);
 
 		
@@ -330,6 +330,10 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 
 				verts[v].texCoord.x = fishFile->FMeshes[m].vertices[v].uv.u;
 				verts[v].texCoord.y = fishFile->FMeshes[m].vertices[v].uv.v;
+
+				verts[v].tangent.x = fishFile->FMeshes[m].vertices[v].tangent.x;
+				verts[v].tangent.y = fishFile->FMeshes[m].vertices[v].tangent.y;
+				verts[v].tangent.z = fishFile->FMeshes[m].vertices[v].tangent.z;
 			}
 		}
 
@@ -340,7 +344,7 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 		if(isAnimated)
 			bd.ByteWidth = sizeof( AnimationVertex ) * fishFile->FMeshes[m].numVertices;
 		else
-			bd.ByteWidth = sizeof( Vertex ) * fishFile->FMeshes[m].numVertices;
+			bd.ByteWidth = sizeof( SuperVertex ) * fishFile->FMeshes[m].numVertices;
 
 		bd.BindFlags = D3D10_BIND_VERTEX_BUFFER;
 		bd.CPUAccessFlags = 0;
@@ -364,12 +368,15 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 	{
 		for(int t = 0; t < fishFile->fMaterials.size(); t++)
 		{
-			if(fishFile->FMeshes[m].materialIndex == t)
+			for(int l = 0; l < fishFile->fMaterials[t].textures.size(); l++)
 			{
 				string tName;
-				for(int c = 0; c < fishFile->fMaterials[m].textures[t].pathSize; c++)
-					tName += fishFile->fMaterials[m].textures[t].path[c];
-				mesh->subMeshes[m]->diffuse = textureHolder->getTexture(string(folderPath + "/" + tName));
+				string typeName;
+				for(int c = 0; c < fishFile->fMaterials[t].textures[l].pathSize; c++)
+					tName += fishFile->fMaterials[t].textures[l].path[c];
+				for(int c = 0; c < fishFile->fMaterials[t].textures[l].typeSize; c++)
+					typeName += fishFile->fMaterials[t].textures[l].type[c];
+				mesh->subMeshes[m]->textures.insert(mesh->subMeshes[m]->textures.begin(), pair<string, ID3D10ShaderResourceView*>(typeName, textureHolder->getTexture(string(folderPath + "/" + tName))));
 			}
 		}
 	}
@@ -392,7 +399,7 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 
 	mesh->numSkeletons = fishFile->fFileInfo.numSkeleton;
 
-	mesh->isAnimatied = isAnimated;
+	mesh->isAnimated = isAnimated;
 
 	return mesh;
 }

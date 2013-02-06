@@ -138,7 +138,7 @@ PSSceneIn VSScene(VSSceneIn input)
 
 float calcShadow(float4 lightPos, int lightIndex)
 {
-	float shadowCoeff = 0.0f;
+	float shadowCoeff = 1.0f;
 	float shadowEpsilon = 0.00001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
@@ -157,7 +157,7 @@ float calcShadow(float4 lightPos, int lightIndex)
 		int width;
 		int height;
 		shadowMaps[lightIndex].GetDimensions(width, height);
-		
+
 		// 2x2 percentage closest filter.
 		float dx = 1.0f / width;
 		float s0 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
@@ -233,12 +233,10 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		shad = max(shad-calcShadow(mul(position, lightWvps[i]), i), 0.0f);
 	}*/
 
-	//float shad = calcShadow(mul(position, lightWvps[0]), 0);
+	float shad = calcShadow(mul(position, lightWvps[0]), 0);
 	
-	//return diffuse * shad;
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*shad;
 
-	//return (float4(ambientLight, 0.0f) + float4(diffuseLight*shad, 1.0f)*diffuse + float4(specularLight*shad, 0.0f));
-	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f);
 }
 
 technique10 RenderModelDeferred

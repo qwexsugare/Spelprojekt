@@ -12,9 +12,12 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_projectionMatrix = this->m_effect->GetVariableByName("projectionMatrix")->AsMatrix();
 	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
+	this->m_normalMap = this->m_effect->GetVariableByName("normalMap")->AsShaderResource();
 	this->m_boneTexture = this->m_effect->GetVariableByName("boneTex")->AsShaderResource();
 	this->m_technique = this->m_effect->GetTechniqueByName("DeferredSample");
 	this->m_animationTechnique = this->m_effect->GetTechniqueByName("DeferredAnimationSample");
+	this->m_superTechnique = this->m_effect->GetTechniqueByName("DeferredSuperSample");
+	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPos")->AsVector();
 	
 	D3D10_PASS_DESC passDescription;
 	this->m_technique->GetPassByIndex(0)->GetDesc(&passDescription);
@@ -29,7 +32,23 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 		passDescription.pIAInputSignature,
 		passDescription.IAInputSignatureSize,
 		&this->m_vertexLayout);
-	 
+
+	 //SuperVertex
+	D3D10_PASS_DESC superPassDescription;
+	this->m_superTechnique->GetPassByIndex(0)->GetDesc(&superPassDescription);
+	const D3D10_INPUT_ELEMENT_DESC vertexSuperLayout[] =
+	{
+		{ "POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "UVCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D10_APPEND_ALIGNED_ELEMENT, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D10_APPEND_ALIGNED_ELEMENT, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D10_APPEND_ALIGNED_ELEMENT, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+	};
+	 _device->CreateInputLayout(vertexSuperLayout,
+		sizeof(vertexSuperLayout) / sizeof(D3D10_INPUT_ELEMENT_DESC),
+		superPassDescription.pIAInputSignature,
+		superPassDescription.IAInputSignatureSize,
+		&this->m_vertexSuperLayout);
+
 	//Animation
 	 D3D10_PASS_DESC animationPassDescription;
 	this->m_animationTechnique->GetPassByIndex(0)->GetDesc(&animationPassDescription);
@@ -61,6 +80,7 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	renderShadowMap = m_effect->GetTechniqueByName("RenderShadowMap");
 }
 
+
 DeferredSamplerEffectFile::~DeferredSamplerEffectFile()
 {
 
@@ -91,6 +111,11 @@ void DeferredSamplerEffectFile::setTexture(ID3D10ShaderResourceView *_texture)
 	this->m_texture->SetResource(_texture);
 }
 
+void DeferredSamplerEffectFile::setNormalMap(ID3D10ShaderResourceView *_texture)
+{
+	this->m_normalMap->SetResource(_texture);
+}
+
 void DeferredSamplerEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture)
 {
 	this->m_boneTexture->SetResource(_texture);
@@ -106,9 +131,19 @@ ID3D10EffectTechnique *DeferredSamplerEffectFile::getAnimationTechnique()
 	return this->m_animationTechnique;
 }
 
+ID3D10EffectTechnique *DeferredSamplerEffectFile::getSuperTechnique()
+{
+	return this->m_superTechnique;
+}
+
 ID3D10InputLayout *DeferredSamplerEffectFile::getInputLayout() const
 {
 	return this->m_vertexLayout;
+}
+
+ID3D10InputLayout *DeferredSamplerEffectFile::getSuperInputLayout() const
+{
+	return this->m_vertexSuperLayout;
 }
 
 ID3D10InputLayout *DeferredSamplerEffectFile::getInputAnimationLayout() const

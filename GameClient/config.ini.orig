@@ -1,8 +1,8 @@
-windowed 1
 <<<<<<< HEAD
-resolution 1920 1200
+resolution 1920 1080
 =======
-resolution 1600 1000
-music_volume 0.8
-sound_effects_volume 0.8
->>>>>>> 66ff8e60023a9b2f73c1dbeaa4c3609564cda2b6
+resolution 1920 1200
+>>>>>>> 0b36fdad98479fb86bfe13996f77cf32152f047a
+windowed 1
+music_volume 0.270833
+sound_volume 0.177083

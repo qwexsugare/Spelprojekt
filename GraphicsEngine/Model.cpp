@@ -7,13 +7,14 @@ Model::Model()
 	this->animation = NULL;
 }
 
-Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha)
+Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha, string _textureIndex)
 {
 	this->m_alpha = _alpha;
 	this->m_mesh = _mesh;
 	this->m_position = _position;
 	this->m_scale = _scale;
 	this->m_rotation = _rotation;
+	this->m_textureIndex = _textureIndex;
 
 	if(_mesh->m_bs == NULL)
 	{
@@ -28,7 +29,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	{
 		this->m_bs = new BoundingSphere(*_mesh->m_bs);
 		this->m_obb = NULL;
-		this->m_bs->Center = XMFLOAT3(m_position.x + _mesh->m_obb->Center.x*_scale.x, m_position.y + _mesh->m_obb->Center.y*_scale.y, m_position.z + _mesh->m_obb->Center.z*_scale.z);
+		this->m_bs->Center = XMFLOAT3(m_position.x + _mesh->m_bs->Center.x*_scale.x, m_position.y + _mesh->m_bs->Center.y*_scale.y, m_position.z + _mesh->m_bs->Center.z*_scale.z);
 
 		float largestScale = _scale.x;
 		if(_scale.y > largestScale)
