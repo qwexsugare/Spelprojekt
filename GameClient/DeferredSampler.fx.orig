@@ -4,7 +4,6 @@ Texture2D tex2D;
 Texture2D normalMap;
 Texture1D boneTex;
 Texture2D terrainTextures[8];
-Texture2D normalMap;
 Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
@@ -69,14 +68,9 @@ cbuffer cbEveryFrame
 	matrix viewMatrix;
 	matrix projectionMatrix;
 	matrix modelMatrix;
-<<<<<<< HEAD
 
-	float3 cameraPos;
-
-=======
-	
 	matrix lightWvp;
->>>>>>> 47fd9157fa6d9967532483543eefb67fedd45937
+
 	float modelAlpha;
 };
 
@@ -93,9 +87,22 @@ DepthStencilState EnableDepth
     DepthWriteMask = ALL;
 };
 
+DepthStencilState EnableDepthTestOnly
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ZERO;
+};
+
+
+RasterizerState testRS
+{
+	FillMode = Solid;
+	CullMode = BACK;
+};
+
 RasterizerState rs
 {
-	//FillMode = Solid;
+	FillMode = Solid;
 	CullMode = FRONT;
 };
 
@@ -155,7 +162,11 @@ PSSceneOut PSScene(PSSceneIn input)
 	output.Pos = float4(input.EyeCoord, 1.0f);
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
-	output.Diffuse = color * float4(3,3, 3, 1.0f);
+<<<<<<< HEAD
+	output.Diffuse = color /** float4(3,3, 3, 1.0f)*/;
+=======
+	output.Diffuse = color;
+>>>>>>> d75afba1af662695b04b89e891b4a0edda0005a1
 
 	return output;
 }
@@ -201,12 +212,11 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
-	color.w = modelAlpha;
+	color.w *= modelAlpha;
 
 	//Normal Mapping
 
 	//float3 light = normalize(input.EyeCoord - input.Pos);
-	
 
 	float3 sampNormal = normalize(normalMap.Sample(linearSampler, input.UVCoord));
 	//sampNormal.z *= -1;
@@ -235,7 +245,6 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	float3 newNormal = normalize(mul(sampNormal, tbn));
 
 	float3 light = float3(0, -1, 0);
-	light = cameraPos - input.Pos;
 	light = normalize(light);
 	light = normalize(mul(light, tbn));
 
@@ -269,7 +278,7 @@ technique10 DeferredSuperSample
 {
     pass p0
     {
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSSuperScene() ) );
         SetGeometryShader( NULL );
@@ -337,7 +346,7 @@ technique10 DeferredAnimationSample
 {
     pass p0
     {
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSAnimScene() ) );
         SetGeometryShader( NULL );
@@ -360,7 +369,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 
 	//variables needed for lighting
 	output.Normal = normalize(mul(input.Normal, modelMatrix));
-	output.EyeCoord = mul(input.Pos, modelMatrix);
+	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
 
 	return output;
 }
@@ -404,9 +413,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 technique10 RenderTerrain
 {
     pass p0
-    { 
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
-
+    {
         SetVertexShader(CompileShader( vs_4_0, drawTerrainVs()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
