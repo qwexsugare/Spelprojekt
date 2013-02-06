@@ -7,7 +7,7 @@ class LobbyState : public State
 {
 private:
 	LobbyMenu *m_menu;
-	StateEnum m_nextState;
+	StateEnum  m_nextState;
 public:
 	LobbyState();
 	~LobbyState();

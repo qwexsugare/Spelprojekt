@@ -1,10 +1,20 @@
+static const int MAX_LIGHTS = 8;
+
 Texture2D positionTexture;
 Texture2D normalTexture;
 Texture2D diffuseTexture;
+Texture2D shadowMaps[MAX_LIGHTS];
 
 SamplerState linearSampler 
 {
-	Filter = MIN_MAG_MIP_LINEAR; // coming up after the break!
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
+
+SamplerState shadowMapSampler 
+{
+	Filter = MIN_MAG_MIP_POINT;
 	AddressU = Wrap;
 	AddressV = Wrap;
 };
@@ -17,18 +27,13 @@ struct VSSceneIn
 
 struct PSSceneIn
 {
-	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
+	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
 };
 
 //Variables that updated often
 cbuffer cbEveryFrame
 {
-	//Transformation matrices
-	//matrix viewMatrix;
-	//matrix projectionMatrix;
-	//matrix modelMatrix;
-
 	int nrOfPointLights;
 	int nrOfDirectionalLights;
 	int nrOfSpotLights;
@@ -39,6 +44,7 @@ cbuffer cbEveryFrame
 	float3 ls[150];
 	float lightRadius[100];
 	float2 lightAngle[50];
+	matrix lightWvps[MAX_LIGHTS];
 
 	float3 cameraPos;
 };
@@ -130,6 +136,46 @@ PSSceneIn VSScene(VSSceneIn input)
 	return output;
 }
 
+float calcShadow(float4 lightPos, int lightIndex)
+{
+	float shadowCoeff = 0.0f;
+	float shadowEpsilon = 0.00001f;
+
+	// Project the texture_ coords and scale/offset to [0, 1].
+	lightPos /= lightPos.w;
+	
+	// Check if the position is inside the lights unit cube.
+	if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
+	{
+		//Compute shadow map tex coord
+		float2 smTex = float2(0.5f * lightPos.x, -0.5f * lightPos.y) + 0.5f;
+
+		// Compute pixel depth for shadowing.
+		float depth = lightPos.z;
+
+		//Get the shadow map size
+		int width = 1024;
+		int height = 1024;
+		shadowMaps[lightIndex].GetDimensions(width, height);
+		
+		// 2x2 percentage closest filter.
+		float dx = 1.0f / width;
+		float s0 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
+		float s1 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, 0.0f)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
+		float s2 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(0.0f, dx)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
+		float s3 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, dx)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
+		
+		// Transform to texel space
+		float2 texelPos = smTex * width;
+		
+		// Determine the lerp amounts.
+		float2 lerps = frac( texelPos );
+		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
+	}
+
+	return shadowCoeff;
+}
+
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
@@ -177,11 +223,20 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
-		diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
-		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), 0));
+		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), 0);
 	}
 
-	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
+	/*float shad = nrOfSpotLights;
+	for(i = 0; i < nrOfSpotLights; i++)
+	{
+		shad = max(shad-calcShadow(mul(position, lightWvps[i]), i), 0.0f);
+	}*/
+
+	//float shad = calcShadow(mul(position, lightWvps[0]), 0);
+	//
+	//return (float4(ambientLight, 0.0f) + float4(diffuseLight*shad, 1.0f)*diffuse + float4(specularLight*shad, 0.0f));
+	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f);
 }
 
 technique10 RenderModelDeferred

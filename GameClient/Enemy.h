@@ -5,6 +5,7 @@
 #include "EntityHandler.h"
 #include "Hero.h"
 #include "MeleeAttack.h"
+#include "Path.h"
 
 class Enemy : public UnitEntity
 {
@@ -18,11 +19,13 @@ private:
 	float m_attackCooldown;
 	FLOAT3 m_dir;
 	FLOAT3 m_goalPosition;
+	Path m_path;
+	int m_currentPoint;
 public:
 	Enemy();
-	Enemy(FLOAT3 _pos);
+	Enemy(FLOAT3 _pos, Path _path);
 
-	void update(float dt);
+	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setNextPosition(int index, float dt);
 

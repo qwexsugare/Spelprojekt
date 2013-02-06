@@ -2,6 +2,7 @@
 
 #include "Model.h"
 #include "PointLight.h"
+#include "Road.h"
 #include <stack>
 #include <DirectXMath.h>
 #include <DirectXCollision.h>
@@ -13,7 +14,9 @@ private:
 	D3DXVECTOR2 m_min;
 	D3DXVECTOR2 m_max;
 	vector<Model*> m_models;
+
 	vector<PointLight*> m_lights;
+	vector<Road*> m_roads;
 	QuadTreeNode* m_children[4];
 	BoundingOrientedBox* m_obb;
 public:
@@ -23,10 +26,14 @@ public:
 
 	void addModel(bool& _success, Model* _model);
 	void addLight(bool& _success, PointLight* _light);
+	void addRoad(bool& _success, Road* _road);
+	void getAllModels(stack<Model*>& _models);
 	bool intersects(const Model* _model)const;
 	bool intersects(PointLight* _light)const;
+	bool intersects(Road* _road)const;
 	void getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const;
 	void getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPos)const;
+	void getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const;
 	void pullAllModels(stack<Model*>& _models);
 	bool removeModel(Model* _model);
 };

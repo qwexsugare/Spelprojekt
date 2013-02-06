@@ -3,40 +3,35 @@
 #include "Graphics.h"
 #include "SoundWrapper.h"
 #include <sstream>
+#include "Skill.h"
+#include "ClientSkillEffects.h"
 
 GameState::GameState()
 {
-	this->m_hud = new HudMenu();
 	this->m_rotation = 0.0f;
-	this->m_testSound = createSoundHandle("knife.wav", false);
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_emilmackesFpsText = new TextInput("text1.png", INT2(1000, 600), 100);
-	this->m_emilsFps = new TextLabel("fps = 10", "text1.png", INT2(g_graphicsEngine->getRealScreenSize().x/2.0f, 0) , 100);
-
 	this->m_network = new Client();
-<<<<<<< HEAD
+	this->m_hud = new HudMenu(this->m_network);
 
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.50f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
-	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
-	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
-
-	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.2f, 0.2f, 0.2f));
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f));
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 3.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f));
-	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 3.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f));
-
-=======
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
-	g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.1f, 0.1f, 0.1f));
-	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT2(0.6f, 0.3f), 50.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+<<<<<<< HEAD
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.25f, 0.25f, 0.25f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 30.0f);
+	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 30.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 10.0f);
+=======
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.5f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.5f, 1.5f, 1.5f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 5000.0f);
+>>>>>>> 5bc49db7e2d55026307bd80b706f3e339dbc144d
 	this->importMap("race");
->>>>>>> 3a117137cb935c47ab5c5eba7cf747c52373b220
 }
 
 GameState::~GameState()
@@ -45,14 +40,13 @@ GameState::~GameState()
 		delete this->m_entities[i];
 	for(int i = 0; i < this->m_roads.size(); i++)
 		g_graphicsEngine->removeRoad(m_roads[i]);
+	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+		delete m_ClientSkillEffects[i];
 
 	if(m_minimap)
 		delete this->m_minimap;
 	delete this->m_network;
-	delete this->m_emilmackesFpsText;
-	delete this->m_emilsFps;
 	delete this->m_hud;
-	deactivateSound(this->m_testSound);
 }
 
 void GameState::end()
@@ -80,58 +74,58 @@ void GameState::update(float _dt)
 	if(lol > 1.0f)
 	{
 		stringstream ss;
-		ss << "FPS: " << 1.0f/_dt << " Entities: " << this->m_entities.size();
+		ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f << " Entities: " << this->m_entities.size() << "\nLifezorz: ";
+		for(int i = 0; i < m_entities.size(); i++)
+		{
+			if(m_entities[i]->m_type == ServerEntity::HeroType)
+			{
+				ss << m_entities[i]->m_health;
+			}
+		}
 		this->m_fpsText->setString(ss.str());
-		this->m_emilsFps->setText(ss.str());
 		lol = -0.5f;
 	}
 
-	D3DXVECTOR3 pickDir;
-	D3DXVECTOR3 pickOrig;
-	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
-	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
-	
-
 	while(this->m_network->entityQueueEmpty() == false)
 	{
-		EntityMessage e = this->m_network->entityQueueFront();
+		NetworkEntityMessage e = this->m_network->entityQueueFront();
 		bool found = false;
 
-		if(e.getId() > 3)
+		if(e.getEntityId() > 3)
 		{
 			int i = 0;
 		}
 
 		for(int i = 0; i < this->m_entities.size() && found == false; i++)
 		{
-			if(this->m_entities[i]->m_id == e.getId())
+			if(this->m_entities[i]->m_id == e.getEntityId())
 			{
-				this->m_entities[i]->m_model->setPosition(e.getPos());
+				this->m_entities[i]->m_model->setPosition(e.getPosition());
 				this->m_entities[i]->m_model->setRotation(e.getRotation());
-				this->m_entities[i]->m_type = (ServerEntity::Type)e.getType();
+				this->m_entities[i]->m_type = (ServerEntity::Type)e.getEntityType();
+				this->m_entities[i]->m_health = e.getHealth();
 				found = true;
 			}
 		}
 
 		if(found == false)
 		{
-			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPos().x, 0.0, e.getPos().z));
+			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
 			if(model)
 			{
-				this->m_entities.push_back(new Entity(model, e.getId()));
+				this->m_entities.push_back(new Entity(model, e.getEntityId()));
 			}
 		}
 	}
 
 	while(this->m_network->removeEntityQueueEmpty() == false)
 	{
-		RemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
+		NetworkRemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
 		bool found = false;
 
 		for(int i = 0; i < this->m_entities.size() && found == false; i++)
 		{
-			if(this->m_entities[i]->m_id == rem.getId())
+			if(this->m_entities[i]->m_id == rem.getEntityId())
 			{
 				g_graphicsEngine->removeModel(this->m_entities[i]->m_model);
 				delete this->m_entities[i];
@@ -141,38 +135,129 @@ void GameState::update(float _dt)
 		}
 	}
 
-	this->m_network->sendMsg(Msg("Ready"));
-	this->m_network->sendMsg(Msg("Start"));
+	while(this->m_network->createActionQueueEmpty() == false)
+	{
+		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
+		
+		switch(e.getActionId())
+		{
+		case Skill::STUNNING_STRIKE:
+			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
+			break;
+		/*case Skill::DEMONIC_PRESENCE:
+			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
+			break;*/
+		}
+	}
+
+	while(this->m_network->createActionPositionQueueEmpty() == false)
+	{
+		NetworkCreateActionPositionMessage e = this->m_network->createActionPositionQueueFront();
+		
+		switch(e.getActionId())
+		{
+		case Skill::CLOUD_OF_DARKNESS:
+			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
+			break;
+		}
+	}
+
+	while(this->m_network->createActionTargetQueueEmpty() == false)
+	{
+		NetworkCreateActionTargetMessage e = this->m_network->createActionTargetQueueFront();
+		
+		switch(e.getActionId())
+		{
+		case Skill::HEALING_TOUCH:
+			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
+			break;
+		/*case Skill::CHAIN_STRIKE:
+			m_ClientSkillEffects.push_back(new ChainStrikeSkillEffect(e.getPosition()));
+			break;*/
+		}
+	}
+
+	while(this->m_network->skillBoughtQueueEmpty() == false)
+	{
+		NetworkSkillBoughtMessage e = this->m_network->skillBoughtQueueFront();
+		
+		// Do something!
+		this->m_hud->addSkill(e.getActionId());
+		this->m_hud->setResources(e.getResources());
+	}
+
+	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+	{
+		m_ClientSkillEffects[i]->update(_dt);
+		if(!m_ClientSkillEffects[i]->getActive())
+		{
+			delete m_ClientSkillEffects[i];
+			m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+			i--;
+		}
+	}
 
 	static float CAMERA_SPEED = 16.0f;
-	if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-27.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
+	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt, m_terrain->getWidth()-27.0f));
+		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt);
 	}
-	else if(g_graphicsEngine->getCamera()->getPos().x > 27.0f && (g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
+	else if((g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->setX(max(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt, 27.0f));
+		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt);
 	}
-	if(g_graphicsEngine->getCamera()->getPos().z < m_terrain->getHeight()-4.0f && (g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
+	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->setZ(min(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt, m_terrain->getHeight()-4.0f));
+		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
 	}
-	else if(g_graphicsEngine->getCamera()->getPos().z > 25.0f && (g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
+	else if((g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 25.0f));
+		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt);
 	}
+	/*if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-5.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
+	{
+		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt, m_terrain->getWidth()-5.0f));
+	}
+	else if(g_graphicsEngine->getCamera()->getPos().x > 5.0f && (g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
+	{
+		g_graphicsEngine->getCamera()->setX(max(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt, 5.0f));
+	}
+	if(g_graphicsEngine->getCamera()->getPos().z < m_terrain->getHeight()+6.0f && (g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
+	{
+		g_graphicsEngine->getCamera()->setZ(min(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt, m_terrain->getHeight()+6.0f));
+	}
+	else if(g_graphicsEngine->getCamera()->getPos().z > 15.0f && (g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
+	{
+		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 15.0f));
+	}*/
 
+	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
+	{
+		// Calc some fucken pick ray out mofos
+		D3DXVECTOR3 pickDir;
+		D3DXVECTOR3 pickOrig;
+		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+		float k = (-pickOrig.y)/pickDir.y;
+		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z)));
+	}
 	if(g_mouse->isLButtonPressed())
-	{			
+	{
+		D3DXVECTOR3 pickDir;
+		D3DXVECTOR3 pickOrig;
+		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+		float k = (-pickOrig.y)/pickDir.y;
+		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+
 		for(int i = 0; i < m_entities.size(); i++)
 		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 			float dist;
 			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 			{
-				this->m_network->sendUseSkillMessage(UseSkillMessage(0, m_entities[i]->m_id));
+				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
 			}
 		}
 	}
@@ -184,19 +269,12 @@ void GameState::update(float _dt)
 	{
 
 	}
-	if(g_mouse->isRButtonPressed())
+	if(g_mouse->isRButtonPressed() == true)
 	{
-		if(m_minimap->isMouseInMap(g_mouse->getPos()))
+		if(m_minimap->isMouseInMap(g_mouse->getPos()) == false)
 		{
-			playSound(this->m_testSound);
-			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
+			bool validMove = true;
 
-			EntityMessage e;
-			e.setPosition(FLOAT3(pos.x, 0.0f, pos.y));
-			this->m_network->sendEntity(e);
-		}
-		else
-		{
 			for(int i = 0; i < m_entities.size(); i++)
 			{
 				D3DXVECTOR3 pickDir;
@@ -205,40 +283,31 @@ void GameState::update(float _dt)
 				float dist;
 				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 				{
-					this->m_network->sendAttackEntityMessage(AttackEntityMessage(0, m_entities[i]->m_id));
+					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
+					validMove = false;
 				}
 			}
-		}
-	}
-	if(g_mouse->isRButtonDown() && !m_minimap->isMouseInMap(g_mouse->getPos()))
-	{
-		bool validMove = true;
 
-		for(int i = 0; i < m_entities.size(); i++)
-		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-			float dist;
-			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+			if(validMove)
 			{
-				validMove = false;
+				// Calc some fucken pick ray out mofos
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+				float k = (-pickOrig.y)/pickDir.y;
+				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
+				this->m_network->sendMessage(e);
 			}
 		}
-
-		if(validMove)
+		else
 		{
-			// Calc some fucken pick ray out mofos
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 
-			float k = (-pickOrig.y)/pickDir.y;
-			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
-			EntityMessage e;
-			e.setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
-			this->m_network->sendEntity(e);
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y));
+			this->m_network->sendMessage(e);
 		}
 	}
 	else if(g_mouse->isRButtonReleased())
@@ -246,8 +315,7 @@ void GameState::update(float _dt)
 
 	}
 
-	this->m_hud->Update(_dt);
-	this->m_emilmackesFpsText->update(_dt);
+	this->m_hud->Update(_dt, m_entities);
 	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
@@ -256,19 +324,19 @@ void GameState::importMap(string _map)
 {
 	string path = "maps/" + _map + "/";
 
-	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f); 
+	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f);
 	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
 
 	vector<string> blendMaps = vector<string>(2);
 	vector<string> textures;
-	textures.push_back("textures\\1.jpg");
-	textures.push_back("textures\\2.jpg");
-	textures.push_back("textures\\3.jpg");
-	textures.push_back("textures\\4.jpg");
-	textures.push_back("textures\\5.jpg");
-	textures.push_back("textures\\6.jpg");
-	textures.push_back("textures\\7.jpg");
-	textures.push_back("textures\\8.jpg");
+	textures.push_back("textures\\1.png");
+	textures.push_back("textures\\2.png");
+	textures.push_back("textures\\3.png");
+	textures.push_back("textures\\4.png");
+	textures.push_back("textures\\5.png");
+	textures.push_back("textures\\6.png");
+	textures.push_back("textures\\7.png");
+	textures.push_back("textures\\8.png");
 
 	string minimap;
 	ifstream stream;
@@ -276,7 +344,7 @@ void GameState::importMap(string _map)
 	while(!stream.eof())
 	{
 		char buf[1024];
-		char key[100];
+		char key[1024];
 		stream.getline(buf, 1024);
 		sscanf(buf, "%s", key);
 
@@ -291,6 +359,18 @@ void GameState::importMap(string _map)
 			char file[100];
 			sscanf(buf, "bmp2: %s", &file);
 			blendMaps[1] = path + string(file);
+		}
+		else if(strcmp(key, "width:") == 0)
+		{
+			int width;
+			sscanf(buf, "width: %d", &width);
+			v2.x = width;
+		}		
+		else if(strcmp(key, "height:") == 0)
+		{
+			int height;
+			sscanf(buf, "height: %d", &height);
+			v2.z = height;
 		}
 		else if(strcmp(key, "minimap:") == 0)
 		{
@@ -323,15 +403,82 @@ void GameState::importMap(string _map)
 					float x, z;
 					sscanf(buf, "%f %f %f", &rot, &x, &z);
 
-					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, -z), -rot));
+					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, v2.z+z), rot));
+				}
+			}
+		}
+		else if(strcmp(key, "MODELS:") == 0)
+		{
+			string s;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else
+				{
+					char in[100];
+					FLOAT3 position;
+					FLOAT3 rotation;
+					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
+
+					position.z = v2.z+position.z;
+					rotation.x = rotation.x * (D3DX_PI/180.0f);
+					
+					Model *m = g_graphicsEngine->createModel(key, position);
+					m->setRotation(rotation);
+
+					position.y = position.y + 1.0f;
+
+					if(strcmp(in, "Lamp") == 0)
+					{
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f,0.9f), FLOAT3(0.1f, 0.1f,0.1f), 0.6f);
+					}
+				}
+			}
+		}
+		else if(strcmp(key, "LIGHTS:") == 0)
+		{
+			string s;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else
+				{
+					char in[100];
+					FLOAT3 position;
+					FLOAT3 rotation;
+					FLOAT3 color;
+					float radius;
+					sscanf(buf, "%s %f %f %f %f %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.y, &color.x, &color.z, &radius);
+
+					position.z = v2.z+position.z;
+					rotation.x = rotation.x * (D3DX_PI/180.0f);
+					rotation.y = rotation.y * (D3DX_PI/180.0f);
+					rotation.z = rotation.z * (D3DX_PI/180.0f);
+					
+					g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
 				}
 			}
 		}
 
+
 		sscanf("bugfix", "%s", key);
 	}
 	stream.close();
-	
-	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps);
+	vector<string> nm; nm.push_back("textures/1_2_3_4_Normalmap.png");
+	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, nm);
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }

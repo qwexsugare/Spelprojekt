@@ -9,7 +9,7 @@ ConfigFile::ConfigFile()
 	this->m_windowed = DEFAULT_WINDOWED;
 	this->m_screenSize = INT2(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 	this->m_musicVolume = DEFAULT_MUSIC_VOLUME;
-	this->m_soundEffectsVolume = DEFAULT_SOUND_EFFECTS_VOLUME;
+	this->m_soundVolume = DEFAULT_SOUND_EFFECTS_VOLUME;
 }
 
 ConfigFile::~ConfigFile()
@@ -57,12 +57,23 @@ void ConfigFile::load()
 			{
 				sscanf(buf, "music_volume %f", &this->m_musicVolume);
 			}
-			else if(strcmp(key, "sound_effects_volume") == 0)
+			else if(strcmp(key, "sound_volume") == 0)
 			{
-				sscanf(buf, "sound_effects_volume %f", &this->m_soundEffectsVolume);
+				sscanf(buf, "sound_volume %f", &this->m_soundVolume);
 			}
 		}
 	}
 
 	stream.close();
+}
+
+void ConfigFile::save()
+{
+	ofstream stream;
+	stream.open("config.ini");
+	
+	stream << "resolution " << m_screenSize.x << " " << m_screenSize.y << endl
+		<< "windowed " << m_windowed << endl
+		<< "music_volume " << m_musicVolume << endl
+		<< "sound_volume " << m_soundVolume;
 }

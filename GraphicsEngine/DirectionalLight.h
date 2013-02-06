@@ -14,6 +14,7 @@ private:
 public:
 	DirectionalLight();
 	DirectionalLight(FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls);
+	~DirectionalLight();
 
 	DECLDIR FLOAT3 getDirection();
 	DECLDIR FLOAT3 getAmbientColor();

@@ -20,6 +20,18 @@ ServerEntity::ServerEntity(FLOAT3 _pos)
 	this->m_visible = true;
 }
 
+ServerEntity::ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedBox* _obb, Type _type)
+{
+	this->m_messageQueue = new MessageQueue();
+	this->m_position = _position;
+	this->m_rotation = _rotation;
+	this->m_obb = _obb;
+	this->m_bs = NULL;
+	this->m_type = _type;
+	this->m_modelId = 0;
+	this->m_visible = false;
+}
+
 ServerEntity::~ServerEntity()
 {
 	delete this->m_messageQueue;
@@ -48,9 +60,22 @@ MessageQueue *ServerEntity::getMessageQueue()
 
 NetworkEntityMessage ServerEntity::getUpdate()
 {
-	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, 0, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
 
 	return e;
+}
+
+ContainmentType ServerEntity::contains(const BoundingSphere& _bs)const
+{
+	if(m_obb)
+	{
+		return m_obb->Contains(_bs);
+	}
+	else if(m_bs)
+	{
+		return m_bs->Contains(_bs);
+	}
+	else return ContainmentType::DISJOINT;
 }
 
 void ServerEntity::setPosition(FLOAT3 _position)

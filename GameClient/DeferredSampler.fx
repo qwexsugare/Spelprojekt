@@ -1,7 +1,10 @@
+static const int MAX_LIGHTS = 8;
+
 Texture2D tex2D;
 Texture2D normalMap;
 Texture1D boneTex;
 Texture2D terrainTextures[8];
+Texture2D normalMap;
 Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
@@ -67,7 +70,7 @@ cbuffer cbEveryFrame
 	matrix projectionMatrix;
 	matrix modelMatrix;
 
-	float3 cameraPos;
+	matrix lightWvp;
 
 	float modelAlpha;
 };
@@ -139,7 +142,7 @@ PSSceneIn VSScene(VSSceneIn input)
 }
 
 PSSceneOut PSScene(PSSceneIn input)
-{	
+{
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w = modelAlpha;
@@ -147,8 +150,7 @@ PSSceneOut PSScene(PSSceneIn input)
 	output.Pos = float4(input.EyeCoord, 1.0f);
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
-	output.Diffuse = color;
-	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	output.Diffuse = color * float4(3,3, 3, 1.0f);
 
 	return output;
 }
@@ -277,10 +279,12 @@ technique10 DeferredSuperSample
 float4x4 GetBoneMatrix(int boneIndex, float4 _bone)
 {
 	float4x4 bone;
-	for(int row = 0; row < 4; row++)
-	{
-		bone[row] = boneTex.Load(int2((_bone[boneIndex]) * 4 + row, 0), 0); // int2(x, mipMapLevel), int(offset)
-	}
+	
+	bone[0] = boneTex.Load(int2((_bone[boneIndex]) * 4 + 0, 0), 0); // int2(x, mipMapLevel), int(offset)
+	bone[1] = boneTex.Load(int2((_bone[boneIndex]) * 4 + 1, 0), 0); // int2(x, mipMapLevel), int(offset)
+	bone[2] = boneTex.Load(int2((_bone[boneIndex]) * 4 + 2, 0), 0); // int2(x, mipMapLevel), int(offset)
+	bone[3] = boneTex.Load(int2((_bone[boneIndex]) * 4 + 3, 0), 0); // int2(x, mipMapLevel), int(offset)
+	
 	return bone;
 }
 
@@ -322,7 +326,6 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
 
 	return output;
-
 }
 
 technique10 DeferredAnimationSample
@@ -362,7 +365,11 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	PSSceneOut output = (PSSceneOut)0;
 
 	output.Pos = float4(input.EyeCoord, 1.0f);
-	output.Normal = float4(input.Normal, 1.0f);
+	//output.Normal = float4(input.Normal, 1.0f);
+	output.Normal = normalize(mul(normalMap.Sample(linearSampler, input.UVCoord), modelMatrix));
+	float tmp = output.Normal.z;
+	output.Normal.z = output.Normal.y;
+	output.Normal.y = tmp;
 
 	float4 texColors[8];
 	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);
@@ -374,8 +381,8 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	texColors[6] = terrainTextures[6].Sample(linearSampler, input.UVCoord);
 	texColors[7] = terrainTextures[7].Sample(linearSampler, input.UVCoord);
 	
-	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/8.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
-	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/8.0f); // 32.0f is the number of tiles for the terrain that you specified in the constructor
+	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/8.0f); // /x is the number of tiles for the terrain that you specified in the constructor
+	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/8.0f); // /x is the number of tiles for the terrain that you specified in the constructor
 	
 	output.Diffuse =  texColors[0]* blendSample1.x;
 	output.Diffuse += texColors[1]* blendSample1.y;
@@ -435,7 +442,7 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 technique10 RenderRoad
 {
     pass p0
-    { 
+    {
 		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader(CompileShader( vs_4_0, drawRoadVs()));
@@ -444,5 +451,25 @@ technique10 RenderRoad
 
 	    SetDepthStencilState(DisableDepth, 0);
 	    SetRasterizerState(rs);
-    }  
+    }
+}
+
+float4 vsShadowMap(float3 _pos : POS) : SV_POSITION
+{
+	// Render from light's perspective.
+	return mul(float4(_pos, 1.0f), mul(modelMatrix, lightWvp));
+}
+
+technique10 RenderShadowMap
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_4_0, vsShadowMap()));
+		SetGeometryShader(NULL);
+		SetPixelShader(NULL);
+
+		SetDepthStencilState(EnableDepth, 0);
+		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetRasterizerState(rs);
+	}
 }

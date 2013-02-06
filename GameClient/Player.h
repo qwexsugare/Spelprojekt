@@ -13,10 +13,12 @@
 #include "UseSkillMessage.h"
 #include "UsePositionalSkillMessage.h"
 #include "Skills.h"
+#include "Tower.h"
 
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"
 #include "NetworkUseActionTargetMessage.h"
+#include "NetworkBuySkillMessage.h"
 
 class Player
 {
@@ -25,6 +27,15 @@ private:
 	
 	Skill* m_chainStrike;
 	Skill* m_cloudOfDarkness;
+	Skill* m_stunningStrike;
+	Skill* m_teleport;
+	Skill* m_healingTouch;
+	Skill* m_demonicPresence;
+
+	vector<Skill*> m_skills;
+
+	unsigned int m_resources;
+
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;
@@ -39,6 +50,7 @@ public:
 	void handleUseActionPositionMessage(NetworkUseActionPositionMessage usm);
 	void handleUseActionMessage(NetworkUseActionMessage usm);
 	void handleUseActionTargetMessage(NetworkUseActionTargetMessage usm);
+	void handleBuySkillMessage(NetworkBuySkillMessage bsm);
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
 

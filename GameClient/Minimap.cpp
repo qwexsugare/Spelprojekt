@@ -72,7 +72,7 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 		{
 			FLOAT2 pos = this->getTerrainPos(g_mouse->getPos());
 
-			if(pos.x > _terrainWidth-27.0f)
+			/*if(pos.x > _terrainWidth-27.0f)
 			{
 				g_graphicsEngine->getCamera()->setX(_terrainWidth-27.0f);
 			}
@@ -96,7 +96,11 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 			else
 			{
 				g_graphicsEngine->getCamera()->setZ(pos.y);
-			}
+			}*/
+
+				g_graphicsEngine->getCamera()->setX(pos.x);
+			
+				g_graphicsEngine->getCamera()->setZ(pos.y);
 		}
 	}
 

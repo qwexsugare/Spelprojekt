@@ -70,14 +70,14 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_renderTerrain = this->m_effect->GetTechniqueByName("RenderTerrain");
 	this->m_terrainTextures = this->m_effect->GetVariableByName("terrainTextures")->AsShaderResource();
 	this->m_terrainBlendMaps = this->m_effect->GetVariableByName("terrainBlendMaps")->AsShaderResource();
-	 
+	this->m_normalMaps = this->m_effect->GetVariableByName("normalMap")->AsShaderResource();
+	
 	// Road
 	this->m_renderRoad = this->m_effect->GetTechniqueByName("RenderRoad");
-}
 
-void DeferredSamplerEffectFile::setCameraPosition(D3DXVECTOR3 _lightPosition)
-{
-	this->m_cameraPosition->SetFloatVector(_lightPosition);
+	// Shadow mapping
+	m_lightWvp = m_effect->GetVariableByName("lightWvp")->AsMatrix();
+	renderShadowMap = m_effect->GetTechniqueByName("RenderShadowMap");
 }
 
 
@@ -161,6 +161,11 @@ ID3D10EffectTechnique* DeferredSamplerEffectFile::getRenderTerrainTechnique()
 	return this->m_renderTerrain;
 }
 
+void DeferredSamplerEffectFile::setNormalMaps(ID3D10ShaderResourceView* _texture)
+{
+	this->m_normalMaps->SetResource(_texture);
+}
+
 void DeferredSamplerEffectFile::setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size)
 {
 	this->m_terrainTextures->SetResourceArray(_textures, 0, _size);
@@ -169,4 +174,9 @@ void DeferredSamplerEffectFile::setTerrainTextures(ID3D10ShaderResourceView** _t
 void DeferredSamplerEffectFile::setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size)
 {
 	this->m_terrainBlendMaps->SetResourceArray(_blendMaps, 0, _size);
+}
+
+void DeferredSamplerEffectFile::setLightWvp(const D3DXMATRIX& _wvp)
+{
+	m_lightWvp->SetMatrix((float*)&_wvp);
 }

@@ -36,9 +36,11 @@ public:
 	static ServerEntity* getClosestEnemy(ServerEntity *entity);
 
 	static ServerEntity* getServerEntity(unsigned int id);
-
-	static vector<ServerEntity*>* getAllEnemies();
+	
+	static vector<ServerEntity*> getAllEnemies();
+	static int getNrOfEnemies();
 	static vector<ServerEntity*> getAllHeroes();
+	static vector<ServerEntity*> getAllStaticObjects();
 
 	static unsigned int getId();
 };

@@ -14,6 +14,10 @@
 #include "NetworkRemoveEntityMessage.h"
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"
+#include "NetworkCreateActionMessage.h"
+#include "NetworkCreateActionPositionMessage.h"
+#include "NetworkCreateActionTargetMessage.h"
+#include "NetworkSkillBoughtMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -54,6 +58,9 @@ public:
 	void shutDown();
 	void broadcast(NetworkEntityMessage networkMessage);
 	void broadcast(NetworkRemoveEntityMessage networkMessage);
+	void broadcast(NetworkCreateActionMessage networkMessage);
+	void broadcast(NetworkCreateActionPositionMessage networkMessage);
+	void broadcast(NetworkCreateActionTargetMessage networkMessage);
 
 	bool isRunning();
 

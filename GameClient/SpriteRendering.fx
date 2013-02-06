@@ -1,8 +1,9 @@
+
 Texture2D tex2D;
 
-SamplerState linearSampler 
+SamplerState linearSampler
 {
-	Filter = MIN_MAG_MIP_LINEAR; // coming up after the break!
+	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Wrap;
 	AddressV = Wrap;
 };
@@ -15,14 +16,12 @@ struct VSSceneIn
 
 struct PSSceneIn
 {
-	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
+	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
 };
 
-//Variables that updated often
 cbuffer cbEveryFrame
 {
-	//Transformation matrices
 	matrix modelMatrix;
 	float modelAlpha;
 };
@@ -75,7 +74,7 @@ PSSceneIn VSScene(VSSceneIn input)
 }
 
 float4 PSScene(PSSceneIn input) : SV_Target
-{	
+{
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	//color.w *= modelAlpha;
 

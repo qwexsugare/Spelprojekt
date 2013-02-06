@@ -51,10 +51,24 @@ Road::Road(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, D3DXVECTOR
 	vertexData[3].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	this->m_vertexBuffer->Unmap();
+
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(_pos.x, _pos.y, _pos.z), XMFLOAT3(SIZE/2, 0.5f, SIZE/2), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 }
 
 Road::~Road()
 {
 	if(m_vertexBuffer)
 		m_vertexBuffer->Release();
+
+	delete this->m_obb;
+}
+
+D3DXVECTOR2 Road::getPosition2D()
+{
+	return D3DXVECTOR2(this->m_modelMatrix._41, this->m_modelMatrix._43);
+}
+
+D3DXVECTOR3 Road::getPosition()
+{
+	return D3DXVECTOR3(this->m_modelMatrix._41, this->m_modelMatrix._42, this->m_modelMatrix._43);
 }

@@ -8,6 +8,7 @@ Skill::Skill()
 Skill::Skill(int _id, float _cooldown)
 {
 	m_id = _id;
+	m_currentCooldown = 0;
 	m_cooldown = _cooldown;
 }
 
@@ -18,16 +19,16 @@ Skill::~Skill()
 
 void Skill::update(float _dt)
 {
-	m_cooldown = max(m_cooldown-_dt, 0.0f);
+	m_currentCooldown = max(m_currentCooldown-_dt, 0.0f);
 	this->updateSpecificSkill(_dt);
 }
 
-void Skill::activate(unsigned int _senderId)
+bool Skill::activate(unsigned int _senderId)
 {
-
+	return false;
 }
 
-void Skill::activate(unsigned int _targetId, unsigned int _senderId)
+bool Skill::activate(unsigned int _targetId, unsigned int _senderId)
 {
 	/*int attcak = 3;
 	while(attcak < 5)
@@ -46,9 +47,16 @@ void Skill::activate(unsigned int _targetId, unsigned int _senderId)
 	}
 
 	return (void*)&int(::INT_MAX);*/
+	
+	return false;
 }
 
-void Skill::activate(FLOAT3 position, unsigned int _senderId)
+bool Skill::activate(FLOAT3 position, unsigned int _senderId)
 {
+	return false;
+}
 
+void Skill::resetCooldown()
+{
+	m_currentCooldown = m_cooldown;
 }

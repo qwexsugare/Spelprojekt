@@ -18,6 +18,7 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCmdLine, int _nCmdShow)
 {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	srand((unsigned)time(0));
 
 	// Load config into config file class
 	g_configFile = new ConfigFile();
@@ -33,12 +34,12 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 	initSoundEngine();
 	
 	setMusicVolume(g_configFile->getMusicVolume());
-	setSoundEffectsVolume(g_configFile->getSoundEffectsVolume());
-
+	setSoundVolume(g_configFile->getSoundVolume());
+	
 	ClientHandler* clientHandler = new ClientHandler(hwnd);
 	HRESULT hr = clientHandler->run();
 	delete clientHandler;
-
+	
 	deleteSoundEngine();
 
 	return hr;

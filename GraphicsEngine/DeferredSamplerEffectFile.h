@@ -21,6 +21,7 @@ private:
 	ID3D10EffectTechnique* m_renderTerrain;
 	ID3D10EffectShaderResourceVariable* m_terrainTextures;
 	ID3D10EffectShaderResourceVariable* m_terrainBlendMaps;
+	ID3D10EffectShaderResourceVariable* m_normalMaps;
 	
 	//Anders
 	ID3D10InputLayout *m_vertexAnimationLayout;
@@ -30,7 +31,11 @@ private:
 
 	// Road
 	ID3D10EffectTechnique* m_renderRoad;
+	
+	ID3D10EffectMatrixVariable* m_lightWvp;
 public:
+	ID3D10EffectTechnique* renderShadowMap;
+
 	DeferredSamplerEffectFile();
 	DeferredSamplerEffectFile(ID3D10Device* _device);
 	~DeferredSamplerEffectFile();
@@ -54,9 +59,12 @@ public:
 	void setCameraPosition(D3DXVECTOR3 _cameraPosition);
 
 	ID3D10EffectTechnique *getRenderTerrainTechnique();
+	void setNormalMaps(ID3D10ShaderResourceView* _texture);
 	void setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size);
 	void setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size);
 	
 	ID3D10EffectTechnique* getRenderRoadTechnique();
+	
+	void setLightWvp(const D3DXMATRIX& _wvp);
 };
 

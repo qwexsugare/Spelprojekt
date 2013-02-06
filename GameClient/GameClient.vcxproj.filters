@@ -16,9 +16,6 @@
     <ClCompile Include="EntityMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="ClientHandler.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -35,9 +32,6 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="Skill_Buttons.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="JoinGameMenu.cpp">
@@ -79,9 +73,6 @@
     <ClCompile Include="SoundWrapper.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="TextInput.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -119,7 +110,7 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="Skill.cpp">
-      <Filter>Server\Skill</Filter>
+      <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Server</Filter>
@@ -148,18 +139,11 @@
     <ClCompile Include="UsePositionalSkillMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="UnitEntity.cpp" />
     <ClCompile Include="ChainStrike.cpp">
-      <Filter>Server\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="ChainStrikeEffect.cpp">
-      <Filter>Server\Skill</Filter>
+      <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="CloudOfDarkness.cpp">
-      <Filter>Server\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="CloudOfDarknessEffect.cpp">
-      <Filter>Server\Skill</Filter>
+      <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkMessage.cpp">
       <Filter>Network</Filter>
@@ -167,18 +151,33 @@
     <ClCompile Include="NetworkEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="LoreState.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
     <ClCompile Include="NetworkDisconnectMessage.cpp">
       <Filter>Network</Filter>
-    <ClCompile Include="ClientSkill.cpp">
-      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditState.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsState.cpp">
+      <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="NetworkRemoveEntityMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroMenu.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="IntroState.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
     <ClCompile Include="NetworkUseActionMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
@@ -187,6 +186,105 @@
     </ClCompile>
     <ClCompile Include="NetworkUseActionTargetMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrike.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitEntity.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="MyAlgorithms.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Teleport.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionPositionMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Aim.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadlyStrike.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Greed.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="LifestealingStrike.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="MentalResistance.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicalResistance.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonStrike.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrikeClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="HealingTouch.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkSkillBoughtMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="HealingTouchClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="DemonicPresence.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="ChainStrikeEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudOfDarknessEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="DemonicPresenceEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrikeEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkBuySkillMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinder.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Client\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Client\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill_Buttons.cpp">
+      <Filter>Client\Buttons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +304,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="ClientHandler.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="CreateGameMenu.h">
@@ -314,7 +409,7 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Skill.h">
-      <Filter>Server\Skill</Filter>
+      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Server</Filter>
@@ -334,26 +429,14 @@
     <ClInclude Include="Enemy.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="Skill_Buttons.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="UseSkillMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="UsePositionalSkillMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="UnitEntity.h">
-      <Filter>Server</Filter>
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="ChainStrikeEffect.h">
-      <Filter>Server\Skill</Filter>
-      <Filter>Server\Skill</Filter>
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="Skills.h">
-      <Filter>Server\Skill</Filter>
+      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Client</Filter>
@@ -364,33 +447,42 @@
     <ClInclude Include="NetworkEntityMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="CloudOfDarknessEffect.h">
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="ChainStrike.h">
-      <Filter>Server\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="ChainStrikeEffect.h">
-      <Filter>Server\Skill</Filter>
+      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="CloudOfDarkness.h">
-      <Filter>Server\Skill</Filter>
+      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="LoreState.h">
+      <Filter>Client</Filter>
+    </ClInclude>
     <ClInclude Include="NetworkDisconnectMessage.h">
       <Filter>Network</Filter>
-    <ClInclude Include="ClientSkill.h">
-      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditState.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsState.h">
+      <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroMenu.h">
+      <Filter>Client</Filter>
+    </ClInclude>
     <ClInclude Include="NetworkRemoveEntityMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="IntroState.h">
+      <Filter>Client</Filter>
+    </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Client\Controls</Filter>
+    </ClInclude>
     <ClInclude Include="NetworkUseActionMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -399,6 +491,111 @@
     </ClInclude>
     <ClInclude Include="NetworkUseActionTargetMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrike.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitEntity.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MyAlgorithms.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Teleport.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionPositionMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCreateActionTargetMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Aim.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSkillEffects.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadlyStrike.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Greed.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="LifestealingStrike.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="MentalResistance.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalResistance.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonStrike.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrikeClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkBuySkillMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSkillBoughtMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="HealingTouch.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="HealingTouchClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="DemonicPresence.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="CloudOfDarknessEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="DemonicPresenceEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrikeEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinder.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Client\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Client\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill_Buttons.h">
+      <Filter>Client\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -411,9 +608,6 @@
     <Filter Include="Minimap">
       <UniqueIdentifier>{b08932c3-b369-445d-adc6-f32d86c4d95f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Server\Skill">
-      <UniqueIdentifier>{f6ca3c67-71f1-4034-9b97-c4048c7d31ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Client\Skills">
       <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
     </Filter>
@@ -422,6 +616,15 @@
     </Filter>
     <Filter Include="Client\Controls">
       <UniqueIdentifier>{7858784e-5d66-4547-9256-5e2ec0e84fda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Skills">
+      <UniqueIdentifier>{f6ca3c67-71f1-4034-9b97-c4048c7d31ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Skills\Effects">
+      <UniqueIdentifier>{5ab2109f-83a8-46f4-9496-d42420f16270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Buttons">
+      <UniqueIdentifier>{6407d00a-14e0-45d2-9bd5-d12346e7e2ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

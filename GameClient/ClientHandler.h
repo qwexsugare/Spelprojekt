@@ -3,14 +3,20 @@
 #include "GameState.h"
 #include "MainMenuState.h"
 #include "LobbyState.h"
+#include "LoreState.h"
 #include "CreateGameState.h"
 #include "ServerThread.h"
+#include "CreditState.h"
+#include "SettingsState.h"
+#include "IntroState.h"
 #include <string>
 using namespace std;
 
 class ClientHandler
 {
 private:
+	int m_testMusic;
+	int m_testSound;
 	State* m_state;
 	vector<MSG> m_messages;
 	Camera* m_camera;

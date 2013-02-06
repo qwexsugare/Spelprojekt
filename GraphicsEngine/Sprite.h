@@ -17,6 +17,7 @@ private:
 	ID3D10ShaderResourceView* m_texture;	
 	D3DXMATRIX m_modelMatrix;
 	int m_layer;
+	bool m_visible;
 public:
 	Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D10ShaderResourceView *_texture, int _layer);
 	~Sprite();
@@ -24,6 +25,7 @@ public:
 	DECLDIR void setPosition(FLOAT2 position);
 	DECLDIR void setSize(FLOAT2 size);
 	DECLDIR void setRotation(float rotation);
+	DECLDIR void setVisible(bool _visible);
 
 	ID3D10Buffer *getBuffer();
 	int getNrOfVertices();
@@ -31,6 +33,7 @@ public:
 	ID3D10ShaderResourceView *getTexture();
 	D3DXMATRIX getModelMatrix();
 	int getLayer();
+	bool getVisible();
 
 	void update(float dt);
 };

@@ -8,9 +8,11 @@ private:
 	static const float COOLDOWN;
 	static const int RANGE = 20;
 public:
+	static const unsigned int COST = 2500;
+
 	ChainStrike();
 	~ChainStrike();
 
-	virtual void activate(unsigned int _targetId, unsigned int _senderId);
+	virtual bool activate(unsigned int _targetId, unsigned int _senderId);
 	void updateSpecificSkill(float _dt);
 };

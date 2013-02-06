@@ -61,6 +61,11 @@ private:
 	vector<DirectionalLight*> m_directionalLights;
 	vector<SpotLight*> m_spotLights;
 	vector<Road*> m_roads;
+
+	// Shadow mapping
+	D3D10_VIEWPORT m_shadowMapViewport;
+
+	void renderShadowMap();
 public:
 	World();
 	World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed);
@@ -69,7 +74,7 @@ public:
 	void render();
 	void update(float dt);
 	
-	void addRoad(Road* _road);
+	bool addRoad(Road* _road);
 	bool removeRoad(Road* _road);
 	
 	void addTerrain(Terrain* _terrain);

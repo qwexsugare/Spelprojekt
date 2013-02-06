@@ -9,17 +9,21 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_graphicsEngine = new GraphicsHandler(_hWnd, g_configFile);
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
-	
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.50f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
-	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
 	this->m_serverThread = new ServerThread();
+	m_testMusic = createSoundHandle("collision.wav", true);
+	m_testSound = createSoundHandle("click_button.wav", false);
 }
 
 ClientHandler::~ClientHandler()
 {
+	deactivateSound(m_testMusic);
+	deactivateSound(m_testSound);
 	delete this->m_serverThread;
-	delete this->m_state;
+	if(this->m_state)
+	{
+		delete this->m_state;
+	}
 	delete g_graphicsEngine;
 	delete g_mouse;
 	delete g_keyboard;
@@ -28,8 +32,16 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
+	loopSound(m_testMusic);
+	loopSound(m_testSound);
+	
 	this->m_serverThread->Launch();
-	this->m_state = new GameState();
+
+	this->m_state = new GameState(); //GameState();
+
+	// Retarded thread code
+	/*this->update(0.0f);
+	g_graphicsEngine->Launch();*/
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
@@ -45,7 +57,7 @@ HRESULT ClientHandler::run()
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
-
+			
 			this->m_messages.push_back(msg);
 		}
 		else
@@ -53,7 +65,7 @@ HRESULT ClientHandler::run()
 			__int64 currTimeStamp = 0;
 			QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
 			float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
-
+			
 			this->update(dt);
 			g_graphicsEngine->update(dt);
 			g_graphicsEngine->render();
@@ -61,6 +73,8 @@ HRESULT ClientHandler::run()
 			prevTimeStamp = currTimeStamp;
 		}
 	}
+
+	g_graphicsEngine->stop();
 
 	return msg.wParam;
 }
@@ -102,6 +116,9 @@ void ClientHandler::update(float _dt)
 		
 		switch(this->m_state->nextState())
 		{
+		case State::INTRO:
+			this->m_state = new IntroState();
+			break;
 		case State::MAIN_MENU:
 			this->m_state = new MainMenuState();
 			break;
@@ -111,10 +128,20 @@ void ClientHandler::update(float _dt)
 		case State::LOBBY:
 			this->m_state = new LobbyState();
 			break;
+		case State::LORE:
+			this->m_state = new LoreState();
+			break;
 		case State::GAME:
 			this->m_state = new GameState();
 			break;
+		case State::SETTINGS:
+			this->m_state = new SettingsState();
+			break;
+		case State::CREDITS:
+			this->m_state = new CreditState();
+			break;
 		case State::EXIT:
+			this->m_state = NULL;
 			PostQuitMessage(0);
 			break;
 		}

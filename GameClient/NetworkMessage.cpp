@@ -18,7 +18,6 @@ NetworkMessage::MESSAGE_TYPE NetworkMessage::getType()
 sf::Packet& operator<<(sf::Packet& packet,const NetworkMessage& e)
 {
 	return packet<<*((int*)&e.m_type);
-
 }
 
 sf::Packet& operator>>(sf::Packet& packet, NetworkMessage& e)

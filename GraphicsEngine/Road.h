@@ -2,6 +2,8 @@
 
 #include "stdafx.h"
 #include "ResourceHolder.h"
+#include <DirectXMath.h>
+#include <DirectXCollision.h>
 
 class Road
 {
@@ -10,6 +12,7 @@ private:
 	int m_nrOfVertices;
 	D3DXMATRIX m_modelMatrix;
 	ID3D10ShaderResourceView* m_texture;
+	BoundingOrientedBox* m_obb;
 public:
 	static const int SIZE = 1;
 
@@ -21,5 +24,9 @@ public:
 	ID3D10ShaderResourceView* getTexture()const { return m_texture; }
  	int getNrOfVertices()const { return this->m_nrOfVertices; }
 	ID3D10Buffer* getVertexBuffer()const { return this->m_vertexBuffer; }
+
+	BoundingOrientedBox* getOBB()const { return this->m_obb; }
+	D3DXVECTOR2 getPosition2D();
+	D3DXVECTOR3 getPosition();
 };
 

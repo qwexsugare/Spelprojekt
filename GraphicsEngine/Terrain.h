@@ -15,19 +15,22 @@ private:
 	ID3D10ShaderResourceView** m_textures;
 	int m_nrOfBlendMaps;
 	ID3D10ShaderResourceView** m_blendMaps;
+	ID3D10ShaderResourceView* m_normalMap;
 	D3DXVECTOR3 m_topLeft;
 	D3DXVECTOR3 m_bottomRight;
 	ID3D10Buffer* m_vertexBuffer;
 	D3DXMATRIX m_modelMatrix;
 public:
 	Terrain();
-	Terrain(ID3D10Device* _device, D3DXVECTOR3 v1, D3DXVECTOR3 v2, int rows, int cols, ID3D10ShaderResourceView** _textures, int _nrOfTextures, ID3D10ShaderResourceView** _blendMaps, int _nrOfBlendMaps);
+	Terrain(ID3D10Device* _device, D3DXVECTOR3 v1, D3DXVECTOR3 v2, int rows, int cols, ID3D10ShaderResourceView** _textures, int _nrOfTextures,
+		ID3D10ShaderResourceView** _blendMaps, int _nrOfBlendMaps, ID3D10ShaderResourceView* _normalMap);
 	virtual ~Terrain();
 	
 	ID3D10ShaderResourceView** getBlendMaps()const { return this->m_blendMaps; }
 	FLOAT2 getBottomRightCorner()const { return FLOAT2(m_bottomRight.x, m_bottomRight.z); }
 	float getHeight()const { return m_height; }
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
+	ID3D10ShaderResourceView* getNormalMap()const { return m_normalMap; }
 	int getNrOfBlendMaps()const { return this->m_nrOfBlendMaps; }
 	int getNrOfTextures()const { return this->m_nrOfTextures; }
 	int getNrOfVertices()const { return this->m_nrOfVertices; }

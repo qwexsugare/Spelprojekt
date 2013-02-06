@@ -9,17 +9,24 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_agility = 1;
 	this->m_wits = 1;
 	this->m_fortitude = 1;
-
-	this->m_movementSpeed = 1.0f;
+	
+	this->m_movementSpeedChange = 0.0f;
+	this->m_movementSpeed = 2.0f;
+	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = 1.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
-	this->m_physicalResistance = 0.0f;
-	this->m_mentalResistance = 0.0f;
+	this->m_physicalResistance = 1.0f;
+	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0.0f;
 	this->m_poisonChance = 0.0f;
 	this->m_deadlyStrikeChance = 0.0f;
 	this->m_poisonCounter = 0;
+	this->m_stunTimer = 0.0f;
+	this->m_greed = 1.0f;
+	this->m_turretDuration = 10.0f;
+	this->m_attackCooldown = 0.0f;
+	this->m_attackRange = 5.0f;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -31,25 +38,28 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_agility = 1;
 	this->m_wits = 1;
 	this->m_fortitude = 1;
-
-	this->m_movementSpeed = 1.0f;
-	this->m_attackSpeed = 1.0f;
+	
+	this->m_baseAttackSpeed = 2.0f;
+	this->m_baseMovementSpeed = 2.0f;
+	this->m_movementSpeedChange = 0.0f;
+	this->m_movementSpeed = 2.0f;
+	this->m_attackSpeedChange = 0.0f;
+	this->m_attackSpeed = 2.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
-	this->m_physicalResistance = 0.0f;
-	this->m_mentalResistance = 0.0f;
-	this->m_lifeStealChance = 0.0f;
-	this->m_poisonChance = 0.0f;
-	this->m_deadlyStrikeChance = 0.0f;
+	this->m_physicalResistance = 1.0f;
+	this->m_mentalResistance = 1.0f;
+	this->m_lifeStealChance = 0;
+	this->m_poisonChance = 0;
+	this->m_deadlyStrikeChance = 0;
 	this->m_poisonCounter = 0;
+	this->m_greed = 1.0f;
+	this->m_turretDuration = 10.0f;
+	this->m_attackCooldown = 0.0f;
+	this->m_attackRange = 5.0f;
 }
 
 UnitEntity::~UnitEntity()
-{
-
-}
-
-void UnitEntity::update(float dt)
 {
 
 }
@@ -93,7 +103,7 @@ void UnitEntity::increaseWits(int _wits)
 	}
 
 	this->m_mentalDamage = this->m_mentalDamage + _wits * 5;
-	this->m_turretlife = this->m_turretlife + _wits * 0.5f;
+	this->m_turretDuration = this->m_turretDuration + _wits * 0.5f;
 }
 
 void UnitEntity::increaseFortitude(int _fortitude)
@@ -105,6 +115,23 @@ void UnitEntity::increaseFortitude(int _fortitude)
 		_fortitude = UnitEntity::MAX_FORTITUDE - this->m_fortitude;
 		this->m_fortitude = UnitEntity::MAX_FORTITUDE;
 	}
+}
+
+void UnitEntity::alterAttackSpeed(float _value)
+{
+	m_attackSpeedChange += _value;
+	m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+
+	if(this->m_attackCooldown > this->m_attackSpeed)
+	{
+		this->m_attackCooldown = this->m_attackSpeed;
+	}
+}
+
+void UnitEntity::alterMovementSpeed(float _value)
+{
+	m_movementSpeedChange += _value;
+	m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
 }
 
 void UnitEntity::setMaxHealth(int _maxHealth)
@@ -141,19 +168,29 @@ void UnitEntity::setMentalResistance(float _mentalResistance)
 {
 	this->m_mentalResistance = _mentalResistance;
 }
-void UnitEntity::setLifeStealChance(float _lifeStealChance)
+void UnitEntity::setLifeStealChance(unsigned int _lifeStealChance)
 {
 	this->m_lifeStealChance = _lifeStealChance;
 }
 
-void UnitEntity::setPoisonChance(float _poisonChance)
+void UnitEntity::setPoisonChance(unsigned int _poisonChance)
 {
 	this->m_poisonChance = _poisonChance;
 }
 
-void UnitEntity::setDeadlyStrikeChance(float _deadlyStrikeChance)
+void UnitEntity::setDeadlyStrikeChance(unsigned int _deadlyStrikeChance)
 {
 	this->m_deadlyStrikeChance = _deadlyStrikeChance;
+}
+
+void UnitEntity::setGreed(float _greed)
+{
+	this->m_greed = _greed;
+}
+
+void UnitEntity::setTurretDuration(float _turretDuration)
+{
+	this->m_turretDuration = _turretDuration;
 }
 
 int UnitEntity::getStrength()
@@ -216,25 +253,35 @@ float UnitEntity::getMentalResistance()
 	return this->m_mentalResistance;
 }
 
-float UnitEntity::getLifeStealChance()
+unsigned int UnitEntity::getLifeStealChance()
 {
 	return this->m_lifeStealChance;
 }
 
-float UnitEntity::getPoisonChance()
+unsigned int UnitEntity::getPoisonChance()
 {
 	return this->m_poisonChance;
 }
 
-float UnitEntity::getDeadlyStrikeChance()
+unsigned int UnitEntity::getDeadlyStrikeChance()
 {
 	return this->m_deadlyStrikeChance;
 }
 
+float UnitEntity::getGreed()
+{
+	return this->m_greed;
+}
+
+float UnitEntity::getTurretDuration()
+{
+	return this->m_turretDuration;
+}
+
 void UnitEntity::takeDamage(int physicalDamage, int mentalDamage)
 {
-	this->m_health = this->m_health - physicalDamage * (1 - this->m_physicalResistance);
-	this->m_health = this->m_health - mentalDamage * (1 - this->m_mentalResistance);
+	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
+	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
 }
 
 void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)
@@ -242,18 +289,19 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 	int lifesteal = rand() % 100 + 1;
 	int poison = rand() % 100 + 1;
 
-	if(lifesteal > this->m_lifeStealChance)
+	if(lifesteal < this->m_lifeStealChance)
 	{
 		this->heal(physicalDamage * 0.5f);
 	}
 
-	if(poison > this->m_poisonChance)
+	if(poison < this->m_poisonChance)
 	{
 		if(this->m_poisonCounter < 4)
 		{
 			this->m_poisonCounter++;
-			target->takeDamage(100 + this->m_poisonCounter * 5, false);
 		}
+		
+		target->takeDamage(100 + this->m_poisonCounter * 5, false);
 	}
 
 	target->takeDamage(physicalDamage, mentalDamage);
@@ -261,12 +309,34 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 
 void UnitEntity::heal(int health)
 {
-	if(this->m_health + health > this->m_maxHealth)
+	this->m_health = min(m_health+health, m_maxHealth);
+}
+
+void UnitEntity::stun(float _time)
+{
+	m_stunTimer = max(m_stunTimer, _time);
+}
+
+void UnitEntity::update(float dt)
+{
+	if(this->m_attackCooldown > 0.0f)
 	{
-		this->m_health = this->m_maxHealth;
+		this->m_attackCooldown = this->m_attackCooldown - dt;
+	}
+
+	if(m_stunTimer <= 0.0f)
+	{
+		this->updateSpecificUnitEntity(dt);
 	}
 	else
 	{
-		this->m_maxHealth = this->m_maxHealth + health;
+		this->m_stunTimer -= dt;
 	}
+}
+
+NetworkEntityMessage UnitEntity::getUpdate()
+{
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_health, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
+
+	return e;
 }

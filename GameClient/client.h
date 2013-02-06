@@ -18,6 +18,11 @@
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"
 #include "NetworkUseActionTargetMessage.h"
+#include "NetworkCreateActionMessage.h"
+#include "NetworkCreateActionPositionMessage.h"
+#include "NetworkCreateActionTargetMessage.h"
+#include "NetworkBuySkillMessage.h"
+#include "NetworkSkillBoughtMessage.h"
 
 using namespace std;
 
@@ -33,8 +38,15 @@ private:
 
 	//a threaded function that will recive messages from the server
 	virtual void Run();
+	NetworkEntityMessage m_lastestMessage;
+	bool m_hasMessage;
+
 	queue<NetworkEntityMessage> m_entityMessageQueue;
 	queue<NetworkRemoveEntityMessage> m_removeEntityMessageQueue;
+	queue<NetworkCreateActionMessage> m_createActionQueue;
+	queue<NetworkCreateActionPositionMessage> m_createActionPositionQueue;
+	queue<NetworkCreateActionTargetMessage> m_createActionTargetQueue;
+	queue<NetworkSkillBoughtMessage> m_skilllBoughtQueue;
 public:
 	Client();
 	~Client();
@@ -46,11 +58,20 @@ public:
 	void sendMessage(NetworkUseActionMessage _usm);
 	void sendMessage(NetworkUseActionPositionMessage _usm);
 	void sendMessage(NetworkUseActionTargetMessage _usm);
+	void sendMessage(NetworkBuySkillMessage _usm);
 
-	NetworkEntityMessage entityMessageQueueFront();
-	NetworkRemoveEntityMessage removeEntityMessageQueueFront();
-	bool entityMessageQueueEmpty();
-	bool removeEntityMessageQueueEmpty();
+	NetworkEntityMessage entityQueueFront();
+	NetworkRemoveEntityMessage removeEntityQueueFront();
+	NetworkCreateActionMessage createActionQueueFront();
+	NetworkCreateActionPositionMessage createActionPositionQueueFront();
+	NetworkCreateActionTargetMessage createActionTargetQueueFront();
+	NetworkSkillBoughtMessage skillBoughtQueueFront();
+	bool entityQueueEmpty();
+	bool removeEntityQueueEmpty();
+	bool createActionQueueEmpty();
+	bool createActionPositionQueueEmpty();
+	bool createActionTargetQueueEmpty();
+	bool skillBoughtQueueEmpty();
 };
 
 #endif // CLIENT_H

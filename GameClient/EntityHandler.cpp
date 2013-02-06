@@ -113,20 +113,20 @@ ServerEntity* EntityHandler::getClosestEntity(ServerEntity *entity)
 
 	if(EntityHandler::m_entities[0] == entity && EntityHandler::m_entities.size() > 1)
 	{
-		shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[1]->getPosition()).length());
+		shortestDistance = (entity->getPosition() - EntityHandler::m_entities[1]->getPosition()).length();
 		shortestIndex = 1;
 	}
 	else
 	{
-		shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[0]->getPosition()).length());
+		shortestDistance = (entity->getPosition() - EntityHandler::m_entities[0]->getPosition()).length();
 		shortestIndex = 0;
 	}
 
 	for(int i = shortestIndex; i < EntityHandler::m_entities.size(); i++)
 	{
-		if(EntityHandler::m_entities[i] != entity && abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length()) < shortestDistance)
+		if(EntityHandler::m_entities[i] != entity && (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance)
 		{
-			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestDistance = (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length();
 			shortestIndex = i;
 		}
 	}
@@ -148,7 +148,7 @@ ServerEntity* EntityHandler::getClosestEnemy(ServerEntity *entity)
 
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
-		if(EntityHandler::m_entities[i] != entity && abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length()) < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::EnemyType)
+		if(EntityHandler::m_entities[i] != entity && (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::EnemyType)
 		{
 			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
 			shortestIndex = i;
@@ -181,36 +181,64 @@ ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 	return result;
 }
 
-// Remember to delete the return value after usage when calling this function
-vector<ServerEntity*>* EntityHandler::getAllEnemies()
+vector<ServerEntity*> EntityHandler::getAllEnemies()
 {
-	vector<ServerEntity*>* _enemies = new vector<ServerEntity*>();
+	vector<ServerEntity*> enemies = vector<ServerEntity*>();
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
-		
 		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType)
 		{
 			ServerEntity* enemy = EntityHandler::m_entities[i];
-			_enemies->push_back(enemy);
+			enemies.push_back(enemy);
 		}
 	}
 
-	return _enemies;
+	return enemies;
 }
+
+int EntityHandler::getNrOfEnemies()
+{
+	int counter = 0;
+
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{	
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType)
+		{
+			counter++;
+		}
+	}
+
+	return counter;
+}
+
 vector<ServerEntity*> EntityHandler::getAllHeroes()
 {
-	vector<ServerEntity*> _heroes;
+	vector<ServerEntity*> heroes;
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
-		
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::HeroType)
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::HeroType)
 		{
 			ServerEntity* hero = EntityHandler::m_entities[i];
-			_heroes.push_back(hero);
+			heroes.push_back(hero);
 		}
 	}
 
-	return _heroes;
+	return heroes;
+}
+
+vector<ServerEntity*> EntityHandler::getAllStaticObjects()
+{
+	vector<ServerEntity*> staticObjects;
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
+		{
+			ServerEntity* staticObject = EntityHandler::m_entities[i];
+			staticObjects.push_back(staticObject);
+		}
+	}
+
+	return staticObjects;
 }
 
 unsigned int EntityHandler::getId()

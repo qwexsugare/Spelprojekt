@@ -1,20 +1,24 @@
 #include "Hero.h"
 
+extern Pathfinder* g_pathfinder;
+
 Hero::Hero() : UnitEntity()
 {
 	this->m_type = Type::HeroType;
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
-	this->m_movementSpeed = 5.0f;
-
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 15.0f;
 	this->m_hasTarget = false;
-	m_strength = 5;
-	m_agility = 5;
-	m_wits = 20;
-	m_fortitude = 5;
+	this->m_baseMovementSpeed = 3.1f;
+	this->m_movementSpeed = this->m_baseMovementSpeed;
+	this->m_baseAttackSpeed = 1.0f;
+	this->m_attackSpeed = this->m_baseAttackSpeed;
+	this->m_strength = 5;
+	this->m_agility = 5;
+	this->m_wits = 20;
+	this->m_fortitude = 5;
 }
 
 Hero::~Hero()
@@ -22,7 +26,7 @@ Hero::~Hero()
 
 }
 
-void Hero::update(float dt)
+void Hero::updateSpecificUnitEntity(float dt)
 {
 	//Handle incoming messages
 	Message *m;
@@ -61,8 +65,8 @@ void Hero::update(float dt)
 			{
 				if(this->m_attackCooldown <= 0.0f)
 				{
-					EntityHandler::addEntity(new Projectile(this->m_position, se->getPosition() - this->m_position, 2.0f, 6.0f));
-					this->m_attackCooldown = 0.2f;
+					EntityHandler::addEntity(new Projectile(this->m_position, se->getPosition() - this->m_position, 2.0f, 6.0f, this));
+					this->m_attackCooldown = this->m_attackSpeed;
 				}
 			}
 			else
@@ -85,15 +89,35 @@ void Hero::update(float dt)
 	else if(this->m_reachedPosition == false)
 	{
 		FLOAT3 distance = this->m_nextPosition - this->m_position;
-		if(distance.length() > this->m_movementSpeed * dt)
+		float lol = 0.0f;
+
+		if(this->m_reallyReachedPosition == false)
+		{
+			lol = 0.125f;
+		}
+
+		if(distance.length() - lol > this->m_movementSpeed * dt)
 		{
 			distance = distance / distance.length();
 			this->m_position = this->m_position + (distance * this->m_movementSpeed * dt);
 		}
 		else
 		{
-			this->m_position = this->m_nextPosition;
-			this->m_reachedPosition = true;
+			if(this->m_pathCounter < this->m_path.nrOfPoints - 1)
+			{
+				this->m_nextPosition = FLOAT3(this->m_path.points[this->m_pathCounter].x, 0.0f, this->m_path.points[this->m_pathCounter].y);
+				this->m_pathCounter++;
+			}
+			else if(this->m_reallyReachedPosition == false)
+			{
+				this->m_nextPosition = this->m_goalPosition;
+				this->m_reallyReachedPosition = true;
+			}
+			else
+			{
+				this->m_position = this->m_nextPosition;
+				this->m_reachedPosition = true;
+			}
 		}
 
 		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
@@ -110,9 +134,34 @@ void Hero::update(float dt)
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
-	this->m_nextPosition = _nextPosition;
-	this->m_reachedPosition = false;
-	this->m_hasTarget = false;
+	this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z));
+
+	if(this->m_path.nrOfPoints > 1)
+	{
+		this->m_nextPosition = FLOAT3(this->m_path.points[1].x, 0.0f, this->m_path.points[1].y);
+		this->m_goalPosition = _nextPosition;
+		this->m_pathCounter = 2;
+		this->m_reachedPosition = false;
+		this->m_hasTarget = false;
+		this->m_reallyReachedPosition = false;
+	}
+	else if(this->m_path.nrOfPoints == 1)
+	{
+		this->m_nextPosition = _nextPosition;
+		this->m_goalPosition = _nextPosition;
+		this->m_pathCounter = 1;
+		this->m_reachedPosition = false;
+		this->m_hasTarget = false;
+		this->m_reallyReachedPosition = false;
+	}
+	else
+	{
+		this->m_path = Path();
+		this->m_pathCounter = 0;
+		this->m_reachedPosition = true;
+		this->m_hasTarget = false;
+		this->m_reallyReachedPosition = true;
+	}
 }
 
 void Hero::setTarget(unsigned int _target)

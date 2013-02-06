@@ -40,6 +40,9 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 		passDescription.pIAInputSignature,
 		passDescription.IAInputSignatureSize,
 		&this->m_vertexLayout);
+	 
+	m_shadowMaps = m_effect->GetVariableByName("shadowMaps")->AsShaderResource();
+	m_lightWvps = m_effect->GetVariableByName("lightWvps")->AsMatrix();
 }
 
 DeferredRenderingEffectFile::~DeferredRenderingEffectFile()
@@ -134,4 +137,14 @@ ID3D10EffectTechnique *DeferredRenderingEffectFile::getTechnique()
 ID3D10InputLayout *DeferredRenderingEffectFile::getVertexLayout()
 {
 	return this->m_vertexLayout;
+}
+
+void DeferredRenderingEffectFile::setShadowMaps(ID3D10ShaderResourceView** _res, int _size)
+{
+	m_shadowMaps->SetResourceArray(_res, 0, _size);
+}
+
+void DeferredRenderingEffectFile::setLightWvps(D3DXMATRIX* _wvps, int _size)
+{
+	m_lightWvps->SetMatrixArray((float*)_wvps, 0, _size);
 }

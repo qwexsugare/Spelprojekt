@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, float _movementSpeed) : UnitEntity()
+Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, float _movementSpeed, UnitEntity *_creator) : UnitEntity()
 {
 	this->m_position = _position;
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
@@ -8,6 +8,7 @@ Projectile::Projectile(FLOAT3 _position, FLOAT3 _direction, float _lifetime, flo
 	this->m_lifetime = _lifetime;
 	this->m_movementSpeed = _movementSpeed;
 	this->m_type = Type::ProjectileType;
+	this->m_creator = _creator;
 }
 
 Projectile::~Projectile()
@@ -15,7 +16,7 @@ Projectile::~Projectile()
 
 }
 
-void Projectile::update(float dt)
+void Projectile::updateSpecificUnitEntity(float dt)
 {
 	//Handle incoming messages
 	Message *m;
@@ -32,7 +33,7 @@ void Projectile::update(float dt)
 			if(se != NULL && se->getType() == Type::EnemyType)
 			{
 				this->m_lifetime = 0;
-				this->dealDamage(se, 10, true);
+				this->m_creator->dealDamage(se, 5, 5);
 			}
 		}
 

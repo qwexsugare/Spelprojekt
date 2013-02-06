@@ -10,7 +10,6 @@ private:
 	float m_jumpTimer;
 	int m_jumps;
 	int m_maxJumps;
-	int m_sound;
 
 	static const int MAX_JUMP_DISTANCE = 10;
 public:
