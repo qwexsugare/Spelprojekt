@@ -234,9 +234,8 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	}*/
 
 	float shad = calcShadow(mul(position, lightWvps[0]), 0);
-	return diffuse*shad;
 	
-	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f);
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*shad;
 }
 
 technique10 RenderModelDeferred
