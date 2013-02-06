@@ -23,7 +23,8 @@ private:
 	string m_textureIndex;
 public:
 	Model();
-	Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f), float _alpha = 1.0f, string _textureIndex = "color");
+	Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+		float _alpha = 1.0f, string _textureIndex = "color");
 	~Model();
 	
 	DECLDIR float getAlpha()const;

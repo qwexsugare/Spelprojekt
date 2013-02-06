@@ -14,7 +14,7 @@ QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
 	this->m_max = _max;
 	this->m_obb = new BoundingOrientedBox(
 		XMFLOAT3((this->m_min.x+this->m_max.x)/2.0f, 0.0f, (this->m_min.y+this->m_max.y)/2.0f),
-		XMFLOAT3((_max.x-_min.x)/2.0f, 100000.5f, (_max.y-_min.y)/2.0f),
+		XMFLOAT3((_max.x-_min.x)/2.0f, 100000.0f, (_max.y-_min.y)/2.0f),
 		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f)
 		);
 	
@@ -369,10 +369,19 @@ void QuadTreeNode::pullAllModels(stack<Model*>& _models)
 bool QuadTreeNode::removeModel(Model* _model)
 {
 	bool removed = false;
-
-	if(this->m_children[0])
+	
+	for(int i = 0; i < this->m_models.size() && !removed; i++)
 	{
-		// ADD ALL CHILD MODELS TO VECTOR
+		if(this->m_models[i] == _model)
+		{
+			delete this->m_models[i];
+			this->m_models.erase(this->m_models.begin()+i);
+			removed = true;
+		}
+	}
+
+	if(!removed && this->m_children[0])
+	{
 		removed = this->m_children[0]->removeModel(_model);
 		if(!removed)
 		{
@@ -384,18 +393,6 @@ bool QuadTreeNode::removeModel(Model* _model)
 				{
 					removed = this->m_children[3]->removeModel(_model);
 				}
-			}
-		}
-	}
-	else
-	{
-		for(int i = 0; i < this->m_models.size() && !removed; i++)
-		{
-			if(this->m_models[i] == _model)
-			{
-				delete this->m_models[i];
-				this->m_models.erase(this->m_models.begin()+i);
-				removed = true;
 			}
 		}
 	}

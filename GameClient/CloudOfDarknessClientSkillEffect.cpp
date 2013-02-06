@@ -6,9 +6,15 @@
 CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _position)
 {
 	m_position = _position;
-	m_graphicalEffects[0] = g_graphicsEngine->createModel("Char1_5", _position);
-	m_graphicalEffects[0] = g_graphicsEngine->createModel("Char1_5", _position);
-	m_graphicalEffects[0] = g_graphicsEngine->createModel("Char1_5", _position);
+	m_graphicalEffects[0] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.2f, _position.z), "color2");
+	m_graphicalEffects[1] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.4f, _position.z), "color1");
+	m_graphicalEffects[2] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.6f, _position.z), "color");
+	m_graphicalEffects[0]->setScale(0.5f, 1.0f, 0.5f);
+	m_graphicalEffects[2]->setScale(0.5f, 1.0f, 0.5f);
+	m_graphicalEffects[1]->setScale(0.5f, 1.0f, 0.5f);
+	m_graphicalEffects[0]->setAlpha(0.999f);
+	m_graphicalEffects[1]->setAlpha(0.999f);
+	m_graphicalEffects[2]->setAlpha(0.999f);
 	m_lifetime = 0.0f;
 	m_sound = createSoundHandle("rain.wav", false);
 	playSound(m_sound);
@@ -26,6 +32,10 @@ CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
 void CloudOfDarknessClientSkillEffect::update(float _dt)
 {
 	m_lifetime += _dt;
+	
+	m_graphicalEffects[0]->rotate(_dt, -_dt, _dt);
+	m_graphicalEffects[1]->rotate(_dt, _dt, _dt);
+	m_graphicalEffects[2]->rotate(_dt, -_dt, _dt);
 }
 
 bool CloudOfDarknessClientSkillEffect::getActive()

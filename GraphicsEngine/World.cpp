@@ -197,12 +197,36 @@ void World::render()
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
-	stack<Model*> transparantModels;
+	vector<Model*> transparentModels;
 	while(!models.empty())
 	{
 		if(models.top()->getAlpha() < 1.0f)
 		{
-			transparantModels.push(models.top());
+			if(transparentModels.size() == 0)
+			{
+				transparentModels.push_back(models.top());
+			}
+			else
+			{
+				if(models.top()->getPosition().y <= transparentModels[0]->getPosition().y)
+					transparentModels.insert(transparentModels.begin(), models.top());
+				else
+				{
+					bool inserted = false;
+					for(int i = 1; i < transparentModels.size()-1 && !inserted; i++)
+					{
+						if(models.top()->getPosition().y > transparentModels[i]->getPosition().y && models.top()->getPosition().y <= transparentModels[i+1]->getPosition().y)
+						{
+							transparentModels.insert(transparentModels.begin()+i, models.top());
+							inserted = true;
+						}
+					}
+					if(!inserted)
+					{
+						transparentModels.push_back(models.top());
+					}
+				}
+			}
 		}
 		else
 		{
@@ -247,36 +271,32 @@ void World::render()
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
-	while(!transparantModels.empty())
+	for(int i = 0; i < transparentModels.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->buffer, sizeof(Vertex));
+		this->m_deferredSampler->setModelMatrix(transparentModels[i]->getModelMatrix());
+		this->m_deferredSampler->setModelAlpha(transparentModels[i]->getAlpha());
 
-		this->m_deferredSampler->setModelMatrix(transparantModels.top()->getModelMatrix());
-		this->m_deferredSampler->setModelAlpha(transparantModels.top()->getAlpha());
-
-		for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+		for(int m = 0; m < transparentModels[i]->getMesh()->subMeshes.size(); m++)
 		{
-			this->m_deferredSampler->setTexture(transparantModels.top()->getMesh()->subMeshes[m]->textures[models.top()->getTextureIndex()]);
-			this->m_deferredSampler->setNormalMap(transparantModels.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
+			this->m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
+			this->m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
 
-			if(models.top()->getMesh()->isAnimated)
+			if(transparentModels[i]->getMesh()->isAnimated)
 			{
-				this->m_deferredSampler->setBoneTexture(transparantModels.top()->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deferredSampler->setBoneTexture(transparentModels[i]->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
 				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
 			}
 			else
 			{
-				this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
 				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
 			}
 
-			this->m_deviceHandler->getDevice()->Draw(transparantModels.top()->getMesh()->nrOfVertices, 0);
+			this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
 		}
-		
-		transparantModels.pop();
 	}
 
 	//Deferred
