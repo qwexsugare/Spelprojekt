@@ -12,7 +12,7 @@ RenderTarget::RenderTarget(ID3D10Device *device, INT2 _size)
 	renderTargetDesc.Height = this->m_size.y;
 	renderTargetDesc.MipLevels = 1;
 	renderTargetDesc.ArraySize = 1;
-	renderTargetDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+	renderTargetDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	renderTargetDesc.SampleDesc.Count = 1;
 	renderTargetDesc.SampleDesc.Quality = 0;
 	renderTargetDesc.Usage = D3D10_USAGE_DEFAULT;

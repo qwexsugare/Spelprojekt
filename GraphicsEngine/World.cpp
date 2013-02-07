@@ -401,6 +401,7 @@ void World::renderShadowMap()
 		m_deferredSampler->setLightWvp(m_spotLights[i]->getWvp());
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
+
 		stack<Model*> models = this->m_quadTree->getAllModels();
 		while(!models.empty())
 		{
