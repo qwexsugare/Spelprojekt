@@ -15,7 +15,7 @@ GameState::GameState()
 	this->m_hud = new HudMenu(this->m_network);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.50f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);

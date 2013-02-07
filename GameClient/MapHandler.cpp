@@ -49,9 +49,7 @@ bool MapHandler::isDone()
 void MapHandler::loadMap(std::string filename)
 {
 	this->m_waveTimer = 0.0f;
-	
-	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f);
-	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
+
 	int height;
 	int width;
 	Path paths[100];
@@ -92,7 +90,7 @@ void MapHandler::loadMap(std::string filename)
 					FLOAT3 rotation;
 					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
 
-					position.z = v2.z+position.z;
+					position.z = height+position.z;
 					rotation.x = rotation.x * (D3DX_PI/180.0f);
 					
 					Model *m = g_graphicsEngine->createModel(key, position);
@@ -162,7 +160,7 @@ void MapHandler::loadMap(std::string filename)
 	}
 	
 	m_paths = new Path[m_nrOfPaths];
-
+	
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
