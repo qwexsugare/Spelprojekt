@@ -61,11 +61,12 @@ void DemonicPresenceEffect::update(float _dt)
 			for(int i = 0; i < m_affectedGuys.size(); i++)
 			{
 				ServerEntity* se = EntityHandler::getServerEntity(m_affectedGuys[i]);
-				if(se)
+				if(se && se->contains(*m_bs) != ContainmentType::DISJOINT)
 				{
 					((UnitEntity*)se)->alterMovementSpeed(-MOVEMENT_SPEED_BOOST);
 					((UnitEntity*)se)->alterAttackSpeed(-ATTACK_SPEED_BOOST);
 					this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, se->getId()));
+					m_affectedGuys.erase(m_affectedGuys.begin()+i);
 				}
 			}
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
