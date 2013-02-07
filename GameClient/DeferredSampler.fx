@@ -100,6 +100,24 @@ DepthStencilState EnableDepthSM
 	DepthFunc = LESS_EQUAL;
 };
 
+DepthStencilState RolandsSuperDepth
+{
+	StencilEnable = TRUE;
+	DepthEnable = TRUE;
+	StencilReadMask = 1;
+	FrontFaceStencilFunc = EQUAL;
+};
+
+DepthStencilState RolandsUltraDepth
+{
+	DepthEnable = FALSE;
+	StencilEnable = TRUE;
+	
+	StencilWriteMask = 1;
+	FrontFaceStencilFail = REPLACE;
+	FrontFaceStencilPass = REPLACE;
+};
+
 RasterizerState testRS
 {
 	FillMode = Solid;
@@ -285,8 +303,9 @@ technique10 DeferredSuperSample
         SetVertexShader( CompileShader( vs_4_0, VSSuperScene() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
-
-	    SetDepthStencilState( EnableDepth, 0 );
+		
+	    //SetDepthStencilState( EnableDepth, 0 );
+	    SetDepthStencilState( DisableDepth, 0 );
 	    SetRasterizerState( rs );
     }
 }
