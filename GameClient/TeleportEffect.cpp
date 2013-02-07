@@ -28,7 +28,7 @@ void TeleportEffect::update(float _dt)
 {
 	m_currentDuration += _dt;
 
-	if(m_currentDuration > DURATION)
+	if(m_currentDuration >= DURATION)
 	{
 		ServerEntity* se = EntityHandler::getServerEntity(m_casterId);
 		if(se)

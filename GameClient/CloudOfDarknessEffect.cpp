@@ -46,7 +46,7 @@ void CloudOfDarknessEffect::update(float _dt)
 {
 	m_timer += _dt;
 
-	if(m_timer > LIFETIME)
+	if(m_timer >= LIFETIME)
 	{
 		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 	}

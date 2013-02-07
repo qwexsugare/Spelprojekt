@@ -59,30 +59,33 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 	FLOAT3 avDir = FLOAT3(0,0,0);
 	ServerEntity *_static = EntityHandler::getClosestStatic(this);
-	FLOAT3 statPos = _static->getPosition();
-	
-	avDir = this->checkStatic(dt,statPos);
-	if((m_closestStatic->getPosition()-m_position).length() > 3 )
+	if(_static != NULL)
 	{
-		FLOAT3 te = (this->m_nextPosition - this->m_position);
+		FLOAT3 statPos = _static->getPosition();
+	
+		avDir = this->checkStatic(dt,statPos);
+		if((m_closestStatic->getPosition()-m_position).length() > 3 )
+		{
+			FLOAT3 te = (this->m_nextPosition - this->m_position);
 		
-		te = te/15;
+			te = te/15;
 		
-		m_dir.y = 0;
-		m_dir = m_dir*500;
+			m_dir.y = 0;
+			m_dir = m_dir*500;
 		
 
-		this->m_dir =this->m_dir+ te;
+			this->m_dir =this->m_dir+ te;
 		
-		m_dir = m_dir/m_dir.length();
+			m_dir = m_dir/m_dir.length();
 
-		//this->m_dir =m_dir+ te;
-	}
+			//this->m_dir =m_dir+ te;
+		}
 	
-	if((m_closestStatic->getPosition()-m_position).length() > 50)
-	{
-		m_dir = m_dir + (this->m_nextPosition - this->m_position)/2;
-		//m_dir = m_dir/m_dir.length();
+		if((m_closestStatic->getPosition()-m_position).length() > 50)
+		{
+			m_dir = m_dir + (this->m_nextPosition - this->m_position)/2;
+			//m_dir = m_dir/m_dir.length();
+		}
 	}
 	
 
