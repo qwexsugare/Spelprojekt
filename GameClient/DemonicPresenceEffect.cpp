@@ -44,15 +44,7 @@ DemonicPresenceEffect::DemonicPresenceEffect(unsigned int _caster)
 
 DemonicPresenceEffect::~DemonicPresenceEffect()
 {
-	for(int i = 0; i < m_affectedGuys.size(); i++)
-	{
-		ServerEntity* se = EntityHandler::getServerEntity(m_affectedGuys[i]);
-		if(se)
-		{
-			((UnitEntity*)se)->alterMovementSpeed(-MOVEMENT_SPEED_BOOST);
-			((UnitEntity*)se)->alterAttackSpeed(-ATTACK_SPEED_BOOST);
-		}
-	}
+
 }
 
 void DemonicPresenceEffect::update(float _dt)
@@ -66,6 +58,16 @@ void DemonicPresenceEffect::update(float _dt)
 		// If the spell duration has expired, remove all affected dudes and buffs.
 		if(m_timer > LIFETIME)
 		{
+			for(int i = 0; i < m_affectedGuys.size(); i++)
+			{
+				ServerEntity* se = EntityHandler::getServerEntity(m_affectedGuys[i]);
+				if(se)
+				{
+					((UnitEntity*)se)->alterMovementSpeed(-MOVEMENT_SPEED_BOOST);
+					((UnitEntity*)se)->alterAttackSpeed(-ATTACK_SPEED_BOOST);
+					this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, se->getId()));
+				}
+			}
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 		}
 		else

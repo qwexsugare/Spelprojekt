@@ -13,5 +13,6 @@ public:
 	~DemonicPresenceClientSkillEffect();
 
 	bool getActive();
+	int getMasterId()const { return m_masterId; }
 	void update(float _dt);
 };

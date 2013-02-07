@@ -173,6 +173,18 @@ void GameState::update(float _dt)
 		NetworkRemoveActionTargetMessage e = this->m_network->removeActionTargetQueueFront();
 		
 		// DO SOMETHING!!
+		for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+		{
+			if(typeid(DemonicPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+			{
+				if(((DemonicPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+				{
+					delete m_ClientSkillEffects[i];
+					m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+					i = m_ClientSkillEffects.size();
+				}
+			}
+		}
 	}
 
 

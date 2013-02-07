@@ -9,6 +9,7 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	FLOAT3 pos = ClientEntityHandler::getEntity(_masterId)->m_model->getPosition();
 	pos.y = 0.01f;
 	m_model = g_graphicsEngine->createModel("Pentagram", pos);
+	m_model->setAlpha(0.999f);
 }
 
 DemonicPresenceClientSkillEffect::~DemonicPresenceClientSkillEffect()
