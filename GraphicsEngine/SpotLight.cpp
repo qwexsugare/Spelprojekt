@@ -34,7 +34,7 @@ SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction,
 	this->m_angle = FLOAT2(cos(_angle.x / 2), cos(_angle.y / 2));
 	this->m_range = _range;
 
-	m_shadowMap = new DepthStencil(_device, INT2(2048, 2048));
+	m_shadowMap = new DepthStencil(_device, INT2(512, 512));
 	this->setPosition(_position);
 }
 

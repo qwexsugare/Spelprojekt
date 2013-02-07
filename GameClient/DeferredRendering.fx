@@ -12,11 +12,18 @@ SamplerState linearSampler
 	AddressV = Wrap;
 };
 
-SamplerState shadowMapSampler 
+SamplerState pointSampler 
 {
 	Filter = MIN_MAG_MIP_POINT;
 	AddressU = Wrap;
 	AddressV = Wrap;
+};
+
+SamplerState shadowMapSampler 
+{
+	Filter = MIN_MAG_MIP_POINT;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 struct VSSceneIn
@@ -139,7 +146,7 @@ PSSceneIn VSScene(VSSceneIn input)
 float calcShadow(float4 lightPos, int lightIndex)
 {
 	float shadowCoeff = 0.0f;
-	float shadowEpsilon = 0.00001f;
+	float shadowEpsilon = 0.001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
 	lightPos /= lightPos.w;

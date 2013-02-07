@@ -109,8 +109,7 @@ RasterizerState testRS
 RasterizerState rs
 {
 	FillMode = Solid;
-	//CullMode = FRONT;
-	CullMode = NONE;
+	CullMode = FRONT;
 };
 
 BlendState NoBlend
@@ -264,11 +263,12 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 
 	float diff = saturate(dot(light, newNormal));
 
+	
 	//output.Diffuse = float4(tang, 1);
 
 	output.Pos = input.EyeCoord;
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	output.Normal = float4(normalize(input.Normal).xyz, 1.0f);
+	output.Normal = normalize(input.Normal);
 	//output.Diffuse = float4(normalize(t), 1.0f);//color;
 	output.Diffuse = color;//float4(color.x*diff, color.y*diff, color.z*diff, 1);//float4(color, 1.0f);//diff;//float4(1, 1, 1, 1);//float4(1.0f, 1.0f, 1.0f, 1.0f)*diff;//float4(input.Tangent, 1.0f);
 	//output.Diffuse = color;
@@ -468,7 +468,7 @@ technique10 RenderRoad
     }
 }
 
-float4 vsShadowMap(float3 _pos : POS) : SV_Position
+float4 vsShadowMap(float3 _pos : POS) : SV_POSITION
 {
 	// Render from light's perspective.
 	return mul(float4(_pos, 1.0f), mul(modelMatrix, lightWvp));
