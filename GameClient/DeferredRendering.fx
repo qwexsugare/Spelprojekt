@@ -12,11 +12,18 @@ SamplerState linearSampler
 	AddressV = Wrap;
 };
 
-SamplerState shadowMapSampler 
+SamplerState pointSampler 
 {
 	Filter = MIN_MAG_MIP_POINT;
 	AddressU = Wrap;
 	AddressV = Wrap;
+};
+
+SamplerState shadowMapSampler 
+{
+	Filter = MIN_MAG_MIP_POINT;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 struct VSSceneIn
@@ -139,14 +146,14 @@ PSSceneIn VSScene(VSSceneIn input)
 float calcShadow(float4 lightPos, int lightIndex)
 {
 	float shadowCoeff = 0.0f;
-	float shadowEpsilon = 0.00001f;
+	float shadowEpsilon = 0.001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
 	lightPos /= lightPos.w;
 	
 	// Check if the position is inside the lights unit cube.
-	//if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
-	//{
+	if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
+	{
 		//Compute shadow map tex coord
 		float2 smTex = float2(0.5f * lightPos.x, -0.5f * lightPos.y) + 0.5f;
 
@@ -171,8 +178,8 @@ float calcShadow(float4 lightPos, int lightIndex)
 		// Determine the lerp amounts.
 		float2 lerps = frac( texelPos );
 		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
-		shadowCoeff = s0;
-	//}
+		//shadowCoeff = s0;
+	}
 
 	return shadowCoeff;
 }

@@ -138,15 +138,20 @@ PSSceneIn VSScene(VSSceneIn input)
 
 float calcShadow(float4 lightPos, int lightIndex)
 {
-	float shadowCoeff = 1.0f;
+	float shadowCoeff = 0.0f;
 	float shadowEpsilon = 0.00001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
 	lightPos /= lightPos.w;
 	
 	// Check if the position is inside the lights unit cube.
-	if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
-	{
+<<<<<<< HEAD
+	//if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
+	//{
+=======
+	/*if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
+	{*/
+>>>>>>> 9c269142e9d1d329f53a9f9691d7df8b6f5ec80f
 		//Compute shadow map tex coord
 		float2 smTex = float2(0.5f * lightPos.x, -0.5f * lightPos.y) + 0.5f;
 
@@ -171,7 +176,11 @@ float calcShadow(float4 lightPos, int lightIndex)
 		// Determine the lerp amounts.
 		float2 lerps = frac( texelPos );
 		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
-	}
+<<<<<<< HEAD
+		shadowCoeff = s0;
+=======
+>>>>>>> 9c269142e9d1d329f53a9f9691d7df8b6f5ec80f
+	//}
 
 	return shadowCoeff;
 }
@@ -181,8 +190,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
-
-	float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	
 	float3 ambientLight = float3(0.0f, 0.0f, 0.0f);
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
@@ -223,10 +231,15 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
-		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(float4(position.xyz, 1.0f), lightWvps[i]), i));
-		specularLight = specularLight + (calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(float4(position.xyz, 1.0f), lightWvps[i]), i));
+<<<<<<< HEAD
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), i));
+		specularLight = specularLight + (calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), i));
+=======
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation);
+		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
+>>>>>>> 9c269142e9d1d329f53a9f9691d7df8b6f5ec80f
 	}
-
+	
 	/*float shad = nrOfSpotLights;
 	for(i = 0; i < nrOfSpotLights; i++)
 	{
@@ -234,17 +247,22 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	}*/
 
 <<<<<<< HEAD
-	//float shad = calcShadow(mul(position, lightWvps[0]), 0);
-	
-	//return diffuse * shad;
-
-	//return (float4(ambientLight, 0.0f) + float4(diffuseLight*shad, 1.0f)*diffuse + float4(specularLight*shad, 0.0f));
-	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f);
-=======
 	float shad = calcShadow(mul(position, lightWvps[0]), 0);
+	return diffuse * shad;
 	
-	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*shad;
->>>>>>> d75afba1af662695b04b89e891b4a0edda0005a1
+	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
+=======
+	/*float cowabunga = min(
+		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x+1.0f/1920.0f, input.UVCoord.y+1.0f/1080.0f))), 
+			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y-1.0f/1080.0f)))),
+		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x, input.UVCoord.y+1.0f/1080.0f))), 
+			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
+	
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f) + float4(specularLight, 0.0f))*diffuse;
+	//return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
+>>>>>>> 9c269142e9d1d329f53a9f9691d7df8b6f5ec80f
+
 }
 
 technique10 RenderModelDeferred
