@@ -288,6 +288,8 @@
     </ClCompile>
     <ClCompile Include="DemonicPresenceClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
+    <ClCompile Include="NetworkRemoveActionTargetMessage.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="ClientEntityHandler.cpp">
       <Filter>Client</Filter>
@@ -605,6 +607,8 @@
     </ClInclude>
     <ClInclude Include="DemonicPresenceClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    <ClInclude Include="NetworkRemoveActionTargetMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="ClientEntityHandler.h">
       <Filter>Client</Filter>

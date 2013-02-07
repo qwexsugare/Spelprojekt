@@ -288,6 +288,7 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 {
 	int lifesteal = rand() % 100 + 1;
 	int poison = rand() % 100 + 1;
+	int deadlyStrike = rand() % 100 + 1;
 
 	if(lifesteal < this->m_lifeStealChance)
 	{
@@ -302,6 +303,11 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 		}
 		
 		target->takeDamage(100 + this->m_poisonCounter * 5, false);
+	}
+
+	if(deadlyStrike < this->m_deadlyStrikeChance && target->getType() == Type::EnemyType)
+	{
+		target->takeDamage(999999999, 999999999);
 	}
 
 	target->takeDamage(physicalDamage, mentalDamage);

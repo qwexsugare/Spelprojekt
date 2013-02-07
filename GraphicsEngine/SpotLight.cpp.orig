@@ -8,7 +8,12 @@ SpotLight::SpotLight()
 SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, FLOAT2 _angle, float _range)
 {
 	m_direction = _direction;
-	this->m_up = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+<<<<<<< HEAD
+	//D3DXMATRIX mat;
+	//D3DXMatrixRotationYawPitchRoll(&mat, 0.0f, D3DX_PI/2.0f, 0.0f);
+	//D3DXVECTOR4 temp;
+	//D3DXVec3Transform(&temp, &D3DXVECTOR3(m_direction.x, m_direction.y, m_direction.z), &mat);
+	//m_up = D3DXVECTOR3(temp.x, temp.y, temp.z);
 	D3DXVECTOR3 evilVector;
 
 	//if(this->m_direction.x <= this->m_direction.y && this->m_direction.x <= this->m_direction.z && this->m_direction.x > 0)
@@ -27,6 +32,9 @@ SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction,
 	//D3DXVec3Cross(&this->m_up, &this->m_direction.toD3DXVector(), &evilVector);
 
 	this->m_up = D3DXVECTOR3(1.0f, 1.0f, 3.0f);
+=======
+	this->m_up = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+>>>>>>> d75afba1af662695b04b89e891b4a0edda0005a1
 
 	this->m_la = _la;
 	this->m_ld = _ld;
@@ -34,7 +42,11 @@ SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction,
 	this->m_angle = FLOAT2(cos(_angle.x / 2), cos(_angle.y / 2));
 	this->m_range = _range;
 
+<<<<<<< HEAD
 	m_shadowMap = new DepthStencil(_device, INT2(2048, 2048));
+=======
+	m_shadowMap = new DepthStencil(_device, INT2(4096, 4096));
+>>>>>>> d75afba1af662695b04b89e891b4a0edda0005a1
 	this->setPosition(_position);
 }
 
@@ -99,6 +111,7 @@ void SpotLight::setPosition(FLOAT3 _position)
 	FLOAT3 dampDirection(m_direction.x, -m_direction.y, m_direction.z);
 	FLOAT3 temp(m_position+dampDirection);
 	D3DXVECTOR3 at(temp.x, temp.y, temp.z);
+
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &m_up);
 	D3DXMatrixMultiply(&m_wvp, &viewMatrix, &projMatrix);
 }

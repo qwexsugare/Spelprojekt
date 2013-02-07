@@ -36,6 +36,7 @@ DemonicPresenceEffect::DemonicPresenceEffect(unsigned int _caster)
 				m_affectedGuys.push_back(heroes[i]->getId());
 				((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED_BOOST);
 				((UnitEntity*)heroes.at(i))->alterAttackSpeed(ATTACK_SPEED_BOOST);
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, heroes[i]->getId(), heroes[i]->getPosition()));
 			}
 		}
 	}
@@ -81,6 +82,7 @@ void DemonicPresenceEffect::update(float _dt)
 					{
 						m_affectedGuys.erase(m_affectedGuys.begin()+i);
 						i--;
+						this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, se->getId()));
 					}
 					// Else the affected guys is still alive and might have escaped the aura area and needs to be taken down!
 					else if((caster->getPosition()-se->getPosition()).length() > AOE)
@@ -89,6 +91,7 @@ void DemonicPresenceEffect::update(float _dt)
 						((UnitEntity*)se)->alterAttackSpeed(-ATTACK_SPEED_BOOST);
 						m_affectedGuys.erase(m_affectedGuys.begin()+i);
 						i--;
+						this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, se->getId()));
 					}
 				}
 			}
@@ -116,6 +119,7 @@ void DemonicPresenceEffect::update(float _dt)
 							m_affectedGuys.push_back(heroes[i]->getId());
 							((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED_BOOST);
 							((UnitEntity*)heroes.at(i))->alterAttackSpeed(ATTACK_SPEED_BOOST);
+							this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, heroes[i]->getId(), heroes[i]->getPosition()));
 						}
 					}
 				}
