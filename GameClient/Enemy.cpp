@@ -30,7 +30,8 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	this->m_aggroRange = 10.0f;
 	this->m_willPursue = false;
 	this->m_closestHero = 999;
-	this->m_closestStatic = EntityHandler::getAllStaticObjects()[EntityHandler::getAllStaticObjects().size()-1];
+	this->m_currClosestStatic = EntityHandler::getAllStaticObjects()[EntityHandler::getAllStaticObjects().size()-1];
+	this->m_prevClosestStatic = this->m_currClosestStatic;
 	this->m_path = _path;
 	this->m_currentPoint = 0;
 
@@ -49,7 +50,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 	//this->m_reachedPosition = false;
 
-	this->checkPursue();
+	//this->checkPursue();
 	
 	if(m_willPursue)
 		this->setNextPosition(m_closestHero, dt);
@@ -62,14 +63,15 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	FLOAT3 statPos = _static->getPosition();
 	
 	avDir = this->checkStatic(dt,statPos);
-	if((m_closestStatic->getPosition()-m_position).length() > 3 )
+	if((m_prevClosestStatic->getPosition()-m_position).length() > 3.0f && (m_currClosestStatic->getPosition()-m_position).length() > 4.0f )
 	{
 		FLOAT3 te = (this->m_nextPosition - this->m_position);
 		
-		te = te/15;
+		te = te/50;
+		te = te*avDir.length();
 		
 		m_dir.y = 0;
-		m_dir = m_dir*500;
+		m_dir = m_dir*1000;
 		
 
 		this->m_dir =this->m_dir+ te;
@@ -79,9 +81,10 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		//this->m_dir =m_dir+ te;
 	}
 	
-	if((m_closestStatic->getPosition()-m_position).length() > 50)
+	if((m_currClosestStatic->getPosition()-m_position).length() > 6 && (m_prevClosestStatic->getPosition()-m_position).length() >3)
 	{
-		m_dir = m_dir + (this->m_nextPosition - this->m_position)/2;
+		//avDir = FLOAT3(0,0,0);
+		m_dir =m_dir +(this->m_nextPosition - this->m_position)/16;
 		//m_dir = m_dir/m_dir.length();
 	}
 	
@@ -207,8 +210,8 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 	FLOAT3 cross = this->crossProduct(FLOAT3(0,1,0), currDir);
 	cross = cross/cross.length();
 	cross = cross;
-	float avoidBuffer = 1.0f;
-
+	float avoidBuffer = 1.2f;
+	float t = avoidBuffer;
 	FLOAT3 temp1 = FLOAT3(0,0,0);
 	FLOAT3 temp2 = FLOAT3(0,0,0);
 	
@@ -221,27 +224,38 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 			temp2 = m_position + currDir*i - (cross);
 			
 			
-			
-			float test = (EntityHandler::getClosestSuperStatic(temp1)->getPosition() - temp1).length();
+			FLOAT3 r = FLOAT3(0,0,0);//FLOAT3(EntityHandler::getClosestSuperStatic(temp1)->getObb()->Extents.x, 0, EntityHandler::getClosestSuperStatic(temp1)->getObb()->Extents.z);
+
+			float test = min(((EntityHandler::getClosestSuperStatic(temp1)->getPosition()+r) - temp1).length(),((EntityHandler::getClosestSuperStatic(temp1)->getPosition()-r) - temp1).length());
 			if(test < avoidBuffer)
 			{
+				if(m_currClosestStatic->getId() != EntityHandler::getClosestSuperStatic(temp1)->getId())
+				{
+					m_prevClosestStatic = m_currClosestStatic;
+					m_currClosestStatic = EntityHandler::getClosestSuperStatic(temp1);
+				}
 				
-				m_closestStatic = EntityHandler::getClosestSuperStatic(temp1);
 				avoidBuffer = test;
 				avoidDir = FLOAT3(0,0,0) -cross/(i);;
 			}
 
-			test = (EntityHandler::getClosestSuperStatic(temp2)->getPosition() - temp2).length();
+			
+			//r = FLOAT3(EntityHandler::getClosestSuperStatic(temp2)->getObb()->Extents.x, 0, EntityHandler::getClosestSuperStatic(temp2)->getObb()->Extents.z);
+			test = min(((EntityHandler::getClosestSuperStatic(temp2)->getPosition()+r) - temp2).length(),((EntityHandler::getClosestSuperStatic(temp2)->getPosition()-r) - temp2).length());
 			if(test< avoidBuffer)
 			{
-				m_closestStatic = EntityHandler::getClosestSuperStatic(temp2);
+				if(m_currClosestStatic->getId() != EntityHandler::getClosestSuperStatic(temp2)->getId())
+				{
+					m_prevClosestStatic = m_currClosestStatic;
+					m_currClosestStatic = EntityHandler::getClosestSuperStatic(temp1);
+				}
 				avoidBuffer = test;
-				avoidDir =  cross/(i);;
+				avoidDir =  cross/(i);
 			}
 
-			if(avoidBuffer < 1.0f)
+			if(avoidBuffer <t)
 			{
-				avoidDir = avoidDir/(0.1f*i);
+				avoidDir = avoidDir/(0.1f*(i)*avoidBuffer);
 				return avoidDir;
 			}
 		}
