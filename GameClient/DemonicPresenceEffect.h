@@ -15,7 +15,7 @@ private:
 	static const float MOVEMENT_SPEED_BOOST;
 	static const float ATTACK_SPEED_BOOST;
 public:
-	static const int LIFETIME = 30;
+	static const int LIFETIME = 3;
 
 	DemonicPresenceEffect(unsigned int _caster);
 	~DemonicPresenceEffect();
