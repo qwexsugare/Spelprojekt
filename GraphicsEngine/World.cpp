@@ -105,19 +105,21 @@ bool World::addRoad(Road* _road)
 
 bool World::removeRoad(Road* _road)
 {
-	bool found = false;
+	//bool found = false;
 
-	for(int i = 0; i < m_roads.size() && !found; i++)
-	{
-		if(m_roads[i] == _road)
-		{
-			delete m_roads[i];
-			m_roads.erase(m_roads.begin()+i);
-			found = true;
-		}
-	}
+	//for(int i = 0; i < m_roads.size() && !found; i++)
+	//{
+	//	if(m_roads[i] == _road)
+	//	{
+	//		delete m_roads[i];
+	//		m_roads.erase(m_roads.begin()+i);
+	//		found = true;
+	//	}
+	//}
 
-	return found;
+	//return found;
+
+	return this->m_quadTree->removeRoad(_road);
 }
 
 void World::addTerrain(Terrain* _terrain)
@@ -565,19 +567,21 @@ void World::addPointLight(PointLight* _pointLight)
 
 bool World::removePointLight(PointLight* _pointLight)
 {
-	bool found = false;
+	//bool found = false;
 
-	for(int i = 0; i < this->m_pointLights.size() && !found; i++)
-	{
-		if(this->m_pointLights[i] == _pointLight)
-		{
-			delete this->m_pointLights[i];
-			this->m_pointLights.erase(this->m_pointLights.begin()+i);
-			found = true;
-		}
-	}
+	//for(int i = 0; i < this->m_pointLights.size() && !found; i++)
+	//{
+	//	if(this->m_pointLights[i] == _pointLight)
+	//	{
+	//		delete this->m_pointLights[i];
+	//		this->m_pointLights.erase(this->m_pointLights.begin()+i);
+	//		found = true;
+	//	}
+	//}
 
-	return found;
+	//return found;
+
+	return this->m_quadTree->removeLight(_pointLight);
 }
 
 void World::addDirectionalLight(DirectionalLight* _directionalLight)
