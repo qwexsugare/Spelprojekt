@@ -32,7 +32,7 @@ struct PSSuperSceneIn
 {
 	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
-	float3 EyeCoord : EYE_COORD;
+	float4 EyeCoord : EYE_COORD;
 	float4 Normal : NORMAL;
 	float3 Tangent : TANGENT;
 };
@@ -50,7 +50,7 @@ struct PSSceneIn
 {
 	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
-	float3 EyeCoord : EYE_COORD;
+	float4 EyeCoord : EYE_COORD;
 	float3 Normal : NORMAL;
 };
 
@@ -93,6 +93,12 @@ DepthStencilState EnableDepthTestOnly
     DepthWriteMask = ZERO;
 };
 
+DepthStencilState EnableDepthSM
+{
+	DepthEnable = TRUE;
+	DepthWriteMask = ALL;
+	DepthFunc = LESS_EQUAL;
+};
 
 RasterizerState testRS
 {
@@ -159,7 +165,7 @@ PSSceneOut PSScene(PSSceneIn input)
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w = modelAlpha;
 
-	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Pos = input.EyeCoord;
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = color;
@@ -260,7 +266,7 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	
 	//output.Diffuse = float4(tang, 1);
 
-	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Pos = input.EyeCoord;
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = normalize(input.Normal);
 	//output.Diffuse = float4(normalize(t), 1.0f);//color;
@@ -374,7 +380,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 
-	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Pos = input.EyeCoord;
 	//output.Normal = float4(input.Normal, 1.0f);
 	output.Normal = normalize(mul(normalMap.Sample(linearSampler, input.UVCoord), modelMatrix));
 	float tmp = output.Normal.z;
@@ -440,7 +446,7 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 
-	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Pos = input.EyeCoord;
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
 
@@ -476,7 +482,7 @@ technique10 RenderShadowMap
 		SetGeometryShader(NULL);
 		SetPixelShader(NULL);
 
-		SetDepthStencilState(EnableDepth, 0);
+		SetDepthStencilState(EnableDepthSM, 0);
 		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 		SetRasterizerState(rs);
 	}
