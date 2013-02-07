@@ -304,8 +304,7 @@ technique10 DeferredSuperSample
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
 		
-	    //SetDepthStencilState( EnableDepth, 0 );
-	    SetDepthStencilState( DisableDepth, 0 );
+	    SetDepthStencilState( EnableDepth, 0 );
 	    SetRasterizerState( rs );
     }
 }

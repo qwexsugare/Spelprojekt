@@ -151,7 +151,7 @@ float calcShadow(float4 lightPos, int lightIndex)
 	// Project the texture_ coords and scale/offset to [0, 1].
 	lightPos /= lightPos.w;
 	
-	// Check if the position is inside the lights unit cube.
+	//Check if the position is inside the lights unit cube.
 	if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
 	{
 		//Compute shadow map tex coord
