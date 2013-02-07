@@ -21,6 +21,8 @@ private:
 	FLOAT3 m_goalPosition;
 	Path m_path;
 	int m_currentPoint;
+
+	ServerEntity *m_closestStatic;
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path);

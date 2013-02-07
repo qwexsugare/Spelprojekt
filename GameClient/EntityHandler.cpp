@@ -165,6 +165,54 @@ ServerEntity* EntityHandler::getClosestEnemy(ServerEntity *entity)
 	}
 }
 
+ServerEntity* EntityHandler::getClosestStatic(ServerEntity *entity)
+{
+	float shortestDistance = 9999999999.3f;
+	int shortestIndex = -1;
+
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(EntityHandler::m_entities[i] != entity && (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
+		{
+			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestIndex = i;
+		}
+	}
+
+	if(shortestIndex > -1)
+	{
+		return EntityHandler::m_entities[shortestIndex];
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
+ServerEntity* EntityHandler::getClosestSuperStatic(FLOAT3 _pos)
+{
+	float shortestDistance = 9999999999.3f;
+	int shortestIndex = -1;
+
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if((_pos - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
+		{
+			shortestDistance = abs((_pos - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestIndex = i;
+		}
+	}
+
+	if(shortestIndex > -1)
+	{
+		return EntityHandler::m_entities[shortestIndex];
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
 ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 {
 	ServerEntity* result = NULL;
