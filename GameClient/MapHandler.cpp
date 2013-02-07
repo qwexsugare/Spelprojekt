@@ -98,8 +98,6 @@ void MapHandler::loadMap(std::string filename)
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);
 
-					position.y = position.y + 1.0f;
-
 					EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
 					g_graphicsEngine->removeModel(m);
 				}

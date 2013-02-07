@@ -419,7 +419,7 @@ void World::renderShadowMap()
 				}
 				else
 				{
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(Vertex));
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
 					m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
 				}
