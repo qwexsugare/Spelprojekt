@@ -484,6 +484,6 @@ technique10 RenderShadowMap
 
 		SetDepthStencilState(EnableDepthSM, 0);
 		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
-		SetRasterizerState(rs);
+		SetRasterizerState(testRS);
 	}
 }
