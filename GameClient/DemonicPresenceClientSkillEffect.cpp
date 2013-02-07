@@ -6,7 +6,9 @@
 DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int _masterId)
 {
 	m_masterId = _masterId;
-	m_model = g_graphicsEngine->createModel("Pentagram", ClientEntityHandler::getEntity(_masterId)->m_model->getPosition());
+	FLOAT3 pos = ClientEntityHandler::getEntity(_masterId)->m_model->getPosition();
+	pos.y = 0.01f;
+	m_model = g_graphicsEngine->createModel("Pentagram", pos);
 }
 
 DemonicPresenceClientSkillEffect::~DemonicPresenceClientSkillEffect()
@@ -16,7 +18,9 @@ DemonicPresenceClientSkillEffect::~DemonicPresenceClientSkillEffect()
 
 void DemonicPresenceClientSkillEffect::update(float _dt)
 {
-	m_model->setPosition(ClientEntityHandler::getEntity(m_masterId)->m_model->getPosition());
+	FLOAT3 pos = ClientEntityHandler::getEntity(m_masterId)->m_model->getPosition();
+	pos.y = 0.01f;
+	m_model->setPosition(pos);
 }
 
 bool DemonicPresenceClientSkillEffect::getActive()

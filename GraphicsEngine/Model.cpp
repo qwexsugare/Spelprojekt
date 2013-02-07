@@ -238,7 +238,7 @@ void Model::setPosition(FLOAT3 _position)
 	if(this->m_bs)
 	{
 		this->m_bs->Center =
-			XMFLOAT3(m_position.x + m_mesh->m_obb->Center.x*m_scale.x, m_position.y + m_mesh->m_obb->Center.y*m_scale.y, m_position.z + m_mesh->m_obb->Center.z*m_scale.z);
+			XMFLOAT3(m_position.x + m_mesh->m_bs->Center.x*m_scale.x, m_position.y + m_mesh->m_bs->Center.y*m_scale.y, m_position.z + m_mesh->m_bs->Center.z*m_scale.z);
 	}
 	else
 	{

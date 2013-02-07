@@ -182,7 +182,6 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
 	
-	float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float3 ambientLight = float3(0.0f, 0.0f, 0.0f);
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
@@ -223,8 +222,8 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
-		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), i));
-		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), i);
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation);
+		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
 	}
 	
 	/*float shad = nrOfSpotLights;
@@ -239,8 +238,9 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x, input.UVCoord.y+1.0f/1080.0f))), 
 			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
 	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
-
-	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f));
+	
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f) + float4(specularLight, 0.0f))*diffuse;
+	//return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
 
 }
 

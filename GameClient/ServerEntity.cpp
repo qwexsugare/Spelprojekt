@@ -81,6 +81,15 @@ ContainmentType ServerEntity::contains(const BoundingSphere& _bs)const
 void ServerEntity::setPosition(FLOAT3 _position)
 {
 	this->m_position = _position;
+
+	if(this->m_obb)
+	{
+		this->m_obb->Center = XMFLOAT3(_position.x, _position.y, _position.z);
+	}
+	else if(this->m_bs)
+	{
+		this->m_bs->Center = XMFLOAT3(_position.x, _position.y, _position.z);
+	}
 }
 
 void ServerEntity::setId(unsigned int _id)

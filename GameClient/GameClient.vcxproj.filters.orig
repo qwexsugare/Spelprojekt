@@ -286,14 +286,16 @@
     <ClCompile Include="Skill_Buttons.cpp">
       <Filter>Client\Buttons</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="DemonicPresenceClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkRemoveActionTargetMessage.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="ClientEntityHandler.cpp">
       <Filter>Client</Filter>
+=======
+    <ClCompile Include="NetworkRemoveActionTargetMessage.cpp">
+      <Filter>Network</Filter>
+>>>>>>> d96e449923ee518a3fc9c0277bc0768acd777cc7
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -606,14 +608,16 @@
     <ClInclude Include="Skill_Buttons.h">
       <Filter>Client\Buttons</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="DemonicPresenceClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkRemoveActionTargetMessage.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="ClientEntityHandler.h">
       <Filter>Client</Filter>
+=======
+    <ClInclude Include="NetworkRemoveActionTargetMessage.h">
+      <Filter>Network</Filter>
+>>>>>>> d96e449923ee518a3fc9c0277bc0768acd777cc7
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
