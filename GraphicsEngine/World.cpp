@@ -405,26 +405,29 @@ void World::renderShadowMap()
 		stack<Model*> models = this->m_quadTree->getAllModels();
 		while(!models.empty())
 		{
-			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-			//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
-
-			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+			if(models.top()->getAlpha() == 1.0f)
 			{
-				if(models.top()->getMesh()->isAnimated)
-				{
-					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-					m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
-				}
-				else
-				{
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
-					m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
-				}
+				this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
+				//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 
-				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+				for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+				{
+					if(models.top()->getMesh()->isAnimated)
+					{
+						this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+						m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+					}
+					else
+					{
+						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
+						m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+					}
+
+					this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+				}
 			}
 
 			models.pop();
