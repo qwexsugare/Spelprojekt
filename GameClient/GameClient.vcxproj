@@ -158,6 +158,7 @@
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeEffect.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientEntityHandler.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="DeadlyStrike.cpp" />
     <ClCompile Include="DemonicPresence.cpp" />
+    <ClCompile Include="DemonicPresenceClientSkillEffect.cpp" />
     <ClCompile Include="DemonicPresenceEffect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
@@ -264,6 +266,7 @@
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeEffect.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="ClientEntityHandler.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
@@ -278,6 +281,7 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="DeadlyStrike.h" />
     <ClInclude Include="DemonicPresence.h" />
+    <ClInclude Include="DemonicPresenceClientSkillEffect.h" />
     <ClInclude Include="DemonicPresenceEffect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />

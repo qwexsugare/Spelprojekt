@@ -138,7 +138,7 @@ PSSceneIn VSScene(VSSceneIn input)
 
 float calcShadow(float4 lightPos, int lightIndex)
 {
-	float shadowCoeff = 1.0f;
+	float shadowCoeff = 0.0f;
 	float shadowEpsilon = 0.00001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
@@ -182,8 +182,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
-
-	float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	
 	float3 ambientLight = float3(0.0f, 0.0f, 0.0f);
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
@@ -227,17 +226,22 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), i));
 		specularLight = specularLight + (calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), i));
 	}
-
+	
 	/*float shad = nrOfSpotLights;
 	for(i = 0; i < nrOfSpotLights; i++)
 	{
 		shad = max(shad-calcShadow(mul(position, lightWvps[i]), i), 0.0f);
 	}*/
 
-	float shad = calcShadow(mul(position, lightWvps[0]), 0);
-	return diffuse * shad;
+	/*float cowabunga = min(
+		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x+1.0f/1920.0f, input.UVCoord.y+1.0f/1080.0f))), 
+			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y-1.0f/1080.0f)))),
+		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x, input.UVCoord.y+1.0f/1080.0f))), 
+			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
 	
 	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
+	//return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
 
 }
 

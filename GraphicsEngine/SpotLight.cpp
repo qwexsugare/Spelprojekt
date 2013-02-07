@@ -99,7 +99,6 @@ void SpotLight::setPosition(FLOAT3 _position)
 	FLOAT3 dampDirection(m_direction.x, -m_direction.y, m_direction.z);
 	FLOAT3 temp(m_position+dampDirection);
 	D3DXVECTOR3 at(temp.x, temp.y, temp.z);
-
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &m_up);
 	D3DXMatrixMultiply(&m_wvp, &viewMatrix, &projMatrix);
 }

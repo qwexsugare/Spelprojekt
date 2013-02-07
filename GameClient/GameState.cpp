@@ -13,6 +13,7 @@ GameState::GameState()
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_network = new Client();
 	this->m_hud = new HudMenu(this->m_network);
+	this->m_clientEntityHandler = new ClientEntityHandler();
 
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.50f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
@@ -23,19 +24,17 @@ GameState::GameState()
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
-	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	// g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
 	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-	g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-	g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 
 	this->importMap("race");
 }
 
 GameState::~GameState()
 {
-	for(int i = 0; i < this->m_entities.size(); i++)
-		delete this->m_entities[i];
 	for(int i = 0; i < this->m_roads.size(); i++)
 		g_graphicsEngine->removeRoad(m_roads[i]);
 	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
@@ -45,14 +44,14 @@ GameState::~GameState()
 		delete this->m_minimap;
 	delete this->m_network;
 	delete this->m_hud;
+	delete this->m_clientEntityHandler;
 }
 
 void GameState::end()
 {
 	g_graphicsEngine->removeTerrain(this->m_terrain);
-
-	for(int i = 0; i < this->m_entities.size(); i++)
-		g_graphicsEngine->removeModel(this->m_entities[i]->m_model);
+	
+	delete this->m_clientEntityHandler;
 	
 	g_graphicsEngine->removeText(this->m_fpsText);
 
@@ -72,14 +71,7 @@ void GameState::update(float _dt)
 	if(lol > 1.0f)
 	{
 		stringstream ss;
-		ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f << " Entities: " << this->m_entities.size() << "\nLifezorz: ";
-		for(int i = 0; i < m_entities.size(); i++)
-		{
-			if(m_entities[i]->m_type == ServerEntity::HeroType)
-			{
-				ss << m_entities[i]->m_health;
-			}
-		}
+		ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f;
 		this->m_fpsText->setString(ss.str());
 		lol = -0.5f;
 	}
@@ -94,24 +86,22 @@ void GameState::update(float _dt)
 			int i = 0;
 		}
 
-		for(int i = 0; i < this->m_entities.size() && found == false; i++)
-		{
-			if(this->m_entities[i]->m_id == e.getEntityId())
-			{
-				this->m_entities[i]->m_model->setPosition(e.getPosition());
-				this->m_entities[i]->m_model->setRotation(e.getRotation());
-				this->m_entities[i]->m_type = (ServerEntity::Type)e.getEntityType();
-				this->m_entities[i]->m_health = e.getHealth();
-				found = true;
-			}
-		}
+		Entity* entity = this->m_clientEntityHandler->getEntity(e.getEntityId());
 
-		if(found == false)
+		if(entity != NULL)
+		{
+			entity->m_model->setPosition(e.getPosition());
+			entity->m_model->setRotation(e.getRotation());
+			entity->m_type = (ServerEntity::Type)e.getEntityType();
+			entity->m_health = e.getHealth();
+		}
+		else
 		{
 			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
 			if(model)
 			{
-				this->m_entities.push_back(new Entity(model, e.getEntityId()));
+				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
+				this->m_clientEntityHandler->addEntity(new Entity(model, e.getEntityId()));
 			}
 		}
 	}
@@ -121,15 +111,12 @@ void GameState::update(float _dt)
 		NetworkRemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
 		bool found = false;
 
-		for(int i = 0; i < this->m_entities.size() && found == false; i++)
+		Entity* entity = this->m_clientEntityHandler->getEntity(rem.getEntityId());
+
+		if(entity != NULL)
 		{
-			if(this->m_entities[i]->m_id == rem.getEntityId())
-			{
-				g_graphicsEngine->removeModel(this->m_entities[i]->m_model);
-				delete this->m_entities[i];
-				this->m_entities.erase(this->m_entities.begin() + i);
-				i = this->m_entities.size();
-			}
+			g_graphicsEngine->removeModel(entity->m_model);
+			this->m_clientEntityHandler->removeEntity(entity);
 		}
 	}
 
@@ -142,9 +129,6 @@ void GameState::update(float _dt)
 		case Skill::STUNNING_STRIKE:
 			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
 			break;
-		/*case Skill::DEMONIC_PRESENCE:
-			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
-			break;*/
 		}
 	}
 
@@ -170,11 +154,8 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
 			break;
 		case Skill::DEMONIC_PRESENCE:
-			int lol = 0;
+			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
 			break;
-		/*case Skill::CHAIN_STRIKE:
-			m_ClientSkillEffects.push_back(new ChainStrikeSkillEffect(e.getPosition()));
-			break;*/
 		}
 	}
 
@@ -260,15 +241,6 @@ void GameState::update(float _dt)
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
-
-		for(int i = 0; i < m_entities.size(); i++)
-		{
-			float dist;
-			if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
-			{
-				//this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::CHAIN_STRIKE, m_entities[i]->m_id));
-			}
-		}
 	}
 	if(g_mouse->isLButtonDown())
 	{
@@ -284,6 +256,7 @@ void GameState::update(float _dt)
 		{
 			bool validMove = true;
 
+			vector<Entity*> m_entities = m_clientEntityHandler->getEntities();
 			for(int i = 0; i < m_entities.size(); i++)
 			{
 				D3DXVECTOR3 pickDir;
@@ -324,8 +297,8 @@ void GameState::update(float _dt)
 
 	}
 
-	this->m_hud->Update(_dt, m_entities);
-	m_minimap->update(m_entities, g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
+	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities());
+	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
 }
 
