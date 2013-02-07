@@ -419,13 +419,16 @@ void GameState::importMap(string _map)
 					char in[100];
 					FLOAT3 position;
 					FLOAT3 rotation;
-					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
+					float scale;
+					sscanf(buf, "%s %f %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &scale);
 
 					position.z = v2.z+position.z;
-					rotation.x = rotation.x * (D3DX_PI/180.0f);
-					
+					rotation.x = rotation.x * (D3DX_PI/180) + D3DX_PI/2;
+					//rotation.x = ;
+				
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);
+					m->setScale(scale, scale, scale);
 				}
 			}
 		}
