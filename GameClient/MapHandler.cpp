@@ -183,42 +183,35 @@ void MapHandler::update(float _dt)
 	if(m_waveTimer > 0.0f)
 	{
 		m_waveTimer = max(m_waveTimer-_dt, 0.0f);
+	}
+	else if(m_waveTimer == 0.0f && m_currentWave < m_waves.size())
+	{
+		//for(int i = 0; i < m_waves[m_currentWave].size(); i++)
+		//{
+		//	EntityHandler::addEntity(m_waves[m_currentWave][i]);
+		//	m_waves[m_currentWave][i] = NULL; // Null them bitches, they are the entity handlers problem now.
+		//}
+				m_currentWave++;
+			}
+	}
 
-		if(this->m_currentWave < this->m_waves.size() && this->m_waves[this->m_currentWave].empty() == false)
+		this->m_enemySpawnTimer = max(this->m_enemySpawnTimer-_dt, 0.0f);
+
+		if(this->m_enemySpawnTimer == 0.0f)
+		{
+			if(this->m_waves[this->m_currentWave].empty() == false)
 			{
 				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
 				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
+				this->m_enemySpawnTimer = 2.0f;
 			}
 			else
 			{
 				m_currentWave++;
+				this->m_waveTimer = -1.0f;
 			}
+		}
 	}
-	//else if(m_waveTimer == 0.0f && m_currentWave < m_waves.size())
-	//{
-	//	for(int i = 0; i < m_waves[m_currentWave].size(); i++)
-	//	{
-	//		EntityHandler::addEntity(m_waves[m_currentWave][i]);
-	//		m_waves[m_currentWave][i] = NULL; // Null them bitches, they are the entity handlers problem now.
-	//	}
-
-	//	this->m_enemySpawnTimer = max(this->m_enemySpawnTimer-_dt, 0.0f);
-
-	//	if(this->m_enemySpawnTimer == 0.0f)
-	//	{
-	//		if(this->m_waves[this->m_currentWave].empty() == false)
-	//		{
-	//			EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
-	//			this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
-	//			this->m_enemySpawnTimer = 1.0f;
-	//		}
-	//		else
-	//		{
-	//			m_currentWave++;
-	//			this->m_waveTimer = -1.0f;
-	//		}
-	//	}
-	//}
 	else
 	{
 		if(EntityHandler::getNrOfEnemies() == 0 && m_currentWave < m_waves.size())
