@@ -36,7 +36,7 @@ public:
 	DECLDIR FLOAT3 getSpecularColor();
 	DECLDIR FLOAT2 getAngle();
 	DECLDIR float getRange();
-	D3DXMATRIX getWvp()const { return m_wvp; }
+	const D3DXMATRIX& getWvp()const { return m_wvp; }
 	DECLDIR void setPosition(FLOAT3 _position);
 	DECLDIR void setDirection(FLOAT3 _direction);
 	DECLDIR void setAmbientColor(FLOAT3 _la);

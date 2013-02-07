@@ -5,13 +5,14 @@ Pathfinder *g_pathfinder;
 
 MapHandler::MapHandler()
 {
-	m_currentWave = 0;
-	m_waveTimer = 0.0f;
-	m_gridHeight = 0;
-	m_gridWidth = 0;
-	m_nrOfPaths = 0;
-	m_grid = NULL;
-	m_paths = NULL;
+	this->m_currentWave = 0;
+	this->m_waveTimer = 0.0f;
+	this->m_enemySpawnTimer = 0.0f;
+	this->m_gridHeight = 0;
+	this->m_gridWidth = 0;
+	this->m_nrOfPaths = 0;
+	this->m_grid = NULL;
+	this->m_paths = NULL;
 }
 
 MapHandler::~MapHandler()
@@ -95,8 +96,6 @@ void MapHandler::loadMap(std::string filename)
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);
 
-					//position.y = position.y + 1.0f;
-
 					EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
 					g_graphicsEngine->removeModel(m);
 				}
@@ -165,40 +164,56 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
-	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[0].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x+2, 0.0f, m_paths[0].points[0].y+5), this->m_paths[0]));
-	m_waves[0].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x,   0.0f, m_paths[0].points[0].y),   this->m_paths[0]));
-	m_waves[0].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x+3, 0.0f, m_paths[0].points[0].y+3), this->m_paths[0]));
-	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[1].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x,   0.0f, m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[1].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x,   0.0f, m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[1].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x,   0.0f, m_paths[0].points[0].y), this->m_paths[0]));
-	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[2].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x,   0.0f, m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[2].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x,   0.0f, m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[2].push_back(new Enemy(FLOAT3(m_paths[0].points[0].x,   0.0f, m_paths[0].points[0].y), this->m_paths[0]));
+	//this->m_waves.push_back(vector<ServerEntity*>());
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//this->m_waves.push_back(vector<ServerEntity*>());
+	//m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//this->m_waves.push_back(vector<ServerEntity*>());
+	//m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
 }
 
 void MapHandler::update(float _dt)
 {
-	if(m_waveTimer > 0.0f)
-	{
-		m_waveTimer = max(m_waveTimer-_dt, 0.0f);
-		if(m_waveTimer == 0.0f)
-		{
-			for(int i = 0; i < m_waves[m_currentWave].size(); i++)
-			{
-				EntityHandler::addEntity(m_waves[m_currentWave][i]);
-				m_waves[m_currentWave][i] = NULL; // Null them bitches, they are the entity handlers problem now.
-			}
-			m_currentWave++;
-		}
-	}
-	else
-	{
-		if(EntityHandler::getNrOfEnemies() == 0 && m_currentWave < m_waves.size())
-		{
-			m_waveTimer = 10.0f;
-		}
-	}
+	//if(m_waveTimer > 0.0f)
+	//{
+	//	m_waveTimer = max(m_waveTimer-_dt, 0.0f);
+	//}
+	//else if(m_waveTimer == 0.0f && m_currentWave < m_waves.size())
+	//{
+	//	//for(int i = 0; i < m_waves[m_currentWave].size(); i++)
+	//	//{
+	//	//	EntityHandler::addEntity(m_waves[m_currentWave][i]);
+	//	//	m_waves[m_currentWave][i] = NULL; // Null them bitches, they are the entity handlers problem now.
+	//	//}
+
+	//	this->m_enemySpawnTimer = max(this->m_enemySpawnTimer-_dt, 0.0f);
+
+	//	if(this->m_enemySpawnTimer == 0.0f)
+	//	{
+	//		if(this->m_waves[this->m_currentWave].empty() == false)
+	//		{
+	//			EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
+	//			this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
+	//			this->m_enemySpawnTimer = 1.0f;
+	//		}
+	//		else
+	//		{
+	//			m_currentWave++;
+	//			this->m_waveTimer = -1.0f;
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	if(EntityHandler::getNrOfEnemies() == 0 && m_currentWave < m_waves.size())
+	//	{
+	//		m_waveTimer = 10.0f;
+	//	}
+	//}
 }

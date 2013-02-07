@@ -17,6 +17,7 @@
 #include "NetworkCreateActionMessage.h"
 #include "NetworkCreateActionPositionMessage.h"
 #include "NetworkCreateActionTargetMessage.h"
+#include "NetworkRemoveActionTargetMessage.h"
 #include "NetworkSkillBoughtMessage.h"
 
 #include <iostream>
@@ -61,6 +62,7 @@ public:
 	void broadcast(NetworkCreateActionMessage networkMessage);
 	void broadcast(NetworkCreateActionPositionMessage networkMessage);
 	void broadcast(NetworkCreateActionTargetMessage networkMessage);
+	void broadcast(NetworkRemoveActionTargetMessage networkMessage);
 
 	bool isRunning();
 

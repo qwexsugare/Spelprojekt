@@ -69,7 +69,7 @@ ID3D10ShaderResourceView *DepthStencil::getShaderResource()
 	return this->m_shaderResource;
 }
 
-void DepthStencil::clear(ID3D10Device *device)
+void DepthStencil::clear(ID3D10Device* _device)
 {
-	device->ClearDepthStencilView(this->m_depthStencilView, D3D10_CLEAR_DEPTH, 1.0f, 0);
+	_device->ClearDepthStencilView(this->m_depthStencilView, D3D10_CLEAR_DEPTH, 1.0f, 0);
 }

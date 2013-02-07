@@ -322,7 +322,7 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 
 	if(usedSomething)
 	{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(usm.getActionId(), this->m_hero->getId(), this->m_hero->getPosition()));
+		//this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(usm.getActionId(), this->m_hero->getId(), this->m_hero->getPosition()));
 	}
 }
 

@@ -229,7 +229,6 @@ ServerEntity* EntityHandler::getServerEntity(unsigned int id)
 	return result;
 }
 
-// Remember to delete the return value after usage when calling this function
 vector<ServerEntity*> EntityHandler::getAllEnemies()
 {
 	vector<ServerEntity*> enemies = vector<ServerEntity*>();

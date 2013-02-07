@@ -14,6 +14,7 @@ public:
 	bool addModel(Model* _model);
 	bool addLight(PointLight* _light);
 	bool addRoad(Road *_road);
+	stack<Model*> getAllModels()const;
 	stack<Model*> getModels(D3DXVECTOR3 _cameraPos)const;
 	vector<PointLight*> getPointLights(D3DXVECTOR3 _cameraPos)const;
 	stack<Road*> getRoads(D3DXVECTOR3 _cameraPos)const;

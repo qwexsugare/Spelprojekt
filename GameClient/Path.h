@@ -16,11 +16,19 @@ struct Path
 
 	Path(const Path& _path)
 	{
-		nrOfPoints = _path.nrOfPoints;
-		points = new FLOAT2[nrOfPoints];
-		for(int i = 0; i < nrOfPoints; i++)
+		if(_path.nrOfPoints > 0)
 		{
-			points[i] = _path.points[i];
+			nrOfPoints = _path.nrOfPoints;
+			points = new FLOAT2[nrOfPoints];
+			for(int i = 0; i < nrOfPoints; i++)
+			{
+				points[i] = _path.points[i];
+			}
+		}
+		else
+		{
+			nrOfPoints = 0;
+			points = NULL;
 		}
 	}
 
@@ -40,12 +48,22 @@ struct Path
 		}
 		else
 		{
-			nrOfPoints = _path.nrOfPoints;
-			points = new FLOAT2[nrOfPoints];
-			for(int i = 0; i < nrOfPoints; i++)
+			if(nrOfPoints > 0)
 			{
-				points[i] = _path.points[i];
+				delete[] points;
+				points = NULL;
+				nrOfPoints = 0;
 			}
+			if(_path.nrOfPoints > 0)
+			{
+				nrOfPoints = _path.nrOfPoints;
+				points = new FLOAT2[nrOfPoints];
+				for(int i = 0; i < nrOfPoints; i++)
+				{
+					points[i] = _path.points[i];
+				}
+			}
+
 			return *this;
 		}
 	}
@@ -54,8 +72,6 @@ struct Path
 	{
 		if(points)
 			delete []points;
-
-		int **lol;
 	}
 };
 

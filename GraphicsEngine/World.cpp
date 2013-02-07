@@ -10,7 +10,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(30000.0f, 30000.0f));
+	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
@@ -36,8 +36,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
 	
-	m_shadowMapViewport.Width = 2000;
-	m_shadowMapViewport.Height = 2000;
+	m_shadowMapViewport.Width = 2048;
+	m_shadowMapViewport.Height = 2048;
 	m_shadowMapViewport.MinDepth = 0.0f;
 	m_shadowMapViewport.MaxDepth = 1.0f;
 	m_shadowMapViewport.TopLeftX = 0;
@@ -98,10 +98,9 @@ World::~World()
 	delete this->m_quadTree;
 }
 	
-void World::addRoad(Road* _road)
+bool World::addRoad(Road* _road)
 {
-	//m_roads.push_back(_road);
-	this->m_quadTree->addRoad(_road);
+	return this->m_quadTree->addRoad(_road);
 }
 
 bool World::removeRoad(Road* _road)
@@ -181,28 +180,53 @@ void World::render()
 		this->m_deviceHandler->getDevice()->Draw(m_terrains[i]->getNrOfVertices(), 0);
 	}
 
-	stack<Road*> roads = this->m_quadTree->getRoads(this->m_camera->getPos());
-	
 	// Render roads yo dawg y u be messin' about
+	stack<Road*> roads = this->m_quadTree->getRoads(this->m_camera->getPos());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
-	for(int i = 0; i < roads.size(); i++)
+	while(!roads.empty())
 	{
 		this->m_deviceHandler->setVertexBuffer(roads.top()->getVertexBuffer(), sizeof(Vertex));
 		this->m_deferredSampler->setModelMatrix(roads.top()->getModelMatrix());
 		this->m_deferredSampler->setTexture(roads.top()->getTexture());
 		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(roads.top()->getNrOfVertices(), 0);
+
+		roads.pop();
 	}
 
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
-	stack<Model*> transparantModels;
+	vector<Model*> transparentModels;
 	while(!models.empty())
 	{
 		if(models.top()->getAlpha() < 1.0f)
 		{
-			transparantModels.push(models.top());
+			if(transparentModels.size() == 0)
+			{
+				transparentModels.push_back(models.top());
+			}
+			else
+			{
+				if(models.top()->getPosition().y <= transparentModels[0]->getPosition().y)
+					transparentModels.insert(transparentModels.begin(), models.top());
+				else
+				{
+					bool inserted = false;
+					for(int i = 1; i < transparentModels.size()-1 && !inserted; i++)
+					{
+						if(models.top()->getPosition().y > transparentModels[i]->getPosition().y && models.top()->getPosition().y <= transparentModels[i+1]->getPosition().y)
+						{
+							transparentModels.insert(transparentModels.begin()+i, models.top());
+							inserted = true;
+						}
+					}
+					if(!inserted)
+					{
+						transparentModels.push_back(models.top());
+					}
+				}
+			}
 		}
 		else
 		{
@@ -211,12 +235,10 @@ void World::render()
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 			{
-			//for( UINT p = 0; p < techDesc.Passes; p++ )
-			//{
+				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->textures[models.top()->getTextureIndex()]);
+				this->m_deferredSampler->setNormalMap(models.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
 
-				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->diffuse);
-
-				if(models.top()->getMesh()->isAnimatied)
+				if(models.top()->getMesh()->isAnimated)
 				{
 					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
 					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
@@ -225,9 +247,9 @@ void World::render()
 				}
 				else
 				{
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(Vertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
-					this->m_deferredSampler->getTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
+					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
 				}
 
 				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
@@ -249,24 +271,32 @@ void World::render()
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
-	while(!transparantModels.empty())
+	for(int i = 0; i < transparentModels.size(); i++)
 	{
-		this->m_deviceHandler->setVertexBuffer(transparantModels.top()->getMesh()->buffer, sizeof(Vertex));
+		this->m_deferredSampler->setModelMatrix(transparentModels[i]->getModelMatrix());
+		this->m_deferredSampler->setModelAlpha(transparentModels[i]->getAlpha());
 
-		this->m_deferredSampler->setModelMatrix(transparantModels.top()->getModelMatrix());
-		this->m_deferredSampler->setTexture(transparantModels.top()->getMesh()->m_texture);
-		this->m_deferredSampler->setModelAlpha(transparantModels.top()->getAlpha());
-
-		D3D10_TECHNIQUE_DESC techDesc;
-		this->m_deferredSampler->getTechnique()->GetDesc( &techDesc );
-
-		for( UINT p = 0; p < techDesc.Passes; p++ )
+		for(int m = 0; m < transparentModels[i]->getMesh()->subMeshes.size(); m++)
 		{
-			this->m_deferredSampler->getTechnique()->GetPassByIndex( p )->Apply(0);
-			this->m_deviceHandler->getDevice()->Draw(transparantModels.top()->getMesh()->nrOfVertices, 0);
+			this->m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
+			this->m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+
+			if(transparentModels[i]->getMesh()->isAnimated)
+			{
+				this->m_deferredSampler->setBoneTexture(transparentModels[i]->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+			}
+			else
+			{
+				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
+				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
+			}
+
+			this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
 		}
-		
-		transparantModels.pop();
 	}
 
 	//Deferred
@@ -305,7 +335,7 @@ void World::render()
 		this->m_deferredRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
-
+	
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
@@ -326,7 +356,7 @@ void World::render()
 			}
 		}
 	}
-
+	
 	// Render texts
 	for(int i = 0; i < this->m_myTexts.size(); i++)
 	{
@@ -361,27 +391,25 @@ void World::render()
 void World::renderShadowMap()
 {
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
-
+	
 	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[m_spotLights.size()];
 	D3DXMATRIX* wvps = new D3DXMATRIX[m_spotLights.size()];
-
+	
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	for(int i = 0; i < m_spotLights.size(); i++)
 	{
+		m_deferredSampler->setLightWvp(m_spotLights[i]->getWvp());
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
-
-		stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
+		stack<Model*> models = this->m_quadTree->getAllModels();
 		while(!models.empty())
 		{
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
+			//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 
 			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 			{
-				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->diffuse);
-
-				if(models.top()->getMesh()->isAnimatied)
+				if(models.top()->getMesh()->isAnimated)
 				{
 					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
 					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
@@ -390,7 +418,7 @@ void World::renderShadowMap()
 				}
 				else
 				{
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(Vertex));
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
 					m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
 				}
@@ -405,12 +433,11 @@ void World::renderShadowMap()
 		wvps[i] = m_spotLights[i]->getWvp();
 	}
 	
-	m_deferredSampler->setLightWvps(wvps, m_spotLights.size());
 	m_deferredRendering->setLightWvps(wvps, m_spotLights.size());
 	m_deferredRendering->setShadowMaps(resources, m_spotLights.size());
-
-	//delete []resources;
-	//delete []wvps;
+	
+	delete []resources;
+	delete []wvps;
 }
 
 void World::update(float dt)

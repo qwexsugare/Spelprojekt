@@ -27,6 +27,8 @@ protected:
 	float m_baseAttackSpeed;
 	float m_attackSpeedChange;
 	float m_attackSpeed;
+	float m_attackCooldown;
+	float m_attackRange;
 	float m_physicalDamage;
 	float m_mentalDamage;
 	float m_physicalResistance;

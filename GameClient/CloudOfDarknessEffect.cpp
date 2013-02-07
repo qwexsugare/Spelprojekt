@@ -1,5 +1,6 @@
 #include "CloudOfDarknessEffect.h"
 #include "EntityHandler.h"
+#include "Graphics.h"
 
 CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 {
@@ -7,7 +8,9 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 	m_position = _position;
 
 	this->m_obb = NULL;
-	this->m_bs = new BoundingSphere(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), AOE);
+	Model *m = g_graphicsEngine->createModel("CloudOfDarkness", this->m_position);
+	this->m_bs = new BoundingSphere(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), m->getBs()->Radius*0.5f);
+	g_graphicsEngine->removeModel(m);
 	m_visible = false;
 	m_timer = 0.0f;
 	m_type = OtherType;

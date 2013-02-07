@@ -27,6 +27,7 @@ public:
 	void addModel(bool& _success, Model* _model);
 	void addLight(bool& _success, PointLight* _light);
 	void addRoad(bool& _success, Road* _road);
+	void getAllModels(stack<Model*>& _models);
 	bool intersects(const Model* _model)const;
 	bool intersects(PointLight* _light)const;
 	bool intersects(Road* _road)const;

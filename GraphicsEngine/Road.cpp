@@ -34,34 +34,41 @@ Road::Road(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, D3DXVECTOR
 	Vertex *vertexData = NULL;
 	this->m_vertexBuffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
 	
-	vertexData[0].pos = D3DXVECTOR3(-SIZE/2.0, _pos.y, -SIZE/2.0);
+	vertexData[0].pos = D3DXVECTOR3(-SIZE/2.0f, _pos.y, -SIZE/2.0f);
 	vertexData[0].texCoord = D3DXVECTOR2(0.0f, 0.0f);
 	vertexData[0].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	vertexData[1].pos = D3DXVECTOR3(SIZE/2.0, _pos.y, -SIZE/2.0);
+	vertexData[1].pos = D3DXVECTOR3(SIZE/2.0f, _pos.y, -SIZE/2.0f);
 	vertexData[1].texCoord = D3DXVECTOR2(1.0f, 0.0f);
 	vertexData[1].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	vertexData[2].pos = D3DXVECTOR3(-SIZE/2.0, _pos.y, SIZE/2.0);
+	vertexData[2].pos = D3DXVECTOR3(-SIZE/2.0f, _pos.y, SIZE/2.0f);
 	vertexData[2].texCoord = D3DXVECTOR2(0.0f, 1.0f);
 	vertexData[2].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	vertexData[3].pos = D3DXVECTOR3(SIZE/2.0, _pos.y, SIZE/2.0);
+	vertexData[3].pos = D3DXVECTOR3(SIZE/2.0f, _pos.y, SIZE/2.0f);
 	vertexData[3].texCoord = D3DXVECTOR2(1.0f, 1.0f);
 	vertexData[3].normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	this->m_vertexBuffer->Unmap();
 
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(_pos.x, _pos.y, _pos.z), XMFLOAT3(SIZE/2, 0.5f, SIZE/2), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(_pos.x, _pos.y, _pos.z), XMFLOAT3(SIZE/2.0f, 1.0f, SIZE/2.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 }
 
 Road::~Road()
 {
 	if(m_vertexBuffer)
 		m_vertexBuffer->Release();
+
+	delete this->m_obb;
 }
 
 D3DXVECTOR2 Road::getPosition2D()
 {
 	return D3DXVECTOR2(this->m_modelMatrix._41, this->m_modelMatrix._43);
+}
+
+D3DXVECTOR3 Road::getPosition()
+{
+	return D3DXVECTOR3(this->m_modelMatrix._41, this->m_modelMatrix._42, this->m_modelMatrix._43);
 }

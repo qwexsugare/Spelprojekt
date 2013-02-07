@@ -23,6 +23,7 @@
 #include "NetworkCreateActionTargetMessage.h"
 #include "NetworkBuySkillMessage.h"
 #include "NetworkSkillBoughtMessage.h"
+#include "NetworkRemoveActionTargetMessage.h"
 
 using namespace std;
 
@@ -47,6 +48,7 @@ private:
 	queue<NetworkCreateActionPositionMessage> m_createActionPositionQueue;
 	queue<NetworkCreateActionTargetMessage> m_createActionTargetQueue;
 	queue<NetworkSkillBoughtMessage> m_skilllBoughtQueue;
+	queue<NetworkRemoveActionTargetMessage> m_removeActionTargetQueue;
 public:
 	Client();
 	~Client();
@@ -66,12 +68,14 @@ public:
 	NetworkCreateActionPositionMessage createActionPositionQueueFront();
 	NetworkCreateActionTargetMessage createActionTargetQueueFront();
 	NetworkSkillBoughtMessage skillBoughtQueueFront();
+	NetworkRemoveActionTargetMessage removeActionTargetQueueFront();
 	bool entityQueueEmpty();
 	bool removeEntityQueueEmpty();
 	bool createActionQueueEmpty();
 	bool createActionPositionQueueEmpty();
 	bool createActionTargetQueueEmpty();
 	bool skillBoughtQueueEmpty();
+	bool removeActionTargetQueueEmpty();
 };
 
 #endif // CLIENT_H

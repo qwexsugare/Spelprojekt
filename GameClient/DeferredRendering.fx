@@ -34,11 +34,6 @@ struct PSSceneIn
 //Variables that updated often
 cbuffer cbEveryFrame
 {
-	//Transformation matrices
-	//matrix viewMatrix;
-	//matrix projectionMatrix;
-	//matrix modelMatrix;
-
 	int nrOfPointLights;
 	int nrOfDirectionalLights;
 	int nrOfSpotLights;
@@ -143,18 +138,18 @@ PSSceneIn VSScene(VSSceneIn input)
 
 float calcShadow(float4 lightPos, int lightIndex)
 {
-	float shadowCoeff = 0;
+	float shadowCoeff = 0.0f;
 	float shadowEpsilon = 0.00001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
 	lightPos /= lightPos.w;
 	
 	// Check if the position is inside the lights unit cube.
-	/*if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 && length(float2(lightPos.x, lightPos.y)) < 1)
-	{*/
+	//if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
+	//{
 		//Compute shadow map tex coord
 		float2 smTex = float2(0.5f * lightPos.x, -0.5f * lightPos.y) + 0.5f;
-		return shadowMaps[lightIndex].Sample(shadowMapSampler, smTex);
+
 		// Compute pixel depth for shadowing.
 		float depth = lightPos.z;
 
@@ -162,13 +157,13 @@ float calcShadow(float4 lightPos, int lightIndex)
 		int width;
 		int height;
 		shadowMaps[lightIndex].GetDimensions(width, height);
-		
+
 		// 2x2 percentage closest filter.
 		float dx = 1.0f / width;
-		float s0 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
-		float s1 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, 0.0f)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
-		float s2 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(0.0f, dx)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
-		float s3 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, dx)).r + shadowEpsilon < depth) ? 0.4f : 1.0f;
+		float s0 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s1 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, 0.0f)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s2 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(0.0f, dx)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s3 = (shadowMaps[lightIndex].Sample(shadowMapSampler, smTex + float2(dx, dx)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
 		
 		// Transform to texel space
 		float2 texelPos = smTex * width;
@@ -176,11 +171,8 @@ float calcShadow(float4 lightPos, int lightIndex)
 		// Determine the lerp amounts.
 		float2 lerps = frac( texelPos );
 		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
-	/*}
-	else
-	{
-		shadowCoeff = 0.5f;
-	}*/
+		shadowCoeff = s0;
+	//}
 
 	return shadowCoeff;
 }
@@ -190,8 +182,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
-
-	float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	
 	float3 ambientLight = float3(0.0f, 0.0f, 0.0f);
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
@@ -205,7 +196,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 	for(i = 0; i < nrOfPointLights; i++)
 	{
-		distVector = (lightPosition[i] - position.xyz);
+		distVector = (lightPosition[i] - position);
 		distance = length(distVector);
 		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
@@ -232,16 +223,26 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
-		diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
-		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), i));
+		specularLight = specularLight + (calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * calcShadow(mul(position, lightWvps[i]), i));
 	}
-
-	float shad = calcShadow(
-		mul(float4(lightPosition[nrOfPointLights + 0], 1.0f), lightWvps[0]),
-		0);
 	
-	//return float4(shad, shad, shad, 1.0f);
-	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f)) * shad;
+	/*float shad = nrOfSpotLights;
+	for(i = 0; i < nrOfSpotLights; i++)
+	{
+		shad = max(shad-calcShadow(mul(position, lightWvps[i]), i), 0.0f);
+	}*/
+
+	/*float cowabunga = min(
+		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x+1.0f/1920.0f, input.UVCoord.y+1.0f/1080.0f))), 
+			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y-1.0f/1080.0f)))),
+		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x, input.UVCoord.y+1.0f/1080.0f))), 
+			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
+	
+	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
+	//return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
+
 }
 
 technique10 RenderModelDeferred

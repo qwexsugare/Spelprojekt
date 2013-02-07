@@ -14,7 +14,7 @@ QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
 	this->m_max = _max;
 	this->m_obb = new BoundingOrientedBox(
 		XMFLOAT3((this->m_min.x+this->m_max.x)/2.0f, 0.0f, (this->m_min.y+this->m_max.y)/2.0f),
-		XMFLOAT3((_max.x-_min.x)/2.0f, 100000.5f, (_max.y-_min.y)/2.0f),
+		XMFLOAT3((_max.x-_min.x)/2.0f, 100000.0f, (_max.y-_min.y)/2.0f),
 		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f)
 		);
 	
@@ -208,6 +208,20 @@ bool QuadTreeNode::intersects(Road* _road)const
 	return _road->getOBB()->Intersects(*this->m_obb);
 }
 
+void QuadTreeNode::getAllModels(stack<Model*>& _models)
+{
+	if(this->m_children[0])
+	{
+		this->m_children[0]->getAllModels(_models);
+		this->m_children[1]->getAllModels(_models);
+		this->m_children[2]->getAllModels(_models);
+		this->m_children[3]->getAllModels(_models);
+	}
+	
+	for(int i = 0; i < this->m_models.size(); i++)
+		_models.push(this->m_models[i]);
+}
+
 void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const
 {
 	if(this->m_children[0])
@@ -285,7 +299,7 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPo
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 		
-		if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+		if(modelDistanceToCamera.x < 6.0f && (m_lights[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
 		{
 			_lights.push_back(this->m_lights[i]);
 		}
@@ -309,14 +323,14 @@ void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
 	for(int i = 0; i < this->m_roads.size(); i++)
 	{
 		// COMMENCE ADVANCED CHEAT CULLING
-
+		
 		// Calculate models distance to camera and make it positive +
 		D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_roads[i]->getPosition2D()-D3DXVECTOR2(_cameraPos.x, _cameraPos.z));
 		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
 		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
-		// Find the greatest extent of the model bounding box
-		float greatestExtent;
 
+		// Find the greatest extent of the bounding box
+		float greatestExtent;
 		if(this->m_roads[i]->getOBB()->Extents.x > this->m_roads[i]->getOBB()->Extents.z)
 			greatestExtent = this->m_roads[i]->getOBB()->Extents.x;
 		else
@@ -326,10 +340,8 @@ void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 		
-		if(modelDistanceToCamera.x < 6.0f && (m_roads[i]->getPosition2D().y-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
-		{
+		if(modelDistanceToCamera.x < 6.0f && (m_roads[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
 			_roads.push(this->m_roads[i]);
-		}
 
 		// END ADVANCED CHEAT CULLING
 	}
@@ -357,10 +369,19 @@ void QuadTreeNode::pullAllModels(stack<Model*>& _models)
 bool QuadTreeNode::removeModel(Model* _model)
 {
 	bool removed = false;
-
-	if(this->m_children[0])
+	
+	for(int i = 0; i < this->m_models.size() && !removed; i++)
 	{
-		// ADD ALL CHILD MODELS TO VECTOR
+		if(this->m_models[i] == _model)
+		{
+			delete this->m_models[i];
+			this->m_models.erase(this->m_models.begin()+i);
+			removed = true;
+		}
+	}
+
+	if(!removed && this->m_children[0])
+	{
 		removed = this->m_children[0]->removeModel(_model);
 		if(!removed)
 		{
@@ -372,18 +393,6 @@ bool QuadTreeNode::removeModel(Model* _model)
 				{
 					removed = this->m_children[3]->removeModel(_model);
 				}
-			}
-		}
-	}
-	else
-	{
-		for(int i = 0; i < this->m_models.size() && !removed; i++)
-		{
-			if(this->m_models[i] == _model)
-			{
-				delete this->m_models[i];
-				this->m_models.erase(this->m_models.begin()+i);
-				removed = true;
 			}
 		}
 	}

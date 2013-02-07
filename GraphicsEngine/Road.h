@@ -27,5 +27,6 @@ public:
 
 	BoundingOrientedBox* getOBB()const { return this->m_obb; }
 	D3DXVECTOR2 getPosition2D();
+	D3DXVECTOR3 getPosition();
 };
 

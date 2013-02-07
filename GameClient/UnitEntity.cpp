@@ -25,6 +25,8 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_stunTimer = 0.0f;
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
+	this->m_attackCooldown = 0.0f;
+	this->m_attackRange = 5.0f;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -37,10 +39,12 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_wits = 1;
 	this->m_fortitude = 1;
 	
+	this->m_baseAttackSpeed = 2.0f;
+	this->m_baseMovementSpeed = 2.0f;
 	this->m_movementSpeedChange = 0.0f;
 	this->m_movementSpeed = 2.0f;
 	this->m_attackSpeedChange = 0.0f;
-	this->m_attackSpeed = 1.0f;
+	this->m_attackSpeed = 2.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
 	this->m_physicalResistance = 1.0f;
@@ -51,6 +55,8 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_poisonCounter = 0;
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
+	this->m_attackCooldown = 0.0f;
+	this->m_attackRange = 5.0f;
 }
 
 UnitEntity::~UnitEntity()
@@ -115,6 +121,11 @@ void UnitEntity::alterAttackSpeed(float _value)
 {
 	m_attackSpeedChange += _value;
 	m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+
+	if(this->m_attackCooldown > this->m_attackSpeed)
+	{
+		this->m_attackCooldown = this->m_attackSpeed;
+	}
 }
 
 void UnitEntity::alterMovementSpeed(float _value)
@@ -277,6 +288,7 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 {
 	int lifesteal = rand() % 100 + 1;
 	int poison = rand() % 100 + 1;
+	int deadlyStrike = rand() % 100 + 1;
 
 	if(lifesteal < this->m_lifeStealChance)
 	{
@@ -291,6 +303,11 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 		}
 		
 		target->takeDamage(100 + this->m_poisonCounter * 5, false);
+	}
+
+	if(deadlyStrike < this->m_deadlyStrikeChance && target->getType() == Type::EnemyType)
+	{
+		target->takeDamage(999999999, 999999999);
 	}
 
 	target->takeDamage(physicalDamage, mentalDamage);
@@ -308,6 +325,11 @@ void UnitEntity::stun(float _time)
 
 void UnitEntity::update(float dt)
 {
+	if(this->m_attackCooldown > 0.0f)
+	{
+		this->m_attackCooldown = this->m_attackCooldown - dt;
+	}
+
 	if(m_stunTimer <= 0.0f)
 	{
 		this->updateSpecificUnitEntity(dt);

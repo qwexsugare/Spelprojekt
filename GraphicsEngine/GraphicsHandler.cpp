@@ -41,7 +41,11 @@ GraphicsHandler::~GraphicsHandler()
 Road* GraphicsHandler::createRoad(string _texture, FLOAT3 _pos, float _rot)
 {
 	Road* road = new Road(m_deviceHandler->getDevice(), m_resourceHolder->getTextureHolder()->getTexture("textures/"+_texture), D3DXVECTOR3(_pos.x, _pos.y, _pos.z), _rot);
-	m_world->addRoad(road);
+	if(m_world->addRoad(road) == false)
+	{
+		delete road;
+		road = NULL;
+	}
 	return road;
 }
 
@@ -122,7 +126,7 @@ INT2 GraphicsHandler::getScreenSize()
 		return this->m_realScreenSize;
 }
 
-Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
+Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, string _textureIndex)
 {
 	Model* model = NULL;
 	Mesh* mesh = this->m_resourceHolder->getMesh(_filename);
@@ -131,7 +135,8 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
 		Animation animation;
 		animation = this->m_resourceHolder->getAnimation(_filename);
 		animation.setTexturePack(&this->m_resourceHolder->getTextureHolder()->getBoneTexture(_filename));
-		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+			1.0f, _textureIndex);
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{
