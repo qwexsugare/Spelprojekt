@@ -94,7 +94,7 @@ void SpotLight::setPosition(FLOAT3 _position)
 	
 	D3DXMATRIX projMatrix;
 	D3DXMATRIX viewMatrix;
-	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/4.0f, 1.0f, 0.1f, 500000.0f);
+	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2.0f, 1.0f, 0.1f, 500000.0f);
 	D3DXVECTOR3 eye(m_position.x, m_position.y, m_position.z);
 	FLOAT3 dampDirection(m_direction.x, -m_direction.y, m_direction.z);
 	FLOAT3 temp(m_position+dampDirection);
