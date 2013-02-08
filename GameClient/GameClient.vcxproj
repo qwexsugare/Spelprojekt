@@ -245,6 +245,7 @@
     <ClCompile Include="StunningStrike.cpp" />
     <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
+    <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
     <ClCompile Include="TextInput.cpp" />
@@ -363,6 +364,7 @@
     <ClInclude Include="StunningStrike.h" />
     <ClInclude Include="StunningStrikeClientSkillEffect.h" />
     <ClInclude Include="StunningStrikeEffect.h" />
+    <ClInclude Include="SwiftAsACatPowerfulAsABoar.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="TeleportEffect.h" />
     <ClInclude Include="TextInput.h" />

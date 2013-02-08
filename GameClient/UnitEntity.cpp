@@ -1,4 +1,5 @@
 #include "UnitEntity.h"
+#include "MyAlgorithms.h"
 
 UnitEntity::UnitEntity() : ServerEntity()
 {
@@ -27,6 +28,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 5.0f;
+	m_swiftAsACatPowerfulAsABear = false;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -57,6 +59,7 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 5.0f;
+	m_swiftAsACatPowerfulAsABear = false;
 }
 
 UnitEntity::~UnitEntity()
@@ -307,7 +310,18 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 
 	if(deadlyStrike < this->m_deadlyStrikeChance && target->getType() == Type::EnemyType)
 	{
-		target->takeDamage(999999999, 999999999);
+		target->takeDamage(INT_MAX, INT_MAX);
+	}
+
+	if(m_swiftAsACatPowerfulAsABear)
+	{
+		//Gör saacpaab saker
+		if(random(1, 10) == 1)
+			target->takeDamage(INT_MAX, INT_MAX);
+		else
+			physicalDamage*=3;
+
+		m_swiftAsACatPowerfulAsABear = false;
 	}
 
 	target->takeDamage(physicalDamage, mentalDamage);

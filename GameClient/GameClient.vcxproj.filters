@@ -307,6 +307,9 @@
     <ClCompile Include="SimonsEvilClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -638,6 +641,9 @@
     </ClInclude>
     <ClInclude Include="SimonsEvilClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="SwiftAsACatPowerfulAsABoar.h">
+      <Filter>Server\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

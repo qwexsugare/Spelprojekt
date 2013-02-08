@@ -1,5 +1,3 @@
-static const int MAX_LIGHTS = 20;
-
 Texture2D tex2D;
 Texture2D normalMap;
 Texture1D boneTex;
