@@ -15,7 +15,7 @@ GameState::GameState()
 	this->m_hud = new HudMenu(this->m_network);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 27.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
@@ -422,7 +422,7 @@ void GameState::importMap(string _map)
 					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
 
 					position.z = v2.z+position.z;
-					rotation.x = rotation.x * (D3DX_PI/180.0f);
+					rotation.x = rotation.x * (D3DX_PI/180.0f)+ D3DX_PI/2;
 					
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);
