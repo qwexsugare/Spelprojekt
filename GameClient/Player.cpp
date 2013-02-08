@@ -14,6 +14,11 @@ Player::Player(unsigned int id)
 	this->m_teleport = new Teleport();
 	this->m_healingTouch = new HealingTouch();
 	this->m_demonicPresence = new DemonicPresence();
+	this->m_simonsEvil = new SimonsEvil();
+
+	this->m_skills.push_back(new SimonsEvil());
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SIMONS_EVIL, this->m_id, this->m_resources));
+
 
 	EntityHandler::addEntity(m_hero);
 }
@@ -25,6 +30,7 @@ Player::~Player()
 		delete this->m_skills[i];
 	}
 
+	delete m_simonsEvil;
 	delete this->m_chainStrike;
 	delete this->m_cloudOfDarkness;
 	delete this->m_stunningStrike;
@@ -256,6 +262,12 @@ void Player::update(float _dt)
 	m_teleport->update(_dt);
 	m_healingTouch->update(_dt);
 	m_demonicPresence->update(_dt);
+	m_simonsEvil->update(_dt);
+
+	for(int i = 0; i <this->m_skills.size(); i++)
+	{
+		this->m_skills[i]->update(_dt);
+	}
 }
 
 bool Player::getReady()
@@ -295,10 +307,8 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		break;
 	}
 	
-	if(usedSomething)
-	{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(usm.getActionId(), this->m_hero->getId(), usm.getPosition()));
-	}
+
+		//this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(usm.getActionId(), this->m_hero->getId(), usm.getPosition()));
 }
 
 void Player::handleUseActionMessage(NetworkUseActionMessage usm)
@@ -314,16 +324,17 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 	case Skill::DEMONIC_PRESENCE:
 		usedSomething = m_demonicPresence->activate(this->m_hero->getId());
 		break;
+		
+	case Skill::SIMONS_EVIL:
+		usedSomething = m_simonsEvil->activate(this->m_hero->getId());
+		break;
 
 	default:
 		//Check if the player has the ability and use it
 		break;
 	}
 
-	if(usedSomething)
-	{
 		//this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(usm.getActionId(), this->m_hero->getId(), this->m_hero->getPosition()));
-	}
 }
 
 void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
@@ -349,8 +360,5 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		break;
 	}
 
-	if(usedSomething)
-	{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(usm.getActionId(), this->m_hero->getId(), usm.getTargetId(), this->m_hero->getPosition()));
-	}
+		//this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(usm.getActionId(), this->m_hero->getId(), usm.getTargetId(), this->m_hero->getPosition()));
 }

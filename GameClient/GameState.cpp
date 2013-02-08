@@ -156,6 +156,9 @@ void GameState::update(float _dt)
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
 			break;
+		case Skill::SIMONS_EVIL:
+			m_ClientSkillEffects.push_back(new SimonsEvilClientSkillEffect(e.getTargetId()));
+			break;
 		}
 	}
 

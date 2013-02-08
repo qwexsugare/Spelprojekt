@@ -6,6 +6,7 @@
 #include "Teleport.h"
 #include "HealingTouch.h"
 #include "DemonicPresence.h"
+#include "SimonsEvil.h"
 
 #include "Aim.h"
 #include "DeadlyStrike.h"

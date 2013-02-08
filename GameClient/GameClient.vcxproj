@@ -232,7 +232,11 @@
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="SettingsState.cpp" />
+    <ClCompile Include="SimonsEvil.cpp" />
+    <ClCompile Include="SimonsEvilClientSkillEffect.cpp" />
+    <ClCompile Include="SimonsEvilEffect.cpp" />
     <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SkillIdHolder.cpp" />
     <ClCompile Include="Skill_Buttons.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
@@ -346,7 +350,11 @@
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="SettingsState.h" />
+    <ClInclude Include="SimonsEvil.h" />
+    <ClInclude Include="SimonsEvilClientSkillEffect.h" />
+    <ClInclude Include="SimonsEvilEffect.h" />
     <ClInclude Include="Skill.h" />
+    <ClInclude Include="SkillIdHolder.h" />
     <ClInclude Include="Skills.h" />
     <ClInclude Include="Skill_Buttons.h" />
     <ClInclude Include="Slider.h" />
