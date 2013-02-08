@@ -35,7 +35,8 @@ public:
 	D3DXVECTOR2 getPosition2D();
 
 	void clearShadowMap(ID3D10Device* _device);
-	ID3D10ShaderResourceView** getResources()const;
+	ID3D10ShaderResourceView* getResource(int index)const;
+	D3DXMATRIX getMatrix(int index);
 	void setShadowMapAsRenderTarget(ID3D10Device* _device, int index);
 
 	DECLDIR void setPosition(FLOAT3 _position);

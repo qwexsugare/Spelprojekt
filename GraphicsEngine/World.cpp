@@ -393,11 +393,67 @@ void World::render()
 void World::renderShadowMap()
 {
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
-	
-	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[m_spotLights.size()];
-	D3DXMATRIX* wvps = new D3DXMATRIX[m_spotLights.size()];
+
+	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(this->m_camera->getPos());
+	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[pointLights.size() * 6];
+	D3DXMATRIX* wvps = new D3DXMATRIX[pointLights.size() * 6];
 	
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
+	for(int i = 0; i < pointLights.size(); i++)
+	{
+		pointLights[i]->clearShadowMap(m_deviceHandler->getDevice());
+
+		for(int j = 0; j < 6; j++)
+		{
+			m_deferredSampler->setLightWvp(pointLights[i]->getMatrix(j));
+			pointLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice(), j);
+
+			stack<Model*> models = this->m_quadTree->getAllModels();
+			while(!models.empty())
+			{
+				if(models.top()->getAlpha() == 1.0f)
+				{
+					this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
+					//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
+
+					for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+					{
+						if(models.top()->getMesh()->isAnimated)
+						{
+							this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+							this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+							this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+							m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+						}
+						else
+						{
+							this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+							this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
+							m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+						}
+
+						this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+					}
+				}
+
+				models.pop();
+			}
+		
+			resources[i * 6 + j] = pointLights[i]->getResource(j);
+			wvps[i * 6 + j] = pointLights[i]->getMatrix(j);
+		}
+	}
+
+	m_deferredRendering->setPointLightWvps(wvps, pointLights.size() * 6);
+	m_deferredRendering->setPointLightShadowMaps(resources, pointLights.size() * 6);
+
+	delete []wvps;
+	delete []resources;
+
+	resources = new ID3D10ShaderResourceView*[this->m_spotLights.size()];
+	wvps = new D3DXMATRIX[this->m_spotLights.size()];
+
 	for(int i = 0; i < m_spotLights.size(); i++)
 	{
 		m_deferredSampler->setLightWvp(m_spotLights[i]->getWvp());
@@ -438,12 +494,12 @@ void World::renderShadowMap()
 		resources[i] = m_spotLights[i]->getResource();
 		wvps[i] = m_spotLights[i]->getWvp();
 	}
+
+	m_deferredRendering->setSpotLightWvps(wvps, this->m_spotLights.size());
+	m_deferredRendering->setSpotLightShadowMaps(resources, this->m_spotLights.size());
 	
-	m_deferredRendering->setLightWvps(wvps, m_spotLights.size());
-	m_deferredRendering->setShadowMaps(resources, m_spotLights.size());
-	
-	delete []resources;
 	delete []wvps;
+	delete []resources;
 }
 
 void World::update(float dt)

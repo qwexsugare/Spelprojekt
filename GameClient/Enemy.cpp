@@ -133,7 +133,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			this->m_reachedPosition = true;
 		}
 
-		this->m_rotation.x = atan2(-m_dir.x, -m_dir.z);
+		//this->m_rotation.x = atan2(-m_dir.x, -m_dir.z);
 	}
 	else
 	{
