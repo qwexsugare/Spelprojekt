@@ -10,6 +10,7 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelId[5] = "FrostTurret";
 	this->m_modelId[6] = "CloudOfDarkness";
 	this->m_modelId[7] = "Pentagram";
+	this->m_modelId[8] = "redKnightPassiveAura";
 }
 
 std::string ModelIdHolder::getModel(unsigned int id)

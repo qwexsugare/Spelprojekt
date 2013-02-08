@@ -31,7 +31,6 @@ private:
 	Skill* m_teleport;
 	Skill* m_healingTouch;
 	Skill* m_demonicPresence;
-	Skill* m_simonsEvil;
 
 	vector<Skill*> m_skills;
 

@@ -4,7 +4,7 @@
 
 const float SimonsEvil::COOLDOWN = 180.0f;
 
-SimonsEvil::SimonsEvil() : Skill(Skill::CLOUD_OF_DARKNESS, COOLDOWN)
+SimonsEvil::SimonsEvil() : Skill(Skill::SIMONS_EVIL, COOLDOWN)
 {
 	
 }

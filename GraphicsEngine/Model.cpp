@@ -168,8 +168,8 @@ void Model::move(FLOAT3 _distance)
 void Model::rotate(float _yaw, float _pitch, float _roll)
 {
 	m_rotation.x += _yaw;
-	m_rotation.x += _pitch;
-	m_rotation.x += _roll;
+	m_rotation.y += _pitch;
+	m_rotation.z += _roll;
 
 	updateModelMatrix();
 }

@@ -97,7 +97,7 @@ World::~World()
 	delete this->m_camera;
 	delete this->m_quadTree;
 }
-	
+
 bool World::addRoad(Road* _road)
 {
 	return this->m_quadTree->addRoad(_road);
@@ -105,20 +105,6 @@ bool World::addRoad(Road* _road)
 
 bool World::removeRoad(Road* _road)
 {
-	//bool found = false;
-
-	//for(int i = 0; i < m_roads.size() && !found; i++)
-	//{
-	//	if(m_roads[i] == _road)
-	//	{
-	//		delete m_roads[i];
-	//		m_roads.erase(m_roads.begin()+i);
-	//		found = true;
-	//	}
-	//}
-
-	//return found;
-
 	return this->m_quadTree->removeRoad(_road);
 }
 
@@ -410,7 +396,6 @@ void World::renderShadowMap()
 			if(models.top()->getAlpha() == 1.0f)
 			{
 				this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-				//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 
 				for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
 				{

@@ -14,7 +14,6 @@ Player::Player(unsigned int id)
 	this->m_teleport = new Teleport();
 	this->m_healingTouch = new HealingTouch();
 	this->m_demonicPresence = new DemonicPresence();
-	this->m_simonsEvil = new SimonsEvil();
 	
 	this->m_skills.push_back(new SimonsEvil());
 	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SIMONS_EVIL, this->m_id, this->m_resources));
@@ -32,7 +31,6 @@ Player::~Player()
 		delete this->m_skills[i];
 	}
 
-	delete m_simonsEvil;
 	delete this->m_chainStrike;
 	delete this->m_cloudOfDarkness;
 	delete this->m_stunningStrike;
@@ -264,7 +262,6 @@ void Player::update(float _dt)
 	m_teleport->update(_dt);
 	m_healingTouch->update(_dt);
 	m_demonicPresence->update(_dt);
-	m_simonsEvil->update(_dt);
 
 	for(int i = 0; i <this->m_skills.size(); i++)
 	{
