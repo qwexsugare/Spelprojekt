@@ -9,6 +9,7 @@ SimonsEvilClientSkillEffect::SimonsEvilClientSkillEffect(unsigned int _masterId)
 	m_masterId = _masterId;
 	FLOAT3 pos = ClientEntityHandler::getEntity(_masterId)->m_model->getPosition();
 	m_model = g_graphicsEngine->createModel("redKnightPassiveAura", pos);
+	m_model->setAlpha(0.999f);
 	m_sound = createSoundHandle("bow.wav", false);
 	playSound(m_sound);
 	m_timer = 0.0f;
