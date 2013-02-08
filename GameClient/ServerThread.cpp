@@ -31,6 +31,9 @@ ServerThread::~ServerThread()
 
 void ServerThread::Run()
 {
+	//Text* fpsText = g_graphicsEngine->createText("", INT2(5, 20), 20, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	//float fpsTimer = 0.0f;
+
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
 	float secsPerCnt = 1.0f / (float)cntsPerSec;
@@ -51,12 +54,22 @@ void ServerThread::Run()
 		float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
 		prevTimeStamp = currTimeStamp;
 
+		//fpsTimer = fpsTimer + dt;
+
+		//if(fpsTimer > 1.0f)
+		//{
+		//	stringstream ss;
+		//	ss << "Server fps:" << 1.0f / dt;
+		//	fpsTimer = 0.0f;
+		//	fpsText->setString(ss.str());
+		//}
+
 		this->update(dt);
 
-		if(dt < 0.015f)
-		{
-			sf::Sleep(0.015f - dt);
-		}
+		//if(dt < 0.015f)
+		//{
+		//	sf::Sleep(0.015f - dt);
+		//}
 	}
 }
 

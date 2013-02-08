@@ -108,6 +108,7 @@ float3 calcAmbientLight()
 
 float3 calcDiffuseLight(float3 lightDir, float3 normal, float3 color)
 {
+	//color = float3(0.0, 0.0f, 1.0f);
 	//Variables
 	float3 n = normal;
 	float3 s = normalize(lightDir);
@@ -120,7 +121,7 @@ float3 calcDiffuseLight(float3 lightDir, float3 normal, float3 color)
 
 float3 calcSpecularLight(float3 lightDir, float3 normal, float3 color)
 {
-	float3 ks = float3(1.0f, 1.0f, 1.0f);
+	//color = float3(0.0, 0.0f, 1.0f);
 	float f = 30.0f;
 
 	lightDir = -normalize(lightDir);
@@ -247,7 +248,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
 	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
 
-	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
+	return (float4(ambientLight, 0.0f)+ float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
 
 }
 
