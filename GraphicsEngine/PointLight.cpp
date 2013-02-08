@@ -84,7 +84,7 @@ void PointLight::setPosition(FLOAT3 _position)
 	D3DXVECTOR3 at;
 	D3DXVECTOR3 up;
 
-	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2, 1.0f, 0.1f, 5000.0f);
+	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2, 1.0f, 0.1f, this->m_radius);
 
 	at = D3DXVECTOR3(0.0f, 1.0f, 0.0f) + eye;
 	up = D3DXVECTOR3(0.0f, 0.0f, 1.0f);

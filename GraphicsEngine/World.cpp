@@ -395,7 +395,7 @@ void World::renderShadowMap()
 			m_deferredSampler->setLightWvp(pointLights[i]->getMatrix(j));
 			pointLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice(), j);
 
-			stack<Model*> models = this->m_quadTree->getAllModels();
+			stack<Model*> models = this->m_quadTree->getModels(pointLights[i]->getPosition().toD3DXVector());
 			while(!models.empty())
 			{
 				if(models.top()->getAlpha() == 1.0f)
@@ -446,7 +446,7 @@ void World::renderShadowMap()
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
 
-		stack<Model*> models = this->m_quadTree->getAllModels();
+		stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
 		while(!models.empty())
 		{
 			if(models.top()->getAlpha() == 1.0f)
