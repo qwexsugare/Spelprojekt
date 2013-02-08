@@ -105,19 +105,21 @@ bool World::addRoad(Road* _road)
 
 bool World::removeRoad(Road* _road)
 {
-	bool found = false;
+	//bool found = false;
 
-	for(int i = 0; i < m_roads.size() && !found; i++)
-	{
-		if(m_roads[i] == _road)
-		{
-			delete m_roads[i];
-			m_roads.erase(m_roads.begin()+i);
-			found = true;
-		}
-	}
+	//for(int i = 0; i < m_roads.size() && !found; i++)
+	//{
+	//	if(m_roads[i] == _road)
+	//	{
+	//		delete m_roads[i];
+	//		m_roads.erase(m_roads.begin()+i);
+	//		found = true;
+	//	}
+	//}
 
-	return found;
+	//return found;
+
+	return this->m_quadTree->removeRoad(_road);
 }
 
 void World::addTerrain(Terrain* _terrain)
@@ -401,29 +403,33 @@ void World::renderShadowMap()
 		m_deferredSampler->setLightWvp(m_spotLights[i]->getWvp());
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
+
 		stack<Model*> models = this->m_quadTree->getAllModels();
 		while(!models.empty())
 		{
-			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-			//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
-
-			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+			if(models.top()->getAlpha() == 1.0f)
 			{
-				if(models.top()->getMesh()->isAnimated)
-				{
-					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-					m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
-				}
-				else
-				{
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
-					m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
-				}
+				this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
+				//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 
-				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+				for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+				{
+					if(models.top()->getMesh()->isAnimated)
+					{
+						this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+						m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+					}
+					else
+					{
+						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
+						m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+					}
+
+					this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+				}
 			}
 
 			models.pop();
@@ -561,19 +567,21 @@ void World::addPointLight(PointLight* _pointLight)
 
 bool World::removePointLight(PointLight* _pointLight)
 {
-	bool found = false;
+	//bool found = false;
 
-	for(int i = 0; i < this->m_pointLights.size() && !found; i++)
-	{
-		if(this->m_pointLights[i] == _pointLight)
-		{
-			delete this->m_pointLights[i];
-			this->m_pointLights.erase(this->m_pointLights.begin()+i);
-			found = true;
-		}
-	}
+	//for(int i = 0; i < this->m_pointLights.size() && !found; i++)
+	//{
+	//	if(this->m_pointLights[i] == _pointLight)
+	//	{
+	//		delete this->m_pointLights[i];
+	//		this->m_pointLights.erase(this->m_pointLights.begin()+i);
+	//		found = true;
+	//	}
+	//}
 
-	return found;
+	//return found;
+
+	return this->m_quadTree->removeLight(_pointLight);
 }
 
 void World::addDirectionalLight(DirectionalLight* _directionalLight)

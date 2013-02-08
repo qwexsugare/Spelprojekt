@@ -399,3 +399,71 @@ bool QuadTreeNode::removeModel(Model* _model)
 
 	return removed;
 }
+
+bool QuadTreeNode::removeLight(PointLight* _light)
+{
+	bool removed = false;
+	
+	for(int i = 0; i < this->m_lights.size() && !removed; i++)
+	{
+		if(this->m_lights[i] == _light)
+		{
+			delete this->m_lights[i];
+			this->m_lights.erase(this->m_lights.begin()+i);
+			removed = true;
+		}
+	}
+
+	if(!removed && this->m_children[0])
+	{
+		removed = this->m_children[0]->removeLight(_light);
+		if(!removed)
+		{
+			removed = this->m_children[1]->removeLight(_light);
+			if(!removed)
+			{
+				removed = this->m_children[2]->removeLight(_light);
+				if(!removed)
+				{
+					removed = this->m_children[3]->removeLight(_light);
+				}
+			}
+		}
+	}
+
+	return removed;
+}
+
+bool QuadTreeNode::removeRoad(Road* _road)
+{
+	bool removed = false;
+	
+	for(int i = 0; i < this->m_roads.size() && !removed; i++)
+	{
+		if(this->m_roads[i] == _road)
+		{
+			delete this->m_roads[i];
+			this->m_roads.erase(this->m_roads.begin()+i);
+			removed = true;
+		}
+	}
+
+	if(!removed && this->m_children[0])
+	{
+		removed = this->m_children[0]->removeRoad(_road);
+		if(!removed)
+		{
+			removed = this->m_children[1]->removeRoad(_road);
+			if(!removed)
+			{
+				removed = this->m_children[2]->removeRoad(_road);
+				if(!removed)
+				{
+					removed = this->m_children[3]->removeRoad(_road);
+				}
+			}
+		}
+	}
+
+	return removed;
+}

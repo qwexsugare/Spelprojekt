@@ -1,9 +1,9 @@
-#include "DemonicPresenceClientSkillEffect.h"
+#include "SimonsEvilClientSkillEffect.h"
 #include "SoundWrapper.h"
 #include "Graphics.h"
 #include "ClientEntityHandler.h"
 
-DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int _masterId)
+SimonsEvilClientSkillEffect::SimonsEvilClientSkillEffect(unsigned int _masterId)
 {
 	m_masterId = _masterId;
 	FLOAT3 pos = ClientEntityHandler::getEntity(_masterId)->m_model->getPosition();
@@ -14,13 +14,13 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	playSound(m_sound);
 }
 
-DemonicPresenceClientSkillEffect::~DemonicPresenceClientSkillEffect()
+SimonsEvilClientSkillEffect::~SimonsEvilClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_model);
 	deactivateSound(m_sound);
 }
 
-void DemonicPresenceClientSkillEffect::update(float _dt)
+void SimonsEvilClientSkillEffect::update(float _dt)
 {
 	FLOAT3 pos = ClientEntityHandler::getEntity(m_masterId)->m_model->getPosition();
 	pos.y = 0.01f;
@@ -28,7 +28,7 @@ void DemonicPresenceClientSkillEffect::update(float _dt)
 	m_model->rotate(0.0f, _dt/3.0f, 0.0f);
 }
 
-bool DemonicPresenceClientSkillEffect::getActive()
+bool SimonsEvilClientSkillEffect::getActive()
 {
 	return true;
 }

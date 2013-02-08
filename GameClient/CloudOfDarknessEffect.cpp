@@ -1,6 +1,7 @@
 #include "CloudOfDarknessEffect.h"
 #include "EntityHandler.h"
 #include "Graphics.h"
+#include "Skill.h"
 
 CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 {
@@ -35,6 +36,8 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 			}
 		}
 	}
+
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::CLOUD_OF_DARKNESS, 0, _position));
 }
 
 CloudOfDarknessEffect::~CloudOfDarknessEffect()
@@ -46,7 +49,7 @@ void CloudOfDarknessEffect::update(float _dt)
 {
 	m_timer += _dt;
 
-	if(m_timer > LIFETIME)
+	if(m_timer >= LIFETIME)
 	{
 		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 	}

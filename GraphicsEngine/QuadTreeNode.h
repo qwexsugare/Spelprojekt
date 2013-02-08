@@ -36,4 +36,6 @@ public:
 	void getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const;
 	void pullAllModels(stack<Model*>& _models);
 	bool removeModel(Model* _model);
+	bool removeLight(PointLight* _light);
+	bool removeRoad(Road* _road);
 };

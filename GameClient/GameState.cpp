@@ -21,11 +21,11 @@ GameState::GameState()
 	this->m_network->connect(sf::IPAddress::GetLocalAddress(), 1350);
 	//this->m_network->connect(sf::IPAddress("194.47.155.248"), 1350);
 
-	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f);
+	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	// g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
@@ -155,6 +155,9 @@ void GameState::update(float _dt)
 			break;
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
+			break;
+		case Skill::SIMONS_EVIL:
+			m_ClientSkillEffects.push_back(new SimonsEvilClientSkillEffect(e.getTargetId()));
 			break;
 		}
 	}
@@ -419,13 +422,15 @@ void GameState::importMap(string _map)
 					char in[100];
 					FLOAT3 position;
 					FLOAT3 rotation;
-					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
+					float scale;
+					sscanf(buf, "%s %f %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &scale);
 
 					position.z = v2.z+position.z;
-					rotation.x = rotation.x * (D3DX_PI/180.0f)+ D3DX_PI/2;
-					
+					rotation.x = rotation.x * (D3DX_PI/180) + D3DX_PI/2;
+				
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);
+					m->setScale(scale, scale, scale);
 				}
 			}
 		}
@@ -461,7 +466,7 @@ void GameState::importMap(string _map)
 						FLOAT3 rotation;
 						FLOAT3 color;
 						float radius;
-						sscanf(buf, "PLS %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.y, &color.x, &color.z, &radius);
+						sscanf(buf, "PLS %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.x, &color.y, &color.z, &radius);
 
 						position.z = v2.z+position.z;
 						rotation.x = rotation.x * (D3DX_PI/180.0f);
@@ -476,7 +481,7 @@ void GameState::importMap(string _map)
 						FLOAT3 rotation;
 						FLOAT3 color;
 						float radius;
-						sscanf(buf, "PL %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.y, &color.x, &color.z, &radius);
+						sscanf(buf, "PL %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.x, &color.y, &color.z, &radius);
 
 						position.z = v2.z+position.z;
 						rotation.x = rotation.x * (D3DX_PI/180.0f);

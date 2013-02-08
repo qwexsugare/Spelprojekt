@@ -9,16 +9,16 @@ Hero::Hero() : UnitEntity()
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_attackCooldown = 0.0f;
-	this->m_attackRange = 15.0f;
+	this->m_attackRange = 5.0f;
 	this->m_hasTarget = false;
 	this->m_baseMovementSpeed = 3.1f;
 	this->m_movementSpeed = this->m_baseMovementSpeed;
 	this->m_baseAttackSpeed = 1.0f;
 	this->m_attackSpeed = this->m_baseAttackSpeed;
-	this->m_strength = 5;
-	this->m_agility = 5;
-	this->m_wits = 20;
-	this->m_fortitude = 5;
+	this->increaseStrength(5);
+	this->increaseAgility(2);
+	this->increaseWits(1);
+	this->increaseFortitude(4);
 }
 
 Hero::~Hero()

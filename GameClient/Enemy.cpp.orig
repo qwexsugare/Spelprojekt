@@ -9,8 +9,12 @@ Enemy::Enemy() : UnitEntity()
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
+<<<<<<< HEAD
 	this->m_currClosestStatic = EntityHandler::getAllStaticObjects()[EntityHandler::getAllStaticObjects().size()-1];
+=======
 	this->m_health = 100;
+
+>>>>>>> 92787df7d7080423818ef86ac8383960f0a5360d
 	this->m_movementSpeed = 1.5f;
 	this->m_aggroRange = 10.0f;
 	this->m_willPursue = false;
@@ -61,32 +65,59 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 	FLOAT3 avDir = FLOAT3(0,0,0);
 	ServerEntity *_static = EntityHandler::getClosestStatic(this);
+<<<<<<< HEAD
+	FLOAT3 statPos = _static->getPosition();
+	
+	avDir = this->checkStatic(dt,statPos);
+	if((m_currClosestStatic->getPosition()-m_position).length() > m_staticBuffer && (m_prevClosestStatic->getPosition()-m_position).length() > m_staticBuffer )
+=======
 	if(_static != NULL)
+>>>>>>> 92787df7d7080423818ef86ac8383960f0a5360d
 	{
 		FLOAT3 statPos = _static->getPosition();
 	
 		avDir = this->checkStatic(dt,statPos);
-	if((m_currClosestStatic->getPosition()-m_position).length() > m_staticBuffer && (m_prevClosestStatic->getPosition()-m_position).length() > m_staticBuffer )
+		if((m_closestStatic->getPosition()-m_position).length() > 3 )
 		{
 			FLOAT3 te = (this->m_nextPosition - this->m_position);
 		
+<<<<<<< HEAD
 		te = te/50;
 		te = te*avDir.length();
 		
-			m_dir.y = 0;
+		m_dir.y = 0;
 		m_dir = m_dir*1000;
-			this->m_dir =this->m_dir+ te;
-			m_dir = m_dir/m_dir.length();
+		this->m_dir =this->m_dir+ te;
+		m_dir = m_dir/m_dir.length();
 
 		
-		}
+	}
 	
 	if((m_currClosestStatic->getPosition()-m_position).length() > 2*m_staticBuffer && (m_prevClosestStatic->getPosition()-m_position).length() >m_staticBuffer)
-		{
+	{
 		
 		m_dir =m_dir +(this->m_nextPosition - this->m_position)/16;
 		
+=======
+			te = te/15;
+		
+			m_dir.y = 0;
+			m_dir = m_dir*500;
+		
+
+			this->m_dir =this->m_dir+ te;
+		
+			m_dir = m_dir/m_dir.length();
+
+			//this->m_dir =m_dir+ te;
 		}
+	
+		if((m_closestStatic->getPosition()-m_position).length() > 50)
+		{
+			m_dir = m_dir + (this->m_nextPosition - this->m_position)/2;
+			//m_dir = m_dir/m_dir.length();
+		}
+>>>>>>> 92787df7d7080423818ef86ac8383960f0a5360d
 	}
 	
 
@@ -227,7 +258,12 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 			stat = EntityHandler::getClosestSuperStatic(temp);
 			float test = (stat->getPosition() - temp1).length();
 			
+<<<<<<< HEAD
+=======
 
+			float test = (EntityHandler::getClosestSuperStatic(temp1)->getPosition() - temp1).length();
+
+>>>>>>> 92787df7d7080423818ef86ac8383960f0a5360d
 			if(test < avoidBuffer)
 			{
 				if(m_currClosestStatic->getId() != stat->getId())
@@ -240,8 +276,12 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 				avoidDir = FLOAT3(0,0,0) -cross/(i);;
 			}
 
+<<<<<<< HEAD
 			test = (stat->getPosition() - temp2).length();
+=======
+			test = (EntityHandler::getClosestSuperStatic(temp2)->getPosition() - temp2).length();
 
+>>>>>>> 92787df7d7080423818ef86ac8383960f0a5360d
 			if(test< avoidBuffer)
 			{
 				if(m_currClosestStatic->getId() != stat->getId())

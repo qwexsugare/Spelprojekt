@@ -13,6 +13,13 @@ SamplerState linearSampler
 	AddressV = Wrap;
 };
 
+SamplerState pointSampler 
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
+
 struct VSSceneIn
 {
 	float3 Pos	: POS;
@@ -100,6 +107,24 @@ DepthStencilState EnableDepthSM
 	DepthFunc = LESS_EQUAL;
 };
 
+DepthStencilState RolandsSuperDepth
+{
+	StencilEnable = TRUE;
+	DepthEnable = TRUE;
+	StencilReadMask = 1;
+	FrontFaceStencilFunc = EQUAL;
+};
+
+DepthStencilState RolandsUltraDepth
+{
+	DepthEnable = FALSE;
+	StencilEnable = TRUE;
+	
+	StencilWriteMask = 1;
+	FrontFaceStencilFail = REPLACE;
+	FrontFaceStencilPass = REPLACE;
+};
+
 RasterizerState testRS
 {
 	FillMode = Solid;
@@ -109,8 +134,7 @@ RasterizerState testRS
 RasterizerState rs
 {
 	FillMode = Solid;
-	//CullMode = FRONT;
-	CullMode = NONE;
+	CullMode = FRONT;
 };
 
 BlendState NoBlend
@@ -264,11 +288,12 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 
 	float diff = saturate(dot(light, newNormal));
 
+	
 	//output.Diffuse = float4(tang, 1);
 
 	output.Pos = input.EyeCoord;
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	output.Normal = float4(normalize(input.Normal).xyz, 1.0f);
+	output.Normal = normalize(input.Normal);
 	//output.Diffuse = float4(normalize(t), 1.0f);//color;
 	output.Diffuse = color;//float4(color.x*diff, color.y*diff, color.z*diff, 1);//float4(color, 1.0f);//diff;//float4(1, 1, 1, 1);//float4(1.0f, 1.0f, 1.0f, 1.0f)*diff;//float4(input.Tangent, 1.0f);
 	//output.Diffuse = color;
@@ -285,7 +310,7 @@ technique10 DeferredSuperSample
         SetVertexShader( CompileShader( vs_4_0, VSSuperScene() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
-
+		
 	    SetDepthStencilState( EnableDepth, 0 );
 	    SetRasterizerState( rs );
     }
@@ -382,10 +407,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 
 	output.Pos = input.EyeCoord;
 	//output.Normal = float4(input.Normal, 1.0f);
-	output.Normal = normalize(mul(normalMap.Sample(linearSampler, input.UVCoord), modelMatrix));
-	float tmp = output.Normal.z;
-	output.Normal.z = output.Normal.y;
-	output.Normal.y = tmp;
+	output.Normal = normalize(mul(normalMap.Sample(pointSampler, input.UVCoord), modelMatrix));
 
 	float4 texColors[8];
 	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);
@@ -468,7 +490,7 @@ technique10 RenderRoad
     }
 }
 
-float4 vsShadowMap(float3 _pos : POS) : SV_Position
+float4 vsShadowMap(float3 _pos : POS) : SV_POSITION
 {
 	// Render from light's perspective.
 	return mul(float4(_pos, 1.0f), mul(modelMatrix, lightWvp));
@@ -484,6 +506,6 @@ technique10 RenderShadowMap
 
 		SetDepthStencilState(EnableDepthSM, 0);
 		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
-		SetRasterizerState(rs);
+		SetRasterizerState(testRS);
 	}
 }
