@@ -66,7 +66,6 @@ public:
 	DECLDIR bool removeSpotLight(SpotLight* spotLight);
 
 	DECLDIR void render();
-	void stop() { m_running = false; }
 	DECLDIR void update(float dt);
 	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 };

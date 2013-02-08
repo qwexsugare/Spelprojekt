@@ -14,7 +14,7 @@ private:
 public:
 	static const int LIFETIME = 3;
 	static const int AOE = 10;
-	static const int DPS = 50;
+	static const int DPS = 500;
 
 	SimonsEvilEffect(unsigned int _caster);
 	~SimonsEvilEffect();

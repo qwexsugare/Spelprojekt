@@ -175,7 +175,6 @@ void GameState::update(float _dt)
 	{
 		NetworkRemoveActionTargetMessage e = this->m_network->removeActionTargetQueueFront();
 		
-		// DO SOMETHING!!
 		for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 		{
 			if(typeid(DemonicPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))

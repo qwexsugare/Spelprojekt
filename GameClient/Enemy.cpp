@@ -52,7 +52,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	//this->m_reachedPosition = false;
 
 	this->checkPursue();
-	
+
 	if(m_willPursue)
 		this->setNextPosition(m_closestHero, dt);
 	else
@@ -216,7 +216,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 	FLOAT3 temp = FLOAT3(0,0,0);
 	FLOAT3 temp1 = FLOAT3(0,0,0);
 	FLOAT3 temp2 = FLOAT3(0,0,0);
-	ServerEntity *stat = new ServerEntity();
+	ServerEntity *stat;
 	
 		for(int i = 1; i < 15; i++)
 		{

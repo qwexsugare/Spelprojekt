@@ -2,6 +2,7 @@
 #include "SoundWrapper.h"
 #include "Graphics.h"
 #include "ClientEntityHandler.h"
+#include "SimonsEvilEffect.h"
 
 SimonsEvilClientSkillEffect::SimonsEvilClientSkillEffect(unsigned int _masterId)
 {
@@ -10,6 +11,7 @@ SimonsEvilClientSkillEffect::SimonsEvilClientSkillEffect(unsigned int _masterId)
 	m_model = g_graphicsEngine->createModel("redKnightPassiveAura", pos);
 	m_sound = createSoundHandle("bow.wav", false);
 	playSound(m_sound);
+	m_timer = 0.0f;
 }
 
 SimonsEvilClientSkillEffect::~SimonsEvilClientSkillEffect()
@@ -20,11 +22,16 @@ SimonsEvilClientSkillEffect::~SimonsEvilClientSkillEffect()
 
 void SimonsEvilClientSkillEffect::update(float _dt)
 {
+	m_timer += _dt;
+
 	FLOAT3 pos = ClientEntityHandler::getEntity(m_masterId)->m_model->getPosition();
 	m_model->setPosition(pos);
 }
 
 bool SimonsEvilClientSkillEffect::getActive()
 {
-	return true;
+	if(m_timer >= SimonsEvilEffect::LIFETIME)
+		return false;
+	else
+		return true;
 }
