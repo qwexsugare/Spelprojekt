@@ -38,6 +38,7 @@ protected:
 	float m_stunTimer;
 	unsigned int m_poisonCounter;
 	unsigned int m_deadlyStrikeChance;
+	bool m_swiftAsACatPowerfulAsABear;
 public:
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
@@ -67,6 +68,7 @@ public:
 	void setLifeStealChance(unsigned int _lifeStealChance);
 	void setPoisonChance(unsigned int _poisonChance);
 	void setDeadlyStrikeChance(unsigned int _deadlyStrikeChance);
+	void setSwiftAsACatPowerfulAsABear(bool _val) { m_swiftAsACatPowerfulAsABear = _val; }
 	void stun(float _time);
 
 	int getStrength();

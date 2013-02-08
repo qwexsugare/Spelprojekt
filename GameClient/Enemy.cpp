@@ -9,6 +9,7 @@ Enemy::Enemy() : UnitEntity()
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
+	this->m_health = 100;
 
 	this->m_movementSpeed = 1.5f;
 	this->m_aggroRange = 10.0f;
@@ -133,7 +134,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			this->m_reachedPosition = true;
 		}
 
-		this->m_rotation.x = atan2(-m_dir.x, -m_dir.z);
+		//this->m_rotation.x = atan2(-m_dir.x, -m_dir.z);
 	}
 	else
 	{
@@ -223,9 +224,9 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 
 			temp2 = m_position + currDir*i - (cross);
 			
-			
-			
+
 			float test = (EntityHandler::getClosestSuperStatic(temp1)->getPosition() - temp1).length();
+
 			if(test < avoidBuffer)
 			{
 				
@@ -235,6 +236,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 			}
 
 			test = (EntityHandler::getClosestSuperStatic(temp2)->getPosition() - temp2).length();
+
 			if(test< avoidBuffer)
 			{
 				m_closestStatic = EntityHandler::getClosestSuperStatic(temp2);

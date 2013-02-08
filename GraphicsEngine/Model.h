@@ -16,6 +16,7 @@ private:
 	D3DXVECTOR3 m_position;
 	D3DXVECTOR3 m_scale;
 	D3DXVECTOR3 m_rotation;
+	D3DXQUATERNION m_rot;
 	float m_alpha;
 	BoundingOrientedBox* m_obb;
 	BoundingSphere* m_bs;
@@ -34,6 +35,7 @@ public:
 	D3DXVECTOR2 getPosition2D()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
+	const D3DXQUATERNION& getRot()const { return m_rot; }
 	Mesh* getMesh()const;
 	Animation* getAnimation();
 	string getTextureIndex()const { return m_textureIndex; }
@@ -54,4 +56,5 @@ public:
 	DECLDIR void setPosition(FLOAT3 _position);
 	DECLDIR void setScale(float x, float y, float z);
 	DECLDIR void setRotation(FLOAT3 _rotation);
+	DECLDIR void setRot(const D3DXQUATERNION& _rot);
 };

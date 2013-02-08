@@ -7,6 +7,7 @@
 #include "HealingTouch.h"
 #include "DemonicPresence.h"
 #include "SimonsEvil.h"
+#include "SwiftAsACatPowerfulAsABoar.h"
 
 #include "Aim.h"
 #include "DeadlyStrike.h"
