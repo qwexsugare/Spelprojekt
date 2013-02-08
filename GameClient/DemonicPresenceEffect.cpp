@@ -57,7 +57,7 @@ void DemonicPresenceEffect::update(float _dt)
 		m_timer += _dt;
 
 		// If the spell duration has expired, remove all affected dudes and buffs.
-		if(m_timer > LIFETIME)
+		if(m_timer >= LIFETIME)
 		{
 			for(int i = 0; i < m_affectedGuys.size(); i++)
 			{
