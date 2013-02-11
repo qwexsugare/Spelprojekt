@@ -13,11 +13,11 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
 	this->m_normalMap = this->m_effect->GetVariableByName("normalMap")->AsShaderResource();
+	this->m_glowMap = this->m_effect->GetVariableByName("glowMap")->AsShaderResource();
 	this->m_boneTexture = this->m_effect->GetVariableByName("boneTex")->AsShaderResource();
 	this->m_technique = this->m_effect->GetTechniqueByName("DeferredSample");
 	this->m_animationTechnique = this->m_effect->GetTechniqueByName("DeferredAnimationSample");
 	this->m_superTechnique = this->m_effect->GetTechniqueByName("DeferredSuperSample");
-	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPos")->AsVector();
 	
 	D3D10_PASS_DESC passDescription;
 	this->m_technique->GetPassByIndex(0)->GetDesc(&passDescription);
@@ -114,6 +114,11 @@ void DeferredSamplerEffectFile::setTexture(ID3D10ShaderResourceView *_texture)
 void DeferredSamplerEffectFile::setNormalMap(ID3D10ShaderResourceView *_texture)
 {
 	this->m_normalMap->SetResource(_texture);
+}
+
+void DeferredSamplerEffectFile::setGlowMap(ID3D10ShaderResourceView *_texture)
+{
+	this->m_glowMap->SetResource(_texture);
 }
 
 void DeferredSamplerEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture)

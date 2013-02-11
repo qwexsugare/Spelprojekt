@@ -29,13 +29,34 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_tangentBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	//Glow
+	//Anders var här och pela
+	this->m_glowRendering = new GlowRenderingEffectFile(this->m_deviceHandler->getDevice());
+	this->m_glowBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_glowBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	//this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(this->m_deviceHandler->getScreenSize().x/2, this->m_deviceHandler->getScreenSize().y/2));
+	int trollSize = 1920/4;
+	int trollSize2 = 1080/4;
+	this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
+	this->m_glowRenderTarget2 = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
 
 	this->m_positionBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_tangentBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
+
+	//m_glowViewport.Width = this->m_deviceHandler->getScreenSize().x/2;
+	//m_glowViewport.Height = this->m_deviceHandler->getScreenSize().y/2;
+	m_glowViewport.Width = trollSize;
+	m_glowViewport.Height = trollSize2;
+	m_glowViewport.MinDepth = 0.0f;
+	m_glowViewport.MaxDepth = 1.0f;
+	m_glowViewport.TopLeftX = 0;
+	m_glowViewport.TopLeftY = 0;
 	
 	m_shadowMapViewport.Width = 512;
 	m_shadowMapViewport.Height = 512;
@@ -90,10 +111,14 @@ World::~World()
 	delete this->m_positionBuffer;
 	delete this->m_normalBuffer;
 	delete this->m_diffuseBuffer;
+	delete this->m_tangentBuffer;
+	delete this->m_glowBuffer;
 
 	delete this->m_positionBufferTransparant;
 	delete this->m_normalBufferTransparant;
 	delete this->m_diffuseBufferTransparant;
+	delete this->m_tangentBufferTransparant;
+	delete this->m_glowBufferTransparant;
 
 	delete this->m_camera;
 	delete this->m_quadTree;
@@ -142,18 +167,45 @@ void World::render()
 	this->m_positionBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBuffer->clear(this->m_deviceHandler->getDevice());
+	this->m_tangentBuffer->clear(this->m_deviceHandler->getDevice());
+	this->m_glowBuffer->clear(this->m_deviceHandler->getDevice());
 	m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 	m_forwardRenderTarget->clear(m_deviceHandler->getDevice());
 
+
+
+	//Glow
+
+	//m_glowRenderTarget->clear(m_deviceHandler->getDevice());
+	//m_forwardDepthStencil->clear(m_deviceHandler->getDevice());
+
+	//this->m_glowRendering->setGlowTexture(this->m_glowBuffer->getShaderResource());
+
+	//this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_glowViewport);
+	//this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_glowRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
+
+	//D3D10_TECHNIQUE_DESC techGlowDownDesc;
+	//this->m_glowRendering->getTechniqueDown()->GetDesc( &techGlowDownDesc );
+
+	//for( UINT p = 0; p < techGlowDownDesc.Passes; p++ )
+	//{
+	//	this->m_glowRendering->getTechniqueDown()->GetPassByIndex( p )->Apply(0);
+	//	this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	//}
+
+	//Endglow
+	
 	this->renderShadowMap();
 
-	ID3D10RenderTargetView *renderTargets[3];
+	ID3D10RenderTargetView *renderTargets[5];
 	renderTargets[0] = *this->m_positionBuffer->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBuffer->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBuffer->getRenderTargetView();
+	renderTargets[3] = *this->m_tangentBuffer->getRenderTargetView();
+	renderTargets[4] = *this->m_glowBuffer->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
-	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	
 	// Render terrains
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
@@ -214,6 +266,7 @@ void World::render()
 			{
 				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->textures[models.top()->getTextureIndex()]);
 				this->m_deferredSampler->setNormalMap(models.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
+				this->m_deferredSampler->setGlowMap(models.top()->getMesh()->subMeshes[m]->textures["glowIntensity"]);
 
 				if(models.top()->getMesh()->isAnimated)
 				{
@@ -281,12 +334,16 @@ void World::render()
 	this->m_positionBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBufferTransparant->clear(this->m_deviceHandler->getDevice());
+	this->m_tangentBufferTransparant->clear(this->m_deviceHandler->getDevice());
+	this->m_glowBufferTransparant->clear(this->m_deviceHandler->getDevice());
 
 	renderTargets[0] = *this->m_positionBufferTransparant->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBufferTransparant->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBufferTransparant->getRenderTargetView();
+	renderTargets[3] = *this->m_tangentBufferTransparant->getRenderTargetView();
+	renderTargets[4] = *this->m_glowBufferTransparant->getRenderTargetView();
 
-	this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	// Render roads yo dawg y u be messin' about
@@ -312,6 +369,7 @@ void World::render()
 		{
 			this->m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
 			this->m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+			this->m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
 
 			if(transparentModels[i]->getMesh()->isAnimated)
 			{
@@ -344,6 +402,8 @@ void World::render()
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBuffer->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
+	this->m_deferredRendering->setTangentTexture(this->m_tangentBuffer->getShaderResource());
+
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
 	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(this->m_camera->getPos()), this->m_directionalLights, this->m_spotLights);
 
@@ -361,6 +421,7 @@ void World::render()
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBufferTransparant->getShaderResource());
+	this->m_deferredRendering->setTangentTexture(this->m_tangentBufferTransparant->getShaderResource());
 
 	for( UINT p = 0; p < techDesc.Passes; p++ )
 	{
@@ -392,6 +453,57 @@ void World::render()
 			}
 		}
 	}
+
+	////Glow
+
+	m_glowRenderTarget->clear(m_deviceHandler->getDevice());
+	m_forwardDepthStencil->clear(m_deviceHandler->getDevice());
+
+	this->m_glowRendering->setGlowTexture(this->m_glowBuffer->getShaderResource());
+
+	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_glowViewport);
+	//HorizontalBlur
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_glowRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
+
+	D3D10_TECHNIQUE_DESC techGlowHoriDesc;
+	this->m_glowRendering->getTechniqueHori()->GetDesc( &techGlowHoriDesc );
+
+	for( UINT p = 0; p < techGlowHoriDesc.Passes; p++ )
+	{
+		this->m_glowRendering->getTechniqueHori()->GetPassByIndex( p )->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	}
+
+	//VerticalBlur
+	this->m_glowRendering->setGlowTexture(this->m_glowRenderTarget->getShaderResource());
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_glowRenderTarget2->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
+
+	D3D10_TECHNIQUE_DESC techGlowVertDesc;
+	this->m_glowRendering->getTechniqueVert()->GetDesc( &techGlowVertDesc );
+
+	for( UINT p = 0; p < techGlowVertDesc.Passes; p++ )
+	{
+		this->m_glowRendering->getTechniqueVert()->GetPassByIndex( p )->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	}
+	
+	//UpSample
+	this->m_glowRendering->setGlowTexture(this->m_glowRenderTarget2->getShaderResource());
+	
+	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
+	
+	D3D10_TECHNIQUE_DESC techGlowDesc;
+	this->m_glowRendering->getTechnique()->GetDesc( &techGlowDesc );
+	int troll = techGlowDesc.Passes;
+	for( UINT p = 0; p < techGlowDesc.Passes; p++ )
+	{
+		this->m_glowRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	}
+
+	//GlowEnd
+
 	
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)

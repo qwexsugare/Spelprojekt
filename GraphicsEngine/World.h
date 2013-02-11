@@ -4,6 +4,7 @@
 #include "ForwardRenderingEffectFile.h"
 #include "DeferredRenderingEffectFile.h"
 #include "DeferredSamplerEffectFile.h"
+#include "GlowRenderingEffectFile.h"
 #include "SpriteEffectFile.h"
 #include "Camera.h"
 #include "DeviceHandler.h"
@@ -41,11 +42,21 @@ private:
 	RenderTarget *m_positionBuffer;
 	RenderTarget *m_normalBuffer;
 	RenderTarget *m_diffuseBuffer;
+	RenderTarget *m_tangentBuffer;
+	RenderTarget *m_glowBuffer;
 
 	RenderTarget *m_positionBufferTransparant;
 	RenderTarget *m_normalBufferTransparant;
 	RenderTarget *m_diffuseBufferTransparant;
+	RenderTarget *m_tangentBufferTransparant;
+	RenderTarget *m_glowBufferTransparant;
 	FullScreenPlane *m_deferredPlane;
+
+	//Glow rendering
+	GlowRenderingEffectFile* m_glowRendering;
+	RenderTarget* m_glowRenderTarget;
+	RenderTarget* m_glowRenderTarget2;
+	D3D10_VIEWPORT m_glowViewport;
 
 	//2D rendering
 	SpriteEffectFile *m_spriteRendering;
