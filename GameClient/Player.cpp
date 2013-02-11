@@ -20,7 +20,6 @@ Player::Player(unsigned int id)
 	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
 	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR, this->m_id, this->m_resources));
 
-
 	EntityHandler::addEntity(m_hero);
 }
 
