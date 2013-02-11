@@ -200,7 +200,7 @@ PSSceneOut PSScene(PSSceneIn input)
 {
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
-	color.w = modelAlpha;
+	color.w *= modelAlpha;
 
 	output.Pos = input.EyeCoord;
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -499,7 +499,7 @@ technique10 RenderRoad
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawRoadPs()));
 
-	    SetDepthStencilState(DisableDepth, 0);
+	    SetDepthStencilState(EnableDepth, 0);
 	    SetRasterizerState(rs);
     }
 }

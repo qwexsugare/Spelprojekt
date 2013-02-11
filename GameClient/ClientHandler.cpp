@@ -117,6 +117,9 @@ void ClientHandler::update(float _dt)
 		case State::CREATE_GAME:
 			this->m_state = new CreateGameState();
 			break;
+		case State::JOIN_GAME:
+			this->m_state = new JoinGameState();
+			break;
 		case State::LOBBY:
 			this->m_state = new LobbyState();
 			break;

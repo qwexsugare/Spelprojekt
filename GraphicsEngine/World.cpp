@@ -199,20 +199,6 @@ void World::render()
 		this->m_deviceHandler->getDevice()->Draw(m_terrains[i]->getNrOfVertices(), 0);
 	}
 
-	// Render roads yo dawg y u be messin' about
-	stack<Road*> roads = this->m_quadTree->getRoads(this->m_camera->getPos());
-	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
-	while(!roads.empty())
-	{
-		this->m_deviceHandler->setVertexBuffer(roads.top()->getVertexBuffer(), sizeof(Vertex));
-		this->m_deferredSampler->setModelMatrix(roads.top()->getModelMatrix());
-		this->m_deferredSampler->setTexture(roads.top()->getTexture());
-		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
-		this->m_deviceHandler->getDevice()->Draw(roads.top()->getNrOfVertices(), 0);
-
-		roads.pop();
-	}
-
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
@@ -337,6 +323,20 @@ void World::render()
 
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
+	// Render roads yo dawg y u be messin' about
+	stack<Road*> roads = this->m_quadTree->getRoads(this->m_camera->getPos());
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
+	while(!roads.empty())
+	{
+		this->m_deviceHandler->setVertexBuffer(roads.top()->getVertexBuffer(), sizeof(Vertex));
+		this->m_deferredSampler->setModelMatrix(roads.top()->getModelMatrix());
+		this->m_deferredSampler->setTexture(roads.top()->getTexture());
+		this->m_deferredSampler->getRenderRoadTechnique()->GetPassByIndex(0)->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(roads.top()->getNrOfVertices(), 0);
+
+		roads.pop();
+	}
 
 	for(int i = 0; i < transparentModels.size(); i++)
 	{

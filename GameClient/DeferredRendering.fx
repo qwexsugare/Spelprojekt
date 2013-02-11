@@ -254,21 +254,15 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * shadowCoeff);
 		specularLight = specularLight + (calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * shadowCoeff);
 	}
-	
-	/*float shad = nrOfSpotLights;
-	for(i = 0; i < nrOfSpotLights; i++)
-	{
-		shad = max(shad-calcShadow(mul(position, lightWvps[i]), i), 0.0f);
-	}*/
 
 	/*float cowabunga = min(
 		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x+1.0f/1920.0f, input.UVCoord.y+1.0f/1080.0f))), 
 			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y-1.0f/1080.0f)))),
 		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x, input.UVCoord.y+1.0f/1080.0f))), 
 			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
-	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
+	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
 	
-	return (float4(ambientLight, 0.0f)+ float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
+	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
 }
 
 technique10 RenderModelDeferred

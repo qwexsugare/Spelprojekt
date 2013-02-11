@@ -12,7 +12,7 @@ Road::Road(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, D3DXVECTOR
 	// Order important
 	D3DXMatrixIdentity(&m_modelMatrix);
 	D3DXMATRIX rotMatrix;
-	D3DXMatrixRotationY(&rotMatrix, _rot * (D3DX_PI/180.0f));
+	D3DXMatrixRotationY(&rotMatrix, _rot);
 	D3DXMatrixMultiply(&m_modelMatrix, &m_modelMatrix, &rotMatrix);
 	m_modelMatrix._41 = _pos.x;
 	m_modelMatrix._42 = _pos.y;
