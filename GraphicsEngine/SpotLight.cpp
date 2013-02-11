@@ -8,25 +8,25 @@ SpotLight::SpotLight()
 SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, FLOAT2 _angle, float _range)
 {
 	m_direction = _direction;
-	this->m_up = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-	D3DXVECTOR3 evilVector;
+	//this->m_up = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	//D3DXVECTOR3 evilVector;
 
-	if(this->m_direction.x <= this->m_direction.y && this->m_direction.x <= this->m_direction.z && this->m_direction.x > 0)
-	{
-		evilVector = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	}
-	else if(this->m_direction.y <= this->m_direction.z && this->m_direction.y > 0)
-	{
-		evilVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	}
-	else
-	{
-		evilVector = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-	}
+	//if(this->m_direction.x <= this->m_direction.y && this->m_direction.x <= this->m_direction.z && this->m_direction.x > 0)
+	//{
+	//	evilVector = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	//}
+	//else if(this->m_direction.y <= this->m_direction.z && this->m_direction.y > 0)
+	//{
+	//	evilVector = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	//}
+	//else
+	//{
+	//	evilVector = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	//}
 
-	D3DXVec3Cross(&this->m_up, &this->m_direction.toD3DXVector(), &evilVector);
+	//D3DXVec3Cross(&this->m_up, &this->m_direction.toD3DXVector(), &evilVector);
 
-	this->m_up = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
+	this->m_up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	this->m_la = _la;
 	this->m_ld = _ld;
@@ -34,7 +34,7 @@ SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction,
 	this->m_angle = FLOAT2(cos(_angle.x / 2), cos(_angle.y / 2));
 	this->m_range = _range;
 
-	m_shadowMap = new DepthStencil(_device, INT2(512, 512));
+	m_shadowMap = new DepthStencil(_device, INT2(512, 512), false);
 	this->setPosition(_position);
 }
 
@@ -94,7 +94,7 @@ void SpotLight::setPosition(FLOAT3 _position)
 	
 	D3DXMATRIX projMatrix;
 	D3DXMATRIX viewMatrix;
-	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2.0f, 1.0f, 0.1f, this->m_range);
+	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2.0f, 1.0f, 0.1f, 10000);
 	D3DXVECTOR3 eye(m_position.x, m_position.y, m_position.z);
 	FLOAT3 dampDirection(m_direction.x, -m_direction.y, m_direction.z);
 	FLOAT3 temp(m_position+dampDirection);

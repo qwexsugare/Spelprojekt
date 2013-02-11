@@ -19,7 +19,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
-	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize(), true);
 
 	this->m_deferredSampler = new DeferredSamplerEffectFile(this->m_deviceHandler->getDevice());
 	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());

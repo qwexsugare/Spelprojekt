@@ -51,7 +51,7 @@ DepthStencilState EnableDepth
 RasterizerState rs
 {
 	//FillMode = Solid;
-	CullMode = FRONT;
+	CullMode = NONE;
 };
 
 BlendState NoBlend
@@ -105,22 +105,28 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 float4 psFuckRoland(PSSceneIn input) : SV_Target
 {	
-	return float4(1.0f, 0.0f, 0.0f, 1.0f);
+	return float4(0.0f, 0.0f, 1.0f, 1.0f);
 }
 
 DepthStencilState stencilOpKeep
 {
 	DepthEnable = TRUE;
-	StencilEnable = FALSE;
+	StencilEnable = TRUE;
 
-	DepthFunc = NEVER;
+	DepthFunc = GREATER;
+	DepthWriteMask = ZERO;
 	
-	StencilReadMask = 1;
+	//StencilReadMask = 1;
 
-	FrontFaceStencilFunc = EQUAL;
+	FrontFaceStencilFunc = NEVER;
 	FrontFaceStencilFail = KEEP;
 	FrontFaceStencilPass = KEEP;
 	FrontFaceStencilDepthFail = KEEP;
+
+	BackFaceStencilFunc = EQUAL;
+	BackFaceStencilFail = KEEP;
+	BackFaceStencilPass = REPLACE;
+	BackFaceStencilDepthFail = KEEP;
 };
 
 technique10 ForwardGubb
@@ -133,7 +139,7 @@ technique10 ForwardGubb
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, psFuckRoland() ) );
 		
-	    SetDepthStencilState( stencilOpKeep, 0 );
+	    SetDepthStencilState( stencilOpKeep, 1 );
 	    SetRasterizerState( rs );
     }
 }
