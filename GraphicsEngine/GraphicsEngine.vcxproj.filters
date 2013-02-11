@@ -150,6 +150,12 @@
     <ClInclude Include="Terrain.h">
       <Filter>Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -244,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEngine.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
