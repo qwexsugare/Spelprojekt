@@ -5,6 +5,7 @@
 #include "LobbyState.h"
 #include "LoreState.h"
 #include "CreateGameState.h"
+#include "JoinGameState.h"
 #include "ServerThread.h"
 #include "CreditState.h"
 #include "SettingsState.h"

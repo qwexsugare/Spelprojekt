@@ -28,5 +28,5 @@ void JoinGameState::update(float dt)
 
 State::StateEnum JoinGameState::nextState()
 {
-	return State::CREATE_GAME;
+	return this->m_nextState;
 }
