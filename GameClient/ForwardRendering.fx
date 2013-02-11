@@ -114,7 +114,7 @@ DepthStencilState stencilOpKeep
 	StencilEnable = TRUE;
 
 	DepthFunc = GREATER;
-	DepthWriteMask = ZERO;
+	DepthWriteMask = ALL;
 	
 	//StencilReadMask = 1;
 
@@ -125,7 +125,7 @@ DepthStencilState stencilOpKeep
 
 	BackFaceStencilFunc = EQUAL;
 	BackFaceStencilFail = KEEP;
-	BackFaceStencilPass = REPLACE;
+	BackFaceStencilPass = ZERO;
 	BackFaceStencilDepthFail = KEEP;
 };
 
