@@ -102,23 +102,18 @@ DepthStencilState EnableDepthSM
 	DepthFunc = LESS_EQUAL;
 };
 
-DepthStencilState enableStencil
+DepthStencilState houseStencil
 {
 	DepthEnable = TRUE;
 	StencilEnable = TRUE;
 	
-	StencilWriteMask = 1;
+	//StencilWriteMask = 1;
 
 	FrontFaceStencilFunc = ALWAYS;
 	FrontFaceStencilPass = REPLACE;
-	FrontFaceStencilDepthFail = REPLACE;
 
 	BackFaceStencilFunc = ALWAYS;
-	BackFaceStencilFail = REPLACE;
-	//FrontFaceStencilzFail = REPLACE;
 	BackFaceStencilPass = REPLACE;
-	BackFaceStencilDepthFail = REPLACE;
-
 };
 
 DepthStencilState disableStencil
@@ -126,7 +121,7 @@ DepthStencilState disableStencil
 	StencilEnable=FALSE;
 };
 
-DepthStencilState stencilOpReplace
+DepthStencilState gubbStencil
 {
 	StencilEnable = FALSE;
 	DepthEnable = TRUE;
@@ -207,7 +202,7 @@ PSSceneOut PSScene(PSSceneIn input)
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = color;
 	output.Tangent = float4(1, 0, 0, 0);
-
+	output.Glow = float4(1, 1, 1, 1);
 	return output;
 }
 
@@ -290,7 +285,8 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 
 	output.Diffuse = color;
 	output.Tangent = float4(t, 0);
-	output.Glow = float4(1, 1, 1, 1);
+
+	output.Glow = float4(0, 1, 0, 1);
 
 	return output;
 }
@@ -299,11 +295,13 @@ technique10 DeferredSuperSample
 {
 	pass p0
 	{
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
         SetVertexShader( CompileShader( vs_4_0, VSSuperScene() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
 		
-	    SetDepthStencilState( stencilOpReplace, 0 );
+	    SetDepthStencilState( gubbStencil, 0 );
 	    SetRasterizerState( rs );
 	}
     pass p1
@@ -314,7 +312,7 @@ technique10 DeferredSuperSample
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
 		
-	    SetDepthStencilState( enableStencil, 0 );
+	    SetDepthStencilState( houseStencil, 1 );
 	    SetRasterizerState( rs );
     }
 }
@@ -480,6 +478,8 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 	output.Pos = input.EyeCoord;
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
+
+	//output.Glow = float4(0, 1, 0, 1);
 
 	return output;
 }

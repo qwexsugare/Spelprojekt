@@ -22,7 +22,7 @@ PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOA
 
 	for(int i = 0; i < 6; i++)
 	{
-		this->m_shadowMaps[i] = new DepthStencil(_device, INT2(512, 512));
+		this->m_shadowMaps[i] = new DepthStencil(_device, INT2(512, 512), false);
 	}
 
 	this->setPosition(this->m_position);
