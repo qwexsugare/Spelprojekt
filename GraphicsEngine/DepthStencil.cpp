@@ -25,32 +25,32 @@ DepthStencil::DepthStencil(ID3D10Device *device, INT2 _size)
 
 	D3D10_DEPTH_STENCIL_DESC dsDesc;
 
-	// Depth test parameters
-	/*dsDesc.DepthEnable = true;
-	dsDesc.DepthWriteMask = D3D10_DEPTH_WRITE_MASK_ALL;
-	dsDesc.DepthFunc = D3D10_COMPARISON_ALWAYS;*/
+	//// Depth test parameters
+	///*dsDesc.DepthEnable = true;
+	//dsDesc.DepthWriteMask = D3D10_DEPTH_WRITE_MASK_ALL;
+	//dsDesc.DepthFunc = D3D10_COMPARISON_ALWAYS;*/
 
-	// Stencil test parameters
-	dsDesc.StencilEnable = true;
-	dsDesc.StencilReadMask =  0xFFFFFFFF;
-	dsDesc.StencilWriteMask =  0xFFFFFFFF;
+	//// Stencil test parameters
+	//dsDesc.StencilEnable = true;
+	//dsDesc.StencilReadMask =  0xFFFFFFFF;
+	//dsDesc.StencilWriteMask =  0xFFFFFFFF;
 
-	// Stencil operations if pixel is front-facing
-	dsDesc.FrontFace.StencilFailOp = D3D10_STENCIL_OP_REPLACE;
-	dsDesc.FrontFace.StencilDepthFailOp = D3D10_STENCIL_OP_REPLACE;
-	dsDesc.FrontFace.StencilPassOp = D3D10_STENCIL_OP_REPLACE;
-	//dsDesc.FrontFace.StencilFunc = D3D10_STENCIL_OP_REPLACE;
+	//// Stencil operations if pixel is front-facing
+	//dsDesc.FrontFace.StencilFailOp = D3D10_STENCIL_OP_REPLACE;
+	//dsDesc.FrontFace.StencilDepthFailOp = D3D10_STENCIL_OP_REPLACE;
+	//dsDesc.FrontFace.StencilPassOp = D3D10_STENCIL_OP_REPLACE;
+	////dsDesc.FrontFace.StencilFunc = D3D10_STENCIL_OP_REPLACE;
 
-	// Stencil operations if pixel is back-facing
-	dsDesc.BackFace.StencilFailOp = D3D10_STENCIL_OP_KEEP;
-	dsDesc.BackFace.StencilDepthFailOp = D3D10_STENCIL_OP_REPLACE;
-	dsDesc.BackFace.StencilPassOp = D3D10_STENCIL_OP_KEEP;
-	dsDesc.BackFace.StencilFunc = D3D10_COMPARISON_ALWAYS;
-	
-	// Create depth stencil state
-	ID3D10DepthStencilState* pDSState;
-	device->CreateDepthStencilState(&dsDesc, &pDSState);
-	device->OMSetDepthStencilState(pDSState, 1);
+	//// Stencil operations if pixel is back-facing
+	//dsDesc.BackFace.StencilFailOp = D3D10_STENCIL_OP_KEEP;
+	//dsDesc.BackFace.StencilDepthFailOp = D3D10_STENCIL_OP_REPLACE;
+	//dsDesc.BackFace.StencilPassOp = D3D10_STENCIL_OP_KEEP;
+	//dsDesc.BackFace.StencilFunc = D3D10_COMPARISON_ALWAYS;
+	//
+	//// Create depth stencil state
+	//ID3D10DepthStencilState* pDSState;
+	//device->CreateDepthStencilState(&dsDesc, &pDSState);
+	//device->OMSetDepthStencilState(pDSState, 1);
 
 	//Create the depth stencil view from the texture
 	D3D10_DEPTH_STENCIL_VIEW_DESC shadowDescDSV;

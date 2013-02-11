@@ -90,12 +90,7 @@ DepthStencilState EnableDepth
 {
     DepthEnable = TRUE;
     DepthWriteMask = ALL;
-};
-
-DepthStencilState EnableDepthTestOnly
-{
-    DepthEnable = TRUE;
-    DepthWriteMask = ZERO;
+	//DepthFunc = GREATER;
 };
 
 DepthStencilState EnableDepthSM
@@ -105,22 +100,35 @@ DepthStencilState EnableDepthSM
 	DepthFunc = LESS_EQUAL;
 };
 
-DepthStencilState RolandsSuperDepth
+DepthStencilState enableStencil
 {
-	StencilEnable = TRUE;
 	DepthEnable = TRUE;
-	StencilReadMask = 1;
-	FrontFaceStencilFunc = EQUAL;
-};
-
-DepthStencilState RolandsUltraDepth
-{
-	DepthEnable = FALSE;
 	StencilEnable = TRUE;
 	
 	StencilWriteMask = 1;
-	FrontFaceStencilFail = REPLACE;
-	FrontFaceStencilPass = REPLACE;
+
+	BackFaceStencilFunc = ALWAYS;
+	BackFaceStencilFail = REPLACE;
+	//FrontFaceStencilzFail = REPLACE;
+	BackFaceStencilPass = REPLACE;
+	BackFaceStencilDepthFail = REPLACE;
+
+};
+
+DepthStencilState disableStencil
+{
+	StencilEnable=FALSE;
+};
+
+DepthStencilState stencilOpReplace
+{
+	StencilEnable = FALSE;
+	DepthEnable = TRUE;
+	//FrontFaceStencilFunc = EQUAL;
+
+	//DepthEnable = TRUE;
+	//DepthWriteMask = ALL;
+	//DepthFunc = LESS_EQUAL;
 };
 
 RasterizerState testRS
@@ -301,7 +309,16 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 
 technique10 DeferredSuperSample
 {
-    pass p0
+	pass p0
+	{
+        SetVertexShader( CompileShader( vs_4_0, VSSuperScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
+		
+	    SetDepthStencilState( stencilOpReplace, 0 );
+	    SetRasterizerState( rs );
+	}
+    pass p1
     {
 		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
@@ -309,11 +326,10 @@ technique10 DeferredSuperSample
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
 		
-	    SetDepthStencilState( EnableDepth, 0 );
+	    SetDepthStencilState( enableStencil, 0 );
 	    SetRasterizerState( rs );
     }
 }
-
 
 float4x4 GetBoneMatrix(int boneIndex, float4 _bone)
 {
@@ -440,7 +456,7 @@ technique10 RenderTerrain
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
 
-	    SetDepthStencilState(EnableDepth, 0);
+	    SetDepthStencilState(DisableDepth, 0);
 	    SetRasterizerState(rs);
     }
 }
