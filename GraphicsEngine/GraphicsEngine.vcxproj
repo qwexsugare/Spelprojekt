@@ -167,6 +167,7 @@
     <ClInclude Include="FishStructs.h" />
     <ClInclude Include="ForwardRenderingEffectFile.h" />
     <ClInclude Include="FullScreenPlane.h" />
+    <ClInclude Include="GlowRenderingEffectFile.h" />
     <ClInclude Include="GraphicsHandler.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshImporter.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="EffectFile.cpp" />
     <ClCompile Include="ForwardRenderingEffectFile.cpp" />
     <ClCompile Include="FullScreenPlane.cpp" />
+    <ClCompile Include="GlowRenderingEffectFile.cpp" />
     <ClCompile Include="GraphicsHandler.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -285,6 +287,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\GlowRendering.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\GameClient\SpriteRendering.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

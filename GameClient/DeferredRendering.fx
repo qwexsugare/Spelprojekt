@@ -4,6 +4,7 @@ static const int MAX_POINT_LIGHT_SHADOWS = 42;
 Texture2D positionTexture;
 Texture2D normalTexture;
 Texture2D diffuseTexture;
+Texture2D tangentTexture;
 Texture2D spotLightShadowMaps[MAX_SPOT_LIGHTS];
 Texture2D pointLightShadowMaps[MAX_POINT_LIGHT_SHADOWS];
 
@@ -58,6 +59,8 @@ cbuffer cbEveryFrame
 	matrix spotLightWvps[MAX_POINT_LIGHT_SHADOWS];
 
 	float3 cameraPos;
+	float screenWidth = 1920;
+	float screenHeight = 1080;
 };
 
 // State Structures
@@ -193,6 +196,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
+	float4 tangent = tangentTexture.Sample(linearSampler, input.UVCoord);
 	
 	float3 ambientLight = float3(0.0f, 0.0f, 0.0f);
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
@@ -204,6 +208,11 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float cutoff = 0.005f;
 	float attenuation;
 	int nrOfPointAndDirectionalLights = nrOfPointLights + nrOfDirectionalLights;
+
+	//NormalMappingTangentSpace
+	float3 binormal = cross(normal.xyz, tangent.xyz);
+	float3x3 tbn = float3x3(tangent.xyz, binormal, normal.xyz);
+	//normal = float4(mul(normal.xyz, tbn), 0.0f);
 
 	for(i = 0; i < nrOfPointLights; i++)
 	{
@@ -258,9 +267,8 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x, input.UVCoord.y+1.0f/1080.0f))), 
 			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
 	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
-
+	
 	return (float4(ambientLight, 0.0f)+ float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
-
 }
 
 technique10 RenderModelDeferred
@@ -275,5 +283,5 @@ technique10 RenderModelDeferred
 
 	    SetDepthStencilState( DisableDepth, 0 );
 	    SetRasterizerState( rs );
-    }  
+    } 
 }

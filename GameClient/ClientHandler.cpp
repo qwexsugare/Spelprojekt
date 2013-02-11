@@ -30,7 +30,8 @@ HRESULT ClientHandler::run()
 {
 	this->m_serverThread->Launch();
 
-	this->m_state = new MainMenuState();
+	//this->m_state = new MainMenuState();
+	this->m_state = new GameState();
 
 	// Retarded thread code
 	/*this->update(0.0f);

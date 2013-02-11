@@ -10,6 +10,7 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_positionTexture = this->m_effect->GetVariableByName("positionTexture")->AsShaderResource();
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
 	this->m_diffuseTexture = this->m_effect->GetVariableByName("diffuseTexture")->AsShaderResource();
+	this->m_tangentTexture = this->m_effect->GetVariableByName("tangentTexture")->AsShaderResource();
 
 	this->m_nrOfPointLights = this->m_effect->GetVariableByName("nrOfPointLights")->AsScalar();
 	this->m_nrOfDirectionalLights = this->m_effect->GetVariableByName("nrOfDirectionalLights")->AsScalar();
@@ -65,6 +66,11 @@ void DeferredRenderingEffectFile::setNormalsTexture(ID3D10ShaderResourceView* _n
 void DeferredRenderingEffectFile::setDiffuseTexture(ID3D10ShaderResourceView* _diffuseTexture)
 {
 	this->m_diffuseTexture->SetResource(_diffuseTexture);
+}
+
+void DeferredRenderingEffectFile::setTangentTexture(ID3D10ShaderResourceView* _tangentTexture)
+{
+	this->m_tangentTexture->SetResource(_tangentTexture);
 }
 
 void DeferredRenderingEffectFile::setCameraPosition(D3DXVECTOR3 _lightPosition)
