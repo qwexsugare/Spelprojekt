@@ -7,6 +7,8 @@
 #include "Skill.h"
 #include <sstream>
 #include "Entity.h"
+#include "SkillIdHolder.h"
+
 class HudMenu :
 	public Menu
 {
@@ -22,6 +24,7 @@ public:
 	void addSkill(unsigned int _skillId);
 	void setResources(unsigned int resources);
 private:
+	SkillIdHolder m_skillHolder;
 	Client *m_network;
 	int		m_Time, 
 			m_NumberOfSkills, 

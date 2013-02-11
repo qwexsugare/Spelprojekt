@@ -158,6 +158,7 @@
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeEffect.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientEntityHandler.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="DeadlyStrike.cpp" />
     <ClCompile Include="DemonicPresence.cpp" />
+    <ClCompile Include="DemonicPresenceClientSkillEffect.cpp" />
     <ClCompile Include="DemonicPresenceEffect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
@@ -211,6 +213,7 @@
     <ClCompile Include="NetworkDisconnectMessage.cpp" />
     <ClCompile Include="NetworkEntityMessage.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
+    <ClCompile Include="NetworkRemoveActionTargetMessage.cpp" />
     <ClCompile Include="NetworkRemoveEntityMessage.cpp" />
     <ClCompile Include="NetworkSkillBoughtMessage.cpp" />
     <ClCompile Include="NetworkUseActionMessage.cpp" />
@@ -229,7 +232,11 @@
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="SettingsState.cpp" />
+    <ClCompile Include="SimonsEvil.cpp" />
+    <ClCompile Include="SimonsEvilClientSkillEffect.cpp" />
+    <ClCompile Include="SimonsEvilEffect.cpp" />
     <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SkillIdHolder.cpp" />
     <ClCompile Include="Skill_Buttons.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
@@ -238,6 +245,7 @@
     <ClCompile Include="StunningStrike.cpp" />
     <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
+    <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
     <ClCompile Include="TextInput.cpp" />
@@ -263,6 +271,7 @@
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeEffect.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="ClientEntityHandler.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
@@ -277,6 +286,7 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="DeadlyStrike.h" />
     <ClInclude Include="DemonicPresence.h" />
+    <ClInclude Include="DemonicPresenceClientSkillEffect.h" />
     <ClInclude Include="DemonicPresenceEffect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
@@ -321,6 +331,7 @@
     <ClInclude Include="NetworkDisconnectMessage.h" />
     <ClInclude Include="NetworkEntityMessage.h" />
     <ClInclude Include="NetworkMessage.h" />
+    <ClInclude Include="NetworkRemoveActionTargetMessage.h" />
     <ClInclude Include="NetworkRemoveEntityMessage.h" />
     <ClInclude Include="NetworkSkillBoughtMessage.h" />
     <ClInclude Include="NetworkUseActionMessage.h" />
@@ -340,7 +351,11 @@
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="SettingsState.h" />
+    <ClInclude Include="SimonsEvil.h" />
+    <ClInclude Include="SimonsEvilClientSkillEffect.h" />
+    <ClInclude Include="SimonsEvilEffect.h" />
     <ClInclude Include="Skill.h" />
+    <ClInclude Include="SkillIdHolder.h" />
     <ClInclude Include="Skills.h" />
     <ClInclude Include="Skill_Buttons.h" />
     <ClInclude Include="Slider.h" />
@@ -349,6 +364,7 @@
     <ClInclude Include="StunningStrike.h" />
     <ClInclude Include="StunningStrikeClientSkillEffect.h" />
     <ClInclude Include="StunningStrikeEffect.h" />
+    <ClInclude Include="SwiftAsACatPowerfulAsABoar.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="TeleportEffect.h" />
     <ClInclude Include="TextInput.h" />

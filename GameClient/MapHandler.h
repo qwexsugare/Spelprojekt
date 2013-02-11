@@ -21,6 +21,9 @@ private:
 	int m_gridHeight;
 	int m_gridWidth;
 	bool** m_grid;
+
+	float bla; 
+	int s;
 public:
 	MapHandler();
 	~MapHandler();

@@ -2,12 +2,15 @@
 
 ModelIdHolder::ModelIdHolder()
 {
-	this->m_modelId[0] = "Beast1_5";
-	this->m_modelId[1] = "egg";
+	this->m_modelId[0] = "Char1_5";
+	this->m_modelId[1] = "Beast1_5";
 	this->m_modelId[2] = "PoisonTurret";
 	this->m_modelId[3] = "LightningTurret";
 	this->m_modelId[4] = "DeathTurret";
 	this->m_modelId[5] = "FrostTurret";
+	this->m_modelId[6] = "CloudOfDarkness";
+	this->m_modelId[7] = "Pentagram";
+	this->m_modelId[8] = "redKnightPassiveAura";
 }
 
 std::string ModelIdHolder::getModel(unsigned int id)
@@ -17,6 +20,7 @@ std::string ModelIdHolder::getModel(unsigned int id)
 		return this->m_modelId[id];
 	}
 	else
+
 	{
 		return "";
 	}

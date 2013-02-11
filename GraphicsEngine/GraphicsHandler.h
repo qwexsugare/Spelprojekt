@@ -47,7 +47,7 @@ public:
 	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size);
 	DECLDIR bool removeMyText(MyText *text);
 
-	DECLDIR Model* createModel(string _filename, FLOAT3 _position);
+	DECLDIR Model* createModel(string _filename, FLOAT3 _position, string _textureIndex = "color");
 	DECLDIR bool removeModel(Model* _model);
 
 	DECLDIR Sprite *createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer);
@@ -66,7 +66,6 @@ public:
 	DECLDIR bool removeSpotLight(SpotLight* spotLight);
 
 	DECLDIR void render();
-	void stop() { m_running = false; }
 	DECLDIR void update(float dt);
 	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 };

@@ -125,26 +125,26 @@ HudMenu::HudMenu(Client *_network)
 		this->m_shopButtons.push_back(new Button());
 	}
 
-	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-0.png","0",0,0,1,12,100,0,INT2(422,80), false, Skill::TOWER);
-	this->m_shopButtons[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-12.png","3500",0,0,1,12,100,3500,INT2(422,200), false, Skill::TURRET_LIFE);
-	this->m_shopButtons[2]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-1.png","0",0,0,1,12,100,0,INT2(692,80), false, Skill::STRENGTH);
-	this->m_shopButtons[3]->Init(FLOAT2(-0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-7.png","900",0,0,1,12,100,900,INT2(692,200), false, Skill::PHYSICAL_RESISTANCE);
-	this->m_shopButtons[4]->Init(FLOAT2(-0.34f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-9.png","2200",0,0,1,12,100,2200,INT2(692,324), false, Skill::LIFESTEALING_STRIKE);
-	this->m_shopButtons[5]->Init(FLOAT2(-0.34f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-13.png","2400",0,0,1,12,100,2400,INT2(692,440), false, Skill::STUNNING_STRIKE);
-	this->m_shopButtons[6]->Init(FLOAT2(-0.34f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-16.png","4000",0,0,1,12,100,4000, INT2(692,560), false, Skill::DEMONIC_PRESENCE);
-	this->m_shopButtons[7]->Init(FLOAT2(-0.06f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-2.png","0",0,0,1,12,100,0,INT2(1920/2,80), false, Skill::AGILITY);
-	this->m_shopButtons[8]->Init(FLOAT2(-0.06f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-18.png","500",0,0,1,12,100,500,INT2(1920/2,200), false, Skill::TELEPORT);
-	this->m_shopButtons[9]->Init(FLOAT2(-0.06f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-5.png","1100",0,0,1,12,100,1100,INT2(1920/2,324), false, Skill::AIM);
-	this->m_shopButtons[10]->Init(FLOAT2(-0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-11.png","2000",0,0,1,12,100,2000,INT2(1920/2,440), false, Skill::DEADLY_STRIKE);
-	this->m_shopButtons[11]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-3.png","0",0,0,1,12,100,0,INT2(1228,80), false, Skill::WITS);
-	this->m_shopButtons[12]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-10.png","1700",0,0,1,12,100,1700,INT2(1228,200), false, Skill::POISON_STRIKE);
-	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-19.png","1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH);
-	this->m_shopButtons[13]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-14.png","2500",0,0,1,12,100,2500,INT2(1228,440), false, Skill::CHAIN_STRIKE);
-	this->m_shopButtons[14]->Init(FLOAT2(0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-17.png","3500",0,0,1,12,100,3500,INT2(1228,560), false, Skill::CLOUD_OF_DARKNESS);
-	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-4.png","0",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE);
-	this->m_shopButtons[17]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-6.png","700",0,0,1,12,100,700,INT2(1498,200), false, Skill::GREED);
-	this->m_shopButtons[18]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-8.png","900",0,0,1,12,100,900,INT2(1498,324), false, Skill::MENTAL_RESISTANCE);
-	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-20.png","3000",0,0,1,12,100,3000,INT2(1498,440), false, Skill::WALL);
+	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TOWER),"0",0,0,1,12,100,0,INT2(422,80), false, Skill::TOWER);
+	this->m_shopButtons[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_LIFE),"3500",0,0,1,12,100,3500,INT2(422,200), false, Skill::TURRET_LIFE);
+	this->m_shopButtons[2]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::STRENGTH),"0",0,0,1,12,100,0,INT2(692,80), false, Skill::STRENGTH);
+	this->m_shopButtons[3]->Init(FLOAT2(-0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::PHYSICAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(692,200), false, Skill::PHYSICAL_RESISTANCE);
+	this->m_shopButtons[4]->Init(FLOAT2(-0.34f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::LIFESTEALING_STRIKE),"2200",0,0,1,12,100,2200,INT2(692,324), false, Skill::LIFESTEALING_STRIKE);
+	this->m_shopButtons[5]->Init(FLOAT2(-0.34f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::STUNNING_STRIKE),"2400",0,0,1,12,100,2400,INT2(692,440), false, Skill::STUNNING_STRIKE);
+	this->m_shopButtons[6]->Init(FLOAT2(-0.34f, 0.0f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::DEMONIC_PRESENCE),"4000",0,0,1,12,100,4000, INT2(692,560), false, Skill::DEMONIC_PRESENCE);
+	this->m_shopButtons[7]->Init(FLOAT2(-0.06f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::AGILITY),"0",0,0,1,12,100,0,INT2(1920/2,80), false, Skill::AGILITY);
+	this->m_shopButtons[8]->Init(FLOAT2(-0.06f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TELEPORT),"500",0,0,1,12,100,500,INT2(1920/2,200), false, Skill::TELEPORT);
+	this->m_shopButtons[9]->Init(FLOAT2(-0.06f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::AIM),"1100",0,0,1,12,100,1100,INT2(1920/2,324), false, Skill::AIM);
+	this->m_shopButtons[10]->Init(FLOAT2(-0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::DEADLY_STRIKE),"2000",0,0,1,12,100,2000,INT2(1920/2,440), false, Skill::DEADLY_STRIKE);
+	this->m_shopButtons[11]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WITS),"0",0,0,1,12,100,0,INT2(1228,80), false, Skill::WITS);
+	this->m_shopButtons[12]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::POISON_STRIKE),"1700",0,0,1,12,100,1700,INT2(1228,200), false, Skill::POISON_STRIKE);
+	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HEALING_TOUCH),"1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH);
+	this->m_shopButtons[13]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CHAIN_STRIKE),"2500",0,0,1,12,100,2500,INT2(1228,440), false, Skill::CHAIN_STRIKE);
+	this->m_shopButtons[14]->Init(FLOAT2(0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CLOUD_OF_DARKNESS),"3500",0,0,1,12,100,3500,INT2(1228,560), false, Skill::CLOUD_OF_DARKNESS);
+	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::FORTITUDE),"0",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE);
+	this->m_shopButtons[17]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::GREED),"700",0,0,1,12,100,700,INT2(1498,200), false, Skill::GREED);
+	this->m_shopButtons[18]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::MENTAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(1498,324), false, Skill::MENTAL_RESISTANCE);
+	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WALL),"3000",0,0,1,12,100,3000,INT2(1498,440), false, Skill::WALL);
 
 	for(int i = 0; i < this->m_shopButtons.size(); i++)
 	{
@@ -217,7 +217,8 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 						D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 						this->m_network->sendMessage(NetworkUseActionPositionMessage(m_SkillButtons[i]->getSkillId(), FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
 					}
-					else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE)
+					else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
+						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)
 					{
 						this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId()));
 					}
@@ -413,15 +414,9 @@ void HudMenu::displayShop(bool _visible)
 
 void HudMenu::addSkill(unsigned int _skillId)
 {
-	for(int i = 0; i < this->m_shopButtons.size(); i++)
-	{
-		if(this->m_shopButtons[i]->GetID() == _skillId)
-		{
-			this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_shopButtons[i]->getTextureName(), true, _skillId);
-			this->m_NumberOfSkills++;
-			this->m_DontChange = false;
-		}
-	}
+	this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), true, _skillId);
+	this->m_NumberOfSkills++;
+	this->m_DontChange = false;
 }
 
 void HudMenu::setResources(unsigned int _resources)

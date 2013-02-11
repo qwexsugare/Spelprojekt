@@ -84,3 +84,13 @@ bool QuadTree::removeModel(Model* _model)
 {
 	return this->m_parent->removeModel(_model);
 }
+
+bool QuadTree::removeLight(PointLight* _light)
+{
+	return this->m_parent->removeLight(_light);
+}
+
+bool QuadTree::removeRoad(Road* _road)
+{
+	return this->m_parent->removeRoad(_road);
+}

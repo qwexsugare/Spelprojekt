@@ -14,6 +14,11 @@ Player::Player(unsigned int id)
 	this->m_teleport = new Teleport();
 	this->m_healingTouch = new HealingTouch();
 	this->m_demonicPresence = new DemonicPresence();
+	
+	this->m_skills.push_back(new SimonsEvil());
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SIMONS_EVIL, this->m_id, this->m_resources));
+	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR, this->m_id, this->m_resources));
 
 	EntityHandler::addEntity(m_hero);
 }
@@ -256,6 +261,11 @@ void Player::update(float _dt)
 	m_teleport->update(_dt);
 	m_healingTouch->update(_dt);
 	m_demonicPresence->update(_dt);
+
+	for(int i = 0; i <this->m_skills.size(); i++)
+	{
+		this->m_skills[i]->update(_dt);
+	}
 }
 
 bool Player::getReady()
@@ -270,20 +280,10 @@ MessageQueue *Player::getMessageQueue()
 
 void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 {
-	bool usedSomething = false;
-
 	switch(usm.getActionId())
 	{
 	case Skill::MOVE:
 		this->m_hero->setNextPosition(usm.getPosition());
-		break;
-
-	case Skill::CLOUD_OF_DARKNESS:
-		usedSomething = this->m_cloudOfDarkness->activate(usm.getPosition(), this->m_hero->getId());
-		break;
-
-	case Skill::TELEPORT:
-		usedSomething = this->m_teleport->activate(usm.getPosition(), this->m_hero->getId());
 		break;
 
 	case Skill::DEATH_TOWER:
@@ -291,66 +291,47 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		break;
 
 	default:
-		//Check if the player has the ability and use it
+		for(int i = 0; i < this->m_skills.size(); i++)
+		{
+			if(this->m_skills[i]->getId() == usm.getActionId())
+			{
+				this->m_skills[i]->activate(usm.getPosition(), this->m_hero->getId());
+				i = this->m_skills.size();
+			}
+		}
 		break;
-	}
-	
-	if(usedSomething)
-	{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(usm.getActionId(), this->m_hero->getId(), usm.getPosition()));
 	}
 }
 
 void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
-	bool usedSomething = false;
-
-	switch(usm.getActionId())
+	for(int i = 0; i < this->m_skills.size(); i++)
 	{
-	case Skill::STUNNING_STRIKE:
-		usedSomething = m_stunningStrike->activate(this->m_hero->getId());
-		break;
-		
-	case Skill::DEMONIC_PRESENCE:
-		usedSomething = m_demonicPresence->activate(this->m_hero->getId());
-		break;
-
-	default:
-		//Check if the player has the ability and use it
-		break;
-	}
-
-	if(usedSomething)
-	{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(usm.getActionId(), this->m_hero->getId(), this->m_hero->getPosition()));
+		if(this->m_skills[i]->getId() == usm.getActionId())
+		{
+			this->m_skills[i]->activate(this->m_hero->getId());
+			i = this->m_skills.size();
+		}
 	}
 }
 
 void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 {
-	bool usedSomething = false;
-
 	switch(usm.getActionId())
 	{
 	case Skill::ATTACK:
 		this->m_hero->setTarget(usm.getTargetId());
 		break;
 
-	case Skill::CHAIN_STRIKE:
-		usedSomething = m_chainStrike->activate(usm.getTargetId(), m_hero->getId());
-		break;
-
-	case Skill::HEALING_TOUCH:
-		usedSomething = m_healingTouch->activate(usm.getTargetId(), m_hero->getId());
-		break;
-
 	default:
-		//Check if the player has the ability and use it
+		for(int i = 0; i < this->m_skills.size(); i++)
+		{
+			if(this->m_skills[i]->getId() == usm.getActionId())
+			{
+				this->m_skills[i]->activate(usm.getTargetId(), m_hero->getId());
+				i = this->m_skills.size();
+			}
+		}
 		break;
-	}
-
-	if(usedSomething)
-	{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(usm.getActionId(), this->m_hero->getId(), usm.getTargetId(), this->m_hero->getPosition()));
 	}
 }

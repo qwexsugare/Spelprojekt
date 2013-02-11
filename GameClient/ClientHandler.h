@@ -15,8 +15,6 @@ using namespace std;
 class ClientHandler
 {
 private:
-	int m_testMusic;
-	int m_testSound;
 	State* m_state;
 	vector<MSG> m_messages;
 	Camera* m_camera;

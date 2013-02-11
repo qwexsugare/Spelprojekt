@@ -1,5 +1,0 @@
-width: 64
-height: 64
-bmp1: racebmp1.png
-bmp2: racebmp2.png
-minimap: raceminimap.png

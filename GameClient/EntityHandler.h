@@ -34,6 +34,9 @@ public:
 
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
 	static ServerEntity* getClosestEnemy(ServerEntity *entity);
+	static ServerEntity* getClosestStatic(ServerEntity *entity);
+	
+	static ServerEntity* getClosestSuperStatic(FLOAT3 _pos);
 
 	static ServerEntity* getServerEntity(unsigned int id);
 	

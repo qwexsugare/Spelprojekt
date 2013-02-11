@@ -55,6 +55,7 @@ void Client::Run()
 			NetworkCreateActionPositionMessage capm;
 			NetworkCreateActionTargetMessage catm;
 			NetworkSkillBoughtMessage sbm;
+			NetworkRemoveActionTargetMessage rat;
 
 			int type;
 			packet >> type;
@@ -145,6 +146,20 @@ void Client::Run()
 				this->m_mutex.Unlock();
 				break;
 
+			case NetworkMessage::RemoveActionTarget:
+				packet >> rat;
+
+				this->m_mutex.Lock();
+				this->m_removeActionTargetQueue.push(rat);
+
+				if(this->m_removeActionTargetQueue.size() > 50)
+				{
+					this->m_removeActionTargetQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
 			case NetworkMessage::Disconnect:
 				this->disconnect();
 				break;
@@ -186,6 +201,11 @@ bool Client::createActionTargetQueueEmpty()
 bool Client::skillBoughtQueueEmpty()
 {
 	return this->m_skilllBoughtQueue.empty();
+}
+
+bool Client::removeActionTargetQueueEmpty()
+{
+	return this->m_removeActionTargetQueue.empty();
 }
 
 NetworkEntityMessage Client::entityQueueFront()
@@ -254,6 +274,18 @@ NetworkSkillBoughtMessage Client::skillBoughtQueueFront()
 
 	NetworkSkillBoughtMessage ret = this->m_skilllBoughtQueue.front();
 	this->m_skilllBoughtQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkRemoveActionTargetMessage Client::removeActionTargetQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkRemoveActionTargetMessage ret = this->m_removeActionTargetQueue.front();
+	this->m_removeActionTargetQueue.pop();
 
 	this->m_mutex.Unlock();
 

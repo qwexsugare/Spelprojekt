@@ -112,12 +112,14 @@ void Server::handleMessages()
 	NetworkCreateActionPositionMessage capm;
 	NetworkCreateActionTargetMessage catm;
 	NetworkSkillBoughtMessage sbm;
+	NetworkRemoveActionTargetMessage rat;
 
 	RemoveServerEntityMessage *m1;
 	CreateActionMessage *m2;
 	CreateActionPositionMessage *m3;
 	CreateActionTargetMessage *m4;
 	SkillBoughtMessage *m5;
+	RemoveActionTargetMessage *m6;
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
@@ -158,6 +160,13 @@ void Server::handleMessages()
 			this->m_mutex.Lock();
 			this->clients[m5->playerId].Send(packet);
 			this->m_mutex.Unlock();
+
+			break;
+
+		case Message::RemoveActionTarget:
+			m6 = (RemoveActionTargetMessage*)m;
+			rat = NetworkRemoveActionTargetMessage(m6->actionId, m6->targetId);
+			this->broadcast(rat);
 
 			break;
 		}
@@ -256,6 +265,21 @@ void Server::broadcast(NetworkCreateActionPositionMessage networkMessage)
 }
 
 void Server::broadcast(NetworkCreateActionTargetMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(NetworkRemoveActionTargetMessage networkMessage)
 {
 	sf::Packet packet;
 	packet<<networkMessage;

@@ -1,5 +1,3 @@
-static const int MAX_LIGHTS = 8;
-
 Texture2D tex2D;
 Texture2D normalMap;
 Texture1D boneTex;
@@ -7,6 +5,13 @@ Texture2D terrainTextures[8];
 Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
+
+SamplerState pointSampler 
 {
 	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Wrap;
@@ -32,7 +37,7 @@ struct PSSuperSceneIn
 {
 	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
-	float3 EyeCoord : EYE_COORD;
+	float4 EyeCoord : EYE_COORD;
 	float4 Normal : NORMAL;
 	float3 Tangent : TANGENT;
 };
@@ -50,7 +55,7 @@ struct PSSceneIn
 {
 	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
-	float3 EyeCoord : EYE_COORD;
+	float4 EyeCoord : EYE_COORD;
 	float3 Normal : NORMAL;
 };
 
@@ -87,9 +92,46 @@ DepthStencilState EnableDepth
     DepthWriteMask = ALL;
 };
 
+DepthStencilState EnableDepthTestOnly
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ZERO;
+};
+
+DepthStencilState EnableDepthSM
+{
+	DepthEnable = TRUE;
+	DepthWriteMask = ALL;
+	DepthFunc = LESS_EQUAL;
+};
+
+DepthStencilState RolandsSuperDepth
+{
+	StencilEnable = TRUE;
+	DepthEnable = TRUE;
+	StencilReadMask = 1;
+	FrontFaceStencilFunc = EQUAL;
+};
+
+DepthStencilState RolandsUltraDepth
+{
+	DepthEnable = FALSE;
+	StencilEnable = TRUE;
+	
+	StencilWriteMask = 1;
+	FrontFaceStencilFail = REPLACE;
+	FrontFaceStencilPass = REPLACE;
+};
+
+RasterizerState testRS
+{
+	FillMode = Solid;
+	CullMode = BACK;
+};
+
 RasterizerState rs
 {
-	//FillMode = Solid;
+	FillMode = Solid;
 	CullMode = FRONT;
 };
 
@@ -146,10 +188,10 @@ PSSceneOut PSScene(PSSceneIn input)
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w = modelAlpha;
 
-	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Pos = input.EyeCoord;
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
-	output.Diffuse = color * float4(3,3, 3, 1.0f);
+	output.Diffuse = color;
 
 	return output;
 }
@@ -195,12 +237,11 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
-	color.w = modelAlpha;
+	color.w *= modelAlpha;
 
 	//Normal Mapping
 
 	//float3 light = normalize(input.EyeCoord - input.Pos);
-	
 
 	float3 sampNormal = normalize(normalMap.Sample(linearSampler, input.UVCoord));
 	//sampNormal.z *= -1;
@@ -248,7 +289,7 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	
 	//output.Diffuse = float4(tang, 1);
 
-	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Pos = input.EyeCoord;
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = normalize(input.Normal);
 	//output.Diffuse = float4(normalize(t), 1.0f);//color;
@@ -262,12 +303,12 @@ technique10 DeferredSuperSample
 {
     pass p0
     {
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSSuperScene() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
-
+		
 	    SetDepthStencilState( EnableDepth, 0 );
 	    SetRasterizerState( rs );
     }
@@ -330,7 +371,7 @@ technique10 DeferredAnimationSample
 {
     pass p0
     {
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSAnimScene() ) );
         SetGeometryShader( NULL );
@@ -353,7 +394,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 
 	//variables needed for lighting
 	output.Normal = normalize(mul(input.Normal, modelMatrix));
-	output.EyeCoord = mul(input.Pos, modelMatrix);
+	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
 
 	return output;
 }
@@ -362,12 +403,9 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 
-	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Pos = input.EyeCoord;
 	//output.Normal = float4(input.Normal, 1.0f);
-	output.Normal = normalize(mul(normalMap.Sample(linearSampler, input.UVCoord), modelMatrix));
-	float tmp = output.Normal.z;
-	output.Normal.z = output.Normal.y;
-	output.Normal.y = tmp;
+	output.Normal = normalize(mul(normalMap.Sample(pointSampler, input.UVCoord), modelMatrix));
 
 	float4 texColors[8];
 	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);
@@ -397,9 +435,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 technique10 RenderTerrain
 {
     pass p0
-    { 
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
-
+    {
         SetVertexShader(CompileShader( vs_4_0, drawTerrainVs()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
@@ -430,7 +466,7 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 
-	output.Pos = float4(input.EyeCoord, 1.0f);
+	output.Pos = input.EyeCoord;
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
 
@@ -466,8 +502,8 @@ technique10 RenderShadowMap
 		SetGeometryShader(NULL);
 		SetPixelShader(NULL);
 
-		SetDepthStencilState(EnableDepth, 0);
+		SetDepthStencilState(EnableDepthSM, 0);
 		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
-		SetRasterizerState(rs);
+		SetRasterizerState(testRS);
 	}
 }

@@ -16,6 +16,7 @@ DemonicPresenceEffect::DemonicPresenceEffect(unsigned int _caster)
 	m_timer = 0.0f;
 	m_type = OtherType;
 	
+	ServerEntity* caster = EntityHandler::getServerEntity(m_caster);
 	vector<ServerEntity*> heroes = EntityHandler::getAllHeroes();
 	for(int i = 0; i < heroes.size(); i++)
 	{
@@ -31,11 +32,12 @@ DemonicPresenceEffect::DemonicPresenceEffect(unsigned int _caster)
 
 		if(!alreadyAffected)
 		{
-			if(heroes[i]->contains(*m_bs) != ContainmentType::DISJOINT)
+			if((caster->getPosition()-heroes[i]->getPosition()).length() <= AOE)
 			{
 				m_affectedGuys.push_back(heroes[i]->getId());
 				((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED_BOOST);
 				((UnitEntity*)heroes.at(i))->alterAttackSpeed(ATTACK_SPEED_BOOST);
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, heroes[i]->getId(), heroes[i]->getPosition()));
 			}
 		}
 	}
@@ -43,15 +45,7 @@ DemonicPresenceEffect::DemonicPresenceEffect(unsigned int _caster)
 
 DemonicPresenceEffect::~DemonicPresenceEffect()
 {
-	for(int i = 0; i < m_affectedGuys.size(); i++)
-	{
-		ServerEntity* se = EntityHandler::getServerEntity(m_affectedGuys[i]);
-		if(se)
-		{
-			((UnitEntity*)se)->alterMovementSpeed(-MOVEMENT_SPEED_BOOST);
-			((UnitEntity*)se)->alterAttackSpeed(-ATTACK_SPEED_BOOST);
-		}
-	}
+
 }
 
 void DemonicPresenceEffect::update(float _dt)
@@ -63,8 +57,20 @@ void DemonicPresenceEffect::update(float _dt)
 		m_timer += _dt;
 
 		// If the spell duration has expired, remove all affected dudes and buffs.
-		if(m_timer > LIFETIME)
+		if(m_timer >= LIFETIME)
 		{
+			for(int i = 0; i < m_affectedGuys.size(); i++)
+			{
+				ServerEntity* se = EntityHandler::getServerEntity(m_affectedGuys[i]);
+				if(se && (caster->getPosition()-se->getPosition()).length() <= AOE)
+				{
+					((UnitEntity*)se)->alterMovementSpeed(-MOVEMENT_SPEED_BOOST);
+					((UnitEntity*)se)->alterAttackSpeed(-ATTACK_SPEED_BOOST);
+					this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, se->getId()));
+					m_affectedGuys.erase(m_affectedGuys.begin()+i);
+					i--;
+				}
+			}
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 		}
 		else
@@ -81,6 +87,7 @@ void DemonicPresenceEffect::update(float _dt)
 					{
 						m_affectedGuys.erase(m_affectedGuys.begin()+i);
 						i--;
+						this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, se->getId()));
 					}
 					// Else the affected guys is still alive and might have escaped the aura area and needs to be taken down!
 					else if((caster->getPosition()-se->getPosition()).length() > AOE)
@@ -89,6 +96,7 @@ void DemonicPresenceEffect::update(float _dt)
 						((UnitEntity*)se)->alterAttackSpeed(-ATTACK_SPEED_BOOST);
 						m_affectedGuys.erase(m_affectedGuys.begin()+i);
 						i--;
+						this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, se->getId()));
 					}
 				}
 			}
@@ -111,11 +119,12 @@ void DemonicPresenceEffect::update(float _dt)
 
 					if(!alreadyAffected)
 					{
-						if(heroes[i]->contains(*m_bs) != ContainmentType::DISJOINT)
+						if((caster->getPosition()-heroes[i]->getPosition()).length() <= AOE)
 						{
 							m_affectedGuys.push_back(heroes[i]->getId());
 							((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED_BOOST);
 							((UnitEntity*)heroes.at(i))->alterAttackSpeed(ATTACK_SPEED_BOOST);
+							this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, heroes[i]->getId(), heroes[i]->getPosition()));
 						}
 					}
 				}
