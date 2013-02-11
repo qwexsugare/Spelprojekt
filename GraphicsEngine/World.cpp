@@ -441,33 +441,33 @@ void World::render()
 
 	//HorizontalBlur
 	this->m_glowRendering->setGlowTexture(this->m_glowBuffer->getShaderResource());
-	//this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_glowViewport);
-	//this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_glowRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
+	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_glowViewport);
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_glowRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
 
-	//D3D10_TECHNIQUE_DESC techGlowHoriDesc;
-	//this->m_glowRendering->getTechniqueHori()->GetDesc( &techGlowHoriDesc );
+	D3D10_TECHNIQUE_DESC techGlowHoriDesc;
+	this->m_glowRendering->getTechniqueHori()->GetDesc( &techGlowHoriDesc );
 
-	//for( UINT p = 0; p < techGlowHoriDesc.Passes; p++ )
-	//{
-	//	this->m_glowRendering->getTechniqueHori()->GetPassByIndex( p )->Apply(0);
-	//	this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
-	//}
+	for( UINT p = 0; p < techGlowHoriDesc.Passes; p++ )
+	{
+		this->m_glowRendering->getTechniqueHori()->GetPassByIndex( p )->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	}
 
-	////VerticalBlur
-	//this->m_glowRendering->setGlowTexture(this->m_glowRenderTarget->getShaderResource());
-	//this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_glowRenderTarget2->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
+	//VerticalBlur
+	this->m_glowRendering->setGlowTexture(this->m_glowRenderTarget->getShaderResource());
+	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_glowRenderTarget2->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());
 
-	//D3D10_TECHNIQUE_DESC techGlowVertDesc;
-	//this->m_glowRendering->getTechniqueVert()->GetDesc( &techGlowVertDesc );
+	D3D10_TECHNIQUE_DESC techGlowVertDesc;
+	this->m_glowRendering->getTechniqueVert()->GetDesc( &techGlowVertDesc );
 
-	//for( UINT p = 0; p < techGlowVertDesc.Passes; p++ )
-	//{
-	//	this->m_glowRendering->getTechniqueVert()->GetPassByIndex( p )->Apply(0);
-	//	this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
-	//}
-	//
-	////UpSample
-	//this->m_glowRendering->setGlowTexture(this->m_glowRenderTarget2->getShaderResource());
+	for( UINT p = 0; p < techGlowVertDesc.Passes; p++ )
+	{
+		this->m_glowRendering->getTechniqueVert()->GetPassByIndex( p )->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	}
+	
+	//UpSample
+	this->m_glowRendering->setGlowTexture(this->m_glowRenderTarget2->getShaderResource());
 	
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, this->m_forwardRenderTarget->getRenderTargetView(), this->m_forwardDepthStencil->getDepthStencilView());

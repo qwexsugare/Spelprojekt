@@ -25,6 +25,18 @@ SamplerState linearSampler
 	AddressV = Wrap;
 };
 
+BlendState NoBlend
+{
+   BlendEnable[0]           = FALSE;
+   SrcBlend                 = SRC_ALPHA;
+   DestBlend                = INV_SRC_ALPHA;
+   BlendOp                  = ADD;
+   SrcBlendAlpha            = ONE;
+   DestBlendAlpha           = ZERO;
+   BlendOpAlpha             = ADD;
+   RenderTargetWriteMask[0] = 0x0F;
+};
+
 BlendState SrcAlphaBlend
 {
    BlendEnable[0]           = TRUE;
@@ -179,7 +191,7 @@ technique10 HorizontalBlur
 {
 	pass p0
 	{
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSGlow() ) );
         SetGeometryShader( NULL );
@@ -195,7 +207,7 @@ technique10 VerticalBlur
 {
 	pass p0
 	{	
-		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSGlow() ) );
         SetGeometryShader( NULL );
