@@ -107,6 +107,10 @@ DepthStencilState enableStencil
 	
 	StencilWriteMask = 1;
 
+	FrontFaceStencilFunc = ALWAYS;
+	FrontFaceStencilPass = REPLACE;
+	FrontFaceStencilDepthFail = REPLACE;
+
 	BackFaceStencilFunc = ALWAYS;
 	BackFaceStencilFail = REPLACE;
 	//FrontFaceStencilzFail = REPLACE;

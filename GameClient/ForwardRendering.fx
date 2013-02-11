@@ -51,7 +51,7 @@ DepthStencilState EnableDepth
 RasterizerState rs
 {
 	//FillMode = Solid;
-	CullMode = NONE;
+	CullMode = FRONT;
 };
 
 BlendState NoBlend
@@ -79,7 +79,6 @@ PSSceneIn VSScene(VSSceneIn input)
 	
 	// transform the point into view space
 	output.Pos = mul( float4(input.Pos,1.0), mul(modelMatrix,worldViewProjection) );
-	output.Pos.y = -output.Pos.y;
 	output.UVCoord = input.UVCoord;
 	
 	//float4 kattpiss = mul( float4(input.Pos,1.0), modelMatrix );
@@ -112,14 +111,16 @@ float4 psFuckRoland(PSSceneIn input) : SV_Target
 DepthStencilState stencilOpKeep
 {
 	DepthEnable = TRUE;
-	StencilEnable = TRUE;
+	StencilEnable = FALSE;
+
+	DepthFunc = NEVER;
 	
 	StencilReadMask = 1;
+
 	FrontFaceStencilFunc = EQUAL;
 	FrontFaceStencilFail = KEEP;
 	FrontFaceStencilPass = KEEP;
-
-	FrontFaceStencilDepthFail = REPLACE;
+	FrontFaceStencilDepthFail = KEEP;
 };
 
 technique10 ForwardGubb
