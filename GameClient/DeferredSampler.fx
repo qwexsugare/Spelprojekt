@@ -207,7 +207,7 @@ PSSceneOut PSScene(PSSceneIn input)
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = color;
 	output.Tangent = float4(1, 0, 0, 0);
-
+	output.Glow = float4(1, 1, 1, 1);
 	return output;
 }
 
@@ -290,7 +290,8 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 
 	output.Diffuse = color;
 	output.Tangent = float4(t, 0);
-	output.Glow = float4(1, 1, 1, 1);
+
+	output.Glow = float4(0, 1, 0, 1);
 
 	return output;
 }
@@ -299,6 +300,8 @@ technique10 DeferredSuperSample
 {
 	pass p0
 	{
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
         SetVertexShader( CompileShader( vs_4_0, VSSuperScene() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
@@ -480,6 +483,8 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 	output.Pos = input.EyeCoord;
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
+
+	//output.Glow = float4(0, 1, 0, 1);
 
 	return output;
 }

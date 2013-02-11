@@ -179,7 +179,7 @@ technique10 HorizontalBlur
 {
 	pass p0
 	{
-		//SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSGlow() ) );
         SetGeometryShader( NULL );
@@ -195,7 +195,7 @@ technique10 VerticalBlur
 {
 	pass p0
 	{	
-		//SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSGlow() ) );
         SetGeometryShader( NULL );
