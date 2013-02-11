@@ -24,6 +24,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deferredSampler = new DeferredSamplerEffectFile(this->m_deviceHandler->getDevice());
 	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
 	this->m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice());
+	m_forwardRendering->setProjectionMatrix(m_camera->getProjectionMatrix());
 
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -168,7 +169,8 @@ void World::render()
 	this->m_diffuseBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_tangentBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_glowBuffer->clear(this->m_deviceHandler->getDevice());
-	this->m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
+	m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
+	m_forwardRenderTarget->clear(m_deviceHandler->getDevice());
 
 
 
@@ -238,6 +240,7 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
 	vector<Model*> transparentModels;
+	vector<Model*> gubbs;
 	while(!models.empty())
 	{
 		if(models.top()->getAlpha() < 1.0f)
@@ -268,7 +271,7 @@ void World::render()
 				}
 			}
 		}
-		else
+		else if(models.top()->isHouse())
 		{
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
@@ -281,23 +284,64 @@ void World::render()
 
 				if(models.top()->getMesh()->isAnimated)
 				{
-					this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+					/*this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
 					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
 				}
 				else
 				{
 					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
-					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
-				}
 
-				this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+					D3D10_TECHNIQUE_DESC desc;
+					m_deferredSampler->getSuperTechnique()->GetDesc(&desc);
+
+					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(1)->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+
+					//for(int i = 0; i < desc.Passes; i++)
+					//{
+					//	this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( i )->Apply(0);
+					//	this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+					//}
+				}
 			}
+		}
+		else
+		{
+			gubbs.push_back(models.top());
 		}
 
 		models.pop();
+	}
+
+	for(int i = 0; i < gubbs.size(); i++)
+	{
+		this->m_deferredSampler->setModelMatrix(gubbs[i]->getModelMatrix());
+		this->m_deferredSampler->setModelAlpha(gubbs[i]->getAlpha());
+
+		for(int m = 0; m < gubbs[i]->getMesh()->subMeshes.size(); m++)
+		{
+			m_deferredSampler->setTexture(gubbs[i]->getMesh()->subMeshes[m]->textures[gubbs[i]->getTextureIndex()]);
+			m_deferredSampler->setNormalMap(gubbs[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+
+			if(gubbs[i]->getMesh()->isAnimated)
+			{
+				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+			}
+			else
+			{
+				m_deviceHandler->setVertexBuffer(gubbs[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+				this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(gubbs[i]->getMesh()->subMeshes[m]->numVerts, 0);
+			}
+		}
 	}
 
 	//clear render target
@@ -383,6 +427,31 @@ void World::render()
 	{
 		this->m_deferredRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	}
+
+	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
+
+	for(int i = 0; i < gubbs.size(); i++)
+	{
+		m_forwardRendering->setModelMatrix(gubbs[i]->getModelMatrix());
+
+		for(int m = 0; m < gubbs[i]->getMesh()->subMeshes.size(); m++)
+		{
+			if(gubbs[i]->getMesh()->isAnimated)
+			{
+				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+			}
+			else
+			{				
+				m_deviceHandler->setVertexBuffer(gubbs[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());				
+				m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(gubbs[i]->getMesh()->subMeshes[m]->numVerts, 0);
+			}
+		}
 	}
 
 	////Glow

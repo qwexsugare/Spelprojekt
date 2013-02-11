@@ -264,9 +264,7 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 		modelDistanceToCamera.y -= greatestExtent;
 
 		if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
-		{
 			_models.push(this->m_models[i]);
-		}
 
 		// END ADVANCED CHEAT CULLING
 	}
@@ -300,9 +298,7 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPo
 		modelDistanceToCamera.y -= greatestExtent;
 		
 		if(modelDistanceToCamera.x < 6.0f && (m_lights[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
-		{
 			_lights.push_back(this->m_lights[i]);
-		}
 
 		// END ADVANCED CHEAT CULLING
 	}
