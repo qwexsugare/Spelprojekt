@@ -31,6 +31,7 @@ HRESULT ClientHandler::run()
 	this->m_serverThread->Launch();
 
 	this->m_state = new GameState();
+	this->m_state = new GameState();
 
 	// Retarded thread code
 	/*this->update(0.0f);
@@ -115,6 +116,9 @@ void ClientHandler::update(float _dt)
 			break;
 		case State::CREATE_GAME:
 			this->m_state = new CreateGameState();
+			break;
+		case State::JOIN_GAME:
+			this->m_state = new JoinGameState();
 			break;
 		case State::LOBBY:
 			this->m_state = new LobbyState();

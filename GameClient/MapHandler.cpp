@@ -109,7 +109,7 @@ void MapHandler::loadMap(std::string filename)
 			g_pathfinder = new Pathfinder(this->m_gridWidth, this->m_gridHeight, width, height);
 			
 			m_grid = new bool*[m_gridHeight];
-			for(int j = m_gridHeight-1; j >= 0; j--)
+			for(int j = 0; j < m_gridHeight; j++)
 			{
 				m_grid[j] = new bool[m_gridWidth];
 

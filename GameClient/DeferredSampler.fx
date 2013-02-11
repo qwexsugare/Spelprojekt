@@ -64,6 +64,8 @@ struct PSSceneOut
 	float4 Pos : SV_TARGET0;
 	float4 Normal : SV_TARGET1;
 	float4 Diffuse : SV_TARGET2;
+	float4 Tangent : SV_TARGET3;
+	float4 Glow : SV_TARGET4;
 };
 
 //Variables that updated often
@@ -193,13 +195,14 @@ PSSceneOut PSScene(PSSceneIn input)
 {
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
-	color.w = modelAlpha;
+	color.w *= modelAlpha;
 
 	output.Pos = input.EyeCoord;
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = color;
-
+	output.Tangent = float4(1, 0, 0, 0);
+	output.Glow = float4(1, 1, 1, 1);
 	return output;
 }
 
@@ -246,12 +249,8 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w *= modelAlpha;
 
-	//Normal Mapping
-
-	//float3 light = normalize(input.EyeCoord - input.Pos);
-
 	float3 sampNormal = normalize(normalMap.Sample(linearSampler, input.UVCoord));
-	//sampNormal.z *= -1;
+
 	sampNormal = 2.0f * sampNormal - 1.0f;
 	//sampNormal =  mul(float4(sampNormal, 0.0f), modelMatrix);
 	//sampNormal *= -1;
@@ -270,38 +269,24 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 
 	float3 n = normalize(input.Normal);
 	float3 t = normalize(tang - dot(tang, n)*n);
-	float3 b = cross(n, t);
 
-	float3x3 tbn = float3x3(t, b, n);
-
-	float3 newNormal = normalize(mul(sampNormal, tbn));
-
-	float3 light = float3(0, -1, 0);
-	light = normalize(light);
-	light = normalize(mul(light, tbn));
-
+	//float3 b = cross(n, t);
+	//float3x3 tbn = float3x3(t, b, n);
+	//float3 newNormal = normalize(mul(sampNormal, tbn));
+	//float3 light = float3(0, -1, 0);
+	//light = normalize(light);
+	//light = normalize(mul(light, tbn))
 	//n = normalize(mul(n, tbn));
-
-	//float Si = 1.0f;
-	//float3 Sc = float3(1.0f, 1.0f, 1.0f);	    
-	//float3 R = 2.0f * newNormal * dot(newNormal, light) - light;	   
-	//float3 V = normalize(input.EyeCoord - input.Pos);		// VertexToEye
-	//               
-	//float Specular_Light = Si * Sc * pow(saturate(dot(R, V)), 255);
-
-	//newNormal.z *= -1;
-
-	float diff = saturate(dot(light, newNormal));
-
-	
-	//output.Diffuse = float4(tang, 1);
+	//float diff = saturate(dot(light, newNormal));
 
 	output.Pos = input.EyeCoord;
-	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	output.Normal = normalize(input.Normal);
-	//output.Diffuse = float4(normalize(t), 1.0f);//color;
-	output.Diffuse = color;//float4(color.x*diff, color.y*diff, color.z*diff, 1);//float4(color, 1.0f);//diff;//float4(1, 1, 1, 1);//float4(1.0f, 1.0f, 1.0f, 1.0f)*diff;//float4(input.Tangent, 1.0f);
-	//output.Diffuse = color;
+
+	output.Normal = float4(normalize(n), 0.0f);
+
+	output.Diffuse = color;
+	output.Tangent = float4(t, 0);
+
+	output.Glow = float4(0, 1, 0, 1);
 
 	return output;
 }
@@ -310,6 +295,8 @@ technique10 DeferredSuperSample
 {
 	pass p0
 	{
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
         SetVertexShader( CompileShader( vs_4_0, VSSuperScene() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
@@ -367,9 +354,12 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	_weight = input.Weight[3];
 	_bone = GetBoneMatrix(3, input.Bone);
 	output.Pos += _weight * mul(myPos, _bone);
-	
-	//output.Pos.w = 1;
-	//output.Pos.y -= 105;
+
+	////NormalMap
+	//float3 tang = normalize(input.Tangent);
+
+	//float3 n = normalize(input.Normal);
+	//float3 t = normalize(tang - dot(tang, n)*n);
 	
 	// transform the point into viewProjection space
 	output.Pos = mul( output.Pos, mul(modelMatrix, viewProjection) );
@@ -378,6 +368,8 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	//variables needed for lighting
 	output.Normal = normalize(mul(input.Normal, modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
+
+	//output.Tangent = float4(t, 0);
 
 	return output;
 }
@@ -444,6 +436,8 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	output.Diffuse += texColors[6]* blendSample2.z;
 	output.Diffuse += texColors[7]* blendSample2.w;
 
+	output.Tangent = float4(1, 0, 0, 0);
+
 	return output;
 }
 
@@ -485,6 +479,8 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
 
+	//output.Glow = float4(0, 1, 0, 1);
+
 	return output;
 }
 
@@ -498,7 +494,7 @@ technique10 RenderRoad
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawRoadPs()));
 
-	    SetDepthStencilState(DisableDepth, 0);
+	    SetDepthStencilState(EnableDepth, 0);
 	    SetRasterizerState(rs);
     }
 }
