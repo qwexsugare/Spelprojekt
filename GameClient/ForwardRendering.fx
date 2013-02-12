@@ -114,7 +114,7 @@ DepthStencilState stencilOpKeep
 	StencilEnable = TRUE;
 
 	DepthFunc = GREATER;
-	DepthWriteMask = ALL;
+	DepthWriteMask = ZERO;
 	
 	//StencilReadMask = 1;
 

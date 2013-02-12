@@ -499,11 +499,37 @@ void GameState::importMap(string _map)
 						FLOAT3 color;
 						sscanf(buf, "SL %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &direction.x, &direction.y, &direction.z, &color.x, &color.y, &color.z);
 
-						position.z = v2.z+position.z;
+						position.z = position.z * -1;
 						direction.y = -direction.y;
 
 						g_graphicsEngine->createSpotLight(position, direction, FLOAT3(0.0f, 0.0f, 0.0f), color, color, FLOAT2(0.9f, 0.8f), 300.0f);
 					}
+				}
+			}
+		}
+		else if(strcmp(key, "PARTICLESYSTEMS:") == 0)
+		{
+			string s;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else
+				{
+					FLOAT3 position;
+					FLOAT3 rotation;
+					FLOAT3 color;
+
+					sscanf(buf, "%s %f %f %f %f %f %f %f %f %f", key, &position.x, &position.y, &position.z, &rotation.x, &rotation.y, &rotation.z, &color.x, &color.y, &color.z);
+
+					//Create particle system
+					int lol = 0;
 				}
 			}
 		}

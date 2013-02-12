@@ -13,5 +13,7 @@ public:
 
 	void update(float dt);
 	StateEnum nextState();
+
+	string getIP();
 };
 
