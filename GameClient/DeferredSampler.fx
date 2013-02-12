@@ -1,5 +1,6 @@
 Texture2D tex2D;
 Texture2D normalMap;
+Texture2D glowMap;
 Texture1D boneTex;
 Texture2D terrainTextures[8];
 Texture2D terrainBlendMaps[2];
@@ -286,7 +287,7 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	output.Diffuse = color;
 	output.Tangent = float4(t, 0);
 
-	output.Glow = float4(1, 1, 1, 1);
+	output.Glow = glowMap.Sample(linearSampler, input.UVCoord);
 
 	return output;
 }

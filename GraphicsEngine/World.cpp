@@ -474,8 +474,19 @@ void World::render()
 	
 	D3D10_TECHNIQUE_DESC techGlowDesc;
 	this->m_glowRendering->getTechnique()->GetDesc( &techGlowDesc );
-	int troll = techGlowDesc.Passes;
+
 	for( UINT p = 0; p < techGlowDesc.Passes; p++ )
+	{
+		this->m_glowRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	}
+
+	//FinalGlow
+	this->m_glowRendering->setGlowTexture(this->m_glowBuffer->getShaderResource());
+	D3D10_TECHNIQUE_DESC techGlowDesc2;
+	this->m_glowRendering->getTechnique()->GetDesc( &techGlowDesc2 );
+
+	for( UINT p = 0; p < techGlowDesc2.Passes; p++ )
 	{
 		this->m_glowRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
