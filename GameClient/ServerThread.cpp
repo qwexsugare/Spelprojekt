@@ -8,7 +8,6 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_messageHandler->addQueue(this->m_messageQueue);
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
-	this->m_collisionHandler = new CollisionHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
 	this->m_mapHandler->loadMap("maps/race/race.txt");
 
@@ -22,7 +21,6 @@ ServerThread::~ServerThread()
 
 	this->m_network->shutDown();
 	delete this->m_network;
-	delete this->m_collisionHandler;
 	delete this->m_mapHandler;
 	delete this->m_messageQueue;
 	delete this->m_messageHandler;
@@ -32,8 +30,8 @@ ServerThread::~ServerThread()
 
 void ServerThread::Run()
 {
-	//Text* fpsText = g_graphicsEngine->createText("", INT2(5, 20), 20, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	//float fpsTimer = 0.0f;
+	Text* fpsText = g_graphicsEngine->createText("", INT2(5, 20), 20, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	float fpsTimer = 0.0f;
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
@@ -55,15 +53,15 @@ void ServerThread::Run()
 		float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
 		prevTimeStamp = currTimeStamp;
 
-		//fpsTimer = fpsTimer + dt;
+		fpsTimer = fpsTimer + dt;
 
-		//if(fpsTimer > 1.0f)
-		//{
-		//	stringstream ss;
-		//	ss << "Server fps:" << 1.0f / dt;
-		//	fpsTimer = 0.0f;
-		//	fpsText->setString(ss.str());
-		//}
+		if(fpsTimer > 1.0f)
+		{
+			stringstream ss;
+			ss << "Server fps:" << 1.0f / dt;
+			fpsTimer = 0.0f;
+			fpsText->setString(ss.str());
+		}
 
 		this->update(dt);
 
@@ -123,7 +121,6 @@ void ServerThread::update(float dt)
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
 		this->m_mapHandler->update(dt);
-		this->m_collisionHandler->update();
 
 		entities = this->m_entityHandler->getEntities();
 

@@ -22,7 +22,6 @@ private:
 	MessageHandler *m_messageHandler;
 	EntityHandler *m_entityHandler;
 	MapHandler* m_mapHandler;
-	CollisionHandler *m_collisionHandler;
 
 	MessageQueue *m_messageQueue;
 	State m_state;
