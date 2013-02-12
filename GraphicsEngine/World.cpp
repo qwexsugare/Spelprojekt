@@ -311,7 +311,7 @@ void World::render()
 			{
 				m_deviceHandler->setVertexBuffer(gubbs[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
-				this->m_deviceHandler->getDevice()->OMSetRenderTargets(3, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+				//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
 				this->m_deviceHandler->getDevice()->Draw(gubbs[i]->getMesh()->subMeshes[m]->numVerts, 0);
 			}
@@ -417,31 +417,6 @@ void World::render()
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
 
-	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
-
-	for(int i = 0; i < gubbs.size(); i++)
-	{
-		m_forwardRendering->setModelMatrix(gubbs[i]->getModelMatrix());
-
-		for(int m = 0; m < gubbs[i]->getMesh()->subMeshes.size(); m++)
-		{
-			if(gubbs[i]->getMesh()->isAnimated)
-			{
-				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
-			}
-			else
-			{				
-				m_deviceHandler->setVertexBuffer(gubbs[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());				
-				m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(gubbs[i]->getMesh()->subMeshes[m]->numVerts, 0);
-			}
-		}
-	}
-
 	////Glow
 	
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
@@ -511,6 +486,31 @@ void World::render()
 		//pes.top()->getstuffandrendershit();
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
+	}
+
+	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
+
+	for(int i = 0; i < gubbs.size(); i++)
+	{
+		m_forwardRendering->setModelMatrix(gubbs[i]->getModelMatrix());
+
+		for(int m = 0; m < gubbs[i]->getMesh()->subMeshes.size(); m++)
+		{
+			if(gubbs[i]->getMesh()->isAnimated)
+			{
+				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+			}
+			else
+			{				
+				m_deviceHandler->setVertexBuffer(gubbs[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());				
+				m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(gubbs[i]->getMesh()->subMeshes[m]->numVerts, 0);
+			}
+		}
 	}
 	
 	//Sprites
