@@ -16,7 +16,7 @@ Player::Player(unsigned int id)
 	this->m_demonicPresence = new DemonicPresence();
 	
 	this->m_skills.push_back(new SimonsEvil());
-	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SIMONS_EVIL, this->m_id, this->m_resources));
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::COURAGE_HONOR_VALOR, this->m_id, this->m_resources));
 	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
 	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR, this->m_id, this->m_resources));
 
@@ -293,7 +293,7 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 	default:
 		for(int i = 0; i < this->m_skills.size(); i++)
 		{
-			if(this->m_skills[i]->getId() == usm.getActionId())
+			if(this->m_skills[i]->getId() == usm.getActionId() && this->m_skills[i]->getCurrentCooldown() == 0.0f)
 			{
 				this->m_skills[i]->activate(usm.getPosition(), this->m_hero->getId());
 				i = this->m_skills.size();
@@ -307,7 +307,7 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
 	for(int i = 0; i < this->m_skills.size(); i++)
 	{
-		if(this->m_skills[i]->getId() == usm.getActionId())
+		if(this->m_skills[i]->getId() == usm.getActionId() && this->m_skills[i]->getCurrentCooldown() == 0.0f)
 		{
 			this->m_skills[i]->activate(this->m_hero->getId());
 			i = this->m_skills.size();
@@ -326,7 +326,7 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 	default:
 		for(int i = 0; i < this->m_skills.size(); i++)
 		{
-			if(this->m_skills[i]->getId() == usm.getActionId())
+			if(this->m_skills[i]->getId() == usm.getActionId() && this->m_skills[i]->getCurrentCooldown() == 0.0f)
 			{
 				this->m_skills[i]->activate(usm.getTargetId(), m_hero->getId());
 				i = this->m_skills.size();

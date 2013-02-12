@@ -586,7 +586,7 @@ void World::renderShadowMap()
 			pointLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice(), j);
 
 			stack<Model*> models = this->m_quadTree->getAllModels();
-			while(!models.empty())
+			while(!models.empty() && i * 6 + j < 100)
 			{
 				if(models.top()->getAlpha() == 1.0f)
 				{
