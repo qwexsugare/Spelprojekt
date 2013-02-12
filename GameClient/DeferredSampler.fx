@@ -286,7 +286,7 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	output.Diffuse = color;
 	output.Tangent = float4(t, 0);
 
-	output.Glow = float4(0, 1, 0, 1);
+	output.Glow = float4(1, 1, 1, 1);
 
 	return output;
 }
