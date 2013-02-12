@@ -124,9 +124,12 @@ DepthStencilState disableStencil
 
 DepthStencilState gubbStencil
 {
-	StencilEnable = FALSE;
+	StencilEnable = TRUE;
 	DepthEnable = TRUE;
 	//FrontFaceStencilFunc = EQUAL;
+
+	BackFaceStencilFunc = ALWAYS;
+	BackFaceStencilPass = ZERO;
 
 	//DepthEnable = TRUE;
 	//DepthWriteMask = ALL;

@@ -30,3 +30,8 @@ State::StateEnum JoinGameState::nextState()
 {
 	return this->m_nextState;
 }
+
+//string JoinGameState::getIP()
+//{
+//	return this->m_menu->
+//}

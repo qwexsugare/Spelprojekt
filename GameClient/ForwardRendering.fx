@@ -125,7 +125,7 @@ DepthStencilState stencilOpKeep
 
 	BackFaceStencilFunc = EQUAL;
 	BackFaceStencilFail = KEEP;
-	BackFaceStencilPass = REPLACE;
+	BackFaceStencilPass = ZERO;
 	BackFaceStencilDepthFail = KEEP;
 };
 
