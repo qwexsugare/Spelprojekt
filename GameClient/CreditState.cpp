@@ -1,7 +1,7 @@
 #include "CreditState.h"
 
 
-CreditState::CreditState(void)
+CreditState::CreditState(void) : State(State::CREDITS)
 {
 	this->m_menu = new CreditsMenu();
 }

@@ -10,6 +10,7 @@
 #include "CreditState.h"
 #include "SettingsState.h"
 #include "IntroState.h"
+#include "client.h"
 #include <string>
 using namespace std;
 
@@ -21,6 +22,7 @@ private:
 	Camera* m_camera;
 
 	ServerThread *m_serverThread;
+	Client *m_client;
 public:
 	ClientHandler(HWND _hWnd);
 	~ClientHandler();

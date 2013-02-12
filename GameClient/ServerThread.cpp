@@ -1,7 +1,8 @@
 #include "ServerThread.h"
 
-ServerThread::ServerThread() : sf::Thread()
+ServerThread::ServerThread(int _port) : sf::Thread()
 {
+	this->m_port = _port;
 	this->m_messageHandler = new MessageHandler();
 	this->m_messageQueue = new MessageQueue();
 	this->m_messageHandler->addQueue(this->m_messageQueue);
@@ -43,7 +44,7 @@ void ServerThread::Run()
 
 	//this->m_state = State::LOBBY;
 	this->m_state = State::GAME;
-	this->m_network->start(1354);
+	this->m_network->start(this->m_port);
 
 	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
 

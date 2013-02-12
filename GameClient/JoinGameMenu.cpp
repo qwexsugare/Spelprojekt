@@ -99,6 +99,22 @@ bool JoinGameMenu::MainWriteNameIsDown()
 	}
 	return false;
 }
+
+string JoinGameMenu::getIP()
+{
+	return this->m_Label[0]->getText();
+}
+
+string JoinGameMenu::getPort()
+{
+	return this->m_Label[1]->getText();
+}
+
+string JoinGameMenu::getPlayerName()
+{
+	return this->m_Label[2]->getText();
+}
+
 JoinGameMenu::~JoinGameMenu(void)
 {
 	for(int i = 0; i < m_Label.size();i++)

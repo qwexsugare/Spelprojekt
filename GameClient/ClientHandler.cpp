@@ -10,12 +10,15 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
 
-	this->m_serverThread = new ServerThread();
+	this->m_serverThread = NULL;
 }
 
 ClientHandler::~ClientHandler()
 {
-	delete this->m_serverThread;
+	if(this->m_serverThread)
+	{
+		delete this->m_serverThread;
+	}
 	if(this->m_state)
 	{
 		delete this->m_state;
@@ -28,10 +31,9 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	this->m_serverThread->Launch();
+	//this->m_serverThread->Launch();
 
-	this->m_state = new GameState();
-	this->m_state = new GameState();
+	this->m_state = new MainMenuState();
 
 	// Retarded thread code
 	/*this->update(0.0f);
@@ -127,7 +129,25 @@ void ClientHandler::update(float _dt)
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
-			this->m_state = new GameState();
+			if(tempState->getType() == State::CREATE_GAME)
+			{
+				CreateGameState *tempCreateState = (CreateGameState*)tempState;
+
+				this->m_serverThread = new ServerThread(tempCreateState->getPort());
+				this->m_serverThread->Launch();
+
+				this->m_client = new Client();
+				this->m_client->connect(tempCreateState->getIP(), tempCreateState->getPort());
+			}
+			else
+			{
+				JoinGameState *tempJoinState = (JoinGameState*)tempState;
+
+				this->m_client = new Client();
+				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
+			}
+
+			this->m_state = new GameState(this->m_client);
 			break;
 		case State::SETTINGS:
 			this->m_state = new SettingsState();

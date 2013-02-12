@@ -113,3 +113,18 @@ CreateGameMenu::~CreateGameMenu(void)
 	delete this->m_IPLabel;
 
 }
+
+string CreateGameMenu::getIP()
+{
+	return this->m_Label[0]->getText();
+}
+
+string CreateGameMenu::getPort()
+{
+	return this->m_Label[1]->getText();
+}
+
+string CreateGameMenu::getPlayerName()
+{
+	return this->m_Label[2]->getText();
+}

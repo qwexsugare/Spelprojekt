@@ -15,5 +15,7 @@ public:
 	StateEnum nextState();
 
 	string getIP();
+	int getPort();
+	string getPlayerName();
 };
 
