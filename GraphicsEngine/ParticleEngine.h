@@ -11,6 +11,7 @@ private:
 	vector<Particle>* particles;
 	ID3D10Buffer* shaderParticles;
 	vector<GeoParticle>* geoParticles;
+	BoundingSphere m_bs;
 
 	enum EngineType{CPUAndModels, CPUAndGShader, GPUBased};
 	EngineType type;
@@ -28,6 +29,7 @@ public:
 	D3DXVECTOR3*	getRotation;
 	D3DXVECTOR3*	getScale;
 	EngineType*		getType();
+	const BoundingSphere& getBs()const { return m_bs; }
 
 	void			setPosition();
 	void			setRotation();

@@ -262,7 +262,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
 	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
 	
-	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
+	return (float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
 }
 
 technique10 RenderModelDeferred
