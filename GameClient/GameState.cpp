@@ -454,10 +454,9 @@ void GameState::importMap(string _map)
 					position.z = -position.z;
 					rotation.x = -rotation.x * (D3DX_PI/180);
 				
-					Model *m = g_graphicsEngine->createModel(key, position);
+					Model *m = g_graphicsEngine->createModel(key, position, true);
 					m->setRotation(rotation);
 					m->setScale(scale, scale, scale);
-					m->setStatic(true);
 				}
 			}
 		}
