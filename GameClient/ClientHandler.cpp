@@ -32,7 +32,6 @@ ClientHandler::~ClientHandler()
 HRESULT ClientHandler::run()
 {
 	//this->m_serverThread->Launch();
-
 	this->m_state = new MainMenuState();
 
 	// Retarded thread code
