@@ -273,41 +273,67 @@ void QuadTreeNode::getAllModels(stack<Model*>& _models)
 		_models.push(this->m_models[i]);
 }
 
-void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const
+void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)const
 {
-	D3DXVECTOR3 focalPoint = D3DXVECTOR3(_cameraPos.x, 0.0f, _cameraPos.z + 10); 
+	D3DXVECTOR2 nodeDistanceToCamera = D3DXVECTOR2(m_obb->Center.x, m_obb->Center.z)-_focalPoint;
+	nodeDistanceToCamera.x = abs(nodeDistanceToCamera.x);
+	nodeDistanceToCamera.y = abs(nodeDistanceToCamera.y);
 
-	D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(m_obb->Center.x, m_obb->Center.z)-D3DXVECTOR2(_cameraPos.x, _cameraPos.z);
-	modelDistanceToCamera.x = abs(modelDistanceToCamera.x);
-	modelDistanceToCamera.y = abs(modelDistanceToCamera.y);
-
-	// Find the greatest extent of the model bounding box
 	float greatestExtent;
 	if(m_obb->Extents.x > m_obb->Extents.z)
 		greatestExtent = m_obb->Extents.x;
 	else
 		greatestExtent = m_obb->Extents.z;
 
-	// Subtract the greatest extent from the distance
-	modelDistanceToCamera.x -= greatestExtent;
-	modelDistanceToCamera.y -= greatestExtent;
+	nodeDistanceToCamera.x -= greatestExtent;
+	nodeDistanceToCamera.y -= greatestExtent;
 
-	if(true)//if(modelDistanceToCamera.x < 6.0f && (m_obb->Center.z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+	if(true || (nodeDistanceToCamera.x < 13.0f && nodeDistanceToCamera.y < 10.0f))
 	{
 		if(this->m_children[0])
 		{
 			// ADD ALL CHILD MODELS TO STACK
-			m_children[0]->getModels(_models, _cameraPos);
-			m_children[1]->getModels(_models, _cameraPos);
-			m_children[2]->getModels(_models, _cameraPos);
-			m_children[3]->getModels(_models, _cameraPos);
+			m_children[0]->getModels(_models, _focalPoint);
+			m_children[1]->getModels(_models, _focalPoint);
+			m_children[2]->getModels(_models, _focalPoint);
+			m_children[3]->getModels(_models, _focalPoint);
 		}
 	
 		// ADD MY MODELS TO STACK
 		for(int i = 0; i < this->m_models.size(); i++)
 		{
+			// Calculate models distance to camera and make it positive
+			D3DXVECTOR2 modelDistanceToCamera = this->m_models[i]->getPosition2D()-_focalPoint;
+			modelDistanceToCamera.x = abs(modelDistanceToCamera.x);
+			modelDistanceToCamera.y = abs(modelDistanceToCamera.y);
+
+			// Find the greatest extent of the model bounding box
+			float greatestExtent;
+			if(m_models[i]->getObb())
+			{
+				if(this->m_models[i]->getObb()->Extents.x > this->m_models[i]->getObb()->Extents.z)
+					greatestExtent = this->m_models[i]->getObb()->Extents.x;
+				else
+					greatestExtent = this->m_models[i]->getObb()->Extents.z;
+			}
+			else if(m_models[i]->getBs())
+			{
+				greatestExtent = this->m_models[i]->getBs()->Radius;
+			}
+			else
+			{
+				// we are fucked
+			}
+
+			// Subtract the greatest extent from the distance
+			modelDistanceToCamera.x -= greatestExtent;
+			modelDistanceToCamera.y -= greatestExtent;
+
+			if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+				_models.push(this->m_models[i]);
+			/*
 			// Calculate models distance to camera and make it positive +
-			D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_models[i]->getPosition2D()-D3DXVECTOR2(_cameraPos.x, _cameraPos.z));
+			D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_models[i]->getPosition2D()-D3DXVECTOR2(_focalPoint.x, _focalPoint.z));
 			modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
 			modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
 			// Find the greatest extent of the model bounding box
@@ -331,51 +357,51 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)cons
 			modelDistanceToCamera.x -= greatestExtent;
 			modelDistanceToCamera.y -= greatestExtent;
 
-			if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z+greatestExtent) > _cameraPos.z-5 && modelDistanceToCamera.y < 8.0f)
-				_models.push(this->m_models[i]);
+			if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z+greatestExtent) > _focalPoint.z-5 && modelDistanceToCamera.y < 8.0f)
+				_models.push(this->m_models[i]);*/
 		}
 	}
 }
 
-void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPos)const
+void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR2 _focalPoint)const
 {
 	if(this->m_children[0])
 	{
 		// ADD ALL CHILD MODELS TO STACK
-		this->m_children[0]->getLights(_lights, _cameraPos);
-		this->m_children[1]->getLights(_lights, _cameraPos);
-		this->m_children[2]->getLights(_lights, _cameraPos);
-		this->m_children[3]->getLights(_lights, _cameraPos);
+		this->m_children[0]->getLights(_lights, _focalPoint);
+		this->m_children[1]->getLights(_lights, _focalPoint);
+		this->m_children[2]->getLights(_lights, _focalPoint);
+		this->m_children[3]->getLights(_lights, _focalPoint);
 	}
 	
 	// ADD MY MODELS TO STACK
 	for(int i = 0; i < this->m_lights.size(); i++)
 	{
-		// Calculate models distance to camera and make it positive +
-		D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_lights[i]->getPosition2D()-D3DXVECTOR2(_cameraPos.x, _cameraPos.z));
-		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
-		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
-		// Find the greatest extent of the model bounding box
+		// Calculate models distance to camera and make it positive
+		D3DXVECTOR2 modelDistanceToCamera = m_lights[i]->getPosition2D()-_focalPoint;
+		modelDistanceToCamera.x = abs(modelDistanceToCamera.x);
+		modelDistanceToCamera.y = abs(modelDistanceToCamera.y);
+
 		float greatestExtent = this->m_lights[i]->getBs()->Radius;
 
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
-		
-		if(modelDistanceToCamera.x < 6.0f && (m_lights[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+
+		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
 			_lights.push_back(this->m_lights[i]);
 	}
 }
 
-void QuadTreeNode::getParticleEngines(stack<ParticleEngine*>& _particleEngines, D3DXVECTOR3 _cameraPos)const
+void QuadTreeNode::getParticleEngines(stack<ParticleEngine*>& _particleEngines, D3DXVECTOR2 _focalPoint)const
 {
 	if(this->m_children[0])
 	{
 		// ADD ALL CHILD MODELS TO STACK
-		this->m_children[0]->getParticleEngines(_particleEngines, _cameraPos);
-		this->m_children[1]->getParticleEngines(_particleEngines, _cameraPos);
-		this->m_children[2]->getParticleEngines(_particleEngines, _cameraPos);
-		this->m_children[3]->getParticleEngines(_particleEngines, _cameraPos);
+		this->m_children[0]->getParticleEngines(_particleEngines, _focalPoint);
+		this->m_children[1]->getParticleEngines(_particleEngines, _focalPoint);
+		this->m_children[2]->getParticleEngines(_particleEngines, _focalPoint);
+		this->m_children[3]->getParticleEngines(_particleEngines, _focalPoint);
 	}
 	
 	// ADD MY MODELS TO STACK
@@ -385,24 +411,24 @@ void QuadTreeNode::getParticleEngines(stack<ParticleEngine*>& _particleEngines, 
 	}
 }
 
-void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
+void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR2 _focalPoint)const
 {
 	if(this->m_children[0])
 	{
 		// ADD ALL CHILD MODELS TO STACK
-		this->m_children[0]->getRoads(_roads, _cameraPos);
-		this->m_children[1]->getRoads(_roads, _cameraPos);
-		this->m_children[2]->getRoads(_roads, _cameraPos);
-		this->m_children[3]->getRoads(_roads, _cameraPos);
+		this->m_children[0]->getRoads(_roads, _focalPoint);
+		this->m_children[1]->getRoads(_roads, _focalPoint);
+		this->m_children[2]->getRoads(_roads, _focalPoint);
+		this->m_children[3]->getRoads(_roads, _focalPoint);
 	}
 	
 	// ADD MY MODELS TO STACK
 	for(int i = 0; i < this->m_roads.size(); i++)
 	{
 		// Calculate models distance to camera and make it positive +
-		D3DXVECTOR2 modelDistanceToCamera = D3DXVECTOR2(this->m_roads[i]->getPosition2D()-D3DXVECTOR2(_cameraPos.x, _cameraPos.z));
-		modelDistanceToCamera.x = max(modelDistanceToCamera.x, -modelDistanceToCamera.x);
-		modelDistanceToCamera.y = max(modelDistanceToCamera.y, -modelDistanceToCamera.y);
+		D3DXVECTOR2 modelDistanceToCamera = m_roads[i]->getPosition2D()-_focalPoint;
+		modelDistanceToCamera.x = abs(modelDistanceToCamera.x);
+		modelDistanceToCamera.y = abs(modelDistanceToCamera.y);
 
 		// Find the greatest extent of the bounding box
 		float greatestExtent;
@@ -415,8 +441,9 @@ void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 		
-		if(modelDistanceToCamera.x < 6.0f && (m_roads[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
-			_roads.push(this->m_roads[i]);
+		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+			_roads.push(m_roads[i]);
+
 	}
 }
 

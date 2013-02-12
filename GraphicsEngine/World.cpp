@@ -201,7 +201,7 @@ void World::render()
 
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-	stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
+	stack<Model*> models = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
 	vector<Model*> transparentModels;
 	vector<Model*> gubbs;
 	while(!models.empty())
@@ -325,7 +325,7 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	// Render roads yo dawg y u be messin' about
-	stack<Road*> roads = this->m_quadTree->getRoads(this->m_camera->getPos());
+	stack<Road*> roads = this->m_quadTree->getRoads(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	while(!roads.empty())
 	{
@@ -383,7 +383,7 @@ void World::render()
 	this->m_deferredRendering->setTangentTexture(this->m_tangentBuffer->getShaderResource());
 
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(this->m_camera->getPos()), this->m_directionalLights, this->m_spotLights);
+	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f)), this->m_directionalLights, this->m_spotLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
@@ -540,7 +540,7 @@ void World::renderShadowMap()
 {
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
 
-	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(this->m_camera->getPos());
+	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
 	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[pointLights.size() * 6];
 	D3DXMATRIX* wvps = new D3DXMATRIX[pointLights.size() * 6];
 	
@@ -555,7 +555,7 @@ void World::renderShadowMap()
 			m_deferredSampler->setLightWvp(pointLights[i]->getMatrix(j));
 			pointLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice(), j);
 
-			stack<Model*> models = this->m_quadTree->getModels(pointLights[i]->getPosition().toD3DXVector());
+			stack<Model*> models = this->m_quadTree->getAllModels();
 			while(!models.empty())
 			{
 				if(models.top()->getAlpha() == 1.0f)
@@ -606,7 +606,7 @@ void World::renderShadowMap()
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
 
-		stack<Model*> models = this->m_quadTree->getModels(this->m_camera->getPos());
+		stack<Model*> models = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
 		while(!models.empty())
 		{
 			if(models.top()->getAlpha() == 1.0f)
@@ -655,7 +655,7 @@ void World::update(float dt)
 		this->m_sprites[i]->update(dt);
 	}
 
-	stack<Model*> models = this->m_quadTree->getModels(m_camera->getPos());
+	stack<Model*> models = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
 	while(!models.empty())
 	{
 		models.top()->getAnimation()->Update(dt);

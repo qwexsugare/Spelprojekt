@@ -35,10 +35,10 @@ public:
 	bool intersects(const Model* _model)const;
 	bool intersects(PointLight* _light)const;
 	bool intersects(Road* _road)const;
-	void getModels(stack<Model*>& _models, D3DXVECTOR3 _cameraPos)const;
-	void getLights(vector<PointLight*>& _lights, D3DXVECTOR3 _cameraPos)const;
-	void getParticleEngines(stack<ParticleEngine*>& _lights, D3DXVECTOR3 _cameraPos)const;
-	void getRoads(stack<Road*>& _roads, D3DXVECTOR3 _cameraPos)const;
+	void getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)const;
+	void getLights(vector<PointLight*>& _lights, D3DXVECTOR2 _focalPoint)const;
+	void getParticleEngines(stack<ParticleEngine*>& _lights, D3DXVECTOR2 _focalPoint)const;
+	void getRoads(stack<Road*>& _roads, D3DXVECTOR2 _focalPoint)const;
 	void pullAllModels(stack<Model*>& _models);
 	bool removeModel(Model* _model);
 	bool removeLight(PointLight* _light);
