@@ -106,6 +106,11 @@ bool QuadTree::removeLight(PointLight* _light)
 	return this->m_parent->removeLight(_light);
 }
 
+bool QuadTree::removeParticleEngine(ParticleEngine* _pe)
+{
+	return m_parent->removeParticleEngine(_pe);
+}
+
 bool QuadTree::removeRoad(Road* _road)
 {
 	return this->m_parent->removeRoad(_road);

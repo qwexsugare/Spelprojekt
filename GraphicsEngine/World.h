@@ -88,6 +88,9 @@ public:
 	bool addRoad(Road* _road);
 	bool removeRoad(Road* _road);
 	
+	bool addParticleEngine(ParticleEngine* _pe);
+	bool removeParticleEngine(ParticleEngine* _pe);
+	
 	void addTerrain(Terrain* _terrain);
 	bool removeTerrain(Terrain* _terrain);
 	

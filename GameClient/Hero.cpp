@@ -143,6 +143,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 		this->m_pathCounter = 2;
 		this->m_reachedPosition = false;
 		this->m_hasTarget = false;
+		this->m_target = NULL;
 		this->m_reallyReachedPosition = false;
 	}
 	else if(this->m_path.nrOfPoints == 1)
@@ -152,6 +153,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 		this->m_pathCounter = 1;
 		this->m_reachedPosition = false;
 		this->m_hasTarget = false;
+		this->m_target = NULL;
 		this->m_reallyReachedPosition = false;
 	}
 	else
@@ -160,6 +162,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 		this->m_pathCounter = 0;
 		this->m_reachedPosition = true;
 		this->m_hasTarget = false;
+		this->m_target = NULL;
 		this->m_reallyReachedPosition = true;
 	}
 }
@@ -172,6 +175,8 @@ void Hero::setTarget(unsigned int _target)
 	{
 		this->m_hasTarget = true;
 		this->m_target = _target;
+		this->m_reachedPosition = true;
+		this->m_reallyReachedPosition = true;
 	}
 }
 

@@ -23,5 +23,6 @@ public:
 	stack<Model*> pullAllModels();
 	bool removeModel(Model* _model);
 	bool removeLight(PointLight* _light);
+	bool removeParticleEngine(ParticleEngine* _pe);
 	bool removeRoad(Road* _road);
 };
