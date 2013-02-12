@@ -223,7 +223,7 @@ void Model::updateModelMatrix()
 		XMVECTOR rot = XMQuaternionRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
 		XMVECTOR trans = XMLoadFloat3(&XMFLOAT3(0,0,0));
 		
-		XMMATRIX Fucker = XMMatrixRotationQuaternion(XMQuaternionRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z));
+		//XMMATRIX Fucker = XMMatrixRotationQuaternion(XMQuaternionRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z));
 		XMFLOAT3 temp = m_obb->Center;
 		m_obb->Center = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		XMStoreFloat4(&this->m_obb->Orientation, XMQuaternionIdentity());
