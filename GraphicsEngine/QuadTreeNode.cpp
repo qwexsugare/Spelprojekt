@@ -41,6 +41,9 @@ QuadTreeNode::~QuadTreeNode()
 	for(int i = 0; i < this->m_models.size(); i++)
 		delete this->m_models[i];
 
+	for(int i = 0; i < m_particleEngines.size(); i++)
+		delete m_particleEngines[i];
+
 	for(int i = 0; i < this->m_lights.size(); i++)
 	{
 		delete this->m_lights[i];
