@@ -99,23 +99,10 @@ void Button::Update()
 			this->m_Button->setCurrentFrame(INT2(0,0));
 		}
 		this->m_Delay += 1;
-		if(this->m_Max != 0)
-		{
-			float tmp_Pos = this->m_Pos.x;
-			if(this->m_ButtonReaction == 1)
-			{
-				this->m_Pos.x = tmpPos.x;
-				if (tmpPos.x > this->m_Max)
-				{
-					this->m_Keep = 1;
-				}
-				if (tmpPos.x < this->m_Min)
-				{
-					this->m_Keep = 1;
-				}
-				this->m_Keep = 1;
-			}
-		}
+	}
+	if (this->m_TextBox == true)
+	{
+		this->m_Button->setCurrentFrame(INT2(1,0));
 	}
 
 }
