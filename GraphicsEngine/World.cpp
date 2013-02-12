@@ -10,7 +10,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
+	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
@@ -70,8 +70,8 @@ World::~World()
 {
 	for(int i = 0; i < m_terrains.size(); i++)
 		delete m_terrains[i];
-	for(int i = 0; i < m_roads.size(); i++)
-		delete m_roads[i];
+	for(int i = 0; i < m_models.size(); i++)
+		delete m_models[i];
 
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
@@ -244,7 +244,7 @@ void World::render()
 				}
 			}
 		}
-		else if(models.top()->isHouse())
+		else if(models.top()->isStatic())
 		{
 			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
@@ -702,12 +702,33 @@ void World::update(float dt)
 
 bool World::addModel(Model *_model)
 {
-	return this->m_quadTree->addModel(_model);
+	if(_model->isStatic())
+		return this->m_quadTree->addModel(_model);
+	else
+		m_models.push_back(_model);
 }
 
 bool World::removeModel(Model *_model)
 {
-	return this->m_quadTree->removeModel(_model);
+	bool success = false;
+
+	if(_model->isStatic())
+		success = this->m_quadTree->removeModel(_model);
+	else
+	{
+		for(int i = 0; i < m_models.size(); i++)
+		{
+			if(m_models[i] == _model)
+			{
+				delete m_models[i];
+				m_models.erase(m_models.begin()+i);
+				success = true;
+				i = m_models.size();
+			}
+		}
+	}
+
+	return success;
 }
 
 void World::addSprite(SpriteBase *sprite)

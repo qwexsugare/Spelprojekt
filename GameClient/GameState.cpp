@@ -457,7 +457,7 @@ void GameState::importMap(string _map)
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);
 					m->setScale(scale, scale, scale);
-					m->setHouse(true);
+					m->setStatic(true);
 				}
 			}
 		}

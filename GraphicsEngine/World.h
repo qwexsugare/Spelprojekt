@@ -71,7 +71,7 @@ private:
 	vector<PointLight*> m_pointLights;
 	vector<DirectionalLight*> m_directionalLights;
 	vector<SpotLight*> m_spotLights;
-	vector<Road*> m_roads;
+	vector<Model*> m_models;
 
 	// Shadow mapping
 	D3D10_VIEWPORT m_shadowMapViewport;
