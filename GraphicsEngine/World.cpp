@@ -134,6 +134,16 @@ bool World::removeRoad(Road* _road)
 	return this->m_quadTree->removeRoad(_road);
 }
 
+bool World::addParticleEngine(ParticleEngine* _pe)
+{
+	return m_quadTree->addParticleEngine(_pe);
+}
+
+bool World::removeParticleEngine(ParticleEngine* _pe)
+{
+	return m_quadTree->removeParticleEngine(_pe);
+}
+
 void World::addTerrain(Terrain* _terrain)
 {
 	this->m_terrains.push_back(_terrain);
@@ -494,6 +504,14 @@ void World::render()
 
 	//GlowEnd
 
+	// Particle Engines (Systems)
+	stack<ParticleEngine*> pes;
+	while(!pes.empty())
+	{
+		//pes.top()->getstuffandrendershit();
+		/* What do you call a sheep with no legs? A cloud. */
+		pes.pop();
+	}
 	
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)
@@ -773,26 +791,11 @@ bool World::removeMyText(MyText* _text)
 
 void World::addPointLight(PointLight* _pointLight)
 {
-	//this->m_pointLights.push_back(_pointLight);
 	this->m_quadTree->addLight(_pointLight);
 }
 
 bool World::removePointLight(PointLight* _pointLight)
 {
-	//bool found = false;
-
-	//for(int i = 0; i < this->m_pointLights.size() && !found; i++)
-	//{
-	//	if(this->m_pointLights[i] == _pointLight)
-	//	{
-	//		delete this->m_pointLights[i];
-	//		this->m_pointLights.erase(this->m_pointLights.begin()+i);
-	//		found = true;
-	//	}
-	//}
-
-	//return found;
-
 	return this->m_quadTree->removeLight(_pointLight);
 }
 

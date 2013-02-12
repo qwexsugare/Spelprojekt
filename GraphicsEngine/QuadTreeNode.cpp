@@ -537,6 +537,40 @@ bool QuadTreeNode::removeLight(PointLight* _light)
 	return removed;
 }
 
+bool QuadTreeNode::removeParticleEngine(ParticleEngine* _pe)
+{
+	bool removed = false;
+	
+	for(int i = 0; i < this->m_lights.size() && !removed; i++)
+	{
+		if(m_particleEngines[i] == _pe)
+		{
+			delete m_particleEngines[i];
+			m_particleEngines.erase(m_particleEngines.begin()+i);
+			removed = true;
+		}
+	}
+
+	if(!removed && this->m_children[0])
+	{
+		removed = this->m_children[0]->removeParticleEngine(_pe);
+		if(!removed)
+		{
+			removed = this->m_children[1]->removeParticleEngine(_pe);
+			if(!removed)
+			{
+				removed = this->m_children[2]->removeParticleEngine(_pe);
+				if(!removed)
+				{
+					removed = this->m_children[3]->removeParticleEngine(_pe);
+				}
+			}
+		}
+	}
+
+	return removed;
+}
+
 bool QuadTreeNode::removeRoad(Road* _road)
 {
 	bool removed = false;

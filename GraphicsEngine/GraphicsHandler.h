@@ -38,6 +38,9 @@ public:
 	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot);
 	DECLDIR bool removeRoad(Road* _road);
 	
+	DECLDIR ParticleEngine* createParticleEngine(D3DXVECTOR3 _pos);
+	DECLDIR bool removeParticleEngine(ParticleEngine* _particleEngine);
+	
 	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps);
 	DECLDIR bool removeTerrain(Terrain* _terrain);
 	

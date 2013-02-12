@@ -53,6 +53,18 @@ bool GraphicsHandler::removeRoad(Road* _road)
 {
 	return this->m_world->removeRoad(_road);
 }
+
+ParticleEngine* GraphicsHandler::createParticleEngine(D3DXVECTOR3 _pos)
+{
+	ParticleEngine* pe;
+	m_world->addParticleEngine(pe);
+	return pe;
+}
+
+bool GraphicsHandler::removeParticleEngine(ParticleEngine* _particleEngine)
+{
+	return m_world->removeParticleEngine(_particleEngine);
+}
 	
 Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps)
 {
