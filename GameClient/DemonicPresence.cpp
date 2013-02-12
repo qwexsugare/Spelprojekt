@@ -4,7 +4,7 @@
 
 const float DemonicPresence::COOLDOWN = 120.0f;
 
-DemonicPresence::DemonicPresence() : Skill(Skill::STUNNING_STRIKE, COOLDOWN)
+DemonicPresence::DemonicPresence() : Skill(Skill::DEMONIC_PRESENCE, COOLDOWN)
 {
 	
 }
