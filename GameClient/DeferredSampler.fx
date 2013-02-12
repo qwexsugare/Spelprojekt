@@ -291,7 +291,7 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	output.Tangent = float4(t, 0);
 
 	output.Glow = glowMap.Sample(linearSampler, input.UVCoord);
-	output.color.w = 1.0f;
+
 	return output;
 }
 
