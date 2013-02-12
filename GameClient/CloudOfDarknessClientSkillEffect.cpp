@@ -15,7 +15,7 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _posit
 	m_graphicalEffects[0]->setAlpha(0.999f);
 	m_graphicalEffects[1]->setAlpha(0.999f);
 	m_graphicalEffects[2]->setAlpha(0.999f);
-	this->m_light = g_graphicsEngine->createPointLight(FLOAT3(_position.x, 0.6f, _position.z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(-2.0f, -2.0f, -2.0f), FLOAT3(-2.0f, -2.0f, -2.0f), 2.0f);
+	this->m_light = g_graphicsEngine->createPointLight(FLOAT3(_position.x, 0.6f, _position.z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(-2.0f, -2.0f, -2.0f), FLOAT3(-2.0f, -2.0f, -2.0f), 0.5f);
 	m_lifetime = 0.0f;
 	m_sound = createSoundHandle("rain.wav", false);
 	playSound(m_sound);
@@ -35,9 +35,9 @@ void CloudOfDarknessClientSkillEffect::update(float _dt)
 {
 	m_lifetime += _dt;
 	
-	m_graphicalEffects[0]->rotate(_dt, -_dt, _dt);
-	m_graphicalEffects[1]->rotate(_dt, _dt, _dt);
-	m_graphicalEffects[2]->rotate(_dt, -_dt, _dt);
+	m_graphicalEffects[0]->rotate(-_dt, 0.0f, 0.0f);
+	m_graphicalEffects[1]->rotate(_dt, 0.0f, 0.0f);
+	m_graphicalEffects[2]->rotate(-_dt, 0.0f, 0.0f);
 	m_graphicalEffects[0]->setAlpha(m_graphicalEffects[0]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
 	m_graphicalEffects[1]->setAlpha(m_graphicalEffects[1]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
 	m_graphicalEffects[2]->setAlpha(m_graphicalEffects[2]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));

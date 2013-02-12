@@ -6,7 +6,6 @@
 class StunningStrikeClientSkillEffect : public ClientSkillEffect
 {
 private:
-	PointLight* m_graphicalEffect;
 	int m_sound;
 	FLOAT3 m_position;
 	float m_lifetime;

@@ -347,7 +347,8 @@ void World::render()
 
 		roads.pop();
 	}
-
+	
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	for(int i = 0; i < transparentModels.size(); i++)
 	{
 		this->m_deferredSampler->setModelMatrix(transparentModels[i]->getModelMatrix());
