@@ -16,6 +16,13 @@ QuadTree::~QuadTree()
 		delete this->m_parent;
 }
 
+bool QuadTree::addParticleEngine(ParticleEngine* _particleEngine)
+{
+	bool success;
+	m_parent->addParticleEngine(success, _particleEngine);
+	return success;
+}
+
 bool QuadTree::addModel(Model* _model)
 {
 	bool success;
@@ -53,6 +60,15 @@ stack<Model*> QuadTree::getModels(D3DXVECTOR3 _cameraPos)const
 	this->m_parent->getModels(models, _cameraPos);
 
 	return models;
+}
+
+stack<ParticleEngine*> QuadTree::getParticleEngines(D3DXVECTOR3 _cameraPos)const
+{
+	stack<ParticleEngine*> ret;
+
+	m_parent->getParticleEngines(ret, _cameraPos);
+
+	return ret;
 }
 
 vector<PointLight*> QuadTree::getPointLights(D3DXVECTOR3 _cameraPos)const
