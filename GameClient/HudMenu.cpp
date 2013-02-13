@@ -207,12 +207,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 				this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));		
 				this->m_skillWaitingForTarget = -1;
 
-				this->m_SkillButtons[this->m_buttonIndex]->setCooldown(180.0f);
+				this->m_SkillButtons[this->m_buttonIndex]->setCooldown(5.0f);
 			}
 
 			for(int i = 0; i < m_NumberOfSkills; i++)
 			{
-				this->m_SkillButtons[i]->Update();
+				this->m_SkillButtons[i]->Update(_dt);
 
 				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
 				{
@@ -430,6 +430,7 @@ void HudMenu::setResources(unsigned int _resources)
 		else
 		{
 			this->m_canAfford[i] = true;
+			this->m_disabledShopButtons[i]->setVisible(false);
 		}
 	}
 

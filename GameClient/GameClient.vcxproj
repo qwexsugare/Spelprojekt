@@ -220,6 +220,7 @@
     <ClCompile Include="NetworkRemoveEntityMessage.cpp" />
     <ClCompile Include="NetworkSelectHeroMessage.cpp" />
     <ClCompile Include="NetworkSkillBoughtMessage.cpp" />
+    <ClCompile Include="NetworkSkillUsedMessage.cpp" />
     <ClCompile Include="NetworkStartGameMessage.cpp" />
     <ClCompile Include="NetworkUseActionMessage.cpp" />
     <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
@@ -344,6 +345,7 @@
     <ClInclude Include="NetworkRemoveEntityMessage.h" />
     <ClInclude Include="NetworkSelectHeroMessage.h" />
     <ClInclude Include="NetworkSkillBoughtMessage.h" />
+    <ClInclude Include="NetworkSkillUsedMessage.h" />
     <ClInclude Include="NetworkStartGameMessage.h" />
     <ClInclude Include="NetworkUseActionMessage.h" />
     <ClInclude Include="NetworkUseActionPositionMessage.h" />

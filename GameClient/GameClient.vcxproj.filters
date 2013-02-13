@@ -325,6 +325,9 @@
     <ClCompile Include="NetworkStartGameMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkSkillUsedMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -676,6 +679,9 @@
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkStartGameMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSkillUsedMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>

@@ -96,6 +96,22 @@ int UnitEntity::getNrOfSkills()
 	return this->m_skills.size();
 }
 
+int UnitEntity::getSkillIndex(Skill* _skill)
+{
+	int index = -1;
+	
+	for(int i = 0; i < this->m_skills.size(); i++)
+	{
+		if(this->m_skills[i] == _skill)
+		{
+			index = i;
+			i = this->m_skills.size();		
+		}
+	}
+
+	return index;
+}
+
 void UnitEntity::increaseStrength(int _strength)
 {
 	this->m_strength = this->m_strength + _strength;

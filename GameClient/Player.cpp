@@ -263,6 +263,7 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		if(s != NULL)
 		{
 			s->activate(usm.getPosition(), this->m_hero->getId());
+			this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s)));
 		}
 
 		break;
@@ -276,6 +277,7 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 	if(s != NULL)
 	{
 		s->activate(this->m_hero->getId());
+		this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s)));
 	}
 }
 
@@ -293,6 +295,7 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		if(s != NULL)
 		{
 			s->activate(usm.getTargetId(), m_hero->getId());
+			this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s)));
 		}
 
 		break;

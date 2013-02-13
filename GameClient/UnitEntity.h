@@ -53,6 +53,7 @@ public:
 	void addSkill(Skill *_skill);
 	Skill *getSkill(unsigned int _id);
 	int getNrOfSkills();
+	int getSkillIndex(Skill* _skill);
 
 	virtual NetworkEntityMessage getUpdate();
 

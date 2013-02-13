@@ -143,7 +143,7 @@ INT2 SpriteSheet::getCurrentFrame()
 	return INT2(this->m_currentFrame / this->m_nrOfFrames.x, this->m_currentFrame - this->m_currentFrame / this->m_nrOfFrames.x);
 }
 
-void SpriteSheet::playAnimation(INT2 _startFrame, INT2 _endFrame, bool _loop, int _framesPerSecond)
+void SpriteSheet::playAnimation(INT2 _startFrame, INT2 _endFrame, bool _loop, float _framesPerSecond)
 {
 	this->m_startFrame = _startFrame.y * this->m_nrOfFrames.x + _startFrame.x;
 	this->m_endFrame = _endFrame.y * this->m_nrOfFrames.x + _endFrame.x;
