@@ -8,9 +8,9 @@ using namespace std;
 class ParticleEngine
 {
 private:
-	vector<Particle>* particles;
+	vector<Particle> particles;
 	ID3D10Buffer* shaderParticles;
-	vector<GeoParticle>* geoParticles;
+	vector<GeoParticle> geoParticles;
 	BoundingSphere m_bs;
 
 	enum EngineType{CPUAndModels, CPUAndGShader, GPUBased};
@@ -20,6 +20,8 @@ private:
 	D3DXVECTOR3 position;
 	D3DXVECTOR3 rotation;
 	D3DXVECTOR3 scale;
+	
+	bool isDead;
 public:
 	ParticleEngine(EngineType _type, D3DXVECTOR3 _position, D3DXVECTOR3 _rotation, D3DXVECTOR3 _scale);
 	~ParticleEngine();
@@ -34,4 +36,7 @@ public:
 	void			setPosition();
 	void			setRotation();
 	void			setScale();
+	void Draw(ID3D10Device* _device);
+	void Update(float _dt);
+	void Troll();
 };
