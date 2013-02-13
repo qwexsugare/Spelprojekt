@@ -46,6 +46,7 @@ private:
 	vector<Sprite*> m_shopBackground;
 
 	int m_skillWaitingForTarget;
+	int m_buttonIndex;
 
 	//vector<Button*> m_towerButtons;
 	//Button m_towerShopButton;

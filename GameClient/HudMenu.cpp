@@ -206,6 +206,8 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 				this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));		
 				this->m_skillWaitingForTarget = -1;
+
+				this->m_SkillButtons[this->m_buttonIndex]->setCooldown(180.0f);
 			}
 
 			for(int i = 0; i < m_NumberOfSkills; i++)
@@ -217,6 +219,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT)
 					{
 						this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
+						this->m_buttonIndex = i;
 					}
 					else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
 						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)

@@ -1,6 +1,6 @@
 #include "LifestealingStrike.h"
 
-LifestealingStrike::LifestealingStrike()
+LifestealingStrike::LifestealingStrike() : Skill(Skill::LIFESTEALING_STRIKE, 0.0f)
 {
 
 }

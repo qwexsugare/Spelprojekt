@@ -761,3 +761,13 @@ GameClient/models/Bench/Bench.BFish
 GameClient/models/Bench/Bench_UV_DM.png
 GameClient/models/Bench/Bench_UV_NM.png
 GameClient/models/Bench/Bench_UV_SM.png
+GameClient/menu_textures/Clock.png
+GameClient/menu_textures/Turret_Death.png
+GameClient/menu_textures/Turret_Frost.png
+GameClient/menu_textures/Turret_Poison.png
+GameClient/menu_textures/Turret_Tesla.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_All.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_Death.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_Frost.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_Poison.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_Tesla.png

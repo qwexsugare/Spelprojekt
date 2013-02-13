@@ -1,6 +1,6 @@
 #include "Greed.h"
 
-Greed::Greed()
+Greed::Greed() : Skill(Skill::GREED, 0.0f)
 {
 
 }

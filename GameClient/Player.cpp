@@ -8,17 +8,11 @@ Player::Player(unsigned int id)
 	this->m_hero = new Hero();
 	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
 	//this->m_hero->setNextPosition(FLOAT3(60.0f, 0.0f, 40.0f));
-	this->m_chainStrike = new ChainStrike();
-	this->m_cloudOfDarkness = new CloudOfDarkness();
-	this->m_stunningStrike = new StunningStrike();
-	this->m_teleport = new Teleport();
-	this->m_healingTouch = new HealingTouch();
-	this->m_demonicPresence = new DemonicPresence();
 	
-	this->m_skills.push_back(new SimonsEvil());
-	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::COURAGE_HONOR_VALOR, this->m_id, this->m_resources));
-	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
-	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR, this->m_id, this->m_resources));
+	//this->m_skills.push_back(new SimonsEvil());
+	//this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::COURAGE_HONOR_VALOR, this->m_id, this->m_resources));
+	//this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
+	//this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR, this->m_id, this->m_resources));
 
 	EntityHandler::addEntity(m_hero);
 }
@@ -30,13 +24,7 @@ Player::~Player()
 		delete this->m_skills[i];
 	}
 
-	delete this->m_chainStrike;
-	delete this->m_cloudOfDarkness;
-	delete this->m_stunningStrike;
 	delete this->m_messageQueue;
-	delete m_teleport;
-	delete m_healingTouch;
-	delete m_demonicPresence;
 }
 
 void Player::handleEntityMessage(EntityMessage e)
@@ -150,7 +138,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::PHYSICAL_RESISTANCE:
 			if(this->m_resources >= Greed::COST)
 			{
-				PhysicalResistance* a = new PhysicalResistance();
+				a = new PhysicalResistance();
 				a->activate(this->m_hero->getId());
 				this->m_resources = this->m_resources - PhysicalResistance::COST;
 				skillBought = true;
@@ -172,7 +160,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::POISON_STRIKE:
 			if(this->m_resources >= PoisonStrike::COST)
 			{
-				PoisonStrike* a = new PoisonStrike();
+				a = new PoisonStrike();
 				a->activate(this->m_hero->getId());
 				this->m_resources = this->m_resources - PoisonStrike::COST;
 				skillBought = true;
@@ -255,13 +243,6 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 
 void Player::update(float _dt)
 {
-	m_chainStrike->update(_dt);
-	m_cloudOfDarkness->update(_dt);
-	m_stunningStrike->update(_dt);
-	m_teleport->update(_dt);
-	m_healingTouch->update(_dt);
-	m_demonicPresence->update(_dt);
-
 	for(int i = 0; i <this->m_skills.size(); i++)
 	{
 		this->m_skills[i]->update(_dt);
