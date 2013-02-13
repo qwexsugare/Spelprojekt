@@ -174,6 +174,8 @@ bool World::removeTerrain(Terrain* _terrain)
 
 void World::render()
 {
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
+
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
 	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
@@ -188,7 +190,7 @@ void World::render()
 	m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 	m_forwardRenderTarget->clear(m_deviceHandler->getDevice());
 	
-	this->renderShadowMap();
+	this->renderShadowMap(focalPoint);
 
 	ID3D10RenderTargetView *renderTargets[5];
 	renderTargets[0] = *this->m_positionBuffer->getRenderTargetView();
@@ -217,7 +219,7 @@ void World::render()
 
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-	stack<Model*> staticModels = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+	stack<Model*> staticModels = this->m_quadTree->getModels(focalPoint);
 	vector<Model*> transparentStaticModels;
 	while(!staticModels.empty())
 	{
@@ -293,59 +295,90 @@ void World::render()
 	vector<Model*> transparentModels;
 	for(int i = 0; i < m_models.size(); i++)
 	{
-		if(m_models[i]->getAlpha() < 1.0f)
+		// Calculate models distance to camera and make it positive
+		D3DXVECTOR2 modelDistanceToCamera = m_models[i]->getPosition2D()-focalPoint;
+		modelDistanceToCamera.x = abs(modelDistanceToCamera.x);
+		modelDistanceToCamera.y = abs(modelDistanceToCamera.y);
+
+		// Find the greatest extent of the model bounding box
+		float greatestExtent;
+		if(m_models[i]->getObb())
 		{
-			if(transparentModels.size() == 0)
-			{
-				transparentModels.push_back(m_models[i]);
-			}
+			if(this->m_models[i]->getObb()->Extents.x > this->m_models[i]->getObb()->Extents.z)
+				greatestExtent = this->m_models[i]->getObb()->Extents.x;
 			else
-			{
-				if(m_models[i]->getPosition().y <= transparentModels[0]->getPosition().y)
-					transparentModels.insert(transparentModels.begin(), m_models[i]);
-				else
-				{
-					bool inserted = false;
-					for(int j = 1; j < transparentModels.size()-1 && !inserted; j++)
-					{
-						if(m_models[i]->getPosition().y > transparentModels[j]->getPosition().y && m_models[i]->getPosition().y <= transparentModels[j+1]->getPosition().y)
-						{
-							transparentModels.insert(transparentModels.begin()+j, m_models[i]);
-							inserted = true;
-						}
-					}
-					if(!inserted)
-					{
-						transparentModels.push_back(m_models[i]);
-					}
-				}
-			}
+				greatestExtent = this->m_models[i]->getObb()->Extents.z;
+		}
+		else if(m_models[i]->getBs())
+		{
+			greatestExtent = this->m_models[i]->getBs()->Radius;
 		}
 		else
 		{
-			this->m_deferredSampler->setModelMatrix(m_models[i]->getModelMatrix());
-			this->m_deferredSampler->setModelAlpha(m_models[i]->getAlpha());
+			// we are fucked
+			greatestExtent = 1337;
+		}
 
-			for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
+		// Subtract the greatest extent from the distance
+		modelDistanceToCamera.x -= greatestExtent;
+		modelDistanceToCamera.y -= greatestExtent;
+
+		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+		{
+			if(m_models[i]->getAlpha() < 1.0f)
 			{
-				m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
-				m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-				m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
-
-				if(m_models[i]->getMesh()->isAnimated)
+				if(transparentModels.size() == 0)
 				{
-					/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+					transparentModels.push_back(m_models[i]);
 				}
 				else
 				{
-					m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-					m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
-					//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
-					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
-					this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+					if(m_models[i]->getPosition().y <= transparentModels[0]->getPosition().y)
+						transparentModels.insert(transparentModels.begin(), m_models[i]);
+					else
+					{
+						bool inserted = false;
+						for(int j = 1; j < transparentModels.size()-1 && !inserted; j++)
+						{
+							if(m_models[i]->getPosition().y > transparentModels[j]->getPosition().y && m_models[i]->getPosition().y <= transparentModels[j+1]->getPosition().y)
+							{
+								transparentModels.insert(transparentModels.begin()+j, m_models[i]);
+								inserted = true;
+							}
+						}
+						if(!inserted)
+						{
+							transparentModels.push_back(m_models[i]);
+						}
+					}
+				}
+			}
+			else
+			{
+				this->m_deferredSampler->setModelMatrix(m_models[i]->getModelMatrix());
+				this->m_deferredSampler->setModelAlpha(m_models[i]->getAlpha());
+
+				for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
+				{
+					m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
+					m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+					m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+
+					if(m_models[i]->getMesh()->isAnimated)
+					{
+						/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
+						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+						this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+					}
+					else
+					{
+						m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+						//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+						this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+					}
 				}
 			}
 		}
@@ -368,7 +401,7 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	// Render roads yo dawg y u be messin' about
-	stack<Road*> roads = this->m_quadTree->getRoads(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+	stack<Road*> roads = this->m_quadTree->getRoads(focalPoint);
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	while(!roads.empty())
 	{
@@ -456,7 +489,7 @@ void World::render()
 	this->m_deferredRendering->setTangentTexture(this->m_tangentBuffer->getShaderResource());
 
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f)), this->m_directionalLights, this->m_spotLights);
+	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(focalPoint), this->m_directionalLights, this->m_spotLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
@@ -642,11 +675,11 @@ void World::render()
 	this->m_deviceHandler->present();
 }
 
-void World::renderShadowMap()
+void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 {
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
 
-	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(_focalPoint);
 	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[pointLights.size() * 6];
 	D3DXMATRIX* wvps = new D3DXMATRIX[pointLights.size() * 6];
 	
@@ -712,7 +745,7 @@ void World::renderShadowMap()
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
 
-		stack<Model*> models = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+		stack<Model*> models = this->m_quadTree->getModels(_focalPoint);
 		while(!models.empty())
 		{
 			if(models.top()->getAlpha() == 1.0f)
@@ -761,12 +794,8 @@ void World::update(float dt)
 		this->m_sprites[i]->update(dt);
 	}
 
-	stack<Model*> models = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
-	while(!models.empty())
-	{
-		models.top()->getAnimation()->Update(dt);
-		models.pop();
-	}
+	for(int i = 0; i < m_models.size(); i++)
+		m_models[i]->getAnimation()->Update(dt);
 
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
 	//while(!models.empty())

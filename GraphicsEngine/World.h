@@ -80,7 +80,7 @@ private:
 	// Shadow mapping
 	D3D10_VIEWPORT m_shadowMapViewport;
 
-	void renderShadowMap();
+	void renderShadowMap(const D3DXVECTOR2& _focalPoint);
 public:
 	World();
 	World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed);
