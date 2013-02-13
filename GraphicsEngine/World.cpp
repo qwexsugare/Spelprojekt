@@ -31,15 +31,16 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_tangentBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	//Glow
-	//Anders var här och pela
 	this->m_glowRendering = new GlowRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_glowBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_glowBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
-	//this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(this->m_deviceHandler->getScreenSize().x/2, this->m_deviceHandler->getScreenSize().y/2));
 	int trollSize = 1920/4;
 	int trollSize2 = 1080/4;
 	this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
 	this->m_glowRenderTarget2 = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
+
+	//SSAO
+	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
 
 	this->m_positionBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -107,12 +108,17 @@ World::~World()
 	delete this->m_deferredPlane;
 	delete this->m_deferredSampler;
 	delete this->m_deferredRendering;
+	delete this->m_glowRendering;
+	delete this->m_SSAORendering;
 
 	delete this->m_positionBuffer;
 	delete this->m_normalBuffer;
 	delete this->m_diffuseBuffer;
 	delete this->m_tangentBuffer;
 	delete this->m_glowBuffer;
+	delete this->m_glowRenderTarget;
+	delete this->m_glowRenderTarget2;
+
 
 	delete this->m_positionBufferTransparant;
 	delete this->m_normalBufferTransparant;
@@ -417,10 +423,24 @@ void World::render()
 		this->m_deferredRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
-
-	////Glow
 	
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
+
+	///SSAO
+	//this->m_SSAORendering->setDepthTexture(this->m_forwardDepthStencil->getShaderResource());
+	//this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
+	//this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
+
+	//D3D10_TECHNIQUE_DESC SSAOTechDesc;
+	//this->m_SSAORendering->getTechnique()->GetDesc( &SSAOTechDesc );
+
+	//for( UINT p = 0; p < SSAOTechDesc.Passes; p++ )
+	//{
+	//	this->m_SSAORendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+	//	this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	//}
+
+	////Glow
 
 	m_glowRenderTarget->clear(m_deviceHandler->getDevice());
 	//m_forwardDepthStencil->clear(m_deviceHandler->getDevice());

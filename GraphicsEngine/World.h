@@ -5,6 +5,7 @@
 #include "DeferredRenderingEffectFile.h"
 #include "DeferredSamplerEffectFile.h"
 #include "GlowRenderingEffectFile.h"
+#include "SSAOEffectFile.h"
 #include "SpriteEffectFile.h"
 #include "Camera.h"
 #include "DeviceHandler.h"
@@ -57,6 +58,9 @@ private:
 	RenderTarget* m_glowRenderTarget;
 	RenderTarget* m_glowRenderTarget2;
 	D3D10_VIEWPORT m_glowViewport;
+
+	//SSAO
+	SSAOEffectFile* m_SSAORendering;
 
 	//2D rendering
 	SpriteEffectFile *m_spriteRendering;

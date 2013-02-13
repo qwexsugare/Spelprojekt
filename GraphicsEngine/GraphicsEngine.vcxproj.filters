@@ -159,6 +159,9 @@
     <ClInclude Include="GlowRenderingEffectFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SSAOEffectFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -260,6 +263,9 @@
     <ClCompile Include="GlowRenderingEffectFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SSAOEffectFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\GameClient\ForwardRendering.fx">
@@ -275,6 +281,9 @@
       <Filter>Shader files</Filter>
     </FxCompile>
     <FxCompile Include="..\GameClient\GlowRendering.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\SSAO.fx">
       <Filter>Shader files</Filter>
     </FxCompile>
   </ItemGroup>
