@@ -51,5 +51,5 @@ public:
 	void PlayLoop(string name, Motion body, int numberOfLoops, float overlapTime);
 	void Stop(string name, Motion body);
 	void Play(string name, Motion body);
-	FishAnimationStuff ANewWierdFunction(AnimationFile* animationFile, int skeletonIndex, int jointIndex);
+	FishAnimationStuff ANewWierdFunction(AnimationFile* animationFile, int skeletonIndex, int jointIndex, float lerpValue);
 };

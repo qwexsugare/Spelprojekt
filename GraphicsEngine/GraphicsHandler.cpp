@@ -53,6 +53,18 @@ bool GraphicsHandler::removeRoad(Road* _road)
 {
 	return this->m_world->removeRoad(_road);
 }
+
+ParticleEngine* GraphicsHandler::createParticleEngine(D3DXVECTOR3 _pos)
+{
+	ParticleEngine* pe;
+	m_world->addParticleEngine(pe);
+	return pe;
+}
+
+bool GraphicsHandler::removeParticleEngine(ParticleEngine* _particleEngine)
+{
+	return m_world->removeParticleEngine(_particleEngine);
+}
 	
 Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps)
 {
@@ -126,7 +138,7 @@ INT2 GraphicsHandler::getScreenSize()
 		return this->m_realScreenSize;
 }
 
-Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, string _textureIndex)
+Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool _static, string _textureIndex)
 {
 	Model* model = NULL;
 	Mesh* mesh = this->m_resourceHolder->getMesh(_filename);
@@ -137,6 +149,7 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, string _
 		animation.setTexturePack(&this->m_resourceHolder->getTextureHolder()->getBoneTexture(_filename));
 		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 			1.0f, _textureIndex);
+		model->setStatic(_static);
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{

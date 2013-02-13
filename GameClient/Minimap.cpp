@@ -49,9 +49,14 @@ FLOAT2 Minimap::getTerrainPos(INT2 _mousePos)const
 		mouseX-((m_screenSpacePos.x-m_screenSpaceSize.x/2.0f)),
 		mouseY-((-m_screenSpacePos.y-m_screenSpaceSize.y/2.0f)));
 	
+	/*return FLOAT2(
+		distanceFromMapStart.x/m_screenSpaceSize.x,
+		-distanceFromMapStart.y/m_screenSpaceSize.y)
+		* (m_terrainMax-m_terrainMin) + m_terrainMin;*/
+	
 	return FLOAT2(
 		distanceFromMapStart.x/m_screenSpaceSize.x,
-		distanceFromMapStart.y/m_screenSpaceSize.y)
+		-distanceFromMapStart.y/m_screenSpaceSize.y+m_screenSpaceSize.y*2)
 		* (m_terrainMax-m_terrainMin) + m_terrainMin;
 }
 
@@ -119,13 +124,13 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 			if(heroTypeCounter > m_playerPositions.size())
 			{
 				m_playerPositions.push_back(g_graphicsEngine->createSprite("minimap/player_pos.png",
-					FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*(-screenSpaceY)+m_screenSpacePos.y),
+					FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 					FLOAT2(0.009f, 0.016f),
 					0));
 			}
 			else
 			{
-				m_playerPositions[heroTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*(-screenSpaceY)+m_screenSpacePos.y));
+				m_playerPositions[heroTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
 			}
 			break;
 
@@ -136,13 +141,13 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 			if(enemyTypeCounter > m_enemyPositions.size())
 			{
 				m_enemyPositions.push_back(g_graphicsEngine->createSprite("minimap/enemy_pos.png",
-					FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*(-screenSpaceY)+m_screenSpacePos.y),
+					FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 					FLOAT2(0.009f, 0.016f),
 					0));
 			}
 			else
 			{
-				m_enemyPositions[enemyTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*(-screenSpaceY)+m_screenSpacePos.y));
+				m_enemyPositions[enemyTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
 			}
 			break;
 		}
@@ -161,5 +166,5 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 	
 	screenSpaceX = _cameraPos.x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;
 	screenSpaceY = _cameraPos.y/(m_terrainMax.y-m_terrainMin.y)*2.0f-1.0f;
-	m_view->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*(-screenSpaceY)+m_screenSpacePos.y));
+	m_view->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
 }

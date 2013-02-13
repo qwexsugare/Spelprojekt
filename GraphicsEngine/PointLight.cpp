@@ -22,7 +22,7 @@ PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOA
 
 	for(int i = 0; i < 6; i++)
 	{
-		this->m_shadowMaps[i] = new DepthStencil(_device, INT2(512, 512));
+		this->m_shadowMaps[i] = new DepthStencil(_device, INT2(512, 512), false);
 	}
 
 	this->setPosition(this->m_position);
@@ -84,35 +84,35 @@ void PointLight::setPosition(FLOAT3 _position)
 	D3DXVECTOR3 at;
 	D3DXVECTOR3 up;
 
-	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2.0f, 1.0f, 0.1f, 500000.0f);
+	D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI/2, 1.0f, 0.1f, this->m_radius);
 
-	at = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	up = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	at = D3DXVECTOR3(0.0f, 1.0f, 0.0f) + eye;
+	up = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[0], &viewMatrix, &projMatrix);
 
-	at = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
-	up = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	at = D3DXVECTOR3(0.0f, -1.0f, 0.0f) + eye;
+	up = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[1], &viewMatrix, &projMatrix);
 
-	at = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	at = D3DXVECTOR3(1.0f, 0.0f, 0.0f) + eye;
 	up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[2], &viewMatrix, &projMatrix);
 
-	at = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
-	up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	at = D3DXVECTOR3(-1.0f, 0.0f, 0.0f) + eye;
+	up = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[3], &viewMatrix, &projMatrix);
 
-	at = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	at = D3DXVECTOR3(0.0f, 0.0f, 1.0f) + eye;
 	up = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[4], &viewMatrix, &projMatrix);
 
-	at = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-	up = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	at = D3DXVECTOR3(0.0f, 0.0f, -1.0f) + eye;
+	up = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[5], &viewMatrix, &projMatrix);
 }
@@ -145,19 +145,17 @@ void PointLight::clearShadowMap(ID3D10Device* _device)
 	}
 }
 
-ID3D10ShaderResourceView** PointLight::getResources()const
+ID3D10ShaderResourceView* PointLight::getResource(int index)const
 {
-	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[6];
+	return this->m_shadowMaps[index]->getShaderResource();
+}
 
-	for(int i = 0; i < 6; i++)
-	{
-		resources[i] = this->m_shadowMaps[i]->getShaderResource();
-	}
-
-	return resources;
+D3DXMATRIX PointLight::getMatrix(int index)
+{
+	return this->m_wvp[index];
 }
 
 void PointLight::setShadowMapAsRenderTarget(ID3D10Device* _device, int index)
 {
-
+	_device->OMSetRenderTargets(0, NULL, this->m_shadowMaps[index]->getDepthStencilView());
 }

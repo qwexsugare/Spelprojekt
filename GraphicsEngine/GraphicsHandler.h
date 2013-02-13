@@ -38,6 +38,9 @@ public:
 	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot);
 	DECLDIR bool removeRoad(Road* _road);
 	
+	DECLDIR ParticleEngine* createParticleEngine(D3DXVECTOR3 _pos);
+	DECLDIR bool removeParticleEngine(ParticleEngine* _particleEngine);
+	
 	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps);
 	DECLDIR bool removeTerrain(Terrain* _terrain);
 	
@@ -47,7 +50,7 @@ public:
 	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size);
 	DECLDIR bool removeMyText(MyText *text);
 
-	DECLDIR Model* createModel(string _filename, FLOAT3 _position, string _textureIndex = "color");
+	DECLDIR Model* createModel(string _filename, FLOAT3 _position, bool _static = false, string _textureIndex = "color");
 	DECLDIR bool removeModel(Model* _model);
 
 	DECLDIR Sprite *createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer);
@@ -66,7 +69,6 @@ public:
 	DECLDIR bool removeSpotLight(SpotLight* spotLight);
 
 	DECLDIR void render();
-	void stop() { m_running = false; }
 	DECLDIR void update(float dt);
 	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 };

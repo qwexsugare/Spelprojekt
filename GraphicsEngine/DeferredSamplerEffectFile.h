@@ -6,6 +6,7 @@ private:
 	// Universal
 	ID3D10EffectShaderResourceVariable* m_texture;
 	ID3D10EffectShaderResourceVariable* m_normalMap;
+	ID3D10EffectShaderResourceVariable* m_glowMap;
 	ID3D10EffectMatrixVariable* m_modelMatrix;
 	ID3D10EffectMatrixVariable* m_viewMatrix;
 	ID3D10EffectMatrixVariable* m_projectionMatrix;
@@ -47,6 +48,7 @@ public:
 
 	void setTexture(ID3D10ShaderResourceView *_texture);
 	void setNormalMap(ID3D10ShaderResourceView *_texture);
+	void setGlowMap(ID3D10ShaderResourceView *_texture);
 	void DeferredSamplerEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture);
 	ID3D10InputLayout *getInputLayout()const;
 	ID3D10InputLayout *getInputAnimationLayout() const;
@@ -55,8 +57,7 @@ public:
 	ID3D10EffectTechnique *getTechnique();
 	ID3D10EffectTechnique *getAnimationTechnique();
 	ID3D10EffectTechnique *getSuperTechnique();
-	//Anders
-	void setCameraPosition(D3DXVECTOR3 _cameraPosition);
+
 
 	ID3D10EffectTechnique *getRenderTerrainTechnique();
 	void setNormalMaps(ID3D10ShaderResourceView* _texture);

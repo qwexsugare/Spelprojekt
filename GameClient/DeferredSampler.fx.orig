@@ -1,5 +1,8 @@
-static const int MAX_LIGHTS = 8;
+<<<<<<< HEAD
+static const int MAX_LIGHTS = 20;
 
+=======
+>>>>>>> ac66b4c2973041752bbe940f95bbef172bb79ce3
 Texture2D tex2D;
 Texture2D normalMap;
 Texture1D boneTex;
@@ -407,14 +410,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 
 	output.Pos = input.EyeCoord;
 	//output.Normal = float4(input.Normal, 1.0f);
-<<<<<<< HEAD
 	output.Normal = normalize(mul(normalMap.Sample(pointSampler, input.UVCoord), modelMatrix));
-	/*float tmp = output.Normal.z;
-	output.Normal.z = output.Normal.y;
-	output.Normal.y = tmp;*/
-=======
-	output.Normal = normalize(mul(normalMap.Sample(linearSampler, input.UVCoord), modelMatrix));
->>>>>>> f883adc748afb2e3e026164a56d9a7189c076b07
 
 	float4 texColors[8];
 	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);

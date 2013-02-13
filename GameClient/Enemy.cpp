@@ -45,6 +45,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	}
 
 	m_nextPosition = m_goalPosition;
+	m_dir = m_nextPosition - m_position;
 }
 
 void Enemy::updateSpecificUnitEntity(float dt)
@@ -55,7 +56,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	//this->m_reachedPosition = false;
 
 	this->checkPursue();
-	
+
 	if(m_willPursue)
 		this->setNextPosition(m_closestHero, dt);
 	else
@@ -251,6 +252,10 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 			stat = EntityHandler::getClosestSuperStatic(temp);
 			float test = 9999999997.3f;// = (stat->getPosition() - temp1).length();
 			
+			if(stat != NULL)
+			{
+				test = (stat->getPosition() - temp1).length();
+			}
 			
 			
 
@@ -270,7 +275,13 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 			}
 
 			if( stat != NULL)
+			{
 				test = (stat->getPosition() - temp2).length();
+			}
+			else
+			{
+				test = 999999999999999.0f;
+			}
 
 			if(test< avoidBuffer )
 			{

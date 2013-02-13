@@ -1,6 +1,6 @@
 #include "JoinGameState.h"
 
-JoinGameState::JoinGameState()
+JoinGameState::JoinGameState() : State(State::JOIN_GAME)
 {
 	this->m_menu = new JoinGameMenu();
 }
@@ -28,5 +28,20 @@ void JoinGameState::update(float dt)
 
 State::StateEnum JoinGameState::nextState()
 {
-	return State::CREATE_GAME;
+	return this->m_nextState;
+}
+
+string JoinGameState::getIP()
+{
+	return this->m_menu->getIP();
+}
+
+int JoinGameState::getPort()
+{
+	return atoi(this->m_menu->getPort().c_str());
+}
+
+string JoinGameState::getPlayerName()
+{
+	return this->m_menu->getPlayerName();
 }

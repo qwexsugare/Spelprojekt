@@ -16,6 +16,13 @@ QuadTree::~QuadTree()
 		delete this->m_parent;
 }
 
+bool QuadTree::addParticleEngine(ParticleEngine* _particleEngine)
+{
+	bool success;
+	m_parent->addParticleEngine(success, _particleEngine);
+	return success;
+}
+
 bool QuadTree::addModel(Model* _model)
 {
 	bool success;
@@ -46,28 +53,37 @@ stack<Model*> QuadTree::getAllModels()const
 	return models;
 }
 
-stack<Model*> QuadTree::getModels(D3DXVECTOR3 _cameraPos)const
+stack<Model*> QuadTree::getModels(D3DXVECTOR2 _focalPoint)const
 {
 	stack<Model*> models;
 
-	this->m_parent->getModels(models, _cameraPos);
+	this->m_parent->getModels(models, _focalPoint);
 
 	return models;
 }
 
-vector<PointLight*> QuadTree::getPointLights(D3DXVECTOR3 _cameraPos)const
+stack<ParticleEngine*> QuadTree::getParticleEngines(D3DXVECTOR2 _focalPoint)const
+{
+	stack<ParticleEngine*> ret;
+
+	m_parent->getParticleEngines(ret, _focalPoint);
+
+	return ret;
+}
+
+vector<PointLight*> QuadTree::getPointLights(D3DXVECTOR2 _focalPoint)const
 {
 	vector<PointLight*> lights;
 
-	this->m_parent->getLights(lights, _cameraPos);
+	this->m_parent->getLights(lights, _focalPoint);
 
 	return lights;
 }
 
-stack<Road*> QuadTree::getRoads(D3DXVECTOR3 _cameraPos)const
+stack<Road*> QuadTree::getRoads(D3DXVECTOR2 _focalPoint)const
 {
 	stack<Road*> roads;
-	this->m_parent->getRoads(roads, _cameraPos);
+	this->m_parent->getRoads(roads, _focalPoint);
 	return roads;
 }
 
@@ -88,6 +104,11 @@ bool QuadTree::removeModel(Model* _model)
 bool QuadTree::removeLight(PointLight* _light)
 {
 	return this->m_parent->removeLight(_light);
+}
+
+bool QuadTree::removeParticleEngine(ParticleEngine* _pe)
+{
+	return m_parent->removeParticleEngine(_pe);
 }
 
 bool QuadTree::removeRoad(Road* _road)

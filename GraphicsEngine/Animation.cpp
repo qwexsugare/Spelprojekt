@@ -58,59 +58,96 @@ void Animation::Update(float dt)
 
 	//splitfactor
 
-	//for all currentAnimations
+	//for currentAnimations
+		//
+
 		//splitfactor += currentAnimation[i].blend%
 	//
 
-	//for all 
 }
 
 void Animation::UpdateCurrAnimations()
 {
 	//DoSTUFF
 
-	vector<FishAnimationStuff> stuff;
+	vector<vector<FishAnimationStuff>> annatStuff;
+	
+	map<string, AnimationFile*>::iterator it;
+	//vector<FishAnimationStuff> blend;
+	int c = 0;
+	
+	float lerping = 0;
 
-
-	for(int s = 0; s < currentAnimations[0]->skeletons.size(); s++)
+	for(it = currentAnimations.begin(); it != currentAnimations.end(); it++, c++)
 	{
-		for(int j = 0; j < currentAnimations[0]->skeletons[s].keys[0].numJoints; j++)
-		{
-			map<string, AnimationFile*>::iterator it;
-			vector<FishAnimationStuff> blend;
-			blend.resize(currentAnimations.size());
-			int c = 0;
+		lerping += it->second->animationWeight;
+		float fps = 24;
+		vector<D3DXMATRIX> matrices;
+		
+		float offset = this->animations[currentAnimation].skeletons[0].keys[0].time;
+		int maxKeys = this->animations[currentAnimation].skeletons[0].keys.size() - 1;
 
-			for(it = currentAnimations.begin(); it != currentAnimations.end(); it++, c++)
-			{	
-				for(int k = 0; k < currentAnimations[0]->skeletons[s].keys.size(); k++)
-				{				
-							/*blend[c].rotation[0] = it->second->skeletons[s].keys[k].joints[j].rotation.x;
-				blend[c].rotation[1] = it->second->skeletons[s].keys[k].joints[j].rotation.y;
-				blend[c].rotation[2] = it->second->skeletons[s].keys[k].joints[j].rotation.z;
-				blend[c].rotation[3] = it->second->skeletons[s].keys[k].joints[j].rotation.w;
-					
-				blend[c].scale[0] = it->second->skeletons[s].keys[k].joints[j].scale.x;
-				blend[c].scale[1] = it->second->skeletons[s].keys[k].joints[j].scale.y;
-				blend[c].scale[2] = it->second->skeletons[s].keys[k].joints[j].scale.z;
-					
-				blend[c].translation[0] = it->second->skeletons[s].keys[k].joints[j].translation.x;
-				blend[c].translation[1] = it->second->skeletons[s].keys[k].joints[j].translation.y;
-				blend[c].translation[2] = it->second->skeletons[s].keys[k].joints[j].translation.z;*/
-					blend[c] = ANewWierdFunction(it->second, s, j);
+		float currKeyTime =  this->animations[currentAnimation].skeletons[0].keys[currentKey].time;
+		float nextKeyTime = this->animations[currentAnimation].skeletons[0].keys[currentKey+1].time;
+
+		if(time >= (this->animations[currentAnimation].skeletons[0].keys[this->animations[currentAnimation].skeletons[0].keys.size()-1].time-offset)/fps)
+		{
+			currentKey = 0;
+			time = 0;
+		}
+		else
+		{
+			if(currentKey + 2 <= maxKeys)
+			{
+				if(time >= (nextKeyTime-offset)/fps)
+				{
+					currentKey++;
 				}
 			}
+		}
+		
+		currKeyTime = this->animations[currentAnimation].skeletons[0].keys[currentKey].time;
+		nextKeyTime = this->animations[currentAnimation].skeletons[0].keys[currentKey + 1].time;
 
-			for(int b = 0; b < blend.size(); b++)
-			{
+		float timeInterval = ((nextKeyTime-offset)/fps) - ((currKeyTime-offset)/fps);
+		float timePass = time - (currKeyTime-offset)/fps;
+		float lerpValue = timePass/timeInterval;
 
+
+		vector<FishAnimationStuff> stuff;
+
+		for(int k = 0; k < currentAnimations[it->first]->skeletons[0].keys.size(); k++)
+		{
+			for(int j = 0; j < currentAnimations[it->first]->skeletons[0].keys[k].numJoints; j++)
+			{					
+				stuff.push_back(ANewWierdFunction(it->second, 0, j, lerpValue));
 			}
 		}
+
+		/*for(int b = 0; b < blend.size(); b++)
+		{
+
+		}*/
+		annatStuff.push_back(stuff);
 	}
-	//end
+
+	for(int j = 0; j < animations[0].skeletons[0].keys[0].numJoints; j++)
+	{
+		vector<FishAnimationStuff> blending;
+		for(int o = 0; o < annatStuff.size(); o++)
+		{
+			blending.push_back(annatStuff[o][j]);
+		}
+		FishAnimationStuff joint;
+		for(int b = 0; b < blending.size(); b++)
+		{
+
+			//blending[b].rotation *= currentAnimations.
+		}
+	}
 }
 
-FishAnimationStuff Animation::ANewWierdFunction(AnimationFile* animationFile, int skeletonIndex, int jointIndex)
+FishAnimationStuff Animation::ANewWierdFunction(AnimationFile* animationFile, int skeletonIndex, int jointIndex, float lerpValue)
 {
 	FishAnimationStuff f;
 
@@ -127,7 +164,6 @@ FishAnimationStuff Animation::ANewWierdFunction(AnimationFile* animationFile, in
 	D3DXVECTOR3 tempScale2;
 	FFloat3ToD3DXVECTOR3(tempScale2, animationFile->skeletons[skeletonIndex].keys[currentKey + 1].joints[jointIndex].scale);
 
-	float lerpValue = 1;
 
 	D3DXQuaternionSlerp(&f.rotation, &tempQuat1, &tempQuat2, lerpValue);
 	D3DXVec3Lerp(&f.scale, &tempScale1, &tempScale2, lerpValue);
@@ -230,7 +266,7 @@ void Animation::RandomAnimationFunc(float dt)
 						this->leftHandMatrix = locatorMatrix * outMat;
 				}
 				D3DXMATRIX scale;
-				D3DXMatrixScaling(&scale, 0.1f, 0.1f, 0.1f);
+				D3DXMatrixScaling(&scale, 1.0f, 1.0f, 1.0f);
 				outMat = outMat * scale;
 				matrices.push_back(outMat);
 			}

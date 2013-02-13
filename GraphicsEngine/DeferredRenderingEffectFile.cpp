@@ -10,6 +10,7 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_positionTexture = this->m_effect->GetVariableByName("positionTexture")->AsShaderResource();
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
 	this->m_diffuseTexture = this->m_effect->GetVariableByName("diffuseTexture")->AsShaderResource();
+	this->m_tangentTexture = this->m_effect->GetVariableByName("tangentTexture")->AsShaderResource();
 
 	this->m_nrOfPointLights = this->m_effect->GetVariableByName("nrOfPointLights")->AsScalar();
 	this->m_nrOfDirectionalLights = this->m_effect->GetVariableByName("nrOfDirectionalLights")->AsScalar();
@@ -41,8 +42,10 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 		passDescription.IAInputSignatureSize,
 		&this->m_vertexLayout);
 	 
-	m_shadowMaps = m_effect->GetVariableByName("shadowMaps")->AsShaderResource();
-	m_lightWvps = m_effect->GetVariableByName("lightWvps")->AsMatrix();
+	this->m_pointLightShadowMaps = m_effect->GetVariableByName("pointLightShadowMaps")->AsShaderResource();
+	this->m_spotLightShadowMaps = m_effect->GetVariableByName("spotLightShadowMaps")->AsShaderResource();
+	this->m_pointLightWvps = m_effect->GetVariableByName("pointLightWvps")->AsMatrix();
+	this->m_spotLightWvps = m_effect->GetVariableByName("spotLightWvps")->AsMatrix();
 }
 
 DeferredRenderingEffectFile::~DeferredRenderingEffectFile()
@@ -63,6 +66,11 @@ void DeferredRenderingEffectFile::setNormalsTexture(ID3D10ShaderResourceView* _n
 void DeferredRenderingEffectFile::setDiffuseTexture(ID3D10ShaderResourceView* _diffuseTexture)
 {
 	this->m_diffuseTexture->SetResource(_diffuseTexture);
+}
+
+void DeferredRenderingEffectFile::setTangentTexture(ID3D10ShaderResourceView* _tangentTexture)
+{
+	this->m_tangentTexture->SetResource(_tangentTexture);
 }
 
 void DeferredRenderingEffectFile::setCameraPosition(D3DXVECTOR3 _lightPosition)
@@ -139,12 +147,22 @@ ID3D10InputLayout *DeferredRenderingEffectFile::getVertexLayout()
 	return this->m_vertexLayout;
 }
 
-void DeferredRenderingEffectFile::setShadowMaps(ID3D10ShaderResourceView** _res, int _size)
+void DeferredRenderingEffectFile::setPointLightShadowMaps(ID3D10ShaderResourceView** _res, int _size)
 {
-	m_shadowMaps->SetResourceArray(_res, 0, _size);
+	this->m_pointLightShadowMaps->SetResourceArray(_res, 0, _size);
 }
 
-void DeferredRenderingEffectFile::setLightWvps(D3DXMATRIX* _wvps, int _size)
+void DeferredRenderingEffectFile::setSpotLightShadowMaps(ID3D10ShaderResourceView** _res, int _size)
 {
-	m_lightWvps->SetMatrixArray((float*)_wvps, 0, _size);
+	this->m_spotLightShadowMaps->SetResourceArray(_res, 0, _size);
+}
+
+void DeferredRenderingEffectFile::setPointLightWvps(D3DXMATRIX* _wvps, int _size)
+{
+	this->m_pointLightWvps->SetMatrixArray((float*)_wvps, 0, _size);
+}
+
+void DeferredRenderingEffectFile::setSpotLightWvps(D3DXMATRIX* _wvps, int _size)
+{
+	this->m_spotLightWvps->SetMatrixArray((float*)_wvps, 0, _size);
 }

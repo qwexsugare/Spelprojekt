@@ -1,6 +1,6 @@
 #include "Aim.h"
 
-Aim::Aim()
+Aim::Aim() : Skill(Skill::AIM, 0.0f)
 {
 
 }

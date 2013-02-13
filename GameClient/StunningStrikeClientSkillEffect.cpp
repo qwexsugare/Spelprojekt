@@ -6,7 +6,6 @@
 StunningStrikeClientSkillEffect::StunningStrikeClientSkillEffect(FLOAT3 _position)
 {
 	m_position = _position;
-	m_graphicalEffect = g_graphicsEngine->createPointLight(_position, FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), StunningStrikeEffect::AOE);
 	m_lifetime = 0.0f;
 	m_sound = createSoundHandle("orb.wav", false);
 	playSound(m_sound);
@@ -14,7 +13,6 @@ StunningStrikeClientSkillEffect::StunningStrikeClientSkillEffect(FLOAT3 _positio
 
 StunningStrikeClientSkillEffect::~StunningStrikeClientSkillEffect()
 {
-	g_graphicsEngine->removePointLight(m_graphicalEffect);
 	stopSound(m_sound);
 	deactivateSound(m_sound);
 }

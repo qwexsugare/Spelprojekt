@@ -32,7 +32,7 @@ private:
 	void end();
 	void importMap(string _map);
 public:
-	GameState();
+	GameState(Client *_network);
 	~GameState();
 
 	StateEnum nextState();

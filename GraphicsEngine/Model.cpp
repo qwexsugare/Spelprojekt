@@ -5,6 +5,7 @@ Model::Model()
 	this->m_obb = NULL;
 	this->m_bs = NULL;
 	this->animation = NULL;
+	m_static = false;
 }
 
 Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha, string _textureIndex)
@@ -13,7 +14,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	this->m_mesh = _mesh;
 	this->m_position = _position;
 	this->m_scale = _scale;
-	this->m_rotation = _rotation;
+	this->m_rotation = D3DXVECTOR3(_rotation.y, _rotation.x, _rotation.z);
 	this->m_textureIndex = _textureIndex;
 
 	if(_mesh->m_bs == NULL)
@@ -41,6 +42,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	
 	this->updateModelMatrix();
 	this->animation =  new Animation(_animation);
+	m_static = false;
 }
 
 Model::~Model()
@@ -167,9 +169,9 @@ void Model::move(FLOAT3 _distance)
 
 void Model::rotate(float _yaw, float _pitch, float _roll)
 {
-	m_rotation.x += _yaw;
 	m_rotation.x += _pitch;
-	m_rotation.x += _roll;
+	m_rotation.y += _yaw;
+	m_rotation.z += _roll;
 
 	updateModelMatrix();
 }
@@ -206,7 +208,7 @@ void Model::setScale(D3DXVECTOR3 _scale)
 void Model::updateModelMatrix()
 {
 	D3DXMATRIX rotationMatrix;
-	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, this->m_rotation.x, this->m_rotation.y, this->m_rotation.z);
+	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, m_rotation.y, m_rotation.x, this->m_rotation.z);
 
 	this->m_modelMatrix = D3DXMATRIX(
 		this->m_scale.x, 0.0f, 0.0f, 0.0f,
@@ -218,10 +220,10 @@ void Model::updateModelMatrix()
 	
 	if(this->m_obb)
 	{
-		XMVECTOR rot = XMQuaternionRotationRollPitchYaw(m_rotation.y, m_rotation.x, m_rotation.z);
+		XMVECTOR rot = XMQuaternionRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
 		XMVECTOR trans = XMLoadFloat3(&XMFLOAT3(0,0,0));
 		
-		XMMATRIX Fucker = XMMatrixRotationQuaternion(XMQuaternionRotationRollPitchYaw(m_rotation.y, m_rotation.x, m_rotation.z));
+		//XMMATRIX Fucker = XMMatrixRotationQuaternion(XMQuaternionRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z));
 		XMFLOAT3 temp = m_obb->Center;
 		m_obb->Center = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		XMStoreFloat4(&this->m_obb->Orientation, XMQuaternionIdentity());
@@ -260,12 +262,11 @@ void Model::setScale(float x, float y, float z)
 
 void Model::setRotation(FLOAT3 _rotation)
 {
-	this->m_rotation = D3DXVECTOR3(_rotation.x, _rotation.y, _rotation.z);
+	this->m_rotation = D3DXVECTOR3(_rotation.y, _rotation.x, _rotation.z);
 	this->updateModelMatrix();
 }
 
-void Model::setRot(const D3DXQUATERNION& _rot)
+void Model::setStatic(bool _static)
 {
-	this->m_rot = _rot;
-	this->updateModelMatrix();
+	m_static = _static;
 }

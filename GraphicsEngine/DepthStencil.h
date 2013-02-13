@@ -11,8 +11,11 @@ private:
 	ID3D10DepthStencilView* m_depthStencilView;
 	ID3D10Texture2D* m_texture;
 	ID3D10ShaderResourceView* m_shaderResource;
+
+	void createDepthStencil(ID3D10Device *device);
+	void createShadowMap(ID3D10Device *device);
 public:
-	DepthStencil(ID3D10Device *device, INT2 _size);
+	DepthStencil(ID3D10Device *device, INT2 _size, bool stencil);
 	~DepthStencil();
 	ID3D10DepthStencilView *getDepthStencilView();
 	ID3D10Texture2D *getTexture();
