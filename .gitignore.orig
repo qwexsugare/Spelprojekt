@@ -546,6 +546,23 @@ GameClient/textures/5.jpg
 GameClient/textures/6.jpg
 GameClient/textures/7.jpg
 GameClient/textures/8.jpg
+<<<<<<< HEAD
+GameClient/models/barrel/barrel.BFish
+GameClient/models/barrel/Barrel_DM.png
+GameClient/models/barrel/Barrel_NM.png
+GameClient/models/barrel/Barrel_SM.png
+GameClient/models/Beast1_5/Beast_NM.TIF
+GameClient/models/Beast1_5/Beast_Scaled_SM.png
+GameClient/models/Beast1_5/Beast_Scaled_Souleater_DM.png
+GameClient/models/Beast1_5/Beast_Scaled_Souleater_GM.png
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/Bench/Bench.BFish
+GameClient/models/Bench/Bench_UV_DM.png
+GameClient/models/Bench/Bench_UV_NM.png
+GameClient/models/Bench/Bench_UV_SM.png
+GameClient/models/box/box.BFish
+GameClient/models/box/Box_1_DM.png
+=======
 GameClient/ClientHandler.cpp.orig
 GameClient/models/Barrel/Barrel.BFish
 GameClient/models/Barrel/Barrel_DM.png
@@ -614,10 +631,6 @@ GameClient/models/Church/ChurchUV512.png
 GameClient/models/Church/old/Church.BFish
 GameClient/models/Church/old/ChurchUV.png
 GameClient/models/Church/Church.BFish
-<<<<<<< HEAD
-GameClient/models/barrel/Barrel_NM.png
-GameClient/models/barrel/Barrel_SM.png
-=======
 GameClient/models/.mayaSwatches/marcussupertextur.png.swatch
 GameClient/models/barrel/Barrel_NM.png
 GameClient/models/barrel/Barrel_SM.png
@@ -629,7 +642,7 @@ GameClient/models/Beast1_5/Beast1_5.BFish
 GameClient/models/Beast1_5/Beast1_5__.BFish
 GameClient/models/Beast2/Beast2.BFish
 GameClient/models/Beast2/stone.jpg
->>>>>>> 9657bec5ba6b3b6fc3f8167d234301907521bbd5
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 GameClient/models/box/Box_1_NM.png
 GameClient/models/box/Box_1_SM.png
 GameClient/models/box/Box_2_DM.png
@@ -639,7 +652,27 @@ GameClient/models/box/Box_3_DM.png
 GameClient/models/box/Box_3_NM.png
 GameClient/models/box/Box_3_SM.png
 <<<<<<< HEAD
+GameClient/models/Char1_5/Char1_5.BFish
+GameClient/models/Church/Church.BFish
+GameClient/models/Church/ChurchUV.png
+GameClient/models/Church/ChurchUV_GM.png
 GameClient/models/Church/ChurchUV_NM.png
+GameClient/models/Church/ChurchUV_SM.png
+GameClient/models/fence/fence.BFish
+GameClient/models/fence/FenceUV_DM.png
+GameClient/models/fence/FenceUV_NM.png
+GameClient/models/fence/FenceUV_SM.png
+GameClient/models/Fountain/Fountain.BFish
+GameClient/models/Fountain/Fountain_DM.png
+GameClient/models/Fountain/Fountain_NM.png
+GameClient/models/Fountain/Fountain_SM.png
+GameClient/models/House00/House00.BFish
+GameClient/models/House00/House00_UV.png
+GameClient/models/House00/House00_UV_GM.png
+GameClient/models/House00/House00_UV_NM.png
+GameClient/models/House00/House00_UV_SM.png
+GameClient/models/House01/House01.BFish
+GameClient/models/House01/House01_UV.png
 =======
 GameClient/models/Char1/Char1.BFish
 GameClient/models/Char1/Diffuse.jpg
@@ -655,22 +688,10 @@ GameClient/models/DeathTurret/DeathTurret.BFish
 GameClient/models/DeathTurret/Turret_occlusion.TIF
 GameClient/models/egg/agg.png
 GameClient/models/egg/egg.BFish
->>>>>>> 9657bec5ba6b3b6fc3f8167d234301907521bbd5
 GameClient/models/fence/FenceUV_NM.png
 GameClient/models/fence/FenceUV_SM.png
 GameClient/models/fountain/Fountain_NM.png
 GameClient/models/fountain/Fountain_SM.png
-<<<<<<< HEAD
-GameClient/models/House00/House00_UV_GM.png
-GameClient/models/House00/House00_UV_NM.png
-GameClient/models/House00/House00_UV_SM.png
-GameClient/models/House01/House01_UV_GM.png
-GameClient/models/House01/House01_UV_NM.png
-GameClient/models/House01/House01_UV_SM.png
-GameClient/models/House02/House02_UV_GM.png
-GameClient/models/House02/House02_UV_NM.png
-GameClient/models/House02/House02_UV_SM.png
-=======
 GameClient/models/House00/House00.BFish
 GameClient/models/House00/House00_UV_GM.png
 GameClient/models/House00/House00_UV_NM.png
@@ -678,6 +699,7 @@ GameClient/models/House00/House00_UV_SM.png
 GameClient/models/House00/stone.jpg
 GameClient/models/House01/brick.jpg
 GameClient/models/House01/House01.BFish
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 GameClient/models/House01/House01_UV_GM.png
 GameClient/models/House01/House01_UV_NM.png
 GameClient/models/House01/House01_UV_SM.png
@@ -685,11 +707,16 @@ GameClient/models/House02/House02.BFish
 GameClient/models/House02/House02_UV_GM.png
 GameClient/models/House02/House02_UV_NM.png
 GameClient/models/House02/House02_UV_SM.png
+<<<<<<< HEAD
+GameClient/models/House02/House02_UV2.png
+GameClient/models/House03/House03.BFish
+GameClient/models/House03/House03_UV_GM - Copy.png
+=======
 GameClient/models/House02/stone.jpg
 GameClient/models/House03/brick.jpg
 GameClient/models/House03/House03.BFish
 GameClient/models/House03/House03_.BFish
->>>>>>> 9657bec5ba6b3b6fc3f8167d234301907521bbd5
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 GameClient/models/House03/House03_UV_GM.png
 GameClient/models/House03/House03_UV_NM.png
 GameClient/models/House03/House03_UV_SM.png
@@ -697,19 +724,27 @@ GameClient/models/House03/House03_UV0.png
 <<<<<<< HEAD
 =======
 GameClient/models/House03/marcussupertextur.png
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 GameClient/models/House04/House04.BFish
->>>>>>> 9657bec5ba6b3b6fc3f8167d234301907521bbd5
 GameClient/models/House04/House04_UV.png
 GameClient/models/House04/House04_UV_GM.png
 GameClient/models/House04/House04_UV_NM.png
 GameClient/models/House04/House04_UV_SM.png
 <<<<<<< HEAD
+GameClient/models/House05/House05.BFish
+GameClient/models/House05/House05_DM.png
 GameClient/models/House05/House05_UV_GM.png
 GameClient/models/House05/House05_UV_NM.png
 GameClient/models/House05/House05_UV_SM.png
+GameClient/models/lampPost/lampPost.BFish
+GameClient/models/lampPost/LampUV_DM.png
 GameClient/models/lampPost/LampUV_GM.png
 GameClient/models/lampPost/LampUV_NM.png
 GameClient/models/lampPost/LampUV_SM.png
+GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
+GameClient/models/redKnightPassiveAura/redKnightPassiveAura.png
+GameClient/models/wall/wall.BFish
+GameClient/models/wall/Wall_DM.png
 GameClient/models/wall/Wall_NM.png
 GameClient/models/wall/Wall_SM.png
 =======
@@ -791,4 +826,27 @@ GameClient/models/Lampa/Lampa.BFish
 GameClient/models/newBeast1_5.rar
 GameClient/models/TestObject/brick.jpg
 GameClient/models/TestObject/TestObject.BFish
->>>>>>> 9657bec5ba6b3b6fc3f8167d234301907521bbd5
+GameClient/models/Bench/Bench.BFish
+GameClient/models/Bench/Bench_UV_DM.png
+GameClient/models/Bench/Bench_UV_NM.png
+GameClient/models/Bench/Bench_UV_SM.png
+GameClient/menu_textures/Clock.png
+GameClient/menu_textures/Turret_Death.png
+GameClient/menu_textures/Turret_Frost.png
+GameClient/menu_textures/Turret_Poison.png
+GameClient/menu_textures/Turret_Tesla.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_All.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_Death.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_Frost.png
+GameClient/menu_textures/Upgradebar_Buy_Tower_Poison.png
+GameClient/models/House03/House03.BFish
+GameClient/models/Bench/Bench.BFish
+GameClient/models/Bench/Bench_UV_DM.png
+GameClient/models/Bench/Bench_UV_NM.png
+GameClient/models/Bench/Bench_UV_SM.png
+GameClient/models/House03/House03.BFish
+GameClient/models/House03/House03_UV_GM - Copy.png
+GameClient/models/House05/House05.BFish
+GameClient/models/House04/House04.BFish
+GameClient/menu_textures/Upgradebar_Buy_Tower_Tesla.png
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
