@@ -7,12 +7,35 @@ ParticleEngine::ParticleEngine(EngineType _type, D3DXVECTOR3 _position, D3DXVECT
 	this->rotation = _rotation;
 	this->scale = _scale;
 
-	this->particles = NULL;
-	this->geoParticles = NULL;
+	this->isDead = false;
+
+	//this->particles = NULL;
+	//this->geoParticles = NULL;
 	this->shaderParticles = NULL;
 }
 
 ParticleEngine::~ParticleEngine()
+{
+	if(shaderParticles)
+		shaderParticles->Release();
+}
+
+void ParticleEngine::Draw(ID3D10Device* _device)
+{
+	switch(this->type)
+	{
+	case EngineType::GPUBased:
+		
+		break;
+	}
+}
+
+void ParticleEngine::Update(float _dt)
+{
+
+}
+
+void ParticleEngine::Troll()
 {
 
 }

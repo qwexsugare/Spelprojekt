@@ -32,11 +32,11 @@ void DepthStencil::createDepthStencil(ID3D10Device *device)
 	shadowDescDepth.Height = this->m_size.y;
 	shadowDescDepth.MipLevels = 1;
 	shadowDescDepth.ArraySize = 1;
-	shadowDescDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	shadowDescDepth.Format = DXGI_FORMAT_R24G8_TYPELESS;
 	shadowDescDepth.SampleDesc.Count = 1;
 	shadowDescDepth.SampleDesc.Quality = 0;
 	shadowDescDepth.Usage = D3D10_USAGE_DEFAULT;
-	shadowDescDepth.BindFlags = D3D10_BIND_DEPTH_STENCIL;
+	shadowDescDepth.BindFlags = D3D10_BIND_DEPTH_STENCIL | D3D10_BIND_SHADER_RESOURCE;
 	shadowDescDepth.CPUAccessFlags = 0;
 	shadowDescDepth.MiscFlags = 0;
 
@@ -63,7 +63,19 @@ void DepthStencil::createDepthStencil(ID3D10Device *device)
 		MessageBox( 0, "Unable to create Depth Stencil View.", "Error", 0 );
 	}
 
-	this->m_shaderResource = NULL;
+	//Create the shader-resource view from the texture
+	D3D10_SHADER_RESOURCE_VIEW_DESC srDesc;
+	srDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+	srDesc.ViewDimension = D3D10_SRV_DIMENSION_TEXTURE2D;
+	srDesc.Texture2D.MostDetailedMip = 0;
+	srDesc.Texture2D.MipLevels = 1;
+
+	HRESULT hr = device->CreateShaderResourceView(this->m_texture, &srDesc, &this->m_shaderResource);
+
+	if(FAILED(hr))
+	{
+		MessageBox( 0, "Unable to create Depth Stencil Shader Resource.", "Error", 0 );
+	}
 }
 
 void DepthStencil::createShadowMap(ID3D10Device *device)

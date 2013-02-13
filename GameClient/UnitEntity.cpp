@@ -64,7 +64,36 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 
 UnitEntity::~UnitEntity()
 {
+	for(int i = 0; i < this->m_skills.size(); i++)
+	{
+		delete this->m_skills[i];
+	}
+}
 
+void UnitEntity::addSkill(Skill *_skill)
+{
+	this->m_skills.push_back(_skill);
+}
+
+Skill *UnitEntity::getSkill(unsigned int _id)
+{
+	Skill *result = NULL;
+
+	for(int i = 0; i < this->m_skills.size(); i++)
+	{
+		if(this->m_skills[i]->getId() == _id && this->m_skills[i]->getCurrentCooldown() == 0.0f)
+		{
+			result = this->m_skills[i];
+			i = this->m_skills.size();		
+		}
+	}
+
+	return result;
+}
+
+int UnitEntity::getNrOfSkills()
+{
+	return this->m_skills.size();
 }
 
 void UnitEntity::increaseStrength(int _strength)
@@ -339,6 +368,11 @@ void UnitEntity::stun(float _time)
 
 void UnitEntity::update(float dt)
 {
+	for(int i = 0; i < this->m_skills.size(); i++)
+	{
+		this->m_skills[i]->update(dt);
+	}
+
 	if(this->m_attackCooldown > 0.0f)
 	{
 		this->m_attackCooldown = this->m_attackCooldown - dt;

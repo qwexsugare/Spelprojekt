@@ -19,21 +19,13 @@
 #include "NetworkUseActionPositionMessage.h"
 #include "NetworkUseActionTargetMessage.h"
 #include "NetworkBuySkillMessage.h"
+#include "NetworkReadyMessage.h"
+#include "NetworkSelectHeroMessage.h"
 
 class Player
 {
 private:
 	unsigned int m_id;
-	
-	Skill* m_chainStrike;
-	Skill* m_cloudOfDarkness;
-	Skill* m_stunningStrike;
-	Skill* m_teleport;
-	Skill* m_healingTouch;
-	Skill* m_demonicPresence;
-
-	vector<Skill*> m_skills;
-
 	unsigned int m_resources;
 
 	bool m_ready;
@@ -51,6 +43,8 @@ public:
 	void handleUseActionMessage(NetworkUseActionMessage usm);
 	void handleUseActionTargetMessage(NetworkUseActionTargetMessage usm);
 	void handleBuySkillMessage(NetworkBuySkillMessage bsm);
+	void handleReadyMessage(NetworkReadyMessage rm);
+	void handleSelectHeroMessage(NetworkSelectHeroMessage shm);
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
 

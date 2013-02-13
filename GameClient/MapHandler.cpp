@@ -141,7 +141,7 @@ void MapHandler::loadMap(std::string filename)
 			{
 				float notInvertZ;
 				sscanf(buf, "%f %f", &points[nrOfPoints].x, &notInvertZ);
-				points[nrOfPoints].y = height+notInvertZ;
+				points[nrOfPoints].y = -notInvertZ;
 				nrOfPoints++;
 				stream.getline(buf, 1024);
 				sscanf(buf, "%s", key);
@@ -163,6 +163,7 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
+
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	//m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 0.0f, 0.0f), this->m_paths[0]));
 	//m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 0.0f, 0.0f), this->m_paths[0]));

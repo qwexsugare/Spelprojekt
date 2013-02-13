@@ -18,10 +18,14 @@ private:
 	int m_closestHero;
 	float m_attackCooldown;
 	FLOAT3 m_dir;
+	FLOAT3 m_prevDir;
 	FLOAT3 m_goalPosition;
 	Path m_path;
 	int m_currentPoint;
 	float m_staticBuffer;
+	float avoidTimer;
+	FLOAT3 m_staticAvDir;
+	FLOAT3 m_enemyAvDir;
 
 	ServerEntity *m_prevClosestStatic;
 	ServerEntity *m_currClosestStatic;
@@ -35,8 +39,11 @@ public:
 
 	void checkPursue();
 	FLOAT3 checkStatic(float dt, FLOAT3 _pPos);
+	void checkCloseEnemies(float dt);
+	bool checkDistanceToStatic(float firstFactor, float secondFactor);
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
+	bool outOfBounds(FLOAT3 _pt);
 
 };
 

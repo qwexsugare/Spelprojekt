@@ -20,6 +20,7 @@ private:
 	//----------------------------------------------------------------------------------------------
 		int m_ButtonReaction ;
 		SpriteSheet* m_SkillButton;
+		SpriteSheet* m_cooldown;
 		unsigned int m_skillId;
 		
 		int m_Delay;
@@ -84,5 +85,6 @@ public:
 	void ChangAbleBind(bool _Change);
 	int Skill_Buttons::ReturnClicked();
 	string setID(string _ID);
+	void setCooldown(float cooldown);
 };
 

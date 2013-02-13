@@ -31,15 +31,16 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_tangentBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	//Glow
-	//Anders var här och pela
 	this->m_glowRendering = new GlowRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_glowBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_glowBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
-	//this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(this->m_deviceHandler->getScreenSize().x/2, this->m_deviceHandler->getScreenSize().y/2));
 	int trollSize = 1920/4;
 	int trollSize2 = 1080/4;
 	this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
 	this->m_glowRenderTarget2 = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
+
+	//SSAO
+	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
 
 	this->m_positionBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -107,12 +108,17 @@ World::~World()
 	delete this->m_deferredPlane;
 	delete this->m_deferredSampler;
 	delete this->m_deferredRendering;
+	delete this->m_glowRendering;
+	delete this->m_SSAORendering;
 
 	delete this->m_positionBuffer;
 	delete this->m_normalBuffer;
 	delete this->m_diffuseBuffer;
 	delete this->m_tangentBuffer;
 	delete this->m_glowBuffer;
+	delete this->m_glowRenderTarget;
+	delete this->m_glowRenderTarget2;
+
 
 	delete this->m_positionBufferTransparant;
 	delete this->m_normalBufferTransparant;
@@ -168,6 +174,8 @@ bool World::removeTerrain(Terrain* _terrain)
 
 void World::render()
 {
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
+
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
 	this->m_deferredSampler->setViewMatrix(this->m_camera->getViewMatrix());
@@ -182,7 +190,7 @@ void World::render()
 	m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 	m_forwardRenderTarget->clear(m_deviceHandler->getDevice());
 	
-	this->renderShadowMap();
+	this->renderShadowMap(focalPoint);
 
 	ID3D10RenderTargetView *renderTargets[5];
 	renderTargets[0] = *this->m_positionBuffer->getRenderTargetView();
@@ -211,7 +219,7 @@ void World::render()
 
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-	stack<Model*> staticModels = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+	stack<Model*> staticModels = this->m_quadTree->getModels(focalPoint);
 	vector<Model*> transparentStaticModels;
 	while(!staticModels.empty())
 	{
@@ -287,62 +295,93 @@ void World::render()
 	vector<Model*> transparentModels;
 	for(int i = 0; i < m_models.size(); i++)
 	{
-		if(m_models[i]->getAlpha() < 1.0f)
+		// Calculate models distance to camera and make it positive
+		D3DXVECTOR2 modelDistanceToCamera = m_models[i]->getPosition2D()-focalPoint;
+		modelDistanceToCamera.x = abs(modelDistanceToCamera.x);
+		modelDistanceToCamera.y = abs(modelDistanceToCamera.y);
+
+		// Find the greatest extent of the model bounding box
+		float greatestExtent;
+		if(m_models[i]->getObb())
 		{
-			if(transparentModels.size() == 0)
-			{
-				transparentModels.push_back(m_models[i]);
-			}
+			if(this->m_models[i]->getObb()->Extents.x > this->m_models[i]->getObb()->Extents.z)
+				greatestExtent = this->m_models[i]->getObb()->Extents.x;
 			else
-			{
-				if(m_models[i]->getPosition().y <= transparentModels[0]->getPosition().y)
-					transparentModels.insert(transparentModels.begin(), m_models[i]);
-				else
-				{
-					bool inserted = false;
-					for(int j = 1; j < transparentModels.size()-1 && !inserted; j++)
-					{
-						if(m_models[i]->getPosition().y > transparentModels[j]->getPosition().y && m_models[i]->getPosition().y <= transparentModels[j+1]->getPosition().y)
-						{
-							transparentModels.insert(transparentModels.begin()+j, m_models[i]);
-							inserted = true;
-						}
-					}
-					if(!inserted)
-					{
-						transparentModels.push_back(m_models[i]);
-					}
-				}
-			}
+				greatestExtent = this->m_models[i]->getObb()->Extents.z;
+		}
+		else if(m_models[i]->getBs())
+		{
+			greatestExtent = this->m_models[i]->getBs()->Radius;
 		}
 		else
 		{
-			this->m_deferredSampler->setModelMatrix(m_models[i]->getModelMatrix());
-			this->m_deferredSampler->setModelAlpha(m_models[i]->getAlpha());
+			// we are fucked
+			greatestExtent = 1337;
+		}
 
-			for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
+		// Subtract the greatest extent from the distance
+		modelDistanceToCamera.x -= greatestExtent;
+		modelDistanceToCamera.y -= greatestExtent;
+
+		//if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+		//{
+			if(m_models[i]->getAlpha() < 1.0f)
 			{
-				m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
-				m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-				m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
-
-				if(m_models[i]->getMesh()->isAnimated)
+				if(transparentModels.size() == 0)
 				{
-					/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+					transparentModels.push_back(m_models[i]);
 				}
 				else
 				{
-					m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-					m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
-					//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
-					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
-					this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+					if(m_models[i]->getPosition().y <= transparentModels[0]->getPosition().y)
+						transparentModels.insert(transparentModels.begin(), m_models[i]);
+					else
+					{
+						bool inserted = false;
+						for(int j = 1; j < transparentModels.size()-1 && !inserted; j++)
+						{
+							if(m_models[i]->getPosition().y > transparentModels[j]->getPosition().y && m_models[i]->getPosition().y <= transparentModels[j+1]->getPosition().y)
+							{
+								transparentModels.insert(transparentModels.begin()+j, m_models[i]);
+								inserted = true;
+							}
+						}
+						if(!inserted)
+						{
+							transparentModels.push_back(m_models[i]);
+						}
+					}
 				}
 			}
-		}
+			else
+			{
+				this->m_deferredSampler->setModelMatrix(m_models[i]->getModelMatrix());
+				this->m_deferredSampler->setModelAlpha(m_models[i]->getAlpha());
+
+				for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
+				{
+					m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
+					m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+					m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+
+					if(m_models[i]->getMesh()->isAnimated)
+					{
+						/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
+						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+						this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+					}
+					else
+					{
+						m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+						//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+						this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+					}
+				}
+			}
+		//}
 	}
 
 	//clear render target
@@ -362,7 +401,7 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	// Render roads yo dawg y u be messin' about
-	stack<Road*> roads = this->m_quadTree->getRoads(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+	stack<Road*> roads = this->m_quadTree->getRoads(focalPoint);
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	while(!roads.empty())
 	{
@@ -450,7 +489,7 @@ void World::render()
 	this->m_deferredRendering->setTangentTexture(this->m_tangentBuffer->getShaderResource());
 
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f)), this->m_directionalLights, this->m_spotLights);
+	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(focalPoint), this->m_directionalLights, this->m_spotLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
@@ -473,10 +512,24 @@ void World::render()
 		this->m_deferredRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
-
-	////Glow
 	
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
+
+	///SSAO
+	//this->m_SSAORendering->setDepthTexture(this->m_forwardDepthStencil->getShaderResource());
+	//this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
+	//this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
+
+	//D3D10_TECHNIQUE_DESC SSAOTechDesc;
+	//this->m_SSAORendering->getTechnique()->GetDesc( &SSAOTechDesc );
+
+	//for( UINT p = 0; p < SSAOTechDesc.Passes; p++ )
+	//{
+	//	this->m_SSAORendering->getTechnique()->GetPassByIndex( p )->Apply(0);
+	//	this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
+	//}
+
+	////Glow
 
 	m_glowRenderTarget->clear(m_deviceHandler->getDevice());
 	//m_forwardDepthStencil->clear(m_deviceHandler->getDevice());
@@ -544,7 +597,7 @@ void World::render()
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
 	}
-
+	
 	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
 
 	for(int i = 0; i < m_models.size(); i++)
@@ -622,17 +675,17 @@ void World::render()
 	this->m_deviceHandler->present();
 }
 
-void World::renderShadowMap()
+void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 {
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
 
-	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(_focalPoint);
 	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[pointLights.size() * 6];
 	D3DXMATRIX* wvps = new D3DXMATRIX[pointLights.size() * 6];
 	
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
-	for(int i = 0; i < pointLights.size(); i++)
+	for(int i = 0; i < pointLights.size() && i * 6 < 100; i++)
 	{
 		pointLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 
@@ -642,7 +695,7 @@ void World::renderShadowMap()
 			pointLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice(), j);
 
 			stack<Model*> models = this->m_quadTree->getAllModels();
-			while(!models.empty())
+			while(!models.empty() && i * 6 + j < 100)
 			{
 				if(models.top()->getAlpha() == 1.0f)
 				{
@@ -677,8 +730,16 @@ void World::renderShadowMap()
 		}
 	}
 
-	m_deferredRendering->setPointLightWvps(wvps, pointLights.size() * 6);
-	m_deferredRendering->setPointLightShadowMaps(resources, pointLights.size() * 6);
+	if(this->m_pointLights.size() * 6 < 100)
+	{
+		m_deferredRendering->setPointLightWvps(wvps, pointLights.size() * 6);
+		m_deferredRendering->setPointLightShadowMaps(resources, pointLights.size() * 6);
+	}
+	else
+	{
+		m_deferredRendering->setPointLightWvps(wvps, 100);
+		m_deferredRendering->setPointLightShadowMaps(resources, 100);
+	}
 
 	delete []wvps;
 	delete []resources;
@@ -692,7 +753,7 @@ void World::renderShadowMap()
 		m_spotLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 		m_spotLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice());
 
-		stack<Model*> models = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+		stack<Model*> models = this->m_quadTree->getModels(_focalPoint);
 		while(!models.empty())
 		{
 			if(models.top()->getAlpha() == 1.0f)
@@ -741,12 +802,8 @@ void World::update(float dt)
 		this->m_sprites[i]->update(dt);
 	}
 
-	stack<Model*> models = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
-	while(!models.empty())
-	{
-		models.top()->getAnimation()->Update(dt);
-		models.pop();
-	}
+	for(int i = 0; i < m_models.size(); i++)
+		m_models[i]->getAnimation()->Update(dt);
 
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
 	//while(!models.empty())

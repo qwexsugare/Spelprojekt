@@ -19,6 +19,10 @@
 #include "NetworkCreateActionTargetMessage.h"
 #include "NetworkRemoveActionTargetMessage.h"
 #include "NetworkSkillBoughtMessage.h"
+#include "NetworkHeroSelectedMessage.h"
+#include "NetworkSelectHeroMessage.h"
+#include "NetworkReadyMessage.h"
+#include "NetworkStartGameMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -63,6 +67,8 @@ public:
 	void broadcast(NetworkCreateActionPositionMessage networkMessage);
 	void broadcast(NetworkCreateActionTargetMessage networkMessage);
 	void broadcast(NetworkRemoveActionTargetMessage networkMessage);
+	void broadcast(NetworkStartGameMessage networkMessage);
+	void broadcast(NetworkHeroSelectedMessage networkMessage);
 
 	bool isRunning();
 

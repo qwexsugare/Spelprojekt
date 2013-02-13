@@ -9,8 +9,9 @@ JoinGameMenu::JoinGameMenu(void)
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 800), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 860), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 920), 100));
+	this->m_Label[1]->setText("1337");
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-JoinGameMenu.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-	FLOAT2 m_size, m_side; 
+	FLOAT2 m_size, m_side;
 	m_size.x = 0;
 	m_size.y = 0;
 	m_side.x = 0;

@@ -40,8 +40,7 @@ void ServerThread::Run()
 	__int64 prevTimeStamp = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
-	//this->m_state = State::LOBBY;
-	this->m_state = State::GAME;
+	this->m_state = State::LOBBY;
 	this->m_network->start(this->m_port);
 
 	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
@@ -80,33 +79,21 @@ void ServerThread::update(float dt)
 	if(this->m_state == State::LOBBY)
 	{
 		//Wait for all players to become ready, change hero when needed	
-		Message *m;
+		vector<Player*> players = this->m_network->getPlayers();
+		bool start = true;
 
-		while(this->m_messageQueue->incomingQueueEmpty() == false)
+		for(int i = 0; i < players.size(); i++)
 		{
-			m = this->m_messageQueue->pullIncomingMessage();
-
-			if(m->type == Message::Type::Start)
+			if(players[i]->getReady() == false)
 			{
-				vector<Player*> players = this->m_network->getPlayers();
-				bool start = true;
-
-				for(int i = 0; i < players.size(); i++)
-				{
-					if(players[i]->getReady() == false)
-					{
-						i = players.size();
-						start = false;
-					}
-
-					if(start == true)
-					{
-						this->m_state = State::GAME;
-					}
-				}
+				i = players.size();
+				start = false;
 			}
 
-			delete m;
+			if(start == true)
+			{
+				this->m_state = State::GAME;
+			}
 		}
 	}
 

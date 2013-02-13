@@ -1,6 +1,6 @@
 #include "PhysicalResistance.h"
 
-PhysicalResistance::PhysicalResistance()
+PhysicalResistance::PhysicalResistance() : Skill(Skill::PHYSICAL_RESISTANCE, 0.0f)
 {
 
 }

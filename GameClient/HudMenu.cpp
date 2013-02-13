@@ -5,9 +5,6 @@ HudMenu::HudMenu(Client *_network)
 {
 	this->m_network = _network;
 	m_Chat = false;
-	m_Time = 0;
-	m_Delay = 0;
-	m_DelayTime = 10;
 	m_SkillHud = -1.0f;
 	m_NumberOfSkills = 0;
 	int TmpPos = m_NumberOfSkills * 98;
@@ -16,11 +13,9 @@ HudMenu::HudMenu(Client *_network)
 	m_Menu= false;
 	m_Locked = true;
 	m_DontChange = false;
-	m_OncePerBuy = false;
 	m_Resources = 200000;
-	m_First = 0;
-	m_DelayTime = 500;
 	m_Chat = false;
+	this->m_skillWaitingForTarget = -1;
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
@@ -171,14 +166,13 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 	if(m_Chat == false)
 	{
 			float max = -0.897916667f+0.001041667f+(0.102083333f*6)+0.025f;
-			m_Delay += 1;
 
+			//Move the skill buttons
 			if(m_DontChange == false)
 			{
 				if (m_SkillHud <= m_NumberOfSkills-1)
 				{
 					m_SkillHud += _dt*2;
-					m_Delay = 0;
 				}
 
 				this->m_Images[1]->setPosition(FLOAT2(-1.0f +((0.102083333f*(float)m_SkillHud)), -0.814814815f));
@@ -201,6 +195,21 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					m_DontChange = true;
 				}
 			}
+
+			if(g_mouse->isLButtonPressed() == true && this->m_skillWaitingForTarget > -1)
+			{
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+				float k = (-pickOrig.y)/pickDir.y;
+				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+				this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));		
+				this->m_skillWaitingForTarget = -1;
+
+				this->m_SkillButtons[this->m_buttonIndex]->setCooldown(180.0f);
+			}
+
 			for(int i = 0; i < m_NumberOfSkills; i++)
 			{
 				this->m_SkillButtons[i]->Update();
@@ -209,13 +218,8 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 				{
 					if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT)
 					{
-						D3DXVECTOR3 pickDir;
-						D3DXVECTOR3 pickOrig;
-						g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
-						float k = (-pickOrig.y)/pickDir.y;
-						D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-						this->m_network->sendMessage(NetworkUseActionPositionMessage(m_SkillButtons[i]->getSkillId(), FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
+						this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
+						this->m_buttonIndex = i;
 					}
 					else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
 						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)
@@ -375,18 +379,6 @@ void  HudMenu::UpdateShop()
 		}
 	}
 }
-int HudMenu::ButtonClicked()
-{
-	return 0;
-}
-int HudMenu::SkilledBougth()
-{
-	return SkillID;
-}
-int  HudMenu::ReturnID()
-{
-	return 0;
-}
 
 void HudMenu::displayShop(bool _visible)
 {
@@ -414,7 +406,7 @@ void HudMenu::displayShop(bool _visible)
 
 void HudMenu::addSkill(unsigned int _skillId)
 {
-	this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), true, _skillId);
+	this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
 	this->m_NumberOfSkills++;
 	this->m_DontChange = false;
 }
