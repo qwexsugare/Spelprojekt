@@ -1,6 +1,6 @@
 #include "DeadlyStrike.h"
 
-DeadlyStrike::DeadlyStrike()
+DeadlyStrike::DeadlyStrike() : Skill(Skill::DEADLY_STRIKE, 0.0f)
 {
 
 }

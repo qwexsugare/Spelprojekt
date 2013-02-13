@@ -1,6 +1,6 @@
 #include "PoisonStrike.h"
 
-PoisonStrike::PoisonStrike()
+PoisonStrike::PoisonStrike() : Skill(Skill::POISON_STRIKE, 0.0f)
 {
 
 }

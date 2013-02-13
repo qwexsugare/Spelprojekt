@@ -2,7 +2,9 @@
 
 Skill::Skill()
 {
-
+	m_id = -1;
+	m_currentCooldown = 0.0f;
+	m_cooldown = 0.0f;
 }
 
 Skill::Skill(int _id, float _cooldown)
