@@ -21,6 +21,19 @@ Hero::Hero() : UnitEntity()
 	this->increaseFortitude(4);
 }
 
+Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
+{
+	this->m_heroType = _heroType;
+	this->m_playerId = _playerId;
+	this->m_type = Type::HeroType;
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_nextPosition = this->m_position;
+	this->m_reachedPosition = true;
+	this->m_attackCooldown = 0.0f;
+	this->m_attackRange = 5.0f;
+	this->m_hasTarget = false;
+}
+
 Hero::~Hero()
 {
 

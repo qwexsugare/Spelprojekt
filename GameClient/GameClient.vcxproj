@@ -175,6 +175,7 @@
     <ClCompile Include="DemonicPresenceClientSkillEffect.cpp" />
     <ClCompile Include="DemonicPresenceEffect.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -212,10 +213,14 @@
     <ClCompile Include="NetworkCreateActionTargetMessage.cpp" />
     <ClCompile Include="NetworkDisconnectMessage.cpp" />
     <ClCompile Include="NetworkEntityMessage.cpp" />
+    <ClCompile Include="NetworkHeroSelectedMessage.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
+    <ClCompile Include="NetworkReadyMessage.cpp" />
     <ClCompile Include="NetworkRemoveActionTargetMessage.cpp" />
     <ClCompile Include="NetworkRemoveEntityMessage.cpp" />
+    <ClCompile Include="NetworkSelectHeroMessage.cpp" />
     <ClCompile Include="NetworkSkillBoughtMessage.cpp" />
+    <ClCompile Include="NetworkStartGameMessage.cpp" />
     <ClCompile Include="NetworkUseActionMessage.cpp" />
     <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
     <ClCompile Include="NetworkUseActionTargetMessage.cpp" />
@@ -289,6 +294,7 @@
     <ClInclude Include="DemonicPresenceClientSkillEffect.h" />
     <ClInclude Include="DemonicPresenceEffect.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Engineer.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
     <ClInclude Include="EntityMessage.h" />
@@ -298,6 +304,7 @@
     <ClInclude Include="HealingTouch.h" />
     <ClInclude Include="HealingTouchClientSkillEffect.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="Heroes.h" />
     <ClInclude Include="HudMenu.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="IntroMenu.h" />
@@ -330,10 +337,14 @@
     <ClInclude Include="NetworkCreateActionTargetMessage.h" />
     <ClInclude Include="NetworkDisconnectMessage.h" />
     <ClInclude Include="NetworkEntityMessage.h" />
+    <ClInclude Include="NetworkHeroSelectedMessage.h" />
     <ClInclude Include="NetworkMessage.h" />
+    <ClInclude Include="NetworkReadyMessage.h" />
     <ClInclude Include="NetworkRemoveActionTargetMessage.h" />
     <ClInclude Include="NetworkRemoveEntityMessage.h" />
+    <ClInclude Include="NetworkSelectHeroMessage.h" />
     <ClInclude Include="NetworkSkillBoughtMessage.h" />
+    <ClInclude Include="NetworkStartGameMessage.h" />
     <ClInclude Include="NetworkUseActionMessage.h" />
     <ClInclude Include="NetworkUseActionPositionMessage.h" />
     <ClInclude Include="NetworkUseActionTargetMessage.h" />

@@ -597,7 +597,7 @@ void World::render()
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
 	}
-
+	
 	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
 
 	for(int i = 0; i < m_models.size(); i++)
@@ -685,7 +685,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 	
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
-	for(int i = 0; i < pointLights.size(); i++)
+	for(int i = 0; i < pointLights.size() && i * 6 < 100; i++)
 	{
 		pointLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 
@@ -730,8 +730,16 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 		}
 	}
 
-	m_deferredRendering->setPointLightWvps(wvps, pointLights.size() * 6);
-	m_deferredRendering->setPointLightShadowMaps(resources, pointLights.size() * 6);
+	if(this->m_pointLights.size() * 6 < 100)
+	{
+		m_deferredRendering->setPointLightWvps(wvps, pointLights.size() * 6);
+		m_deferredRendering->setPointLightShadowMaps(resources, pointLights.size() * 6);
+	}
+	else
+	{
+		m_deferredRendering->setPointLightWvps(wvps, 100);
+		m_deferredRendering->setPointLightShadowMaps(resources, 100);
+	}
 
 	delete []wvps;
 	delete []resources;

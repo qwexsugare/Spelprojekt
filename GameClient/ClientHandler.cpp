@@ -122,12 +122,6 @@ void ClientHandler::update(float _dt)
 			this->m_state = new JoinGameState();
 			break;
 		case State::LOBBY:
-			this->m_state = new LobbyState();
-			break;
-		case State::LORE:
-			this->m_state = new LoreState();
-			break;
-		case State::GAME:
 			if(tempState->getType() == State::CREATE_GAME)
 			{
 				CreateGameState *tempCreateState = (CreateGameState*)tempState;
@@ -146,6 +140,12 @@ void ClientHandler::update(float _dt)
 				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
 			}
 
+			this->m_state = new LobbyState(this->m_client);
+			break;
+		case State::LORE:
+			this->m_state = new LoreState();
+			break;
+		case State::GAME:
 			this->m_state = new GameState(this->m_client);
 			break;
 		case State::SETTINGS:

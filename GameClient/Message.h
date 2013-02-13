@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero};
 
 	Type type;
 	int senderId;
@@ -27,11 +27,32 @@ struct Message
 struct ReadyMessage : Message
 {
 	bool ready;
+
+	ReadyMessage(int _senderId, int _reciverId, bool _ready)
+	{
+		this->type = Type::Ready;
+		this->senderId = _senderId;
+		this->reciverId = _reciverId;
+		this->ready = _ready;
+	}
 };
 
 struct StartMessage : Message
 {
 
+};
+
+struct SelectHeroMessage : Message
+{
+	int heroId;
+
+	SelectHeroMessage(int _senderId, int _reciverId, int _heroId)
+	{
+		this->type = Type::SelectHero;
+		this->senderId = _senderId;
+		this->reciverId = _reciverId;
+		this->heroId = _heroId;
+	}
 };
 
 struct CollisionMessage : Message

@@ -176,6 +176,7 @@
     <ClInclude Include="MyTextOffsets.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEngine.h" />
+    <ClInclude Include="ParticleEngineEffectFile.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTreeNode.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="MyText.cpp" />
     <ClCompile Include="MyTextOffsets.cpp" />
     <ClCompile Include="ParticleEngine.cpp" />
+    <ClCompile Include="ParticleEngineEffectFile.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="QuadTreeNode.cpp" />
@@ -297,6 +299,24 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\ParticleEngineRendering.fx">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+      </EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">4.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+      </EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">4.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
     </FxCompile>
