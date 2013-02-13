@@ -96,6 +96,13 @@ DepthStencilState EnableDepth
 	//DepthFunc = GREATER;
 };
 
+DepthStencilState EnableDepthNoWrite
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ZERO;
+	//DepthFunc = GREATER;
+};
+
 DepthStencilState EnableDepthSM
 {
 	DepthEnable = TRUE;
@@ -498,7 +505,7 @@ technique10 RenderRoad
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawRoadPs()));
 
-	    SetDepthStencilState(EnableDepth, 0);
+	    SetDepthStencilState(EnableDepthNoWrite, 0);
 	    SetRasterizerState(rs);
     }
 }

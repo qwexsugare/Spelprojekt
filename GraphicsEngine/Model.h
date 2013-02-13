@@ -21,7 +21,7 @@ private:
 	BoundingSphere* m_bs;
 	Animation* animation;
 	string m_textureIndex;
-	bool m_house;
+	bool m_static;
 public:
 	Model();
 	Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f),
@@ -45,7 +45,7 @@ public:
 	DECLDIR bool intersects(const BoundingSphere& _bs)const;
 	DECLDIR bool intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const;
 	DECLDIR bool intersects(const Model& _model)const;
-	DECLDIR bool isHouse()const { return m_house; }
+	DECLDIR bool isStatic()const { return m_static; }
 	DECLDIR void move(FLOAT3 _distance);
 	DECLDIR void rotate(float _yaw, float _pitch, float _roll);
 	DECLDIR void setAlpha(float _alpha);
@@ -56,5 +56,5 @@ public:
 	DECLDIR void setPosition(FLOAT3 _position);
 	DECLDIR void setScale(float x, float y, float z);
 	DECLDIR void setRotation(FLOAT3 _rotation);
-	DECLDIR void setHouse(bool _house);
+	DECLDIR void setStatic(bool _static);
 };

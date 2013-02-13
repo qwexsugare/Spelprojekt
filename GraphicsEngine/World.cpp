@@ -10,7 +10,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	this->m_quadTree = new QuadTree(2, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
+	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
@@ -71,8 +71,8 @@ World::~World()
 {
 	for(int i = 0; i < m_terrains.size(); i++)
 		delete m_terrains[i];
-	for(int i = 0; i < m_roads.size(); i++)
-		delete m_roads[i];
+	for(int i = 0; i < m_models.size(); i++)
+		delete m_models[i];
 
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
@@ -217,51 +217,50 @@ void World::render()
 
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-	stack<Model*> models = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
-	vector<Model*> transparentModels;
-	vector<Model*> gubbs;
-	while(!models.empty())
+	stack<Model*> staticModels = this->m_quadTree->getModels(D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f));
+	vector<Model*> transparentStaticModels;
+	while(!staticModels.empty())
 	{
-		if(models.top()->getAlpha() < 1.0f)
+		if(staticModels.top()->getAlpha() < 1.0f)
 		{
-			if(transparentModels.size() == 0)
+			if(transparentStaticModels.size() == 0)
 			{
-				transparentModels.push_back(models.top());
+				transparentStaticModels.push_back(staticModels.top());
 			}
 			else
 			{
-				if(models.top()->getPosition().y <= transparentModels[0]->getPosition().y)
-					transparentModels.insert(transparentModels.begin(), models.top());
+				if(staticModels.top()->getPosition().y <= transparentStaticModels[0]->getPosition().y)
+					transparentStaticModels.insert(transparentStaticModels.begin(), staticModels.top());
 				else
 				{
 					bool inserted = false;
-					for(int i = 1; i < transparentModels.size()-1 && !inserted; i++)
+					for(int i = 1; i < transparentStaticModels.size()-1 && !inserted; i++)
 					{
-						if(models.top()->getPosition().y > transparentModels[i]->getPosition().y && models.top()->getPosition().y <= transparentModels[i+1]->getPosition().y)
+						if(staticModels.top()->getPosition().y > transparentStaticModels[i]->getPosition().y && staticModels.top()->getPosition().y <= transparentStaticModels[i+1]->getPosition().y)
 						{
-							transparentModels.insert(transparentModels.begin()+i, models.top());
+							transparentStaticModels.insert(transparentStaticModels.begin()+i, staticModels.top());
 							inserted = true;
 						}
 					}
 					if(!inserted)
 					{
-						transparentModels.push_back(models.top());
+						transparentStaticModels.push_back(staticModels.top());
 					}
 				}
 			}
 		}
-		else if(models.top()->isHouse())
+		else
 		{
-			this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-			this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
+			this->m_deferredSampler->setModelMatrix(staticModels.top()->getModelMatrix());
+			this->m_deferredSampler->setModelAlpha(staticModels.top()->getAlpha());
 
-			for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+			for(int m = 0; m < staticModels.top()->getMesh()->subMeshes.size(); m++)
 			{
-				this->m_deferredSampler->setTexture(models.top()->getMesh()->subMeshes[m]->textures[models.top()->getTextureIndex()]);
-				this->m_deferredSampler->setNormalMap(models.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
-				this->m_deferredSampler->setGlowMap(models.top()->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+				this->m_deferredSampler->setTexture(staticModels.top()->getMesh()->subMeshes[m]->textures[staticModels.top()->getTextureIndex()]);
+				this->m_deferredSampler->setNormalMap(staticModels.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
+				this->m_deferredSampler->setGlowMap(staticModels.top()->getMesh()->subMeshes[m]->textures["glowIntensity"]);
 
-				if(models.top()->getMesh()->isAnimated)
+				if(staticModels.top()->getMesh()->isAnimated)
 				{
 					/*this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
 					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
@@ -270,14 +269,14 @@ void World::render()
 				}
 				else
 				{
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deviceHandler->setVertexBuffer(staticModels.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
 
 					D3D10_TECHNIQUE_DESC desc;
 					m_deferredSampler->getSuperTechnique()->GetDesc(&desc);
 
 					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(1)->Apply(0);
-					this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+					this->m_deviceHandler->getDevice()->Draw(staticModels.top()->getMesh()->subMeshes[m]->numVerts, 0);
 
 					//for(int i = 0; i < desc.Passes; i++)
 					//{
@@ -287,39 +286,67 @@ void World::render()
 				}
 			}
 		}
-		else
-		{
-			gubbs.push_back(models.top());
-		}
 
-		models.pop();
+		staticModels.pop();
 	}
 
-	for(int i = 0; i < gubbs.size(); i++)
+	vector<Model*> transparentModels;
+	for(int i = 0; i < m_models.size(); i++)
 	{
-		this->m_deferredSampler->setModelMatrix(gubbs[i]->getModelMatrix());
-		this->m_deferredSampler->setModelAlpha(gubbs[i]->getAlpha());
-
-		for(int m = 0; m < gubbs[i]->getMesh()->subMeshes.size(); m++)
+		if(m_models[i]->getAlpha() < 1.0f)
 		{
-			m_deferredSampler->setTexture(gubbs[i]->getMesh()->subMeshes[m]->textures[gubbs[i]->getTextureIndex()]);
-			m_deferredSampler->setNormalMap(gubbs[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-			m_deferredSampler->setGlowMap(gubbs[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
-
-			if(gubbs[i]->getMesh()->isAnimated)
+			if(transparentModels.size() == 0)
 			{
-				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+				transparentModels.push_back(m_models[i]);
 			}
 			else
 			{
-				m_deviceHandler->setVertexBuffer(gubbs[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
-				//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
-				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(gubbs[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				if(m_models[i]->getPosition().y <= transparentModels[0]->getPosition().y)
+					transparentModels.insert(transparentModels.begin(), m_models[i]);
+				else
+				{
+					bool inserted = false;
+					for(int j = 1; j < transparentModels.size()-1 && !inserted; j++)
+					{
+						if(m_models[i]->getPosition().y > transparentModels[j]->getPosition().y && m_models[i]->getPosition().y <= transparentModels[j+1]->getPosition().y)
+						{
+							transparentModels.insert(transparentModels.begin()+j, m_models[i]);
+							inserted = true;
+						}
+					}
+					if(!inserted)
+					{
+						transparentModels.push_back(m_models[i]);
+					}
+				}
+			}
+		}
+		else
+		{
+			this->m_deferredSampler->setModelMatrix(m_models[i]->getModelMatrix());
+			this->m_deferredSampler->setModelAlpha(m_models[i]->getAlpha());
+
+			for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
+			{
+				m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
+				m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+				m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+
+				if(m_models[i]->getMesh()->isAnimated)
+				{
+					/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
+					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+				}
+				else
+				{
+					m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+					//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				}
 			}
 		}
 	}
@@ -355,6 +382,35 @@ void World::render()
 	}
 	
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	for(int i = 0; i < transparentStaticModels.size(); i++)
+	{
+		this->m_deferredSampler->setModelMatrix(transparentStaticModels[i]->getModelMatrix());
+		this->m_deferredSampler->setModelAlpha(transparentStaticModels[i]->getAlpha());
+
+		for(int m = 0; m < transparentStaticModels[i]->getMesh()->subMeshes.size(); m++)
+		{
+			this->m_deferredSampler->setTexture(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getTextureIndex()]);
+			this->m_deferredSampler->setNormalMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+			this->m_deferredSampler->setGlowMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+
+			if(transparentStaticModels[i]->getMesh()->isAnimated)
+			{
+				this->m_deferredSampler->setBoneTexture(transparentStaticModels[i]->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(transparentStaticModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+			}
+			else
+			{
+				this->m_deviceHandler->setVertexBuffer(transparentStaticModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
+				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
+			}
+
+			this->m_deviceHandler->getDevice()->Draw(transparentStaticModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
+		}
+	}
+
 	for(int i = 0; i < transparentModels.size(); i++)
 	{
 		this->m_deferredSampler->setModelMatrix(transparentModels[i]->getModelMatrix());
@@ -362,25 +418,25 @@ void World::render()
 
 		for(int m = 0; m < transparentModels[i]->getMesh()->subMeshes.size(); m++)
 		{
-			this->m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
-			this->m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-			this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+			m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
+			m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+			m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
 
 			if(transparentModels[i]->getMesh()->isAnimated)
 			{
-				this->m_deferredSampler->setBoneTexture(transparentModels[i]->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
 			}
 			else
 			{
-				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
-				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
+				m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+				//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
+				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
 			}
-
-			this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
 		}
 	}
 
@@ -511,13 +567,13 @@ void World::render()
 
 	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
 
-	for(int i = 0; i < gubbs.size(); i++)
+	for(int i = 0; i < m_models.size(); i++)
 	{
-		m_forwardRendering->setModelMatrix(gubbs[i]->getModelMatrix());
+		m_forwardRendering->setModelMatrix(m_models[i]->getModelMatrix());
 
-		for(int m = 0; m < gubbs[i]->getMesh()->subMeshes.size(); m++)
+		for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
 		{
-			if(gubbs[i]->getMesh()->isAnimated)
+			if(m_models[i]->getMesh()->isAnimated)
 			{
 				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
 				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
@@ -526,10 +582,10 @@ void World::render()
 			}
 			else
 			{				
-				m_deviceHandler->setVertexBuffer(gubbs[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());				
 				m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(gubbs[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
 			}
 		}
 	}
@@ -722,12 +778,38 @@ void World::update(float dt)
 
 bool World::addModel(Model *_model)
 {
-	return this->m_quadTree->addModel(_model);
+	bool success;
+	if(_model->isStatic())
+		success = this->m_quadTree->addModel(_model);
+	else
+	{
+		m_models.push_back(_model);
+		success = true;
+	}
+	return success;
 }
 
 bool World::removeModel(Model *_model)
 {
-	return this->m_quadTree->removeModel(_model);
+	bool success = false;
+
+	if(_model->isStatic())
+		success = this->m_quadTree->removeModel(_model);
+	else
+	{
+		for(int i = 0; i < m_models.size(); i++)
+		{
+			if(m_models[i] == _model)
+			{
+				delete m_models[i];
+				m_models.erase(m_models.begin()+i);
+				success = true;
+				i = m_models.size();
+			}
+		}
+	}
+
+	return success;
 }
 
 void World::addSprite(SpriteBase *sprite)

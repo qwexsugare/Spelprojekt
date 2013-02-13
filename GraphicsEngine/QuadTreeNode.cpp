@@ -278,7 +278,7 @@ void QuadTreeNode::getAllModels(stack<Model*>& _models)
 
 void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)const
 {
-	D3DXVECTOR2 nodeDistanceToCamera = D3DXVECTOR2(m_obb->Center.x, m_obb->Center.z)-_focalPoint;
+	D3DXVECTOR2 nodeDistanceToCamera = D3DXVECTOR2(m_obb->Center.x, m_obb->Center.z);
 	nodeDistanceToCamera.x = abs(nodeDistanceToCamera.x);
 	nodeDistanceToCamera.y = abs(nodeDistanceToCamera.y);
 
@@ -290,8 +290,8 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 
 	nodeDistanceToCamera.x -= greatestExtent;
 	nodeDistanceToCamera.y -= greatestExtent;
-
-	if(true || (nodeDistanceToCamera.x < 13.0f && nodeDistanceToCamera.y < 10.0f))
+	
+	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+6.0f && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+4.0f)
 	{
 		if(this->m_children[0])
 		{
