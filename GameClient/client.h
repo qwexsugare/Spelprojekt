@@ -24,6 +24,10 @@
 #include "NetworkBuySkillMessage.h"
 #include "NetworkSkillBoughtMessage.h"
 #include "NetworkRemoveActionTargetMessage.h"
+#include "NetworkHeroSelectedMessage.h"
+#include "NetworkReadyMessage.h"
+#include "NetworkSelectHeroMessage.h"
+#include "NetworkStartGameMessage.h"
 
 using namespace std;
 
@@ -49,6 +53,8 @@ private:
 	queue<NetworkCreateActionTargetMessage> m_createActionTargetQueue;
 	queue<NetworkSkillBoughtMessage> m_skilllBoughtQueue;
 	queue<NetworkRemoveActionTargetMessage> m_removeActionTargetQueue;
+	queue<NetworkStartGameMessage> m_startGameQueue;
+	queue<NetworkHeroSelectedMessage> m_heroSelectedQueue;
 public:
 	Client();
 	~Client();
@@ -61,6 +67,8 @@ public:
 	void sendMessage(NetworkUseActionPositionMessage _usm);
 	void sendMessage(NetworkUseActionTargetMessage _usm);
 	void sendMessage(NetworkBuySkillMessage _usm);
+	void sendMessage(NetworkSelectHeroMessage _usm);
+	void sendMessage(NetworkReadyMessage _usm);
 
 	NetworkEntityMessage entityQueueFront();
 	NetworkRemoveEntityMessage removeEntityQueueFront();
@@ -69,6 +77,9 @@ public:
 	NetworkCreateActionTargetMessage createActionTargetQueueFront();
 	NetworkSkillBoughtMessage skillBoughtQueueFront();
 	NetworkRemoveActionTargetMessage removeActionTargetQueueFront();
+	NetworkStartGameMessage startGameQueueFront();
+	NetworkHeroSelectedMessage heroSelectedQueueFront();
+
 	bool entityQueueEmpty();
 	bool removeEntityQueueEmpty();
 	bool createActionQueueEmpty();

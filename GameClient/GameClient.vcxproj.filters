@@ -124,9 +124,6 @@
     <ClCompile Include="Tower.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Hero.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -310,6 +307,24 @@
     <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="Hero.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engineer.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHeroSelectedMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkReadyMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkSelectHeroMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkStartGameMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -445,9 +460,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Tower.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Hero.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
@@ -645,6 +657,27 @@
     <ClInclude Include="SwiftAsACatPowerfulAsABoar.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="Hero.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engineer.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Heroes.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHeroSelectedMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkReadyMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSelectHeroMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkStartGameMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -673,6 +706,9 @@
     </Filter>
     <Filter Include="Client\Buttons">
       <UniqueIdentifier>{6407d00a-14e0-45d2-9bd5-d12346e7e2ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Heroes">
+      <UniqueIdentifier>{b472bc64-8dc9-4875-80a2-557d54abfa9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

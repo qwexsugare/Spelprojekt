@@ -294,6 +294,36 @@ void Server::broadcast(NetworkRemoveActionTargetMessage networkMessage)
 	this->m_mutex.Unlock();
 }
 
+void Server::broadcast(NetworkStartGameMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(NetworkHeroSelectedMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
 void Server::Run()
 {
 	__int64 cntsPerSec = 0;
@@ -333,6 +363,8 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 	NetworkUseActionPositionMessage uap;
 	NetworkUseActionTargetMessage uat;
 	NetworkBuySkillMessage bs;
+	NetworkReadyMessage nrm;
+	NetworkSelectHeroMessage nshm;
 
 	switch(type)
 	{
@@ -365,11 +397,17 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		break;
 
 	case NetworkMessage::MESSAGE_TYPE::SelectHero:
-
+		packet >> nshm;
+		this->m_mutex.Lock();
+		this->m_players[socketIndex]->handleSelectHeroMessage(nshm);
+		this->m_mutex.Unlock();
 		break;
 
 	case NetworkMessage::MESSAGE_TYPE::Ready:
-
+		packet >> nrm;
+		this->m_mutex.Lock();
+		this->m_players[socketIndex]->handleReadyMessage(nrm);
+		this->m_mutex.Unlock();
 		break;
 	}
 

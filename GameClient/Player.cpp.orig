@@ -8,12 +8,29 @@ Player::Player(unsigned int id)
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = new Engineer(this->m_id);
 	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
+<<<<<<< HEAD
+=======
+	//this->m_hero->setNextPosition(FLOAT3(60.0f, 0.0f, 40.0f));
+	
+	//this->m_skills.push_back(new SimonsEvil());
+	//this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::COURAGE_HONOR_VALOR, this->m_id, this->m_resources));
+	//this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
+	//this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR, this->m_id, this->m_resources));
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 
 	EntityHandler::addEntity(m_hero);
 }
 
 Player::~Player()
 {
+<<<<<<< HEAD
+=======
+	for(int i = 0; i < this->m_skills.size(); i++)
+	{
+		delete this->m_skills[i];
+	}
+
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 	delete this->m_messageQueue;
 }
 
@@ -233,6 +250,14 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 
 void Player::update(float _dt)
 {
+<<<<<<< HEAD
+
+=======
+	for(int i = 0; i <this->m_skills.size(); i++)
+	{
+		this->m_skills[i]->update(_dt);
+	}
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 }
 
 bool Player::getReady()
@@ -262,7 +287,15 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 
 		if(s != NULL)
 		{
+<<<<<<< HEAD
 			s->activate(usm.getPosition(), this->m_hero->getId());
+=======
+			if(this->m_skills[i]->getId() == usm.getActionId() && this->m_skills[i]->getCurrentCooldown() == 0.0f)
+			{
+				this->m_skills[i]->activate(usm.getPosition(), this->m_hero->getId());
+				i = this->m_skills.size();
+			}
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 		}
 
 		break;
@@ -275,7 +308,15 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 
 	if(s != NULL)
 	{
+<<<<<<< HEAD
 		s->activate(this->m_hero->getId());
+=======
+		if(this->m_skills[i]->getId() == usm.getActionId() && this->m_skills[i]->getCurrentCooldown() == 0.0f)
+		{
+			this->m_skills[i]->activate(this->m_hero->getId());
+			i = this->m_skills.size();
+		}
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 	}
 }
 
@@ -292,19 +333,17 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 
 		if(s != NULL)
 		{
+<<<<<<< HEAD
 			s->activate(usm.getTargetId(), m_hero->getId());
+=======
+			if(this->m_skills[i]->getId() == usm.getActionId() && this->m_skills[i]->getCurrentCooldown() == 0.0f)
+			{
+				this->m_skills[i]->activate(usm.getTargetId(), m_hero->getId());
+				i = this->m_skills.size();
+			}
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 		}
 
 		break;
 	}
-}
-
-void Player::handleReadyMessage(NetworkReadyMessage rm)
-{
-	this->m_ready = rm.isPorn();
-}
-
-void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
-{
-	this->m_messageQueue->pushOutgoingMessage(new SelectHeroMessage(this->m_id, 0, shm.getHeroId()));
 }

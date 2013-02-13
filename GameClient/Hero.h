@@ -8,9 +8,12 @@
 #include "Projectile.h"
 #include "MapHandler.h"
 #include "Path.h"
+#include "Skills.h"
 
 class Hero : public UnitEntity
 {
+public:
+	static enum HERO_TYPE {ENGINEER, OFFICER, RED_KNIGHT, THE_MENTALIST, DOCTOR};
 private:
 	FLOAT3 m_nextPosition;
 	FLOAT3 m_goalPosition;
@@ -22,8 +25,12 @@ private:
 
 	Path m_path;
 	int m_pathCounter;
+
+	HERO_TYPE m_heroType;
+	int m_playerId;
 public:
 	Hero();
+	Hero(HERO_TYPE _heroType, int _playerId);
 	virtual ~Hero();
 	
 	void updateSpecificUnitEntity(float dt);

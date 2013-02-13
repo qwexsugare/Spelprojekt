@@ -292,6 +292,30 @@ NetworkRemoveActionTargetMessage Client::removeActionTargetQueueFront()
 	return ret;
 }
 
+NetworkStartGameMessage Client::startGameQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkStartGameMessage ret = this->m_startGameQueue.front();
+	this->m_startGameQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkHeroSelectedMessage Client::heroSelectedQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkHeroSelectedMessage ret = this->m_heroSelectedQueue.front();
+	this->m_heroSelectedQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
@@ -323,6 +347,26 @@ void Client::sendMessage(NetworkUseActionTargetMessage _usm)
 }
 
 void Client::sendMessage(NetworkBuySkillMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkSelectHeroMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkReadyMessage _usm)
 {
 	if(this->isConnected())
 	{
