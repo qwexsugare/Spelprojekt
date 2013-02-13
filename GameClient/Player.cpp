@@ -128,7 +128,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::PHYSICAL_RESISTANCE:
 			if(this->m_resources >= Greed::COST)
 			{
-				PhysicalResistance* a = new PhysicalResistance();
+				a = new PhysicalResistance();
 				a->activate(this->m_hero->getId());
 				this->m_resources = this->m_resources - PhysicalResistance::COST;
 				skillBought = true;
@@ -150,7 +150,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::POISON_STRIKE:
 			if(this->m_resources >= PoisonStrike::COST)
 			{
-				PoisonStrike* a = new PoisonStrike();
+				a = new PoisonStrike();
 				a->activate(this->m_hero->getId());
 				this->m_resources = this->m_resources - PoisonStrike::COST;
 				skillBought = true;
@@ -233,7 +233,6 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 
 void Player::update(float _dt)
 {
-
 }
 
 bool Player::getReady()

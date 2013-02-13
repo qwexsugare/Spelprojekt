@@ -1,6 +1,6 @@
 #include "MentalResistance.h"
 
-MentalResistance::MentalResistance()
+MentalResistance::MentalResistance() : Skill(Skill::MENTAL_RESISTANCE, 0.0f)
 {
 
 }
