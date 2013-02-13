@@ -5,7 +5,7 @@ Model::Model()
 	this->m_obb = NULL;
 	this->m_bs = NULL;
 	this->animation = NULL;
-	m_house = false;
+	m_static = false;
 }
 
 Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha, string _textureIndex)
@@ -42,7 +42,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	
 	this->updateModelMatrix();
 	this->animation =  new Animation(_animation);
-	m_house = false;
+	m_static = false;
 }
 
 Model::~Model()
@@ -266,7 +266,7 @@ void Model::setRotation(FLOAT3 _rotation)
 	this->updateModelMatrix();
 }
 
-void Model::setHouse(bool _house)
+void Model::setStatic(bool _static)
 {
-	m_house = _house;
+	m_static = _static;
 }
