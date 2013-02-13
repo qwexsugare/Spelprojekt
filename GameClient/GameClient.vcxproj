@@ -175,6 +175,7 @@
     <ClCompile Include="DemonicPresenceClientSkillEffect.cpp" />
     <ClCompile Include="DemonicPresenceEffect.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="DemonicPresenceClientSkillEffect.h" />
     <ClInclude Include="DemonicPresenceEffect.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Engineer.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
     <ClInclude Include="EntityMessage.h" />
@@ -298,6 +300,7 @@
     <ClInclude Include="HealingTouch.h" />
     <ClInclude Include="HealingTouchClientSkillEffect.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="Heroes.h" />
     <ClInclude Include="HudMenu.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="IntroMenu.h" />

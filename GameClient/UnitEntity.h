@@ -2,6 +2,7 @@
 #define UNIT_ENTITY_H
 
 #include "ServerEntity.h"
+#include "Skill.h"
 
 class UnitEntity : public ServerEntity
 {
@@ -10,6 +11,8 @@ protected:
 	static const int MAX_AGILITY = 20;
 	static const int MAX_WITS = 20;
 	static const int MAX_FORTITUDE = 20;
+
+	vector<Skill*> m_skills;
 
 	int m_health;
 	int m_maxHealth;
@@ -46,6 +49,10 @@ public:
 	
 	void update(float dt);
 	virtual void updateSpecificUnitEntity(float dt) = 0;
+
+	void addSkill(Skill *_skill);
+	Skill *getSkill(unsigned int _id);
+	int getNrOfSkills();
 
 	virtual NetworkEntityMessage getUpdate();
 

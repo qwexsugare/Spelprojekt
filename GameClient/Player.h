@@ -24,16 +24,6 @@ class Player
 {
 private:
 	unsigned int m_id;
-	
-	Skill* m_chainStrike;
-	Skill* m_cloudOfDarkness;
-	Skill* m_stunningStrike;
-	Skill* m_teleport;
-	Skill* m_healingTouch;
-	Skill* m_demonicPresence;
-
-	vector<Skill*> m_skills;
-
 	unsigned int m_resources;
 
 	bool m_ready;

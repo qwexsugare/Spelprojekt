@@ -1,42 +1,20 @@
 #include "Player.h"
+#include "Heroes.h"
 
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
 	this->m_resources = 20000;
 	this->m_messageQueue = new MessageQueue();
-	this->m_hero = new Hero();
+	this->m_hero = new Engineer(this->m_id);
 	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
-	//this->m_hero->setNextPosition(FLOAT3(60.0f, 0.0f, 40.0f));
-	this->m_chainStrike = new ChainStrike();
-	this->m_cloudOfDarkness = new CloudOfDarkness();
-	this->m_stunningStrike = new StunningStrike();
-	this->m_teleport = new Teleport();
-	this->m_healingTouch = new HealingTouch();
-	this->m_demonicPresence = new DemonicPresence();
-	
-	this->m_skills.push_back(new SimonsEvil());
-	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SIMONS_EVIL, this->m_id, this->m_resources));
-	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
-	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR, this->m_id, this->m_resources));
 
 	EntityHandler::addEntity(m_hero);
 }
 
 Player::~Player()
 {
-	for(int i = 0; i < this->m_skills.size(); i++)
-	{
-		delete this->m_skills[i];
-	}
-
-	delete this->m_chainStrike;
-	delete this->m_cloudOfDarkness;
-	delete this->m_stunningStrike;
 	delete this->m_messageQueue;
-	delete m_teleport;
-	delete m_healingTouch;
-	delete m_demonicPresence;
 }
 
 void Player::handleEntityMessage(EntityMessage e)
@@ -80,7 +58,7 @@ void Player::handleEntityAttackMessage(AttackEntityMessage eam)
 
 void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 {
-	if(this->m_skills.size() < 6)
+	if(this->m_hero->getNrOfSkills() < 6)
 	{
 		bool skillBought = false;
 		Skill* a = NULL;
@@ -247,7 +225,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 
 		if(skillBought == true)
 		{
-			this->m_skills.push_back(a);
+			this->m_hero->addSkill(a);
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(bsm.getActionId(), this->m_id, this->m_resources));
 		}
 	}
@@ -255,17 +233,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 
 void Player::update(float _dt)
 {
-	m_chainStrike->update(_dt);
-	m_cloudOfDarkness->update(_dt);
-	m_stunningStrike->update(_dt);
-	m_teleport->update(_dt);
-	m_healingTouch->update(_dt);
-	m_demonicPresence->update(_dt);
 
-	for(int i = 0; i <this->m_skills.size(); i++)
-	{
-		this->m_skills[i]->update(_dt);
-	}
 }
 
 bool Player::getReady()
@@ -291,27 +259,24 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		break;
 
 	default:
-		for(int i = 0; i < this->m_skills.size(); i++)
+		Skill *s = this->m_hero->getSkill(usm.getActionId());
+
+		if(s != NULL)
 		{
-			if(this->m_skills[i]->getId() == usm.getActionId())
-			{
-				this->m_skills[i]->activate(usm.getPosition(), this->m_hero->getId());
-				i = this->m_skills.size();
-			}
+			s->activate(usm.getPosition(), this->m_hero->getId());
 		}
+
 		break;
 	}
 }
 
 void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
-	for(int i = 0; i < this->m_skills.size(); i++)
+	Skill *s = this->m_hero->getSkill(usm.getActionId());
+
+	if(s != NULL)
 	{
-		if(this->m_skills[i]->getId() == usm.getActionId())
-		{
-			this->m_skills[i]->activate(this->m_hero->getId());
-			i = this->m_skills.size();
-		}
+		s->activate(this->m_hero->getId());
 	}
 }
 
@@ -324,14 +289,13 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		break;
 
 	default:
-		for(int i = 0; i < this->m_skills.size(); i++)
+		Skill *s = this->m_hero->getSkill(usm.getActionId());
+
+		if(s != NULL)
 		{
-			if(this->m_skills[i]->getId() == usm.getActionId())
-			{
-				this->m_skills[i]->activate(usm.getTargetId(), m_hero->getId());
-				i = this->m_skills.size();
-			}
+			s->activate(usm.getTargetId(), m_hero->getId());
 		}
+
 		break;
 	}
 }

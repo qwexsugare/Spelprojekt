@@ -17,7 +17,7 @@ void JoinGameState::update(float dt)
 	if(this->m_menu->StartGameIsDown() == true)
 	{
 		this->setDone(true);
-		this->m_nextState = State::GAME;
+		this->m_nextState = State::LOBBY;
 	}
 	else if(this->m_menu->MainMenuGameIsDown() == true)
 	{
