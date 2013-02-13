@@ -435,8 +435,9 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	texColors[6] = terrainTextures[6].Sample(linearSampler, input.UVCoord);
 	texColors[7] = terrainTextures[7].Sample(linearSampler, input.UVCoord);
 	
-	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, input.UVCoord/8.0f); // /x is the number of tiles for the terrain that you specified in the constructor
-	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, input.UVCoord/8.0f); // /x is the number of tiles for the terrain that you specified in the constructor
+	float2 newUvCoord = float2(input.UVCoord.x/8.0f, 8.0f-input.UVCoord.y/8.0f);
+	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, newUvCoord); // /x is the number of tiles for the terrain that you specified in the constructor
+	float4 blendSample2 = terrainBlendMaps[1].Sample(linearSampler, newUvCoord); // /x is the number of tiles for the terrain that you specified in the constructor
 	
 	output.Diffuse =  texColors[0]* blendSample1.x;
 	output.Diffuse += texColors[1]* blendSample1.y;
