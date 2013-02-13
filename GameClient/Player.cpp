@@ -6,15 +6,49 @@ Player::Player(unsigned int id)
 	this->m_id = id;
 	this->m_resources = 20000;
 	this->m_messageQueue = new MessageQueue();
-	this->m_hero = new Engineer(this->m_id);
-	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
-
-	EntityHandler::addEntity(m_hero);
+	m_hero = NULL;
+	this->m_ready = false;
 }
 
 Player::~Player()
 {
 	delete this->m_messageQueue;
+}
+
+void Player::assignHero(Hero::HERO_TYPE _type)
+{
+	switch(_type)
+	{
+	case Hero::ENGINEER:
+		this->m_hero = new Engineer(this->m_id);
+		break;
+	case Hero::DOCTOR:
+		this->m_hero = new Doctor(this->m_id);
+		break;
+	case Hero::RED_KNIGHT:
+		this->m_hero = new RedKnight(this->m_id);
+		break;
+	case Hero::THE_MENTALIST:
+		this->m_hero = new TheMentalist(this->m_id);
+		break;
+	case Hero::OFFICER:
+		this->m_hero = new Officer(this->m_id);
+		break;
+	}
+	
+	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
+	
+	EntityHandler::addEntity(m_hero);
+}
+
+Hero::HERO_TYPE Player::getHeroType()const
+{
+	return m_hero->getHeroType();
+}
+
+int Player::getId()const
+{
+	return this->m_messageQueue->getId();
 }
 
 void Player::handleEntityMessage(EntityMessage e)

@@ -40,7 +40,7 @@ GameState::~GameState()
 
 	if(m_minimap)
 		delete this->m_minimap;
-	delete this->m_network;
+	//delete this->m_network;
 	delete this->m_hud;
 	delete this->m_clientEntityHandler;
 }

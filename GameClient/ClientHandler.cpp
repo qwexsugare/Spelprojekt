@@ -11,6 +11,7 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_keyboard = new Keyboard();
 
 	this->m_serverThread = NULL;
+	this->m_client = NULL;
 }
 
 ClientHandler::~ClientHandler()
@@ -22,6 +23,10 @@ ClientHandler::~ClientHandler()
 	if(this->m_state)
 	{
 		delete this->m_state;
+	}
+	if(this->m_client)
+	{
+		delete this->m_client;
 	}
 	delete g_graphicsEngine;
 	delete g_mouse;
