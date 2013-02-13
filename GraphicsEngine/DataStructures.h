@@ -94,6 +94,11 @@ struct DECLDIR FLOAT3
 		return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
 	}
 
+	float lengthSquared()const
+	{
+		return this->x * this->x + this->y * this->y + this->z * this->z;
+	}
+
 	D3DXVECTOR3 toD3DXVector()
 	{
 		return D3DXVECTOR3(this->x, this->y, this->z);
