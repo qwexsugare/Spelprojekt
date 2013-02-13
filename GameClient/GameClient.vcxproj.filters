@@ -313,6 +313,18 @@
     <ClCompile Include="Engineer.cpp">
       <Filter>Server\Heroes</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkHeroSelectedMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkReadyMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkSelectHeroMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkStartGameMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -653,6 +665,18 @@
     </ClInclude>
     <ClInclude Include="Heroes.h">
       <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHeroSelectedMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkReadyMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSelectHeroMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkStartGameMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

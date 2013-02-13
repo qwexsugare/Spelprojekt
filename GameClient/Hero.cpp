@@ -21,7 +21,7 @@ Hero::Hero() : UnitEntity()
 	this->increaseFortitude(4);
 }
 
-Hero::Hero(HERO_TYPE _heroType, int _playerId)
+Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 {
 	this->m_heroType = _heroType;
 	this->m_playerId = _playerId;
