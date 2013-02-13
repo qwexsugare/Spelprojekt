@@ -141,7 +141,7 @@ void MapHandler::loadMap(std::string filename)
 			{
 				float notInvertZ;
 				sscanf(buf, "%f %f", &points[nrOfPoints].x, &notInvertZ);
-				points[nrOfPoints].y = height+notInvertZ;
+				points[nrOfPoints].y = -notInvertZ;
 				nrOfPoints++;
 				stream.getline(buf, 1024);
 				sscanf(buf, "%s", key);

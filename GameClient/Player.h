@@ -19,6 +19,8 @@
 #include "NetworkUseActionPositionMessage.h"
 #include "NetworkUseActionTargetMessage.h"
 #include "NetworkBuySkillMessage.h"
+#include "NetworkReadyMessage.h"
+#include "NetworkSelectHeroMessage.h"
 
 class Player
 {
@@ -41,6 +43,8 @@ public:
 	void handleUseActionMessage(NetworkUseActionMessage usm);
 	void handleUseActionTargetMessage(NetworkUseActionTargetMessage usm);
 	void handleBuySkillMessage(NetworkBuySkillMessage bsm);
+	void handleReadyMessage(NetworkReadyMessage rm);
+	void handleSelectHeroMessage(NetworkSelectHeroMessage shm);
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
 

@@ -140,7 +140,7 @@ void ClientHandler::update(float _dt)
 				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
 			}
 
-			this->m_state = new LobbyState();
+			this->m_state = new LobbyState(this->m_client);
 			break;
 		case State::LORE:
 			this->m_state = new LoreState();

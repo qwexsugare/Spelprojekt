@@ -298,3 +298,13 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		break;
 	}
 }
+
+void Player::handleReadyMessage(NetworkReadyMessage rm)
+{
+	this->m_ready = rm.isPorn();
+}
+
+void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
+{
+	this->m_messageQueue->pushOutgoingMessage(new SelectHeroMessage(this->m_id, 0, shm.getHeroId()));
+}

@@ -8,6 +8,7 @@ private:
 	bool m_isPorn;
 public:
 	NetworkReadyMessage();
+	NetworkReadyMessage(bool _isPorn);
 	~NetworkReadyMessage();
 
 	bool isPorn()const { return m_isPorn; }

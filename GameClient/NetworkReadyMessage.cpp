@@ -5,6 +5,11 @@ NetworkReadyMessage::NetworkReadyMessage() : NetworkMessage(NetworkMessage::MESS
 
 }
 
+NetworkReadyMessage::NetworkReadyMessage(bool _isPorn) : NetworkMessage(NetworkMessage::MESSAGE_TYPE::Ready)
+{
+	m_isPorn = _isPorn;
+}
+
 NetworkReadyMessage::~NetworkReadyMessage()
 {
 

@@ -67,6 +67,8 @@ public:
 	void sendMessage(NetworkUseActionPositionMessage _usm);
 	void sendMessage(NetworkUseActionTargetMessage _usm);
 	void sendMessage(NetworkBuySkillMessage _usm);
+	void sendMessage(NetworkSelectHeroMessage _usm);
+	void sendMessage(NetworkReadyMessage _usm);
 
 	NetworkEntityMessage entityQueueFront();
 	NetworkRemoveEntityMessage removeEntityQueueFront();

@@ -363,6 +363,8 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 	NetworkUseActionPositionMessage uap;
 	NetworkUseActionTargetMessage uat;
 	NetworkBuySkillMessage bs;
+	NetworkReadyMessage nrm;
+	NetworkSelectHeroMessage nshm;
 
 	switch(type)
 	{
@@ -395,11 +397,17 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		break;
 
 	case NetworkMessage::MESSAGE_TYPE::SelectHero:
-
+		packet >> nshm;
+		this->m_mutex.Lock();
+		this->m_players[socketIndex]->handleSelectHeroMessage(nshm);
+		this->m_mutex.Unlock();
 		break;
 
 	case NetworkMessage::MESSAGE_TYPE::Ready:
-
+		packet >> nrm;
+		this->m_mutex.Lock();
+		this->m_players[socketIndex]->handleReadyMessage(nrm);
+		this->m_mutex.Unlock();
 		break;
 	}
 

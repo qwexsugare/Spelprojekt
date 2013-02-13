@@ -355,3 +355,23 @@ void Client::sendMessage(NetworkBuySkillMessage _usm)
 		this->m_hostSocket.Send(packet);
 	}
 }
+
+void Client::sendMessage(NetworkSelectHeroMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkReadyMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
