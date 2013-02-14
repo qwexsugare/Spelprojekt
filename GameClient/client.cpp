@@ -56,6 +56,7 @@ void Client::Run()
 			NetworkCreateActionTargetMessage catm;
 			NetworkSkillBoughtMessage sbm;
 			NetworkRemoveActionTargetMessage rat;
+			NetworkSkillUsedMessage sum;
 
 			int type;
 			packet >> type;
@@ -160,6 +161,20 @@ void Client::Run()
 				this->m_mutex.Unlock();
 				break;
 
+			case NetworkMessage::SkillUsed:
+				packet >> sum;
+
+				this->m_mutex.Lock();
+				this->m_skillUsedQueue.push(sum);
+
+				if(this->m_skillUsedQueue.size() > 50)
+				{
+					this->m_skillUsedQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
 			case NetworkMessage::Disconnect:
 				this->disconnect();
 				break;
@@ -206,6 +221,11 @@ bool Client::skillBoughtQueueEmpty()
 bool Client::removeActionTargetQueueEmpty()
 {
 	return this->m_removeActionTargetQueue.empty();
+}
+
+bool Client::skillUsedQueueEmpty()
+{
+	return this->m_skillUsedQueue.empty();
 }
 
 NetworkEntityMessage Client::entityQueueFront()
@@ -310,6 +330,18 @@ NetworkHeroSelectedMessage Client::heroSelectedQueueFront()
 
 	NetworkHeroSelectedMessage ret = this->m_heroSelectedQueue.front();
 	this->m_heroSelectedQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkSkillUsedMessage Client::skillUsedQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkSkillUsedMessage ret = this->m_skillUsedQueue.front();
+	this->m_skillUsedQueue.pop();
 
 	this->m_mutex.Unlock();
 

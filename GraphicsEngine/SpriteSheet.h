@@ -44,7 +44,7 @@ public:
 
 	DECLDIR void setCurrentFrame(INT2 _currentFrame);
 	DECLDIR INT2 getCurrentFrame();
-	DECLDIR void playAnimation(INT2 _startFrame, INT2 _endFrame, bool _loop, int _framesPerSecond);
+	DECLDIR void playAnimation(INT2 _startFrame, INT2 _endFrame, bool _loop, float _framesPerSecond);
 	DECLDIR void stopAnimation();
 
 	void update(float dt);

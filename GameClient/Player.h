@@ -2,16 +2,10 @@
 #define PLAYER_H
 
 #include "DataStructures.h"
-#include "EntityMessage.h"
-#include "Msg.h"
-#include "AttackMessage.h"
 #include "MessageQueue.h"
 #include "EntityHandler.h"
 #include "Hero.h"
 #include "Projectile.h"
-#include "AttackEntityMessage.h"
-#include "UseSkillMessage.h"
-#include "UsePositionalSkillMessage.h"
 #include "Skills.h"
 #include "Tower.h"
 
@@ -38,10 +32,6 @@ public:
 	void assignHero(Hero::HERO_TYPE _type);
 	Hero::HERO_TYPE getHeroType()const;
 	int getId()const;
-	void handleEntityMessage(EntityMessage e);
-	void handleMsgMessage(Msg m);
-	void handleAttackMessage(AttackMessage am);
-	void handleEntityAttackMessage(AttackEntityMessage eam);
 	void handleUseActionPositionMessage(NetworkUseActionPositionMessage usm);
 	void handleUseActionMessage(NetworkUseActionMessage usm);
 	void handleUseActionTargetMessage(NetworkUseActionTargetMessage usm);

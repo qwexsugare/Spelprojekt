@@ -7,6 +7,38 @@
 #include "ClientSkillEffects.h"
 #include "Path.h"
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+GameState::GameState() : State(State::GAME)
+=======
+GameState::GameState(Client *_network)
+>>>>>>> 6cbd50f7c18f42ba9c778daaef655d06476f4298
+{
+	this->m_rotation = 0.0f;
+	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
+	this->m_network = _network;
+	this->m_hud = new HudMenu(this->m_network);
+	this->m_clientEntityHandler = new ClientEntityHandler();
+
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
+
+	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
+	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
+<<<<<<< HEAD
+	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.02f, 0.02f, 0.02f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+
+	this->importMap("race");
+}
+
+>>>>>>> e5d475d5f37d46932054abbaf381197555e308ef
 GameState::GameState(Client *_network)
 {
 	this->m_rotation = 0.0f;
@@ -15,18 +47,28 @@ GameState::GameState(Client *_network)
 	this->m_hud = new HudMenu(this->m_network);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 17.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
+=======
+<<<<<<< HEAD
+	// g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+=======
+>>>>>>> 6cbd50f7c18f42ba9c778daaef655d06476f4298
 	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
 	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.2f, 1.2f, 1.2f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.2f, 0.2f, 0.2f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 
 	this->importMap("race");
 }
@@ -40,7 +82,7 @@ GameState::~GameState()
 
 	if(m_minimap)
 		delete this->m_minimap;
-	//delete this->m_network;
+	delete this->m_network;
 	delete this->m_hud;
 	delete this->m_clientEntityHandler;
 }
@@ -97,7 +139,6 @@ void GameState::update(float _dt)
 		else
 		{
 			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
-			model->setTextureIndex(m_modelIdHolder.getTexture(e.getModelId()));
 			if(model)
 			{
 				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
@@ -187,14 +228,6 @@ void GameState::update(float _dt)
 				}
 			}
 		}
-	}
-
-	while(this->m_network->skillUsedQueueEmpty() == false)
-	{
-		NetworkSkillUsedMessage e = this->m_network->skillUsedQueueFront();
-		
-		// Do something!
-		this->m_hud->skillUsed(e.getActionIndex(), e.getActionId(), e.getCooldown());
 	}
 
 
