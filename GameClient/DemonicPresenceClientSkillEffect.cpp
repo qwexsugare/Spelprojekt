@@ -10,7 +10,7 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	pos.y = 0.01f;
 	m_model = g_graphicsEngine->createModel("Pentagram", pos);
 	m_model->setAlpha(0.75f);
-	m_sound = createSoundHandle("collision.wav", false);
+	m_sound = createSoundHandle("collision.wav", false, true, pos);
 	playSound(m_sound);
 }
 
