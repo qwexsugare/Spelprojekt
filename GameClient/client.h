@@ -5,13 +5,6 @@
 #include <SFML/System.hpp>
 #include <iostream>
 #include <queue>
-#include "EntityMessage.h"
-#include "AttackMessage.h"
-#include "Msg.h"
-#include "RemoveEntityMessage.h"
-#include "AttackEntityMessage.h"
-#include "UseSkillMessage.h"
-#include "UsePositionalSkillMessage.h"
 #include "NetworkMessage.h"
 #include "NetworkEntityMessage.h"
 #include "NetworkRemoveEntityMessage.h"
@@ -28,10 +21,11 @@
 #include "NetworkReadyMessage.h"
 #include "NetworkSelectHeroMessage.h"
 #include "NetworkStartGameMessage.h"
+#include "NetworkSkillUsedMessage.h"
 
 using namespace std;
 
-class Client :private sf::Thread
+class Client : private sf::Thread
 {
 private:
 	sf::Mutex m_mutex;
@@ -55,6 +49,7 @@ private:
 	queue<NetworkRemoveActionTargetMessage> m_removeActionTargetQueue;
 	queue<NetworkStartGameMessage> m_startGameQueue;
 	queue<NetworkHeroSelectedMessage> m_heroSelectedQueue;
+	queue<NetworkSkillUsedMessage> m_skillUsedQueue;
 public:
 	Client();
 	~Client();
@@ -79,6 +74,7 @@ public:
 	NetworkRemoveActionTargetMessage removeActionTargetQueueFront();
 	NetworkStartGameMessage startGameQueueFront();
 	NetworkHeroSelectedMessage heroSelectedQueueFront();
+	NetworkSkillUsedMessage skillUsedQueueFront();
 
 	bool entityQueueEmpty();
 	bool removeEntityQueueEmpty();
@@ -87,6 +83,7 @@ public:
 	bool createActionTargetQueueEmpty();
 	bool skillBoughtQueueEmpty();
 	bool removeActionTargetQueueEmpty();
+	bool skillUsedQueueEmpty();
 };
 
 #endif // CLIENT_H

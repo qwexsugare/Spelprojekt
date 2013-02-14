@@ -51,6 +51,7 @@ public:
 	virtual bool activate(unsigned int _targetId, unsigned int _senderId);
 	virtual bool activate(FLOAT3 position, unsigned int _senderId);
 	float getCurrentCooldown()const { return m_currentCooldown; }
+	float getCooldown()const { return this->m_cooldown; }
 	int getId()const { return m_id; }
 	void resetCooldown();
 	void update(float _dt);

@@ -1,13 +1,6 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "Msg.h"
-#include "EntityMessage.h"
-#include "AttackMessage.h"
-#include "RemoveEntityMessage.h"
-#include "AttackEntityMessage.h"
-#include "UseSkillMessage.h"
-
 #include "NetworkMessage.h"
 #include "NetworkEntityMessage.h"
 #include "NetworkDisconnectMessage.h"
@@ -42,11 +35,6 @@ private:
 
 	sf::Mutex m_mutex;
 
-	queue<Msg> msgQueue;
-	queue<EntityMessage> entityQueue;
-	queue<AttackMessage> attackMessageQueue;
-	queue<AttackEntityMessage> attackEntityMessageQueue;
-
 	vector<Player*> m_players;
 
 	sf::SelectorTCP selector;
@@ -73,11 +61,6 @@ public:
 	void broadcast(NetworkSkillUsedMessage networkMessage);
 
 	bool isRunning();
-
-	Msg msgQueueFront();
-	EntityMessage entityQueueFront();
-	bool msgQueueEmpty();
-	bool entityQueueEmpty();
 
 	vector<Player*> getPlayers();
 };

@@ -2,7 +2,6 @@
 #define SERVER_ENTITY
 
 #include "MessageQueue.h"
-#include "EntityMessage.h"
 #include "NetworkEntityMessage.h"
 #include "DataStructures.h"
 #include "DirectXMath.h"
@@ -35,7 +34,6 @@ public:
 	const BoundingSphere* getBs()const { return this->m_bs; }
 	const BoundingOrientedBox* getObb()const { return this->m_obb; }
 	MessageQueue *getMessageQueue();
-	//EntityMessage getUpdate();
 	virtual NetworkEntityMessage getUpdate();
 
 	void setId(unsigned int _id);
