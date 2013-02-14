@@ -51,7 +51,7 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 	_pickOrigOut.z = m._43;
 }
 
-D3DXVECTOR3 Camera::getPos()const
+const D3DXVECTOR3& Camera::getPos()const
 {
 	return this->m_position;
 }
