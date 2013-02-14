@@ -45,15 +45,15 @@ MapHandler::State MapHandler::getState()
 {
 	if(this->m_lives <= 0)
 	{
-		return State::DEFEAT;
+		return MapHandler::State::DEFEAT;
 	}
-	else if(this->m_currentWave == this->m_waves.size())
+	else if(this->m_currentWave > this->m_waves.size())
 	{
-		return State::VICTORY;
+		return MapHandler::State::VICTORY;
 	}
 	else
 	{
-		return State::RUNNING;
+		return MapHandler::State::RUNNING;
 	}
 }
 
@@ -226,12 +226,13 @@ void MapHandler::update(float _dt)
 			}
 		}
 	}
+	else if(EntityHandler::getNrOfEnemies() == 0 && m_currentWave < m_waves.size())
+	{
+		m_waveTimer = 10.0f;
+	}
 	else
 	{
-		if(EntityHandler::getNrOfEnemies() == 0 && m_currentWave < m_waves.size())
-		{
-			m_waveTimer = 10.0f;
-		}
+		this->m_currentWave++;
 	}
 }
 

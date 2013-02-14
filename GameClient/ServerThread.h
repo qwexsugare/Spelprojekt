@@ -16,7 +16,7 @@
 class ServerThread : public sf::Thread
 {
 private:
-	enum State { LOBBY, GAME, END, EXIT };
+	enum State { LOBBY, GAME, VICTORY, DEFEAT, EXIT };
 
 	Server *m_network;
 	MessageHandler *m_messageHandler;

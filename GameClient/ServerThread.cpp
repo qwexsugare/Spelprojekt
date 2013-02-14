@@ -112,9 +112,7 @@ void ServerThread::update(float dt)
 
 			delete m;
 		}
-
-		//Wait for all players to become ready
-		if(players.empty() == false)
+		if(players.empty() == false)//Wait for all players to become ready
 		{
 			bool start = true;
 
@@ -139,13 +137,18 @@ void ServerThread::update(float dt)
 			}
 		}
 	}
-
-	if(this->m_state == State::GAME)
+	else if(this->m_state == State::GAME)
 	{
+		MapHandler::State s = this->m_mapHandler->getState();
+
 		//Check if the map is finished
-		if(this->m_mapHandler->getState() == MapHandler::DEFEAT)
+		if(s == MapHandler::DEFEAT)
 		{
-			this->m_state = State::END;
+			this->m_state = ServerThread::DEFEAT;
+		}
+		else if(s == MapHandler::VICTORY)
+		{
+			this->m_state == ServerThread::VICTORY;
 		}
 
 		//Update the map and units on it
@@ -184,9 +187,12 @@ void ServerThread::update(float dt)
 			delete m;
 		}
 	}
-
-	if(this->m_state == State::END)
+	if(this->m_state == State::VICTORY)
 	{
-		//Wait for the server to be shut down
+		g_graphicsEngine->createMyText("test1.png", "text/", "offsets.txt", "VICTORY!", INT2(300, 300), 20);
+	}
+	else if(this->m_state == State::DEFEAT)
+	{
+
 	}
 }
