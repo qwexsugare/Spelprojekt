@@ -119,7 +119,7 @@ void ServerThread::update(float dt)
 
 			for(int i = 0; i < players.size(); i++)
 			{
-				if(players[i]->getReady() == false)
+				if(players[i]->hasChosenHero() && players[i]->getReady() == false)
 				{
 					i = players.size();
 					start = false;
