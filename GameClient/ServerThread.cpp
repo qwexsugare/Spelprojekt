@@ -112,7 +112,7 @@ void ServerThread::update(float dt)
 			delete m;
 		}
 
-		//Wait for all players to become ready, change hero when needed	
+		//Wait for all players to become ready
 		if(players.empty() == false)
 		{
 			bool start = true;

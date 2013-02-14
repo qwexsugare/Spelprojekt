@@ -87,6 +87,7 @@ public:
 	bool createActionTargetQueueEmpty();
 	bool skillBoughtQueueEmpty();
 	bool removeActionTargetQueueEmpty();
+	bool startGameQueueEmpty();
 };
 
 #endif // CLIENT_H

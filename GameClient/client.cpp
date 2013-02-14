@@ -375,3 +375,8 @@ void Client::sendMessage(NetworkReadyMessage _usm)
 		this->m_hostSocket.Send(packet);
 	}
 }
+
+bool Client::startGameQueueEmpty()
+{
+	return m_startGameQueue.empty();
+}
