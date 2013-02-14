@@ -20,6 +20,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
 	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize(), true);
+	this->m_SSAODepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize(), true);
 
 	this->m_deferredSampler = new DeferredSamplerEffectFile(this->m_deviceHandler->getDevice());
 	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
@@ -103,6 +104,7 @@ World::~World()
 	delete this->m_forwardRendering;
 	delete this->m_forwardRenderTarget;
 	delete this->m_forwardDepthStencil;
+	delete this->m_SSAODepthStencil;
 	delete this->m_spriteRendering;
 
 	delete this->m_deferredPlane;
@@ -216,7 +218,7 @@ void World::render()
 		this->m_deferredSampler->getRenderTerrainTechnique()->GetPassByIndex(0)->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(m_terrains[i]->getNrOfVertices(), 0);
 	}
-
+	
 	//Render all models
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> staticModels = this->m_quadTree->getModels(focalPoint);
@@ -264,10 +266,10 @@ void World::render()
 
 				if(staticModels.top()->getMesh()->isAnimated)
 				{
-					/*this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
-					this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+					//this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+					//this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+					//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
 				}
 				else
 				{
@@ -291,7 +293,8 @@ void World::render()
 
 		staticModels.pop();
 	}
-
+	
+	
 	vector<Model*> transparentModels;
 	for(int i = 0; i < m_models.size(); i++)
 	{
@@ -366,10 +369,11 @@ void World::render()
 
 					if(m_models[i]->getMesh()->isAnimated)
 					{
-						/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+						this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
+						this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-						this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+						this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
 					}
 					else
 					{
@@ -384,21 +388,24 @@ void World::render()
 		}
 	}
 
+
+
 	//clear render target
 	this->m_positionBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_tangentBufferTransparant->clear(this->m_deviceHandler->getDevice());
-	this->m_glowBufferTransparant->clear(this->m_deviceHandler->getDevice());
+	//this->m_glowBufferTransparant->clear(this->m_deviceHandler->getDevice());
 
 	renderTargets[0] = *this->m_positionBufferTransparant->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBufferTransparant->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBufferTransparant->getRenderTargetView();
 	renderTargets[3] = *this->m_tangentBufferTransparant->getRenderTargetView();
-	renderTargets[4] = *this->m_glowBufferTransparant->getRenderTargetView();
+	//renderTargets[4] = *this->m_glowBufferTransparant->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
 
 	// Render roads yo dawg y u be messin' about
 	stack<Road*> roads = this->m_quadTree->getRoads(focalPoint);
@@ -457,10 +464,10 @@ void World::render()
 
 			if(transparentModels[i]->getMesh()->isAnimated)
 			{
-				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+				//this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
+				//this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
 			}
 			else
 			{
@@ -472,6 +479,11 @@ void World::render()
 			}
 		}
 	}
+	
+
+		
+	
+	this->m_forwardRenderTarget->clear(this->m_deviceHandler->getDevice());
 
 	//Deferred
 	this->m_forwardRendering->setViewMatrix(this->m_camera->getViewMatrix());
@@ -515,10 +527,12 @@ void World::render()
 	
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
-	///SSAO
+	
+	/////SSAO START
+	////this->m_forwardDepthStencil->clear(m_deviceHandler->getDevice());
 	//this->m_SSAORendering->setDepthTexture(this->m_forwardDepthStencil->getShaderResource());
 	//this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
-	//this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
+	//this->m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_SSAODepthStencil->getDepthStencilView());
 
 	//D3D10_TECHNIQUE_DESC SSAOTechDesc;
 	//this->m_SSAORendering->getTechnique()->GetDesc( &SSAOTechDesc );
@@ -528,8 +542,10 @@ void World::render()
 	//	this->m_SSAORendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 	//	this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	//}
+	////SSAO END
 
-	////Glow
+
+	//Glow
 
 	m_glowRenderTarget->clear(m_deviceHandler->getDevice());
 	//m_forwardDepthStencil->clear(m_deviceHandler->getDevice());
@@ -586,11 +602,18 @@ void World::render()
 		this->m_glowRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
-
 	//GlowEnd
 
+
+	/////////////////////////////////////////////////////////////////////////
+	//PPPPP//AAAAAA//RRRRR///TTTTTTTT//II//CCCCCC//LL//////EEEEEEE//SSSSSSS//
+	//PPPPP//AA//AA//RRRRR//////TT/////II//CC//////LL//////EE///////SS///////
+	//PP/////AAAAAA//RRRR///////TT/////II//CC//////LL//////EEEE/////SSSSSSS//
+	//PP/////AA//AA//RR//RR/////TT/////II//CCCCCC//LLLLLL//EEEEEEE//SSSSSSS//
+	/////////////////////////////////////////////////////////////////////////
+
 	// Particle Engines (Systems)
-	stack<ParticleEngine*> pes;
+	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
 	while(!pes.empty())
 	{
 		//pes.top()->getstuffandrendershit();
@@ -608,10 +631,11 @@ void World::render()
 		{
 			if(m_models[i]->getMesh()->isAnimated)
 			{
-				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+				//this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
+				//this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				//this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
 			}
 			else
 			{				

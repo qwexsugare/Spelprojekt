@@ -168,7 +168,8 @@ void ClientHandler::update(float _dt)
 		delete tempState;
 	}
 
-	updateSoundEngine();
+	D3DXVECTOR3 camPos = g_graphicsEngine->getCamera()->getPos();
+	updateSoundEngine(FLOAT3(camPos.x, camPos.y, camPos.z));
 
 	g_mouse->update(); // Must be last!
 	g_keyboard->update();

@@ -25,6 +25,7 @@ private:
 	vector<Road*> m_roads;
 	vector<ClientSkillEffect*> m_ClientSkillEffects;
 	ClientEntityHandler *m_clientEntityHandler;
+	ParticleEngine *testParticleSystem;
 
 	SpotLight* s;
 	//Cursor m_cursor;

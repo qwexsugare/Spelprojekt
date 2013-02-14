@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="aldlist.h" />
     <ClInclude Include="CWaves.h" />
+    <ClInclude Include="Wu.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="LoadOAL.h" />
     <ClInclude Include="Sound.h" />
