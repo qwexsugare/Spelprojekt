@@ -374,7 +374,6 @@ void World::render()
 						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
 						this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
 						this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
-						//int trolleG = 9;
 					}
 					else
 					{
@@ -396,13 +395,13 @@ void World::render()
 	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_tangentBufferTransparant->clear(this->m_deviceHandler->getDevice());
-	this->m_glowBufferTransparant->clear(this->m_deviceHandler->getDevice());
+	//this->m_glowBufferTransparant->clear(this->m_deviceHandler->getDevice());
 
 	renderTargets[0] = *this->m_positionBufferTransparant->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBufferTransparant->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBufferTransparant->getRenderTargetView();
 	renderTargets[3] = *this->m_tangentBufferTransparant->getRenderTargetView();
-	renderTargets[4] = *this->m_glowBufferTransparant->getRenderTargetView();
+	//renderTargets[4] = *this->m_glowBufferTransparant->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
@@ -603,11 +602,18 @@ void World::render()
 		this->m_glowRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	}
-
 	//GlowEnd
 
+
+	/////////////////////////////////////////////////////////////////////////
+	//PPPPP//AAAAAA//RRRRR///TTTTTTTT//II//CCCCCC//LL//////EEEEEEE//SSSSSSS//
+	//PPPPP//AA//AA//RRRRR//////TT/////II//CC//////LL//////EE///////SS///////
+	//PP/////AAAAAA//RRRR///////TT/////II//CC//////LL//////EEEE/////SSSSSSS//
+	//PP/////AA//AA//RR//RR/////TT/////II//CCCCCC//LLLLLL//EEEEEEE//SSSSSSS//
+	/////////////////////////////////////////////////////////////////////////
+
 	// Particle Engines (Systems)
-	stack<ParticleEngine*> pes;
+	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
 	while(!pes.empty())
 	{
 		//pes.top()->getstuffandrendershit();
@@ -625,10 +631,11 @@ void World::render()
 		{
 			if(m_models[i]->getMesh()->isAnimated)
 			{
-				/*this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);*/
+				//this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
+				//this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				//this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
 			}
 			else
 			{				

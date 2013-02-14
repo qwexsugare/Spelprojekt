@@ -292,8 +292,8 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	//float diff = saturate(dot(light, newNormal));
 
 	output.Pos = input.EyeCoord;
-
-	output.Normal = float4(normalize(n), 0.0f);
+	output.Normal = normalize(normalMap.Sample(linearSampler, input.UVCoord));
+	//output.Normal = float4(normalize(n), 0.0f);
 
 	output.Diffuse = color;
 	output.Tangent = float4(t, 0);
