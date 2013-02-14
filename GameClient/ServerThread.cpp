@@ -139,7 +139,7 @@ void ServerThread::update(float dt)
 	if(this->m_state == State::GAME)
 	{
 		//Check if the map is finished
-		if(this->m_mapHandler->isDone() == true)
+		if(this->m_mapHandler->getState() == MapHandler::DEFEAT)
 		{
 			this->m_state = State::END;
 		}

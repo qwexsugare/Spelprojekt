@@ -684,61 +684,69 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 	D3DXMATRIX* wvps = new D3DXMATRIX[pointLights.size() * 6];
 	
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	int counter = 0;
 
 	for(int i = 0; i < pointLights.size() && i * 6 < 100; i++)
 	{
-		pointLights[i]->clearShadowMap(m_deviceHandler->getDevice());
-
-		for(int j = 0; j < 6; j++)
+		if(pointLights[i]->getCastShadow() == true)
 		{
-			m_deferredSampler->setLightWvp(pointLights[i]->getMatrix(j));
-			pointLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice(), j);
+			pointLights[i]->clearShadowMap(m_deviceHandler->getDevice());
 
-			stack<Model*> models = this->m_quadTree->getAllModels();
-			while(!models.empty() && i * 6 + j < 100)
+			for(int j = 0; j < 6; j++)
 			{
-				if(models.top()->getAlpha() == 1.0f)
+				m_deferredSampler->setLightWvp(pointLights[i]->getMatrix(j));
+				pointLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice(), j);
+
+				stack<Model*> models = this->m_quadTree->getAllModels();
+				while(!models.empty() && i * 6 + j < 100)
 				{
-					this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
-					//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
-
-					for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+					if(models.top()->getAlpha() == 1.0f)
 					{
-						if(models.top()->getMesh()->isAnimated)
-						{
-							this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
-							this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-							this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-							m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
-						}
-						else
-						{
-							this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-							this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
-							m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
-						}
+						this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
+						//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
 
-						this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+						for(int m = 0; m < models.top()->getMesh()->subMeshes.size(); m++)
+						{
+							if(models.top()->getMesh()->isAnimated)
+							{
+								this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
+								this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+								this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+								m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+							}
+							else
+							{
+								this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+								this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
+								m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+							}
+
+							this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
+						}
 					}
-				}
 
-				models.pop();
-			}
+					models.pop();
+				}
 		
-			resources[i * 6 + j] = pointLights[i]->getResource(j);
-			wvps[i * 6 + j] = pointLights[i]->getMatrix(j);
+				resources[i * 6 + j] = pointLights[i]->getResource(j);
+				wvps[i * 6 + j] = pointLights[i]->getMatrix(j);
+				counter++;
+			}
 		}
 	}
 
-	if(this->m_pointLights.size() * 6 < 100)
+	if(counter > 0)
 	{
-		m_deferredRendering->setPointLightWvps(wvps, pointLights.size() * 6);
-		m_deferredRendering->setPointLightShadowMaps(resources, pointLights.size() * 6);
-	}
-	else
-	{
-		m_deferredRendering->setPointLightWvps(wvps, 100);
-		m_deferredRendering->setPointLightShadowMaps(resources, 100);
+		if(counter * 6 < 100)
+		{
+			m_deferredRendering->setPointLightWvps(wvps, counter * 6);
+			m_deferredRendering->setPointLightShadowMaps(resources, counter * 6);
+		}
+		else
+		{
+			m_deferredRendering->setPointLightWvps(wvps, 100);
+			m_deferredRendering->setPointLightShadowMaps(resources, 100);
+		}
 	}
 
 	delete []wvps;

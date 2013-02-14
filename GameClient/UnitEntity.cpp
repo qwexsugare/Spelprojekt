@@ -326,10 +326,16 @@ float UnitEntity::getTurretDuration()
 	return this->m_turretDuration;
 }
 
-void UnitEntity::takeDamage(int physicalDamage, int mentalDamage)
+unsigned int UnitEntity::getLastDamageDealer()
+{
+	return this->m_lastDamageDealer;
+}
+
+void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
 	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
 	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
+	this->m_lastDamageDealer = damageDealerId;
 }
 
 void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)

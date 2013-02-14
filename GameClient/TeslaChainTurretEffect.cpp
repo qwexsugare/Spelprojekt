@@ -1,8 +1,6 @@
-#include "ChainStrikeEffect.h"
-#include "EntityHandler.h"
-#include "SoundWrapper.h"
+#include "TeslaChainTurretEffect.h"
 
-ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage)
+TeslaChainTurretEffect::TeslaChainTurretEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage)
 {
 	m_firstTarget = _firstTarget;
 	m_position = _positon;
@@ -15,12 +13,12 @@ ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon,
 	m_baseDamage = _baseDamage;
 }
 
-ChainStrikeEffect::~ChainStrikeEffect()
+TeslaChainTurretEffect::~TeslaChainTurretEffect()
 {
 
 }
 
-void ChainStrikeEffect::update(float _dt)
+void TeslaChainTurretEffect::update(float _dt)
 {
 	m_jumpTimer-=_dt;
 
@@ -34,7 +32,7 @@ void ChainStrikeEffect::update(float _dt)
 			if(target)
 			{
 				m_position = target->getPosition();
-				this->dealDamage(target, 200/(++m_jumps), false);
+				this->dealDamage(target, this->m_baseDamage/(++m_jumps), false);
 
 				// If max number of jumps is reached, delete me
 				if(m_jumps == m_maxJumps)
