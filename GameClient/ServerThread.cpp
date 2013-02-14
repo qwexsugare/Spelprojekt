@@ -78,16 +78,52 @@ void ServerThread::update(float dt)
 
 	if(this->m_state == State::LOBBY)
 	{
-		//Wait for all players to become ready, change hero when needed	
 		vector<Player*> players = this->m_network->getPlayers();
-		bool start = true;
 
-		for(int i = 0; i < players.size(); i++)
+		while(this->m_messageQueue->incomingQueueEmpty() == false)
 		{
-			if(players[i]->getReady() == false)
+			Message *m = this->m_messageQueue->pullIncomingMessage();
+
+			if(m->type == Message::Type::SelectHero)
 			{
-				i = players.size();
-				start = false;
+				int senderIndex = -1;
+				bool okToSelect = true;
+				for(int i = 0; i < players.size(); i++)
+				{
+					if(m->senderId == players[i]->getId())
+					{
+						senderIndex = i;
+					}
+					else if(players[i]->hasChosenHero())
+					{
+						if(players[i]->getHeroType() == ((SelectHeroMessage*)m)->heroId)
+						{
+							okToSelect = false;
+						}
+					}
+				}
+
+				if(okToSelect)
+				{
+					players[senderIndex]->assignHero(Hero::HERO_TYPE(((SelectHeroMessage*)m)->heroId));
+				}
+			}
+
+			delete m;
+		}
+
+		//Wait for all players to become ready, change hero when needed	
+		if(players.empty() == false)
+		{
+			bool start = true;
+
+			for(int i = 0; i < players.size(); i++)
+			{
+				if(players[i]->getReady() == false)
+				{
+					i = players.size();
+					start = false;
+				}
 			}
 
 			if(start == true)

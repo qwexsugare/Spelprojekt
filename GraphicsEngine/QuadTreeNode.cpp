@@ -291,8 +291,8 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 	nodeDistanceToCamera.x -= greatestExtent;
 	nodeDistanceToCamera.y -= greatestExtent;
 	
-	//if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+6.0f && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+4.0f)
-	//{
+	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+6.0f && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+4.0f)
+	{
 		if(this->m_children[0])
 		{
 			// ADD ALL CHILD MODELS TO STACK
@@ -332,7 +332,7 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 			modelDistanceToCamera.x -= greatestExtent;
 			modelDistanceToCamera.y -= greatestExtent;
 
-			//if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+			if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
 				_models.push(this->m_models[i]);
 			/*
 			// Calculate models distance to camera and make it positive +
@@ -362,7 +362,7 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 
 			if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z+greatestExtent) > _focalPoint.z-5 && modelDistanceToCamera.y < 8.0f)
 				_models.push(this->m_models[i]);*/
-		//}
+		}
 	}
 }
 

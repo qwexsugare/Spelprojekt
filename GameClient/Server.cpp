@@ -305,7 +305,7 @@ void Server::broadcast(NetworkStartGameMessage networkMessage)
 	{
 		this->clients[i].Send(packet);
 	}
-
+	
 	this->m_mutex.Unlock();
 }
 

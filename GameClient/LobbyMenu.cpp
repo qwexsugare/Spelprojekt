@@ -275,7 +275,7 @@ bool LobbyMenu::RangeCombatIsDown()
 }
 bool LobbyMenu::Character0IsDown()
 {
-	if(this->m_Buttons[12]->Clicked() == 1)
+	/*if(this->m_Buttons[12]->Clicked() == 1)
 	{
 		m_Character0 = true;
 		m_Character1 = false;
@@ -284,12 +284,14 @@ bool LobbyMenu::Character0IsDown()
 		m_Character4 = false;
 		return true;
 	}
-	return false;
+	return false;*/
+
+	return m_Buttons[12]->isClicked();
 }
 
 bool LobbyMenu::Character1IsDown()
 {
-	if(this->m_Buttons[13]->Clicked() == 1)
+	/*if(this->m_Buttons[13]->Clicked() == 1)
 	{
 		m_Character0 = false;
 		m_Character1 = true;
@@ -298,11 +300,13 @@ bool LobbyMenu::Character1IsDown()
 		m_Character4 = false;
 		return true;
 	}
-	return false;
+	return false;*/
+
+	return m_Buttons[13]->isClicked();
 }
 bool LobbyMenu::Character2IsDown()
 {
-	if(this->m_Buttons[14]->Clicked()== 1)
+	/*if(this->m_Buttons[14]->Clicked()== 1)
 	{
 		m_Character0 = false;
 		m_Character1 = false;
@@ -311,11 +315,13 @@ bool LobbyMenu::Character2IsDown()
 		m_Character4 = false;
 		return true;
 	}
-	return false;
+	return false;*/
+
+	return m_Buttons[14]->isClicked();
 }
 bool LobbyMenu::Character3IsDown()
 {
-	if(this->m_Buttons[15]->Clicked() == 1)
+	/*if(this->m_Buttons[15]->Clicked() == 1)
 	{
 		m_Character0 = false;
 		m_Character1 = false;
@@ -324,11 +330,13 @@ bool LobbyMenu::Character3IsDown()
 		m_Character4 = false;
 		return true;
 	}
-	return false;
+	return false;*/
+
+	return m_Buttons[15]->isClicked();
 }
 bool LobbyMenu::Character4IsDown()
 {
-	if(this->m_Buttons[16]->Clicked()== 1)
+	/*if(this->m_Buttons[16]->Clicked()== 1)
 	{
 		m_Character0 = false;
 		m_Character1 = false;
@@ -337,5 +345,7 @@ bool LobbyMenu::Character4IsDown()
 		m_Character4 = true;
 		return true;
 	}
-	return false;
+	return false;*/
+
+	return m_Buttons[16]->isClicked();
 }
