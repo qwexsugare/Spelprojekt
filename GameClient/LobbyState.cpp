@@ -39,8 +39,6 @@ void LobbyState::update(float _dt)
 	{
 		//Skicka ready till servern
 		m_network->sendMessage(NetworkReadyMessage(true));
-		this->setDone(true);
-		this->m_nextState = State::GAME;
 	}
 	else if(this->m_menu->MainMenuIsDown() == true)
 	{
@@ -49,6 +47,19 @@ void LobbyState::update(float _dt)
 	}
 
 	//Kolla om nätverket har sagt att spelet har startat
+	while(!m_network->startGameQueueEmpty())
+	{
+		m_network->startGameQueueFront();
+		this->setDone(true);
+		this->m_nextState = State::GAME;
+	}
+
+	//Kolla om nätverket har sagt att spelet har startat
+	while(!m_network->heroSelectedQueueEmpty())
+	{
+		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
+		m_menu->selectHero(nhsm.getPlayerId(), Hero::HERO_TYPE(nhsm.getHeroId()));
+	}
 }
 
 State::StateEnum LobbyState::nextState()

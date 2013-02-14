@@ -13,6 +13,7 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_tangentTexture = this->m_effect->GetVariableByName("tangentTexture")->AsShaderResource();
 
 	this->m_nrOfPointLights = this->m_effect->GetVariableByName("nrOfPointLights")->AsScalar();
+	this->m_nrOfShadowedPointLights = this->m_effect->GetVariableByName("nrOfShadowedPointLights")->AsScalar();
 	this->m_nrOfDirectionalLights = this->m_effect->GetVariableByName("nrOfDirectionalLights")->AsScalar();
 	this->m_nrOfSpotLights = this->m_effect->GetVariableByName("nrOfSpotLights")->AsScalar();
 	this->m_lightPosition = this->m_effect->GetVariableByName("lightPosition")->AsVector();
@@ -88,14 +89,35 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> pointLights, 
 	D3DXVECTOR2 *tempAngle = new D3DXVECTOR2[spotLights.size()];
 	float *tempRadius = new float[pointLights.size() + spotLights.size()];
 
+	int counter = 0;
 
 	for(int i = 0; i < pointLights.size() && i < 50; i++)
 	{
-		tempPos[i] = pointLights[i]->getPosition().toD3DXVector();
-		tempAmbient[i] = pointLights[i]->getAmbientColor().toD3DXVector();
-		tempDiffuse[i] = pointLights[i]->getDiffuseColor().toD3DXVector();
-		tempSpecular[i] = pointLights[i]->getSpecularColor().toD3DXVector();
-		tempRadius[i] = pointLights[i]->getRadius();
+		if(pointLights[i]->getCastShadow() == false)
+		{
+			tempPos[counter] = pointLights[i]->getPosition().toD3DXVector();
+			tempAmbient[counter] = pointLights[i]->getAmbientColor().toD3DXVector();
+			tempDiffuse[counter] = pointLights[i]->getDiffuseColor().toD3DXVector();
+			tempSpecular[counter] = pointLights[i]->getSpecularColor().toD3DXVector();
+			tempRadius[counter] = pointLights[i]->getRadius();
+			counter++;
+		}
+	}
+
+	int nrOfNotShadowedPointLights = counter;
+	counter = 0;
+
+	for(int i = 0; i < pointLights.size() && i < 50; i++)
+	{
+		if(pointLights[i]->getCastShadow() == true)
+		{
+			tempPos[nrOfNotShadowedPointLights + counter] = pointLights[i]->getPosition().toD3DXVector();
+			tempAmbient[nrOfNotShadowedPointLights + counter] = pointLights[i]->getAmbientColor().toD3DXVector();
+			tempDiffuse[nrOfNotShadowedPointLights + counter] = pointLights[i]->getDiffuseColor().toD3DXVector();
+			tempSpecular[nrOfNotShadowedPointLights + counter] = pointLights[i]->getSpecularColor().toD3DXVector();
+			tempRadius[nrOfNotShadowedPointLights + counter] = pointLights[i]->getRadius();
+			counter++;
+		}
 	}
 
 	for(int i = 0; i < directionalLights.size() && i < 50; i++)
@@ -117,7 +139,8 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> pointLights, 
 		tempRadius[pointLights.size() + i] = spotLights[i]->getRange();
 	}
 
-	this->m_nrOfPointLights->SetInt(pointLights.size());
+	this->m_nrOfPointLights->SetInt(nrOfNotShadowedPointLights);
+	this->m_nrOfShadowedPointLights->SetInt(pointLights.size() - nrOfNotShadowedPointLights);
 	this->m_nrOfDirectionalLights->SetInt(directionalLights.size());
 	this->m_nrOfSpotLights->SetInt(spotLights.size());
 	this->m_lightPosition->SetFloatVectorArray((float*)tempPos, 0, pointLights.size() + spotLights.size());

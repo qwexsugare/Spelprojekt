@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "TextLabel.h"
 #include "TextInput.h"
+#include "Hero.h"
 
 class LobbyMenu :
 	public Menu
@@ -26,6 +27,8 @@ public:
 	bool Character2IsDown();
 	bool Character3IsDown();
 	bool Character4IsDown();
+
+	void selectHero(int _playerIndex, Hero::HERO_TYPE _type);
 private:
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Label;
@@ -38,6 +41,5 @@ private:
 	int m_Counter,
 		m_Combat;
 	string m_String;
-
 };
 

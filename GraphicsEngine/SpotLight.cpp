@@ -26,7 +26,7 @@ SpotLight::SpotLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _direction,
 
 	//D3DXVec3Cross(&this->m_up, &this->m_direction.toD3DXVector(), &evilVector);
 
-	this->m_up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	this->m_up = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 
 	this->m_la = _la;
 	this->m_ld = _ld;

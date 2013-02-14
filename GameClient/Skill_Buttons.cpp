@@ -59,7 +59,7 @@ void Skill_Buttons::Init(FLOAT2 _ScreenPos,
 	this->m_cooldown = g_graphicsEngine->createSpriteSheet("menu_textures\\Clock.png", this->m_Pos, this->m_Size, INT2(4, 3), this->m_Layer + 1);
 	this->m_cooldown->setVisible(false);
 }
-void Skill_Buttons::Update()
+void Skill_Buttons::Update(float dt)
 {
 	//Get the mouse position
 	INT2 tmpPos2 = g_mouse->getPos();
@@ -98,6 +98,16 @@ void Skill_Buttons::Update()
 			m_SkillButton->setCurrentFrame(INT2(0,0));
 		}
 		this->m_Delay += 1;
+	}
+
+	if(this->m_cooldown->getVisible() == true)
+	{
+		this->m_cooldownTime = this->m_cooldownTime - dt;
+
+		if(this->m_cooldownTime <= 0.0f)
+		{
+			this->m_cooldown->setVisible(false);
+		}
 	}
 }
 
@@ -184,4 +194,5 @@ void Skill_Buttons::setCooldown(float cooldown)
 {
 	this->m_cooldown->setVisible(true);
 	this->m_cooldown->playAnimation(INT2(0, 0), INT2(3, 2), false, 12.0f / cooldown);
+	this->m_cooldownTime = cooldown;
 }

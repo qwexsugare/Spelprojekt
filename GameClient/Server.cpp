@@ -113,6 +113,7 @@ void Server::handleMessages()
 	NetworkCreateActionTargetMessage catm;
 	NetworkSkillBoughtMessage sbm;
 	NetworkRemoveActionTargetMessage rat;
+	NetworkSkillUsedMessage sum;
 
 	RemoveServerEntityMessage *m1;
 	CreateActionMessage *m2;
@@ -120,6 +121,7 @@ void Server::handleMessages()
 	CreateActionTargetMessage *m4;
 	SkillBoughtMessage *m5;
 	RemoveActionTargetMessage *m6;
+	SkillUsedMessage *m7;
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
@@ -169,14 +171,18 @@ void Server::handleMessages()
 			this->broadcast(rat);
 
 			break;
-		}
 
-		//if(m->type == Message::RemoveEntity)
-		//{
-		//	RemoveServerEntityMessage *rsem = (RemoveServerEntityMessage*)m;			
-		//	NetworkRemoveEntityMessage rem = NetworkRemoveEntityMessage(rsem->removedId);
-		//	this->broadcast(rem);
-		//}	
+		case Message::SkillUsed:
+			m7 = (SkillUsedMessage*)m;
+			sum = NetworkSkillUsedMessage(m7->actionId, m7->actionIndex, m7->cooldown);
+			packet<<sum;
+
+			this->m_mutex.Lock();
+			this->clients[m7->playerId].Send(packet);
+			this->m_mutex.Unlock();
+
+			break;
+		}
 
 		delete m;
 	}
@@ -324,6 +330,36 @@ void Server::broadcast(NetworkHeroSelectedMessage networkMessage)
 	this->m_mutex.Unlock();
 }
 
+void Server::broadcast(NetworkSkillUsedMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(NetworkSkillBoughtMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
 void Server::Run()
 {
 	__int64 cntsPerSec = 0;
@@ -412,34 +448,6 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 	}
 
 	return protFound;
-}
-
-bool Server::msgQueueEmpty()
-{
-	return this->msgQueue.empty();
-}
-
-bool Server::entityQueueEmpty()
-{
-	return this->entityQueue.empty();
-}
-
-Msg Server::msgQueueFront()
-{
-	Msg ret = this->msgQueue.front();
-	this->msgQueue.pop();
-	return ret;
-}
-
-EntityMessage Server::entityQueueFront()
-{
-	this->m_mutex.Lock();
-
-	EntityMessage ret= this->entityQueue.front();
-	this->entityQueue.pop();
-
-	this->m_mutex.Unlock();
-	return ret;
 }
 
 vector<Player*> Server::getPlayers()

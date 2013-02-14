@@ -75,6 +75,11 @@ void UnitEntity::addSkill(Skill *_skill)
 	this->m_skills.push_back(_skill);
 }
 
+vector<Skill*> UnitEntity::getSkills()
+{
+	return this->m_skills;
+}
+
 Skill *UnitEntity::getSkill(unsigned int _id)
 {
 	Skill *result = NULL;
@@ -94,6 +99,22 @@ Skill *UnitEntity::getSkill(unsigned int _id)
 int UnitEntity::getNrOfSkills()
 {
 	return this->m_skills.size();
+}
+
+int UnitEntity::getSkillIndex(Skill* _skill)
+{
+	int index = -1;
+	
+	for(int i = 0; i < this->m_skills.size(); i++)
+	{
+		if(this->m_skills[i] == _skill)
+		{
+			index = i;
+			i = this->m_skills.size();		
+		}
+	}
+
+	return index;
 }
 
 void UnitEntity::increaseStrength(int _strength)
@@ -310,10 +331,16 @@ float UnitEntity::getTurretDuration()
 	return this->m_turretDuration;
 }
 
-void UnitEntity::takeDamage(int physicalDamage, int mentalDamage)
+unsigned int UnitEntity::getLastDamageDealer()
+{
+	return this->m_lastDamageDealer;
+}
+
+void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
 	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
 	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
+	this->m_lastDamageDealer = damageDealerId;
 }
 
 void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)
@@ -334,26 +361,26 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 			this->m_poisonCounter++;
 		}
 		
-		target->takeDamage(100 + this->m_poisonCounter * 5, false);
+		target->takeDamage(100 + this->m_poisonCounter * 5, false, this->m_id);
 	}
 
 	if(deadlyStrike < this->m_deadlyStrikeChance && target->getType() == Type::EnemyType)
 	{
-		target->takeDamage(INT_MAX, INT_MAX);
+		target->takeDamage(INT_MAX, INT_MAX, this->m_id);
 	}
 
 	if(m_swiftAsACatPowerfulAsABear)
 	{
 		//Gör saacpaab saker
 		if(random(1, 10) == 1)
-			target->takeDamage(INT_MAX, INT_MAX);
+			target->takeDamage(INT_MAX, INT_MAX, this->m_id);
 		else
 			physicalDamage*=3;
 
 		m_swiftAsACatPowerfulAsABear = false;
 	}
 
-	target->takeDamage(physicalDamage, mentalDamage);
+	target->takeDamage(physicalDamage, mentalDamage, this->m_id);
 }
 
 void UnitEntity::heal(int health)

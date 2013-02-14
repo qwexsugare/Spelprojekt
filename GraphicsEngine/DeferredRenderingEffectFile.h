@@ -14,6 +14,7 @@ private:
 	ID3D10EffectShaderResourceVariable* m_tangentTexture;
 
 	ID3D10EffectScalarVariable* m_nrOfPointLights;
+	ID3D10EffectScalarVariable* m_nrOfShadowedPointLights;
 	ID3D10EffectScalarVariable* m_nrOfDirectionalLights;
 	ID3D10EffectScalarVariable* m_nrOfSpotLights;
 	ID3D10EffectVectorVariable* m_lightPosition;
