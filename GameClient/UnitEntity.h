@@ -54,6 +54,7 @@ public:
 
 	void addSkill(Skill *_skill);
 	Skill *getSkill(unsigned int _id);
+	vector<Skill*> getSkills();
 	int getNrOfSkills();
 	int getSkillIndex(Skill* _skill);
 

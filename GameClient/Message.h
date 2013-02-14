@@ -182,12 +182,14 @@ struct EnemyDiedMessage : Message
 {
 	unsigned int victimId;
 	unsigned int killerId;
+	int resources;
 
-	EnemyDiedMessage(unsigned int _victimId, unsigned int _killerId)
+	EnemyDiedMessage(unsigned int _victimId, unsigned int _killerId, int resources)
 	{
 		this->type = Type::EnemyDied;
 		this->reciverId = 0;
 		this->victimId = _victimId;
 		this->killerId = _killerId;
+		this->resources = resources;
 	}
 };

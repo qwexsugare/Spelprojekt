@@ -99,7 +99,7 @@ void TeslaChainTurretEffect::update(float _dt)
 			if(closestValidTarget && distanceToClosestValidTarget < MAX_JUMP_DISTANCE)
 			{
 				m_position = closestValidTarget->getPosition();
-				closestValidTarget->takeDamage(m_baseDamage/(++m_jumps), 0);
+				closestValidTarget->takeDamage(m_baseDamage/(++m_jumps), 0, this->m_id);
 
 				// If max number of jumps is reached, delete me
 				if(m_jumps == m_maxJumps)

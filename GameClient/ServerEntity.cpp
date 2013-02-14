@@ -132,7 +132,7 @@ ServerEntity::Type ServerEntity::getType()
 	return m_type;
 }
 
-void ServerEntity::takeDamage(int physicalDamage, int mentalDamage)
+void ServerEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
 
 }

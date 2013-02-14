@@ -44,9 +44,24 @@ void Player::assignHero(Hero::HERO_TYPE _type)
 	EntityHandler::addEntity(m_hero);
 }
 
+void Player::spawnHero()
+{
+	vector<Skill*> skills = this->m_hero->getSkills();
+
+	for(int i = 0; i < skills.size(); i++)
+	{
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(skills[i]->getId(), this->m_id, this->m_resources));
+	}
+}
+
 Hero::HERO_TYPE Player::getHeroType()const
 {
 	return m_hero->getHeroType();
+}
+
+Hero* Player::getHero()
+{
+	return this->m_hero;
 }
 
 int Player::getId()const
@@ -308,4 +323,10 @@ void Player::handleReadyMessage(NetworkReadyMessage rm)
 void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
 {
 	this->m_messageQueue->pushOutgoingMessage(new SelectHeroMessage(this->m_id, 0, shm.getHeroId()));
+}
+
+void Player::addResources(unsigned int resources)
+{
+	this->m_resources += resources;
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(999, this->m_id, this->m_resources));
 }

@@ -75,6 +75,11 @@ void UnitEntity::addSkill(Skill *_skill)
 	this->m_skills.push_back(_skill);
 }
 
+vector<Skill*> UnitEntity::getSkills()
+{
+	return this->m_skills;
+}
+
 Skill *UnitEntity::getSkill(unsigned int _id)
 {
 	Skill *result = NULL;
@@ -356,26 +361,26 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 			this->m_poisonCounter++;
 		}
 		
-		target->takeDamage(100 + this->m_poisonCounter * 5, false);
+		target->takeDamage(100 + this->m_poisonCounter * 5, false, this->m_id);
 	}
 
 	if(deadlyStrike < this->m_deadlyStrikeChance && target->getType() == Type::EnemyType)
 	{
-		target->takeDamage(INT_MAX, INT_MAX);
+		target->takeDamage(INT_MAX, INT_MAX, this->m_id);
 	}
 
 	if(m_swiftAsACatPowerfulAsABear)
 	{
 		//Gör saacpaab saker
 		if(random(1, 10) == 1)
-			target->takeDamage(INT_MAX, INT_MAX);
+			target->takeDamage(INT_MAX, INT_MAX, this->m_id);
 		else
 			physicalDamage*=3;
 
 		m_swiftAsACatPowerfulAsABear = false;
 	}
 
-	target->takeDamage(physicalDamage, mentalDamage);
+	target->takeDamage(physicalDamage, mentalDamage, this->m_id);
 }
 
 void UnitEntity::heal(int health)
