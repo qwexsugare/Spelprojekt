@@ -24,7 +24,7 @@ public:
 
 	DECLDIR void calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 _mousePos);
 	
-	DECLDIR D3DXVECTOR3 getPos()const;
+	DECLDIR const D3DXVECTOR3& getPos()const;
 	DECLDIR FLOAT2 getPos2D()const;
 	D3DXMATRIX getViewMatrix();
 	D3DXMATRIX getProjectionMatrix();
