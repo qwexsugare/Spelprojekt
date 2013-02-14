@@ -17,6 +17,9 @@ Player::~Player()
 
 void Player::assignHero(Hero::HERO_TYPE _type)
 {
+	if(m_hero)
+		EntityHandler::removeEntity(m_hero);
+
 	switch(_type)
 	{
 	case Hero::ENGINEER:
