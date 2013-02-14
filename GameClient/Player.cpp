@@ -42,8 +42,6 @@ void Player::assignHero(Hero::HERO_TYPE _type)
 	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
 	
 	EntityHandler::addEntity(m_hero);
-
-	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(9999, this->m_id, this->m_resources));
 }
 
 Hero::HERO_TYPE Player::getHeroType()const

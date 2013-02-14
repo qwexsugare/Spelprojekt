@@ -404,9 +404,12 @@ void HudMenu::displayShop(bool _visible)
 
 void HudMenu::addSkill(unsigned int _skillId)
 {
-	this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
-	this->m_NumberOfSkills++;
-	this->m_DontChange = false;
+	if(this->m_skillHolder.getSkill(_skillId) != "")
+	{
+		this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
+		this->m_NumberOfSkills++;
+		this->m_DontChange = false;
+	}
 }
 
 void HudMenu::setResources(unsigned int _resources)

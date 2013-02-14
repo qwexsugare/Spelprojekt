@@ -252,6 +252,7 @@
     <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
+    <ClCompile Include="TeslaChainTurret.cpp" />
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="TheMentalist.cpp" />
@@ -375,6 +376,7 @@
     <ClInclude Include="SwiftAsACatPowerfulAsABoar.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="TeleportEffect.h" />
+    <ClInclude Include="TeslaChainTurret.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="TheMentalist.h" />

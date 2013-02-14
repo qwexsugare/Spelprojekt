@@ -59,6 +59,7 @@ public:
 	void broadcast(NetworkStartGameMessage networkMessage);
 	void broadcast(NetworkHeroSelectedMessage networkMessage);
 	void broadcast(NetworkSkillUsedMessage networkMessage);
+	void broadcast(NetworkSkillBoughtMessage networkMessage);
 
 	bool isRunning();
 

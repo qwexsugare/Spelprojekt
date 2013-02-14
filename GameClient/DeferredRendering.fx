@@ -160,8 +160,8 @@ float calcShadow(float4 lightPos, Texture2D shadowmap)
 	lightPos /= lightPos.w;
 	
 	//Check if the position is inside the lights unit cube.
-	if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
-	{
+	//if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
+	//{
 		//Compute shadow map tex coord
 		float2 smTex = float2(0.5f * lightPos.x, -0.5f * lightPos.y) + 0.5f;
 
@@ -186,7 +186,7 @@ float calcShadow(float4 lightPos, Texture2D shadowmap)
 		// Determine the lerp amounts.
 		float2 lerps = frac( texelPos );
 		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
-	}
+	//}
 
 	return shadowCoeff;
 }

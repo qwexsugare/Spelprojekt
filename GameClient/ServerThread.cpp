@@ -131,6 +131,7 @@ void ServerThread::update(float dt)
 			{
 				this->m_state = State::GAME;
 				m_network->broadcast(NetworkStartGameMessage());
+				m_network->broadcast(NetworkSkillBoughtMessage(999, 20000));
 			}
 		}
 	}
