@@ -48,6 +48,7 @@ struct VSAnimSceneIn
 	float3 Pos		: POS;
 	float2 UVCoord	: UVCOORD;
 	float3 Normal	: NORMAL;
+	float3 Tangent	: TANGENT;
 	float4 Weight	: WEIGHT;
 	float4 Bone		: BONE;
 };
@@ -340,9 +341,9 @@ float4x4 GetBoneMatrix(int boneIndex, float4 _bone)
 	return bone;
 }
 
-PSSceneIn VSAnimScene(VSAnimSceneIn input)
+PSSuperSceneIn VSAnimScene(VSAnimSceneIn input)
 {
-	PSSceneIn output = (PSSceneIn)0;
+	PSSuperSceneIn output = (PSSuperSceneIn)0;
 
 	matrix viewProjection = mul(viewMatrix, projectionMatrix);
 	
@@ -367,10 +368,10 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	output.Pos += _weight * mul(myPos, _bone);
 
 	////NormalMap
-	//float3 tang = normalize(input.Tangent);
+	float3 tang = normalize(input.Tangent);
 
-	//float3 n = normalize(input.Normal);
-	//float3 t = normalize(tang - dot(tang, n)*n);
+	float3 n = normalize(input.Normal);
+	float3 t = normalize(tang - dot(tang, n)*n);
 	
 	// transform the point into viewProjection space
 	output.Pos = mul( output.Pos, mul(modelMatrix, viewProjection) );
@@ -380,7 +381,7 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	output.Normal = normalize(mul(input.Normal, modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
 
-	//output.Tangent = float4(t, 0);
+	output.Tangent = float4(t, 0);
 
 	return output;
 }
@@ -393,8 +394,8 @@ technique10 DeferredAnimationSample
 
         SetVertexShader( CompileShader( vs_4_0, VSAnimScene() ) );
         SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_4_0, PSScene() ) );
-
+        SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
+		
 	    SetDepthStencilState( EnableDepth, 0 );
 	    SetRasterizerState( rs );
     }
@@ -460,7 +461,7 @@ technique10 RenderTerrain
         SetVertexShader(CompileShader( vs_4_0, drawTerrainVs()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
-
+		
 	    SetDepthStencilState(DisableDepth, 0);
 	    SetRasterizerState(rs);
     }
