@@ -325,6 +325,18 @@
     <ClCompile Include="NetworkStartGameMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="TheMentalist.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="RedKnight.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Doctor.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Officer.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMessage.h">
@@ -677,6 +689,18 @@
     </ClInclude>
     <ClInclude Include="NetworkStartGameMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="TheMentalist.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Doctor.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Officer.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="RedKnight.h">
+      <Filter>Server\Heroes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

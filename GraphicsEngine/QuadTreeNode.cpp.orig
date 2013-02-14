@@ -291,8 +291,8 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 	nodeDistanceToCamera.x -= greatestExtent;
 	nodeDistanceToCamera.y -= greatestExtent;
 	
-	//if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+6.0f && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+4.0f)
-	//{
+	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+6.0f && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+4.0f)
+	{
 		if(this->m_children[0])
 		{
 			// ADD ALL CHILD MODELS TO STACK
@@ -328,11 +328,17 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 				// we are fucked
 			}
 
+<<<<<<< HEAD
+		//if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+		//{
+			_models.push(this->m_models[i]);
+		//}
+=======
 			// Subtract the greatest extent from the distance
 			modelDistanceToCamera.x -= greatestExtent;
 			modelDistanceToCamera.y -= greatestExtent;
 
-			//if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+			if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
 				_models.push(this->m_models[i]);
 			/*
 			// Calculate models distance to camera and make it positive +
@@ -359,10 +365,11 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 			// Subtract the greatest extent from the distance
 			modelDistanceToCamera.x -= greatestExtent;
 			modelDistanceToCamera.y -= greatestExtent;
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 
 			if(modelDistanceToCamera.x < 6.0f && (m_models[i]->getPosition().z+greatestExtent) > _focalPoint.z-5 && modelDistanceToCamera.y < 8.0f)
 				_models.push(this->m_models[i]);*/
-		//}
+		}
 	}
 }
 
@@ -390,11 +397,19 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR2 _focalPoi
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
+<<<<<<< HEAD
+		
+		//if(modelDistanceToCamera.x < 6.0f && (m_lights[i]->getPosition().z-greatestExtent) < _cameraPos.z && modelDistanceToCamera.y < 8.0f)
+		//{
+			_lights.push_back(this->m_lights[i]);
+	//	}
+=======
 
 		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
 			_lights.push_back(this->m_lights[i]);
 	}
 }
+>>>>>>> 7c0f09647ad80405cb25749db5f26ffadc0cfd3d
 
 void QuadTreeNode::getParticleEngines(stack<ParticleEngine*>& _particleEngines, D3DXVECTOR2 _focalPoint)const
 {

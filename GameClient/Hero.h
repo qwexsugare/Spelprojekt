@@ -13,7 +13,7 @@
 class Hero : public UnitEntity
 {
 public:
-	static enum HERO_TYPE {ENGINEER, OFFICER, RED_KNIGHT, THE_MENTALIST, DOCTOR};
+	static enum HERO_TYPE {OFFICER, RED_KNIGHT, ENGINEER, DOCTOR, THE_MENTALIST};
 private:
 	FLOAT3 m_nextPosition;
 	FLOAT3 m_goalPosition;
@@ -33,6 +33,7 @@ public:
 	Hero(HERO_TYPE _heroType, int _playerId);
 	virtual ~Hero();
 	
+	HERO_TYPE getHeroType()const;
 	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setTarget(unsigned int _target);

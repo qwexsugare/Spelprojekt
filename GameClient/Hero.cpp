@@ -39,6 +39,11 @@ Hero::~Hero()
 
 }
 
+Hero::HERO_TYPE Hero::getHeroType()const
+{
+	return m_heroType;
+}
+
 void Hero::updateSpecificUnitEntity(float dt)
 {
 	//Handle incoming messages

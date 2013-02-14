@@ -34,7 +34,10 @@ private:
 public:
 	Player(unsigned int id);
 	~Player();
-
+	
+	void assignHero(Hero::HERO_TYPE _type);
+	Hero::HERO_TYPE getHeroType()const;
+	int getId()const;
 	void handleEntityMessage(EntityMessage e);
 	void handleMsgMessage(Msg m);
 	void handleAttackMessage(AttackMessage am);
@@ -45,6 +48,7 @@ public:
 	void handleBuySkillMessage(NetworkBuySkillMessage bsm);
 	void handleReadyMessage(NetworkReadyMessage rm);
 	void handleSelectHeroMessage(NetworkSelectHeroMessage shm);
+	bool hasChosenHero()const { return m_hero; }
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
 

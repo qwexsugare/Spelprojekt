@@ -326,8 +326,8 @@ void World::render()
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 
-		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
-		{
+		//if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+		//{
 			if(m_models[i]->getAlpha() < 1.0f)
 			{
 				if(transparentModels.size() == 0)
@@ -386,7 +386,7 @@ void World::render()
 					}
 				}
 			}
-		}
+		//}
 	}
 
 

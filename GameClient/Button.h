@@ -37,7 +37,8 @@ private:
 		float		m_Value,
 					m_Max,
 					m_Min;
-		bool		m_TextBox;
+		bool		m_TextBox,
+					m_clicked;
 	//----------------------------------------------------------------------------------------------
 	// Wave name
 	//----------------------------------------------------------------------------------------------
@@ -71,6 +72,7 @@ public:
 				int _id = 0);
 
 	void Button::RemoveSprite();
+	bool isClicked()const { return m_clicked; }
 	int Clicked();
 	void Update();
 	int GetButtonReaction();
