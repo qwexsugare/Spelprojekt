@@ -178,6 +178,18 @@ void Client::Run()
 			case NetworkMessage::Disconnect:
 				this->disconnect();
 				break;
+
+			case NetworkMessage::Start:
+				this->m_mutex.Lock();
+				this->m_startGameQueue.push(NetworkStartGameMessage());
+
+				if(this->m_startGameQueue.size() > 50)
+				{
+					this->m_startGameQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
 			}
 		}
 	}

@@ -105,6 +105,7 @@ void ServerThread::update(float dt)
 
 				if(okToSelect)
 				{
+					m_network->broadcast(NetworkHeroSelectedMessage(((SelectHeroMessage*)m)->heroId, senderIndex));
 					players[senderIndex]->assignHero(Hero::HERO_TYPE(((SelectHeroMessage*)m)->heroId));
 				}
 			}
@@ -119,7 +120,7 @@ void ServerThread::update(float dt)
 
 			for(int i = 0; i < players.size(); i++)
 			{
-				if(players[i]->hasChosenHero() && players[i]->getReady() == false)
+				if(!players[i]->hasChosenHero() || players[i]->getReady() == false)
 				{
 					i = players.size();
 					start = false;
@@ -129,6 +130,7 @@ void ServerThread::update(float dt)
 			if(start == true)
 			{
 				this->m_state = State::GAME;
+				m_network->broadcast(NetworkStartGameMessage());
 			}
 		}
 	}
