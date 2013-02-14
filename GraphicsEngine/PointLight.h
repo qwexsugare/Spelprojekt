@@ -20,9 +20,11 @@ private:
 
 	D3DXMATRIX m_wvp[6];
 	DepthStencil* m_shadowMaps[6];
+
+	bool m_shadow;
 public:
 	PointLight();
-	PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius);
+	PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius, bool _shadow);
 	~PointLight();
 
 	DECLDIR FLOAT3 getPosition();
@@ -38,6 +40,8 @@ public:
 	ID3D10ShaderResourceView* getResource(int index)const;
 	D3DXMATRIX getMatrix(int index);
 	void setShadowMapAsRenderTarget(ID3D10Device* _device, int index);
+
+	bool getCastShadow();
 
 	DECLDIR void setPosition(FLOAT3 _position);
 	DECLDIR void setAmbientColor(FLOAT3 _la);

@@ -15,7 +15,7 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _posit
 	m_graphicalEffects[0]->setAlpha(0.999f);
 	m_graphicalEffects[1]->setAlpha(0.999f);
 	m_graphicalEffects[2]->setAlpha(0.999f);
-	this->m_light = g_graphicsEngine->createPointLight(FLOAT3(_position.x, 0.6f, _position.z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(-2.0f, -2.0f, -2.0f), FLOAT3(-2.0f, -2.0f, -2.0f), 0.5f);
+	this->m_light = g_graphicsEngine->createPointLight(FLOAT3(_position.x, 0.6f, _position.z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(-2.0f, -2.0f, -2.0f), FLOAT3(-2.0f, -2.0f, -2.0f), 0.5f, false);
 	m_lifetime = 0.0f;
 	m_sound = createSoundHandle("rain.wav", false, true, m_position);
 	playSound(m_sound);

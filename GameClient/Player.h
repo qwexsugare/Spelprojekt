@@ -30,8 +30,10 @@ public:
 	~Player();
 	
 	void assignHero(Hero::HERO_TYPE _type);
+	void spawnHero();
 	Hero::HERO_TYPE getHeroType()const;
 	int getId()const;
+	Hero* getHero();
 	void handleUseActionPositionMessage(NetworkUseActionPositionMessage usm);
 	void handleUseActionMessage(NetworkUseActionMessage usm);
 	void handleUseActionTargetMessage(NetworkUseActionTargetMessage usm);
@@ -41,6 +43,7 @@ public:
 	bool hasChosenHero()const { return m_hero; }
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
+	void addResources(unsigned int resources);
 
 	bool getReady();
 };

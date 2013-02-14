@@ -86,11 +86,14 @@ PSIn VSGlow( VSIn input )
 float4 PSUpSample(PSIn input) : SV_Target
 {
 	float4 color = depthTexture.Sample(linearSampler, input.UVCoord);
-		color.r = 0;
-		color.g = 0;
-		color.a = 1;
-	return float4(1, 1, 1, 1);
-	//return float4(0, 1, 0, 1);
+	float dep = 1/color.x;
+	float dep2 = 1 / color.g;
+	float dep3 = 1/color.b;
+	float dep4 = 1/color.w;
+	//return float4(1, 1, 1, 1);
+	//return float4(dep, dep3, dep4, 1);
+	color.r *= 0.5;
+	return color;
 }
 
 float4 PSHorizontalGlow(PSIn input) : SV_Target
@@ -231,7 +234,7 @@ technique10 SSAO
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSUpSample() ) );
 
-	    SetDepthStencilState( DisableDepth, 0 );
+	    //SetDepthStencilState( DisableDepth, 0 );
 	    SetRasterizerState( rs );
 	}	
 }

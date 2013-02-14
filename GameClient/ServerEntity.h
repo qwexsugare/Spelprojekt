@@ -49,7 +49,7 @@ public:
 
 	ContainmentType contains(const BoundingSphere& _bs)const;
 
-	virtual void takeDamage(int physicalDamage, int mentalDamage);
+	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
 };

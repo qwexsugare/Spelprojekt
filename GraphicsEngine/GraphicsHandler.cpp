@@ -191,9 +191,9 @@ bool GraphicsHandler::removeSpriteSheet(SpriteSheet *spriteSheet)
 	return this->m_world->removeSprite(spriteSheet);
 }
 
-PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius)
+PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius, bool shadow)
 {
-	PointLight *l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius);
+	PointLight *l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, shadow);
 	this->m_world->addPointLight(l);
 	return l;
 }

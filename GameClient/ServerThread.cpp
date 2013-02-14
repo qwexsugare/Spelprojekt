@@ -9,7 +9,7 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
-	this->m_mapHandler->loadMap("maps/race/race.txt");
+	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
 
 	this->m_network->broadcast(NetworkEntityMessage());
 }
@@ -131,7 +131,11 @@ void ServerThread::update(float dt)
 			{
 				this->m_state = State::GAME;
 				m_network->broadcast(NetworkStartGameMessage());
-				m_network->broadcast(NetworkSkillBoughtMessage(999, 20000));
+				
+				for(int i = 0; i < players.size(); i++)
+				{
+					players[i]->spawnHero();
+				}
 			}
 		}
 	}
@@ -139,7 +143,7 @@ void ServerThread::update(float dt)
 	if(this->m_state == State::GAME)
 	{
 		//Check if the map is finished
-		if(this->m_mapHandler->isDone() == true)
+		if(this->m_mapHandler->getState() == MapHandler::DEFEAT)
 		{
 			this->m_state = State::END;
 		}
@@ -156,6 +160,28 @@ void ServerThread::update(float dt)
 			{
 				this->m_network->broadcast(entities[i]->getUpdate());
 			}
+		}
+
+		while(this->m_messageQueue->incomingQueueEmpty() == false)
+		{
+			Message *m = this->m_messageQueue->pullIncomingMessage();
+
+			if(m->type == Message::Type::EnemyDied)
+			{
+				EnemyDiedMessage *edm = (EnemyDiedMessage*)m;
+
+				for(int i = 0; i < this->m_network->getPlayers().size(); i++)
+				{
+					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
+					{
+						this->m_network->getPlayers()[i]->addResources(edm->resources);
+						this->m_mapHandler->enemyDied();
+						i = 5;
+					}
+				}
+			}
+
+			delete m;
 		}
 	}
 

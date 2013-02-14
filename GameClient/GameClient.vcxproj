@@ -253,6 +253,7 @@
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
     <ClCompile Include="TeslaChainTurret.cpp" />
+    <ClCompile Include="TeslaChainTurretEffect.cpp" />
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="TheMentalist.cpp" />
@@ -377,6 +378,7 @@
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="TeleportEffect.h" />
     <ClInclude Include="TeslaChainTurret.h" />
+    <ClInclude Include="TeslaChainTurretEffect.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="TheMentalist.h" />

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "ServerEntity.h"
+#include "serverentity.h"
+#include "EntityHandler.h"
 
-class ChainStrikeEffect : public ServerEntity
+class TeslaChainTurretEffect : public ServerEntity
 {
 private:
 	vector<unsigned int> m_invalidTargets;
@@ -13,9 +14,10 @@ private:
 	int m_baseDamage;
 
 	static const int MAX_JUMP_DISTANCE = 10;
+
 public:
-	ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage);
-	~ChainStrikeEffect();
+	TeslaChainTurretEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage);
+	~TeslaChainTurretEffect(void);
 
 	void update(float _dt);
 };

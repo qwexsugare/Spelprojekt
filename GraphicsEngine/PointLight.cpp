@@ -8,8 +8,9 @@ PointLight::PointLight()
 	this->m_ls = FLOAT3(0.0f, 0.0f, 0.0f);
 }
 
-PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius)
+PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius, bool _shadow)
 {
+	this->m_shadow = _shadow;
 	this->m_position = _position;
 	this->m_la = _la;
 	this->m_ld = _ld;
@@ -71,6 +72,11 @@ DirectX::BoundingSphere* PointLight::getBs()
 D3DXVECTOR2 PointLight::getPosition2D()
 {
 	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
+}
+
+bool PointLight::getCastShadow()
+{
+	return this->m_shadow;
 }
 
 void PointLight::setPosition(FLOAT3 _position)

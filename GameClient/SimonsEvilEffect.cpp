@@ -34,7 +34,7 @@ void SimonsEvilEffect::tick()
 	{
 		if(enemies[i]->contains(*m_bs))
 		{
-			enemies[i]->takeDamage(SimonsEvilEffect::DPS, 0);
+			enemies[i]->takeDamage(SimonsEvilEffect::DPS, 0, this->m_caster);
 		}
 	}
 	

@@ -322,6 +322,9 @@
     <ClCompile Include="TeslaChainTurret.cpp">
       <Filter>Server\Towers</Filter>
     </ClCompile>
+    <ClCompile Include="TeslaChainTurretEffect.cpp">
+      <Filter>Server\Towers\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -672,6 +675,9 @@
     <ClInclude Include="TeslaChainTurret.h">
       <Filter>Server\Towers</Filter>
     </ClInclude>
+    <ClInclude Include="TeslaChainTurretEffect.h">
+      <Filter>Server\Towers\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -706,6 +712,9 @@
     </Filter>
     <Filter Include="Server\Towers">
       <UniqueIdentifier>{0db08736-2a91-4a6d-845b-faa966d02fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Towers\Effects">
+      <UniqueIdentifier>{8ac81207-8312-449a-b74d-78565cecf9e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
