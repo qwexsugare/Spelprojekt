@@ -53,6 +53,13 @@ void LobbyState::update(float _dt)
 		this->setDone(true);
 		this->m_nextState = State::GAME;
 	}
+
+	//Kolla om nätverket har sagt att spelet har startat
+	while(!m_network->heroSelectedQueueEmpty())
+	{
+		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
+		m_menu->selectHero(nhsm.getPlayerId(), Hero::HERO_TYPE(nhsm.getHeroId()));
+	}
 }
 
 State::StateEnum LobbyState::nextState()

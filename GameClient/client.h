@@ -85,6 +85,7 @@ public:
 	bool removeActionTargetQueueEmpty();
 	bool startGameQueueEmpty();
 	bool skillUsedQueueEmpty();
+	bool heroSelectedQueueEmpty();
 };
 
 #endif // CLIENT_H
