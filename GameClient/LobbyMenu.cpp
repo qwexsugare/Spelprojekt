@@ -109,27 +109,22 @@ void LobbyMenu::Update(float _dt)
 	if(Character0IsDown())
 	{
 		Change = 1;
-		this->m_Buttons[8]->setPosition(FLOAT2(-0.445f,-0.17f));
 	}
 	if(Character1IsDown())
 	{
 		Change = 1;
-		this->m_Buttons[8]->setPosition(FLOAT2(-0.22f,-0.17f));
 	}
 	if(Character2IsDown())
 	{
 		Change = 1;
-		this->m_Buttons[8]->setPosition(FLOAT2(0.0f,-0.17f));
 	}
 	if(Character3IsDown())
 	{
 		Change = 1;
-		this->m_Buttons[8]->setPosition(FLOAT2(0.22f,-0.17f));
 	}
 	if(Character4IsDown())
 	{
 		Change = 1;
-		this->m_Buttons[8]->setPosition(FLOAT2(0.445f,-0.17f));
 	}
 	this->m_LabelInput->update(_dt);
 	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
@@ -348,4 +343,47 @@ bool LobbyMenu::Character4IsDown()
 	return false;*/
 
 	return m_Buttons[16]->isClicked();
+}
+
+void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type)
+{
+	FLOAT2 pos;
+	int buttonIndex;
+
+	switch(_playerIndex)
+	{
+	case 0:
+		buttonIndex = 8;
+		break;
+	case 1:
+		buttonIndex = 9;
+		break;
+	case 2:
+		buttonIndex = 10;
+		break;
+	case 3:
+		buttonIndex = 11;
+		break;
+	}
+	
+	switch(_type)
+	{
+	case Hero::OFFICER:
+		pos = FLOAT2(-0.445f,-0.17f);
+		break;
+	case Hero::RED_KNIGHT:
+		pos = FLOAT2(-0.22f,-0.17f);
+		break;
+	case Hero::ENGINEER:
+		pos = FLOAT2(0.0f,-0.17f);
+		break;
+	case Hero::DOCTOR:
+		pos = FLOAT2(0.22f,-0.17f);
+		break;
+	case Hero::THE_MENTALIST:
+		pos = FLOAT2(0.445f,-0.17f);
+		break;
+	}
+	
+	this->m_Buttons[buttonIndex]->setPosition(pos);
 }

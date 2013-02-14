@@ -57,6 +57,7 @@ void Client::Run()
 			NetworkSkillBoughtMessage sbm;
 			NetworkRemoveActionTargetMessage rat;
 			NetworkSkillUsedMessage sum;
+			NetworkHeroSelectedMessage nhsm;
 
 			int type;
 			packet >> type;
@@ -187,6 +188,17 @@ void Client::Run()
 				{
 					this->m_startGameQueue.pop();
 				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::HeroSelected:
+				packet >> nhsm;
+				this->m_mutex.Lock();
+				this->m_heroSelectedQueue.push(nhsm);
+
+				if(this->m_heroSelectedQueue.size() > 50)
+					this->m_heroSelectedQueue.pop();
 
 				this->m_mutex.Unlock();
 				break;
@@ -423,4 +435,9 @@ void Client::sendMessage(NetworkReadyMessage _usm)
 bool Client::startGameQueueEmpty()
 {
 	return m_startGameQueue.empty();
+}
+
+bool Client::heroSelectedQueueEmpty()
+{
+	return m_heroSelectedQueue.empty();
 }
