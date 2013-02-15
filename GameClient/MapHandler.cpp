@@ -117,7 +117,7 @@ void MapHandler::loadMap(std::string filename)
 			stream.getline(buf, 1024);
 			sscanf(buf, "width, height %d %d", &m_gridWidth, &m_gridHeight);
 
-			g_pathfinder = new Pathfinder(this->m_gridWidth, this->m_gridHeight, width, height);
+			Map map = Map(this->m_gridWidth, this->m_gridHeight);
 			
 			m_grid = new bool*[m_gridHeight];
 			for(int j = 0; j < m_gridHeight; j++)
@@ -134,10 +134,12 @@ void MapHandler::loadMap(std::string filename)
 
 					if(m_grid[j][i] == true)
 					{
-						g_pathfinder->setAsWall(i, j);
+						map.getNode(Position(i, j))->actAsWall();
 					}
 				}
 			}
+
+			g_pathfinder = new Pathfinder(map, FLOAT2(width, height));
 
 			// The END string key should be here, get rid of it
 			//stream.getline(buf, 1024);
@@ -226,13 +228,16 @@ void MapHandler::update(float _dt)
 			}
 		}
 	}
-	else if(EntityHandler::getNrOfEnemies() == 0 && m_currentWave < m_waves.size())
-	{
-		m_waveTimer = 10.0f;
-	}
-	else
-	{
-		this->m_currentWave++;
+	else if(EntityHandler::getNrOfEnemies() == 0)
+	{	
+		if(this->m_currentWave < m_waves.size())
+		{
+			m_waveTimer = 10.0f;
+		}
+		else
+		{
+			this->m_currentWave = this->m_waves.size() + 1;
+		}
 	}
 }
 

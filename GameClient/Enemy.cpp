@@ -168,10 +168,11 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			m_dir = (m_nextPosition - m_position);
 			//m_staticAvDir = FLOAT3(0,0,0);
 		}
-		
-			 
-			
-		
+		else //The enemy has reached its goal
+		{
+			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+			this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id));
+		}
 	}
 
 	if(this->m_health <= 0)

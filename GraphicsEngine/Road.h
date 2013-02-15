@@ -17,7 +17,7 @@ public:
 	static const int SIZE = 1;
 
 	Road();
-	Road(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, D3DXVECTOR3 _pos, float _rot);
+	Road(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, D3DXVECTOR3 _pos, float _rot, float _scale);
 	~Road();
 	
 	const D3DXMATRIX& getModelMatrix()const { return m_modelMatrix; }

@@ -142,14 +142,15 @@ void ServerThread::update(float dt)
 		MapHandler::State s = this->m_mapHandler->getState();
 
 		//Check if the map is finished
+		if(s == MapHandler::VICTORY)
+		{
+			this->m_state = ServerThread::VICTORY;
+		}
 		if(s == MapHandler::DEFEAT)
 		{
 			this->m_state = ServerThread::DEFEAT;
 		}
-		else if(s == MapHandler::VICTORY)
-		{
-			this->m_state == ServerThread::VICTORY;
-		}
+
 
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
@@ -178,10 +179,15 @@ void ServerThread::update(float dt)
 					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
 					{
 						this->m_network->getPlayers()[i]->addResources(edm->resources);
-						this->m_mapHandler->enemyDied();
 						i = 5;
 					}
 				}
+			}
+
+			if(m->type == Message::Type::EnemyReachedGoal)
+			{
+				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
+				this->m_mapHandler->enemyDied();
 			}
 
 			delete m;
@@ -189,7 +195,8 @@ void ServerThread::update(float dt)
 	}
 	if(this->m_state == State::VICTORY)
 	{
-		g_graphicsEngine->createMyText("test1.png", "text/", "offsets.txt", "VICTORY!", INT2(300, 300), 20);
+		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 40 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{

@@ -405,10 +405,11 @@ void GameState::importMap(string _map)
 				{
 					float rot;
 					float x, z;
-					sscanf(buf, "%f %f %f", &rot, &x, &z);
+					float scale;
+					sscanf(buf, "%f %f %f %f", &rot, &x, &z, &scale);
 					rot = -rot * (D3DX_PI/180);
 
-					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, -z), rot));
+					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, -z), rot, scale));
 				}
 			}
 		}
