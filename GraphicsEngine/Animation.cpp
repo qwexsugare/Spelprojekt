@@ -311,7 +311,8 @@ void Animation::PlayLoop(string name, Motion body = Motion::FullBody, int number
 
 void Animation::Play(string name, Motion body = Motion::FullBody)
 {
-	PlayLoop(name, body, 1);
+	//PlayLoop(name, body, 1);
+	this->currentAnimation = name;
 }
 
 void Animation::Stop(string name, Motion body = Motion::FullBody)
