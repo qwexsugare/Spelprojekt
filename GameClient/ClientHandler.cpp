@@ -11,6 +11,7 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_keyboard = new Keyboard();
 
 	this->m_serverThread = NULL;
+	this->m_client = NULL;
 }
 
 ClientHandler::~ClientHandler()
@@ -22,6 +23,10 @@ ClientHandler::~ClientHandler()
 	if(this->m_state)
 	{
 		delete this->m_state;
+	}
+	if(this->m_client)
+	{
+		delete this->m_client;
 	}
 	delete g_graphicsEngine;
 	delete g_mouse;
@@ -163,7 +168,8 @@ void ClientHandler::update(float _dt)
 		delete tempState;
 	}
 
-	updateSoundEngine();
+	D3DXVECTOR3 camPos = g_graphicsEngine->getCamera()->getPos();
+	updateSoundEngine(FLOAT3(camPos.x, camPos.y, camPos.z));
 
 	g_mouse->update(); // Must be last!
 	g_keyboard->update();

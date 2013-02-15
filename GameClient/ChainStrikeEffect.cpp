@@ -2,7 +2,7 @@
 #include "EntityHandler.h"
 #include "SoundWrapper.h"
 
-ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps)
+ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage)
 {
 	m_firstTarget = _firstTarget;
 	m_position = _positon;
@@ -12,6 +12,7 @@ ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon,
 	m_visible = false;
 	m_jumpTimer = 0.0f;
 	m_jumps = 0;
+	m_baseDamage = _baseDamage;
 }
 
 ChainStrikeEffect::~ChainStrikeEffect()
@@ -100,7 +101,7 @@ void ChainStrikeEffect::update(float _dt)
 			if(closestValidTarget && distanceToClosestValidTarget < MAX_JUMP_DISTANCE)
 			{
 				m_position = closestValidTarget->getPosition();
-				closestValidTarget->takeDamage(200/(++m_jumps), false);
+				closestValidTarget->takeDamage(m_baseDamage/(++m_jumps), 0, this->m_id);
 
 				// If max number of jumps is reached, delete me
 				if(m_jumps == m_maxJumps)

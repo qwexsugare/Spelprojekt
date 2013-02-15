@@ -1,11 +1,12 @@
 #pragma once
 
+#include "DataStructures.h"
 #include <string>
 using namespace std;
 
 void clearSoundEngine();
 
-int createSoundHandle(string _filename, bool _music, float _volume = 1.0f);
+int createSoundHandle(string _filename, bool _music, bool _3d, FLOAT3 _pos, float _volume = 1.0f);
 
 void deactivateSound(int _handle);
 
@@ -27,4 +28,4 @@ void stopSound(int _handle);
 
 void deleteSoundEngine();
 
-void updateSoundEngine();
+void updateSoundEngine(const FLOAT3& _listenerPos);

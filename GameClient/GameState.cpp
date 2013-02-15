@@ -9,26 +9,26 @@
 
 GameState::GameState(Client *_network)
 {
+	this->importMap("levelone");
+
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_network = _network;
 	this->m_hud = new HudMenu(this->m_network);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 17.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
-	//g_graphicsEngine->createPointLight(FLOAT3(75.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 0.0f, 1.0f), FLOAT3(0.2f, 0.0f, 0.5f), 20.0f);
+	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
 	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.2f, 1.2f, 1.2f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-	g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-	g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-
-	this->importMap("race");
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 }
 
 GameState::~GameState()
@@ -40,7 +40,7 @@ GameState::~GameState()
 
 	if(m_minimap)
 		delete this->m_minimap;
-	delete this->m_network;
+	//delete this->m_network;
 	delete this->m_hud;
 	delete this->m_clientEntityHandler;
 }
@@ -97,6 +97,7 @@ void GameState::update(float _dt)
 		else
 		{
 			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
+			model->setTextureIndex(m_modelIdHolder.getTexture(e.getModelId()));
 			if(model)
 			{
 				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
@@ -188,6 +189,14 @@ void GameState::update(float _dt)
 		}
 	}
 
+	while(this->m_network->skillUsedQueueEmpty() == false)
+	{
+		NetworkSkillUsedMessage e = this->m_network->skillUsedQueueFront();
+		
+		// Do something!
+		this->m_hud->skillUsed(e.getActionIndex(), e.getActionId(), e.getCooldown());
+	}
+
 
 	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 	{
@@ -200,7 +209,7 @@ void GameState::update(float _dt)
 		}
 	}
 
-	static float CAMERA_SPEED = 16.0f;
+	static float CAMERA_SPEED = 12.0f;
 	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt);
@@ -217,22 +226,6 @@ void GameState::update(float _dt)
 	{
 		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
 	}
-	/*if(g_graphicsEngine->getCamera()->getPos().x < m_terrain->getWidth()-5.0f && (g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
-	{
-		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt, m_terrain->getWidth()-5.0f));
-	}
-	else if(g_graphicsEngine->getCamera()->getPos().x > 5.0f && (g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
-	{
-		g_graphicsEngine->getCamera()->setX(max(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt, 5.0f));
-	}
-	if(g_graphicsEngine->getCamera()->getPos().z < m_terrain->getHeight()+6.0f && (g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
-	{
-		g_graphicsEngine->getCamera()->setZ(min(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt, m_terrain->getHeight()+6.0f));
-	}
-	else if(g_graphicsEngine->getCamera()->getPos().z > 15.0f && (g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
-	{
-		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt, 15.0f));
-	}*/
 
 	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
 	{
@@ -332,7 +325,9 @@ void GameState::importMap(string _map)
 	textures.push_back("textures\\6.png");
 	textures.push_back("textures\\7.png");
 	textures.push_back("textures\\8.png");
-
+	
+	bool heightLoaded = false;
+	bool widthLoaded = false;
 	string minimap;
 	ifstream stream;
 	stream.open(path + _map + ".txt");
@@ -360,12 +355,22 @@ void GameState::importMap(string _map)
 			int width;
 			sscanf(buf, "width: %d", &width);
 			v2.x = width;
-		}		
+
+			if(heightLoaded)
+				g_graphicsEngine->initQuadTree(FLOAT2(v2.x, v2.z));
+			else
+				widthLoaded = true;
+		}
 		else if(strcmp(key, "height:") == 0)
 		{
 			int height;
 			sscanf(buf, "height: %d", &height);
 			v2.z = height;
+
+			if(widthLoaded)
+				g_graphicsEngine->initQuadTree(FLOAT2(v2.x, v2.z));
+			else
+				heightLoaded = true;
 		}
 		else if(strcmp(key, "minimap:") == 0)
 		{
@@ -396,10 +401,11 @@ void GameState::importMap(string _map)
 				{
 					float rot;
 					float x, z;
-					sscanf(buf, "%f %f %f", &rot, &x, &z);
+					float scale;
+					sscanf(buf, "%f %f %f %f", &rot, &x, &z, &scale);
 					rot = -rot * (D3DX_PI/180);
 
-					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, -z), rot));
+					m_roads.push_back(g_graphicsEngine->createRoad(texture, FLOAT3(x, 0.0f, -z), rot, scale));
 				}
 			}
 		}
@@ -472,7 +478,7 @@ void GameState::importMap(string _map)
 						rotation.y = rotation.y * (D3DX_PI/180.0f);
 						rotation.z = rotation.z * (D3DX_PI/180.0f);
 
-						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius, false);
 					}
 					else if(strcmp(key, "PL") == 0)
 					{
@@ -487,7 +493,7 @@ void GameState::importMap(string _map)
 						rotation.y = rotation.y * (D3DX_PI/180.0f);
 						rotation.z = rotation.z * (D3DX_PI/180.0f);
 
-						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius);
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius, false);
 					}
 					else if(strcmp(key, "SL") == 0)
 					{

@@ -6,10 +6,8 @@ Player::Player(unsigned int id)
 	this->m_id = id;
 	this->m_resources = 20000;
 	this->m_messageQueue = new MessageQueue();
-	this->m_hero = new Engineer(this->m_id);
-	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
-
-	EntityHandler::addEntity(m_hero);
+	m_hero = NULL;
+	this->m_ready = false;
 }
 
 Player::~Player()
@@ -17,43 +15,58 @@ Player::~Player()
 	delete this->m_messageQueue;
 }
 
-void Player::handleEntityMessage(EntityMessage e)
+void Player::assignHero(Hero::HERO_TYPE _type)
 {
-	this->m_hero->setNextPosition(e.getPos());
+	if(m_hero)
+		EntityHandler::removeEntity(m_hero);
+
+	switch(_type)
+	{
+	case Hero::ENGINEER:
+		this->m_hero = new Engineer(this->m_id);
+		break;
+	case Hero::DOCTOR:
+		this->m_hero = new Doctor(this->m_id);
+		break;
+	case Hero::RED_KNIGHT:
+		this->m_hero = new RedKnight(this->m_id);
+		break;
+	case Hero::THE_MENTALIST:
+		this->m_hero = new TheMentalist(this->m_id);
+		break;
+	case Hero::OFFICER:
+		this->m_hero = new Officer(this->m_id);
+		break;
+	}
+	
+	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
+	
+	EntityHandler::addEntity(m_hero);
 }
 
-void Player::handleMsgMessage(Msg m)
+void Player::spawnHero()
 {
-	if(m.getText() == "Ready")
-	{
-		this->m_ready = true;
-	}
-	else if(m.getText() == "Start")
-	{
-		StartMessage *m = new StartMessage();
-		m->type = Message::Type::Start;
-		m->reciverId = 0;
+	vector<Skill*> skills = this->m_hero->getSkills();
 
-		this->m_messageQueue->pushOutgoingMessage(m);
+	for(int i = 0; i < skills.size(); i++)
+	{
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(skills[i]->getId(), this->m_id, this->m_resources));
 	}
 }
 
-void Player::handleAttackMessage(AttackMessage am)
+Hero::HERO_TYPE Player::getHeroType()const
 {
-	//Create a projectile
-	FLOAT3 targetPos = am.getTargetPos();
-	FLOAT3 direction = targetPos - this->m_hero->getPosition();
-	direction.y = 0.0f;
-
-	if(direction.length() > 0)
-	{
-		EntityHandler::addEntity(new Projectile(this->m_hero->getPosition(), direction, 2, 10.0f, this->m_hero));
-	}
+	return m_hero->getHeroType();
 }
 
-void Player::handleEntityAttackMessage(AttackEntityMessage eam)
+Hero* Player::getHero()
 {
-	this->m_hero->setTarget(eam.getTargetId());
+	return this->m_hero;
+}
+
+int Player::getId()const
+{
+	return this->m_messageQueue->getId();
 }
 
 void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
@@ -263,6 +276,7 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		if(s != NULL)
 		{
 			s->activate(usm.getPosition(), this->m_hero->getId());
+			this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s), s->getCooldown()));
 		}
 
 		break;
@@ -276,6 +290,7 @@ void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 	if(s != NULL)
 	{
 		s->activate(this->m_hero->getId());
+		this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s), s->getCooldown()));
 	}
 }
 
@@ -293,6 +308,7 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		if(s != NULL)
 		{
 			s->activate(usm.getTargetId(), m_hero->getId());
+			this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s), s->getCooldown()));
 		}
 
 		break;
@@ -307,4 +323,10 @@ void Player::handleReadyMessage(NetworkReadyMessage rm)
 void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
 {
 	this->m_messageQueue->pushOutgoingMessage(new SelectHeroMessage(this->m_id, 0, shm.getHeroId()));
+}
+
+void Player::addResources(unsigned int resources)
+{
+	this->m_resources += resources;
+	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(999, this->m_id, this->m_resources));
 }

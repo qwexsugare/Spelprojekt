@@ -14,7 +14,7 @@ Server::~Server()
 	{
 		delete this->m_players[i];
 	}
-	this->m_state=ServerStates::END;
+
 	delete this->m_messageQueue;
 }
 
@@ -39,67 +39,60 @@ void Server::goThroughSelector()
 	if(itemsInSelector > 0)
 	{
 		if(this->isRunning())
+		for(unsigned int i =0;i<itemsInSelector;i++)
 		{
-			for(unsigned int i =0;i<itemsInSelector;i++)
-			{
-				//fetches a ready socket from the selector
-				sf::SocketTCP sock = this->selector.GetSocketReady(i);
+			//fetches a ready socket from the selector
+			sf::SocketTCP sock = this->selector.GetSocketReady(i);
 		
+			if(sock==this->listener)
+			{
+				sf::IPAddress ip;
+				sf::SocketTCP incSocket;
+				//accept the new socket
+				this->listener.Accept(incSocket, &ip);
+				cout << "client connected: " << ip.ToString()<<endl;
+				//and add it to the selector
+				this->selector.Add(incSocket);
+				this->clients[this->clientArrPos++]=incSocket;
 
-				if(sock==this->listener)
+				Player *p = new Player(this->m_players.size());
+				this->m_players.push_back(p);
+				this->m_messageHandler->addQueue(p->getMessageQueue());
+			}
+			//else its a client socket who wants to sent a message
+			else
+			{
+				if (sock.Receive(packet) == sf::Socket::Done)
 				{
-					//can only add new players if your in the lobby, waiting for new players
-					if(this->m_state==ServerStates::LOBBY&&this->clientArrPos<MAXPLAYERS)
-					{
-						sf::IPAddress ip;
-						sf::SocketTCP incSocket;
-						//accept the new socket
-						this->listener.Accept(incSocket, &ip);
-						cout << "client connected: " << ip.ToString()<<endl;
-						//and add it to the selector
-						this->selector.Add(incSocket);
-						this->clients[this->clientArrPos++]=incSocket;
+					// Extract what type of data sent by the client
+					unsigned int type;
+					packet >> type;
 
-						Player *p = new Player(this->m_players.size());
-						this->m_players.push_back(p);
-						this->m_messageHandler->addQueue(p->getMessageQueue());
+					int socketIndex = 0;
+
+					for(int j = 1; j < this->clientArrPos; j++)
+					{
+						if(sock == this->clients[j])
+						{
+							socketIndex = j;
+						}
 					}
+
+					//handles the protocols, what should be done if the server recives a MSG, ENT etc
+					this->handleClientInData(socketIndex, packet,(NetworkMessage::MESSAGE_TYPE)type);
 				}
-				//else its a client socket who wants to sent a message
 				else
 				{
-					if (sock.Receive(packet) == sf::Socket::Done)
+					// if done wasnt completed, the socket will be removed from the selector
+					if(this->listener.IsValid())
 					{
-						// Extract what type of data sent by the client
-						unsigned int type;
-						packet >> type;
-
-						int socketIndex = 0;
-
-						for(int j = 1; j < this->clientArrPos; j++)
+						this->selector.Remove(sock);
+						cout<<"A client disconnected!"<<endl;
+						for(int i=0;i<this->clientArrPos;i++)
 						{
-							if(sock == this->clients[j])
+							if(this->clients[i]==sock)
 							{
-								socketIndex = j;
-							}
-						}
-
-						//handles the protocols, what should be done if the server recives a MSG, ENT etc
-						this->handleClientInData(socketIndex, packet,(NetworkMessage::MESSAGE_TYPE)type);
-					}
-					else
-					{
-						// if done wasnt completed, the socket will be removed from the selector
-						if(this->listener.IsValid())
-						{
-							this->selector.Remove(sock);
-							cout<<"A client disconnected!"<<endl;
-							for(int i=0;i<this->clientArrPos;i++)
-							{
-								if(this->clients[i]==sock)
-								{
-									this->clients[i]=this->clients[--this->clientArrPos];
-								}
+								this->clients[i]=this->clients[--this->clientArrPos];
 							}
 						}
 					}
@@ -120,6 +113,7 @@ void Server::handleMessages()
 	NetworkCreateActionTargetMessage catm;
 	NetworkSkillBoughtMessage sbm;
 	NetworkRemoveActionTargetMessage rat;
+	NetworkSkillUsedMessage sum;
 
 	RemoveServerEntityMessage *m1;
 	CreateActionMessage *m2;
@@ -127,6 +121,7 @@ void Server::handleMessages()
 	CreateActionTargetMessage *m4;
 	SkillBoughtMessage *m5;
 	RemoveActionTargetMessage *m6;
+	SkillUsedMessage *m7;
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
@@ -176,14 +171,18 @@ void Server::handleMessages()
 			this->broadcast(rat);
 
 			break;
-		}
 
-		//if(m->type == Message::RemoveEntity)
-		//{
-		//	RemoveServerEntityMessage *rsem = (RemoveServerEntityMessage*)m;			
-		//	NetworkRemoveEntityMessage rem = NetworkRemoveEntityMessage(rsem->removedId);
-		//	this->broadcast(rem);
-		//}	
+		case Message::SkillUsed:
+			m7 = (SkillUsedMessage*)m;
+			sum = NetworkSkillUsedMessage(m7->actionId, m7->actionIndex, m7->cooldown);
+			packet<<sum;
+
+			this->m_mutex.Lock();
+			this->clients[m7->playerId].Send(packet);
+			this->m_mutex.Unlock();
+
+			break;
+		}
 
 		delete m;
 	}
@@ -312,11 +311,41 @@ void Server::broadcast(NetworkStartGameMessage networkMessage)
 	{
 		this->clients[i].Send(packet);
 	}
-
+	
 	this->m_mutex.Unlock();
 }
 
 void Server::broadcast(NetworkHeroSelectedMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(NetworkSkillUsedMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(NetworkSkillBoughtMessage networkMessage)
 {
 	sf::Packet packet;
 	packet<<networkMessage;
@@ -421,40 +450,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 	return protFound;
 }
 
-bool Server::msgQueueEmpty()
-{
-	return this->msgQueue.empty();
-}
-
-bool Server::entityQueueEmpty()
-{
-	return this->entityQueue.empty();
-}
-
-Msg Server::msgQueueFront()
-{
-	Msg ret = this->msgQueue.front();
-	this->msgQueue.pop();
-	return ret;
-}
-
-EntityMessage Server::entityQueueFront()
-{
-	this->m_mutex.Lock();
-
-	EntityMessage ret= this->entityQueue.front();
-	this->entityQueue.pop();
-
-	this->m_mutex.Unlock();
-	return ret;
-}
-
 vector<Player*> Server::getPlayers()
 {
 	return this->m_players;
-}
-
-void Server::setState(ServerStates::State s)
-{
-	this->m_state=s;
 }

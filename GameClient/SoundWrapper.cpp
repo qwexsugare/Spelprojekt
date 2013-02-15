@@ -8,9 +8,9 @@ void clearSoundEngine()
 	g_soundEngine->clear();
 }
 
-int createSoundHandle(string _filename, bool _music, float _volume)
+int createSoundHandle(string _filename, bool _music, bool _3d, FLOAT3 _pos, float _volume)
 {
-	return g_soundEngine->createSoundHandle(_filename, _music, _volume);
+	return g_soundEngine->createSoundHandle(_filename, _music, _3d, WUFLOAT3(_pos.x, _pos.y, _pos.z), _volume);
 }
 
 void deactivateSound(int _handle)
@@ -63,7 +63,7 @@ void deleteSoundEngine()
 	delete g_soundEngine;
 }
 
-void updateSoundEngine()
+void updateSoundEngine(const FLOAT3& _listenerPos)
 {
-	g_soundEngine->update();
+	g_soundEngine->update(_listenerPos.x, _listenerPos.y, _listenerPos.z);
 }

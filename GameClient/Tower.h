@@ -7,7 +7,7 @@
 
 class Tower : public ServerEntity
 {
-private:
+protected:
 	float m_attackRange;
 	float m_attackCooldown;
 	float m_lifeTime;

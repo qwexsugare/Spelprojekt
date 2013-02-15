@@ -16,13 +16,15 @@
 class ServerThread : public sf::Thread
 {
 private:
+	enum State { LOBBY, GAME, VICTORY, DEFEAT, EXIT };
+
 	Server *m_network;
 	MessageHandler *m_messageHandler;
 	EntityHandler *m_entityHandler;
 	MapHandler* m_mapHandler;
 
 	MessageQueue *m_messageQueue;
-	ServerStates::State m_state;
+	State m_state;
 	int m_port;
 
 	void Run();

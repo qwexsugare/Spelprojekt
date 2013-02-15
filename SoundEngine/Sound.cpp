@@ -5,7 +5,7 @@ Sound::Sound()
 
 }
 
-Sound::Sound(ALuint _source, float _volume, float _finalVolume, bool _music)
+Sound::Sound(ALuint _source, float _volume, float _finalVolume, bool _music, bool _3d, const WUFLOAT3& _pos)
 {
 	this->m_source = _source;
 	this->m_volume = _volume;
@@ -13,6 +13,8 @@ Sound::Sound(ALuint _source, float _volume, float _finalVolume, bool _music)
 	this->m_looped = false;
 	this->m_active = true;
 	this->m_music = _music;
+	m_pos = _pos;
+	m_3d = _3d;
 }
 
 Sound::~Sound()
@@ -23,6 +25,11 @@ Sound::~Sound()
 void Sound::deactivate()
 {
 	this->m_active = false;
+}
+
+bool Sound::is3d()const
+{
+	return m_3d;
 }
 
 bool Sound::isPlaying()const
@@ -65,4 +72,11 @@ void Sound::stop()
 {
 	this->m_looped = false;
 	alSourceStop(this->m_source);
+}
+
+void Sound::update3dVolume(const WUFLOAT3& _listenerPos)
+{
+	float dist = (_listenerPos-m_pos).length();
+	alSourcef(this->m_source, AL_GAIN, m_volume/pow(dist/3.0f, 2));
+	//alSourcef(this->m_source, AL_GAIN, m_volume - (1.0f-1.0f/pow(dist/3.0f, 2)));
 }

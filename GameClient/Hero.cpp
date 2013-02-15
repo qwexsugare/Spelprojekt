@@ -39,6 +39,11 @@ Hero::~Hero()
 
 }
 
+Hero::HERO_TYPE Hero::getHeroType()const
+{
+	return m_heroType;
+}
+
 void Hero::updateSpecificUnitEntity(float dt)
 {
 	//Handle incoming messages
@@ -116,15 +121,17 @@ void Hero::updateSpecificUnitEntity(float dt)
 		}
 		else
 		{
-			if(this->m_pathCounter < this->m_path.nrOfPoints - 1)
+			if(this->m_pathCounter < this->m_path.nrOfPoints)
 			{
 				this->m_nextPosition = FLOAT3(this->m_path.points[this->m_pathCounter].x, 0.0f, this->m_path.points[this->m_pathCounter].y);
 				this->m_pathCounter++;
 			}
 			else if(this->m_reallyReachedPosition == false)
 			{
-				this->m_nextPosition = this->m_goalPosition;
+				//this->m_nextPosition = this->m_goalPosition;
 				this->m_reallyReachedPosition = true;
+				this->m_position = this->m_nextPosition;
+				this->m_reachedPosition = true;
 			}
 			else
 			{

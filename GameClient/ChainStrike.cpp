@@ -22,7 +22,7 @@ bool ChainStrike::activate(unsigned int _targetId, unsigned int _senderId)
 	{
 		if(this->getCurrentCooldown() == 0 && (EntityHandler::getServerEntity(_senderId)->getPosition() - target->getPosition()).length() <= RANGE)
 		{
-			EntityHandler::addEntity(new ChainStrikeEffect(target->getId(), target->getPosition(), max(((Hero*)EntityHandler::getServerEntity(_senderId))->getWits()/2, 1)));
+			EntityHandler::addEntity(new ChainStrikeEffect(target->getId(), target->getPosition(), max(((Hero*)EntityHandler::getServerEntity(_senderId))->getWits()/2, 1), 200));
 			this->resetCooldown();
 			return true;
 		}

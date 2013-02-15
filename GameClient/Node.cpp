@@ -1,112 +1,94 @@
 #include "Node.h"
 
-Node::Node(int x,int y)
-{
-	this->parentX=0;
-	this->parentY=0;
-	this->x=x;
-	this->y=y;
-	this->g=0;
-	this->h=0;
-	this->id=0;
-	this->endNode=false;
-	this->startNode=false;
-	this->wall=false;
-}
 Node::Node()
 {
-	this->parentX=0;
-	this->parentY=0;
-	this->id=0;
-	this->x=0;
-	this->y=0;
-	this->g=0;
-	this->h=0;
-	this->endNode=false;
-	this->startNode=false;
 	this->wall=false;
+	this->parentNode=0;
+	this->G=0;
+	this->H=0;
+	this->additionalMovmentCost=0;
+	this->onOpenList=false;
+	this->onClosedList=false;
 }
-bool Node::isWall()
+Node::~Node()
 {
-	return this->wall;
+}
+bool Node::isOnClosedList()
+{
+	return this->onClosedList;
+}
+bool Node::isOnOpenlist()
+{
+	return this->onOpenList;
+}
+void Node::putOnClosedList()
+{
+	this->onClosedList=true;
+	this->onOpenList=false;
+}
+void Node::putOnOpenList()
+{
+	this->onOpenList=true;
+	this->onClosedList=false;
+}
+void Node::setAdditionalCost(int ac)
+{
+	this->additionalMovmentCost=ac;
+}
+
+void Node::setGCost(int g)
+{
+	this->G=g;
+}
+void Node::setHCost(int h)
+{
+	this->H=h;
+}
+int Node::getGCost()
+{
+	return this->G;
+}
+int Node::getHCost()
+{
+	return this->H;
+}
+int Node::getFCost()
+{
+	return this->G+this->H;
+}
+int Node::getAdditionalCost()
+{
+	return this->additionalMovmentCost;
+}
+void Node::setParent(Node *p)
+{
+	this->parentNode=p;
+}
+Node* Node::getParent()
+{
+	return this->parentNode;
+}
+void Node::resetCostsAndParent()
+{
+	this->parentNode=0;
+	this->H=0;
+	this->G=0;
+	this->onOpenList=false;
+	this->onClosedList=false;
+}
+void Node::setPosition(Position p)
+{
+	this->position=p;
+}
+Position Node::getPosition()
+{
+	return this->position;
 }
 void Node::actAsWall()
 {
 	this->wall=true;
 }
-int Node::getParentX()
+bool Node::isWall()
 {
-	return this->parentX;
-}
-int Node::getParentY()
-{
-	return this->parentY;
-}
-
-int Node::getX()
-{
-	return this->x;
-}
-int Node::getY()
-{
-	return this->y;
-}
-int Node::getG()
-{
-	return this->g;
-}
-int Node::getH()
-{
-	return this->h;
-}
-void Node::setParent(int x, int y)
-{
-	this->parentX=x;
-	this->parentY=y;
-}
-void Node::setG(int g)
-{
-	this->g=g;
-}
-void Node::setH(int h)
-{
-	this->h=h;
-}
-void Node::setToEndNode()
-{
-	this->endNode=true;
-}
-void Node::setToStartNode()
-{
-	this->startNode=true;
-}
-bool Node::isEndNode()
-{
-	return this->endNode;
-}
-
-void Node::setId(int id)
-{
-	this->id=id;
-}
-
-int Node::getId()
-{
-	return this->id;
-}
-bool Node::isStartNode()
-{
-	return this->startNode;
-}
-
-void Node::resetNode(int x, int y)
-{
-	this->parentX=0;
-	this->parentY=0;
-	this->x=x;
-	this->y=y;
-	this->g=0;
-	this->h=0;
-	this->endNode=false;
-	this->startNode=false;
+	return this->wall;
 }

@@ -35,6 +35,7 @@ private:
 	ForwardRenderingEffectFile* m_forwardRendering;
 	RenderTarget *m_forwardRenderTarget;
 	DepthStencil *m_forwardDepthStencil;
+	DepthStencil *m_SSAODepthStencil;
 
 	//Deferred sampling
 	DeferredSamplerEffectFile *m_deferredSampler;
@@ -120,4 +121,5 @@ public:
 	bool removeSpotLight(SpotLight* _spotLight);
 
 	Camera *getCamera();
+	void initQuadTree(FLOAT2 _extents);
 };

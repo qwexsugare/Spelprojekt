@@ -44,13 +44,25 @@ bool QuadTree::addRoad(Road *_road)
 	return success;
 }
 
+vector<PointLight*> QuadTree::getAllLights()const
+{
+	vector<PointLight*> lights;
+	this->m_parent->getAllLights(lights);
+	return lights;
+}
+
 stack<Model*> QuadTree::getAllModels()const
 {
 	stack<Model*> models;
-
 	this->m_parent->getAllModels(models);
-
 	return models;
+}
+
+stack<Road*> QuadTree::getAllRoads()const
+{
+	stack<Road*> roads;
+	this->m_parent->getAllRoads(roads);
+	return roads;
 }
 
 stack<Model*> QuadTree::getModels(D3DXVECTOR2 _focalPoint)const

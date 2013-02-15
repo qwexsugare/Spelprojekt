@@ -23,6 +23,7 @@ private:
 		SpriteSheet* m_cooldown;
 		unsigned int m_skillId;
 		
+		float m_cooldownTime;
 		int m_Delay;
 		int m_DelayTime;
 	//----------------------------------------------------------------------------------------------
@@ -74,7 +75,7 @@ public:
 				bool _Active = false);
 
 	int Clicked();
-	void Update();
+	void Update(float dt);
 	unsigned int getSkillId();
 	int GetButtonReaction();
 	void RemoveCooldown();

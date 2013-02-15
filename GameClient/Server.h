@@ -1,14 +1,6 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#define MAXPLAYERS 4
-#include "Msg.h"
-#include "EntityMessage.h"
-#include "AttackMessage.h"
-#include "RemoveEntityMessage.h"
-#include "AttackEntityMessage.h"
-#include "UseSkillMessage.h"
-
 #include "NetworkMessage.h"
 #include "NetworkEntityMessage.h"
 #include "NetworkDisconnectMessage.h"
@@ -24,6 +16,7 @@
 #include "NetworkSelectHeroMessage.h"
 #include "NetworkReadyMessage.h"
 #include "NetworkStartGameMessage.h"
+#include "NetworkSkillUsedMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -34,29 +27,19 @@
 #include "Player.h"
 
 using namespace std;
-namespace ServerStates
-{
-	enum State { LOBBY, GAME, END, EXIT };
-};
 class Server : private sf::Thread
 {
 private:
-	ServerStates::State m_state;
 	MessageHandler *m_messageHandler;
 	MessageQueue *m_messageQueue;
 
 	sf::Mutex m_mutex;
 
-	queue<Msg> msgQueue;
-	queue<EntityMessage> entityQueue;
-	queue<AttackMessage> attackMessageQueue;
-	queue<AttackEntityMessage> attackEntityMessageQueue;
-
 	vector<Player*> m_players;
 
 	sf::SelectorTCP selector;
 	sf::SocketTCP listener;
-	sf::SocketTCP clients[MAXPLAYERS];
+	sf::SocketTCP clients[4];
 	int clientArrPos;
 	virtual void Run();
 	void goThroughSelector();
@@ -75,17 +58,12 @@ public:
 	void broadcast(NetworkRemoveActionTargetMessage networkMessage);
 	void broadcast(NetworkStartGameMessage networkMessage);
 	void broadcast(NetworkHeroSelectedMessage networkMessage);
+	void broadcast(NetworkSkillUsedMessage networkMessage);
+	void broadcast(NetworkSkillBoughtMessage networkMessage);
 
 	bool isRunning();
 
-	Msg msgQueueFront();
-	EntityMessage entityQueueFront();
-	bool msgQueueEmpty();
-	bool entityQueueEmpty();
-
 	vector<Player*> getPlayers();
-
-	void setState(ServerStates::State s);
 };
 
 #endif // SERVER_H
