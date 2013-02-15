@@ -29,7 +29,6 @@ GameState::GameState(Client *_network)
 	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-
 }
 
 GameState::~GameState()
