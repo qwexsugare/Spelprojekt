@@ -89,7 +89,7 @@ void MapHandler::loadMap(std::string filename)
 					FLOAT3 rotation;
 					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
 
-					position.z = height+position.z;
+					position.z = -position.z;
 					rotation.x = rotation.x * (D3DX_PI/180.0f);
 					
 					Model *m = g_graphicsEngine->createModel(key, position);
@@ -164,21 +164,22 @@ void MapHandler::loadMap(std::string filename)
 		m_paths[i] = paths[i];
 	
 	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
 	this->m_waves.push_back(vector<ServerEntity*>());
 	m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
 	m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
