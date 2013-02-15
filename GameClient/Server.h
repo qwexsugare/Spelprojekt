@@ -1,6 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#define MAXPLAYERS 4
 #include "Msg.h"
 #include "EntityMessage.h"
 #include "AttackMessage.h"
@@ -33,9 +34,14 @@
 #include "Player.h"
 
 using namespace std;
+namespace ServerStates
+{
+	enum State { LOBBY, GAME, END, EXIT };
+};
 class Server : private sf::Thread
 {
 private:
+	ServerStates::State m_state;
 	MessageHandler *m_messageHandler;
 	MessageQueue *m_messageQueue;
 
@@ -50,7 +56,7 @@ private:
 
 	sf::SelectorTCP selector;
 	sf::SocketTCP listener;
-	sf::SocketTCP clients[4];
+	sf::SocketTCP clients[MAXPLAYERS];
 	int clientArrPos;
 	virtual void Run();
 	void goThroughSelector();
@@ -78,6 +84,8 @@ public:
 	bool entityQueueEmpty();
 
 	vector<Player*> getPlayers();
+
+	void setState(ServerStates::State s);
 };
 
 #endif // SERVER_H

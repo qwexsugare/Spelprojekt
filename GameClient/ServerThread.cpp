@@ -10,13 +10,12 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
 	this->m_mapHandler->loadMap("maps/race/race.txt");
-
 	this->m_network->broadcast(NetworkEntityMessage());
 }
 
 ServerThread::~ServerThread()
 {
-	this->m_state = State::EXIT;
+	this->m_state = ServerStates::State::EXIT;
 	this->Wait();
 
 	this->m_network->shutDown();
@@ -40,12 +39,12 @@ void ServerThread::Run()
 	__int64 prevTimeStamp = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
-	this->m_state = State::LOBBY;
+	this->m_state = ServerStates::State::LOBBY;
 	this->m_network->start(this->m_port);
 
 	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
 
-	while(this->m_state != State::EXIT)
+	while(this->m_state != ServerStates::State::EXIT)
 	{
 		__int64 currTimeStamp = 0;
 		QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
@@ -76,7 +75,7 @@ void ServerThread::update(float dt)
 	vector<ServerEntity*> entities;
 	this->m_messageHandler->update();
 
-	if(this->m_state == State::LOBBY)
+	if(this->m_state == ServerStates::State::LOBBY)
 	{
 		//Wait for all players to become ready, change hero when needed	
 		vector<Player*> players = this->m_network->getPlayers();
@@ -88,21 +87,22 @@ void ServerThread::update(float dt)
 			{
 				i = players.size();
 				start = false;
-			}
+			}		
+		}
 
-			if(start == true)
-			{
-				this->m_state = State::GAME;
-			}
+		if(start == true)
+		{
+			this->m_state = ServerStates::State::GAME;
+			this->m_network->setState(this->m_state);
 		}
 	}
 
-	if(this->m_state == State::GAME)
+	if(this->m_state == ServerStates::State::GAME)
 	{
 		//Check if the map is finished
 		if(this->m_mapHandler->isDone() == true)
 		{
-			this->m_state = State::END;
+			this->m_state = ServerStates::State::END;
 		}
 
 		//Update the map and units on it
@@ -120,7 +120,7 @@ void ServerThread::update(float dt)
 		}
 	}
 
-	if(this->m_state == State::END)
+	if(this->m_state == ServerStates::State::END)
 	{
 		//Wait for the server to be shut down
 	}
