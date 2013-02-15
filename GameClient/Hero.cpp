@@ -1,4 +1,5 @@
 #include "Hero.h"
+#include "Arrow.h"
 
 extern Pathfinder* g_pathfinder;
 
@@ -83,7 +84,9 @@ void Hero::updateSpecificUnitEntity(float dt)
 			{
 				if(this->m_attackCooldown <= 0.0f)
 				{
-					this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage);
+					this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::ATTACK, this->m_id, se->getId(), this->m_position));
+					EntityHandler::addEntity(new Arrow((m_position-se->getPosition()).length(), se->getId(), m_id));
+					//this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage); // dont
 					this->m_attackCooldown = this->m_attackSpeed;
 				}
 			}

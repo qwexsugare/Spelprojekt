@@ -331,6 +331,12 @@
     <ClCompile Include="Position.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="ArrowClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -688,6 +694,12 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Position.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
       <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>

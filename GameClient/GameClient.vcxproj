@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aim.cpp" />
+    <ClCompile Include="Arrow.cpp" />
+    <ClCompile Include="ArrowClientSkillEffect.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeEffect.cpp" />
@@ -272,6 +274,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aim.h" />
+    <ClInclude Include="Arrow.h" />
+    <ClInclude Include="ArrowClientSkillEffect.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeEffect.h" />
