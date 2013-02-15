@@ -40,7 +40,7 @@ void ServerThread::Run()
 	__int64 prevTimeStamp = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
-	this->m_state = State::GAME;
+	this->m_state = State::LOBBY;
 	this->m_network->start(this->m_port);
 
 	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
@@ -144,11 +144,11 @@ void ServerThread::update(float dt)
 		//Check if the map is finished
 		if(s == MapHandler::VICTORY)
 		{
-			this->m_state = ServerThread::VICTORY;
+			//this->m_state = ServerThread::VICTORY;
 		}
 		if(s == MapHandler::DEFEAT)
 		{
-			this->m_state = ServerThread::DEFEAT;
+			//this->m_state = ServerThread::DEFEAT;
 		}
 
 
