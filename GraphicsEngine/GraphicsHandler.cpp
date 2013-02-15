@@ -227,6 +227,11 @@ bool GraphicsHandler::removeSpotLight(SpotLight* spotLight)
 	return this->m_world->removeSpotLight(spotLight);
 }
 
+void GraphicsHandler::initQuadTree(FLOAT2 _extents)
+{
+	m_world->initQuadTree(_extents);
+}
+
 void GraphicsHandler::render()
 {
 	this->m_world->render();

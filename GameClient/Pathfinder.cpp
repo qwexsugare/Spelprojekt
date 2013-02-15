@@ -269,5 +269,7 @@ Path Pathfinder::getPath(FLOAT2 start, FLOAT2 end)
 		points[i] = FLOAT2(this->mapSize.x * path[i].getX() / this->map.getWidth(), this->mapSize.y * path[i].getY() / this->map.getHeight());
 	}
 
-	return Path(path.size(), points);
+	Path p  = Path(path.size(), points);
+	delete[] points;
+	return p;
 }
