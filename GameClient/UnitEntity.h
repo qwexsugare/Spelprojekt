@@ -14,6 +14,8 @@ protected:
 
 	vector<Skill*> m_skills;
 
+	unsigned int m_lastDamageDealer;
+
 	int m_health;
 	int m_maxHealth;
 
@@ -52,7 +54,9 @@ public:
 
 	void addSkill(Skill *_skill);
 	Skill *getSkill(unsigned int _id);
+	vector<Skill*> getSkills();
 	int getNrOfSkills();
+	int getSkillIndex(Skill* _skill);
 
 	virtual NetworkEntityMessage getUpdate();
 
@@ -97,7 +101,9 @@ public:
 	float getGreed();
 	float getTurretDuration();
 
-	void takeDamage(int physicalDamage, int mentalDamage);
+	unsigned int getLastDamageDealer();
+
+	void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
 };

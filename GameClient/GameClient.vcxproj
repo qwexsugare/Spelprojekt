@@ -152,8 +152,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aim.cpp" />
-    <ClCompile Include="AttackEntityMessage.cpp" />
-    <ClCompile Include="AttackMessage.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeEffect.cpp" />
@@ -174,10 +172,10 @@
     <ClCompile Include="DemonicPresence.cpp" />
     <ClCompile Include="DemonicPresenceClientSkillEffect.cpp" />
     <ClCompile Include="DemonicPresenceEffect.cpp" />
+    <ClCompile Include="Doctor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engineer.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
-    <ClCompile Include="EntityMessage.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Greed.cpp" />
     <ClCompile Include="HealingTouch.cpp" />
@@ -197,6 +195,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapHandler.cpp" />
     <ClCompile Include="MentalResistance.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -205,7 +204,6 @@
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="ModelIdHolder.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Msg.cpp" />
     <ClCompile Include="MyAlgorithms.cpp" />
     <ClCompile Include="NetworkBuySkillMessage.cpp" />
     <ClCompile Include="NetworkCreateActionMessage.cpp" />
@@ -220,17 +218,20 @@
     <ClCompile Include="NetworkRemoveEntityMessage.cpp" />
     <ClCompile Include="NetworkSelectHeroMessage.cpp" />
     <ClCompile Include="NetworkSkillBoughtMessage.cpp" />
+    <ClCompile Include="NetworkSkillUsedMessage.cpp" />
     <ClCompile Include="NetworkStartGameMessage.cpp" />
     <ClCompile Include="NetworkUseActionMessage.cpp" />
     <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
     <ClCompile Include="NetworkUseActionTargetMessage.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Officer.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="PhysicalResistance.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoisonStrike.cpp" />
+    <ClCompile Include="Position.cpp" />
     <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="RemoveEntityMessage.cpp" />
+    <ClCompile Include="RedKnight.cpp" />
     <ClCompile Include="ScoreMenu.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerEntity.cpp" />
@@ -253,12 +254,13 @@
     <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
+    <ClCompile Include="TeslaChainTurret.cpp" />
+    <ClCompile Include="TeslaChainTurretEffect.cpp" />
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="TextLabel.cpp" />
+    <ClCompile Include="TheMentalist.cpp" />
     <ClCompile Include="Tower.cpp" />
     <ClCompile Include="UnitEntity.cpp" />
-    <ClCompile Include="UsePositionalSkillMessage.cpp" />
-    <ClCompile Include="UseSkillMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -270,8 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aim.h" />
-    <ClInclude Include="AttackEntityMessage.h" />
-    <ClInclude Include="AttackMessage.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeEffect.h" />
@@ -293,11 +293,11 @@
     <ClInclude Include="DemonicPresence.h" />
     <ClInclude Include="DemonicPresenceClientSkillEffect.h" />
     <ClInclude Include="DemonicPresenceEffect.h" />
+    <ClInclude Include="Doctor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engineer.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
-    <ClInclude Include="EntityMessage.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Greed.h" />
@@ -319,6 +319,7 @@
     <ClInclude Include="LoreState.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="MapHandler.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="MentalResistance.h" />
@@ -329,7 +330,6 @@
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="ModelIdHolder.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="Msg.h" />
     <ClInclude Include="MyAlgorithms.h" />
     <ClInclude Include="NetworkBuySkillMessage.h" />
     <ClInclude Include="NetworkCreateActionMessage.h" />
@@ -344,18 +344,21 @@
     <ClInclude Include="NetworkRemoveEntityMessage.h" />
     <ClInclude Include="NetworkSelectHeroMessage.h" />
     <ClInclude Include="NetworkSkillBoughtMessage.h" />
+    <ClInclude Include="NetworkSkillUsedMessage.h" />
     <ClInclude Include="NetworkStartGameMessage.h" />
     <ClInclude Include="NetworkUseActionMessage.h" />
     <ClInclude Include="NetworkUseActionPositionMessage.h" />
     <ClInclude Include="NetworkUseActionTargetMessage.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Officer.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="PhysicalResistance.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PoisonStrike.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="Projectile.h" />
-    <ClInclude Include="RemoveEntityMessage.h" />
+    <ClInclude Include="RedKnight.h" />
     <ClInclude Include="ScoreMenu.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerEntity.h" />
@@ -378,12 +381,13 @@
     <ClInclude Include="SwiftAsACatPowerfulAsABoar.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="TeleportEffect.h" />
+    <ClInclude Include="TeslaChainTurret.h" />
+    <ClInclude Include="TeslaChainTurretEffect.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="TextLabel.h" />
+    <ClInclude Include="TheMentalist.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="UnitEntity.h" />
-    <ClInclude Include="UsePositionalSkillMessage.h" />
-    <ClInclude Include="UseSkillMessage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

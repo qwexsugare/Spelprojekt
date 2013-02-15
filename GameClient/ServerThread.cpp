@@ -9,7 +9,7 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
-	this->m_mapHandler->loadMap("maps/race/race.txt");
+	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
 
 	this->m_network->broadcast(NetworkEntityMessage());
 }
@@ -78,32 +78,79 @@ void ServerThread::update(float dt)
 
 	if(this->m_state == State::LOBBY)
 	{
-		//Wait for all players to become ready, change hero when needed	
 		vector<Player*> players = this->m_network->getPlayers();
-		bool start = true;
 
-		for(int i = 0; i < players.size(); i++)
+		while(this->m_messageQueue->incomingQueueEmpty() == false)
 		{
-			if(players[i]->getReady() == false)
+			Message *m = this->m_messageQueue->pullIncomingMessage();
+
+			if(m->type == Message::Type::SelectHero)
 			{
-				i = players.size();
-				start = false;
+				int senderIndex = -1;
+				bool okToSelect = true;
+				for(int i = 0; i < players.size(); i++)
+				{
+					if(m->senderId == players[i]->getId())
+					{
+						senderIndex = i;
+					}
+					else if(players[i]->hasChosenHero())
+					{
+						if(players[i]->getHeroType() == ((SelectHeroMessage*)m)->heroId)
+						{
+							okToSelect = false;
+						}
+					}
+				}
+
+				if(okToSelect)
+				{
+					m_network->broadcast(NetworkHeroSelectedMessage(((SelectHeroMessage*)m)->heroId, senderIndex));
+					players[senderIndex]->assignHero(Hero::HERO_TYPE(((SelectHeroMessage*)m)->heroId));
+				}
+			}
+
+			delete m;
+		}
+		if(players.empty() == false)//Wait for all players to become ready
+		{
+			bool start = true;
+
+			for(int i = 0; i < players.size(); i++)
+			{
+				if(!players[i]->hasChosenHero() || players[i]->getReady() == false)
+				{
+					i = players.size();
+					start = false;
+				}
 			}
 
 			if(start == true)
 			{
 				this->m_state = State::GAME;
+				m_network->broadcast(NetworkStartGameMessage());
+				
+				for(int i = 0; i < players.size(); i++)
+				{
+					players[i]->spawnHero();
+				}
 			}
 		}
 	}
-
-	if(this->m_state == State::GAME)
+	else if(this->m_state == State::GAME)
 	{
+		MapHandler::State s = this->m_mapHandler->getState();
+
 		//Check if the map is finished
-		if(this->m_mapHandler->isDone() == true)
+		if(s == MapHandler::VICTORY)
 		{
-			this->m_state = State::END;
+			this->m_state = ServerThread::VICTORY;
 		}
+		if(s == MapHandler::DEFEAT)
+		{
+			this->m_state = ServerThread::DEFEAT;
+		}
+
 
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
@@ -118,10 +165,41 @@ void ServerThread::update(float dt)
 				this->m_network->broadcast(entities[i]->getUpdate());
 			}
 		}
-	}
 
-	if(this->m_state == State::END)
+		while(this->m_messageQueue->incomingQueueEmpty() == false)
+		{
+			Message *m = this->m_messageQueue->pullIncomingMessage();
+
+			if(m->type == Message::Type::EnemyDied)
+			{
+				EnemyDiedMessage *edm = (EnemyDiedMessage*)m;
+
+				for(int i = 0; i < this->m_network->getPlayers().size(); i++)
+				{
+					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
+					{
+						this->m_network->getPlayers()[i]->addResources(edm->resources);
+						i = 5;
+					}
+				}
+			}
+
+			if(m->type == Message::Type::EnemyReachedGoal)
+			{
+				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
+				this->m_mapHandler->enemyDied();
+			}
+
+			delete m;
+		}
+	}
+	if(this->m_state == State::VICTORY)
 	{
-		//Wait for the server to be shut down
+		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 40 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		this->m_state = ServerThread::EXIT;
+	}
+	else if(this->m_state == State::DEFEAT)
+	{
+
 	}
 }

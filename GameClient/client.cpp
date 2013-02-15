@@ -56,6 +56,8 @@ void Client::Run()
 			NetworkCreateActionTargetMessage catm;
 			NetworkSkillBoughtMessage sbm;
 			NetworkRemoveActionTargetMessage rat;
+			NetworkSkillUsedMessage sum;
+			NetworkHeroSelectedMessage nhsm;
 
 			int type;
 			packet >> type;
@@ -160,8 +162,45 @@ void Client::Run()
 				this->m_mutex.Unlock();
 				break;
 
+			case NetworkMessage::SkillUsed:
+				packet >> sum;
+
+				this->m_mutex.Lock();
+				this->m_skillUsedQueue.push(sum);
+
+				if(this->m_skillUsedQueue.size() > 50)
+				{
+					this->m_skillUsedQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
 			case NetworkMessage::Disconnect:
 				this->disconnect();
+				break;
+
+			case NetworkMessage::Start:
+				this->m_mutex.Lock();
+				this->m_startGameQueue.push(NetworkStartGameMessage());
+
+				if(this->m_startGameQueue.size() > 50)
+				{
+					this->m_startGameQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::HeroSelected:
+				packet >> nhsm;
+				this->m_mutex.Lock();
+				this->m_heroSelectedQueue.push(nhsm);
+
+				if(this->m_heroSelectedQueue.size() > 50)
+					this->m_heroSelectedQueue.pop();
+
+				this->m_mutex.Unlock();
 				break;
 			}
 		}
@@ -206,6 +245,11 @@ bool Client::skillBoughtQueueEmpty()
 bool Client::removeActionTargetQueueEmpty()
 {
 	return this->m_removeActionTargetQueue.empty();
+}
+
+bool Client::skillUsedQueueEmpty()
+{
+	return this->m_skillUsedQueue.empty();
 }
 
 NetworkEntityMessage Client::entityQueueFront()
@@ -316,6 +360,18 @@ NetworkHeroSelectedMessage Client::heroSelectedQueueFront()
 	return ret;
 }
 
+NetworkSkillUsedMessage Client::skillUsedQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkSkillUsedMessage ret = this->m_skillUsedQueue.front();
+	this->m_skillUsedQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
@@ -374,4 +430,14 @@ void Client::sendMessage(NetworkReadyMessage _usm)
 		packet << _usm;
 		this->m_hostSocket.Send(packet);
 	}
+}
+
+bool Client::startGameQueueEmpty()
+{
+	return m_startGameQueue.empty();
+}
+
+bool Client::heroSelectedQueueEmpty()
+{
+	return m_heroSelectedQueue.empty();
 }

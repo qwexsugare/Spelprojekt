@@ -1,19 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="AttackEntityMessage.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="AttackMessage.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="EntityHandler.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="ClientHandler.cpp">
@@ -85,12 +76,6 @@
     <ClCompile Include="Server.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="RemoveEntityMessage.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Msg.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="MeleeAttack.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -121,20 +106,11 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Tower.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="UseSkillMessage.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="HudMenu.cpp">
       <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="UsePositionalSkillMessage.cpp">
-      <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="ChainStrike.cpp">
       <Filter>Server\Skills</Filter>
@@ -265,9 +241,6 @@
     <ClCompile Include="NetworkBuySkillMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Pathfinder.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -325,21 +298,45 @@
     <ClCompile Include="NetworkStartGameMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkSkillUsedMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="TheMentalist.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="RedKnight.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Doctor.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Officer.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Tower.cpp">
+      <Filter>Server\Towers</Filter>
+    </ClCompile>
+    <ClCompile Include="TeslaChainTurret.cpp">
+      <Filter>Server\Towers</Filter>
+    </ClCompile>
+    <ClCompile Include="TeslaChainTurretEffect.cpp">
+      <Filter>Server\Towers\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AttackMessage.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackEntityMessage.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionHandler.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="EntityHandler.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="ClientHandler.h">
@@ -420,12 +417,6 @@
     <ClInclude Include="Server.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="RemoveEntityMessage.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Msg.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="MeleeAttack.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -459,16 +450,7 @@
     <ClInclude Include="Projectile.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="Tower.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="UseSkillMessage.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="UsePositionalSkillMessage.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">
@@ -615,9 +597,6 @@
     <ClInclude Include="ChainStrikeEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="Pathfinder.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -678,6 +657,39 @@
     <ClInclude Include="NetworkStartGameMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkSkillUsedMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="TheMentalist.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Doctor.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Officer.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="RedKnight.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Tower.h">
+      <Filter>Server\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="TeslaChainTurret.h">
+      <Filter>Server\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="TeslaChainTurretEffect.h">
+      <Filter>Server\Towers\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -709,6 +721,12 @@
     </Filter>
     <Filter Include="Server\Heroes">
       <UniqueIdentifier>{b472bc64-8dc9-4875-80a2-557d54abfa9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Towers">
+      <UniqueIdentifier>{0db08736-2a91-4a6d-845b-faa966d02fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Towers\Effects">
+      <UniqueIdentifier>{8ac81207-8312-449a-b74d-78565cecf9e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

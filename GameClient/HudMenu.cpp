@@ -206,13 +206,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 				this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));		
 				this->m_skillWaitingForTarget = -1;
-
-				this->m_SkillButtons[this->m_buttonIndex]->setCooldown(180.0f);
 			}
 
 			for(int i = 0; i < m_NumberOfSkills; i++)
 			{
-				this->m_SkillButtons[i]->Update();
+				this->m_SkillButtons[i]->Update(_dt);
 
 				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
 				{
@@ -406,9 +404,12 @@ void HudMenu::displayShop(bool _visible)
 
 void HudMenu::addSkill(unsigned int _skillId)
 {
-	this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
-	this->m_NumberOfSkills++;
-	this->m_DontChange = false;
+	if(this->m_skillHolder.getSkill(_skillId) != "")
+	{
+		this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
+		this->m_NumberOfSkills++;
+		this->m_DontChange = false;
+	}
 }
 
 void HudMenu::setResources(unsigned int _resources)
@@ -430,11 +431,20 @@ void HudMenu::setResources(unsigned int _resources)
 		else
 		{
 			this->m_canAfford[i] = true;
+			this->m_disabledShopButtons[i]->setVisible(false);
 		}
 	}
 
 	if(this->m_shopVisible == true)
 	{
 		this->displayShop(true);
+	}
+}
+
+void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldown)
+{
+	if(this->m_SkillButtons[index]->getSkillId() == actionId)
+	{
+		this->m_SkillButtons[index]->setCooldown(cooldown);
 	}
 }

@@ -205,6 +205,11 @@ void Model::setScale(D3DXVECTOR3 _scale)
 	this->updateModelMatrix();
 }
 
+void Model::setTextureIndex(string _textureIndex)
+{
+	m_textureIndex = _textureIndex;
+}
+
 void Model::updateModelMatrix()
 {
 	D3DXMATRIX rotationMatrix;

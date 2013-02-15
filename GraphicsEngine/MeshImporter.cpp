@@ -302,6 +302,10 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 				animationVerts[v].texCoord.x = fishFile->FMeshes[m].vertices[v].uv.u;
 				animationVerts[v].texCoord.y = fishFile->FMeshes[m].vertices[v].uv.v;
 
+				animationVerts[v].tangent.x = fishFile->FMeshes[m].vertices[v].tangent.x;
+				animationVerts[v].tangent.y = fishFile->FMeshes[m].vertices[v].tangent.y;
+				animationVerts[v].tangent.z = fishFile->FMeshes[m].vertices[v].tangent.z;
+
 				animationVerts[v].weight.x = fishFile->FMeshes[m].vertices[v].weights[0];
 				animationVerts[v].weight.y = fishFile->FMeshes[m].vertices[v].weights[1];
 				animationVerts[v].weight.z = fishFile->FMeshes[m].vertices[v].weights[2];

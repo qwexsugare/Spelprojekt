@@ -5,11 +5,14 @@
 #include "Enemy.h"
 #include "Pathfinder.h"
 #include "Graphics.h"
+#include "MessageHandler.h"
 
 //Import a map and update it, creating new enemies when needed
 class MapHandler
 {
 private:
+	MessageQueue* m_messageQueue;
+
 	int m_nrOfPaths;
 	Path* m_paths;
 
@@ -18,19 +21,22 @@ private:
 	float m_enemySpawnTimer;
 	int m_currentWave;
 
+	int m_lives;
+
 	int m_gridHeight;
 	int m_gridWidth;
 	bool** m_grid;
-
-	float bla; 
-	int s;
 public:
+	static enum State {RUNNING, VICTORY, DEFEAT};
+
 	MapHandler();
 	~MapHandler();
 
 	void loadMap(std::string filename);
-	bool isDone();
+	State getState();
 	void update(float _dt);
+
+	void enemyDied();
 };
 
 #endif

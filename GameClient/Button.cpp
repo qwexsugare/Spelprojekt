@@ -19,6 +19,7 @@ void Button::Init(FLOAT2 _ScreenPos,
 			 bool _TextBox,
 			 int _id)
 {
+	this->m_clicked = false;
 	this->m_ButtonReaction	=	0;
 	this->m_Value = 0;
 	//-----------------------------------------------------------------------------------------------
@@ -55,6 +56,8 @@ void Button::Init(FLOAT2 _ScreenPos,
 }
 void Button::Update()
 {
+	m_clicked = false;
+
 	//Get the mouse position
 	INT2 tmpPos2 = g_mouse->getPos();
 	INT2 m_SS = g_graphicsEngine->getRealScreenSize();
@@ -105,6 +108,7 @@ void Button::Update()
 		this->m_Button->setCurrentFrame(INT2(1,0));
 	}
 
+	this->Clicked();
 }
 int Button::GetButtonReaction()
 {
@@ -112,8 +116,9 @@ int Button::GetButtonReaction()
 }
 int Button::Clicked()
 {
-	if (this->m_ButtonReaction==1 && this->m_Delay > this->m_DelayTime )
+	if (this->m_ButtonReaction==1 ) //&& this->m_Delay > this->m_DelayTime)
 	{
+		m_clicked = true;
 		this->m_Delay = 0;
 		return 1;
 	}

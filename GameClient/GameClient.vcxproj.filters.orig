@@ -124,9 +124,6 @@
     <ClCompile Include="Tower.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Hero.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -286,16 +283,62 @@
     <ClCompile Include="Skill_Buttons.cpp">
       <Filter>Client\Buttons</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="DemonicPresenceClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="ClientEntityHandler.cpp">
-      <Filter>Client</Filter>
-=======
     <ClCompile Include="NetworkRemoveActionTargetMessage.cpp">
       <Filter>Network</Filter>
->>>>>>> d96e449923ee518a3fc9c0277bc0768acd777cc7
+    </ClCompile>
+    <ClCompile Include="ClientEntityHandler.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonsEvil.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonsEvilEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillIdHolder.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonsEvilClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Hero.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engineer.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHeroSelectedMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkReadyMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkSelectHeroMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkStartGameMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkSkillUsedMessage.cpp">
+      <Filter>Network</Filter>
+     </ClCompile> 
+    <ClCompile Include="TheMentalist.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="RedKnight.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Doctor.cpp">
+      <Filter>Server\Heroes</Filter>
+    </ClCompile>
+    <ClCompile Include="Officer.cpp">
+      <Filter>Server\Heroes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -432,9 +475,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Tower.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Hero.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
@@ -608,16 +648,65 @@
     <ClInclude Include="Skill_Buttons.h">
       <Filter>Client\Buttons</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="DemonicPresenceClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="ClientEntityHandler.h">
-      <Filter>Client</Filter>
-=======
     <ClInclude Include="NetworkRemoveActionTargetMessage.h">
       <Filter>Network</Filter>
->>>>>>> d96e449923ee518a3fc9c0277bc0768acd777cc7
+    </ClInclude>
+    <ClInclude Include="ClientEntityHandler.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="SimonsEvil.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="SimonsEvilEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillIdHolder.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="SimonsEvilClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="SwiftAsACatPowerfulAsABoar.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Hero.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engineer.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Heroes.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHeroSelectedMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkReadyMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSelectHeroMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkStartGameMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSkillUsedMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="TheMentalist.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Doctor.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="Officer.h">
+      <Filter>Server\Heroes</Filter>
+    </ClInclude>
+    <ClInclude Include="RedKnight.h">
+      <Filter>Server\Heroes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -647,6 +736,9 @@
     </Filter>
     <Filter Include="Client\Buttons">
       <UniqueIdentifier>{6407d00a-14e0-45d2-9bd5-d12346e7e2ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Heroes">
+      <UniqueIdentifier>{b472bc64-8dc9-4875-80a2-557d54abfa9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -7,6 +7,15 @@ SoundEngine::SoundEngine()
 	this->m_musicVolume = 1.0f;
 	this->m_soundVolume = 1.0f;
 
+	float directionvect[6];
+   directionvect[0] = (float) sin(3.14f/2.0f);
+   directionvect[1] = 0;
+   directionvect[2] = (float) cos(3.14f/2.0f);
+   directionvect[3] = 0;
+   directionvect[4] = 1;
+   directionvect[5] = 0;
+   alListenerfv(AL_ORIENTATION, directionvect);
+
 	// Initialize Framework
 	ALFWInit();
 	if (!ALFWInitOpenAL())
@@ -46,7 +55,7 @@ void SoundEngine::clear()
 		alDeleteBuffers(1, &i->second);
 }
 
-int SoundEngine::createSoundHandle(string _filename, bool _music, float _volume)
+int SoundEngine::createSoundHandle(string _filename, bool _music, bool _3d, WUFLOAT3 _pos, float _volume)
 {
 	int soundHandle = this->m_handleCounter++;
 	if(this->m_handleCounter == INT_MAX)
@@ -63,7 +72,7 @@ int SoundEngine::createSoundHandle(string _filename, bool _music, float _volume)
 	else
 		finalVolume *= this->m_soundVolume;
 
-	this->m_sounds.insert(pair<int, Sound*>(soundHandle, new Sound(source, _volume, finalVolume, _music)));
+	this->m_sounds.insert(pair<int, Sound*>(soundHandle, new Sound(source, _volume, finalVolume, _music, _3d, _pos)));
 
 	return soundHandle;
 }
@@ -167,12 +176,15 @@ void SoundEngine::stop(int _handle)const
 	this->m_sounds.at(_handle)->stop();
 }
 
-void SoundEngine::update()
+void SoundEngine::update(float _x, float _y, float _z)
 {
 	vector<map<int, Sound*>::iterator> removeIndices;
 
 	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != m_sounds.end(); i++)
 	{
+		if(i->second->is3d())
+			i->second->update3dVolume(WUFLOAT3(_x, _y, _z));
+
 		// If the sound is active, replay it
 		if(i->second->isActive())
 		{

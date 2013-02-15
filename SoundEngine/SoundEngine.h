@@ -28,7 +28,7 @@ public:
 	SOUND_EXPORT ~SoundEngine();
 
 	SOUND_EXPORT void clear();
-	SOUND_EXPORT int createSoundHandle(string _filename, bool _music, float _volume = 1.0f);
+	SOUND_EXPORT int createSoundHandle(string _filename, bool _music, bool _3d, WUFLOAT3 _pos = WUFLOAT3(0.0f, 0.0f, 0.0f), float _volume = 1.0f);
 	SOUND_EXPORT void deactivate(int _handle);
 	SOUND_EXPORT bool isPlaying(int _handle);
 	SOUND_EXPORT void play(int _handle)const;
@@ -37,5 +37,5 @@ public:
 	SOUND_EXPORT void setSoundVolume(float _value);
 	SOUND_EXPORT void setSoundVolume(int _handle, float _volume);
 	SOUND_EXPORT void stop(int _handle)const;
-	SOUND_EXPORT void update();
+	SOUND_EXPORT void update(float _x, float _y, float _z);
 };
