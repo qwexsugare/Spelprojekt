@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal};
 
 	Type type;
 	int senderId;
@@ -191,5 +191,17 @@ struct EnemyDiedMessage : Message
 		this->victimId = _victimId;
 		this->killerId = _killerId;
 		this->resources = resources;
+	}
+};
+
+struct EnemyReachedGoalMessage : Message
+{
+	unsigned int enemyId;
+
+	EnemyReachedGoalMessage(unsigned int _enemyId)
+	{
+		this->type = Type::EnemyReachedGoal;
+		this->reciverId = 0;
+		this->enemyId = _enemyId;
 	}
 };

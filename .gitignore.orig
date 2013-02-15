@@ -798,18 +798,22 @@ GameClient/models/Char1_5/Engineer.jpg
 GameClient/models/Char1_5/Mentalist.JPG
 GameClient/models/Char1_5/Officer.jpg
 GameClient/models/Char1_5/RedKnight.jpg
+GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
+GameClient/models/redKnightPassiveAura/redKnightPassiveAura_GM.png
+GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
+GameClient/models/redKnightPassiveAura/redKnightPassiveAura_GM.png
 <<<<<<< HEAD
-GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
-GameClient/models/redKnightPassiveAura/redKnightPassiveAura_GM.png
-GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
+GameClient/models/Arrow/Arrow.png
 =======
-GameClient/models/redKnightPassiveAura/redKnightPassiveAura_GM.png
+>>>>>>> 75314a07c09a7aa0283542bf0aef91b8c8380c3e
 GameClient/models/Beast1_5/Beast_Scaled_Brute_DM.png
 GameClient/models/Beast1_5/Beast_Scaled_Brute_GM.png
 GameClient/models/Beast1_5/Beast_Scaled_Hellfire _GM.png
 GameClient/models/Beast1_5/Beast_Scaled_Hellfire_DM.png
 GameClient/models/Beast1_5/Beast_Scaled_Thunder_DM.png
 GameClient/models/Beast1_5/Beast_Scaled_Thunder_GM.png
+<<<<<<< HEAD
+=======
 GameClient/models/Beast1_5/walk.BFishA
 GameClient/models/Char1_5/Char1_5.rar
 GameClient/models/Char1_5/Char1_5___.BFish
@@ -934,4 +938,4 @@ GameClient/textures/old/s8.png
 GameClient/textures/old/s9.png
 GameClient/textures/old/stone.png
 GameClient/textures/old/stone2.png
->>>>>>> 9cf1e2fc834f3666c496791d6e69fbecff72b964
+>>>>>>> 75314a07c09a7aa0283542bf0aef91b8c8380c3e

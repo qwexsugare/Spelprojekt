@@ -35,7 +35,7 @@ public:
 	DECLDIR INT2 getRealScreenSize();
 	DECLDIR INT2 getScreenSize();
 	
-	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot);
+	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot, float _scale);
 	DECLDIR bool removeRoad(Road* _road);
 	
 	DECLDIR ParticleEngine* createParticleEngine(D3DXVECTOR3 _pos);

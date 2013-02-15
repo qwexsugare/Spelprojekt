@@ -1,35 +1,35 @@
 #ifndef NODE_H
 #define NODE_H
-
+#include "Position.h"
 class Node
 {
 private:
-	int g,h,x,y, id,parentX,parentY;
-	bool startNode;
-	bool endNode;
+	Node* parentNode;
+	int G,H,additionalMovmentCost;
+	Position position;
 	bool wall;
+	bool onOpenList,onClosedList;
 public:
-	Node(int x, int y);
 	Node();
-
-	int getG();
-	int getH();
-	void setH(int h);
-	void setG(int g);
-	int getX();
-	int getY();
-	void setId(int id);
-	int getId();
-	void setParent(int x,int y);
-	void setToEndNode();
-	void setToStartNode();
-	bool isEndNode();
-	bool isStartNode();
-	int getParentX();
-	int getParentY();
+	~Node();
+	void setGCost(int g);
+	void setHCost(int h);
+	void setFCost(int f);
+	void setAdditionalCost(int ac);
+	int getGCost();
+	int getHCost();
+	int getFCost();
+	int getAdditionalCost();
+	void setParent(Node *p);
+	Node* getParent();
+	void resetCostsAndParent();
+	void setPosition(Position p);
+	Position getPosition();
 	void actAsWall();
 	bool isWall();
-	void resetNode(int x, int y);
+	bool isOnOpenlist();
+	bool isOnClosedList();
+	void putOnClosedList();
+	void putOnOpenList();
 };
-
-#endif;
+#endif
