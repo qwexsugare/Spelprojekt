@@ -2,7 +2,7 @@
 
 World::World()
 {
-
+	m_quadTree = NULL;
 }
 
 World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
@@ -1021,5 +1021,7 @@ Camera *World::getCamera()
 
 void World::initQuadTree(FLOAT2 _extents)
 {
+	if(m_quadTree)
+		delete m_quadTree;
 	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y));
 }
