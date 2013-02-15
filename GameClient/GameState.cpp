@@ -478,7 +478,7 @@ void GameState::importMap(string _map)
 						rotation.y = rotation.y * (D3DX_PI/180.0f);
 						rotation.z = rotation.z * (D3DX_PI/180.0f);
 
-						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius, false);
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, FLOAT3(1.0f, 1.0f, 1.0f), radius, false);
 					}
 					else if(strcmp(key, "PL") == 0)
 					{
@@ -542,7 +542,7 @@ void GameState::importMap(string _map)
 	}
 	stream.close();
 	vector<string> nm; 
-	nm.push_back("textures/1_2_3_4_Normalmap.png");
+	nm.push_back("textures/7_8_NM.png");
 	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, nm);
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }

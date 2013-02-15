@@ -144,11 +144,11 @@ void ServerThread::update(float dt)
 		//Check if the map is finished
 		if(s == MapHandler::VICTORY)
 		{
-			this->m_state = ServerThread::VICTORY;
+			//this->m_state = ServerThread::VICTORY;
 		}
 		if(s == MapHandler::DEFEAT)
 		{
-			this->m_state = ServerThread::DEFEAT;
+			//this->m_state = ServerThread::DEFEAT;
 		}
 
 
