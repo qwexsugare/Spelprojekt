@@ -27,6 +27,8 @@ private:
 	FLOAT3 m_staticAvDir;
 	FLOAT3 m_enemyAvDir;
 
+	FLOAT3 m_rotationAdding;
+
 	ServerEntity *m_prevClosestStatic;
 	ServerEntity *m_currClosestStatic;
 public:

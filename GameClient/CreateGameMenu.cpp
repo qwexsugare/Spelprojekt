@@ -10,7 +10,7 @@ CreateGameMenu::CreateGameMenu(void)
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 800), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 860), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 920), 100));
-	this->m_Label[1]->setText("1337");
+	this->m_Label[1]->setText("1338");
 	this->m_IPLabel = new TextLabel(sf::IPAddress::GetLocalAddress().ToString(),"text2.png", INT2(920, 800), 100);
 
 	m_size.x		=	0;

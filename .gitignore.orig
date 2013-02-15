@@ -802,20 +802,19 @@ GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
 GameClient/models/redKnightPassiveAura/redKnightPassiveAura_GM.png
 GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
 GameClient/models/redKnightPassiveAura/redKnightPassiveAura_GM.png
-GameClient/models/Beast1_5/Beast_Scaled_Brute_DM.png
-GameClient/models/Beast1_5/Beast_Scaled_Brute_GM.png
-GameClient/models/Beast1_5/Beast_Scaled_Hellfire _GM.png
-GameClient/models/Beast1_5/Beast_Scaled_Hellfire_DM.png
-GameClient/models/Beast1_5/Beast_Scaled_Thunder_DM.png
-GameClient/models/Beast1_5/Beast_Scaled_Thunder_GM.png
-GameClient/models/Beast1_5/walk.BFishA
+<<<<<<< HEAD
 GameClient/models/Arrow/Arrow.png
+=======
+>>>>>>> 75314a07c09a7aa0283542bf0aef91b8c8380c3e
 GameClient/models/Beast1_5/Beast_Scaled_Brute_DM.png
 GameClient/models/Beast1_5/Beast_Scaled_Brute_GM.png
 GameClient/models/Beast1_5/Beast_Scaled_Hellfire _GM.png
 GameClient/models/Beast1_5/Beast_Scaled_Hellfire_DM.png
 GameClient/models/Beast1_5/Beast_Scaled_Thunder_DM.png
 GameClient/models/Beast1_5/Beast_Scaled_Thunder_GM.png
+<<<<<<< HEAD
+=======
+GameClient/models/Beast1_5/walk.BFishA
 GameClient/models/Char1_5/Char1_5.rar
 GameClient/models/Char1_5/Char1_5___.BFish
 GameClient/models/Char1_5/Char1_5_____old.BFish
@@ -939,28 +938,4 @@ GameClient/textures/old/s8.png
 GameClient/textures/old/s9.png
 GameClient/textures/old/stone.png
 GameClient/textures/old/stone2.png
-GameClient/maps/levelone/gravestone/gravestone.BFish
-GameClient/maps/levelone/gravestone/gravestone.mb
-GameClient/maps/levelone/gravestone/Gravestone_DM.png
-GameClient/maps/levelone/gravestone/Gravestone_NM.png
-GameClient/maps/levelone/gravestone/Gravestone_SM.png
-GameClient/maps/levelone/levelone.txt
-GameClient/maps/levelone/leveloneminimap.png
-GameClient/maps/levelone__old/levelone.txt
-GameClient/maps/levelone__old/levelonebmp1.png
-GameClient/maps/levelone__old/levelonebmp2.png
-GameClient/maps/levelone__old/leveloneminimap.png
-GameClient/models/Char1_5/Char1_5.BFish
-GameClient/models/Char1_5/walk.BFishA
-GameClient/models/cross/Cross.BFish
-GameClient/models/cross/Cross_DM.png
-GameClient/models/cross/Cross_NM.png
-GameClient/models/cross/Cross_SM.png
-GameClient/models/gravestone/gravestone.BFish
-GameClient/models/gravestone/Gravestone_DM.png
-GameClient/models/gravestone/Gravestone_NM.png
-GameClient/models/gravestone/Gravestone_SM.png
-GameClient/models/tree/tree.BFish
-GameClient/models/tree/tree.png
-GameClient/models/tree/tree_SM.png
-GameClient/models/tree/treeNM.png
+>>>>>>> 75314a07c09a7aa0283542bf0aef91b8c8380c3e

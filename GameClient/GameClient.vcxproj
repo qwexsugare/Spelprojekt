@@ -195,6 +195,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapHandler.cpp" />
     <ClCompile Include="MentalResistance.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="PhysicalResistance.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoisonStrike.cpp" />
+    <ClCompile Include="Position.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RedKnight.cpp" />
     <ClCompile Include="ScoreMenu.cpp" />
@@ -317,6 +319,7 @@
     <ClInclude Include="LoreState.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="MapHandler.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="MentalResistance.h" />
@@ -353,6 +356,7 @@
     <ClInclude Include="PhysicalResistance.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PoisonStrike.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RedKnight.h" />
     <ClInclude Include="ScoreMenu.h" />

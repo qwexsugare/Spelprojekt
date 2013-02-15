@@ -112,9 +112,7 @@ void ServerThread::update(float dt)
 
 			delete m;
 		}
-
-		//Wait for all players to become ready
-		if(players.empty() == false)
+		if(players.empty() == false)//Wait for all players to become ready
 		{
 			bool start = true;
 
@@ -139,14 +137,20 @@ void ServerThread::update(float dt)
 			}
 		}
 	}
-
-	if(this->m_state == State::GAME)
+	else if(this->m_state == State::GAME)
 	{
+		MapHandler::State s = this->m_mapHandler->getState();
+
 		//Check if the map is finished
-		if(this->m_mapHandler->getState() == MapHandler::DEFEAT)
+		if(s == MapHandler::VICTORY)
 		{
-			this->m_state = State::END;
+			this->m_state = ServerThread::VICTORY;
 		}
+		if(s == MapHandler::DEFEAT)
+		{
+			this->m_state = ServerThread::DEFEAT;
+		}
+
 
 		//Update the map and units on it
 		this->m_entityHandler->update(dt);
@@ -175,18 +179,27 @@ void ServerThread::update(float dt)
 					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
 					{
 						this->m_network->getPlayers()[i]->addResources(edm->resources);
-						this->m_mapHandler->enemyDied();
 						i = 5;
 					}
 				}
 			}
 
+			if(m->type == Message::Type::EnemyReachedGoal)
+			{
+				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
+				this->m_mapHandler->enemyDied();
+			}
+
 			delete m;
 		}
 	}
-
-	if(this->m_state == State::END)
+	if(this->m_state == State::VICTORY)
 	{
-		//Wait for the server to be shut down
+		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 40 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		this->m_state = ServerThread::EXIT;
+	}
+	else if(this->m_state == State::DEFEAT)
+	{
+
 	}
 }

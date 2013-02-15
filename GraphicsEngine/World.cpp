@@ -2,7 +2,7 @@
 
 World::World()
 {
-
+	m_quadTree = NULL;
 }
 
 World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
@@ -10,7 +10,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
+	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2());
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
@@ -129,7 +129,8 @@ World::~World()
 	delete this->m_glowBufferTransparant;
 
 	delete this->m_camera;
-	delete this->m_quadTree;
+	if(m_quadTree)
+		delete this->m_quadTree;
 }
 
 bool World::addRoad(Road* _road)
@@ -388,8 +389,6 @@ void World::render()
 		}
 	}
 
-
-
 	//clear render target
 	this->m_positionBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
@@ -408,7 +407,7 @@ void World::render()
 
 
 	// Render roads yo dawg y u be messin' about
-	stack<Road*> roads = this->m_quadTree->getRoads(focalPoint);
+	stack<Road*> roads = m_quadTree->getRoads(focalPoint);
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	while(!roads.empty())
 	{
@@ -1018,4 +1017,11 @@ bool World::removeSpotLight(SpotLight* _spotLight)
 Camera *World::getCamera()
 {
 	return this->m_camera;
+}
+
+void World::initQuadTree(FLOAT2 _extents)
+{
+	if(m_quadTree)
+		delete m_quadTree;
+	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y));
 }

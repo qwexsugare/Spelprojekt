@@ -361,26 +361,26 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 			this->m_poisonCounter++;
 		}
 		
-		target->takeDamage(100 + this->m_poisonCounter * 5, false, this->m_id);
+		target->takeDamage(this->m_id, 100 + this->m_poisonCounter * 5, false);
 	}
 
 	if(deadlyStrike < this->m_deadlyStrikeChance && target->getType() == Type::EnemyType)
 	{
-		target->takeDamage(INT_MAX, INT_MAX, this->m_id);
+		target->takeDamage(this->m_id, INT_MAX, INT_MAX);
 	}
 
 	if(m_swiftAsACatPowerfulAsABear)
 	{
 		//Gör saacpaab saker
 		if(random(1, 10) == 1)
-			target->takeDamage(INT_MAX, INT_MAX, this->m_id);
+			target->takeDamage(this->m_id, INT_MAX, INT_MAX);
 		else
 			physicalDamage*=3;
 
 		m_swiftAsACatPowerfulAsABear = false;
 	}
 
-	target->takeDamage(physicalDamage, mentalDamage, this->m_id);
+	target->takeDamage(this->m_id, physicalDamage, mentalDamage);
 }
 
 void UnitEntity::heal(int health)

@@ -35,7 +35,7 @@ public:
 	DECLDIR INT2 getRealScreenSize();
 	DECLDIR INT2 getScreenSize();
 	
-	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot);
+	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot, float _scale);
 	DECLDIR bool removeRoad(Road* _road);
 	
 	DECLDIR ParticleEngine* createParticleEngine(D3DXVECTOR3 _pos);
@@ -68,6 +68,7 @@ public:
 	DECLDIR SpotLight *createSpotLight(FLOAT3 position, FLOAT3 _direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range);
 	DECLDIR bool removeSpotLight(SpotLight* spotLight);
 
+	DECLDIR void initQuadTree(FLOAT2 _extents);
 	DECLDIR void render();
 	DECLDIR void update(float dt);
 	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);

@@ -241,9 +241,6 @@
     <ClCompile Include="NetworkBuySkillMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Pathfinder.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -324,6 +321,15 @@
     </ClCompile>
     <ClCompile Include="TeslaChainTurretEffect.cpp">
       <Filter>Server\Towers\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -591,9 +597,6 @@
     <ClInclude Include="ChainStrikeEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="Pathfinder.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -677,6 +680,15 @@
     </ClInclude>
     <ClInclude Include="TeslaChainTurretEffect.h">
       <Filter>Server\Towers\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
