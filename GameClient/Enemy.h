@@ -24,6 +24,7 @@ private:
 	int m_currentPoint;
 	float m_staticBuffer;
 	float avoidTimer;
+	float avoidTimerDos;
 	FLOAT3 m_staticAvDir;
 	FLOAT3 m_enemyAvDir;
 

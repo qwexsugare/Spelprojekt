@@ -109,7 +109,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			m_dir = m_dir/m_dir.length();
 		}
 	
-		if(checkDistanceToStatic(2,1))
+		if(checkDistanceToStatic(3,1))
 		{
 			m_dir =m_dir +te*2;
 		}
@@ -169,7 +169,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			this->m_reachedPosition = true;
 		}
 
-		if((m_prevDir - m_dir).length() > 0.00001f)
+		if((m_dir).length() > 0.00001f)
 		{
 			m_rotationAdding = (m_rotationAdding +(m_dir + m_prevDir)*0.5f)*0.5f;
 			m_rotation.x =  (atan2(-( m_rotationAdding).x, -( m_rotationAdding).z));
@@ -309,7 +309,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 			
 			if(stat != NULL)
 			{
-				avoidBuffer = max(stat->getObb()->Extents.x, stat->getObb()->Extents.z);
+				avoidBuffer = max(stat->getObb()->Extents.x+this->getObb()->Extents.z, stat->getObb()->Extents.z+this->getObb()->Extents.z);
 				test = (stat->getPosition() - temp1).length();
 			}
 			
@@ -321,13 +321,13 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 					m_currClosestStatic = stat;
 				}
 				
-				
-				avoidDir = FLOAT3(0,0,0) -cross/(10);;
+				avoidBuffer = test;
+				avoidDir = FLOAT3(0,0,0) -cross;
 			}
 
 			if( stat != NULL)
 			{
-				avoidBuffer = max(stat->getObb()->Extents.x, stat->getObb()->Extents.z);
+				avoidBuffer = max(stat->getObb()->Extents.x+this->getObb()->Extents.z, stat->getObb()->Extents.z+this->getObb()->Extents.z);
 				test = (stat->getPosition() - temp2).length();
 			}
 			else
@@ -335,7 +335,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 				test = 999999999999999.0f;
 			}
 
-			if(test< avoidBuffer +0.2f)
+			if(test< avoidBuffer)
 			{
 				if(m_currClosestStatic->getId() != stat->getId())
 				{
@@ -343,7 +343,8 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 					m_currClosestStatic = EntityHandler::getClosestSuperStatic(temp1);
 				}
 				
-				avoidDir =  cross/(10);
+				avoidBuffer = test;
+				avoidDir =  cross;
 			}
 
 			if(outOfBounds(temp) && avoidTimer > 0.5f)
@@ -358,7 +359,10 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 				return avoidDir;
 			}
 
-
+			if( avoidDir.length() != 0)
+			{
+				return avoidDir*avoidBuffer/i;
+			}
 		}
 	
 	
