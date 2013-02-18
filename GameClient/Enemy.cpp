@@ -127,27 +127,6 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		avoidTimer = 0.0f;
 	}
 	avoidTimer += dt;
-	
-	
-
-	while(this->m_messageQueue->incomingQueueEmpty() == false)
-	{
-		m = this->m_messageQueue->pullIncomingMessage();
-
-		if(m->type == Message::Collision)
-		{
-			CollisionMessage *cm = (CollisionMessage*)m;
-			ServerEntity *se = EntityHandler::getServerEntity(cm->affectedDudeId);
-			if(se != NULL && se->getType() == ServerEntity::HeroType && this->m_attackCooldown <= 0.0f)
-			{
-				//EntityHandler::addEntity(new MeleeAttack(this->m_position, 10.0f, cm->affectedDudeId));
-				this->dealDamage(se, 0, 10);
-				this->m_attackCooldown = 1.0f;
-			}
-		}
-
-		delete m;
-	}
 
 	
 
