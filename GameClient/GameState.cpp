@@ -162,6 +162,9 @@ void GameState::update(float _dt)
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
 			break;
+		case Skill::COURAGE_HONOR_VALOR:
+			m_ClientSkillEffects.push_back(new CourageHonorValorClientSkillEffect(e.getTargetId()));
+			break;
 		case Skill::SIMONS_EVIL:
 			m_ClientSkillEffects.push_back(new SimonsEvilClientSkillEffect(e.getTargetId()));
 			break;
@@ -181,17 +184,40 @@ void GameState::update(float _dt)
 	{
 		NetworkRemoveActionTargetMessage e = this->m_network->removeActionTargetQueueFront();
 		
-		for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+		switch(e.getActionId())
 		{
-			if(typeid(DemonicPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+		case Skill::DEMONIC_PRESENCE:
 			{
-				if(((DemonicPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 				{
-					delete m_ClientSkillEffects[i];
-					m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
-					i = m_ClientSkillEffects.size();
+					if(typeid(DemonicPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((DemonicPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
 				}
 			}
+			break;
+		case Skill::COURAGE_HONOR_VALOR:
+			{
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+				{
+					if(typeid(CourageHonorValorClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((CourageHonorValorClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
+				}
+			}
+			break;
 		}
 	}
 

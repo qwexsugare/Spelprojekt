@@ -165,6 +165,9 @@
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarknessEffect.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="CourageHonorValor.cpp" />
+    <ClCompile Include="CourageHonorValorClientSkillEffect.cpp" />
+    <ClCompile Include="CourageHonorValorEffect.cpp" />
     <ClCompile Include="CreateGameMenu.cpp" />
     <ClCompile Include="CreateGameState.cpp" />
     <ClCompile Include="CreditsMenu.cpp" />
@@ -288,6 +291,9 @@
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />
     <ClInclude Include="CloudOfDarknessEffect.h" />
     <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="CourageHonorValor.h" />
+    <ClInclude Include="CourageHonorValorClientSkillEffect.h" />
+    <ClInclude Include="CourageHonorValorEffect.h" />
     <ClInclude Include="CreateGameMenu.h" />
     <ClInclude Include="CreateGameState.h" />
     <ClInclude Include="CreditsMenu.h" />

@@ -33,6 +33,7 @@ public:
 	Hero(HERO_TYPE _heroType, int _playerId);
 	virtual ~Hero();
 	
+	void activateAllPassiveSkills();
 	HERO_TYPE getHeroType()const;
 	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);

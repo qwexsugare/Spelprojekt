@@ -275,7 +275,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
 	
 	//return float4(0.5f*diffuseLight.xyz*diffuse + specularLight, diffuse.w);
-	return diffuse;
+
 	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
 }
 

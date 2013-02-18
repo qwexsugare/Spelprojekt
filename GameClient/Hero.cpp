@@ -12,7 +12,7 @@ Hero::Hero() : UnitEntity()
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 5.0f;
 	this->m_hasTarget = false;
-	this->m_baseMovementSpeed = 3.1f;
+	this->m_baseMovementSpeed = 2.0f;
 	this->m_movementSpeed = this->m_baseMovementSpeed;
 	this->m_baseAttackSpeed = 1.0f;
 	this->m_attackSpeed = this->m_baseAttackSpeed;
@@ -38,6 +38,17 @@ Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 Hero::~Hero()
 {
 
+}
+
+void Hero::activateAllPassiveSkills()
+{
+	for(int i = 0; i < m_skills.size(); i++)
+	{
+		if(m_skills[i]->getId() == Skill::COURAGE_HONOR_VALOR)
+		{
+			m_skills[i]->activate(this->getId());
+		}
+	}
 }
 
 Hero::HERO_TYPE Hero::getHeroType()const
