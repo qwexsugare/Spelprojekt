@@ -5,9 +5,10 @@ NetworkSelectHeroMessage::NetworkSelectHeroMessage() : NetworkMessage(NetworkMes
 
 }
 
-NetworkSelectHeroMessage::NetworkSelectHeroMessage(int _heroId) : NetworkMessage(NetworkMessage::SelectHero)
+NetworkSelectHeroMessage::NetworkSelectHeroMessage(int _heroId, int _weapon) : NetworkMessage(NetworkMessage::SelectHero)
 {
-	m_heroId = _heroId;
+	this->m_heroId = _heroId;
+	this->m_weapon = _weapon;
 }
 
 NetworkSelectHeroMessage::~NetworkSelectHeroMessage()

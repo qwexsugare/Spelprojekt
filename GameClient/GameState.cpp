@@ -20,6 +20,8 @@ GameState::GameState(Client *_network)
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
+	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 500);
+
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
@@ -63,6 +65,13 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
+	D3DXVECTOR3 pickDir;
+	D3DXVECTOR3 pickOrig;
+	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
+	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
+
+
 	// Update FRAMES PER SECOND (FPS) text
 	static float lol = 0.0f;
 	lol += _dt;
@@ -317,6 +326,8 @@ void GameState::importMap(string _map)
 
 	vector<string> blendMaps = vector<string>(2);
 	vector<string> textures;
+	vector<string> normalMaps;
+	vector<string> specularMaps;
 	textures.push_back("textures\\1.png");
 	textures.push_back("textures\\2.png");
 	textures.push_back("textures\\3.png");
@@ -325,6 +336,24 @@ void GameState::importMap(string _map)
 	textures.push_back("textures\\6.png");
 	textures.push_back("textures\\7.png");
 	textures.push_back("textures\\8.png");
+
+	normalMaps.push_back("textures\\1_2_3_4_NM.png");
+	normalMaps.push_back("textures\\1_2_3_4_NM.png");
+	normalMaps.push_back("textures\\1_2_3_4_NM.png");
+	normalMaps.push_back("textures\\1_2_3_4_NM.png");
+	normalMaps.push_back("textures\\5_NM.png");
+	normalMaps.push_back("textures\\6_NM.png");
+	normalMaps.push_back("textures\\7_8_NM.png");
+	normalMaps.push_back("textures\\7_8_NM.png");
+
+	specularMaps.push_back("textures\\1_2_3_4_Specular.png");
+	specularMaps.push_back("textures\\1_2_3_4_Specular.png");
+	specularMaps.push_back("textures\\1_2_3_4_Specular.png");
+	specularMaps.push_back("textures\\1_2_3_4_Specular.png");
+	specularMaps.push_back("textures\\5_SM.png");
+	specularMaps.push_back("textures\\6_SM.png");
+	specularMaps.push_back("textures\\7_SM.png");
+	specularMaps.push_back("textures\\8_SM.png");
 	
 	bool heightLoaded = false;
 	bool widthLoaded = false;
@@ -541,8 +570,7 @@ void GameState::importMap(string _map)
 		sscanf("bugfix", "%s", key);
 	}
 	stream.close();
-	vector<string> nm; 
-	nm.push_back("textures/7_8_NM.png");
-	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, nm);
+
+	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, normalMaps, specularMaps);
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }
