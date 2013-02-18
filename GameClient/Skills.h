@@ -8,6 +8,7 @@
 #include "DemonicPresence.h"
 #include "SimonsEvil.h"
 #include "SwiftAsACatPowerfulAsABoar.h"
+#include "CourageHonorValor.h"
 
 #include "Aim.h"
 #include "DeadlyStrike.h"

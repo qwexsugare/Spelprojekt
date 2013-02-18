@@ -66,7 +66,7 @@ bool GraphicsHandler::removeParticleEngine(ParticleEngine* _particleEngine)
 	return m_world->removeParticleEngine(_particleEngine);
 }
 	
-Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps)
+Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps, vector<string> _specularMaps)
 {
 	// Pre-define a shitload of vars
 	D3DXVECTOR3 v1(_v1.x, _v1.y, _v1.z);
@@ -74,12 +74,21 @@ Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _
 	ID3D10ShaderResourceView** textures = new ID3D10ShaderResourceView*[8];
 	for(int i = 0; i < _textures.size(); i++)
 		textures[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_textures[i]);
+
+	ID3D10ShaderResourceView** normalMaps = new ID3D10ShaderResourceView*[8];
+	for(int i = 0; i < _normalMaps.size(); i++)
+		normalMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_normalMaps[i]);
+
+	ID3D10ShaderResourceView** specularMaps = new ID3D10ShaderResourceView*[8];
+	for(int i = 0; i < _specularMaps.size(); i++)
+		specularMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_specularMaps[i]);
+
 	ID3D10ShaderResourceView** blendMaps = new ID3D10ShaderResourceView*[2];
 	for(int i = 0; i < _blendMaps.size(); i++)
 		blendMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_blendMaps[i]);
 
 	// Shove that heap of trash vars into the terrains crappy constructor.
-	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, v2.x / 8, v2.z / 8, textures, _textures.size(), blendMaps, _blendMaps.size(), this->m_resourceHolder->getTextureHolder()->getTexture(_normalMaps[0]));
+	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, v2.x / 8, v2.z / 8, textures, _textures.size(), blendMaps, _blendMaps.size(), normalMaps, specularMaps);
 	
 	this->m_world->addTerrain(terrain);
 
@@ -225,6 +234,11 @@ SpotLight *GraphicsHandler::createSpotLight(FLOAT3 position, FLOAT3 _direction, 
 bool GraphicsHandler::removeSpotLight(SpotLight* spotLight)
 {
 	return this->m_world->removeSpotLight(spotLight);
+}
+
+void GraphicsHandler::initQuadTree(FLOAT2 _extents)
+{
+	m_world->initQuadTree(_extents);
 }
 
 void GraphicsHandler::render()

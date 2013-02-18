@@ -4,6 +4,16 @@ Pathfinder::Pathfinder(Map map, FLOAT2 mapSize)
 {
 	this->map=map;
 	this->mapSize = mapSize;
+
+	for(int i=0;i<this->map.getHeight();i++)
+	{
+		for(int j=0;j<this->map.getWidth();j++)
+		{
+			Position currPos;
+			currPos.setXY(j,i);
+			this->map.getNode(currPos)->setPosition(currPos);
+		}
+	}
 }
 
 Pathfinder::Pathfinder()
@@ -18,6 +28,8 @@ Pathfinder::~Pathfinder()
 vector<Position> Pathfinder::getPath(Position start, Position end)
 {
 	vector<Position> path;
+	this->openList.clear();
+	this->closedList.clear();
 
 	//if the position is valid, then start runnig the aStar
 	if(this->map.isValidPosition(start)&&this->map.isValidPosition(end)&&this->map.getWidth()>0 && this->map.getHeight()>0)
@@ -33,7 +45,6 @@ vector<Position> Pathfinder::getPath(Position start, Position end)
 				Position currPos;
 				currPos.setXY(j,i);
 				this->map.getNode(currPos)->setHCost(this->getManhattanDistance(currPos,end));
-				this->map.getNode(currPos)->setPosition(currPos);
 			}
 		}
 		Node* endNode= this->map.getNode(end);
@@ -130,9 +141,10 @@ vector<Position> Pathfinder::getPath(Position start, Position end)
 				p.push_back(start);
 			}
 		}
+		p.push_back(correctPath[correctPath.size()-1]);
 	}
-
-	return correctPath;
+	
+	return p;
 }
 void Pathfinder::handleNodesNeighbour(Node* currentNode)
 {
@@ -226,7 +238,7 @@ int Pathfinder::diretion(int x1,int x2)
 
 bool Pathfinder::walkableDistance(Position p1, Position p2)
 {
-	//first gets the distance between the two nodes
+//first gets the distance between the two nodes
 	float distance = this->distance(p1,p2);
 	//Calulates at what rate the direction changes
 	float xrate = (this->diretion(p1.getX(),p2.getX()))/distance;
@@ -236,21 +248,23 @@ bool Pathfinder::walkableDistance(Position p1, Position p2)
 	//rate distance
 	float rDistance = sqrt(xrate*xrate+yrate*yrate);
 	float limiter =0;
-	int counter=0;
-	Position pt;
-	if(xrate<0&&yrate<0)
-		pt=p2;
-	else
-		pt=p1;
+
+	float xr=0;
+	float yr=0;
+
+	//limiter is keeps tracks of # of smaller distances to reach
+	//the total distance
 	while(limiter<distance&&walkable)
 	{
 		Position p;
-		p.setXY(xrate*counter*rDistance+pt.getX(),yrate*counter*rDistance+pt.getY());
-		cout << p.getX() << p.getY() << endl;
+		p.setXY(xr+p1.getX()+0.5,yr+p1.getY()+0.5);
 		if(this->map.getNode(p)->isWall())
 			walkable=false;
 		limiter+=rDistance;
-		counter++;
+
+		//instead of counter*xrate, avoiding multiplication
+		xr+=xrate;
+		yr+=yrate;
 	}
 	return walkable;
 }
@@ -269,5 +283,7 @@ Path Pathfinder::getPath(FLOAT2 start, FLOAT2 end)
 		points[i] = FLOAT2(this->mapSize.x * path[i].getX() / this->map.getWidth(), this->mapSize.y * path[i].getY() / this->map.getHeight());
 	}
 
-	return Path(path.size(), points);
+	Path p  = Path(path.size(), points);
+	delete[] points;
+	return p;
 }

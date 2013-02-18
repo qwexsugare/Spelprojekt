@@ -268,6 +268,12 @@ bool LobbyMenu::RangeCombatIsDown()
 	}
 	return false;
 }
+
+int LobbyMenu::getCombat()
+{
+	return this->m_Combat;
+}
+
 bool LobbyMenu::Character0IsDown()
 {
 	/*if(this->m_Buttons[12]->Clicked() == 1)

@@ -1,8 +1,11 @@
 Texture2D tex2D;
 Texture2D normalMap;
 Texture2D glowMap;
+Texture2D specularMap;
 Texture1D boneTex;
 Texture2D terrainTextures[8];
+Texture2D terrainNormalMaps[8];
+Texture2D terrainSpecularMaps[8];
 Texture2D terrainBlendMaps[2];
 
 SamplerState linearSampler 
@@ -259,6 +262,7 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
+	float4 specularColor = specularMap.Sample(linearSampler, input.UVCoord);
 	color.w *= modelAlpha;
 
 	float3 sampNormal = normalize(normalMap.Sample(linearSampler, input.UVCoord));
@@ -296,7 +300,8 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	//output.Normal = float4(normalize(n), 0.0f);
 
 	output.Diffuse = color;
-	output.Tangent = float4(t, 0);
+	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).w);
 
 	output.Glow = glowMap.Sample(linearSampler, input.UVCoord);
 
@@ -423,8 +428,9 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	PSSceneOut output = (PSSceneOut)0;
 
 	output.Pos = input.EyeCoord;
+	output.Tangent = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	//output.Normal = float4(input.Normal, 1.0f);
-	output.Normal = normalize(mul(normalMap.Sample(pointSampler, input.UVCoord), modelMatrix));
+	//output.Normal = normalize(mul(normalMap.Sample(pointSampler, input.UVCoord), modelMatrix));
 
 	float4 texColors[8];
 	texColors[0] = terrainTextures[0].Sample(linearSampler, input.UVCoord);
@@ -435,6 +441,26 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	texColors[5] = terrainTextures[5].Sample(linearSampler, input.UVCoord);
 	texColors[6] = terrainTextures[6].Sample(linearSampler, input.UVCoord);
 	texColors[7] = terrainTextures[7].Sample(linearSampler, input.UVCoord);
+
+	float4 normals[8];
+	normals[0] = terrainNormalMaps[0].Sample(linearSampler, input.UVCoord);
+	normals[1] = terrainNormalMaps[1].Sample(linearSampler, input.UVCoord);
+	normals[2] = terrainNormalMaps[2].Sample(linearSampler, input.UVCoord);
+	normals[3] = terrainNormalMaps[3].Sample(linearSampler, input.UVCoord);
+	normals[4] = terrainNormalMaps[4].Sample(linearSampler, input.UVCoord);
+	normals[5] = terrainNormalMaps[5].Sample(linearSampler, input.UVCoord);
+	normals[6] = terrainNormalMaps[6].Sample(linearSampler, input.UVCoord);
+	normals[7] = terrainNormalMaps[7].Sample(linearSampler, input.UVCoord);
+
+	float4 specular[8];
+	specular[0] = terrainSpecularMaps[0].Sample(linearSampler, input.UVCoord);
+	specular[1] = terrainSpecularMaps[1].Sample(linearSampler, input.UVCoord);
+	specular[2] = terrainSpecularMaps[2].Sample(linearSampler, input.UVCoord);
+	specular[3] = terrainSpecularMaps[3].Sample(linearSampler, input.UVCoord);
+	specular[4] = terrainSpecularMaps[4].Sample(linearSampler, input.UVCoord);
+	specular[5] = terrainSpecularMaps[5].Sample(linearSampler, input.UVCoord);
+	specular[6] = terrainSpecularMaps[6].Sample(linearSampler, input.UVCoord);
+	specular[7] = terrainSpecularMaps[7].Sample(linearSampler, input.UVCoord);
 	
 	float2 newUvCoord = float2(input.UVCoord.x/8.0f, 8.0f-input.UVCoord.y/8.0f);
 	float4 blendSample1 = terrainBlendMaps[0].Sample(linearSampler, newUvCoord); // /x is the number of tiles for the terrain that you specified in the constructor
@@ -449,7 +475,29 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	output.Diffuse += texColors[6]* blendSample2.z;
 	output.Diffuse += texColors[7]* blendSample2.w;
 
-	output.Tangent = float4(1, 0, 0, 0);
+	output.Normal =  normals[0] * blendSample1.x;
+	output.Normal += normals[1] * blendSample1.y;
+	output.Normal += normals[2] * blendSample1.z;
+	output.Normal += normals[3] * blendSample1.w;
+	output.Normal += normals[4] * blendSample2.x;
+	output.Normal += normals[5] * blendSample2.y;
+	output.Normal += normals[6] * blendSample2.z;
+	output.Normal += normals[7] * blendSample2.w;
+
+	output.Normal = normalize(mul(output.Normal, modelMatrix));
+
+	output.Tangent.w =  specular[0].w * blendSample1.x;
+	output.Tangent.w += specular[1].w * blendSample1.y;
+	output.Tangent.w += specular[2].w * blendSample1.z;
+	output.Tangent.w += specular[3].w * blendSample1.w;
+	output.Tangent.w += specular[4].w * blendSample2.x;
+	output.Tangent.w += specular[5].w * blendSample2.y;
+	output.Tangent.w += specular[6].w * blendSample2.z;
+	output.Tangent.w += specular[7].w * blendSample2.w;
+
+
+	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	//output.Tangent = float4(1, 0, 0, 0);
 
 	return output;
 }
@@ -491,6 +539,7 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 	output.Pos = input.EyeCoord;
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
+	output.Tangent = float4(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//output.Glow = float4(0, 1, 0, 1);
 

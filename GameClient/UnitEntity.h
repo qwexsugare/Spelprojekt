@@ -35,10 +35,12 @@ protected:
 	float m_attackCooldown;
 	float m_attackRange;
 	float m_minPhysicalDamage;
-	float m_maxPhysicalDamage;
-	float m_minMentalDamage;
+	float m_baseMentalDamage;
+	float m_mentalDamageChange;
 	float m_maxMentalDamage;
 	float m_physicalResistance;
+	float m_physicalResistanceChange;
+	float m_basePhysicalResistance;
 	float m_mentalResistance;
 	unsigned int m_lifeStealChance;
 	int m_poisonChance;
@@ -68,7 +70,9 @@ public:
 	void increaseFortitude(int _fortitude);
 	
 	void alterAttackSpeed(float _value);
+	void alterMentalDamage(float _value);
 	void alterMovementSpeed(float _value);
+	void alterPhysicalResistance(float _value);
 	void setGreed(float _greed);
 	void setTurretDuration(float _turretLife);
 	void setMaxHealth(int _maxHealth);

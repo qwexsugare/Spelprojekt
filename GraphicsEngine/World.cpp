@@ -2,7 +2,7 @@
 
 World::World()
 {
-
+	m_quadTree = NULL;
 }
 
 World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
@@ -10,7 +10,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_sprites = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
+	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2());
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
@@ -129,7 +129,8 @@ World::~World()
 	delete this->m_glowBufferTransparant;
 
 	delete this->m_camera;
-	delete this->m_quadTree;
+	if(m_quadTree)
+		delete this->m_quadTree;
 }
 
 bool World::addRoad(Road* _road)
@@ -213,7 +214,8 @@ void World::render()
 		this->m_deferredSampler->setModelMatrix(m_terrains[i]->getModelMatrix());
 		this->m_deferredSampler->setTerrainTextures(m_terrains[i]->getTextures(), m_terrains[i]->getNrOfTextures());
 		this->m_deferredSampler->setTerrainBlendMaps(m_terrains[i]->getBlendMaps(), m_terrains[i]->getNrOfBlendMaps());
-		this->m_deferredSampler->setNormalMaps(m_terrains[i]->getNormalMap());
+		this->m_deferredSampler->setTerrainNormalMaps(m_terrains[i]->getNormalMap(), m_terrains[i]->getNrOfTextures());
+		this->m_deferredSampler->setTerrainSpecularMaps(m_terrains[i]->getSpecularMap(), m_terrains[i]->getNrOfTextures());
 			
 		this->m_deferredSampler->getRenderTerrainTechnique()->GetPassByIndex(0)->Apply(0);
 		this->m_deviceHandler->getDevice()->Draw(m_terrains[i]->getNrOfVertices(), 0);
@@ -263,6 +265,7 @@ void World::render()
 				this->m_deferredSampler->setTexture(staticModels.top()->getMesh()->subMeshes[m]->textures[staticModels.top()->getTextureIndex()]);
 				this->m_deferredSampler->setNormalMap(staticModels.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
 				this->m_deferredSampler->setGlowMap(staticModels.top()->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+				this->m_deferredSampler->setSpecularMap(staticModels.top()->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 				if(staticModels.top()->getMesh()->isAnimated)
 				{
@@ -366,6 +369,7 @@ void World::render()
 					m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
 					m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
 					m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+					this->m_deferredSampler->setSpecularMap(m_models[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 					if(m_models[i]->getMesh()->isAnimated)
 					{
@@ -388,8 +392,6 @@ void World::render()
 		}
 	}
 
-
-
 	//clear render target
 	this->m_positionBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
@@ -408,7 +410,7 @@ void World::render()
 
 
 	// Render roads yo dawg y u be messin' about
-	stack<Road*> roads = this->m_quadTree->getRoads(focalPoint);
+	stack<Road*> roads = m_quadTree->getRoads(focalPoint);
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 	while(!roads.empty())
 	{
@@ -432,6 +434,7 @@ void World::render()
 			this->m_deferredSampler->setTexture(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getTextureIndex()]);
 			this->m_deferredSampler->setNormalMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
 			this->m_deferredSampler->setGlowMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+			this->m_deferredSampler->setSpecularMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 			if(transparentStaticModels[i]->getMesh()->isAnimated)
 			{
@@ -461,6 +464,7 @@ void World::render()
 			m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
 			m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
 			m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+			m_deferredSampler->setSpecularMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 			if(transparentModels[i]->getMesh()->isAnimated)
 			{
@@ -1018,4 +1022,11 @@ bool World::removeSpotLight(SpotLight* _spotLight)
 Camera *World::getCamera()
 {
 	return this->m_camera;
+}
+
+void World::initQuadTree(FLOAT2 _extents)
+{
+	if(m_quadTree)
+		delete m_quadTree;
+	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y));
 }

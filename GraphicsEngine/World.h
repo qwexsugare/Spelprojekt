@@ -121,4 +121,5 @@ public:
 	bool removeSpotLight(SpotLight* _spotLight);
 
 	Camera *getCamera();
+	void initQuadTree(FLOAT2 _extents);
 };

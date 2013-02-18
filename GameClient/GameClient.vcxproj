@@ -68,7 +68,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Anders\Documents\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\SoundEngine;D:\Program Files %28x86%29\SFML-1.6\include;D:\Stort spelprojekt programmering\Spelprojekt\GraphicsEngine;D:\Stort spelprojekt programmering\Spelprojekt\SoundEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;$(SolutionDir)\GraphicsHandler\include;$(ProjectDir)\include;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\SoundEngine</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\SFML-1.6\lib\asd;C:\Program Files %28x86%29\SFML-1.6\include\SFML;C:\Users\nepo\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\nepo\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\SoundEngine;D:\Program Files %28x86%29\SFML-1.6\include;D:\Stort spelprojekt programmering\Spelprojekt\GraphicsEngine;D:\Stort spelprojekt programmering\Spelprojekt\SoundEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;$(SolutionDir)\GraphicsHandler\include;$(ProjectDir)\include;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
     <LibraryPath>D:\Program Files %28x86%29\SFML-1.6\lib;C:\Program Files %28x86%29\SFML-1.6\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aim.cpp" />
+    <ClCompile Include="Arrow.cpp" />
+    <ClCompile Include="ArrowClientSkillEffect.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeEffect.cpp" />
@@ -163,6 +165,9 @@
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarknessEffect.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="CourageHonorValor.cpp" />
+    <ClCompile Include="CourageHonorValorClientSkillEffect.cpp" />
+    <ClCompile Include="CourageHonorValorEffect.cpp" />
     <ClCompile Include="CreateGameMenu.cpp" />
     <ClCompile Include="CreateGameState.cpp" />
     <ClCompile Include="CreditsMenu.cpp" />
@@ -272,6 +277,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aim.h" />
+    <ClInclude Include="Arrow.h" />
+    <ClInclude Include="ArrowClientSkillEffect.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeEffect.h" />
@@ -284,6 +291,9 @@
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />
     <ClInclude Include="CloudOfDarknessEffect.h" />
     <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="CourageHonorValor.h" />
+    <ClInclude Include="CourageHonorValorClientSkillEffect.h" />
+    <ClInclude Include="CourageHonorValorEffect.h" />
     <ClInclude Include="CreateGameMenu.h" />
     <ClInclude Include="CreateGameState.h" />
     <ClInclude Include="CreditsMenu.h" />

@@ -47,6 +47,7 @@ public:
 	DECLDIR bool intersects(const Model& _model)const;
 	DECLDIR bool isStatic()const { return m_static; }
 	DECLDIR void move(FLOAT3 _distance);
+	DECLDIR void move(D3DXVECTOR3 _distance);
 	DECLDIR void rotate(float _yaw, float _pitch, float _roll);
 	DECLDIR void setAlpha(float _alpha);
 	DECLDIR void setPosition(D3DXVECTOR3 _position);

@@ -23,10 +23,10 @@ SkillIdHolder::SkillIdHolder()
 	this->m_SkillId[Skill::GREED] = "menu_textures\\Button-Skill-6.png";
 	this->m_SkillId[Skill::MENTAL_RESISTANCE] = "menu_textures\\Button-Skill-8.png";
 	this->m_SkillId[Skill::WALL] = "menu_textures\\Button-Skill-20.png";	
-	this->m_SkillId[Skill::SIMONS_EVIL] = "menu_textures\\Button-Skill-29.png";
+	this->m_SkillId[Skill::SIMONS_EVIL] = "menu_textures\\Button-Skill-15.png";
 	this->m_SkillId[Skill::ENIGMATIC_PRESENCE] = "menu_textures\\Button-Skill-20.png";
-	this->m_SkillId[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = "menu_textures\\Button-Skill-20.png";
-	this->m_SkillId[Skill::COURAGE_HONOR_VALOR] = "menu_textures\\Button-Skill-20.png";
+	this->m_SkillId[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = "menu_textures\\Button-Skill-23.png";
+	this->m_SkillId[Skill::COURAGE_HONOR_VALOR] = "menu_textures\\Button-Skill-24.png";
 	this->m_SkillId[Skill::READY_AIM_FIRE] = "menu_textures\\Button-Skill-20.png";
 	this->m_SkillId[Skill::TIME_IS_MONEY] = "menu_textures\\Button-Skill-20.png";
 	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-20.png";
