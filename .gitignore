@@ -1000,3 +1000,5 @@ GameClient/maps/levelone/leveloneminimap.png
 GameClient/maps/levelone/levelone.txt
 GameClient/maps/levelone/leveloneminimap.png
 GameClient/models/Char1_5/Char1_5.BFish
+GameClient/models/Arrow/Arrow.BFish
+GameClient/models/Arrow/Arrow_GM_4.png

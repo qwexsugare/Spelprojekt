@@ -39,7 +39,7 @@ void Player::assignHero(Hero::HERO_TYPE _type)
 		break;
 	}
 	
-	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 60.0f));
+	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 30.0f));
 	
 	EntityHandler::addEntity(m_hero);
 }

@@ -150,6 +150,9 @@ void GameState::update(float _dt)
 		case Skill::CLOUD_OF_DARKNESS:
 			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
 			break;
+		case Skill::ATTACK:
+			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
+			break;
 		}
 	}
 
@@ -159,6 +162,9 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::ATTACK:
+			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId()));
+			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
 			break;

@@ -27,7 +27,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
 	this->m_staticBuffer = 2.0f;
-	this->m_movementSpeed = 1.5f;
+	this->m_movementSpeed = 2.7f;
 	this->m_aggroRange = 3.0f;
 	this->m_willPursue = false;
 	this->m_closestHero = 999;
