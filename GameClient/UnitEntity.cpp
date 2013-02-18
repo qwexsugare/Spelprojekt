@@ -15,8 +15,10 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_movementSpeed = 2.0f;
 	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = 1.0f;
-	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
+	this->m_minPhysicalDamage = 1.0f;
+	this->m_minMentalDamage = 1.0f;
+	this->m_maxPhysicalDamage = 1.0f;
+	this->m_maxMentalDamage = 1.0f;
 	this->m_physicalResistance = 1.0f;
 	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0.0f;
@@ -47,8 +49,8 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_movementSpeed = 2.0f;
 	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = 2.0f;
-	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
+	this->m_minPhysicalDamage = 1.0f;
+	this->m_minMentalDamage = 1.0f;
 	this->m_physicalResistance = 1.0f;
 	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0;
@@ -127,7 +129,7 @@ void UnitEntity::increaseStrength(int _strength)
 		this->m_strength = UnitEntity::MAX_STRENGTH;
 	}
 
-	this->m_physicalDamage = this->m_physicalDamage + _strength * 5;
+	this->m_minPhysicalDamage = this->m_minPhysicalDamage + _strength * 5;
 	this->m_physicalResistance = this->m_physicalResistance + _strength * 0.02f;
 }
 
@@ -155,7 +157,7 @@ void UnitEntity::increaseWits(int _wits)
 		this->m_wits = UnitEntity::MAX_WITS;
 	}
 
-	this->m_mentalDamage = this->m_mentalDamage + _wits * 5;
+	this->m_minMentalDamage = this->m_minMentalDamage + _wits * 5;
 	this->m_turretDuration = this->m_turretDuration + _wits * 0.5f;
 }
 
@@ -202,14 +204,16 @@ void UnitEntity::setAttackSpeed(float _attackSpeed)
 	this->m_attackSpeed = _attackSpeed;
 }
 
-void UnitEntity::setPhysicalDamage(float _physicalDamage)
+void UnitEntity::setPhysicalDamage(float _minPhysicalDamage, float _maxPhysicalDamage)
 {
-	this->m_physicalDamage = _physicalDamage;
+	this->m_minPhysicalDamage = _minPhysicalDamage;
+	this->m_maxPhysicalDamage = _maxPhysicalDamage;
 }
 
-void UnitEntity::setMentalDamage(float _mentalDamage)
+void UnitEntity::setMentalDamage(float _minMentalDamage, float _maxMentalDamage)
 {
-	this->m_mentalDamage = _mentalDamage;
+	this->m_minMentalDamage = _minMentalDamage;
+	this->m_maxMentalDamage = _maxMentalDamage;
 }
 
 void UnitEntity::setPhysicalResistance(float _physicalResistance)
@@ -288,12 +292,12 @@ float UnitEntity::getAttackSpeed()
 
 float UnitEntity::getPhysicalDamage()
 {
-	return this->m_physicalDamage;
+	return random(m_minPhysicalDamage, m_maxPhysicalDamage);
 }
 
 float UnitEntity::getMentalDamage()
 {
-	return this->m_mentalDamage;
+	return random(m_minPhysicalDamage, m_maxPhysicalDamage);
 }
 
 float UnitEntity::getPhysicalResistance()

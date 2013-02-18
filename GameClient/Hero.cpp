@@ -83,7 +83,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 			{
 				if(this->m_attackCooldown <= 0.0f)
 				{
-					this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage);
+					this->dealDamage(se, this->m_maxPhysicalDamage, this->m_maxMentalDamage);
 					this->m_attackCooldown = this->m_attackSpeed;
 				}
 			}

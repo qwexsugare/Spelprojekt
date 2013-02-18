@@ -34,8 +34,10 @@ protected:
 	float m_attackSpeed;
 	float m_attackCooldown;
 	float m_attackRange;
-	float m_physicalDamage;
-	float m_mentalDamage;
+	float m_minPhysicalDamage;
+	float m_maxPhysicalDamage;
+	float m_minMentalDamage;
+	float m_maxMentalDamage;
 	float m_physicalResistance;
 	float m_mentalResistance;
 	unsigned int m_lifeStealChance;
@@ -72,8 +74,8 @@ public:
 	void setMaxHealth(int _maxHealth);
 	void setMovementSpeed(float _movementSpeed);
 	void setAttackSpeed(float _attackSpeed);
-	void setPhysicalDamage(float _physicalDamage);
-	void setMentalDamage(float _mentalDamage);
+	void setPhysicalDamage(float _minPhysicalDamage, float _maxPhysicalDamage);
+	void setMentalDamage(float _minMentalDamage, float _maxMentalDamage);
 	void setPhysicalResistance(float _physicalResistance);
 	void setMentalResistance(float _mentalResistance);
 	void setLifeStealChance(unsigned int _lifeStealChance);

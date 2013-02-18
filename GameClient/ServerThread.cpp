@@ -9,7 +9,7 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
-	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
+	this->m_mapHandler->loadMap("maps/leveltwo/leveltwo.txt");
 
 	this->m_network->broadcast(NetworkEntityMessage());
 }
@@ -40,7 +40,7 @@ void ServerThread::Run()
 	__int64 prevTimeStamp = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
-	this->m_state = State::GAME;
+	this->m_state = State::LOBBY;
 	this->m_network->start(this->m_port);
 
 	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));

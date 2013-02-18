@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "MyAlgorithms.h"
 
 Enemy::Enemy() : UnitEntity()
 {
@@ -22,7 +23,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	m_type = Type::EnemyType;
 	
 	//this->m_goalPosition = FLOAT3(5.0f, 0.0f,64.0f);
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
@@ -35,10 +36,15 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	this->m_prevClosestStatic = this->m_currClosestStatic;
 	this->m_path = _path;
 	this->m_currentPoint = 0;
+	this->m_attackRange = 0.5f;
 	avoidTimer = 0.0f;
 	m_staticAvDir = FLOAT3(0,0,0);
 	m_enemyAvDir = FLOAT3(0,0,0);
 	m_rotationAdding = FLOAT3(0.0f,0,0);
+	Model *m = g_graphicsEngine->createModel("Beast1_5", m_position);
+
+	this->m_obb = new BoundingOrientedBox(*m->getObb());
+	g_graphicsEngine->removeModel(m);
 
 	if(this->m_path.nrOfPoints > 0)
 	{
@@ -59,9 +65,22 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	this->checkPursue();
 
 	if(m_willPursue)
+	{
 		this->setNextPosition(m_closestHero, dt);
+
+		if( (m_position - EntityHandler::getAllHeroes()[m_closestHero]->getPosition()).length() <m_attackRange && this->m_attackCooldown <= 0.0)
+		{
+			this->attackHero(m_closestHero);
+		}
+	}
 	else
 		this->m_nextPosition = m_goalPosition;
+
+
+	if(this->m_attackCooldown > 0.0f)
+	{
+		this->m_attackCooldown = this->m_attackCooldown - dt;
+	}
 	
 	m_prevDir = m_dir;
 	
@@ -70,7 +89,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	{
 		FLOAT3 statPos = _static->getPosition();
 		m_staticAvDir = (m_staticAvDir +this->checkStatic(dt,statPos));
-		avoidTimer = 0;
+		
 		
 	
 		
@@ -105,7 +124,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	if(avoidTimer > 0.50f)
 	{
 		checkCloseEnemies(dt);
-		avoidTimer = 0.0;
+		avoidTimer = 0.0f;
 	}
 	avoidTimer += dt;
 	
@@ -130,15 +149,12 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		delete m;
 	}
 
-	if(this->m_attackCooldown > 0.0f)
-	{
-		this->m_attackCooldown = this->m_attackCooldown - dt;
-	}
+	
 
 	if(this->m_reachedPosition == false)
 	{
 		
-		if((m_nextPosition - m_position).length() >(this->m_movementSpeed * dt)+ 1)
+		if((m_nextPosition - m_position).length() >(this->m_movementSpeed * dt)+ 2)
 		{
 				
 			this->m_dir = this->m_dir*15 + m_staticAvDir/3 + m_enemyAvDir;
@@ -162,7 +178,6 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		
 	}
 	else
-	//if((m_goalPosition - m_position).length() < 2)
 	{
 		//Check if there's a new position in the path
 		if(this->m_currentPoint < this->m_path.nrOfPoints)
@@ -172,7 +187,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			this->m_reachedPosition = false;
 			m_nextPosition = m_goalPosition;
 			m_dir = m_dir + (m_nextPosition - m_position) + m_staticAvDir/5;
-			//m_staticAvDir = FLOAT3(0,0,0);
+		;
 		}
 		else //The enemy has reached its goal
 		{
@@ -196,12 +211,41 @@ void Enemy::setNextPosition(int index, float dt)
 
 	FLOAT3 _playerDirection= hero->getDirection();
 
-	FLOAT3 targetPosition = hero->getPosition() + _playerDirection*3*dt;
+	FLOAT3 targetPosition = hero->getPosition();// + _playerDirection*3*dt;
 	
 	this->m_nextPosition = targetPosition;
 	this->m_reachedPosition = false;
 }
 
+
+void Enemy::checkCloseEnemies(float dt)
+{
+	
+	
+	if(EntityHandler::getClosestEnemy(this) != NULL && (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length() < this->getObb()->Extents.z*2)
+	{
+		
+		if((m_position+m_dir/10 - EntityHandler::getClosestEnemy(this)->getPosition()).length() < (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length())
+		{
+			m_movementSpeed = 0.8f;
+			((UnitEntity*)EntityHandler::getClosestEnemy(this))->setMovementSpeed(2.5f);
+		}
+		else 
+			m_movementSpeed = 1.5f;
+
+		m_enemyAvDir =  (m_position - EntityHandler::getClosestEnemy(this)->getPosition())/(m_position - EntityHandler::getClosestEnemy(this)->getPosition()).length();
+		m_dir = m_dir*2 + m_enemyAvDir;
+		//m_position = m_position +m_enemyAvDir*2*dt;
+
+		
+		
+		
+	}
+	else 
+		m_movementSpeed = 1.5f;
+	
+
+}
 void Enemy::checkPursue()
 {
 	float currDistToHero;
@@ -233,7 +277,6 @@ void Enemy::checkPursue()
 	}
 	
 }
-#include <sstream>
 FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 {
 	
@@ -270,7 +313,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 				test = (stat->getPosition() - temp1).length();
 			}
 			
-			if(test < avoidBuffer +0.1f)
+			if(test < avoidBuffer +0.2f)
 			{
 				if(m_currClosestStatic->getId() != stat->getId())
 				{
@@ -278,8 +321,8 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 					m_currClosestStatic = stat;
 				}
 				
-				avoidBuffer = test;
-				avoidDir = FLOAT3(0,0,0) -cross/(i);;
+				
+				avoidDir = FLOAT3(0,0,0) -cross/(10);;
 			}
 
 			if( stat != NULL)
@@ -292,15 +335,15 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 				test = 999999999999999.0f;
 			}
 
-			if(test< avoidBuffer +0.1f)
+			if(test< avoidBuffer +0.2f)
 			{
 				if(m_currClosestStatic->getId() != stat->getId())
 				{
 					m_prevClosestStatic = m_currClosestStatic;
 					m_currClosestStatic = EntityHandler::getClosestSuperStatic(temp1);
 				}
-				avoidBuffer = test;
-				avoidDir =  cross/(i);
+				
+				avoidDir =  cross/(10);
 			}
 
 			if(outOfBounds(temp) && avoidTimer > 0.5f)
@@ -316,37 +359,19 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 			}
 
 
-			if(test < avoidBuffer)
-			{
-				avoidDir = avoidDir/((0.04f)*(max(2.0f,(float)i/2)));//*avoidBuffer);//*(stat->getPosition() - m_position).length());
-				return avoidDir;
-			}
 		}
 	
 	
 	return avoidDir;
 
 }
-void Enemy::checkCloseEnemies(float dt)
+
+
+void Enemy::attackHero(int heroIndex)
 {
-	
-	
-	if(EntityHandler::getClosestEnemy(this) != NULL && (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length() < this->getObb()->Extents.z*3)
-	{
-		if((m_position+m_dir*dt*2*1.5 - EntityHandler::getClosestEnemy(this)->getPosition()).length() < this->getObb()->Extents.z*2);
-		{
-			m_movementSpeed = 0.20f;
-		}
-		
-		m_enemyAvDir =  m_position - EntityHandler::getClosestEnemy(this)->getPosition();
-	}
-	else 
-		m_movementSpeed = 1.5f;
-	
-
+	this->dealDamage(EntityHandler::getAllHeroes()[heroIndex], this->getPhysicalDamage(), this->getMentalDamage());
+	this->m_attackCooldown = 1.0f;
 }
-
-
 FLOAT3 Enemy::crossProduct(FLOAT3 _first, FLOAT3 _second)
 {
 	float x = _first.y*_second.z - _first.z*_second.y;
