@@ -30,7 +30,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_SkillId[Skill::READY_AIM_FIRE] = "menu_textures\\Button-Skill-20.png";
 	this->m_SkillId[Skill::TIME_IS_MONEY] = "menu_textures\\Button-Skill-20.png";
 	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-20.png";
-	this->m_SkillId[Skill::LIFE_REGAIN] = "menu_textures\\Button-Skill-20.png";
+	this->m_SkillId[Skill::LIFE_REGEN] = "menu_textures\\Button-Skill-20.png";
 
 	//Passive
 	this->m_skillActive[Skill::TOWER] = false;
@@ -60,7 +60,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::READY_AIM_FIRE] = false;
 	this->m_skillActive[Skill::TIME_IS_MONEY] = false;
 	this->m_skillActive[Skill::ENHANCED_DEVELOPMENT] = true;
-	this->m_skillActive[Skill::LIFE_REGAIN] = false;
+	this->m_skillActive[Skill::LIFE_REGEN] = false;
 
 	//Description
 	this->m_skillDescription[Skill::TOWER] = "";
@@ -90,7 +90,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillDescription[Skill::READY_AIM_FIRE] = "";
 	this->m_skillDescription[Skill::TIME_IS_MONEY] = "";
 	this->m_skillDescription[Skill::ENHANCED_DEVELOPMENT] = "";
-	this->m_skillDescription[Skill::LIFE_REGAIN] = "";
+	this->m_skillDescription[Skill::LIFE_REGEN] = "";
 }
 
 std::string SkillIdHolder::getSkill(unsigned int id)

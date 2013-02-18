@@ -192,6 +192,8 @@
     <ClCompile Include="JoinGameMenu.cpp" />
     <ClCompile Include="JoinGameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LifeRegen.cpp" />
+    <ClCompile Include="LifeRegenEffect.cpp" />
     <ClCompile Include="LifestealingStrike.cpp" />
     <ClCompile Include="LobbyMenu.cpp" />
     <ClCompile Include="LobbyState.cpp" />
@@ -322,6 +324,8 @@
     <ClInclude Include="JoinGameMenu.h" />
     <ClInclude Include="JoinGameState.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LifeRegen.h" />
+    <ClInclude Include="LifeRegenEffect.h" />
     <ClInclude Include="LifestealingStrike.h" />
     <ClInclude Include="LobbyMenu.h" />
     <ClInclude Include="LobbyState.h" />

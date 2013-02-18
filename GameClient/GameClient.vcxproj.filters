@@ -346,6 +346,12 @@
     <ClCompile Include="CourageHonorValorClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="LifeRegenEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeRegen.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -719,6 +725,12 @@
     </ClInclude>
     <ClInclude Include="CourageHonorValorClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeRegenEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeRegen.h">
+      <Filter>Server\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
