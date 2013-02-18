@@ -41,7 +41,7 @@ public:
 	DECLDIR ParticleEngine* createParticleEngine(D3DXVECTOR3 _pos);
 	DECLDIR bool removeParticleEngine(ParticleEngine* _particleEngine);
 	
-	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps);
+	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps, vector<string> _specularMaps);
 	DECLDIR bool removeTerrain(Terrain* _terrain);
 	
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);

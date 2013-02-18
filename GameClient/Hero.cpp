@@ -135,7 +135,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 		}
 		else
 		{
-			if(this->m_pathCounter < this->m_path.nrOfPoints)
+			if(this->m_pathCounter < this->m_path.nrOfPoints - 1)
 			{
 				this->m_nextPosition = FLOAT3(this->m_path.points[this->m_pathCounter].x, 0.0f, this->m_path.points[this->m_pathCounter].y);
 				this->m_pathCounter++;

@@ -25,15 +25,15 @@ void LobbyState::update(float _dt)
 	this->m_menu->Update(_dt);
 
 	if(m_menu->Character0IsDown())
-		m_network->sendMessage(NetworkSelectHeroMessage(0));
+		m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
 	else if(m_menu->Character1IsDown())
-		m_network->sendMessage(NetworkSelectHeroMessage(1));
+		m_network->sendMessage(NetworkSelectHeroMessage(1, this->m_menu->getCombat()));
 	else if(m_menu->Character2IsDown())
-		m_network->sendMessage(NetworkSelectHeroMessage(2));
+		m_network->sendMessage(NetworkSelectHeroMessage(2, this->m_menu->getCombat()));
 	else if(m_menu->Character3IsDown())
-		m_network->sendMessage(NetworkSelectHeroMessage(3));
+		m_network->sendMessage(NetworkSelectHeroMessage(3, this->m_menu->getCombat()));
 	else if(m_menu->Character4IsDown())
-		m_network->sendMessage(NetworkSelectHeroMessage(4));
+		m_network->sendMessage(NetworkSelectHeroMessage(4, this->m_menu->getCombat()));
 
 	if(this->m_menu->StartGameIsDown() == true)
 	{
