@@ -59,6 +59,17 @@ void Hero::activateAllPassiveSkills()
 	}
 }
 
+FLOAT3 Hero::getDirection()
+{
+	if( (m_nextPosition - m_position).length() > 0)
+	{
+		return m_nextPosition-m_position;
+		
+	}
+	else
+		return m_position;
+}
+
 Hero::HERO_TYPE Hero::getHeroType()const
 {
 	return m_heroType;
@@ -220,15 +231,4 @@ void Hero::setTarget(unsigned int _target)
 		this->m_reachedPosition = true;
 		this->m_reallyReachedPosition = true;
 	}
-}
-
-FLOAT3 Hero::getDirection()
-{
-	if( (m_nextPosition - m_position).length() > 0)
-	{
-		return m_nextPosition-m_position;
-		
-	}
-	else
-		return m_position;
 }

@@ -92,7 +92,7 @@ public:
 	int getAgility();
 	int getWits();
 	int getFortitude();
-
+	
 	int getHealth();
 	int getMaxHealth();
 	float getMovementSpeed();
