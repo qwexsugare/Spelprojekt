@@ -33,11 +33,11 @@ public:
 	static vector<ServerEntity*> getEntities();
 
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
+	static ServerEntity* getClosestEntityByType(ServerEntity* _entity, UnitEntity::Type _type);
 	static ServerEntity* getClosestEnemy(ServerEntity *entity);
 	static ServerEntity* getClosestStatic(ServerEntity *entity);
 	
 	static ServerEntity* getClosestSuperStatic(FLOAT3 _pos);
-
 	static ServerEntity* getServerEntity(unsigned int id);
 	
 	static vector<ServerEntity*> getAllEnemies();

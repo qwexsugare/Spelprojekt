@@ -63,7 +63,7 @@ void EnigmaticPresenceEffect::update(float _dt)
 			if(!se)
 			{
 				removeIndices.push_back(iter);
-				this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::ENIGMATIC_PRESENCE, 0, se->getId()));
+				this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::ENIGMATIC_PRESENCE, 0, iter->first));
 			}
 			// Else the affected guys is still alive and might have escaped the aura area and needs to be taken down!
 			else if((caster->getPosition()-se->getPosition()).length() > AOE)

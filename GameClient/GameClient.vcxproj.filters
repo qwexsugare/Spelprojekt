@@ -76,9 +76,6 @@
     <ClCompile Include="Server.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="MeleeAttack.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="MessageHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -343,6 +340,9 @@
     <ClCompile Include="CourageHonorValorEffect.cpp">
       <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="RangedAttack.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
     <ClCompile Include="CourageHonorValorClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
@@ -366,12 +366,24 @@
     </ClCompile>
     <ClCompile Include="BruteSteed.cpp">
       <Filter>Server\Enemies</Filter>
+      </ClCompile>
+    <ClCompile Include="MeleeAttack.cpp">
+      <Filter>Server\Skills</Filter>
+       </ClInclude>
+    <ClCompile Include="HypnoticStareEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
     <ClCompile Include="HellfireSteed.cpp">
       <Filter>Server\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Imp.cpp">
       <Filter>Server\Enemies</Filter>
+      </ClCompile>
+    <ClCompile Include="DelayedDamage.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+       </ClInclude>
+    <ClCompile Include="HypnoticStare.cpp">
+      <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="Shade.cpp">
       <Filter>Server\Enemies</Filter>
@@ -469,9 +481,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Server.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="MeleeAttack.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="MessageQueue.h">
@@ -633,9 +642,6 @@
     <ClInclude Include="DemonicPresence.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="ChainStrikeEffect.h">
-      <Filter>Server\Skills\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="CloudOfDarknessEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
@@ -753,11 +759,19 @@
     <ClInclude Include="CourageHonorValor.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+    </ClInclude>
     <ClInclude Include="CourageHonorValorEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayedDamage.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
     <ClInclude Include="CourageHonorValorClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="RangedAttack.h">
+      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="LifeRegenEffect.h">
       <Filter>Server\Skills\Effects</Filter>
@@ -773,6 +787,15 @@
     </ClInclude>
     <ClInclude Include="EnigmaticPresenceClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAttack.h">
+      <Filter>Server\Skills</Filter>
+       </ClInclude>
+    <ClInclude Include="HypnoticStareEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="HypnoticStare.h">
+      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="FrostDemon.h">
       <Filter>Server\Enemies</Filter>

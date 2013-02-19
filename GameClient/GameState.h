@@ -26,6 +26,7 @@ private:
 	vector<ClientSkillEffect*> m_ClientSkillEffects;
 	ClientEntityHandler *m_clientEntityHandler;
 	ParticleEngine *testParticleSystem;
+	int m_testSound;
 
 	SpotLight* s;
 	//Cursor m_cursor;

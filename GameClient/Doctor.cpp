@@ -10,6 +10,8 @@ Doctor::Doctor(int _playerId) : Hero(Hero::DOCTOR, _playerId)
 	
 	this->m_skills.push_back(new SimonsEvil());
 	this->m_skills.push_back(new LifeRegen());
+
+	this->m_regularAttack = new RangedAttack();
 }
 
 Doctor::~Doctor()

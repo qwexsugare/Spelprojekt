@@ -111,7 +111,7 @@ public:
 	void addMyText(MyText* _text);
 	bool removeMyText(MyText* _text);
 
-	void addPointLight(PointLight* _pointLight);
+	bool addPointLight(PointLight* _pointLight);
 	bool removePointLight(PointLight* _pointLight);
 
 	void addDirectionalLight(DirectionalLight* _directionalLight);

@@ -10,10 +10,9 @@ private:
 public:
 	static const unsigned int COST = 900;
 
-	PhysicalResistance();
+	PhysicalResistance(unsigned int _senderId);
 	~PhysicalResistance();
 
-	bool activate(unsigned int _senderId);
 	void updateSpecificSkill(float dt);
 };
 

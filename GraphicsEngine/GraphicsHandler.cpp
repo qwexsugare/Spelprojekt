@@ -151,11 +151,12 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool _st
 {
 	Model* model = NULL;
 	Mesh* mesh = this->m_resourceHolder->getMesh(_filename);
+
+	Animation* animation = new Animation();
+	*animation = this->m_resourceHolder->getAnimation(_filename);
+	animation->setTexturePack(this->m_resourceHolder->getTextureHolder()->getBoneTexture());
 	if(mesh != NULL)
 	{
-		Animation animation;
-		animation = this->m_resourceHolder->getAnimation(_filename);
-		animation.setTexturePack(&this->m_resourceHolder->getTextureHolder()->getBoneTexture(_filename));
 		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 			1.0f, _textureIndex);
 		model->setStatic(_static);
@@ -203,7 +204,13 @@ bool GraphicsHandler::removeSpriteSheet(SpriteSheet *spriteSheet)
 PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius, bool shadow)
 {
 	PointLight *l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, shadow);
-	this->m_world->addPointLight(l);
+
+	if(this->m_world->addPointLight(l) == false)
+	{
+		delete l;
+		l = NULL;
+	}
+
 	return l;
 }
 

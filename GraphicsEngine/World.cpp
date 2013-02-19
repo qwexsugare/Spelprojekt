@@ -264,7 +264,8 @@ void World::render()
 			{
 				this->m_deferredSampler->setTexture(staticModels.top()->getMesh()->subMeshes[m]->textures[staticModels.top()->getTextureIndex()]);
 				this->m_deferredSampler->setNormalMap(staticModels.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
-				this->m_deferredSampler->setGlowMap(staticModels.top()->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+				if(staticModels.top()->getGlowIndex() != "")
+					this->m_deferredSampler->setGlowMap(staticModels.top()->getMesh()->subMeshes[m]->textures[staticModels.top()->getGlowIndex()]);
 				this->m_deferredSampler->setSpecularMap(staticModels.top()->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 				if(staticModels.top()->getMesh()->isAnimated)
@@ -366,13 +367,15 @@ void World::render()
 
 				for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
 				{
-					m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
-					m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-					m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+					this->m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
+					this->m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+					if(m_models[i]->getGlowIndex() != "")
+						this->m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getGlowIndex()]);
 					this->m_deferredSampler->setSpecularMap(m_models[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 					if(m_models[i]->getMesh()->isAnimated)
 					{
+						m_models[i]->getAnimation()->UpdateSkeletonTexture();
 						this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
 						this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
@@ -433,11 +436,13 @@ void World::render()
 		{
 			this->m_deferredSampler->setTexture(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getTextureIndex()]);
 			this->m_deferredSampler->setNormalMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-			this->m_deferredSampler->setGlowMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+			if(transparentStaticModels[i]->getGlowIndex() != "")
+				this->m_deferredSampler->setGlowMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getGlowIndex()]);
 			this->m_deferredSampler->setSpecularMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 			if(transparentStaticModels[i]->getMesh()->isAnimated)
 			{
+				transparentStaticModels[i]->getAnimation()->UpdateSkeletonTexture();
 				this->m_deferredSampler->setBoneTexture(transparentStaticModels[i]->getAnimation()->getResource());
 				this->m_deviceHandler->setVertexBuffer(transparentStaticModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
@@ -463,7 +468,8 @@ void World::render()
 		{
 			m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
 			m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-			m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
+			if(transparentModels[i]->getGlowIndex() != "")
+				this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getGlowIndex()]);
 			m_deferredSampler->setSpecularMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 			if(transparentModels[i]->getMesh()->isAnimated)
@@ -965,9 +971,9 @@ bool World::removeMyText(MyText* _text)
 	return found;
 }
 
-void World::addPointLight(PointLight* _pointLight)
+bool World::addPointLight(PointLight* _pointLight)
 {
-	this->m_quadTree->addLight(_pointLight);
+	return this->m_quadTree->addLight(_pointLight);
 }
 
 bool World::removePointLight(PointLight* _pointLight)

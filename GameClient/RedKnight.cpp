@@ -10,6 +10,8 @@ RedKnight::RedKnight(int _playerId) : Hero(Hero::RED_KNIGHT, _playerId)
 	
 	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
 	this->m_skills.push_back(new CourageHonorValor());
+
+	this->m_regularAttack = new MeleeAttack();
 }
 
 RedKnight::~RedKnight()

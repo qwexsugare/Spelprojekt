@@ -1,19 +1,19 @@
 #pragma once
-
 #include "skill.h"
 #include "EntityHandler.h"
 #include "DelayedDamage.h"
 #include "SkillIdHolder.h"
 
-class MeleeAttack : public Skill
+class RangedAttack : public Skill
 {
 public:
 	static const float RANGE;
 
-	MeleeAttack();
-	~MeleeAttack();
+	RangedAttack();
+	~RangedAttack();
 
 	virtual bool activate(unsigned int _targetId, unsigned int _senderId);
 
 	void updateSpecificSkill(float dt);
 };
+

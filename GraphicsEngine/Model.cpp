@@ -8,7 +8,7 @@ Model::Model()
 	m_static = false;
 }
 
-Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha, string _textureIndex)
+Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha, string _textureIndex, string _glowIndex)
 {
 	this->m_alpha = _alpha;
 	this->m_mesh = _mesh;
@@ -16,6 +16,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	this->m_scale = _scale;
 	this->m_rotation = D3DXVECTOR3(_rotation.y, _rotation.x, _rotation.z);
 	this->m_textureIndex = _textureIndex;
+	this->m_glowIndex = _glowIndex;
 
 	if(_mesh->m_bs == NULL)
 	{
@@ -41,7 +42,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTO
 	}
 	
 	this->updateModelMatrix();
-	this->animation =  new Animation(_animation);
+	this->animation =  _animation;
 	m_static = false;
 }
 

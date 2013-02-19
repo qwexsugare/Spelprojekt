@@ -19,6 +19,6 @@ public:
 	~TextureHolder(void);
 
 	ID3D10ShaderResourceView* getTexture(string filename);
-	TexturePack getBoneTexture(string filename);
+	TexturePack* getBoneTexture();
 };
 
