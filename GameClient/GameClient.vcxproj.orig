@@ -163,7 +163,6 @@
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
-    <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
@@ -196,9 +195,12 @@
     <ClCompile Include="HellfireSteed.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HudMenu.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Imp.cpp" />
+=======
     <ClCompile Include="HypnoticStare.cpp" />
     <ClCompile Include="HypnoticStareEffect.cpp" />
+>>>>>>> 9671a81a1359b776aa556853b0707f4cd74b0f14
     <ClCompile Include="IntroMenu.cpp" />
     <ClCompile Include="IntroState.cpp" />
     <ClCompile Include="JoinGameMenu.cpp" />
@@ -307,7 +309,6 @@
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
     <ClInclude Include="DelayedDamage.h" />
-    <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="CloudOfDarkness.h" />
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />
@@ -343,9 +344,12 @@
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Heroes.h" />
     <ClInclude Include="HudMenu.h" />
+<<<<<<< HEAD
     <ClInclude Include="Imp.h" />
+=======
     <ClInclude Include="HypnoticStare.h" />
     <ClInclude Include="HypnoticStareEffect.h" />
+>>>>>>> 9671a81a1359b776aa556853b0707f4cd74b0f14
     <ClInclude Include="Input.h" />
     <ClInclude Include="IntroMenu.h" />
     <ClInclude Include="IntroState.h" />

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="CollisionHandler.cpp">
@@ -361,20 +361,41 @@
     <ClCompile Include="EnigmaticPresenceClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="FrostDemon.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BruteSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+      </ClCompile>
     <ClCompile Include="MeleeAttack.cpp">
       <Filter>Server\Skills</Filter>
-    </ClCompile>
+     </ClCompile>
     <ClCompile Include="HypnoticStareEffect.cpp">
       <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="HellfireSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Imp.cpp">
+      <Filter>Server\Enemies</Filter>
+      </ClCompile>
     <ClCompile Include="DelayedDamage.cpp">
       <Filter>Server\Skills\Effects</Filter>
-    </ClCompile>
+       </ClCompile>
     <ClCompile Include="HypnoticStare.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="MeleeAOEAttack.cpp">
-      <Filter>Server\Skills</Filter>
+    <ClCompile Include="Shade.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="SpittingDemon.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ThunderSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEaterSteed.cpp">
+      <Filter>Server\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -769,15 +790,36 @@
     </ClInclude>
     <ClInclude Include="MeleeAttack.h">
       <Filter>Server\Skills</Filter>
-    </ClInclude>
+       </ClInclude>
     <ClInclude Include="HypnoticStareEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
     <ClInclude Include="HypnoticStare.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="MeleeAOEAttack.h">
-      <Filter>Server\Skills</Filter>
+    <ClInclude Include="FrostDemon.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BruteSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="HellfireSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Imp.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Shade.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SpittingDemon.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ThunderSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEaterSteed.h">
+      <Filter>Server\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -816,6 +858,9 @@
     </Filter>
     <Filter Include="Server\Towers\Effects">
       <UniqueIdentifier>{8ac81207-8312-449a-b74d-78565cecf9e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Enemies">
+      <UniqueIdentifier>{5845e709-0306-47d1-9940-40e192f45108}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

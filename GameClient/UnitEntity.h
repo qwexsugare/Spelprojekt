@@ -43,6 +43,8 @@ protected:
 	float m_physicalResistanceChange;
 	float m_basePhysicalResistance;
 	float m_mentalResistance;
+	float m_mentalResistanceChange;
+	float m_baseMentalResistance;
 	unsigned int m_lifeStealChance;
 	int m_poisonChance;
 	float m_stunTimer;

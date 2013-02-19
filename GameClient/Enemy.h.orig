@@ -3,6 +3,10 @@
 
 #include "ServerEntity.h"
 #include "EntityHandler.h"
+<<<<<<< HEAD
+=======
+#include "Hero.h"
+>>>>>>> 9671a81a1359b776aa556853b0707f4cd74b0f14
 #include "Path.h"
 #include "Graphics.h"
 
@@ -13,7 +17,12 @@ protected:
 	bool m_reachedPosition;
 	float m_aggroRange; 
 	bool m_willPursue;
-	int m_closestTargetId;
+<<<<<<< HEAD
+	int m_closestHero;
+=======
+	unsigned int m_closestTargetId;
+	float m_attackCooldown;
+>>>>>>> 9671a81a1359b776aa556853b0707f4cd74b0f14
 	FLOAT3 m_dir;
 	FLOAT3 m_prevDir;
 	FLOAT3 m_goalPosition;
@@ -24,9 +33,13 @@ protected:
 	float avoidTimerDos;
 	FLOAT3 m_staticAvDir;
 	FLOAT3 m_enemyAvDir;
+<<<<<<< HEAD
 	int m_lowResource;
-	UnitEntity::Type m_targetType;
 	int m_highRescource;
+
+=======
+	UnitEntity::Type m_targetType;
+>>>>>>> 9671a81a1359b776aa556853b0707f4cd74b0f14
 	FLOAT3 m_rotationAdding;
 
 	ServerEntity *m_prevClosestStatic;
@@ -37,14 +50,23 @@ public:
 
 	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
-	void setNextPosition(unsigned int _id, float dt);
+<<<<<<< HEAD
+	void setNextPosition(int index, float dt);
 
+=======
+	void setNextPosition(unsigned int _id, float dt);
+	
 	FLOAT3 getDirection();
+>>>>>>> 9671a81a1359b776aa556853b0707f4cd74b0f14
 	void checkPursue();
 	FLOAT3 checkStatic(float dt, FLOAT3 _pPos);
 	void checkCloseEnemies(float dt);
 	bool checkDistanceToStatic(float firstFactor, float secondFactor);
+<<<<<<< HEAD
+	virtual void attackHero(int heroIndex);
+=======
 	void attackHero();
+>>>>>>> 9671a81a1359b776aa556853b0707f4cd74b0f14
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 	bool outOfBounds(FLOAT3 _pt);
