@@ -8,7 +8,7 @@ ModelIdHolder::ModelIdHolder()
 	}
 
 	this->m_modelId[0] = "Char1_5";
-	this->m_modelId[1] = "Beast1_5";
+	
 	this->m_modelId[2] = "PoisonTurret";
 	this->m_modelId[3] = "LightningTurret";
 	this->m_modelId[4] = "DeathTurret";
@@ -17,6 +17,27 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelId[7] = "Pentagram";
 	this->m_modelId[8] = "redKnightPassiveAura";
 	
+
+	this->m_modelId[80] = "Imp"; //imp1
+	this->m_modelId[81] = "Imp"; //imp2
+	this->m_modelId[82] = "Imp"; //imp3
+	this->m_modelId[83] = "Imp"; //imp4
+
+	this->m_textures[80] = "color";
+	this->m_textures[81] = "color1";
+	this->m_textures[82] = "color2";
+	this->m_textures[83] = "color3";
+
+	this->m_modelId[84] = "Beast";  
+	this->m_modelId[85] = "Beast"; 
+	this->m_modelId[86] = "Beast"; 
+	this->m_modelId[87] = "Beast"; 
+
+	this->m_textures[84] = "color";
+	this->m_textures[85] = "color1";
+	this->m_textures[86] = "color2";
+	this->m_textures[87] = "color3";
+
 	this->m_modelId[95] = "Char1_5";
 	this->m_modelId[96] = "Char1_5";
 	this->m_modelId[97] = "Char1_5";

@@ -3,20 +3,17 @@
 
 #include "ServerEntity.h"
 #include "EntityHandler.h"
-#include "Hero.h"
-#include "MeleeAttack.h"
 #include "Path.h"
+#include "Graphics.h"
 
 class Enemy : public UnitEntity
 {
-private:
+protected:
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
-	float m_movementSpeed;
 	float m_aggroRange; 
 	bool m_willPursue;
 	int m_closestHero;
-	float m_attackCooldown;
 	FLOAT3 m_dir;
 	FLOAT3 m_prevDir;
 	FLOAT3 m_goalPosition;
@@ -27,6 +24,8 @@ private:
 	float avoidTimerDos;
 	FLOAT3 m_staticAvDir;
 	FLOAT3 m_enemyAvDir;
+	int m_lowResource;
+	int m_highRescource;
 
 	FLOAT3 m_rotationAdding;
 
@@ -39,14 +38,12 @@ public:
 	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setNextPosition(int index, float dt);
-	
-	
 
 	void checkPursue();
 	FLOAT3 checkStatic(float dt, FLOAT3 _pPos);
 	void checkCloseEnemies(float dt);
 	bool checkDistanceToStatic(float firstFactor, float secondFactor);
-	void attackHero(int heroIndex);
+	virtual void attackHero(int heroIndex);
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 	bool outOfBounds(FLOAT3 _pt);

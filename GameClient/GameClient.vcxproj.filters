@@ -361,6 +361,30 @@
     <ClCompile Include="EnigmaticPresenceClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="FrostDemon.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BruteSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="HellfireSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Imp.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Shade.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="SpittingDemon.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ThunderSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEaterSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -750,6 +774,30 @@
     <ClInclude Include="EnigmaticPresenceClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="FrostDemon.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BruteSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="HellfireSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Imp.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Shade.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SpittingDemon.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ThunderSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEaterSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -787,6 +835,9 @@
     </Filter>
     <Filter Include="Server\Towers\Effects">
       <UniqueIdentifier>{8ac81207-8312-449a-b74d-78565cecf9e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Enemies">
+      <UniqueIdentifier>{5845e709-0306-47d1-9940-40e192f45108}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
