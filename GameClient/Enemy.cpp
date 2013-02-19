@@ -284,12 +284,14 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 			temp2 = m_position + currDir*i - (cross);
 			stat = EntityHandler::getClosestSuperStatic(temp);
 			
-			float test = 9999999997.3f;// = (stat->getPosition() - temp1).length();
+			float test  = 9999999997.3f;// = (stat->getPosition() - temp1).length();
+			float test2 = 9999999997.3f;
 			
 			if(stat != NULL)
 			{
 				avoidBuffer = max(stat->getObb()->Extents.x+this->getObb()->Extents.z, stat->getObb()->Extents.z+this->getObb()->Extents.z);
 				test = (stat->getPosition() - temp1).length();
+				test2 = (stat->getPosition() - temp2).length();
 			}
 			
 			if(test < avoidBuffer +0.2f)
@@ -304,17 +306,17 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 				avoidDir = FLOAT3(0,0,0) -cross;
 			}
 
-			if( stat != NULL)
+			/*if( stat != NULL)
 			{
 				avoidBuffer = max(stat->getObb()->Extents.x+this->getObb()->Extents.z, stat->getObb()->Extents.z+this->getObb()->Extents.z);
-				test = (stat->getPosition() - temp2).length();
+				
 			}
 			else
 			{
 				test = 999999999999999.0f;
 			}
-
-			if(test< avoidBuffer)
+			*/
+			if(test2< avoidBuffer)
 			{
 				if(m_currClosestStatic->getId() != stat->getId())
 				{
@@ -322,7 +324,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 					m_currClosestStatic = EntityHandler::getClosestSuperStatic(temp1);
 				}
 				
-				avoidBuffer = test;
+				avoidBuffer = test2;
 				avoidDir =  cross;
 			}
 
@@ -340,6 +342,17 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 
 			if( avoidDir.length() != 0)
 			{
+				if (abs(test - test2) < 0.05f)
+				{
+					if((temp2-m_nextPosition).length() < (temp1-m_nextPosition).length())
+					{
+						avoidDir = temp2;
+					}
+					else
+						avoidDir = temp;
+				}
+
+			
 				return avoidDir*avoidBuffer/i;
 			}
 		}
