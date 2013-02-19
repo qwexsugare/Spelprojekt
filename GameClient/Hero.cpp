@@ -61,7 +61,7 @@ FLOAT3 Hero::getDirection()
 {
 	if( (m_nextPosition - m_position).length() > 0)
 	{
-		return m_nextPosition-m_position;
+		return (m_nextPosition-m_position)/(m_nextPosition-m_position).length();
 		
 	}
 	else
