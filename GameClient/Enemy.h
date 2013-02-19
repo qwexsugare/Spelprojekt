@@ -24,6 +24,7 @@ private:
 	int m_currentPoint;
 	float m_staticBuffer;
 	float avoidTimer;
+	float avoidTimerDos;
 	FLOAT3 m_staticAvDir;
 	FLOAT3 m_enemyAvDir;
 
@@ -38,11 +39,14 @@ public:
 	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setNextPosition(int index, float dt);
+	
+	
 
 	void checkPursue();
 	FLOAT3 checkStatic(float dt, FLOAT3 _pPos);
 	void checkCloseEnemies(float dt);
 	bool checkDistanceToStatic(float firstFactor, float secondFactor);
+	void attackHero(int heroIndex);
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 	bool outOfBounds(FLOAT3 _pt);

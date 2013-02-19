@@ -9,7 +9,7 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
-	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
+	this->m_mapHandler->loadMap("maps/leveltwo/leveltwo.txt");
 
 	this->m_network->broadcast(NetworkEntityMessage());
 }
