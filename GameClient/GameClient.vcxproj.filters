@@ -363,14 +363,17 @@
     </ClCompile>
     <ClCompile Include="MeleeAttack.cpp">
       <Filter>Server\Skills</Filter>
-       </ClInclude>
+    </ClCompile>
     <ClCompile Include="HypnoticStareEffect.cpp">
       <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
     <ClCompile Include="DelayedDamage.cpp">
       <Filter>Server\Skills\Effects</Filter>
-       </ClInclude>
+    </ClCompile>
     <ClCompile Include="HypnoticStare.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAOEAttack.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
   </ItemGroup>
@@ -766,11 +769,14 @@
     </ClInclude>
     <ClInclude Include="MeleeAttack.h">
       <Filter>Server\Skills</Filter>
-       </ClInclude>
+    </ClInclude>
     <ClInclude Include="HypnoticStareEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
     <ClInclude Include="HypnoticStare.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAOEAttack.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
   </ItemGroup>

@@ -334,22 +334,14 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="MeleeAttack.cpp">
-      <Filter>Server\Skills</Filter>
-    </ClCompile>
-    <ClCompile Include="DelayedDamage.cpp">
-      <Filter>Server\Skills\Effects</Filter>
-    </ClCompile>
-    <ClCompile Include="RangedAttack.cpp">
-      <Filter>Server\Skills</Filter>
-    </ClCompile>
-=======
     <ClCompile Include="CourageHonorValor.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="CourageHonorValorEffect.cpp">
       <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="RangedAttack.cpp">
+      <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="CourageHonorValorClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -369,7 +361,18 @@
     <ClCompile Include="EnigmaticPresenceClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
->>>>>>> 66c13772a872a724fcc4ac83ef80b435ea16896a
+    <ClCompile Include="MeleeAttack.cpp">
+      <Filter>Server\Skills</Filter>
+       </ClInclude>
+    <ClCompile Include="HypnoticStareEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayedDamage.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+       </ClInclude>
+    <ClCompile Include="HypnoticStare.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -729,28 +732,22 @@
     <ClInclude Include="Arrow.h">
       <Filter>Server</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="MeleeAttack.h">
+    <ClInclude Include="CourageHonorValor.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="ChainStrikeEffect.h">
+    </ClInclude>
+    <ClInclude Include="CourageHonorValorEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
     <ClInclude Include="DelayedDamage.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="RangedAttack.h">
-      <Filter>Server\Skills</Filter>
-    </ClInclude>
-=======
-    <ClInclude Include="CourageHonorValor.h">
-      <Filter>Server\Skills</Filter>
-    </ClInclude>
-    <ClInclude Include="CourageHonorValorEffect.h">
-      <Filter>Server\Skills\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="CourageHonorValorClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="RangedAttack.h">
+      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="LifeRegenEffect.h">
       <Filter>Server\Skills\Effects</Filter>
@@ -767,7 +764,15 @@
     <ClInclude Include="EnigmaticPresenceClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
->>>>>>> 66c13772a872a724fcc4ac83ef80b435ea16896a
+    <ClInclude Include="MeleeAttack.h">
+      <Filter>Server\Skills</Filter>
+       </ClInclude>
+    <ClInclude Include="HypnoticStareEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="HypnoticStare.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

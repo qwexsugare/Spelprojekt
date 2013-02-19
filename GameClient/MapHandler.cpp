@@ -212,25 +212,25 @@ void MapHandler::loadMap(std::string filename)
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));*/
 	int t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	t = random(0,4);
+	//t = random(0,4);
 	
 
 	

@@ -162,6 +162,7 @@
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
+    <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
@@ -297,6 +298,7 @@
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
     <ClInclude Include="DelayedDamage.h" />
+    <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="CloudOfDarkness.h" />
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />
