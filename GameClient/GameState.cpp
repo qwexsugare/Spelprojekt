@@ -20,16 +20,17 @@ GameState::GameState(Client *_network)
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
+	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 500);
+
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
 	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-
 }
 
 GameState::~GameState()
@@ -64,6 +65,13 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
+	D3DXVECTOR3 pickDir;
+	D3DXVECTOR3 pickOrig;
+	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
+	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
+
+
 	// Update FRAMES PER SECOND (FPS) text
 	static float lol = 0.0f;
 	lol += _dt;
@@ -142,6 +150,9 @@ void GameState::update(float _dt)
 		case Skill::CLOUD_OF_DARKNESS:
 			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
 			break;
+		case Skill::ATTACK:
+			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
+			break;
 		}
 	}
 
@@ -151,11 +162,20 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::ATTACK:
+			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId()));
+			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
 			break;
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
+			break;
+		case Skill::ENIGMATIC_PRESENCE:
+			m_ClientSkillEffects.push_back(new EnigmaticPresenceClientSkillEffect(e.getTargetId()));
+			break;
+		case Skill::COURAGE_HONOR_VALOR:
+			m_ClientSkillEffects.push_back(new CourageHonorValorClientSkillEffect(e.getTargetId()));
 			break;
 		case Skill::SIMONS_EVIL:
 			m_ClientSkillEffects.push_back(new SimonsEvilClientSkillEffect(e.getTargetId()));
@@ -176,17 +196,56 @@ void GameState::update(float _dt)
 	{
 		NetworkRemoveActionTargetMessage e = this->m_network->removeActionTargetQueueFront();
 		
-		for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+		switch(e.getActionId())
 		{
-			if(typeid(DemonicPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+		case Skill::DEMONIC_PRESENCE:
 			{
-				if(((DemonicPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 				{
-					delete m_ClientSkillEffects[i];
-					m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
-					i = m_ClientSkillEffects.size();
+					if(typeid(DemonicPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((DemonicPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
 				}
 			}
+			break;
+		case Skill::COURAGE_HONOR_VALOR:
+			{
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+				{
+					if(typeid(CourageHonorValorClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((CourageHonorValorClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
+				}
+			}
+			break;
+		case Skill::ENIGMATIC_PRESENCE:
+			{
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+				{
+					if(typeid(EnigmaticPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((EnigmaticPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
+				}
+			}
+			break;
 		}
 	}
 
@@ -318,6 +377,8 @@ void GameState::importMap(string _map)
 
 	vector<string> blendMaps = vector<string>(2);
 	vector<string> textures;
+	vector<string> normalMaps;
+	vector<string> specularMaps;
 	textures.push_back("textures\\1.png");
 	textures.push_back("textures\\2.png");
 	textures.push_back("textures\\3.png");
@@ -326,6 +387,24 @@ void GameState::importMap(string _map)
 	textures.push_back("textures\\6.png");
 	textures.push_back("textures\\7.png");
 	textures.push_back("textures\\8.png");
+
+	normalMaps.push_back("textures\\1_2_3_4_NM.png");
+	normalMaps.push_back("textures\\1_2_3_4_NM.png");
+	normalMaps.push_back("textures\\1_2_3_4_NM.png");
+	normalMaps.push_back("textures\\1_2_3_4_NM.png");
+	normalMaps.push_back("textures\\5_NM.png");
+	normalMaps.push_back("textures\\6_NM.png");
+	normalMaps.push_back("textures\\7_8_NM.png");
+	normalMaps.push_back("textures\\7_8_NM.png");
+
+	specularMaps.push_back("textures\\1_2_3_4_Specular.png");
+	specularMaps.push_back("textures\\1_2_3_4_Specular.png");
+	specularMaps.push_back("textures\\1_2_3_4_Specular.png");
+	specularMaps.push_back("textures\\1_2_3_4_Specular.png");
+	specularMaps.push_back("textures\\5_SM.png");
+	specularMaps.push_back("textures\\6_SM.png");
+	specularMaps.push_back("textures\\7_SM.png");
+	specularMaps.push_back("textures\\8_SM.png");
 	
 	bool heightLoaded = false;
 	bool widthLoaded = false;
@@ -479,7 +558,7 @@ void GameState::importMap(string _map)
 						rotation.y = rotation.y * (D3DX_PI/180.0f);
 						rotation.z = rotation.z * (D3DX_PI/180.0f);
 
-						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius, false);
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, FLOAT3(1.0f, 1.0f, 1.0f), radius, false);
 					}
 					else if(strcmp(key, "PL") == 0)
 					{
@@ -542,8 +621,7 @@ void GameState::importMap(string _map)
 		sscanf("bugfix", "%s", key);
 	}
 	stream.close();
-	vector<string> nm; 
-	nm.push_back("textures/1_2_3_4_Normalmap.png");
-	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, nm);
+
+	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, normalMaps, specularMaps);
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }

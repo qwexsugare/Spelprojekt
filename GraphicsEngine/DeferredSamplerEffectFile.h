@@ -7,6 +7,7 @@ private:
 	ID3D10EffectShaderResourceVariable* m_texture;
 	ID3D10EffectShaderResourceVariable* m_normalMap;
 	ID3D10EffectShaderResourceVariable* m_glowMap;
+	ID3D10EffectShaderResourceVariable* m_specularMap;
 	ID3D10EffectMatrixVariable* m_modelMatrix;
 	ID3D10EffectMatrixVariable* m_viewMatrix;
 	ID3D10EffectMatrixVariable* m_projectionMatrix;
@@ -21,8 +22,9 @@ private:
 	// Terrain
 	ID3D10EffectTechnique* m_renderTerrain;
 	ID3D10EffectShaderResourceVariable* m_terrainTextures;
+	ID3D10EffectShaderResourceVariable* m_terrainNormalMaps;
+	ID3D10EffectShaderResourceVariable* m_terrainSpecularMaps;
 	ID3D10EffectShaderResourceVariable* m_terrainBlendMaps;
-	ID3D10EffectShaderResourceVariable* m_normalMaps;
 	
 	//Anders
 	ID3D10InputLayout *m_vertexAnimationLayout;
@@ -49,6 +51,7 @@ public:
 	void setTexture(ID3D10ShaderResourceView *_texture);
 	void setNormalMap(ID3D10ShaderResourceView *_texture);
 	void setGlowMap(ID3D10ShaderResourceView *_texture);
+	void setSpecularMap(ID3D10ShaderResourceView *_texture);
 	void DeferredSamplerEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture);
 	ID3D10InputLayout *getInputLayout()const;
 	ID3D10InputLayout *getInputAnimationLayout() const;
@@ -60,8 +63,9 @@ public:
 
 
 	ID3D10EffectTechnique *getRenderTerrainTechnique();
-	void setNormalMaps(ID3D10ShaderResourceView* _texture);
 	void setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size);
+	void setTerrainNormalMaps(ID3D10ShaderResourceView** _normalMaps, int _size);
+	void setTerrainSpecularMaps(ID3D10ShaderResourceView** _specularMaps, int _size);
 	void setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size);
 	
 	ID3D10EffectTechnique* getRenderRoadTechnique();

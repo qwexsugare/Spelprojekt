@@ -153,18 +153,27 @@ void Model::move(FLOAT3 _distance)
 	this->m_position.x += _distance.x;
 	this->m_position.y += _distance.y;
 	this->m_position.z += _distance.z;
-
 	this->updateModelMatrix();
+
 	if(this->m_bs)
-	{
 		this->m_bs->Center =
 			XMFLOAT3(m_position.x + m_mesh->m_obb->Center.x*m_scale.x, m_position.y + m_mesh->m_obb->Center.y*m_scale.y, m_position.z + m_mesh->m_obb->Center.z*m_scale.z);
-	}
 	else
-	{
 		this->m_obb->Center =
 			XMFLOAT3(m_position.x + m_mesh->m_obb->Center.x*m_scale.x, m_position.y + m_mesh->m_obb->Center.y*m_scale.y, m_position.z + m_mesh->m_obb->Center.z*m_scale.z);
-	}
+}
+
+void Model::move(D3DXVECTOR3 _distance)
+{
+	m_position += _distance;
+	this->updateModelMatrix();
+
+	if(this->m_bs)
+		this->m_bs->Center =
+			XMFLOAT3(m_position.x + m_mesh->m_obb->Center.x*m_scale.x, m_position.y + m_mesh->m_obb->Center.y*m_scale.y, m_position.z + m_mesh->m_obb->Center.z*m_scale.z);
+	else
+		this->m_obb->Center =
+			XMFLOAT3(m_position.x + m_mesh->m_obb->Center.x*m_scale.x, m_position.y + m_mesh->m_obb->Center.y*m_scale.y, m_position.z + m_mesh->m_obb->Center.z*m_scale.z);
 }
 
 void Model::rotate(float _yaw, float _pitch, float _roll)
