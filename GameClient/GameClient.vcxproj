@@ -192,6 +192,8 @@
     <ClCompile Include="HealingTouchClientSkillEffect.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HudMenu.cpp" />
+    <ClCompile Include="HypnoticStare.cpp" />
+    <ClCompile Include="HypnoticStareEffect.cpp" />
     <ClCompile Include="IntroMenu.cpp" />
     <ClCompile Include="IntroState.cpp" />
     <ClCompile Include="JoinGameMenu.cpp" />
@@ -328,6 +330,8 @@
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Heroes.h" />
     <ClInclude Include="HudMenu.h" />
+    <ClInclude Include="HypnoticStare.h" />
+    <ClInclude Include="HypnoticStareEffect.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="IntroMenu.h" />
     <ClInclude Include="IntroState.h" />
