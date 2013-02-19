@@ -40,7 +40,6 @@ public:
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setNextPosition(unsigned int _id, float dt);
 	
-	
 	FLOAT3 getDirection();
 	void checkPursue();
 	FLOAT3 checkStatic(float dt, FLOAT3 _pPos);
@@ -50,6 +49,7 @@ public:
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 	bool outOfBounds(FLOAT3 _pt);
+	void setTargetType(UnitEntity::Type _type);
 
 };
 

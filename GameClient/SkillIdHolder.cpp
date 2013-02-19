@@ -31,6 +31,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_SkillId[Skill::TIME_IS_MONEY] = "menu_textures\\Button-Skill-20.png";
 	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-20.png";
 	this->m_SkillId[Skill::LIFE_REGEN] = "menu_textures\\Button-Skill-29.png";
+	this->m_SkillId[Skill::HYPNOTIC_STARE] = "menu_textures\\Button-Skill-21.png";
 
 	//Passive
 	this->m_skillActive[Skill::TOWER] = false;
@@ -61,6 +62,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::TIME_IS_MONEY] = false;
 	this->m_skillActive[Skill::ENHANCED_DEVELOPMENT] = true;
 	this->m_skillActive[Skill::LIFE_REGEN] = false;
+	this->m_skillActive[Skill::HYPNOTIC_STARE] = true;
 
 	//Description
 	this->m_skillDescription[Skill::TOWER] = "";
@@ -91,6 +93,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillDescription[Skill::TIME_IS_MONEY] = "";
 	this->m_skillDescription[Skill::ENHANCED_DEVELOPMENT] = "";
 	this->m_skillDescription[Skill::LIFE_REGEN] = "";
+	this->m_skillDescription[Skill::HYPNOTIC_STARE] = "";
 }
 
 std::string SkillIdHolder::getSkill(unsigned int id)

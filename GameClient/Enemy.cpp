@@ -420,3 +420,8 @@ bool Enemy::checkDistanceToStatic(float currFactor, float prevFactor)
 	else
 		return false;
 }
+
+void Enemy::setTargetType(UnitEntity::Type _type)
+{
+	m_targetType = _type;
+}
