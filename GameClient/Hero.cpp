@@ -52,6 +52,10 @@ void Hero::activateAllPassiveSkills()
 		{
 			m_skills[i]->activate(this->getId());
 		}
+		else if(m_skills[i]->getId() == Skill::ENIGMATIC_PRESENCE)
+		{
+			m_skills[i]->activate(this->getId());
+		}
 	}
 }
 

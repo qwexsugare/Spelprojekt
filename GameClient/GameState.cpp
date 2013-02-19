@@ -171,6 +171,9 @@ void GameState::update(float _dt)
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
 			break;
+		case Skill::ENIGMATIC_PRESENCE:
+			m_ClientSkillEffects.push_back(new EnigmaticPresenceClientSkillEffect(e.getTargetId()));
+			break;
 		case Skill::COURAGE_HONOR_VALOR:
 			m_ClientSkillEffects.push_back(new CourageHonorValorClientSkillEffect(e.getTargetId()));
 			break;
@@ -218,6 +221,22 @@ void GameState::update(float _dt)
 					if(typeid(CourageHonorValorClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
 					{
 						if(((CourageHonorValorClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
+				}
+			}
+			break;
+		case Skill::ENIGMATIC_PRESENCE:
+			{
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+				{
+					if(typeid(EnigmaticPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((EnigmaticPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
 						{
 							delete m_ClientSkillEffects[i];
 							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);

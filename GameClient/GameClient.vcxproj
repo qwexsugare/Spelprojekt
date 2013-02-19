@@ -180,6 +180,9 @@
     <ClCompile Include="Doctor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engineer.cpp" />
+    <ClCompile Include="EnigmaticPresence.cpp" />
+    <ClCompile Include="EnigmaticPresenceClientSkillEffect.cpp" />
+    <ClCompile Include="EnigmaticPresenceEffect.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Greed.cpp" />
@@ -308,6 +311,9 @@
     <ClInclude Include="Doctor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engineer.h" />
+    <ClInclude Include="EnigmaticPresence.h" />
+    <ClInclude Include="EnigmaticPresenceClientSkillEffect.h" />
+    <ClInclude Include="EnigmaticPresenceEffect.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
     <ClInclude Include="GameState.h" />

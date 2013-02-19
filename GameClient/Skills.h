@@ -9,6 +9,7 @@
 #include "SimonsEvil.h"
 #include "SwiftAsACatPowerfulAsABoar.h"
 #include "CourageHonorValor.h"
+#include "EnigmaticPresence.h"
 #include "LifeRegen.h"
 #include "Aim.h"
 #include "DeadlyStrike.h"
