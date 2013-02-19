@@ -270,17 +270,17 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	sampNormal = 2.0f * sampNormal - 1.0f;
 	//sampNormal =  mul(float4(sampNormal, 0.0f), modelMatrix);
 	//sampNormal *= -1;
-	/*
-	float2 uvCoord = input.UVCoord;
+	
+	//float2 uvCoord = input.UVCoord;
 
 
 	sampNormal = normalize(sampNormal);
-	sampNormal = 2.0f * sampNormal - 1.0f;
-	sampNormal = mul(float4(sampNormal, 0.0f), modelMatrix);
+	//sampNormal = 2.0f * sampNormal - 1.0f;
+	//sampNormal = mul(float4(sampNormal, 0.0f), modelMatrix);
 
 
 	//sampNormal.xy *= -1;
-	*/
+	
 	float3 tang = normalize(input.Tangent);
 
 	float3 n = normalize(input.Normal);
@@ -291,15 +291,14 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	//float3 newNormal = normalize(mul(sampNormal, tbn));
 	//float3 light = float3(0, -1, 0);
 	//light = normalize(light);
-	//light = normalize(mul(light, tbn))
-	//n = normalize(mul(n, tbn));
-	//float diff = saturate(dot(light, newNormal));
+	//light = normalize(mul(light, tbn));
+	//float diff = dot(light, newNormal);
 
 	output.Pos = input.EyeCoord;
 	output.Normal = normalize(normalMap.Sample(linearSampler, input.UVCoord));
 	//output.Normal = float4(normalize(n), 0.0f);
 
-	output.Diffuse = color;
+	output.Diffuse = color;//float4(diff, diff, diff, 1.0f);//float4(1, 1, 1, 1);
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).w);
 

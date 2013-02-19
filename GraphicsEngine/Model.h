@@ -24,7 +24,7 @@ private:
 	bool m_static;
 public:
 	Model();
-	Model(ID3D10Device* _device, Mesh* _mesh, Animation _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+	Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 		float _alpha = 1.0f, string _textureIndex = "color");
 	~Model();
 	
@@ -36,9 +36,9 @@ public:
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	Mesh* getMesh()const;
-	Animation* getAnimation();
 	string getTextureIndex()const { return m_textureIndex; }
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
+	DECLDIR Animation* getAnimation();
 	DECLDIR bool contains(const BoundingOrientedBox& _obb)const;
 	DECLDIR bool contains(const BoundingSphere& _bs)const;
 	DECLDIR bool intersects(const BoundingOrientedBox& _obb)const;
