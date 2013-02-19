@@ -16,3 +16,6 @@
 #include "MentalResistance.h"
 #include "PhysicalResistance.h"
 #include "PoisonStrike.h"
+
+#include "MeleeAttack.h"
+#include "RangedAttack.h"

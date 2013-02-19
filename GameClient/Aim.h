@@ -10,10 +10,9 @@ private:
 public:
 	static const unsigned int COST = 1100;
 
-	Aim();
+	Aim(unsigned int _senderId);
 	~Aim();
 
-	bool activate(unsigned int _senderId);
 	void updateSpecificSkill(float dt);
 };
 

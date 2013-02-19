@@ -7,24 +7,20 @@ DeadlyStrike::DeadlyStrike() : Skill(Skill::DEADLY_STRIKE, 0.0f)
 
 DeadlyStrike::~DeadlyStrike()
 {
-	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
 
-	if(e != NULL)
-	{
-		UnitEntity* ue = (UnitEntity*)e;
-		ue->setDeadlyStrikeChance(ue->getDeadlyStrikeChance() - 1);
-	}
 }
 
-bool DeadlyStrike::activate(unsigned int _senderId)
+bool DeadlyStrike::activate(unsigned int _targetId, unsigned int _senderId)
 {
-	this->m_senderId = _senderId;
-	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
+	int deadlyStrike = rand() % 100 + 1;
 
-	if(e != NULL)
+	UnitEntity *caster = (UnitEntity*)EntityHandler::getServerEntity(_senderId);
+	UnitEntity *target = (UnitEntity*)EntityHandler::getServerEntity(_targetId);
+
+	if(deadlyStrike < caster->getAgility() / 2 && target->getType() == ServerEntity::Type::EnemyType)
 	{
-		UnitEntity* ue = (UnitEntity*)e;
-		ue->setDeadlyStrikeChance(ue->getDeadlyStrikeChance() + 1);
+		target->takeDamage(_senderId, INT_MAX, INT_MAX);
+		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, INT_MAX, INT_MAX, Skill::DEADLY_STRIKE));
 	}
 
 	return true;

@@ -76,9 +76,6 @@
     <ClCompile Include="Server.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="MeleeAttack.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="MessageHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -337,6 +334,15 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="MeleeAttack.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayedDamage.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="RangedAttack.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -421,9 +427,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Server.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="MeleeAttack.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="MessageQueue.h">
@@ -585,9 +588,6 @@
     <ClInclude Include="DemonicPresence.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="ChainStrikeEffect.h">
-      <Filter>Server\Skills\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="CloudOfDarknessEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
@@ -701,6 +701,18 @@
     </ClInclude>
     <ClInclude Include="Arrow.h">
       <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAttack.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayedDamage.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="RangedAttack.h">
+      <Filter>Server\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

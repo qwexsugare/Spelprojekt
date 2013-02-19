@@ -32,7 +32,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-20.png";
 	this->m_SkillId[Skill::LIFE_REGAIN] = "menu_textures\\Button-Skill-20.png";
 
-	//Passive
+	//Active
 	this->m_skillActive[Skill::TOWER] = false;
 	this->m_skillActive[Skill::TURRET_LIFE] = false;
 	this->m_skillActive[Skill::STRENGTH] = false;
@@ -43,7 +43,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::AGILITY] = false;
 	this->m_skillActive[Skill::TELEPORT] = true;
 	this->m_skillActive[Skill::AIM] = false;
-	this->m_skillActive[Skill::DEADLY_STRIKE] = true;
+	this->m_skillActive[Skill::DEADLY_STRIKE] = false;
 	this->m_skillActive[Skill::WITS] = false;
 	this->m_skillActive[Skill::POISON_STRIKE] = false;
 	this->m_skillActive[Skill::HEALING_TOUCH] = true;

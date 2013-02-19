@@ -10,7 +10,6 @@ Hero::Hero() : UnitEntity()
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_attackCooldown = 0.0f;
-	this->m_attackRange = 5.0f;
 	this->m_hasTarget = false;
 	this->m_baseMovementSpeed = 3.1f;
 	this->m_movementSpeed = this->m_baseMovementSpeed;
@@ -31,7 +30,6 @@ Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_attackCooldown = 0.0f;
-	this->m_attackRange = 5.0f;
 	this->m_hasTarget = false;
 }
 
@@ -80,30 +78,34 @@ void Hero::updateSpecificUnitEntity(float dt)
 			FLOAT3 distance = se->getPosition() - this->m_position;
 			this->m_rotation.x = atan2(-distance.x, -distance.z);
 
-			if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRange)
+			if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_regularAttack->getRange())
 			{
 				if(this->m_attackCooldown <= 0.0f)
 				{
-					this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::ATTACK, this->m_id, se->getId(), this->m_position));
-					EntityHandler::addEntity(new Arrow((m_position-se->getPosition()).length(), se->getId(), m_id));
+					//this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::ATTACK, this->m_id, se->getId(), this->m_position));
+					//EntityHandler::addEntity(new Arrow((m_position-se->getPosition()).length(), se->getId(), m_id));
 					//this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage); // dont
+					this->attack(this->m_target);
 					this->m_attackCooldown = this->m_attackSpeed;
 				}
 			}
 			else
 			{
-				if(distance.length() - this->m_attackRange > this->m_movementSpeed * dt)
+				if(distance.length() > 0)
 				{
-					distance = distance / distance.length();
-					this->m_position = this->m_position + (distance * this->m_movementSpeed * dt);
-				}
-				else
-				{
-					this->m_position = this->m_position + distance * (distance.length() - this->m_attackRange);
-				}
+					if(distance.length() - this->m_regularAttack->getRange() > this->m_movementSpeed * dt)
+					{
+						distance = distance / distance.length();
+						this->m_position = this->m_position + (distance * this->m_movementSpeed * dt);
+					}
+					else
+					{
+						this->m_position = this->m_position + distance * (distance.length() - this->m_regularAttack->getRange());
+					}
 
-				this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
-				this->m_rotation.x = atan2(-distance.x, -distance.z);
+					this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+					this->m_rotation.x = atan2(-distance.x, -distance.z);
+				}
 			}
 		}
 	}

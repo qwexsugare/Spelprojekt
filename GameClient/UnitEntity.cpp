@@ -3,6 +3,8 @@
 
 UnitEntity::UnitEntity() : ServerEntity()
 {
+	this->m_regularAttack = new MeleeAttack();
+
 	this->m_health = 100;
 	this->m_maxHealth = 100;
 
@@ -27,12 +29,13 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
-	this->m_attackRange = 5.0f;
 	m_swiftAsACatPowerfulAsABear = false;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 {
+	this->m_regularAttack = new RangedAttack();
+
 	this->m_health = 100;
 	this->m_maxHealth = 100;
 
@@ -58,7 +61,6 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
-	this->m_attackRange = 5.0f;
 	m_swiftAsACatPowerfulAsABear = false;
 }
 
@@ -68,6 +70,8 @@ UnitEntity::~UnitEntity()
 	{
 		delete this->m_skills[i];
 	}
+
+	delete this->m_regularAttack;
 }
 
 void UnitEntity::addSkill(Skill *_skill)
@@ -221,19 +225,10 @@ void UnitEntity::setMentalResistance(float _mentalResistance)
 {
 	this->m_mentalResistance = _mentalResistance;
 }
-void UnitEntity::setLifeStealChance(unsigned int _lifeStealChance)
-{
-	this->m_lifeStealChance = _lifeStealChance;
-}
 
-void UnitEntity::setPoisonChance(unsigned int _poisonChance)
+void UnitEntity::setPoisonCounter(int _poisonCounter)
 {
-	this->m_poisonChance = _poisonChance;
-}
-
-void UnitEntity::setDeadlyStrikeChance(unsigned int _deadlyStrikeChance)
-{
-	this->m_deadlyStrikeChance = _deadlyStrikeChance;
+	this->m_poisonCounter = _poisonCounter;
 }
 
 void UnitEntity::setGreed(float _greed)
@@ -306,21 +301,6 @@ float UnitEntity::getMentalResistance()
 	return this->m_mentalResistance;
 }
 
-unsigned int UnitEntity::getLifeStealChance()
-{
-	return this->m_lifeStealChance;
-}
-
-unsigned int UnitEntity::getPoisonChance()
-{
-	return this->m_poisonChance;
-}
-
-unsigned int UnitEntity::getDeadlyStrikeChance()
-{
-	return this->m_deadlyStrikeChance;
-}
-
 float UnitEntity::getGreed()
 {
 	return this->m_greed;
@@ -336,6 +316,11 @@ unsigned int UnitEntity::getLastDamageDealer()
 	return this->m_lastDamageDealer;
 }
 
+int UnitEntity::getPoisonCounter()
+{
+	return this->m_poisonCounter;
+}
+
 void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
 	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
@@ -345,30 +330,6 @@ void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int
 
 void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)
 {
-	int lifesteal = rand() % 100 + 1;
-	int poison = rand() % 100 + 1;
-	int deadlyStrike = rand() % 100 + 1;
-
-	if(lifesteal < this->m_lifeStealChance)
-	{
-		this->heal(physicalDamage * 0.5f);
-	}
-
-	if(poison < this->m_poisonChance)
-	{
-		if(this->m_poisonCounter < 4)
-		{
-			this->m_poisonCounter++;
-		}
-		
-		target->takeDamage(this->m_id, 100 + this->m_poisonCounter * 5, false);
-	}
-
-	if(deadlyStrike < this->m_deadlyStrikeChance && target->getType() == Type::EnemyType)
-	{
-		target->takeDamage(this->m_id, INT_MAX, INT_MAX);
-	}
-
 	if(m_swiftAsACatPowerfulAsABear)
 	{
 		//Gör saacpaab saker
@@ -420,4 +381,22 @@ NetworkEntityMessage UnitEntity::getUpdate()
 	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_health, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
 
 	return e;
+}
+
+void UnitEntity::attack(unsigned int target)
+{
+	if(this->m_regularAttack != NULL)
+	{
+		SkillIdHolder skillIdHolder = SkillIdHolder();
+
+		for(int i = 0; i < this->m_skills.size(); i++)
+		{
+			if(skillIdHolder.getActive(this->m_skills[i]->getId()) == false)
+			{
+				this->m_skills[i]->activate(target, this->m_id);
+			}
+		}
+
+		this->m_regularAttack->activate(target, this->m_id);
+	}
 }

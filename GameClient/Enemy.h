@@ -4,7 +4,6 @@
 #include "ServerEntity.h"
 #include "EntityHandler.h"
 #include "Hero.h"
-#include "MeleeAttack.h"
 #include "Path.h"
 
 class Enemy : public UnitEntity

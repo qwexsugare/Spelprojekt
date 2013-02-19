@@ -3,6 +3,8 @@
 
 #include "ServerEntity.h"
 #include "Skill.h"
+#include "MeleeAttack.h"
+#include "RangedAttack.h"
 
 class UnitEntity : public ServerEntity
 {
@@ -13,6 +15,7 @@ protected:
 	static const int MAX_FORTITUDE = 20;
 
 	vector<Skill*> m_skills;
+	Skill* m_regularAttack;
 
 	unsigned int m_lastDamageDealer;
 
@@ -33,7 +36,6 @@ protected:
 	float m_attackSpeedChange;
 	float m_attackSpeed;
 	float m_attackCooldown;
-	float m_attackRange;
 	float m_physicalDamage;
 	float m_mentalDamage;
 	float m_physicalResistance;
@@ -76,10 +78,8 @@ public:
 	void setMentalDamage(float _mentalDamage);
 	void setPhysicalResistance(float _physicalResistance);
 	void setMentalResistance(float _mentalResistance);
-	void setLifeStealChance(unsigned int _lifeStealChance);
-	void setPoisonChance(unsigned int _poisonChance);
-	void setDeadlyStrikeChance(unsigned int _deadlyStrikeChance);
 	void setSwiftAsACatPowerfulAsABear(bool _val) { m_swiftAsACatPowerfulAsABear = _val; }
+	void setPoisonCounter(int _poisonCounter);
 	void stun(float _time);
 
 	int getStrength();
@@ -95,17 +95,16 @@ public:
 	float getMentalDamage();
 	float getPhysicalResistance();
 	float getMentalResistance();
-	unsigned int getLifeStealChance();
-	unsigned int getPoisonChance( );
-	unsigned int getDeadlyStrikeChance();
 	float getGreed();
 	float getTurretDuration();
+	int getPoisonCounter();
 
 	unsigned int getLastDamageDealer();
 
 	void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
+	void attack(unsigned int target);
 };
 
 #endif

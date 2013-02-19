@@ -161,6 +161,8 @@
     <ClCompile Include="ClientEntityHandler.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
+    <ClCompile Include="DelayedDamage.cpp" />
+    <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarknessEffect.cpp" />
@@ -233,6 +235,7 @@
     <ClCompile Include="PoisonStrike.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="RangedAttack.cpp" />
     <ClCompile Include="RedKnight.cpp" />
     <ClCompile Include="ScoreMenu.cpp" />
     <ClCompile Include="Server.cpp" />
@@ -249,7 +252,6 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
     <ClCompile Include="State.cpp" />
-    <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="StunningStrike.cpp" />
     <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
@@ -284,6 +286,8 @@
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
+    <ClInclude Include="DelayedDamage.h" />
+    <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="CloudOfDarkness.h" />
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />
     <ClInclude Include="CloudOfDarknessEffect.h" />
@@ -325,7 +329,6 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapHandler.h" />
-    <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="MentalResistance.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
@@ -362,6 +365,7 @@
     <ClInclude Include="PoisonStrike.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RangedAttack.h" />
     <ClInclude Include="RedKnight.h" />
     <ClInclude Include="ScoreMenu.h" />
     <ClInclude Include="Server.h" />
