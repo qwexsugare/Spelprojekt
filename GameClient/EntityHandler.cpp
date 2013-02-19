@@ -141,6 +141,40 @@ ServerEntity* EntityHandler::getClosestEntity(ServerEntity *entity)
 	}
 }
 
+ServerEntity* EntityHandler::getClosestEntityByType(ServerEntity* _entity, UnitEntity::Type _type)
+{
+	ServerEntity* closestEntity = NULL;
+
+	if(EntityHandler::m_entities.size() > 1)
+	{
+		bool foundMatch = false;
+		float shortestDistance;
+
+		for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+		{
+			if(EntityHandler::m_entities[i] != _entity && EntityHandler::m_entities[i]->getType() == _type)
+			{
+				if(foundMatch)
+				{
+					if((EntityHandler::m_entities[i]->getPosition()-_entity->getPosition()).length() < shortestDistance)
+					{
+						shortestDistance = (EntityHandler::m_entities[i]->getPosition()-_entity->getPosition()).length();
+						closestEntity = EntityHandler::m_entities[i];
+					}
+				}
+				else
+				{
+					shortestDistance = (EntityHandler::m_entities[i]->getPosition()-_entity->getPosition()).length();
+					closestEntity = EntityHandler::m_entities[i];
+					foundMatch = true;
+				}
+			}
+		}
+	}
+
+	return closestEntity;
+}
+
 ServerEntity* EntityHandler::getClosestEnemy(ServerEntity *entity)
 {
 	float shortestDistance = 9999999999.3f;

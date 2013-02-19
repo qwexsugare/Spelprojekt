@@ -13,6 +13,7 @@ MapHandler::MapHandler()
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
+	this->m_lives = 10;
 }
 
 MapHandler::~MapHandler()
@@ -40,10 +41,20 @@ MapHandler::~MapHandler()
 		delete []m_paths;
 }
 
-bool MapHandler::isDone()
+MapHandler::State MapHandler::getState()
 {
-	//return m_currentWave >= m_waves.size();	//The work of Marcus the Game Destroyer
-	return false;
+	if(this->m_lives <= 0)
+	{
+		return MapHandler::State::DEFEAT;
+	}
+	else if(this->m_currentWave > this->m_waves.size())
+	{
+		return MapHandler::State::VICTORY;
+	}
+	else
+	{
+		return MapHandler::State::RUNNING;
+	}
 }
 
 void MapHandler::loadMap(std::string filename)
@@ -90,7 +101,7 @@ void MapHandler::loadMap(std::string filename)
 					FLOAT3 rotation;
 					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
 
-					position.z = height+position.z;
+					position.z = -position.z;
 					rotation.x = rotation.x * (D3DX_PI/180.0f);
 					
 					Model *m = g_graphicsEngine->createModel(key, position);
@@ -106,10 +117,10 @@ void MapHandler::loadMap(std::string filename)
 			stream.getline(buf, 1024);
 			sscanf(buf, "width, height %d %d", &m_gridWidth, &m_gridHeight);
 
-			g_pathfinder = new Pathfinder(this->m_gridWidth, this->m_gridHeight, width, height);
+			Map map = Map(this->m_gridWidth, this->m_gridHeight);
 			
 			m_grid = new bool*[m_gridHeight];
-			for(int j = m_gridHeight-1; j >= 0; j--)
+			for(int j = 0; j < m_gridHeight; j++)
 			{
 				m_grid[j] = new bool[m_gridWidth];
 
@@ -123,10 +134,12 @@ void MapHandler::loadMap(std::string filename)
 
 					if(m_grid[j][i] == true)
 					{
-						g_pathfinder->setAsWall(i, j);
+						map.getNode(Position(i, j))->actAsWall();
 					}
 				}
 			}
+
+			g_pathfinder = new Pathfinder(map, FLOAT2(width, height));
 
 			// The END string key should be here, get rid of it
 			//stream.getline(buf, 1024);
@@ -142,7 +155,7 @@ void MapHandler::loadMap(std::string filename)
 			{
 				float notInvertZ;
 				sscanf(buf, "%f %f", &points[nrOfPoints].x, &notInvertZ);
-				points[nrOfPoints].y = height+notInvertZ;
+				points[nrOfPoints].y = -notInvertZ;
 				nrOfPoints++;
 				stream.getline(buf, 1024);
 				sscanf(buf, "%s", key);
@@ -165,9 +178,23 @@ void MapHandler::loadMap(std::string filename)
 		m_paths[i] = paths[i];
 	
 	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+<<<<<<< HEAD
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
 	this->m_waves.push_back(vector<ServerEntity*>());
 	m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
 	m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
@@ -176,6 +203,31 @@ void MapHandler::loadMap(std::string filename)
 	m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
 	m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
 	m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+=======
+	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	////m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	////m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	////m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//this->m_waves.push_back(vector<ServerEntity*>());
+	//m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[1].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//this->m_waves.push_back(vector<ServerEntity*>());
+	//m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+	//m_waves[2].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
+>>>>>>> 2af57acc880b776f6818de19d8598d9495a20ca8
 }
 
 void MapHandler::update(float _dt)
@@ -183,22 +235,9 @@ void MapHandler::update(float _dt)
 	if(m_waveTimer > 0.0f)
 	{
 		m_waveTimer = max(m_waveTimer-_dt, 0.0f);
-<<<<<<< HEAD
-
-		if(this->m_currentWave < this->m_waves.size() && this->m_waves[this->m_currentWave].empty() == false)
-			{
-				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
-				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
-=======
 	}
 	else if(m_waveTimer == 0.0f && m_currentWave < m_waves.size())
 	{
-		//for(int i = 0; i < m_waves[m_currentWave].size(); i++)
-		//{
-		//	EntityHandler::addEntity(m_waves[m_currentWave][i]);
-		//	m_waves[m_currentWave][i] = NULL; // Null them bitches, they are the entity handlers problem now.
-		//}
-
 		this->m_enemySpawnTimer = max(this->m_enemySpawnTimer-_dt, 0.0f);
 
 		if(this->m_enemySpawnTimer == 0.0f)
@@ -208,50 +247,28 @@ void MapHandler::update(float _dt)
 				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
 				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
 				this->m_enemySpawnTimer = 2.0f;
->>>>>>> ed8522ad3482c7fcdcd447ea1aa1a4579f4638f7
 			}
 			else
 			{
 				m_currentWave++;
-<<<<<<< HEAD
-			}
-	}
-	//else if(m_waveTimer == 0.0f && m_currentWave < m_waves.size())
-	//{
-	//	for(int i = 0; i < m_waves[m_currentWave].size(); i++)
-	//	{
-	//		EntityHandler::addEntity(m_waves[m_currentWave][i]);
-	//		m_waves[m_currentWave][i] = NULL; // Null them bitches, they are the entity handlers problem now.
-	//	}
-
-	//	this->m_enemySpawnTimer = max(this->m_enemySpawnTimer-_dt, 0.0f);
-
-	//	if(this->m_enemySpawnTimer == 0.0f)
-	//	{
-	//		if(this->m_waves[this->m_currentWave].empty() == false)
-	//		{
-	//			EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
-	//			this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
-	//			this->m_enemySpawnTimer = 1.0f;
-	//		}
-	//		else
-	//		{
-	//			m_currentWave++;
-	//			this->m_waveTimer = -1.0f;
-	//		}
-	//	}
-	//}
-=======
 				this->m_waveTimer = -1.0f;
 			}
 		}
 	}
->>>>>>> ed8522ad3482c7fcdcd447ea1aa1a4579f4638f7
-	else
-	{
-		if(EntityHandler::getNrOfEnemies() == 0 && m_currentWave < m_waves.size())
+	else if(EntityHandler::getNrOfEnemies() == 0)
+	{	
+		if(this->m_currentWave < m_waves.size())
 		{
 			m_waveTimer = 10.0f;
 		}
+		else
+		{
+			this->m_currentWave = this->m_waves.size() + 1;
+		}
 	}
+}
+
+void MapHandler::enemyDied()
+{
+	this->m_lives--;
 }

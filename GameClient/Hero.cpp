@@ -11,7 +11,7 @@ Hero::Hero() : UnitEntity()
 	this->m_reachedPosition = true;
 	this->m_attackCooldown = 0.0f;
 	this->m_hasTarget = false;
-	this->m_baseMovementSpeed = 3.1f;
+	this->m_baseMovementSpeed = 2.0f;
 	this->m_movementSpeed = this->m_baseMovementSpeed;
 	this->m_baseAttackSpeed = 1.0f;
 	this->m_attackSpeed = this->m_baseAttackSpeed;
@@ -36,6 +36,36 @@ Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 Hero::~Hero()
 {
 
+}
+
+void Hero::activateAllPassiveSkills()
+{
+	for(int i = 0; i < m_skills.size(); i++)
+	{
+		if(m_skills[i]->getId() == Skill::COURAGE_HONOR_VALOR)
+		{
+			m_skills[i]->activate(this->getId());
+		}
+		else if(m_skills[i]->getId() == Skill::LIFE_REGEN)
+		{
+			m_skills[i]->activate(this->getId());
+		}
+		else if(m_skills[i]->getId() == Skill::ENIGMATIC_PRESENCE)
+		{
+			m_skills[i]->activate(this->getId());
+		}
+	}
+}
+
+FLOAT3 Hero::getDirection()
+{
+	if( (m_nextPosition - m_position).length() > 0)
+	{
+		return m_nextPosition-m_position;
+		
+	}
+	else
+		return m_position;
 }
 
 Hero::HERO_TYPE Hero::getHeroType()const
@@ -203,15 +233,4 @@ void Hero::setTarget(unsigned int _target)
 		this->m_reachedPosition = true;
 		this->m_reallyReachedPosition = true;
 	}
-}
-
-FLOAT3 Hero::getDirection()
-{
-	if( (m_nextPosition - m_position).length() > 0)
-	{
-		return m_nextPosition-m_position;
-		
-	}
-	else
-		return m_position;
 }

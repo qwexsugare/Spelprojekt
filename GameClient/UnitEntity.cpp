@@ -3,29 +3,34 @@
 
 UnitEntity::UnitEntity() : ServerEntity()
 {
-	this->m_regularAttack = new MeleeAttack();
+	this->m_regularAttack = NULL;
 
 	this->m_health = 100;
 	this->m_maxHealth = 100;
-
 	this->m_strength = 1;
 	this->m_agility = 1;
 	this->m_wits = 1;
 	this->m_fortitude = 1;
-	
-	this->m_movementSpeedChange = 0.0f;
-	this->m_movementSpeed = 2.0f;
+
+	this->m_baseAttackSpeed = 2.0f;
 	this->m_attackSpeedChange = 0.0f;
-	this->m_attackSpeed = 1.0f;
+	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
-	this->m_physicalResistance = 1.0f;
+
+	this->m_baseMovementSpeed = 2.0f;
+	this->m_movementSpeedChange = 0.0f;
+	this->m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
+	
+	this->m_basePhysicalResistance = 1.0f;
+	this->m_physicalResistanceChange = 0.0f;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
+
 	this->m_mentalResistance = 1.0f;
-	this->m_lifeStealChance = 0.0f;
-	this->m_poisonChance = 0.0f;
-	this->m_deadlyStrikeChance = 0.0f;
+	this->m_lifeStealChance = 0;
+	this->m_poisonChance = 0;
+	this->m_deadlyStrikeChance = 0;
 	this->m_poisonCounter = 0;
-	this->m_stunTimer = 0.0f;
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
@@ -34,25 +39,33 @@ UnitEntity::UnitEntity() : ServerEntity()
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 {
-	this->m_regularAttack = new RangedAttack();
+	this->m_regularAttack = NULL;
 
 	this->m_health = 100;
 	this->m_maxHealth = 100;
-
 	this->m_strength = 1;
 	this->m_agility = 1;
 	this->m_wits = 1;
 	this->m_fortitude = 1;
-	
+
 	this->m_baseAttackSpeed = 2.0f;
+	this->m_attackSpeedChange = 0.0f;
+	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+
 	this->m_baseMovementSpeed = 2.0f;
 	this->m_movementSpeedChange = 0.0f;
-	this->m_movementSpeed = 2.0f;
-	this->m_attackSpeedChange = 0.0f;
-	this->m_attackSpeed = 2.0f;
+	this->m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
+	
+	this->m_basePhysicalResistance = 1.0f;
 	this->m_physicalDamage = 1.0f;
 	this->m_mentalDamage = 1.0f;
-	this->m_physicalResistance = 1.0f;
+	this->m_physicalResistanceChange = 0.0f;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
+	
+	this->m_baseMentalDamage = 1.0f;
+	this->m_mentalDamageChange = 0.0f;
+	this->m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
+
 	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0;
 	this->m_poisonChance = 0;
@@ -77,6 +90,35 @@ UnitEntity::~UnitEntity()
 void UnitEntity::addSkill(Skill *_skill)
 {
 	this->m_skills.push_back(_skill);
+}
+
+void UnitEntity::alterMentalDamage(float _value)
+{
+	m_mentalDamageChange += _value;
+	m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
+}
+
+void UnitEntity::alterAttackSpeed(float _value)
+{
+	m_attackSpeedChange += _value;
+	m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+
+	if(this->m_attackCooldown > this->m_attackSpeed)
+	{
+		this->m_attackCooldown = this->m_attackSpeed;
+	}
+}
+
+void UnitEntity::alterMovementSpeed(float _value)
+{
+	m_movementSpeedChange += _value;
+	m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
+}
+
+void UnitEntity::alterPhysicalResistance(float _value)
+{
+	m_physicalResistanceChange += _value;
+	m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
 }
 
 vector<Skill*> UnitEntity::getSkills()
@@ -137,16 +179,14 @@ void UnitEntity::increaseStrength(int _strength)
 
 void UnitEntity::increaseAgility(int _agility)
 {
-	this->m_agility = this->m_agility + _agility;
-
-	if(this->m_agility > UnitEntity::MAX_AGILITY)
-	{
-		_agility = UnitEntity::MAX_AGILITY - this->m_agility;
-		this->m_agility = UnitEntity::MAX_AGILITY;
-	}
-
-	this->m_movementSpeed = this->m_movementSpeed + _agility * 0.1f;
-	this->m_attackSpeed = this->m_attackSpeed + _agility * 0.05f;
+	if(_agility+m_agility > UnitEntity::MAX_AGILITY)
+		_agility = UnitEntity::MAX_AGILITY - m_agility;
+	
+	this->m_baseMovementSpeed += _agility * 0.1f;
+	this->m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
+	this->m_baseAttackSpeed += _agility * 0.05f;
+	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+	this->m_agility += _agility;
 }
 
 void UnitEntity::increaseWits(int _wits)
@@ -174,23 +214,6 @@ void UnitEntity::increaseFortitude(int _fortitude)
 	}
 }
 
-void UnitEntity::alterAttackSpeed(float _value)
-{
-	m_attackSpeedChange += _value;
-	m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
-
-	if(this->m_attackCooldown > this->m_attackSpeed)
-	{
-		this->m_attackCooldown = this->m_attackSpeed;
-	}
-}
-
-void UnitEntity::alterMovementSpeed(float _value)
-{
-	m_movementSpeedChange += _value;
-	m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
-}
-
 void UnitEntity::setMaxHealth(int _maxHealth)
 {
 	this->m_maxHealth = _maxHealth;
@@ -214,6 +237,7 @@ void UnitEntity::setPhysicalDamage(float _physicalDamage)
 void UnitEntity::setMentalDamage(float _mentalDamage)
 {
 	this->m_mentalDamage = _mentalDamage;
+
 }
 
 void UnitEntity::setPhysicalResistance(float _physicalResistance)
@@ -283,12 +307,12 @@ float UnitEntity::getAttackSpeed()
 
 float UnitEntity::getPhysicalDamage()
 {
-	return this->m_physicalDamage;
+	return random(0,m_physicalDamage);
 }
 
 float UnitEntity::getMentalDamage()
 {
-	return this->m_mentalDamage;
+	return random(0, m_mentalDamage);
 }
 
 float UnitEntity::getPhysicalResistance()

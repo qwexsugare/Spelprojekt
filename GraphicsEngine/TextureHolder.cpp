@@ -34,49 +34,43 @@ ID3D10ShaderResourceView* TextureHolder::getTexture(string filename)
 	return result;
 }
 
-TexturePack TextureHolder::getBoneTexture(string filename)
+TexturePack* TextureHolder::getBoneTexture()
 {	
-	map<string, ID3D10ShaderResourceView*>::iterator searchResult = this->m_textures.find(filename);
-
 	ID3D10Texture1D* boneTexture = NULL;
 
-	if(searchResult == this->m_textures.end())
-	{
-		ID3D10ShaderResourceView* resource = NULL;
+	ID3D10ShaderResourceView* resource = NULL;
 
-		HRESULT hr = S_OK;
-		D3D10_TEXTURE1D_DESC t1dd;
-		ZeroMemory(&t1dd, sizeof(t1dd));
-		t1dd.Width			= 4 * MAX_BONES;
-		t1dd.ArraySize		= 1;
-		t1dd.Format			= DXGI_FORMAT_R32G32B32A32_FLOAT;
-		t1dd.MipLevels		= 1;
-		t1dd.BindFlags		= D3D10_BIND_SHADER_RESOURCE;
-		t1dd.Usage			= D3D10_USAGE_DYNAMIC;
-		t1dd.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-		t1dd.MiscFlags		= 0;
+	HRESULT hr = S_OK;
+	D3D10_TEXTURE1D_DESC t1dd;
+	ZeroMemory(&t1dd, sizeof(t1dd));
+	t1dd.Width			= 4 * MAX_BONES;
+	t1dd.ArraySize		= 1;
+	t1dd.Format			= DXGI_FORMAT_R32G32B32A32_FLOAT;
+	t1dd.MipLevels		= 1;
+	t1dd.BindFlags		= D3D10_BIND_SHADER_RESOURCE;
+	t1dd.Usage			= D3D10_USAGE_DYNAMIC;
+	t1dd.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
+	t1dd.MiscFlags		= 0;
 
-		hr = m_device->CreateTexture1D(&t1dd, NULL, &boneTexture);
-		if(FAILED(hr))
-			MessageBox(NULL, "Failed to create BoneTexture", "TextureHolder.cpp", 0);
+	hr = m_device->CreateTexture1D(&t1dd, NULL, &boneTexture);
+	if(FAILED(hr))
+		MessageBox(NULL, "Failed to create BoneTexture", "TextureHolder.cpp", 0);
 
-		D3D10_SHADER_RESOURCE_VIEW_DESC bsrvd;
-		ZeroMemory(&bsrvd, sizeof(bsrvd));
-		bsrvd.Format				= t1dd.Format;
-		bsrvd.Texture2D.MipLevels	= t1dd.MipLevels;
-		bsrvd.ViewDimension			= D3D10_SRV_DIMENSION_TEXTURE1D;
+	D3D10_SHADER_RESOURCE_VIEW_DESC bsrvd;
+	ZeroMemory(&bsrvd, sizeof(bsrvd));
+	bsrvd.Format				= t1dd.Format;
+	bsrvd.Texture2D.MipLevels	= t1dd.MipLevels;
+	bsrvd.ViewDimension			= D3D10_SRV_DIMENSION_TEXTURE1D;
 	
-		hr = m_device->CreateShaderResourceView(boneTexture, &bsrvd, &resource);
-		if(FAILED(hr))
-			MessageBox(NULL, "Failed to create BoneResourceView", "TextureHolder.cpp", 0);
-		
-		this->m_textures.insert(this->m_textures.begin(), pair<string, ID3D10ShaderResourceView*>(filename, resource));
-	}
+	hr = m_device->CreateShaderResourceView(boneTexture, &bsrvd, &resource);
+	if(FAILED(hr))
+		MessageBox(NULL, "Failed to create BoneResourceView", "TextureHolder.cpp", 0);
+	
 
 	
-	TexturePack result;
-	result.resourceView = this->m_textures[filename];
-	result.texture = boneTexture;
+	TexturePack* result = new TexturePack();
+	result->resourceView = resource;
+	result->texture = boneTexture;
 
 	return result;
 }

@@ -7,9 +7,10 @@ TheMentalist::TheMentalist(int _playerId) : Hero(Hero::THE_MENTALIST, _playerId)
 	this->increaseAgility(4);
 	this->increaseWits(5);
 	this->increaseFortitude(2);
-	
-	this->m_skills.push_back(new SimonsEvil());
-	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
+
+	m_skills.push_back(new EnigmaticPresence());
+
+	this->m_regularAttack = new RangedAttack();
 }
 
 TheMentalist::~TheMentalist()

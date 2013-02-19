@@ -27,7 +27,7 @@ GameState::GameState(Client *_network)
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f, false);
 	//g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
 	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.8f, 0.8f, 0.8f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
@@ -171,6 +171,12 @@ void GameState::update(float _dt)
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
 			break;
+		case Skill::ENIGMATIC_PRESENCE:
+			m_ClientSkillEffects.push_back(new EnigmaticPresenceClientSkillEffect(e.getTargetId()));
+			break;
+		case Skill::COURAGE_HONOR_VALOR:
+			m_ClientSkillEffects.push_back(new CourageHonorValorClientSkillEffect(e.getTargetId()));
+			break;
 		case Skill::SIMONS_EVIL:
 			m_ClientSkillEffects.push_back(new SimonsEvilClientSkillEffect(e.getTargetId()));
 			break;
@@ -190,17 +196,56 @@ void GameState::update(float _dt)
 	{
 		NetworkRemoveActionTargetMessage e = this->m_network->removeActionTargetQueueFront();
 		
-		for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+		switch(e.getActionId())
 		{
-			if(typeid(DemonicPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+		case Skill::DEMONIC_PRESENCE:
 			{
-				if(((DemonicPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 				{
-					delete m_ClientSkillEffects[i];
-					m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
-					i = m_ClientSkillEffects.size();
+					if(typeid(DemonicPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((DemonicPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
 				}
 			}
+			break;
+		case Skill::COURAGE_HONOR_VALOR:
+			{
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+				{
+					if(typeid(CourageHonorValorClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((CourageHonorValorClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
+				}
+			}
+			break;
+		case Skill::ENIGMATIC_PRESENCE:
+			{
+				for(int i = 0; i < m_ClientSkillEffects.size(); i++)
+				{
+					if(typeid(EnigmaticPresenceClientSkillEffect) == typeid(*m_ClientSkillEffects[i]))
+					{
+						if(((EnigmaticPresenceClientSkillEffect*)m_ClientSkillEffects[i])->getMasterId() == e.getTargetId())
+						{
+							delete m_ClientSkillEffects[i];
+							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
+							i = m_ClientSkillEffects.size();
+						}
+					}
+				}
+			}
+			break;
 		}
 	}
 

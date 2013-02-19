@@ -167,6 +167,9 @@
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarknessEffect.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="CourageHonorValor.cpp" />
+    <ClCompile Include="CourageHonorValorClientSkillEffect.cpp" />
+    <ClCompile Include="CourageHonorValorEffect.cpp" />
     <ClCompile Include="CreateGameMenu.cpp" />
     <ClCompile Include="CreateGameState.cpp" />
     <ClCompile Include="CreditsMenu.cpp" />
@@ -179,6 +182,9 @@
     <ClCompile Include="Doctor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engineer.cpp" />
+    <ClCompile Include="EnigmaticPresence.cpp" />
+    <ClCompile Include="EnigmaticPresenceClientSkillEffect.cpp" />
+    <ClCompile Include="EnigmaticPresenceEffect.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Greed.cpp" />
@@ -191,6 +197,8 @@
     <ClCompile Include="JoinGameMenu.cpp" />
     <ClCompile Include="JoinGameState.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LifeRegen.cpp" />
+    <ClCompile Include="LifeRegenEffect.cpp" />
     <ClCompile Include="LifestealingStrike.cpp" />
     <ClCompile Include="LobbyMenu.cpp" />
     <ClCompile Include="LobbyState.cpp" />
@@ -292,6 +300,9 @@
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />
     <ClInclude Include="CloudOfDarknessEffect.h" />
     <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="CourageHonorValor.h" />
+    <ClInclude Include="CourageHonorValorClientSkillEffect.h" />
+    <ClInclude Include="CourageHonorValorEffect.h" />
     <ClInclude Include="CreateGameMenu.h" />
     <ClInclude Include="CreateGameState.h" />
     <ClInclude Include="CreditsMenu.h" />
@@ -304,6 +315,9 @@
     <ClInclude Include="Doctor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engineer.h" />
+    <ClInclude Include="EnigmaticPresence.h" />
+    <ClInclude Include="EnigmaticPresenceClientSkillEffect.h" />
+    <ClInclude Include="EnigmaticPresenceEffect.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
     <ClInclude Include="GameState.h" />
@@ -320,6 +334,8 @@
     <ClInclude Include="JoinGameMenu.h" />
     <ClInclude Include="JoinGameState.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LifeRegen.h" />
+    <ClInclude Include="LifeRegenEffect.h" />
     <ClInclude Include="LifestealingStrike.h" />
     <ClInclude Include="LobbyMenu.h" />
     <ClInclude Include="LobbyState.h" />

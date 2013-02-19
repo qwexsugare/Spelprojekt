@@ -7,9 +7,8 @@ Officer::Officer(int _playerId) : Hero(Hero::OFFICER, _playerId)
 	this->increaseAgility(5);
 	this->increaseWits(1);
 	this->increaseFortitude(3);
-	
-	this->m_skills.push_back(new SimonsEvil());
-	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
+
+	this->m_regularAttack = new MeleeAttack();
 }
 
 Officer::~Officer()

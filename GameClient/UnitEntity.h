@@ -3,8 +3,7 @@
 
 #include "ServerEntity.h"
 #include "Skill.h"
-#include "MeleeAttack.h"
-#include "RangedAttack.h"
+#include "SkillIdHolder.h"
 
 class UnitEntity : public ServerEntity
 {
@@ -37,8 +36,12 @@ protected:
 	float m_attackSpeed;
 	float m_attackCooldown;
 	float m_physicalDamage;
+	float m_baseMentalDamage;
+	float m_mentalDamageChange;
 	float m_mentalDamage;
 	float m_physicalResistance;
+	float m_physicalResistanceChange;
+	float m_basePhysicalResistance;
 	float m_mentalResistance;
 	unsigned int m_lifeStealChance;
 	int m_poisonChance;
@@ -68,7 +71,9 @@ public:
 	void increaseFortitude(int _fortitude);
 	
 	void alterAttackSpeed(float _value);
+	void alterMentalDamage(float _value);
 	void alterMovementSpeed(float _value);
+	void alterPhysicalResistance(float _value);
 	void setGreed(float _greed);
 	void setTurretDuration(float _turretLife);
 	void setMaxHealth(int _maxHealth);
@@ -86,7 +91,7 @@ public:
 	int getAgility();
 	int getWits();
 	int getFortitude();
-
+	
 	int getHealth();
 	int getMaxHealth();
 	float getMovementSpeed();

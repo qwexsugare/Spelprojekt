@@ -9,7 +9,9 @@ Doctor::Doctor(int _playerId) : Hero(Hero::DOCTOR, _playerId)
 	this->increaseFortitude(3);
 	
 	this->m_skills.push_back(new SimonsEvil());
-	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
+	this->m_skills.push_back(new LifeRegen());
+
+	this->m_regularAttack = new RangedAttack();
 }
 
 Doctor::~Doctor()

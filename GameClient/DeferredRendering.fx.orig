@@ -279,8 +279,12 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * tangent.w);
 =======
 	return diffuse;
-	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
+	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f)*diffuse);
 >>>>>>> c9f59777d937c7d123c77c249cdd376415f51099
+	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * diffuse);
+=======
+	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * tangent.w);
+>>>>>>> fcdbd5bcef07329d8894cf60bb7b1eb46ff2e130
 }
 
 technique10 RenderModelDeferred

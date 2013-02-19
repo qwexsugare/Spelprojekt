@@ -42,6 +42,7 @@ void Player::assignHero(Hero::HERO_TYPE _type)
 	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 30.0f));
 	
 	EntityHandler::addEntity(m_hero);
+	m_hero->activateAllPassiveSkills();
 }
 
 void Player::spawnHero()

@@ -373,6 +373,7 @@ void World::render()
 
 					if(m_models[i]->getMesh()->isAnimated)
 					{
+						m_models[i]->getAnimation()->UpdateSkeletonTexture();
 						this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
 						this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
@@ -438,6 +439,7 @@ void World::render()
 
 			if(transparentStaticModels[i]->getMesh()->isAnimated)
 			{
+				transparentStaticModels[i]->getAnimation()->UpdateSkeletonTexture();
 				this->m_deferredSampler->setBoneTexture(transparentStaticModels[i]->getAnimation()->getResource());
 				this->m_deviceHandler->setVertexBuffer(transparentStaticModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
