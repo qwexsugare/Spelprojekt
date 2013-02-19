@@ -47,20 +47,7 @@ CourageHonorValorEffect::CourageHonorValorEffect(unsigned int _caster)
 
 CourageHonorValorEffect::~CourageHonorValorEffect()
 {
-	ServerEntity* caster = EntityHandler::getServerEntity(m_caster);
 
-	for(int i = 0; i < m_affectedGuys.size(); i++)
-	{
-		ServerEntity* se = EntityHandler::getServerEntity(m_affectedGuys[i]);
-		if(se && (caster->getPosition()-se->getPosition()).length() <= AOE)
-		{
-			((UnitEntity*)se)->alterMovementSpeed(-MOVEMENT_SPEED);
-			this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::COURAGE_HONOR_VALOR, 0, se->getId()));
-			m_affectedGuys.erase(m_affectedGuys.begin()+i);
-			i--;
-		}
-	}
-	this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 }
 
 void CourageHonorValorEffect::update(float _dt)
