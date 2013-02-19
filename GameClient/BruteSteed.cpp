@@ -1,4 +1,5 @@
 #include "BruteSteed.h"
+#include "MeleeAttack.h"
 
 
 BruteSteed::BruteSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
@@ -27,14 +28,14 @@ BruteSteed::BruteSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
 
 	m_baseMentalResistance = 50 + m_fortitude*2;
 	m_mentalResistance = m_baseMentalResistance;
-
 	
-
+	m_regularAttack = new MeleeAttack();
+	m_aggroRange = m_regularAttack->getRange() *2.0f;
 }
 
 void BruteSteed::attackHero(int heroIndex)
 {
-	this->dealDamage(EntityHandler::getAllHeroes()[heroIndex], this->getPhysicalDamage(), this->getMentalDamage());
+	this->attack(m_closestTargetId);
 	this->m_attackCooldown = m_attackSpeed;
 
 	
