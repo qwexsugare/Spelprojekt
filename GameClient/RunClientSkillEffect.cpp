@@ -6,6 +6,7 @@ RunClientSkillEffect::RunClientSkillEffect(unsigned int masterId)
 
 	if(master != NULL)
 	{
+		master->m_model->getAnimation()->Stop("idle");
 		master->m_model->getAnimation()->PlayLoop("run");
 	}
 }
