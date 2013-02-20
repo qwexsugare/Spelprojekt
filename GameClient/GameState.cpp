@@ -148,6 +148,15 @@ void GameState::update(float _dt)
 		case Skill::STUNNING_STRIKE:
 			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
 			break;
+		case Skill::MELEE_ATTACK:
+			this->m_ClientSkillEffects.push_back(new MeleeAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::MOVE:
+			this->m_ClientSkillEffects.push_back(new RunClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::IDLE:
+			this->m_ClientSkillEffects.push_back(new IdleClientSkillEffect(e.getSenderId()));
+			break;
 		}
 	}
 

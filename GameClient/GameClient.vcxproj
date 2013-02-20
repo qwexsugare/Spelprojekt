@@ -163,6 +163,7 @@
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
+    <ClCompile Include="IdleClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapHandler.cpp" />
+    <ClCompile Include="MeleeAttackClientSkillEffect.cpp" />
     <ClCompile Include="MentalResistance.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
@@ -252,6 +254,7 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RangedAttack.cpp" />
     <ClCompile Include="RedKnight.cpp" />
+    <ClCompile Include="RunClientSkillEffect.cpp" />
     <ClCompile Include="ScoreMenu.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerEntity.cpp" />
@@ -309,6 +312,7 @@
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
     <ClInclude Include="DelayedDamage.h" />
+    <ClInclude Include="IdleClientSkillEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="CloudOfDarkness.h" />
@@ -365,6 +369,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapHandler.h" />
+    <ClInclude Include="MeleeAttackClientSkillEffect.h" />
     <ClInclude Include="MentalResistance.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
@@ -403,6 +408,7 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RangedAttack.h" />
     <ClInclude Include="RedKnight.h" />
+    <ClInclude Include="RunClientSkillEffect.h" />
     <ClInclude Include="ScoreMenu.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerEntity.h" />

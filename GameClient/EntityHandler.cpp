@@ -34,6 +34,8 @@ void EntityHandler::removeAllEntities()
 		delete this->m_entities[i];
 	}
 
+	delete EntityHandler::m_quadtree;
+
 	EntityHandler::m_mutex.Unlock();
 }
 
