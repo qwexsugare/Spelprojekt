@@ -100,7 +100,9 @@ void GameState::update(float _dt)
 
 		if(entity != NULL)
 		{
-			entity->m_model->setPosition(e.getPosition());
+			if(e.getPosition().x == e.getPosition().x)
+				entity->m_model->setPosition(e.getPosition());
+
 			if(e.getRotation().x == e.getRotation().x)
 				entity->m_model->setRotation(e.getRotation());
 			entity->m_type = (ServerEntity::Type)e.getEntityType();
@@ -110,6 +112,11 @@ void GameState::update(float _dt)
 		{
 			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
 			model->setTextureIndex(m_modelIdHolder.getTexture(e.getModelId()));
+
+			//if(this->m_modelIdHolder.getHat(e.getModelId()) != "")
+			//{
+			//	model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(e.getModelId())));
+			//}
 			if(model)
 			{
 				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
@@ -332,7 +339,7 @@ void GameState::update(float _dt)
 				D3DXVECTOR3 pickOrig;
 				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 				float dist;
-				if(m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+				if(m_entities[i]->m_type == ServerEntity::EnemyType && m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 				{
 					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
 					validMove = false;

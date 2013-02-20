@@ -243,6 +243,11 @@ bool GraphicsHandler::removeSpotLight(SpotLight* spotLight)
 	return this->m_world->removeSpotLight(spotLight);
 }
 
+Mesh *GraphicsHandler::getMesh(string filename)
+{
+	return this->m_resourceHolder->getMesh(filename);
+}
+
 void GraphicsHandler::initQuadTree(FLOAT2 _extents)
 {
 	m_world->initQuadTree(_extents);

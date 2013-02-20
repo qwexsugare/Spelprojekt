@@ -255,6 +255,8 @@
     <ClCompile Include="ScoreMenu.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerEntity.cpp" />
+    <ClCompile Include="ServerQuadTree.cpp" />
+    <ClCompile Include="ServerQuadTreeNode.cpp" />
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="SettingsState.cpp" />
@@ -404,6 +406,8 @@
     <ClInclude Include="ScoreMenu.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerEntity.h" />
+    <ClInclude Include="ServerQuadTree.h" />
+    <ClInclude Include="ServerQuadTreeNode.h" />
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="SettingsState.h" />

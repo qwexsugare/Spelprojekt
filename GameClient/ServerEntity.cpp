@@ -68,14 +68,21 @@ NetworkEntityMessage ServerEntity::getUpdate()
 ContainmentType ServerEntity::contains(const BoundingSphere& _bs)const
 {
 	if(m_obb)
-	{
 		return m_obb->Contains(_bs);
-	}
 	else if(m_bs)
-	{
 		return m_bs->Contains(_bs);
-	}
-	else return ContainmentType::DISJOINT;
+	else
+		return ContainmentType::DISJOINT;
+}
+
+ContainmentType ServerEntity::contains(const BoundingOrientedBox& _obb)const
+{
+	if(m_obb)
+		return m_obb->Contains(_obb);
+	else if(m_bs)
+		return m_bs->Contains(_obb);
+	else
+		return ContainmentType::DISJOINT;
 }
 
 void ServerEntity::setPosition(FLOAT3 _position)
