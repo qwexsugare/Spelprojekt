@@ -198,13 +198,33 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 
 			if(g_mouse->isLButtonPressed() == true && this->m_skillWaitingForTarget > -1)
 			{
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+				if(m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || m_skillWaitingForTarget == Skill::TELEPORT)
+				{
+					D3DXVECTOR3 pickDir;
+					D3DXVECTOR3 pickOrig;
+					g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-				float k = (-pickOrig.y)/pickDir.y;
-				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-				this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));		
+					float k = (-pickOrig.y)/pickDir.y;
+					D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+					this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));		
+				}
+				else if(m_skillWaitingForTarget == Skill::HEALING_TOUCH || m_skillWaitingForTarget == Skill::HYPNOTIC_STARE || m_skillWaitingForTarget == Skill::CHAIN_STRIKE)
+				{
+					D3DXVECTOR3 pickDir;
+					D3DXVECTOR3 pickOrig;
+					g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+						
+					float dist;
+					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
+					{
+						if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+						{
+							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id));
+							entityIndex = _entities.size();
+						}
+					}
+
+				}
 				this->m_skillWaitingForTarget = -1;
 			}
 
@@ -214,7 +234,8 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 
 				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
 				{
-					if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT)
+					if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT || m_SkillButtons[i]->getSkillId() == Skill::HYPNOTIC_STARE
+						|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE)
 					{
 						this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
 						this->m_buttonIndex = i;
@@ -223,22 +244,6 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)
 					{
 						this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId()));
-					}
-					else if(m_SkillButtons[i]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE)
-					{
-						D3DXVECTOR3 pickDir;
-						D3DXVECTOR3 pickOrig;
-						g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-						
-						float dist;
-						for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
-						{
-							if(_entities[entityIndex]->m_type == ServerEntity::HeroType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
-							{
-								this->m_network->sendMessage(NetworkUseActionTargetMessage(m_SkillButtons[i]->getSkillId(), _entities[entityIndex]->m_id));
-								entityIndex = _entities.size();
-							}
-						}
 					}
 				}
 			}

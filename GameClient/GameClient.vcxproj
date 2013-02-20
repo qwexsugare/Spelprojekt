@@ -154,6 +154,7 @@
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
+    <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeEffect.cpp" />
@@ -161,6 +162,9 @@
     <ClCompile Include="ClientEntityHandler.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
+    <ClCompile Include="DelayedDamage.cpp" />
+    <ClCompile Include="MeleeAOEAttack.cpp" />
+    <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
     <ClCompile Include="CloudOfDarknessEffect.cpp" />
@@ -184,12 +188,17 @@
     <ClCompile Include="EnigmaticPresenceClientSkillEffect.cpp" />
     <ClCompile Include="EnigmaticPresenceEffect.cpp" />
     <ClCompile Include="EntityHandler.cpp" />
+    <ClCompile Include="FrostDemon.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Greed.cpp" />
     <ClCompile Include="HealingTouch.cpp" />
     <ClCompile Include="HealingTouchClientSkillEffect.cpp" />
+    <ClCompile Include="HellfireSteed.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="HudMenu.cpp" />
+    <ClCompile Include="Imp.cpp" />
+    <ClCompile Include="HypnoticStare.cpp" />
+    <ClCompile Include="HypnoticStareEffect.cpp" />
     <ClCompile Include="IntroMenu.cpp" />
     <ClCompile Include="IntroState.cpp" />
     <ClCompile Include="JoinGameMenu.cpp" />
@@ -241,6 +250,7 @@
     <ClCompile Include="PoisonStrike.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="RangedAttack.cpp" />
     <ClCompile Include="RedKnight.cpp" />
     <ClCompile Include="ScoreMenu.cpp" />
     <ClCompile Include="Server.cpp" />
@@ -248,6 +258,7 @@
     <ClCompile Include="ServerThread.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="SettingsState.cpp" />
+    <ClCompile Include="Shade.cpp" />
     <ClCompile Include="SimonsEvil.cpp" />
     <ClCompile Include="SimonsEvilClientSkillEffect.cpp" />
     <ClCompile Include="SimonsEvilEffect.cpp" />
@@ -255,9 +266,10 @@
     <ClCompile Include="SkillIdHolder.cpp" />
     <ClCompile Include="Skill_Buttons.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="SoulEaterSteed.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
+    <ClCompile Include="SpittingDemon.cpp" />
     <ClCompile Include="State.cpp" />
-    <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="StunningStrike.cpp" />
     <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
@@ -269,6 +281,7 @@
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="TheMentalist.cpp" />
+    <ClCompile Include="ThunderSteed.cpp" />
     <ClCompile Include="Tower.cpp" />
     <ClCompile Include="UnitEntity.cpp" />
   </ItemGroup>
@@ -284,6 +297,7 @@
     <ClInclude Include="Aim.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="ArrowClientSkillEffect.h" />
+    <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeEffect.h" />
@@ -292,6 +306,9 @@
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
+    <ClInclude Include="DelayedDamage.h" />
+    <ClInclude Include="MeleeAOEAttack.h" />
+    <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="CloudOfDarkness.h" />
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />
     <ClInclude Include="CloudOfDarknessEffect.h" />
@@ -316,14 +333,19 @@
     <ClInclude Include="EnigmaticPresenceEffect.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityHandler.h" />
+    <ClInclude Include="FrostDemon.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Greed.h" />
     <ClInclude Include="HealingTouch.h" />
     <ClInclude Include="HealingTouchClientSkillEffect.h" />
+    <ClInclude Include="HellfireSteed.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Heroes.h" />
     <ClInclude Include="HudMenu.h" />
+    <ClInclude Include="Imp.h" />
+    <ClInclude Include="HypnoticStare.h" />
+    <ClInclude Include="HypnoticStareEffect.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="IntroMenu.h" />
     <ClInclude Include="IntroState.h" />
@@ -341,7 +363,6 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapHandler.h" />
-    <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="MentalResistance.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Message.h" />
@@ -378,6 +399,7 @@
     <ClInclude Include="PoisonStrike.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RangedAttack.h" />
     <ClInclude Include="RedKnight.h" />
     <ClInclude Include="ScoreMenu.h" />
     <ClInclude Include="Server.h" />
@@ -385,6 +407,7 @@
     <ClInclude Include="ServerThread.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="SettingsState.h" />
+    <ClInclude Include="Shade.h" />
     <ClInclude Include="SimonsEvil.h" />
     <ClInclude Include="SimonsEvilClientSkillEffect.h" />
     <ClInclude Include="SimonsEvilEffect.h" />
@@ -393,7 +416,9 @@
     <ClInclude Include="Skills.h" />
     <ClInclude Include="Skill_Buttons.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="SoulEaterSteed.h" />
     <ClInclude Include="SoundWrapper.h" />
+    <ClInclude Include="SpittingDemon.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StunningStrike.h" />
     <ClInclude Include="StunningStrikeClientSkillEffect.h" />
@@ -406,6 +431,7 @@
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="TheMentalist.h" />
+    <ClInclude Include="ThunderSteed.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="UnitEntity.h" />
   </ItemGroup>

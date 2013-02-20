@@ -990,9 +990,9 @@ bool World::removeMyText(MyText* _text)
 	return found;
 }
 
-void World::addPointLight(PointLight* _pointLight)
+bool World::addPointLight(PointLight* _pointLight)
 {
-	this->m_quadTree->addLight(_pointLight);
+	return this->m_quadTree->addLight(_pointLight);
 }
 
 bool World::removePointLight(PointLight* _pointLight)

@@ -10,10 +10,9 @@ private:
 public:
 	static const unsigned int COST = 900;
 
-	MentalResistance();
+	MentalResistance(unsigned int _senderId);
 	~MentalResistance();
 
-	bool activate(unsigned int _senderId);
 	void updateSpecificSkill(float dt);
 };
 

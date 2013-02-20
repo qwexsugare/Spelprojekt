@@ -45,13 +45,15 @@ struct StartMessage : Message
 struct SelectHeroMessage : Message
 {
 	int heroId;
+	int weaponId;
 
-	SelectHeroMessage(int _senderId, int _reciverId, int _heroId)
+	SelectHeroMessage(int _senderId, int _reciverId, int _heroId, int _weaponId)
 	{
 		this->type = Type::SelectHero;
 		this->senderId = _senderId;
 		this->reciverId = _reciverId;
 		this->heroId = _heroId;
+		this->weaponId = _weaponId;
 	}
 };
 

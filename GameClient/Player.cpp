@@ -98,8 +98,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::AIM:
 			if(this->m_resources >= Aim::COST)
 			{
-				a = new Aim();
-				a->activate(this->m_hero->getId());
+				a = new Aim(this->m_hero->getId());
 				this->m_resources = this->m_resources - Aim::COST;
 				skillBought = true;
 			}
@@ -110,7 +109,6 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			if(this->m_resources >= DeadlyStrike::COST)
 			{
 				a = new DeadlyStrike();
-				a->activate(this->m_hero->getId());
 				this->m_resources = this->m_resources - DeadlyStrike::COST;
 				skillBought = true;
 			}
@@ -132,7 +130,6 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			if(this->m_resources >= LifestealingStrike::COST)
 			{
 				a = new LifestealingStrike();
-				a->activate(this->m_hero->getId());
 				this->m_resources = this->m_resources - LifestealingStrike::COST;
 				skillBought = true;
 			}
@@ -142,8 +139,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::PHYSICAL_RESISTANCE:
 			if(this->m_resources >= Greed::COST)
 			{
-				a = new PhysicalResistance();
-				a->activate(this->m_hero->getId());
+				a = new PhysicalResistance(this->m_hero->getId());
 				this->m_resources = this->m_resources - PhysicalResistance::COST;
 				skillBought = true;
 			}
@@ -153,8 +149,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		case Skill::MENTAL_RESISTANCE:
 			if(this->m_resources >= MentalResistance::COST)
 			{
-				a = new MentalResistance();
-				a->activate(this->m_hero->getId());
+				a = new MentalResistance(this->m_hero->getId());
 				this->m_resources = this->m_resources - MentalResistance::COST;
 				skillBought = true;
 			}
@@ -165,7 +160,6 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			if(this->m_resources >= PoisonStrike::COST)
 			{
 				a = new PoisonStrike();
-				a->activate(this->m_hero->getId());
 				this->m_resources = this->m_resources - PoisonStrike::COST;
 				skillBought = true;
 			}
@@ -323,7 +317,7 @@ void Player::handleReadyMessage(NetworkReadyMessage rm)
 
 void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
 {
-	this->m_messageQueue->pushOutgoingMessage(new SelectHeroMessage(this->m_id, 0, shm.getHeroId()));
+	this->m_messageQueue->pushOutgoingMessage(new SelectHeroMessage(this->m_id, 0, shm.getHeroId(), shm.getWeapon()));
 }
 
 void Player::addResources(unsigned int resources)

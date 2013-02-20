@@ -2,6 +2,7 @@
 
 #include "skill.h"
 #include "EntityHandler.h"
+#include "DelayedDamage.h"
 
 class DeadlyStrike : public Skill
 {
@@ -13,7 +14,7 @@ public:
 	DeadlyStrike();
 	~DeadlyStrike();
 
-	bool activate(unsigned int _senderId);
+	bool activate(unsigned int _targetId, unsigned int _senderId);
 	void updateSpecificSkill(float dt);
 };
 

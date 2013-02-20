@@ -204,7 +204,13 @@ bool GraphicsHandler::removeSpriteSheet(SpriteSheet *spriteSheet)
 PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius, bool shadow)
 {
 	PointLight *l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, shadow);
-	this->m_world->addPointLight(l);
+
+	if(this->m_world->addPointLight(l) == false)
+	{
+		delete l;
+		l = NULL;
+	}
+
 	return l;
 }
 
