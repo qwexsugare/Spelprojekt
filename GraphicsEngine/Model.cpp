@@ -5,6 +5,9 @@ Model::Model()
 	this->m_obb = NULL;
 	this->m_bs = NULL;
 	this->animation = NULL;
+	this->m_rightHand = NULL;
+	this->m_leftHand = NULL;
+	this->m_hat = NULL;
 	m_static = false;
 }
 
@@ -17,6 +20,9 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECT
 	this->m_rotation = D3DXVECTOR3(_rotation.y, _rotation.x, _rotation.z);
 	this->m_textureIndex = _textureIndex;
 	this->m_glowIndex = _glowIndex;
+	this->m_rightHand = NULL;
+	this->m_leftHand = NULL;
+	this->m_hat = NULL;
 
 	if(_mesh->m_bs == NULL)
 	{
@@ -71,6 +77,21 @@ Mesh *Model::getMesh() const
 	return this->m_mesh;
 }
 
+Mesh *Model::getHat() const
+{
+	return this->m_hat;
+}
+
+Mesh *Model::getLeftHand() const
+{
+	return this->m_leftHand;
+}
+
+Mesh *Model::getRightHand() const
+{
+	return this->m_rightHand;
+}
+
 Animation* Model::getAnimation()
 {
 	return this->animation;
@@ -84,6 +105,21 @@ FLOAT3 Model::getPosition()const
 D3DXVECTOR2 Model::getPosition2D()const
 {
 	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
+}
+
+void Model::SetHat(Mesh* _hat)
+{
+	this->m_hat = _hat;
+}
+
+void Model::SetLeftHand(Mesh* _lHand)
+{
+	this->m_leftHand = _lHand;
+}
+
+void Model::SetRightHand(Mesh* _rHand)
+{
+	this->m_rightHand = _rHand;
 }
 
 bool Model::contains(const BoundingOrientedBox& _obb)const
@@ -218,6 +254,11 @@ void Model::setScale(D3DXVECTOR3 _scale)
 void Model::setTextureIndex(string _textureIndex)
 {
 	m_textureIndex = _textureIndex;
+}
+
+void Model::Update(float dt)
+{
+	this->animation->Update(dt);
 }
 
 void Model::updateModelMatrix()

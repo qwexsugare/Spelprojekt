@@ -1059,6 +1059,10 @@ GameClient/minimap/view.png
 GameClient/models/Beast1_5/attack.BFishA
 GameClient/models/Beast1_5/Beast1_5.BFish
 GameClient/models/Char1_5/Char1_5.BFish
+GameClient/minimap/view.png
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/Char1_5/Char1_5.BFish
+GameClient/minimap/view.png
 GameClient/maps/leveltwo/leveltwobmp2.png
 GameClient/maps/leveltwo/leveltwogm.png
 GameClient/maps/leveltwo/leveltwominimap.png
