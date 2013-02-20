@@ -3,8 +3,8 @@
 #include "EntityHandler.h"
 #include "Hero.h"
 
-const float HypnoticStare::TIME_FACTOR = 2.0f;
-const float HypnoticStare::COOLDOWN = 1.0f;
+const float HypnoticStare::TIME_FACTOR = 0.4f; //2.0f;
+const float HypnoticStare::COOLDOWN = 1.0f; //60.0f;
 
 HypnoticStare::HypnoticStare() : Skill(Skill::HYPNOTIC_STARE, COOLDOWN)
 {

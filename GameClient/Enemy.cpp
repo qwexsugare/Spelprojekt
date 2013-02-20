@@ -394,4 +394,9 @@ bool Enemy::checkDistanceToStatic(float currFactor, float prevFactor)
 void Enemy::setTargetType(UnitEntity::Type _type)
 {
 	m_targetType = _type;
+	ServerEntity* se = EntityHandler::getClosestEntityByType(this, m_targetType);
+	if(se)
+		m_closestTargetId = se->getId();
+	else
+		m_closestTargetId = -1;
 }
