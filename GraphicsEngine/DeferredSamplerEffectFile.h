@@ -49,7 +49,7 @@ public:
 	void setModelMatrix(D3DXMATRIX _matrix);
 	void setViewMatrix(D3DXMATRIX _matrix);
 	void setProjectionMatrix(D3DXMATRIX _matrix);
-	void setPropsMatrix(D3DXMATRIX _matrix);
+	void setPropsMatrix(D3DXMATRIX* _matrix);
 
 	void setTexture(ID3D10ShaderResourceView *_texture);
 	void setNormalMap(ID3D10ShaderResourceView *_texture);
