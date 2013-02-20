@@ -1092,3 +1092,11 @@ GameClient/maps/levelone/levelonebmp1.png
 GameClient/maps/levelone/levelonebmp2.png
 GameClient/models/Imp/Imp_UV_DM_HS.png
 GameClient/models/Imp/Imp_UV_SM_HS.png
+GameClient/minimap/view.png
+GameClient/minimap/view_.png
+GameClient/minimap/view1.png
+GameClient/models/TopHat.rar
+GameClient/models/TopHat/TopHat.BFish
+GameClient/models/TopHat/TopHatDoneTexture_Color.png
+GameClient/models/TopHat/TopHatDoneTexture_Spec.png
+GameClient/particles/light.png
