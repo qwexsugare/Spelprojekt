@@ -263,18 +263,21 @@ ServerEntity* EntityHandler::getClosestStatic(ServerEntity *entity)
 	float shortestDistance = 9999999999.3f;
 	int shortestIndex = -1;
 
-	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	vector<ServerEntity*> entities;
+	m_quadtree->getAllServerEntites(entities);
+
+	for(int i = 0; i < entities.size(); i++)
 	{
-		if(EntityHandler::m_entities[i] != entity && (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
+		if(entities[i] != entity && (entity->getPosition() - entities[i]->getPosition()).length() < shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
 		{
-			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestDistance = abs((entity->getPosition() - entities[i]->getPosition()).length());
 			shortestIndex = i;
 		}
 	}
 
 	if(shortestIndex > -1)
 	{
-		return EntityHandler::m_entities[shortestIndex];
+		return entities[shortestIndex];
 	}
 	else
 	{
@@ -286,19 +289,22 @@ ServerEntity* EntityHandler::getClosestSuperStatic(FLOAT3 _pos)
 {
 	float shortestDistance = 9999999999.3f;
 	int shortestIndex = -1;
+	
+	vector<ServerEntity*> entities;
+	m_quadtree->getAllServerEntites(entities);
 
-	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	for(int i = 0; i < entities.size(); i++)
 	{
-		if((_pos - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
+		if((_pos - entities[i]->getPosition()).length() < shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
 		{
-			shortestDistance = abs((_pos - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestDistance = abs((_pos - entities[i]->getPosition()).length());
 			shortestIndex = i;
 		}
 	}
 
 	if(shortestIndex > -1)
 	{
-		return EntityHandler::m_entities[shortestIndex];
+		return entities[shortestIndex];
 	}
 	else
 	{

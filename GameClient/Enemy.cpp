@@ -171,7 +171,6 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			this->m_reachedPosition = false;
 			//m_nextPosition = m_goalPosition;
 			//m_dir = m_dir + (m_nextPosition - m_position) + m_staticAvDir/5;
-		;
 		}
 		else //The enemy has reached its goal
 		{
