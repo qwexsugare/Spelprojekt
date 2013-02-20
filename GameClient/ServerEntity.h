@@ -46,8 +46,9 @@ public:
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
-
+	
 	ContainmentType contains(const BoundingSphere& _bs)const;
+	ContainmentType contains(const BoundingOrientedBox& _obb)const;
 
 	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);

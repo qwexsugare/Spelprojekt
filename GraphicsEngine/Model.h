@@ -46,7 +46,7 @@ public:
 	string getTextureIndex()const { return m_textureIndex; }
 	string getGlowIndex()const { return m_glowIndex; }
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
-	void SetHat(Mesh* _hat);
+	DECLDIR void SetHat(Mesh* _hat);
 	void SetLeftHand(Mesh* _lHand);
 	void SetRightHand(Mesh* _rHand);
 	void Update(float dt);
