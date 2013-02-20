@@ -317,7 +317,7 @@ void Player::handleReadyMessage(NetworkReadyMessage rm)
 
 void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
 {
-	this->m_messageQueue->pushOutgoingMessage(new SelectHeroMessage(this->m_id, 0, shm.getHeroId()));
+	this->m_messageQueue->pushOutgoingMessage(new SelectHeroMessage(this->m_id, 0, shm.getHeroId(), shm.getWeapon()));
 }
 
 void Player::addResources(unsigned int resources)

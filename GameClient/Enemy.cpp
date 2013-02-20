@@ -360,7 +360,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 
 void Enemy::attackHero()
 {
-	this->dealDamage(EntityHandler::getServerEntity(m_closestTargetId), this->getPhysicalDamage(), this->getMentalDamage());
+	this->attack(m_closestTargetId);
 	this->m_attackCooldown = 1.0f;
 }
 

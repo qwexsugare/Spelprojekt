@@ -160,7 +160,7 @@ void ServerThread::update(float dt)
 
 		for(int i = 0; i < entities.size(); i++)
 		{
-			if(entities[i]->getVisible() == true)
+			if(entities[i]->getVisible() == true && entities[i]->getType() != ServerEntity::Type::StaticType)
 			{
 				this->m_network->broadcast(entities[i]->getUpdate());
 			}

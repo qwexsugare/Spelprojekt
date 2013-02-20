@@ -1,5 +1,6 @@
 #include "FrostDemon.h"
 #include "StunningStrike.h"
+#include "RangedAttack.h"
 
 
 FrostDemon::FrostDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
@@ -30,12 +31,14 @@ FrostDemon::FrostDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
 	m_mentalResistance = m_baseMentalResistance;
 
 	m_skills.push_back(new StunningStrike());
+	m_regularAttack = new RangedAttack();
+	m_aggroRange = m_regularAttack->getRange() *2.0f;
 
 }
 
 void FrostDemon::attackHero(int heroIndex)
 {
-	this->dealDamage(EntityHandler::getAllHeroes()[heroIndex], this->getPhysicalDamage(), this->getMentalDamage());
+	this->attack(m_closestTargetId);
 	this->m_attackCooldown = m_attackSpeed;
 
 	m_skills[0]->activate(heroIndex, this->m_id);

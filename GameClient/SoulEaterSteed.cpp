@@ -1,5 +1,6 @@
 #include "SoulEaterSteed.h"
 #include "LifestealingStrike.h"
+#include "MeleeAttack.h"
 
 
 SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
@@ -30,12 +31,13 @@ SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
 	m_mentalResistance = m_baseMentalResistance;
 
 	m_skills.push_back(new LifestealingStrike());
-
+	m_regularAttack = new MeleeAttack();
+	m_aggroRange = m_regularAttack->getRange() *2.0f;
 }
 
 void SoulEaterSteed::attackHero(int heroIndex)
 {
-	this->dealDamage(EntityHandler::getAllHeroes()[heroIndex], this->getPhysicalDamage(), this->getMentalDamage());
+	this->attack(m_closestTargetId);
 	this->m_attackCooldown = m_attackSpeed;
 
 	
