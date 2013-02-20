@@ -7,7 +7,6 @@
 #include "Hero.h"
 #include "Projectile.h"
 #include "Skills.h"
-#include "Tower.h"
 
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"

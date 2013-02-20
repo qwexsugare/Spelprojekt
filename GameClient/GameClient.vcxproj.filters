@@ -397,14 +397,15 @@
     <ClCompile Include="SoulEaterSteed.cpp">
       <Filter>Server\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="ServerQuadTree.cpp">
       <Filter>Server\Quadtree</Filter>
-    <ClCompile Include="MeleeAOEAttack.cpp">
-      <Filter>Server\Skills</Filter>
-    </ClCompile>
     </ClCompile>
     <ClCompile Include="ServerQuadTreeNode.cpp">
       <Filter>Server\Quadtree</Filter>
+    </ClCompile>
+    <ClCompile Include="TowerPlacer.cpp">
+      <Filter>Server\Tower Placer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -830,15 +831,15 @@
     <ClInclude Include="SoulEaterSteed.h">
       <Filter>Server\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="MeleeAOEAttack.h">
-      <Filter>Server\Skills</Filter>
-    </ClInclude>
     <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="ServerQuadTree.h">
       <Filter>Server\Quadtree</Filter>
     </ClInclude>
     <ClInclude Include="ServerQuadTreeNode.h">
       <Filter>Server\Quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="TowerPlacer.h">
+      <Filter>Server\Tower Placer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -883,6 +884,9 @@
     </Filter>
     <Filter Include="Server\Quadtree">
       <UniqueIdentifier>{fa0e9017-8c0a-4efa-9c1a-c4978e74b3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Tower Placer">
+      <UniqueIdentifier>{7be7bea1-bd1e-460e-bca8-3cdc6c3dbe73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

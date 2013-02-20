@@ -1,4 +1,5 @@
 #include "ServerThread.h"
+#include "TowerPlacer.h"
 
 ServerThread::ServerThread(int _port) : sf::Thread()
 {
@@ -12,6 +13,7 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
 	// I crapped in ass
 	this->m_network->broadcast(NetworkEntityMessage());
+	TowerPlacer::init();
 }
 
 ServerThread::~ServerThread()
@@ -26,6 +28,7 @@ ServerThread::~ServerThread()
 	delete this->m_messageHandler;
 	this->m_entityHandler->removeAllEntities();
 	delete this->m_entityHandler;
+	TowerPlacer::release();
 }
 
 void ServerThread::Run()

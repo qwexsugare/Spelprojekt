@@ -1100,3 +1100,11 @@ GameClient/models/TopHat/TopHat.BFish
 GameClient/models/TopHat/TopHatDoneTexture_Color.png
 GameClient/models/TopHat/TopHatDoneTexture_Spec.png
 GameClient/particles/light.png
+GameClient/audio/Engineer_Attack_0.zip
+GameClient/audio/Engineer_Damage_0.wav
+GameClient/audio/Engineer_Damage_1.wav
+GameClient/audio/Engineer_Damage_2.wav
+GameClient/audio/reference/280.mp3
+GameClient/audio/reference/Radiohead_-_Pyramid_Song_(sample).ogg
+GameClient/minimap/view.old.png
+GameClient/minimap/view.png
