@@ -383,11 +383,10 @@ void World::render()
 						this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
 						//Draw Props
 						if(m_models[i]->getHat())
-						{
-							
+						{	
 							this->m_deferredSampler->setTexture(m_models[i]->getHat()->subMeshes[m]->textures["color"]);
 
-							this->m_deferredSampler->setModelMatrix(m_models[i]->getModelMatrix());
+							this->m_deferredSampler->setPropsMatrix(m_models[i]->getAnimation()->getHatMatrix());
 							this->m_deviceHandler->setVertexBuffer(m_models[i]->getHat()->subMeshes[m]->buffer, sizeof(SuperVertex));
 							this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
 							this->m_deviceHandler->getDevice()->Draw(m_models[i]->getHat()->subMeshes[m]->numVerts, 0);

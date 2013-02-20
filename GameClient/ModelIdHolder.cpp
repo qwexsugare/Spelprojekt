@@ -44,11 +44,11 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelId[97] = "Char1_5";
 	this->m_modelId[98] = "Char1_5";
 	this->m_modelId[99] = "Char1_5";
-	this->m_hatIds[95] = "Hatt1";
-	this->m_hatIds[96] = "Hatt2";
-	this->m_hatIds[97] = "Hatt3";
-	this->m_hatIds[98] = "Hatt4";
-	this->m_hatIds[99] = "Hatt5";
+	this->m_hatIds[95] = "DECLHatt";
+	this->m_hatIds[96] = "IronMan";
+	this->m_hatIds[97] = "GasMask";
+	this->m_hatIds[98] = "Ball";
+	this->m_hatIds[99] = "TopHat";
 	this->m_textures[95] = "color";
 	this->m_textures[96] = "color1";
 	this->m_textures[97] = "color2";

@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Heroes.h"
+#include "TowerPlacer.h"
 
 Player::Player(unsigned int id)
 {
@@ -264,7 +265,7 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		break;
 
 	case Skill::DEATH_TOWER:
-		EntityHandler::addEntity(new Tower(usm.getPosition()));
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
 		break;
 
 	default:

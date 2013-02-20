@@ -111,7 +111,7 @@ void DeferredSamplerEffectFile::setProjectionMatrix(D3DXMATRIX _matrix)
 	this->m_projectionMatrix->SetMatrix((float*)_matrix);
 }
 
-void DeferredSamplerEffectFile::setPropsMatrix(D3DXMATRIX _matrix)
+void DeferredSamplerEffectFile::setPropsMatrix(D3DXMATRIX* _matrix)
 {
 	this->m_propsMatrix->SetMatrix((float*)_matrix);
 }
