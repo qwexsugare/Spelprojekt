@@ -9,6 +9,7 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	FLOAT3 pos = ClientEntityHandler::getEntity(_masterId)->m_model->getPosition();
 	pos.y = 0.01f;
 	m_model = g_graphicsEngine->createModel("Pentagram", pos);
+	//m_model->getAnimation()->Play("attack");
 	m_model->setAlpha(0.75f);
 	m_sound = createSoundHandle("collision.wav", false, true, pos);
 	playSound(m_sound);

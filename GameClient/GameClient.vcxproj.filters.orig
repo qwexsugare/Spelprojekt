@@ -397,14 +397,17 @@
     <ClCompile Include="SoulEaterSteed.cpp">
       <Filter>Server\Enemies</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="MeleeAOEAttack.cpp">
+      <Filter>Server\Skills</Filter>
+=======
+    <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="ServerQuadTree.cpp">
       <Filter>Server\Quadtree</Filter>
     </ClCompile>
-    <ClCompile Include="MeleeAOEAttack.cpp">
-      <Filter>Server\Skills</Filter>
-    </ClCompile>
     <ClCompile Include="ServerQuadTreeNode.cpp">
       <Filter>Server\Quadtree</Filter>
+>>>>>>> 2835ea5e24d8927d858e8a78832aac964ca23028
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -830,15 +833,17 @@
     <ClInclude Include="SoulEaterSteed.h">
       <Filter>Server\Enemies</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="MeleeAOEAttack.h">
       <Filter>Server\Skills</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="ServerQuadTree.h">
       <Filter>Server\Quadtree</Filter>
     </ClInclude>
     <ClInclude Include="ServerQuadTreeNode.h">
       <Filter>Server\Quadtree</Filter>
+>>>>>>> 2835ea5e24d8927d858e8a78832aac964ca23028
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
