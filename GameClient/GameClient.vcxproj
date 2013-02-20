@@ -285,6 +285,7 @@
     <ClCompile Include="TheMentalist.cpp" />
     <ClCompile Include="ThunderSteed.cpp" />
     <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="TowerPlacer.cpp" />
     <ClCompile Include="UnitEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -437,6 +438,7 @@
     <ClInclude Include="TheMentalist.h" />
     <ClInclude Include="ThunderSteed.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="TowerPlacer.h" />
     <ClInclude Include="UnitEntity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -121,6 +121,12 @@ void GameState::update(float _dt)
 			{
 				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
 				this->m_clientEntityHandler->addEntity(new Entity(model, e.getEntityId()));
+
+				if(e.getEntityType() == ServerEntity::HeroType)
+				{
+					g_graphicsEngine->getCamera()->setX(e.getPosition().x);
+					g_graphicsEngine->getCamera()->setZ(e.getPosition().z - 3.0f);
+				}
 			}
 		}
 	}
@@ -296,17 +302,18 @@ void GameState::update(float _dt)
 	{
 		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
 	}
-
+	
 	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
 	{
 		// Calc some fucken pick ray out mofos
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
+		float dist;
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z)));
+
+		m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z)));
 	}
 	if(g_mouse->isLButtonPressed())
 	{
@@ -316,7 +323,6 @@ void GameState::update(float _dt)
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-		//this->m_network->sendMessage(NetworkUseActionPositionMessage(Skill::CLOUD_OF_DARKNESS, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));
 	}
 	if(g_mouse->isLButtonDown())
 	{
@@ -331,14 +337,14 @@ void GameState::update(float _dt)
 		if(m_minimap->isMouseInMap(g_mouse->getPos()) == false)
 		{
 			bool validMove = true;
-
+			
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			float dist;
 			vector<Entity*> m_entities = m_clientEntityHandler->getEntities();
 			for(int i = 0; i < m_entities.size(); i++)
 			{
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-				float dist;
 				if(m_entities[i]->m_type == ServerEntity::EnemyType && m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 				{
 					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
@@ -349,11 +355,6 @@ void GameState::update(float _dt)
 
 			if(validMove)
 			{
-				// Calc some fucken pick ray out mofos
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
 				float k = (-pickOrig.y)/pickDir.y;
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 

@@ -5,7 +5,7 @@
 class Engineer : public Hero
 {
 public:
-	Engineer(int _playerId);
+	Engineer(int _playerId, WEAPON_TYPE _weaponType);
 	~Engineer();
 };
 
