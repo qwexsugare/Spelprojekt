@@ -10,6 +10,7 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_modelMatrix = this->m_effect->GetVariableByName("modelMatrix")->AsMatrix();
 	this->m_viewMatrix = this->m_effect->GetVariableByName("viewMatrix")->AsMatrix();
 	this->m_projectionMatrix = this->m_effect->GetVariableByName("projectionMatrix")->AsMatrix();
+	this->m_propsMatrix = this->m_effect->GetVariableByName("propsMatrix")->AsMatrix();
 	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
 	this->m_normalMap = this->m_effect->GetVariableByName("normalMap")->AsShaderResource();
@@ -19,6 +20,7 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_technique = this->m_effect->GetTechniqueByName("DeferredSample");
 	this->m_animationTechnique = this->m_effect->GetTechniqueByName("DeferredAnimationSample");
 	this->m_superTechnique = this->m_effect->GetTechniqueByName("DeferredSuperSample");
+	this->m_propsTechnique = this->m_effect->GetTechniqueByName("DeferredPropsSample");
 	
 	D3D10_PASS_DESC passDescription;
 	this->m_technique->GetPassByIndex(0)->GetDesc(&passDescription);
@@ -109,6 +111,11 @@ void DeferredSamplerEffectFile::setProjectionMatrix(D3DXMATRIX _matrix)
 	this->m_projectionMatrix->SetMatrix((float*)_matrix);
 }
 
+void DeferredSamplerEffectFile::setPropsMatrix(D3DXMATRIX _matrix)
+{
+	this->m_propsMatrix->SetMatrix((float*)_matrix);
+}
+
 void DeferredSamplerEffectFile::setTexture(ID3D10ShaderResourceView *_texture)
 {
 	this->m_texture->SetResource(_texture);
@@ -147,6 +154,11 @@ ID3D10EffectTechnique *DeferredSamplerEffectFile::getAnimationTechnique()
 ID3D10EffectTechnique *DeferredSamplerEffectFile::getSuperTechnique()
 {
 	return this->m_superTechnique;
+}
+
+ID3D10EffectTechnique *DeferredSamplerEffectFile::getPropsTechnique()
+{
+	return this->m_propsTechnique;
 }
 
 ID3D10InputLayout *DeferredSamplerEffectFile::getInputLayout() const
