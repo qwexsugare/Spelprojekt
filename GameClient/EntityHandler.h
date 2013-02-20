@@ -6,7 +6,7 @@
 #include "ServerEntity.h"
 #include "UnitEntity.h"
 #include "MessageHandler.h"
-
+#include "ServerQuadTree.h"
 
 using namespace std;
 
@@ -15,6 +15,7 @@ class EntityHandler
 private:
 	static sf::Mutex m_mutex;
 	static vector<ServerEntity*> m_entities;
+	static ServerQuadTree* m_quadtree;
 	static unsigned int m_nextId;
 
 	static MessageQueue *m_messageQueue;
@@ -34,7 +35,6 @@ public:
 
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
 	static ServerEntity* getClosestEntityByType(ServerEntity* _entity, UnitEntity::Type _type);
-	static ServerEntity* getClosestEnemy(ServerEntity *entity);
 	static ServerEntity* getClosestStatic(ServerEntity *entity);
 	
 	static ServerEntity* getClosestSuperStatic(FLOAT3 _pos);

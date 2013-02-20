@@ -213,31 +213,47 @@ void Enemy::setNextPosition(unsigned int _id, float dt)
 	this->m_reachedPosition = false;
 }
 
-
 void Enemy::checkCloseEnemies(float dt)
 {
+	//if(EntityHandler::getClosestEnemy(this) != NULL && (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length() < this->getObb()->Extents.z*2)
+	//{
+	//	
+	//	if((m_position+m_dir/10 - EntityHandler::getClosestEnemy(this)->getPosition()).length() < (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length())
+	//	{
+	//		m_movementSpeed = 0.8f;
+	//		((UnitEntity*)EntityHandler::getClosestEnemy(this))->setMovementSpeed(2.5f);
+	//	}
+	//	else 
+	//		m_movementSpeed = m_baseMovementSpeed;
+
+	//	m_enemyAvDir =  (m_position - EntityHandler::getClosestEnemy(this)->getPosition())/(m_position - EntityHandler::getClosestEnemy(this)->getPosition()).length();
+	//	m_dir = m_dir*2 + m_enemyAvDir;
+	//	//m_position = m_position +m_enemyAvDir*2*dt;
+	//}
+	//else 
+	//	m_movementSpeed = m_baseMovementSpeed;
 	
-	
-	if(EntityHandler::getClosestEnemy(this) != NULL && (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length() < this->getObb()->Extents.z*2)
+	ServerEntity* closestEnemy = EntityHandler::getClosestEntityByType(this, UnitEntity::EnemyType);
+
+	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < this->getObb()->Extents.z*2)
 	{
 		
-		if((m_position+m_dir/10 - EntityHandler::getClosestEnemy(this)->getPosition()).length() < (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length())
+		if((m_position+m_dir/10 - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
 		{
 			m_movementSpeed = 0.8f;
-			((UnitEntity*)EntityHandler::getClosestEnemy(this))->setMovementSpeed(2.5f);
+			((UnitEntity*)closestEnemy)->setMovementSpeed(2.5f);
 		}
 		else 
 			m_movementSpeed = m_baseMovementSpeed;
 
-		m_enemyAvDir =  (m_position - EntityHandler::getClosestEnemy(this)->getPosition())/(m_position - EntityHandler::getClosestEnemy(this)->getPosition()).length();
+		m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
 		m_dir = m_dir*2 + m_enemyAvDir;
 		//m_position = m_position +m_enemyAvDir*2*dt;
 	}
 	else 
 		m_movementSpeed = m_baseMovementSpeed;
-	
-
 }
+
 void Enemy::checkPursue()
 {
 	float currDistToHero;
