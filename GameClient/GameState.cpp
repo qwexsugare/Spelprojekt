@@ -110,7 +110,11 @@ void GameState::update(float _dt)
 		{
 			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
 			model->setTextureIndex(m_modelIdHolder.getTexture(e.getModelId()));
-			model->setHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(e.getModelId)));
+
+			//if(this->m_modelIdHolder.getHat(e.getModelId()) != "")
+			//{
+			//	model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(e.getModelId())));
+			//}
 			if(model)
 			{
 				//this->m_entities.push_back(new Entity(model, e.getEntityId()));

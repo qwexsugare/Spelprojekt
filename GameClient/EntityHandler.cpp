@@ -5,6 +5,7 @@ vector<ServerEntity*> EntityHandler::m_entities;
 unsigned int EntityHandler::m_nextId = 0;
 MessageQueue *EntityHandler::m_messageQueue;
 MessageHandler *EntityHandler::m_messageHandler;
+ServerQuadTree* EntityHandler::m_quadtree;
 
 EntityHandler::EntityHandler()
 {
@@ -16,7 +17,7 @@ EntityHandler::EntityHandler(MessageHandler* _messageHandler)
 	EntityHandler::m_messageQueue = new MessageQueue();
 	EntityHandler::m_messageHandler = _messageHandler;
 	_messageHandler->addQueue(EntityHandler::m_messageQueue);
-	this->m_quadtree = new ServerQuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
+	EntityHandler::m_quadtree = new ServerQuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
 }
 
 EntityHandler::~EntityHandler()
@@ -63,7 +64,7 @@ void EntityHandler::update(float dt)
 		EntityHandler::m_entities[i]->update(dt);
 	}
 
-	m_quadtree->updateServerEntities(dt);
+	EntityHandler::m_quadtree->updateServerEntities(dt);
 
 	EntityHandler::m_mutex.Unlock();
 }
@@ -74,7 +75,7 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 	_entity->setId(EntityHandler::m_nextId);
 	if(_entity->getType() == ServerEntity::StaticType)
 	{
-		m_quadtree->addServerEntity(_entity);
+		EntityHandler::m_quadtree->addServerEntity(_entity);
 	}
 	else
 	{
@@ -92,7 +93,7 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 
 	if(_entity->getType() == ServerEntity::StaticType)
 	{
-		found = m_quadtree->removeServerEntity(_entity);
+		found = EntityHandler::m_quadtree->removeServerEntity(_entity);
 	}
 	else
 	{
@@ -119,11 +120,34 @@ vector<ServerEntity*> EntityHandler::getEntities()
 	EntityHandler::m_mutex.Lock();
 
 	vector<ServerEntity*> ses;
-	m_quadtree->getAllServerEntites(ses);
+	EntityHandler::m_quadtree->getAllServerEntites(ses);
 
-	ses.resize(EntityHandler::m_entities.size()+ses.size());
+	//ses.resize(EntityHandler::m_entities.size()+ses.size());
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 		ses.push_back(EntityHandler::m_entities[i]);
+
+	EntityHandler::m_mutex.Unlock();
+
+	return ses;
+}
+
+vector<ServerEntity*> EntityHandler::getEntitiesByType(ServerEntity::Type _type)
+{
+	EntityHandler::m_mutex.Lock();
+
+	vector<ServerEntity*> ses;
+	if(_type == ServerEntity::StaticType)
+		EntityHandler::m_quadtree->getAllServerEntites(ses);
+	else
+	{
+		for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+		{
+			if(EntityHandler::m_entities[i]->getType() == _type)
+			{
+				ses.push_back(EntityHandler::m_entities[i]);
+			}
+		}
+	}
 
 	EntityHandler::m_mutex.Unlock();
 
@@ -172,7 +196,7 @@ ServerEntity* EntityHandler::getClosestEntityByType(ServerEntity* _entity, Serve
 	if(_type == ServerEntity::Type::StaticType)
 	{
 		vector<ServerEntity*> serverEntities;
-		m_quadtree->getAllServerEntites(serverEntities);
+		EntityHandler::m_quadtree->getAllServerEntites(serverEntities);
 
 		if(serverEntities.size() > 1)
 		{
@@ -341,21 +365,6 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 	}
 
 	return heroes;
-}
-
-vector<ServerEntity*> EntityHandler::getAllStaticObjects()
-{
-	vector<ServerEntity*> staticObjects;
-	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
-	{
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
-		{
-			ServerEntity* staticObject = EntityHandler::m_entities[i];
-			staticObjects.push_back(staticObject);
-		}
-	}
-
-	return staticObjects;
 }
 
 unsigned int EntityHandler::getId()

@@ -5,7 +5,7 @@ ModelIdHolder::ModelIdHolder()
 	for(int i = 0; i < MAX_IDS; i++)
 	{
 		m_textures[i] = "color";
-		m_hatIds[i] = "Standard_hat";
+		m_hatIds[i] = "";
 	}
 
 	this->m_modelId[0] = "Char1_5";

@@ -12,7 +12,7 @@ Enemy::Enemy() : UnitEntity()
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
-	this->m_currClosestStatic = EntityHandler::getAllStaticObjects()[EntityHandler::getAllStaticObjects().size()-1];
+	this->m_currClosestStatic = EntityHandler::getEntitiesByType(ServerEntity::StaticType)[0];
 	this->m_health = 100;
 	this->m_movementSpeed = 3.0f;
 	this->m_aggroRange = 10.0f;
@@ -36,7 +36,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	this->m_aggroRange = 3.0f;
 	this->m_willPursue = false;
 	this->m_closestTargetId = -1;
-	this->m_currClosestStatic = EntityHandler::getAllStaticObjects()[EntityHandler::getAllStaticObjects().size()-1];
+	this->m_currClosestStatic = EntityHandler::getEntitiesByType(ServerEntity::StaticType)[0];
 	this->m_prevClosestStatic = this->m_currClosestStatic;
 	this->m_path = _path;
 	this->m_currentPoint = 0;
@@ -44,10 +44,10 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	m_staticAvDir = FLOAT3(0,0,0);
 	m_enemyAvDir = FLOAT3(0,0,0);
 	m_rotationAdding = FLOAT3(0.0f,0,0);
-	Model *m = g_graphicsEngine->createModel("Beast1_5", m_position);
 	m_lowResource = 10;
 	m_highRescource = 10;
-
+	
+	Model *m = g_graphicsEngine->createModel("Beast1_5", m_position);
 	this->m_obb = new BoundingOrientedBox(*m->getObb());
 	g_graphicsEngine->removeModel(m);
 

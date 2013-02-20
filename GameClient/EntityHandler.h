@@ -30,8 +30,9 @@ public:
 
 	static void addEntity(ServerEntity *_entity);
 	static bool removeEntity(ServerEntity *_entity);
-
+	
 	static vector<ServerEntity*> getEntities();
+	static vector<ServerEntity*> getEntitiesByType(ServerEntity::Type _type);
 
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
 	static ServerEntity* getClosestEntityByType(ServerEntity* _entity, UnitEntity::Type _type);
@@ -43,7 +44,6 @@ public:
 	static vector<ServerEntity*> getAllEnemies();
 	static int getNrOfEnemies();
 	static vector<ServerEntity*> getAllHeroes();
-	static vector<ServerEntity*> getAllStaticObjects();
 
 	static unsigned int getId();
 };
