@@ -15,7 +15,7 @@ Player::~Player()
 	delete this->m_messageQueue;
 }
 
-void Player::assignHero(Hero::HERO_TYPE _type)
+void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
 {
 	if(m_hero)
 		EntityHandler::removeEntity(m_hero);
@@ -23,19 +23,19 @@ void Player::assignHero(Hero::HERO_TYPE _type)
 	switch(_type)
 	{
 	case Hero::ENGINEER:
-		this->m_hero = new Engineer(this->m_id);
+		this->m_hero = new Engineer(this->m_id, _weaponType);
 		break;
 	case Hero::DOCTOR:
-		this->m_hero = new Doctor(this->m_id);
+		this->m_hero = new Doctor(this->m_id, _weaponType);
 		break;
 	case Hero::RED_KNIGHT:
-		this->m_hero = new RedKnight(this->m_id);
+		this->m_hero = new RedKnight(this->m_id, _weaponType);
 		break;
 	case Hero::THE_MENTALIST:
-		this->m_hero = new TheMentalist(this->m_id);
+		this->m_hero = new TheMentalist(this->m_id, _weaponType);
 		break;
 	case Hero::OFFICER:
-		this->m_hero = new Officer(this->m_id);
+		this->m_hero = new Officer(this->m_id, _weaponType);
 		break;
 	}
 	

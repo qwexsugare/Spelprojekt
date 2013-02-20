@@ -29,7 +29,7 @@ public:
 	Player(unsigned int id);
 	~Player();
 	
-	void assignHero(Hero::HERO_TYPE _type);
+	void assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType);
 	void spawnHero();
 	Hero::HERO_TYPE getHeroType()const;
 	int getId()const;

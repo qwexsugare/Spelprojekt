@@ -14,6 +14,7 @@ class Hero : public UnitEntity
 {
 public:
 	static enum HERO_TYPE {OFFICER, RED_KNIGHT, ENGINEER, DOCTOR, THE_MENTALIST};
+	static enum WEAPON_TYPE{DEFAULT, RANGED, MELEE};
 private:
 	FLOAT3 m_nextPosition;
 	FLOAT3 m_goalPosition;

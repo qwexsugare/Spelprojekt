@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="CollisionHandler.cpp">
@@ -366,10 +366,10 @@
     </ClCompile>
     <ClCompile Include="BruteSteed.cpp">
       <Filter>Server\Enemies</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="MeleeAttack.cpp">
       <Filter>Server\Skills</Filter>
-     </ClCompile>
+    </ClCompile>
     <ClCompile Include="HypnoticStareEffect.cpp">
       <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
@@ -378,10 +378,10 @@
     </ClCompile>
     <ClCompile Include="Imp.cpp">
       <Filter>Server\Enemies</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="DelayedDamage.cpp">
       <Filter>Server\Skills\Effects</Filter>
-       </ClCompile>
+    </ClCompile>
     <ClCompile Include="HypnoticStare.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
@@ -396,6 +396,9 @@
     </ClCompile>
     <ClCompile Include="SoulEaterSteed.cpp">
       <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAOEAttack.cpp">
+      <Filter>Server\Skills</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -790,7 +793,7 @@
     </ClInclude>
     <ClInclude Include="MeleeAttack.h">
       <Filter>Server\Skills</Filter>
-       </ClInclude>
+    </ClInclude>
     <ClInclude Include="HypnoticStareEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
@@ -820,6 +823,9 @@
     </ClInclude>
     <ClInclude Include="SoulEaterSteed.h">
       <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAOEAttack.h">
+      <Filter>Server\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

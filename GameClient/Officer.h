@@ -5,7 +5,7 @@
 class Officer : public Hero
 {
 public:
-	Officer(int _playerId);
+	Officer(int _playerId, WEAPON_TYPE _weaponType);
 	~Officer();
 };
 

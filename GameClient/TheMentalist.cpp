@@ -1,6 +1,6 @@
 #include "TheMentalist.h"
 
-TheMentalist::TheMentalist(int _playerId) : Hero(Hero::THE_MENTALIST, _playerId)
+TheMentalist::TheMentalist(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::THE_MENTALIST, _playerId)
 {
 	m_modelId = 99;
 	this->increaseStrength(1);
@@ -11,7 +11,16 @@ TheMentalist::TheMentalist(int _playerId) : Hero(Hero::THE_MENTALIST, _playerId)
 	m_skills.push_back(new EnigmaticPresence());
 	m_skills.push_back(new HypnoticStare());
 
-	this->m_regularAttack = new MeleeAttack();
+	switch(_weaponType)
+	{
+	case WEAPON_TYPE::MELEE:
+		this->m_regularAttack = new MeleeAttack();
+		break;
+
+	case WEAPON_TYPE::RANGED:
+		this->m_regularAttack = new RangedAttack();
+		break;
+	}
 }
 
 TheMentalist::~TheMentalist()

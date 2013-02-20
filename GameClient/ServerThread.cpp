@@ -106,7 +106,7 @@ void ServerThread::update(float dt)
 				if(okToSelect)
 				{
 					m_network->broadcast(NetworkHeroSelectedMessage(((SelectHeroMessage*)m)->heroId, senderIndex));
-					players[senderIndex]->assignHero(Hero::HERO_TYPE(((SelectHeroMessage*)m)->heroId));
+					players[senderIndex]->assignHero(Hero::HERO_TYPE(((SelectHeroMessage*)m)->heroId), Hero::WEAPON_TYPE(((SelectHeroMessage*)m)->weaponId));
 				}
 			}
 
