@@ -8,6 +8,8 @@ Officer::Officer(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::OFFICER, _
 	this->increaseWits(1);
 	this->increaseFortitude(3);
 
+	this->m_health += 1000;
+
 	switch(_weaponType)
 	{
 	case WEAPON_TYPE::MELEE:
