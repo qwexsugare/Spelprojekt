@@ -1111,3 +1111,5 @@ GameClient/minimap/view.png
 GameClient/audio/mentalist/Mentalist_Attack_0.wav
 GameClient/models/Char1_5/idle.BFishA
 GameClient/models/Char1_5/run.BFishA
+GameClient/models/Ball/Ball.BFish
+GameClient/models/MentalistRapier/MentalistRapier.BFish
