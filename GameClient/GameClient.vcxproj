@@ -232,6 +232,7 @@
     <ClCompile Include="NetworkCreateActionTargetMessage.cpp" />
     <ClCompile Include="NetworkDisconnectMessage.cpp" />
     <ClCompile Include="NetworkEntityMessage.cpp" />
+    <ClCompile Include="NetworkHeroInitMessage.cpp" />
     <ClCompile Include="NetworkHeroSelectedMessage.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
     <ClCompile Include="NetworkReadyMessage.cpp" />
@@ -273,6 +274,7 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SoulEaterSteed.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
+    <ClCompile Include="SpeechManager.cpp" />
     <ClCompile Include="SpittingDemon.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="StunningStrike.cpp" />
@@ -386,6 +388,7 @@
     <ClInclude Include="NetworkCreateActionTargetMessage.h" />
     <ClInclude Include="NetworkDisconnectMessage.h" />
     <ClInclude Include="NetworkEntityMessage.h" />
+    <ClInclude Include="NetworkHeroInitMessage.h" />
     <ClInclude Include="NetworkHeroSelectedMessage.h" />
     <ClInclude Include="NetworkMessage.h" />
     <ClInclude Include="NetworkReadyMessage.h" />
@@ -404,6 +407,7 @@
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="PhysicalResistance.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerInfo.h" />
     <ClInclude Include="PoisonStrike.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Projectile.h" />
@@ -429,6 +433,7 @@
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SoulEaterSteed.h" />
     <ClInclude Include="SoundWrapper.h" />
+    <ClInclude Include="SpeechManager.h" />
     <ClInclude Include="SpittingDemon.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StunningStrike.h" />

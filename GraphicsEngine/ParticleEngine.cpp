@@ -1,6 +1,6 @@
 #include "ParticleEngine.h"
 
-ParticleEngine::ParticleEngine(EngineType _type, D3DXVECTOR3 _position, D3DXVECTOR3 _rotation, D3DXVECTOR3 _scale)
+ParticleEngine::ParticleEngine(EngineType _type, D3DXVECTOR3 _position, D3DXQUATERNION _rotation, D3DXVECTOR3 _scale)
 {
 	this->type = _type;
 	this->position = _position;
@@ -20,6 +20,11 @@ ParticleEngine::~ParticleEngine()
 		shaderParticles->Release();
 }
 
+//void ParticleEngine::CreateVertexBuffer()
+//{
+//
+//}
+
 void ParticleEngine::Draw(ID3D10Device* _device)
 {
 	switch(this->type)
@@ -36,6 +41,21 @@ void ParticleEngine::Update(float _dt)
 }
 
 void ParticleEngine::Troll()
+{
+
+}
+
+void ParticleEngine::setPosition(D3DXVECTOR3& _pos)
+{
+
+}
+
+void ParticleEngine::setRotation(D3DXVECTOR3& _rot)
+{
+
+}
+
+void ParticleEngine::setScale(D3DXVECTOR3& _scale)
 {
 
 }

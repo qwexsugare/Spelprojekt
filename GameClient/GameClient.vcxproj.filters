@@ -406,7 +406,7 @@
     </ClCompile>
     <ClCompile Include="MeleeAttackClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="TowerPlacer.cpp">
       <Filter>Server\Tower Placer</Filter>
     </ClCompile>
@@ -415,6 +415,12 @@
     </ClCompile>
     <ClCompile Include="IdleClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHeroInitMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeechManager.cpp">
+      <Filter>Client</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -858,6 +864,15 @@
     </ClInclude>
     <ClInclude Include="TowerPlacer.h">
       <Filter>Server\Tower Placer</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHeroInitMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInfo.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeechManager.h">
+      <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
