@@ -28,4 +28,4 @@ struct SubMesh
 				itr->second->Release();
 		}
 	}
-}; 
+};
