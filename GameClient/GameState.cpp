@@ -355,6 +355,13 @@ void GameState::update(float _dt)
 		m_ClientSkillEffects[i]->update(_dt);
 		if(!m_ClientSkillEffects[i]->getActive())
 		{
+			if(typeid(*m_ClientSkillEffects[i]) == typeid(ArrowClientSkillEffect))
+			{
+				if(((ArrowClientSkillEffect*)m_ClientSkillEffects[i])->getTargetId() == m_playerInfos[m_yourId].id)
+				{
+
+				}
+			}
 			delete m_ClientSkillEffects[i];
 			m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
 			i--;

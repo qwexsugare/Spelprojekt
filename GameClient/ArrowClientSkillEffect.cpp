@@ -7,6 +7,7 @@
 ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId)
 {
 	m_active = true;
+	m_unitTookDamage = false;
 	m_targetId = _targetId;
 	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
 	m_graphicalEffect->setAlpha(0.999f);
@@ -18,6 +19,16 @@ ArrowClientSkillEffect::~ArrowClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_graphicalEffect);
 	deactivateSound(m_sound);
+}
+
+unsigned int ArrowClientSkillEffect::getTargetId()const
+{
+	return m_targetId;
+}
+
+bool ArrowClientSkillEffect::unitTookDamage()const
+{
+	return m_unitTookDamage;
 }
 
 void ArrowClientSkillEffect::update(float _dt)
@@ -36,6 +47,7 @@ void ArrowClientSkillEffect::update(float _dt)
 		else
 		{
 			m_active = false;
+			m_unitTookDamage = true; // The unit must be killed on the client before on the server for this sound solution to actually work.
 		}
 	}
 	else

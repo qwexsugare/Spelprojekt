@@ -274,6 +274,7 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SoulEaterSteed.cpp" />
     <ClCompile Include="SoundWrapper.cpp" />
+    <ClCompile Include="SpeechManager.cpp" />
     <ClCompile Include="SpittingDemon.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="StunningStrike.cpp" />
@@ -432,6 +433,7 @@
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SoulEaterSteed.h" />
     <ClInclude Include="SoundWrapper.h" />
+    <ClInclude Include="SpeechManager.h" />
     <ClInclude Include="SpittingDemon.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StunningStrike.h" />

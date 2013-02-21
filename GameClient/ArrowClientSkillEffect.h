@@ -10,10 +10,13 @@ private:
 	int m_sound;
 	unsigned int m_targetId;
 	bool m_active;
+	bool m_unitTookDamage;
 public:
 	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targedId);
 	~ArrowClientSkillEffect();
 
+	unsigned int getTargetId()const;
+	bool unitTookDamage()const;
 	void update(float _dt);
 	bool getActive();
 };
