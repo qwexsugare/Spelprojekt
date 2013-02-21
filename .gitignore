@@ -1108,3 +1108,6 @@ GameClient/audio/reference/280.mp3
 GameClient/audio/reference/Radiohead_-_Pyramid_Song_(sample).ogg
 GameClient/minimap/view.old.png
 GameClient/minimap/view.png
+GameClient/audio/mentalist/Mentalist_Attack_0.wav
+GameClient/models/Char1_5/idle.BFishA
+GameClient/models/Char1_5/run.BFishA
