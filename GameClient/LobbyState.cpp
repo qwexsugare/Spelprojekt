@@ -20,6 +20,11 @@ LobbyState::~LobbyState()
 	delete this->m_menu;
 }
 
+Hero::HERO_TYPE LobbyState::getHeroType()const
+{
+	return m_heroType;
+}
+
 void LobbyState::update(float _dt)
 {
 	this->m_menu->Update(_dt);
@@ -54,11 +59,11 @@ void LobbyState::update(float _dt)
 		this->m_nextState = State::GAME;
 	}
 
-	//Kolla om nätverket har sagt att spelet har startat
 	while(!m_network->heroSelectedQueueEmpty())
 	{
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
-		m_menu->selectHero(nhsm.getPlayerId(), Hero::HERO_TYPE(nhsm.getHeroId()));
+		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
+		m_menu->selectHero(nhsm.getPlayerId(), m_heroType);
 	}
 }
 
