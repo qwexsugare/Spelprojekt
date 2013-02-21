@@ -29,6 +29,14 @@ ModelIdHolder::ModelIdHolder()
 	this->m_textures[82] = "color2";
 	this->m_textures[83] = "color3";
 
+	this->m_textures[81] = "color1";
+	this->m_textures[82] = "color2";
+	this->m_textures[83] = "color3";
+
+	this->m_glowmaps[81] = "glowIntensity";
+	this->m_glowmaps[82] = "glowIntensity1";
+	this->m_glowmaps[83] = "glowIntensity2";
+
 	this->m_modelId[84] = "Beast";  
 	this->m_modelId[85] = "Beast"; 
 	this->m_modelId[86] = "Beast"; 
@@ -38,6 +46,11 @@ ModelIdHolder::ModelIdHolder()
 	this->m_textures[85] = "color1";
 	this->m_textures[86] = "color2";
 	this->m_textures[87] = "color3";
+
+	this->m_glowmaps[84] = "glowIntensity";
+	this->m_glowmaps[85] = "glowIntensity1";
+	this->m_glowmaps[86] = "glowIntensity2";
+	this->m_glowmaps[87] = "glowIntensity3";
 
 	this->m_modelId[95] = "Char1_5";
 	this->m_modelId[96] = "Char1_5";
@@ -113,4 +126,9 @@ std::string ModelIdHolder::getModel(unsigned int id)
 std::string ModelIdHolder::getTexture(int _index)const
 {
 	return m_textures[_index];
+}
+
+std::string ModelIdHolder::getGlowmap(int _index)const
+{
+	return m_glowmaps[_index];
 }

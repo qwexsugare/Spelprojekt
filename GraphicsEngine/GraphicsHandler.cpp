@@ -167,6 +167,8 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool _st
 			delete model;
 			model = NULL;
 		}
+		if(model->getMesh()->subMeshes[0]->textures["glowIntensity"])
+			model->setGlowIndex("glowIntensity");
 	}
 
 	return model;

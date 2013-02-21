@@ -47,7 +47,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	m_lowResource = 10;
 	m_highRescource = 10;
 	
-	Model *m = g_graphicsEngine->createModel("Beast1_5", m_position);
+	Model *m = g_graphicsEngine->createModel("Beast", m_position);
 	this->m_obb = new BoundingOrientedBox(*m->getObb());
 	g_graphicsEngine->removeModel(m);
 

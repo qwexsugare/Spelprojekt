@@ -13,6 +13,7 @@ private:
 	std::string m_rightHandIds[MAX_IDS];
 	std::string m_leftHandIds[MAX_IDS];
 	std::string m_textures[MAX_IDS];
+	std::string m_glowmaps[MAX_IDS];
 public:
 	ModelIdHolder();
 	std::string getHat(unsigned int id);
@@ -20,6 +21,7 @@ public:
 	std::string getLeftHand(unsigned int id);
 	std::string getModel(unsigned int id);
 	std::string getTexture(int _index)const;
+	std::string getGlowmap(int _index)const;
 };
 
 #endif
