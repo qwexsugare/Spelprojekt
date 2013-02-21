@@ -65,6 +65,7 @@ public:
 	DECLDIR void setPosition(D3DXVECTOR3 _position);
 	DECLDIR void setScale(D3DXVECTOR3 _scale);
 	DECLDIR void setTextureIndex(string _textureIndex);
+	DECLDIR void setGlowIndex(string _glowIndex);
 	void updateModelMatrix();
 
 	DECLDIR void setPosition(FLOAT3 _position);
