@@ -178,18 +178,8 @@ void MapHandler::loadMap(std::string filename)
 		m_paths[i] = paths[i];
 	
 	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
-	m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[2].points[0].x, 0.0f, this->m_paths[2].points[0].y), this->m_paths[2]));
+
+
 	////m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
 	////m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));
 	////m_waves[0].push_back(new Enemy(FLOAT3(this->m_paths[0].points[0].x, 0.0f, this->m_paths[0].points[0].y), this->m_paths[0]));

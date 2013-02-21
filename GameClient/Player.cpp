@@ -18,7 +18,7 @@ Player::~Player()
 void Player::assignHero(Hero::HERO_TYPE _type)
 {
 	if(m_hero)
-		EntityHandler::removeEntity(m_hero);
+		delete this->m_hero;
 
 	switch(_type)
 	{
@@ -39,9 +39,7 @@ void Player::assignHero(Hero::HERO_TYPE _type)
 		break;
 	}
 	
-	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 30.0f));
-	
-	EntityHandler::addEntity(m_hero);
+	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 29.0f));
 }
 
 void Player::spawnHero()
@@ -52,6 +50,8 @@ void Player::spawnHero()
 	{
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(skills[i]->getId(), this->m_id, this->m_resources));
 	}
+
+	EntityHandler::addEntity(m_hero);
 }
 
 Hero::HERO_TYPE Player::getHeroType()const

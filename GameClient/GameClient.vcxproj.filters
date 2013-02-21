@@ -337,6 +337,10 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkUpdateEntityMessage.cpp" />
+    <ClCompile Include="NetworkInitEntityMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -701,6 +705,10 @@
     </ClInclude>
     <ClInclude Include="Arrow.h">
       <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUpdateEntityMessage.h" />
+    <ClInclude Include="NetworkInitEntityMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,7 @@ protected:
 	bool m_visible;
 
 public:
-	static enum Type{EnemyType, HeroType, OtherType, ProjectileType, StaticType};
+	static enum Type{EnemyType, HeroType, OtherType, ProjectileType, StaticType, TowerType};
 	Type m_type;
 	ServerEntity();
 	ServerEntity(FLOAT3 m_pos);
@@ -42,16 +42,20 @@ public:
 	void setVisible(bool _visible);
 
 	FLOAT3 getPosition();
+	FLOAT3 getRotation();
 	unsigned int getId();
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
-
+	virtual int getHealth();
 	ContainmentType contains(const BoundingSphere& _bs)const;
 
 	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
+	virtual FLOAT3 getDirection();
+	virtual FLOAT3 getEndPos();
+	virtual float getMovementSpeed();
 };
 
 #endif

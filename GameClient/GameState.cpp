@@ -25,7 +25,7 @@ GameState::GameState(Client *_network)
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
 	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
@@ -74,6 +74,8 @@ void GameState::update(float _dt)
 		lol = -0.5f;
 	}
 
+	ClientEntityHandler::update(_dt);
+
 	while(this->m_network->entityQueueEmpty() == false)
 	{
 		NetworkEntityMessage e = this->m_network->entityQueueFront();
@@ -88,21 +90,41 @@ void GameState::update(float _dt)
 
 		if(entity != NULL)
 		{
-			entity->m_model->setPosition(e.getPosition());
-			if(e.getRotation().x == e.getRotation().x)
-				entity->m_model->setRotation(e.getRotation());
-			entity->m_type = (ServerEntity::Type)e.getEntityType();
-			entity->m_health = e.getHealth();
+			FLOAT3 p;
+			p.x=e.getXPos();
+			p.y=0;
+			p.z=e.getZPos();
+			entity->m_model->setPosition(p);
+			if(e.getYRot() == e.getYRot())
+			{
+				FLOAT3 rot;
+				rot.x=e.getYRot();
+				rot.y=0;
+				rot.z=0;
+				entity->m_model->setRotation(rot);
+
+				FLOAT3 startPos,endPos;
+				startPos.x=e.getStartX();
+				startPos.y=0;
+				startPos.z=e.getStartZ();
+				endPos.x=e.getEndX();
+				endPos.y=0;
+				endPos.z=e.getEndZ();
+				entity->m_startPos=startPos;
+				entity->m_endPos=endPos;
+				entity->movementSpeed=e.getMovementSpeed();
+
+			}
 		}
 		else
 		{
-			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
-			model->setTextureIndex(m_modelIdHolder.getTexture(e.getModelId()));
-			if(model)
-			{
-				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
-				this->m_clientEntityHandler->addEntity(new Entity(model, e.getEntityId()));
-			}
+			//Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
+			//model->setTextureIndex(m_modelIdHolder.getTexture(e.getModelId()));
+			//if(model)
+			//{
+			//	//this->m_entities.push_back(new Entity(model, e.getEntityId()));
+			//	this->m_clientEntityHandler->addEntity(new Entity(model, e.getEntityId()));
+			//}
 		}
 	}
 
@@ -118,6 +140,22 @@ void GameState::update(float _dt)
 			g_graphicsEngine->removeModel(entity->m_model);
 			this->m_clientEntityHandler->removeEntity(entity);
 		}
+	}
+
+	while(this->m_network->initEntityMessageEmpty()==false)
+	{
+		NetworkInitEntityMessage iem = this->m_network->initEntityMessageFront();
+		bool found = false;
+
+		Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(iem.getModelID()), FLOAT3(iem.getXPos(), 0.0, iem.getZPos()));
+		model->setTextureIndex(m_modelIdHolder.getTexture(iem.getModelID()));
+			if(model)
+			{
+				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
+				Entity *e = new Entity(model, iem.getID());
+				e->m_type = (ServerEntity::Type)iem.getType();
+				this->m_clientEntityHandler->addEntity(e);
+			}		
 	}
 
 	while(this->m_network->createActionQueueEmpty() == false)

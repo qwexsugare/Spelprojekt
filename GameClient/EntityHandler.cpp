@@ -73,6 +73,11 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 	EntityHandler::m_entities.push_back(_entity);
 	EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
 	EntityHandler::m_mutex.Unlock();
+
+	if(_entity->getVisible() == true)
+	{
+		EntityHandler::m_messageQueue->pushOutgoingMessage(new InitEntityMessage(_entity->getType(),_entity->getModelId(),_entity->getId(),_entity->getPosition().x,_entity->getPosition().z,_entity->getRotation().y,1.0,_entity->getHealth(),_entity->getPosition().x,_entity->getPosition().z,_entity->getEndPos().x,_entity->getEndPos().z,_entity->getMovementSpeed()));
+	}
 }
 
 bool EntityHandler::removeEntity(ServerEntity *_entity)

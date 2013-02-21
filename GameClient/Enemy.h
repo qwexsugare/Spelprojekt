@@ -10,6 +10,7 @@
 class Enemy : public UnitEntity
 {
 private:
+	float lastDT;
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
 	float m_movementSpeed;
@@ -46,6 +47,7 @@ public:
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 	bool outOfBounds(FLOAT3 _pt);
+	FLOAT3 getDirection();
 
 };
 

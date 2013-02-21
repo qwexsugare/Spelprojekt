@@ -20,6 +20,7 @@ Hero::Hero() : UnitEntity()
 	this->increaseAgility(2);
 	this->increaseWits(1);
 	this->increaseFortitude(4);
+	this->m_startPos=FLOAT3(0.0,0.0,0.0);
 }
 
 Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
@@ -28,11 +29,13 @@ Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 	this->m_playerId = _playerId;
 	this->m_type = Type::HeroType;
 	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_attackCooldown = 0.0f;
 	this->m_attackRange = 5.0f;
 	this->m_hasTarget = false;
+	this->m_startPos=FLOAT3(0.0,0.0,0.0);
 }
 
 Hero::~Hero()
@@ -128,18 +131,18 @@ void Hero::updateSpecificUnitEntity(float dt)
 			{
 				this->m_nextPosition = FLOAT3(this->m_path.points[this->m_pathCounter].x, 0.0f, this->m_path.points[this->m_pathCounter].y);
 				this->m_pathCounter++;
-			}
-			else if(this->m_reallyReachedPosition == false)
-			{
-				//this->m_nextPosition = this->m_goalPosition;
-				this->m_reallyReachedPosition = true;
-				this->m_position = this->m_nextPosition;
-				this->m_reachedPosition = true;
+
+				this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+				this->m_rotation.x = atan2(-distance.x, -distance.z);
+
+				this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 			}
 			else
 			{
-				this->m_position = this->m_nextPosition;
+				//this->m_position = this->m_nextPosition;
 				this->m_reachedPosition = true;
+				//this->m_startPos= m_nextPosition;
+				this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 			}
 		}
 
@@ -157,36 +160,50 @@ void Hero::updateSpecificUnitEntity(float dt)
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
-	this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z));
+	if((_nextPosition-m_goalPosition).lengthSquared()>0.25)
+	{
 
-	if(this->m_path.nrOfPoints > 1)
-	{
-		this->m_nextPosition = FLOAT3(this->m_path.points[1].x, 0.0f, this->m_path.points[1].y);
-		this->m_goalPosition = _nextPosition;
-		this->m_pathCounter = 2;
-		this->m_reachedPosition = false;
-		this->m_hasTarget = false;
-		this->m_target = NULL;
-		this->m_reallyReachedPosition = false;
-	}
-	else if(this->m_path.nrOfPoints == 1)
-	{
-		this->m_nextPosition = _nextPosition;
-		this->m_goalPosition = _nextPosition;
-		this->m_pathCounter = 1;
-		this->m_reachedPosition = false;
-		this->m_hasTarget = false;
-		this->m_target = NULL;
-		this->m_reallyReachedPosition = false;
-	}
-	else
-	{
-		this->m_path = Path();
-		this->m_pathCounter = 0;
-		this->m_reachedPosition = true;
-		this->m_hasTarget = false;
-		this->m_target = NULL;
-		this->m_reallyReachedPosition = true;
+		this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z));
+
+		if(this->m_path.nrOfPoints > 1)
+		{
+			this->m_nextPosition = FLOAT3(this->m_path.points[1].x, 0.0f, this->m_path.points[1].y);
+			//this->m_startPos= FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
+			this->m_goalPosition = _nextPosition;
+			this->m_pathCounter = 2;
+			this->m_reachedPosition = false;
+			this->m_hasTarget = false;
+			this->m_target = NULL;
+			this->m_reallyReachedPosition = false;
+
+			this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+		}
+		else if(this->m_path.nrOfPoints == 1)
+		{
+			//this->m_startPos= this->m_nextPosition;
+			this->m_nextPosition = _nextPosition;
+			this->m_goalPosition = _nextPosition;
+			this->m_pathCounter = 1;
+			this->m_reachedPosition = false;
+			this->m_hasTarget = false;
+			this->m_target = NULL;
+			this->m_reallyReachedPosition = false;
+
+			this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+		}
+		else
+		{
+			this->m_path = Path();
+			this->m_pathCounter = 0;
+			this->m_reachedPosition = true;
+			this->m_hasTarget = false;
+			this->m_target = NULL;
+			this->m_reallyReachedPosition = true;
+			//this->m_startPos= m_nextPosition;
+
+			//this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+		} 
+
 	}
 }
 
@@ -212,4 +229,14 @@ FLOAT3 Hero::getDirection()
 	}
 	else
 		return m_position;
+}
+
+UpdateEntityMessage* Hero::getUpdateEntityMessage()
+{	
+	return new UpdateEntityMessage(this->getId(),this->getPosition().x,this->getPosition().z,this->getRotation().x,this->m_startPos.x,this->m_startPos.z,this->m_nextPosition.x,this->m_nextPosition.z,this->getMovementSpeed());
+}
+
+FLOAT3 Hero::getEndPos()
+{
+	return this->m_nextPosition;
 }

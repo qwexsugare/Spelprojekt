@@ -241,8 +241,8 @@ bool Pathfinder::walkableDistance(Position p1, Position p2)
 //first gets the distance between the two nodes
 	float distance = this->distance(p1,p2);
 	//Calulates at what rate the direction changes
-	float xrate = (this->diretion(p1.getX(),p2.getX()))/distance;
-	float yrate = (this->diretion(p1.getY(),p2.getY()))/distance;
+	float xrate = 0.2*(this->diretion(p1.getX(),p2.getX()))/(distance*0.5);
+	float yrate = 0.2*(this->diretion(p1.getY(),p2.getY()))/(distance*0.5);
 	bool walkable=true;
 
 	//rate distance
@@ -260,6 +260,7 @@ bool Pathfinder::walkableDistance(Position p1, Position p2)
 		p.setXY(xr+p1.getX()+0.5,yr+p1.getY()+0.5);
 		if(this->map.getNode(p)->isWall())
 			walkable=false;
+
 		limiter+=rDistance;
 
 		//instead of counter*xrate, avoiding multiplication

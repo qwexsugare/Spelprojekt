@@ -58,6 +58,7 @@ void Client::Run()
 			NetworkRemoveActionTargetMessage rat;
 			NetworkSkillUsedMessage sum;
 			NetworkHeroSelectedMessage nhsm;
+			NetworkInitEntityMessage iem;
 
 			int type;
 			packet >> type;
@@ -202,6 +203,15 @@ void Client::Run()
 
 				this->m_mutex.Unlock();
 				break;
+
+			case NetworkMessage::initEntities:
+				packet >> iem;
+				this->m_mutex.Lock();
+				this->m_initEntityMessage.push(iem);
+				if(this->m_initEntityMessage.size() > 50)
+					this->m_initEntityMessage.pop();
+				this->m_mutex.Unlock();
+				break;
 			}
 		}
 	}
@@ -261,6 +271,16 @@ NetworkEntityMessage Client::entityQueueFront()
 
 	this->m_mutex.Unlock();
 
+	return ret;
+}
+
+NetworkInitEntityMessage Client::initEntityMessageFront()
+{
+	this->m_mutex.Lock();
+	NetworkInitEntityMessage ret = this->m_initEntityMessage.front();
+	this->m_initEntityMessage.pop();
+
+	this->m_mutex.Unlock();
 	return ret;
 }
 
@@ -440,4 +460,9 @@ bool Client::startGameQueueEmpty()
 bool Client::heroSelectedQueueEmpty()
 {
 	return m_heroSelectedQueue.empty();
+}
+
+bool Client::initEntityMessageEmpty()
+{
+	return this->m_initEntityMessage.empty();
 }

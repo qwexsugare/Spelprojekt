@@ -114,6 +114,8 @@ void Server::handleMessages()
 	NetworkSkillBoughtMessage sbm;
 	NetworkRemoveActionTargetMessage rat;
 	NetworkSkillUsedMessage sum;
+	NetworkInitEntityMessage iem;
+	NetworkEntityMessage nem;
 
 	RemoveServerEntityMessage *m1;
 	CreateActionMessage *m2;
@@ -122,6 +124,8 @@ void Server::handleMessages()
 	SkillBoughtMessage *m5;
 	RemoveActionTargetMessage *m6;
 	SkillUsedMessage *m7;
+	InitEntityMessage *m8;
+	UpdateEntityMessage *m9;
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
@@ -182,6 +186,19 @@ void Server::handleMessages()
 			this->m_mutex.Unlock();
 
 			break;
+			
+		case Message::initEntities:
+			m8 =(InitEntityMessage*)m;
+			iem = NetworkInitEntityMessage(m8->type, m8->modelid, m8->id,m8->xPos,m8->zPos,m8->yRot,m8->scale,m8->health,m8->sx,m8->sz,m8->ex,m8->ez,m8->movementspeed);
+			this->broadcast(iem);
+			break;
+
+		case Message::updateEntity:
+			m9=(UpdateEntityMessage*)m;
+			nem = NetworkEntityMessage(m9->id,m9->xPos,m9->zPos,m9->yRot,m9->sx,m9->sz,m9->ex,m9->ez,m9->movementspeed);
+			this->broadcast(nem);
+			break;
+
 		}
 
 		delete m;
@@ -346,6 +363,21 @@ void Server::broadcast(NetworkSkillUsedMessage networkMessage)
 }
 
 void Server::broadcast(NetworkSkillBoughtMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(NetworkInitEntityMessage networkMessage)
 {
 	sf::Packet packet;
 	packet<<networkMessage;

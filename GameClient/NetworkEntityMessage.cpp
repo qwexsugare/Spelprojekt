@@ -4,21 +4,23 @@ NetworkEntityMessage::NetworkEntityMessage() : NetworkMessage()
 {
 	this->m_type = NetworkMessage::Entity;
 	this->m_entityId = 0;
-	this->m_entityType = 0;
-	this->m_modelId = 0;
-	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
-	this->m_rotation = FLOAT3(0.0f, 0.0f, 0.0f);
-	this->m_scale = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->xPos=0;
+	this->zPos=0;
+	this->yRot=0;
+	this->sx=this->sz=this->ex=this->ez=0;
+	this->movementspeed=0;
 }
-NetworkEntityMessage::NetworkEntityMessage(unsigned int _entityId, unsigned int _entityType, unsigned int _modelId, unsigned int _health, FLOAT3 _position, FLOAT3 _rotation, FLOAT3 _scale) : NetworkMessage(NetworkMessage::Entity)
+NetworkEntityMessage::NetworkEntityMessage(unsigned short _entityId, float xpos, float zpos,float yrot,float sx, float sz,float ex, float ez,float mms) : NetworkMessage(NetworkMessage::Entity)
 {
 	this->m_entityId = _entityId;
-	this->m_entityType = _entityType;
-	this->m_modelId = _modelId;
-	this->m_health = _health;
-	this->m_position = _position;
-	this->m_rotation = _rotation;
-	this->m_scale = _scale;
+	this->xPos = xpos;
+	this->zPos = zpos;
+	this->yRot=yrot;
+	this->sx=sx;
+	this->sz=sz;
+	this->ex=ex;
+	this->ez=ez;
+	this->movementspeed=mms;
 }
 
 NetworkEntityMessage::~NetworkEntityMessage()
@@ -31,42 +33,47 @@ unsigned int NetworkEntityMessage::getEntityId()
 	return this->m_entityId;
 }
 
-unsigned int NetworkEntityMessage::getEntityType()
+
+float NetworkEntityMessage::getXPos()
 {
-	return this->m_entityType;
+	return this->xPos;
+}
+float NetworkEntityMessage::getZPos()
+{
+	return this->zPos;
 }
 
-unsigned int NetworkEntityMessage::getModelId()
+float NetworkEntityMessage::getYRot()
 {
-	return this->m_modelId;
+	return this->yRot;
 }
 
-unsigned int NetworkEntityMessage::getHealth()
+float NetworkEntityMessage::getStartX()
 {
-	return this->m_health;
+	return this->sx;
 }
-
-FLOAT3 NetworkEntityMessage::getPosition()
+float NetworkEntityMessage::getStartZ()
 {
-	return this->m_position;
+	return this->sz;
 }
-
-FLOAT3 NetworkEntityMessage::getRotation()
+float NetworkEntityMessage::getEndX()
 {
-	return this->m_rotation;
+	return this->ex;
 }
-
-FLOAT3 NetworkEntityMessage::getScale()
+float NetworkEntityMessage::getEndZ()
 {
-	return this->m_scale;
+	return this->ez;
 }
-
+float NetworkEntityMessage::getMovementSpeed()
+{
+	return this->movementspeed;
+}
 sf::Packet& operator<<(sf::Packet& packet,const NetworkEntityMessage& e)
 {
-	return packet<<*((int*)&e.m_type)<<e.m_entityId<<*((int*)&e.m_entityType)<<e.m_modelId<<e.m_health<<e.m_position.x<<e.m_position.y<<e.m_position.z<<e.m_rotation.x<<e.m_rotation.y<<e.m_rotation.z<<e.m_scale.x<<e.m_scale.y<<e.m_scale.z;
+	return packet<<*((int*)&e.m_type)<<e.m_entityId<<e.xPos<<e.zPos<<e.yRot<<e.sx<<e.sz<<e.ex<<e.ez<<e.movementspeed;
 }
 
 sf::Packet& operator>>(sf::Packet& packet, NetworkEntityMessage& e)
 {
-	return packet>>e.m_entityId>>e.m_entityType>>e.m_modelId>>e.m_health>>e.m_position.x>>e.m_position.y>>e.m_position.z>>e.m_rotation.x>>e.m_rotation.y>>e.m_rotation.z>>e.m_scale.x>>e.m_scale.y>>e.m_scale.z;
+	return packet>>e.m_entityId>>e.xPos>>e.zPos>>e.yRot>>e.sx>>e.sz>>e.ex>>e.ez>>e.movementspeed;
 }

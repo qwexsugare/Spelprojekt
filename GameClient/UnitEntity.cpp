@@ -417,7 +417,18 @@ void UnitEntity::update(float dt)
 
 NetworkEntityMessage UnitEntity::getUpdate()
 {
-	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_health, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
+	float xdir=this->getDirection().x*this->getMovementSpeed();
+	float zdir=this->getDirection().z*this->getMovementSpeed();
+	/*
+	if(this->getPosition().x==this->getDirection().x&&this->getPosition().z==this->getDirection().z)
+	{
+		xdir=0;
+		zdir=0;
+	}*/
+
+	
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_position.x, this->m_position.z,this->m_rotation.x,this->m_position.x,this->m_position.z,this->getEndPos().x,this->getEndPos().z,this->getMovementSpeed());
+
 
 	return e;
 }
