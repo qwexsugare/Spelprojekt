@@ -7,10 +7,22 @@
 #include "ClientSkillEffects.h"
 #include "Path.h"
 
-GameState::GameState(Client *_network)
+GameState::GameState(Client *_network, Hero::HERO_TYPE _heroType)
 {
 	this->importMap("levelone");
 
+	m_heroType = _heroType;
+	switch(m_heroType)
+	{
+	case Hero::RED_KNIGHT:
+		m_idleSound= createSoundHandle("red_knight/RedKnight_Idle_0.wav", false, false);
+	case Hero::ENGINEER:
+		m_idleSound= createSoundHandle("Engineer_Idle_0.wav", false, false);
+	case Hero::THE_MENTALIST:
+		m_idleSound= createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
+	}
+
+	m_timeSinceLastAction = 0.0f;
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_network = _network;
@@ -31,9 +43,6 @@ GameState::GameState(Client *_network)
 	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-	
-	m_testSound = createSoundHandle("CoinSell_Buy.aif", false, false, FLOAT3(32.0f, 0.0f, 32.0f));
-	loopSound(m_testSound);
 }
 
 GameState::~GameState()
@@ -68,12 +77,14 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
+	m_timeSinceLastAction += _dt;
+
 	D3DXVECTOR3 pickDir;
 	D3DXVECTOR3 pickOrig;
 	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
 	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
-
+	
 
 	// Update FRAMES PER SECOND (FPS) text
 	static float lol = 0.0f;
@@ -116,6 +127,14 @@ void GameState::update(float _dt)
 			if(this->m_modelIdHolder.getHat(e.getModelId()) != "")
 			{
 				model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(e.getModelId())));
+			}
+			if(this->m_modelIdHolder.getRightHand(e.getModelId()) != "")
+			{
+				model->SetRightHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getRightHand(e.getModelId())));
+			}
+			if(this->m_modelIdHolder.getLeftHand(e.getModelId()) != "")
+			{
+				model->SetLeftHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getLeftHand(e.getModelId())));
 			}
 			if(model)
 			{
@@ -323,6 +342,8 @@ void GameState::update(float _dt)
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
 		m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z)));
+
+		m_timeSinceLastAction = 0.0f;
 	}
 	if(g_mouse->isLButtonPressed())
 	{
@@ -332,14 +353,16 @@ void GameState::update(float _dt)
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+		m_timeSinceLastAction = 0.0f;
 	}
 	if(g_mouse->isLButtonDown())
 	{
-
+		m_timeSinceLastAction = 0.0f;
 	}
 	else if(g_mouse->isLButtonReleased())
 	{
-
+		m_timeSinceLastAction = 0.0f;
 	}
 	if(g_mouse->isRButtonPressed() == true)
 	{
@@ -378,10 +401,18 @@ void GameState::update(float _dt)
 			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y));
 			this->m_network->sendMessage(e);
 		}
+		
+		m_timeSinceLastAction = 0.0f;
 	}
 	else if(g_mouse->isRButtonReleased())
 	{
+		m_timeSinceLastAction = 0.0f;
+	}
 
+	if(m_timeSinceLastAction >= GameState::TIME_TO_IDLE)
+	{
+		playSound(m_idleSound);
+		m_timeSinceLastAction = 0.0f;
 	}
 
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities());

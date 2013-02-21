@@ -259,8 +259,6 @@ void Animation::RandomAnimationFunc(float dt)
 								itr->second.propsLocators.hatPos[1], 
 								-itr->second.propsLocators.hatPos[2]+0.0038f);
 
-							//locateTrans += outTrans;
-
 							D3DXMatrixTransformation(&locatorMatrix, NULL, NULL, &locateScale, NULL, &locateRotate, &locateTrans);
 							this->hatMatrix = locatorMatrix * outMat;
 						}
@@ -269,8 +267,8 @@ void Animation::RandomAnimationFunc(float dt)
 							locateTrans = D3DXVECTOR3(
 								itr->second.propsLocators.rightHandPos[0], 
 								itr->second.propsLocators.rightHandPos[1], 
-								itr->second.propsLocators.rightHandPos[2]);
-								D3DXMatrixTransformation(&locatorMatrix, NULL, NULL, &locateScale, NULL, &locateRotate, &locateTrans);
+								-itr->second.propsLocators.rightHandPos[2]);
+							D3DXMatrixTransformation(&locatorMatrix, NULL, NULL, &locateScale, NULL, &locateRotate, &locateTrans);
 								this->rightHandMatrix = locatorMatrix * outMat;
 						}
 						else if(i == itr->second.propsLocators.leftHandIndex)
@@ -278,7 +276,10 @@ void Animation::RandomAnimationFunc(float dt)
 							locateTrans = D3DXVECTOR3(
 								itr->second.propsLocators.leftHandPos[0], 
 								itr->second.propsLocators.leftHandPos[1], 
-								itr->second.propsLocators.leftHandPos[2]);
+								-itr->second.propsLocators.leftHandPos[2]);
+							D3DXMATRIX outMatNoRot;
+							D3DXMatrixTransformation(&outMatNoRot, NULL, NULL, &outScale, NULL, &locateRotate, &outTrans);
+							D3DXMatrixTransformation(&locatorMatrix, NULL, NULL, &locateScale, NULL, &locateRotate, &locateTrans);
 							this->leftHandMatrix = locatorMatrix * outMat;
 						}
 						//D3DXMATRIX scale;

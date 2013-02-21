@@ -49,6 +49,8 @@ ModelIdHolder::ModelIdHolder()
 	this->m_hatIds[97] = "GasMask";
 	this->m_hatIds[98] = "Ball";
 	this->m_hatIds[99] = "TopHat";
+	this->m_rightHandIds[95] = "cross";
+	this->m_leftHandIds[95] = "cross";
 	this->m_textures[95] = "color";
 	this->m_textures[96] = "color1";
 	this->m_textures[97] = "color2";
@@ -61,6 +63,32 @@ std::string ModelIdHolder::getHat(unsigned int id)
 	if(id < ModelIdHolder::MAX_IDS)
 	{
 		return this->m_hatIds[id];
+	}
+	else
+
+	{
+		return "";
+	}
+}
+
+std::string ModelIdHolder::getRightHand(unsigned int id)
+{
+	if(id < ModelIdHolder::MAX_IDS)
+	{
+		return this->m_rightHandIds[id];
+	}
+	else
+
+	{
+		return "";
+	}
+}
+
+std::string ModelIdHolder::getLeftHand(unsigned int id)
+{
+	if(id < ModelIdHolder::MAX_IDS)
+	{
+		return this->m_leftHandIds[id];
 	}
 	else
 

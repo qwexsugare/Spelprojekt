@@ -1129,3 +1129,10 @@ GameClient/models/IronMan/IronMan.BFish
 GameClient/models/IronMan/RedKKnight_normals.TIF
 GameClient/models/IronMan/RedKnightHatTexture_Color.png
 GameClient/models/IronMan/RedKnightHatTexture_Spec.png
+GameClient/minimap/view.png
+GameClient/audio/mentalist/Mentalist_Attack_0.wav
+GameClient/models/Char1_5/idle.BFishA
+GameClient/models/Char1_5/run.BFishA
+GameClient/models/Ball/Ball.BFish
+GameClient/models/MentalistRapier/MentalistRapier.BFish
+GameClient/minimap/view.png
