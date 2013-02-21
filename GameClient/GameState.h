@@ -10,6 +10,7 @@
 #include "HudMenu.h"
 #include "ClientSkillEffect.h"
 #include "ClientEntityHandler.h"
+#include "Hero.h"
 //#include "Cursor.h"
 
 class GameState : public State
@@ -26,15 +27,21 @@ private:
 	vector<ClientSkillEffect*> m_ClientSkillEffects;
 	ClientEntityHandler *m_clientEntityHandler;
 	ParticleEngine *testParticleSystem;
-	int m_testSound;
+	Hero::HERO_TYPE m_heroType;
+	float m_timeSinceLastAction;
 
 	SpotLight* s;
 	//Cursor m_cursor;
 
+	// Sounds
+	int m_idleSound;
+
 	void end();
 	void importMap(string _map);
 public:
-	GameState(Client *_network);
+	static const int TIME_TO_IDLE = 7;
+
+	GameState(Client *_network, Hero::HERO_TYPE _heroType);
 	~GameState();
 
 	StateEnum nextState();

@@ -6,7 +6,7 @@ using namespace std;
 
 void clearSoundEngine();
 
-int createSoundHandle(string _filename, bool _music, bool _3d, FLOAT3 _pos, float _volume = 1.0f);
+int createSoundHandle(string _filename, bool _music, bool _3d, FLOAT3 _pos = FLOAT3(0.0f, 0.0f, 0.0f), float _volume = 1.0f);
 
 void deactivateSound(int _handle);
 
