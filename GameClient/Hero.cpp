@@ -122,7 +122,11 @@ void Hero::updateSpecificUnitEntity(float dt)
 						this->m_attackCooldown = this->m_attackSpeed;
 					}
 
-					this->m_reachedPosition = true;
+					if(this->m_reachedPosition == false)
+					{
+						this->m_reachedPosition = true;
+						this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
+					}
 				}
 				else //Otherwise you should find a way to get to the enemy
 				{
@@ -135,6 +139,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 							this->m_pathCounter = 1;
 							this->m_nextPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
 							this->m_reachedPosition = false;
+							this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
 						}
 					}
 					else //Move along the path
@@ -158,6 +163,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 							{
 								this->m_position = this->m_nextPosition;
 								this->m_reachedPosition = true;
+								this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 							}
 
 							this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
@@ -200,6 +206,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 				this->m_reallyReachedPosition = true;
 				this->m_position = this->m_nextPosition;
 				this->m_reachedPosition = true;
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 			}
 			else
 			{
@@ -233,6 +240,8 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 		this->m_hasTarget = false;
 		this->m_target = NULL;
 		this->m_reallyReachedPosition = false;
+
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
 	}
 	else if(this->m_path.nrOfPoints == 1)
 	{
@@ -243,6 +252,8 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 		this->m_hasTarget = false;
 		this->m_target = NULL;
 		this->m_reallyReachedPosition = false;
+
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
 	}
 	else
 	{

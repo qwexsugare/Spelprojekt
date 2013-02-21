@@ -2,7 +2,7 @@
 
 const float RangedAttack::RANGE = 5.0f;
 
-RangedAttack::RangedAttack()
+RangedAttack::RangedAttack() : Skill(Skill::RANGED_ATTACK, 0.0f)
 {
 	this->setRange(RangedAttack::RANGE);
 }
