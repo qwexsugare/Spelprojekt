@@ -32,13 +32,10 @@ ModelIdHolder::ModelIdHolder()
 	this->m_textures[82] = "color2";
 	this->m_textures[83] = "color3";
 
-	this->m_textures[81] = "color1";
-	this->m_textures[82] = "color2";
-	this->m_textures[83] = "color3";
-
-	this->m_glowmaps[81] = "glowIntensity";
-	this->m_glowmaps[82] = "glowIntensity1";
-	this->m_glowmaps[83] = "glowIntensity2";
+	this->m_glowmaps[80] = "glowIntensity";
+	this->m_glowmaps[81] = "glowIntensity1";
+	this->m_glowmaps[82] = "glowIntensity2";
+	this->m_glowmaps[83] = "glowIntensity3";
 
 	this->m_modelId[84] = "Beast";  
 	this->m_modelId[85] = "Beast"; 
