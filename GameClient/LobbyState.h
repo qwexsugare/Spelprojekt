@@ -17,7 +17,6 @@ public:
 	LobbyState(Client* _network);
 	~LobbyState();
 
-	Hero::HERO_TYPE getHeroType()const;
 	void update(float _dt);
 	StateEnum nextState();
 };

@@ -1,5 +1,6 @@
 #include "ServerThread.h"
 #include "TowerPlacer.h"
+#include "NetworkHeroInitMessage.h"
 
 ServerThread::ServerThread(int _port) : sf::Thread()
 {
@@ -133,10 +134,16 @@ void ServerThread::update(float dt)
 				this->m_state = State::GAME;
 				m_network->broadcast(NetworkStartGameMessage());
 				
+				vector<unsigned int> ids;
+				vector<Hero::HERO_TYPE> heroTypes;
 				for(int i = 0; i < players.size(); i++)
 				{
+					ids.push_back(players[i]->getHero()->getId());
+					heroTypes.push_back(players[i]->getHeroType());
 					players[i]->spawnHero();
 				}
+
+				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));
 			}
 		}
 	}

@@ -20,11 +20,6 @@ LobbyState::~LobbyState()
 	delete this->m_menu;
 }
 
-Hero::HERO_TYPE LobbyState::getHeroType()const
-{
-	return m_heroType;
-}
-
 void LobbyState::update(float _dt)
 {
 	this->m_menu->Update(_dt);

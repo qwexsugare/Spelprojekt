@@ -7,15 +7,6 @@ SoundEngine::SoundEngine()
 	this->m_musicVolume = 1.0f;
 	this->m_soundVolume = 1.0f;
 
-	float directionvect[6];
-   directionvect[0] = (float) sin(3.14f/2.0f);
-   directionvect[1] = 0;
-   directionvect[2] = (float) cos(3.14f/2.0f);
-   directionvect[3] = 0;
-   directionvect[4] = 1;
-   directionvect[5] = 0;
-   alListenerfv(AL_ORIENTATION, directionvect);
-
 	// Initialize Framework
 	ALFWInit();
 	if (!ALFWInitOpenAL())
