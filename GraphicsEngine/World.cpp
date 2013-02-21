@@ -411,6 +411,7 @@ void World::render()
 							this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
 							this->m_deviceHandler->getDevice()->Draw(m_models[i]->getLeftHand()->subMeshes[m]->numVerts, 0);
 						}
+						this->m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures["glowIntensity"]);
 					}
 					else
 					{
