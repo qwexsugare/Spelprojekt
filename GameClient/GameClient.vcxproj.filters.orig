@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="CollisionHandler.cpp">
@@ -401,17 +401,23 @@
     <ClCompile Include="ServerQuadTree.cpp">
       <Filter>Server\Quadtree</Filter>
     </ClCompile>
-<<<<<<< HEAD
-=======
-    <ClCompile Include="MeleeAOEAttack.cpp">
-      <Filter>Server\Skills</Filter>
     </ClCompile>
->>>>>>> 4b371f9ddb925ffb9167b91b5ee0c09a106d31a0
     <ClCompile Include="ServerQuadTreeNode.cpp">
       <Filter>Server\Quadtree</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="MeleeAttackClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="RunClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+=======
     <ClCompile Include="TowerPlacer.cpp">
       <Filter>Server\Tower Placer</Filter>
+>>>>>>> 08e7201000e89e302f5e3c5db0caacd9858d76cc
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -844,8 +850,19 @@
     <ClInclude Include="ServerQuadTreeNode.h">
       <Filter>Server\Quadtree</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="MeleeAttackClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="RunClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+=======
     <ClInclude Include="TowerPlacer.h">
       <Filter>Server\Tower Placer</Filter>
+>>>>>>> 08e7201000e89e302f5e3c5db0caacd9858d76cc
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

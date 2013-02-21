@@ -263,9 +263,11 @@ PSSuperSceneIn VSSuperScene(VSSuperSceneIn input)
 PSSuperSceneIn VSPropsScene(VSSuperSceneIn input)
 {
 	PSSuperSceneIn output = (PSSuperSceneIn)0;
-
+	//Lägg på CPU, optimera?
 	matrix viewProjection = mul(viewMatrix, projectionMatrix);
 	matrix newModelMatrix = mul(propsMatrix, modelMatrix);
+	//matrix newModelMatrix = modelMatrix;
+
 	// transform the point into view space
 	output.Pos = mul( float4(input.Pos,1.0), mul(newModelMatrix, viewProjection) );
 	output.UVCoord = input.UVCoord;

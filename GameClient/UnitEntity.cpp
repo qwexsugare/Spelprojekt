@@ -422,5 +422,6 @@ void UnitEntity::attack(unsigned int target)
 		}
 
 		this->m_regularAttack->activate(target, this->m_id);
+ 		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(this->m_regularAttack->getId(), this->m_id, this->m_position));
 	}
 }

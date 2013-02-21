@@ -13,6 +13,7 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	m_model->setAlpha(0.75f);
 	m_sound = createSoundHandle("collision.wav", false, true, pos);
 	playSound(m_sound);
+	m_model->getAnimation()->PlayLoop("attack");
 }
 
 DemonicPresenceClientSkillEffect::~DemonicPresenceClientSkillEffect()

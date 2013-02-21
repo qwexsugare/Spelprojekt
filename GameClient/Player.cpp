@@ -54,6 +54,8 @@ void Player::spawnHero()
 	{
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(skills[i]->getId(), this->m_id, this->m_resources));
 	}
+
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_hero->getId(), this->m_hero->getPosition()));
 }
 
 Hero::HERO_TYPE Player::getHeroType()const

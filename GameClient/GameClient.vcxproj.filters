@@ -404,8 +404,17 @@
     <ClCompile Include="ServerQuadTreeNode.cpp">
       <Filter>Server\Quadtree</Filter>
     </ClCompile>
+    <ClCompile Include="MeleeAttackClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+      </ClCompile>
     <ClCompile Include="TowerPlacer.cpp">
       <Filter>Server\Tower Placer</Filter>
+    </ClCompile>
+    <ClCompile Include="RunClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -837,6 +846,15 @@
     </ClInclude>
     <ClInclude Include="ServerQuadTreeNode.h">
       <Filter>Server\Quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAttackClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="RunClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="TowerPlacer.h">
       <Filter>Server\Tower Placer</Filter>
