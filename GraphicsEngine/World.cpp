@@ -385,19 +385,31 @@ void World::render()
 						if(m_models[i]->getHat())
 						{	
 							this->m_deferredSampler->setTexture(m_models[i]->getHat()->subMeshes[m]->textures["color"]);
+							this->m_deferredSampler->setGlowMap(m_models[i]->getHat()->subMeshes[m]->textures["glowIntensity"]);
 
 							this->m_deferredSampler->setPropsMatrix(m_models[i]->getAnimation()->getHatMatrix());
 							this->m_deviceHandler->setVertexBuffer(m_models[i]->getHat()->subMeshes[m]->buffer, sizeof(SuperVertex));
 							this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
 							this->m_deviceHandler->getDevice()->Draw(m_models[i]->getHat()->subMeshes[m]->numVerts, 0);
 						}
-						if(m_models[i]->getLeftHand())
-						{
-
-						}
 						if(m_models[i]->getRightHand())
 						{
+							this->m_deferredSampler->setTexture(m_models[i]->getRightHand()->subMeshes[m]->textures["color"]);
 
+							this->m_deferredSampler->setPropsMatrix(m_models[i]->getAnimation()->getRightHandMatrix());
+							this->m_deviceHandler->setVertexBuffer(m_models[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+							this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+							this->m_deviceHandler->getDevice()->Draw(m_models[i]->getRightHand()->subMeshes[m]->numVerts, 0);
+						}
+						if(m_models[i]->getLeftHand())
+						{
+							this->m_deferredSampler->setTexture(m_models[i]->getLeftHand()->subMeshes[m]->textures["color"]);
+							this->m_deferredSampler->setGlowMap(m_models[i]->getLeftHand()->subMeshes[m]->textures["glowIntensity"]);
+
+							this->m_deferredSampler->setPropsMatrix(m_models[i]->getAnimation()->getLeftHandMatrix());
+							this->m_deviceHandler->setVertexBuffer(m_models[i]->getLeftHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+							this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+							this->m_deviceHandler->getDevice()->Draw(m_models[i]->getLeftHand()->subMeshes[m]->numVerts, 0);
 						}
 					}
 					else

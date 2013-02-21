@@ -117,6 +117,14 @@ void GameState::update(float _dt)
 			{
 				model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(e.getModelId())));
 			}
+			if(this->m_modelIdHolder.getRightHand(e.getModelId()) != "")
+			{
+				model->SetRightHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getRightHand(e.getModelId())));
+			}
+			if(this->m_modelIdHolder.getLeftHand(e.getModelId()) != "")
+			{
+				model->SetLeftHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getLeftHand(e.getModelId())));
+			}
 			if(model)
 			{
 				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
