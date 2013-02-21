@@ -80,6 +80,8 @@ cbuffer cbEveryFrame
 	matrix viewMatrix;
 	matrix projectionMatrix;
 	matrix modelMatrix;
+	//Props Transformation Matrix
+	matrix propsMatrix;
 
 	matrix lightWvp;
 
@@ -258,6 +260,30 @@ PSSuperSceneIn VSSuperScene(VSSuperSceneIn input)
 	return output;
 }
 
+PSSuperSceneIn VSPropsScene(VSSuperSceneIn input)
+{
+	PSSuperSceneIn output = (PSSuperSceneIn)0;
+	//Lägg på CPU, optimera?
+	matrix viewProjection = mul(viewMatrix, projectionMatrix);
+	matrix newModelMatrix = mul(propsMatrix, modelMatrix);
+	//matrix newModelMatrix = modelMatrix;
+
+	// transform the point into view space
+	output.Pos = mul( float4(input.Pos,1.0), mul(newModelMatrix, viewProjection) );
+	output.UVCoord = input.UVCoord;
+
+	//variables needed for lighting
+	float3 myNormal = input.Normal;
+	//myNormal.z *= -1;
+	float3 myTangent = input.Tangent;
+	//myTangent.z *= -1;
+	output.Normal = mul(float4(myNormal, 0.0f), newModelMatrix);
+	output.Tangent = normalize(mul(float4(myTangent, 0.0f), newModelMatrix));
+	output.EyeCoord = mul(float4(input.Pos,1.0), newModelMatrix);
+
+	return output;
+}
+
 PSSceneOut PSSuperScene(PSSuperSceneIn input)
 {	
 	PSSceneOut output = (PSSceneOut)0;
@@ -331,6 +357,21 @@ technique10 DeferredSuperSample
 	    SetDepthStencilState( houseStencil, 1 );
 	    SetRasterizerState( rs );
     }
+}
+
+technique10 DeferredPropsSample
+{
+	pass p0
+	{
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSPropsScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
+		
+	    SetDepthStencilState( gubbStencil, 0 );
+	    SetRasterizerState( rs );
+	}
 }
 
 float4x4 GetBoneMatrix(int boneIndex, float4 _bone)

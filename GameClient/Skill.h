@@ -11,6 +11,7 @@ private:
 	float m_range;
 public:
 	static enum SKILLS {
+		IDLE,
 		MOVE, 
 		ATTACK, 
 		MELEE_ATTACK,

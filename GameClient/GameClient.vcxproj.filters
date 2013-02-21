@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="CollisionHandler.cpp">
@@ -366,10 +366,10 @@
     </ClCompile>
     <ClCompile Include="BruteSteed.cpp">
       <Filter>Server\Enemies</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="MeleeAttack.cpp">
       <Filter>Server\Skills</Filter>
-     </ClCompile>
+    </ClCompile>
     <ClCompile Include="HypnoticStareEffect.cpp">
       <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
@@ -378,10 +378,10 @@
     </ClCompile>
     <ClCompile Include="Imp.cpp">
       <Filter>Server\Enemies</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="DelayedDamage.cpp">
       <Filter>Server\Skills\Effects</Filter>
-       </ClCompile>
+    </ClCompile>
     <ClCompile Include="HypnoticStare.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
@@ -396,6 +396,25 @@
     </ClCompile>
     <ClCompile Include="SoulEaterSteed.cpp">
       <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAOEAttack.cpp" />
+    <ClCompile Include="ServerQuadTree.cpp">
+      <Filter>Server\Quadtree</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerQuadTreeNode.cpp">
+      <Filter>Server\Quadtree</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAttackClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+      </ClCompile>
+    <ClCompile Include="TowerPlacer.cpp">
+      <Filter>Server\Tower Placer</Filter>
+    </ClCompile>
+    <ClCompile Include="RunClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -790,7 +809,7 @@
     </ClInclude>
     <ClInclude Include="MeleeAttack.h">
       <Filter>Server\Skills</Filter>
-       </ClInclude>
+    </ClInclude>
     <ClInclude Include="HypnoticStareEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
@@ -820,6 +839,25 @@
     </ClInclude>
     <ClInclude Include="SoulEaterSteed.h">
       <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAOEAttack.h" />
+    <ClInclude Include="ServerQuadTree.h">
+      <Filter>Server\Quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerQuadTreeNode.h">
+      <Filter>Server\Quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAttackClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="RunClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TowerPlacer.h">
+      <Filter>Server\Tower Placer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -861,6 +899,12 @@
     </Filter>
     <Filter Include="Server\Enemies">
       <UniqueIdentifier>{5845e709-0306-47d1-9940-40e192f45108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Quadtree">
+      <UniqueIdentifier>{fa0e9017-8c0a-4efa-9c1a-c4978e74b3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Tower Placer">
+      <UniqueIdentifier>{7be7bea1-bd1e-460e-bca8-3cdc6c3dbe73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

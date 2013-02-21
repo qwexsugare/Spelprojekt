@@ -13,7 +13,10 @@ HypnoticStareEffect::HypnoticStareEffect(unsigned int _affectedUnit, float _dura
 	m_type = OtherType;
 	
 	ServerEntity* affectedUnit = EntityHandler::getServerEntity(m_affectedUnit);
-	((Enemy*)affectedUnit)->setTargetType(UnitEntity::EnemyType);
+	if(affectedUnit)
+		((Enemy*)affectedUnit)->setTargetType(UnitEntity::EnemyType);
+	else
+		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 }
 
 HypnoticStareEffect::~HypnoticStareEffect()

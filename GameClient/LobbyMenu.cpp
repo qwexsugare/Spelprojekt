@@ -10,7 +10,7 @@ LobbyMenu::LobbyMenu(void)
 	m_Character3 = false;
 	m_Character4 = false;
 	m_String = "";
-	m_Combat = 0;
+	m_Combat = 2;
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground.png", FLOAT2(0,0), FLOAT2(2,2),1));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LobbyMenu-Foreground.dds", FLOAT2(0,0), FLOAT2(2,2),4));

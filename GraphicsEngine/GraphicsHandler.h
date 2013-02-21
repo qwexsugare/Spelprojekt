@@ -68,6 +68,8 @@ public:
 	DECLDIR SpotLight *createSpotLight(FLOAT3 position, FLOAT3 _direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range);
 	DECLDIR bool removeSpotLight(SpotLight* spotLight);
 
+	DECLDIR Mesh *getMesh(string filename);
+
 	DECLDIR void initQuadTree(FLOAT2 _extents);
 	DECLDIR void render();
 	DECLDIR void update(float dt);

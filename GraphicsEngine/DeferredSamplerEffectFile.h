@@ -11,6 +11,7 @@ private:
 	ID3D10EffectMatrixVariable* m_modelMatrix;
 	ID3D10EffectMatrixVariable* m_viewMatrix;
 	ID3D10EffectMatrixVariable* m_projectionMatrix;
+	ID3D10EffectMatrixVariable* m_propsMatrix;
 	ID3D10InputLayout *m_vertexLayout;
 
 	// Model
@@ -31,6 +32,7 @@ private:
 	ID3D10InputLayout *m_vertexSuperLayout;
 	ID3D10EffectTechnique *m_superTechnique;
 	ID3D10EffectVectorVariable* m_cameraPosition;
+	ID3D10EffectTechnique *m_propsTechnique;
 
 	// Road
 	ID3D10EffectTechnique* m_renderRoad;
@@ -47,6 +49,7 @@ public:
 	void setModelMatrix(D3DXMATRIX _matrix);
 	void setViewMatrix(D3DXMATRIX _matrix);
 	void setProjectionMatrix(D3DXMATRIX _matrix);
+	void setPropsMatrix(D3DXMATRIX* _matrix);
 
 	void setTexture(ID3D10ShaderResourceView *_texture);
 	void setNormalMap(ID3D10ShaderResourceView *_texture);
@@ -60,6 +63,7 @@ public:
 	ID3D10EffectTechnique *getTechnique();
 	ID3D10EffectTechnique *getAnimationTechnique();
 	ID3D10EffectTechnique *getSuperTechnique();
+	ID3D10EffectTechnique *getPropsTechnique();
 
 
 	ID3D10EffectTechnique *getRenderTerrainTechnique();

@@ -2,7 +2,7 @@
 
 const float MeleeAttack::RANGE = 1.0f;
 
-MeleeAttack::MeleeAttack()
+MeleeAttack::MeleeAttack() : Skill(Skill::MELEE_ATTACK, 0.0f)
 {
 	this->setRange(MeleeAttack::RANGE);
 }

@@ -30,7 +30,7 @@ void Tower::update(float dt)
 
 	if(this->m_attackCooldown <= 0.0f)
 	{
-		ServerEntity* se = EntityHandler::getClosestEnemy(this);
+		ServerEntity* se = EntityHandler::getClosestEntityByType(this, EnemyType);
 
 		if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRange)
 		{
