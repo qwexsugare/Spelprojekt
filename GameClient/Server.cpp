@@ -360,6 +360,22 @@ void Server::broadcast(NetworkSkillBoughtMessage networkMessage)
 	this->m_mutex.Unlock();
 }
 
+void Server::broadcast(NetworkHeroInitMessage networkMessage)
+{
+	sf::Packet packet;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		networkMessage.setYourId(i);
+		packet<<networkMessage;
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
 void Server::Run()
 {
 	__int64 cntsPerSec = 0;

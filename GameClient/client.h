@@ -22,6 +22,7 @@
 #include "NetworkSelectHeroMessage.h"
 #include "NetworkStartGameMessage.h"
 #include "NetworkSkillUsedMessage.h"
+#include "NetworkHeroInitMessage.h"
 
 using namespace std;
 
@@ -50,6 +51,7 @@ private:
 	queue<NetworkStartGameMessage> m_startGameQueue;
 	queue<NetworkHeroSelectedMessage> m_heroSelectedQueue;
 	queue<NetworkSkillUsedMessage> m_skillUsedQueue;
+	queue<NetworkHeroInitMessage> m_heroInitQueue;
 public:
 	Client();
 	~Client();
@@ -64,6 +66,7 @@ public:
 	void sendMessage(NetworkBuySkillMessage _usm);
 	void sendMessage(NetworkSelectHeroMessage _usm);
 	void sendMessage(NetworkReadyMessage _usm);
+	void sendMessage(NetworkHeroInitMessage _usm);
 
 	NetworkEntityMessage entityQueueFront();
 	NetworkRemoveEntityMessage removeEntityQueueFront();
@@ -75,6 +78,7 @@ public:
 	NetworkStartGameMessage startGameQueueFront();
 	NetworkHeroSelectedMessage heroSelectedQueueFront();
 	NetworkSkillUsedMessage skillUsedQueueFront();
+	NetworkHeroInitMessage heroInitQueueFront();
 
 	bool entityQueueEmpty();
 	bool removeEntityQueueEmpty();
@@ -86,6 +90,7 @@ public:
 	bool startGameQueueEmpty();
 	bool skillUsedQueueEmpty();
 	bool heroSelectedQueueEmpty();
+	bool heroInitQueueEmpty();
 };
 
 #endif // CLIENT_H
