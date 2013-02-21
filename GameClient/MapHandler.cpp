@@ -186,25 +186,34 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
-	this->m_waves.push_back(vector<ServerEntity*>());
+	//this->m_waves.push_back(vector<ServerEntity*>());
 	
 	
-	int t = random(0,0);
-	m_waves[0].push_back(new HellfireSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	m_waves[0].push_back(new Imp(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	//t = random(0,4);
-	//t = random(0,4);
-	//t = random(0,4);
-	//t = random(0,4);
-	m_waves[0].push_back(new BruteSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	m_waves[0].push_back(new SpittingDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	m_waves[0].push_back(new ThunderSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	m_waves[0].push_back(new FrostDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	m_waves[0].push_back(new SoulEaterSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
-	m_waves[0].push_back(new Shade(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+	createWave(25,5,0,0,0,0,0,0);
+	createWave(18,8,4,0,0,0,0,0);
+	createWave(12,10,8,0,0,0,0,0);
+	createWave(8,10,9,3,0,0,0,0);
+	createWave(5,8,12,5,0,0,0,0);
+	createWave(3,8,9,8,2,0,0,0);
+	createWave(2,6,8,10,4,0,0,0);
+	createWave(0,6,7,11,6,2,0,0);
+	createWave(0,4,6,11,5,4,0,0);
+	createWave(0,3,4,9,8,6,0,0);
+	createWave(0,0,6,8,9,4,3,0);
+	createWave(0,0,4,5,11,6,4,0);
+	createWave(0,0,2,4,11,7,6,0);
+	createWave(0,0,0,4,10,8,6,2);
+	createWave(0,0,0,2,8,9,8,3);
+	createWave(0,0,0,0, 5,11,10,4);
+	createWave(0,0,0,0,3,9,10,8);
+	createWave(0,0,0,0,0,8,10,12);
+	createWave(0,0,0,0,0,4,8,18);
+	createWave(0,0,0,0,0,0,5,25);
 
-	
-	
+
+
+
+
 	
 
 }
@@ -250,4 +259,59 @@ void MapHandler::update(float _dt)
 void MapHandler::enemyDied()
 {
 	this->m_lives--;
+}
+
+void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int _souls, int _hell, int _thunder, int _brutes)
+{
+	m_waves.push_back(vector<ServerEntity*>());
+	int totalMonsters = _imps + _shades + _spits + _frosts + _souls + _hell + _thunder + _brutes;
+	int t = random(0,0);
+
+	for(int i = 0; i < totalMonsters; i ++)
+	{
+		if(i < _imps)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[0].push_back(new Imp(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _shades)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[0].push_back(new Shade(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _spits)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[0].push_back(new SpittingDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _frosts)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[0].push_back(new FrostDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _souls)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[0].push_back(new SoulEaterSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _hell)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[0].push_back(new HellfireSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _thunder)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[0].push_back(new ThunderSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _brutes)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[0].push_back(new BruteSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+			
+
+	
+	}
+
 }

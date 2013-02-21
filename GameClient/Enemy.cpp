@@ -214,24 +214,6 @@ void Enemy::setNextPosition(unsigned int _id, float dt)
 
 void Enemy::checkCloseEnemies(float dt)
 {
-	//if(EntityHandler::getClosestEnemy(this) != NULL && (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length() < this->getObb()->Extents.z*2)
-	//{
-	//	
-	//	if((m_position+m_dir/10 - EntityHandler::getClosestEnemy(this)->getPosition()).length() < (m_position - EntityHandler::getClosestEnemy(this)->getPosition() ).length())
-	//	{
-	//		m_movementSpeed = 0.8f;
-	//		((UnitEntity*)EntityHandler::getClosestEnemy(this))->setMovementSpeed(2.5f);
-	//	}
-	//	else 
-	//		m_movementSpeed = m_baseMovementSpeed;
-
-	//	m_enemyAvDir =  (m_position - EntityHandler::getClosestEnemy(this)->getPosition())/(m_position - EntityHandler::getClosestEnemy(this)->getPosition()).length();
-	//	m_dir = m_dir*2 + m_enemyAvDir;
-	//	//m_position = m_position +m_enemyAvDir*2*dt;
-	//}
-	//else 
-	//	m_movementSpeed = m_baseMovementSpeed;
-	
 	ServerEntity* closestEnemy = EntityHandler::getClosestEntityByType(this, UnitEntity::EnemyType);
 
 	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < this->getObb()->Extents.z*2)
@@ -297,7 +279,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 	FLOAT3 temp2 = FLOAT3(0,0,0);
 	ServerEntity *stat;
 	
-		for(int i = 1; i < 10; i++)
+		for(int i = 1; i < 8; i++)
 		{
 			temp = m_position + currDir*i;
 			temp1 = m_position + currDir*i+ (cross);
@@ -364,7 +346,7 @@ FLOAT3 Enemy::checkStatic(float dt, FLOAT3 _pPos)
 				}
 
 			
-				return avoidDir*avoidBuffer/i;
+				return (avoidDir/i)*avoidBuffer;
 			}
 		}
 	
