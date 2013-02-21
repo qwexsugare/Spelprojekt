@@ -1252,3 +1252,11 @@ GameClient/models/Beast1_5/death.BFishA
 GameClient/models/Beast1_5/rangeAttack.BFishA
 GameClient/models/Beast1_5/run.BFishA
 GameClient/models/Char1_5/idle.BFishA
+GameClient/models/Crossbow/Crossbow.BFish
+GameClient/models/Crossbow/Crossbow_Engineer_UV_DM.png
+GameClient/models/Crossbow/Crossbow_Engineer_UV_SM.png
+GameClient/models/Crossbow/EngineerCrossbow_normals.TIF
+GameClient/models/Kubb/dHatTexture_Color.png
+GameClient/models/Kubb/dHatTexture_Spec.png
+GameClient/models/Kubb/doctorHat_normals.TIF
+GameClient/models/Kubb/Kubb.BFish

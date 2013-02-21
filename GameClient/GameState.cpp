@@ -28,13 +28,22 @@ GameState::GameState(Client *_network)
 	{
 	case Hero::RED_KNIGHT:
 		m_idleSound = createSoundHandle("red_knight/RedKnight_Idle_0.wav", false, false);
+		m_attackSounds[0] = createSoundHandle("red_knight/RedKnight_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("red_knight/RedKnight_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("red_knight/RedKnight_Attack_2.wav", false, false);
 		break;
 	case Hero::ENGINEER:
 		m_idleSound = createSoundHandle("Engineer_Idle_0.wav", false, false);
+		m_attackSounds[0] = createSoundHandle("engineer/Engineer_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("engineer/Engineer_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("engineer/Engineer_Attack_2.wav", false, false);
 		break;
 	case Hero::THE_MENTALIST:
 		m_idleSound = createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
-		break;
+		m_attackSounds[0] = createSoundHandle("mentalist/Mentalist_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("mentalist/Mentalist_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("mentalist/Mentalist_Attack_2.wav", false, false);
+			break;
 	case Hero::OFFICER:
 		m_idleSound = createSoundHandle("officer/Officer_Death_1.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("officer/Officer_Attack_0.wav", false, false);
@@ -42,10 +51,14 @@ GameState::GameState(Client *_network)
 		m_attackSounds[2] = createSoundHandle("officer/Officer_Attack_2.wav", false, false);
 		break;
 	case Hero::DOCTOR:
-		m_idleSound = createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
+		m_idleSound = createSoundHandle("doctor/Doctor_Idle.wav", false, false);
+		m_attackSounds[0] = createSoundHandle("doctor/Doctor_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("doctor/Doctor_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("doctor/Doctor_Attack_2.wav", false, false);
 		break;
 	}
 
+	m_attackSoundTimer = 0.0f;
 	m_idle = false;
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
@@ -62,7 +75,7 @@ GameState::GameState(Client *_network)
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f, false);
 	//g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
 	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
@@ -100,7 +113,8 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
-	if(!isSoundPlaying(m_idleSound))
+	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
+	/*if(!isSoundPlaying(m_idleSound))
 	{
 		m_idleSoundTimer = max(m_idleSoundTimer-_dt, 0.0f);
 		if(m_idleSoundTimer == 0.0f)
@@ -108,7 +122,7 @@ void GameState::update(float _dt)
 			playSound(m_idleSound);
 			m_idleSoundTimer = IDLE_SOUND_DELAY;
 		}
-	}
+	}*/
 
 	D3DXVECTOR3 pickDir;
 	D3DXVECTOR3 pickOrig;
@@ -410,7 +424,11 @@ void GameState::update(float _dt)
 				{
 					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
 					validMove = false;
-					playSound(m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+					if(m_attackSoundTimer == 0.0f)
+					{
+						playSound(m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+						m_attackSoundTimer = ATTACK_SOUND_DELAY;
+					}
 				}
 			}
 
