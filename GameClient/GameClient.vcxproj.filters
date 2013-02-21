@@ -401,7 +401,6 @@
     <ClCompile Include="ServerQuadTree.cpp">
       <Filter>Server\Quadtree</Filter>
     </ClCompile>
-    </ClCompile>
     <ClCompile Include="ServerQuadTreeNode.cpp">
       <Filter>Server\Quadtree</Filter>
     </ClCompile>

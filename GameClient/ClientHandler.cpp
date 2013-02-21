@@ -151,7 +151,7 @@ void ClientHandler::update(float _dt)
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
-			this->m_state = new GameState(this->m_client);
+			this->m_state = new GameState(this->m_client, ((LobbyState*)this->m_state)->getHeroType());
 			break;
 		case State::SETTINGS:
 			this->m_state = new SettingsState();
