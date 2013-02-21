@@ -49,7 +49,7 @@ ModelIdHolder::ModelIdHolder()
 	this->m_hatIds[97] = "GasMask";
 	this->m_hatIds[98] = "Ball";
 	this->m_hatIds[99] = "TopHat";
-	this->m_rightHandIds[95] = "cross";
+	this->m_rightHandIds[95] = "MentalistRapier";
 	this->m_leftHandIds[95] = "cross";
 	this->m_textures[95] = "color";
 	this->m_textures[96] = "color1";

@@ -16,10 +16,16 @@ GameState::GameState(Client *_network, Hero::HERO_TYPE _heroType)
 	{
 	case Hero::RED_KNIGHT:
 		m_idleSound= createSoundHandle("red_knight/RedKnight_Idle_0.wav", false, false);
+		break;
 	case Hero::ENGINEER:
 		m_idleSound= createSoundHandle("Engineer_Idle_0.wav", false, false);
+		break;
 	case Hero::THE_MENTALIST:
 		m_idleSound= createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
+		break;
+	default:
+		m_idleSound= createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
+		break;
 	}
 
 	m_timeSinceLastAction = 0.0f;
