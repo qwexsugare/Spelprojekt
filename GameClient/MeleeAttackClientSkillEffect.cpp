@@ -2,6 +2,8 @@
 #include "SoundWrapper.h"
 #include "MyAlgorithms.h"
 
+float MeleeAttackClientSkillEffect::timeToNextDamageSound = 0.0f;
+
 MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterId, unsigned int _targetId, PLAYER_INFO _playerInfo)
 {
 	this->m_lifetime = 1.0f;
@@ -18,8 +20,9 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 	{
 		if(target->m_type == UnitEntity::HeroType)
 		{
-			if(_targetId == _playerInfo.id)
+			if(MeleeAttackClientSkillEffect::timeToNextDamageSound == 0.0f && _targetId == _playerInfo.id)
 			{
+				MeleeAttackClientSkillEffect::timeToNextDamageSound = TIME_BETWEEN_DAMAGE_SOUNDS;
 				int sound;
 
 				switch(_playerInfo.heroType)
@@ -84,13 +87,13 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("officer/Officer_Damage_0.wav", false, false);
+						sound = createSoundHandle("doctor/Doctor_Damage_0.wav", false, false);
 						break;
 					case 1:
-						sound = createSoundHandle("officer/Officer_Damage_1.wav", false, false);
+						sound = createSoundHandle("doctor/Doctor_Damage_1.wav", false, false);
 						break;
 					case 2:
-						sound = createSoundHandle("officer/Officer_Damage_2.wav", false, false);
+						sound = createSoundHandle("doctor/Doctor_Damage_2.wav", false, false);
 						break;
 					}
 					break;
@@ -106,6 +109,11 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 MeleeAttackClientSkillEffect::~MeleeAttackClientSkillEffect()
 {
 
+}
+
+void MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(float _dt)
+{
+	MeleeAttackClientSkillEffect::timeToNextDamageSound = max(MeleeAttackClientSkillEffect::timeToNextDamageSound-_dt, 0.0f);
 }
 
 void MeleeAttackClientSkillEffect::update(float dt)
