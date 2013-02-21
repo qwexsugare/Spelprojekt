@@ -6,6 +6,9 @@ ModelIdHolder::ModelIdHolder()
 	{
 		m_textures[i] = "color";
 		m_hatIds[i] = "";
+		m_rightHandIds[i] = "";
+		m_leftHandIds[i] = "";
+		m_glowmaps[i] = "";
 	}
 
 	this->m_modelId[0] = "Char1_5";
