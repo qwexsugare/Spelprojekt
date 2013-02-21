@@ -366,7 +366,7 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 
 		mesh->subMeshes[m] = new SubMesh(buffer, fishFile->FMeshes[m].numVertices);
 		mesh->subMeshes[m]->materialId = fishFile->FMeshes[m].materialIndex;
-		mesh->subMeshes[m]->name = folderPath;
+		//mesh->subMeshes[m]->name = folderPath;
 	}
 
 	for(int m = 0; m < fishFile->FMeshes.size(); m++)
