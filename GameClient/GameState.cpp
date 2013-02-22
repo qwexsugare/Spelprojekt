@@ -7,11 +7,12 @@
 #include "ClientSkillEffects.h"
 #include "Path.h"
 #include "MyAlgorithms.h"
+#include "SpeechManager.h"
 
 GameState::GameState(Client *_network)
 {
 	this->m_network = _network;
-	this->importMap("levelone");
+	this->importMap("race");
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -60,7 +61,7 @@ GameState::GameState(Client *_network)
 
 	m_attackSoundTimer = 0.0f;
 	m_idle = false;
-	this->m_rotation = 0.0f;
+	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network);
 	this->m_clientEntityHandler = new ClientEntityHandler();
@@ -252,7 +253,10 @@ void GameState::update(float _dt)
 		switch(e.getActionId())
 		{
 		case Skill::RANGED_ATTACK:
-			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId()));
+			if(e.getTargetId() == m_playerInfos[m_yourId].id)
+				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), m_playerInfos[m_yourId].heroType));
+			else
+				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId()));
 			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
@@ -355,13 +359,6 @@ void GameState::update(float _dt)
 		m_ClientSkillEffects[i]->update(_dt);
 		if(!m_ClientSkillEffects[i]->getActive())
 		{
-			if(typeid(*m_ClientSkillEffects[i]) == typeid(ArrowClientSkillEffect))
-			{
-				if(((ArrowClientSkillEffect*)m_ClientSkillEffects[i])->getTargetId() == m_playerInfos[m_yourId].id)
-				{
-
-				}
-			}
 			delete m_ClientSkillEffects[i];
 			m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
 			i--;
@@ -434,7 +431,7 @@ void GameState::update(float _dt)
 					validMove = false;
 					if(m_attackSoundTimer == 0.0f)
 					{
-						playSound(m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+						SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
 						m_attackSoundTimer = ATTACK_SOUND_DELAY;
 					}
 				}
@@ -466,6 +463,7 @@ void GameState::update(float _dt)
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities());
 	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());
+	SpeechManager::update();
 }
 
 void GameState::importMap(string _map)
@@ -611,7 +609,9 @@ void GameState::importMap(string _map)
 					sscanf(buf, "%s %f %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &scale);
 
 					position.z = -position.z;
-					rotation.x = -rotation.x * (D3DX_PI/180);
+					rotation.x *= -(D3DX_PI/180);
+					rotation.y *= -(D3DX_PI/180);
+					rotation.z *= (D3DX_PI/180);
 				
 					Model *m = g_graphicsEngine->createModel(key, position, true);
 					m->setRotation(rotation);
@@ -654,9 +654,6 @@ void GameState::importMap(string _map)
 						sscanf(buf, "PLS %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.x, &color.y, &color.z, &radius);
 
 						position.z = -position.z;
-						rotation.x = rotation.x * (D3DX_PI/180.0f);
-						rotation.y = rotation.y * (D3DX_PI/180.0f);
-						rotation.z = rotation.z * (D3DX_PI/180.0f);
 
 						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, FLOAT3(1.0f, 1.0f, 1.0f), radius, false);
 					}
@@ -669,9 +666,6 @@ void GameState::importMap(string _map)
 						sscanf(buf, "PL %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.x, &color.y, &color.z, &radius);
 
 						position.z = -position.z;
-						rotation.x = rotation.x * (D3DX_PI/180.0f);
-						rotation.y = rotation.y * (D3DX_PI/180.0f);
-						rotation.z = rotation.z * (D3DX_PI/180.0f);
 
 						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius, false);
 					}

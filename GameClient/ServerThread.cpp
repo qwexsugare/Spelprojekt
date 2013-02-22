@@ -11,7 +11,7 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
-	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
+	this->m_mapHandler->loadMap("maps/race/race.txt");
 	// I crapped in ass
 	this->m_network->broadcast(NetworkEntityMessage());
 	TowerPlacer::init();
