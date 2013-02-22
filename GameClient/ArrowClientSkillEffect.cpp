@@ -58,7 +58,22 @@ void ArrowClientSkillEffect::update(float _dt)
 			m_active = false;
 			if(target->m_type == UnitEntity::EnemyType)
 			{
+				int sound;
 
+				switch(random(0, 2))
+				{
+				case 0:
+					sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, false);
+					break;
+				case 1:
+					sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, false);
+					break;
+				case 2:
+					sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, false);
+					break;
+				}
+					
+				SpeechManager::speak(m_targetId, sound); // The unit must be killed on the client before on the server for this sound solution to actually work.
 			}
 			else
 			{
