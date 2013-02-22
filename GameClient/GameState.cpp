@@ -12,7 +12,7 @@
 GameState::GameState(Client *_network)
 {
 	this->m_network = _network;
-	this->importMap("race");
+	this->importMap("levelone");
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -245,7 +245,7 @@ void GameState::update(float _dt)
 			if(e.getTargetId() == m_playerInfos[m_yourId].id)
 				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), m_playerInfos[m_yourId].heroType));
 			else
-				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId()));
+				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
@@ -612,7 +612,7 @@ void GameState::importMap(string _map)
 
 					position.z = -position.z;
 					rotation.x *= -(D3DX_PI/180);
-					rotation.y *= -(D3DX_PI/180);
+					rotation.y *= (D3DX_PI/180);
 					rotation.z *= (D3DX_PI/180);
 				
 					Model *m = g_graphicsEngine->createModel(key, position, true);
