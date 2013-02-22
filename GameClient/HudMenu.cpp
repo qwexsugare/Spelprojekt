@@ -453,3 +453,8 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 		this->m_SkillButtons[index]->setCooldown(cooldown);
 	}
 }
+
+void HudMenu::setHealth(float health)
+{
+
+}

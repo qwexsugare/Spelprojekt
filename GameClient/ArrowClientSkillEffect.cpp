@@ -6,7 +6,7 @@
 #include "SpeechManager.h"
 #include "MyAlgorithms.h"
 
-ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId)
+ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, unsigned int _masterId)
 {
 	m_active = true;
 	m_targetId = _targetId;
@@ -14,6 +14,13 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	m_graphicalEffect->setAlpha(0.999f);
 	m_sound = createSoundHandle("click_button.wav", false, true, _position);
 	playSound(m_sound);
+
+	Entity* master = ClientEntityHandler::getEntity(_masterId);
+
+	if(master != NULL)
+	{
+		master->m_model->getAnimation()->Play("rangeAttack");
+	}
 }
 
 ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, Hero::HERO_TYPE _heroType)

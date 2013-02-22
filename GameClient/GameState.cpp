@@ -197,20 +197,6 @@ void GameState::update(float _dt)
 		}
 	}
 
-	while(this->m_network->removeEntityQueueEmpty() == false)
-	{
-		NetworkRemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
-		bool found = false;
-
-		Entity* entity = this->m_clientEntityHandler->getEntity(rem.getEntityId());
-
-		if(entity != NULL)
-		{
-			g_graphicsEngine->removeModel(entity->m_model);
-			this->m_clientEntityHandler->removeEntity(entity);
-		}
-	}
-
 	while(this->m_network->createActionQueueEmpty() == false)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
@@ -227,6 +213,9 @@ void GameState::update(float _dt)
 			this->m_ClientSkillEffects.push_back(new IdleClientSkillEffect(e.getSenderId()));
 			m_idleSoundTimer = IDLE_SOUND_DELAY;
 			m_idle = true;
+			break;
+		case Skill::DEATH:
+			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId()));
 			break;
 		}
 	}
@@ -353,6 +342,19 @@ void GameState::update(float _dt)
 		this->m_hud->skillUsed(e.getActionIndex(), e.getActionId(), e.getCooldown());
 	}
 
+	while(this->m_network->removeEntityQueueEmpty() == false)
+	{
+		NetworkRemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
+		bool found = false;
+
+		Entity* entity = this->m_clientEntityHandler->getEntity(rem.getEntityId());
+
+		if(entity != NULL)
+		{
+			g_graphicsEngine->removeModel(entity->m_model);
+			this->m_clientEntityHandler->removeEntity(entity);
+		}
+	}
 
 	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 	{

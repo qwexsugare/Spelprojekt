@@ -111,7 +111,9 @@ void MapHandler::loadMap(std::string filename)
 					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
 
 					position.z = -position.z;
-					rotation = rotation * (D3DX_PI/180.0f);
+					rotation.x *= -(D3DX_PI/180);
+					rotation.y *= (D3DX_PI/180);
+					rotation.z *= (D3DX_PI/180);
 					
 					Model *m = g_graphicsEngine->createModel(key, position);
 					m->setRotation(rotation);

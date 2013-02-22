@@ -13,8 +13,12 @@ private:
 	bool m_active;
 	Hero::HERO_TYPE m_heroType;
 public:
-	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, unsigned int _masterId);
+<<<<<<< HEAD
+	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId);
 	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, Hero::HERO_TYPE _heroType);
+=======
+	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targedId, unsigned int _masterId);
+>>>>>>> 815fa9b0733f6cb1518417685c36f7d04090fd10
 	~ArrowClientSkillEffect();
 
 	void update(float _dt);
