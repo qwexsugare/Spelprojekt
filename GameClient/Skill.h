@@ -12,6 +12,7 @@ private:
 public:
 	static enum SKILLS {
 		IDLE,
+		DEATH,
 		MOVE, 
 		ATTACK, 
 		MELEE_ATTACK,

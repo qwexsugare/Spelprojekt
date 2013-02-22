@@ -11,7 +11,7 @@ private:
 	unsigned int m_targetId;
 	bool m_active;
 public:
-	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targedId);
+	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targedId, unsigned int _masterId);
 	~ArrowClientSkillEffect();
 
 	void update(float _dt);
