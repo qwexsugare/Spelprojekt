@@ -9,6 +9,7 @@ private:
 	unsigned int m_masterId;
 	Model *m_model;
 	float m_lifetime;
+	float* tardvar;
 public:
 	DeathClientSkillEffect(unsigned int _masterId);
 	~DeathClientSkillEffect();
