@@ -50,5 +50,6 @@ public:
 	DECLDIR void Stop(string name, Motion body = Motion::FullBody);
 	DECLDIR void Play(string name, bool waitAtEnd = false, float speedMultiplier = 1.0f, Motion body = Motion::FullBody);
 	DECLDIR string getPrioAnimation();
+	DECLDIR string getCurrentAnimation();
 	FishAnimationStuff ANewWierdFunction(AnimationFile* animationFile, int skeletonIndex, int jointIndex, float lerpValue);
 };

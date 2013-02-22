@@ -264,8 +264,7 @@ void World::render()
 			{
 				this->m_deferredSampler->setTexture(staticModels.top()->getMesh()->subMeshes[m]->textures[staticModels.top()->getTextureIndex()]);
 				this->m_deferredSampler->setNormalMap(staticModels.top()->getMesh()->subMeshes[m]->textures["normalCamera"]);
-				if(staticModels.top()->getGlowIndex() != "")
-					this->m_deferredSampler->setGlowMap(staticModels.top()->getMesh()->subMeshes[m]->textures[staticModels.top()->getGlowIndex()]);
+				this->m_deferredSampler->setGlowMap(staticModels.top()->getMesh()->subMeshes[m]->textures[staticModels.top()->getGlowIndex()]);
 				this->m_deferredSampler->setSpecularMap(staticModels.top()->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 				if(staticModels.top()->getMesh()->isAnimated)
@@ -369,8 +368,7 @@ void World::render()
 				{
 					this->m_deferredSampler->setTexture(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getTextureIndex()]);
 					this->m_deferredSampler->setNormalMap(m_models[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-					if(m_models[i]->getGlowIndex() != "")
-						this->m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getGlowIndex()]);
+					this->m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures[m_models[i]->getGlowIndex()]);
 					this->m_deferredSampler->setSpecularMap(m_models[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 					if(m_models[i]->getMesh()->isAnimated)
@@ -411,6 +409,7 @@ void World::render()
 							this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
 							this->m_deviceHandler->getDevice()->Draw(m_models[i]->getLeftHand()->subMeshes[m]->numVerts, 0);
 						}
+						this->m_deferredSampler->setGlowMap(m_models[i]->getMesh()->subMeshes[m]->textures[""]);
 					}
 					else
 					{

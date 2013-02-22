@@ -22,10 +22,10 @@ Shade::Shade(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
 	m_baseAttackSpeed = 2.0 - m_agility* 0.05f;
 	m_attackSpeed = m_baseAttackSpeed;
 
-	m_basePhysicalResistance = 100;// m_strength*2;
+	m_basePhysicalResistance = 0.0f;//1.00f -100*0.01f;// m_strength*2;
 	m_physicalResistance = m_basePhysicalResistance ; 
 
-	m_baseMentalResistance = m_fortitude*2;
+	m_baseMentalResistance = 1.00f - m_fortitude*2*0.01f;
 	m_mentalResistance = m_baseMentalResistance;
 
 	//No obstacle avoidance! 

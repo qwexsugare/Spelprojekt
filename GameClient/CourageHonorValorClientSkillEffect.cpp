@@ -21,7 +21,9 @@ CourageHonorValorClientSkillEffect::CourageHonorValorClientSkillEffect(unsigned 
 
 CourageHonorValorClientSkillEffect::~CourageHonorValorClientSkillEffect()
 {
-	g_graphicsEngine->removeModel(m_model);
+	Entity *e = ClientEntityHandler::getEntity(m_masterId);
+	if(e)
+		g_graphicsEngine->removeModel(m_model);
 	deactivateSound(m_sound);
 }
 

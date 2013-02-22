@@ -6,26 +6,62 @@
 #include "Skill.h"
 #include "ClientSkillEffects.h"
 #include "Path.h"
+#include "MyAlgorithms.h"
 
-GameState::GameState(Client *_network, Hero::HERO_TYPE _heroType)
+GameState::GameState(Client *_network)
 {
+	this->m_network = _network;
 	this->importMap("levelone");
 
-	m_heroType = _heroType;
-	switch(m_heroType)
+	// Get all hero data from the network
+	while(m_network->heroInitQueueEmpty()){}
+	NetworkHeroInitMessage e = m_network->heroInitQueueFront();
+	m_playerInfos.resize(e.getIds().size());
+	m_yourId = e.getYourId();
+	for(int i = 0; i < e.getIds().size(); i++)
 	{
-	case Hero::RED_KNIGHT:
-		m_idleSound= createSoundHandle("red_knight/RedKnight_Idle_0.wav", false, false);
-	case Hero::ENGINEER:
-		m_idleSound= createSoundHandle("Engineer_Idle_0.wav", false, false);
-	case Hero::THE_MENTALIST:
-		m_idleSound= createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
+		m_playerInfos[i].id = e.getIds()[i];
+		m_playerInfos[i].heroType = e.getHeroTypes()[i];
 	}
 
-	m_timeSinceLastAction = 0.0f;
+	switch(m_playerInfos[m_yourId].heroType)
+	{
+	case Hero::RED_KNIGHT:
+		m_idleSound = createSoundHandle("red_knight/RedKnight_Idle_0.wav", false, false);
+		m_attackSounds[0] = createSoundHandle("red_knight/RedKnight_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("red_knight/RedKnight_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("red_knight/RedKnight_Attack_2.wav", false, false);
+		break;
+	case Hero::ENGINEER:
+		m_idleSound = createSoundHandle("Engineer_Idle_0.wav", false, false);
+		m_attackSounds[0] = createSoundHandle("engineer/Engineer_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("engineer/Engineer_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("engineer/Engineer_Attack_2.wav", false, false);
+		break;
+	case Hero::THE_MENTALIST:
+		m_idleSound = createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
+		m_attackSounds[0] = createSoundHandle("mentalist/Mentalist_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("mentalist/Mentalist_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("mentalist/Mentalist_Attack_2.wav", false, false);
+			break;
+	case Hero::OFFICER:
+		m_idleSound = createSoundHandle("officer/Officer_Death_1.wav", false, false);
+		m_attackSounds[0] = createSoundHandle("officer/Officer_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("officer/Officer_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("officer/Officer_Attack_2.wav", false, false);
+		break;
+	case Hero::DOCTOR:
+		m_idleSound = createSoundHandle("doctor/Doctor_Idle.wav", false, false);
+		m_attackSounds[0] = createSoundHandle("doctor/Doctor_Attack_0.wav", false, false);
+		m_attackSounds[1] = createSoundHandle("doctor/Doctor_Attack_1.wav", false, false);
+		m_attackSounds[2] = createSoundHandle("doctor/Doctor_Attack_2.wav", false, false);
+		break;
+	}
+
+	m_attackSoundTimer = 0.0f;
+	m_idle = false;
 	this->m_rotation = 0.0f;
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_network = _network;
 	this->m_hud = new HudMenu(this->m_network);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
@@ -38,8 +74,8 @@ GameState::GameState(Client *_network, Hero::HERO_TYPE _heroType)
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f, false);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f, false);
 	//g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
-	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.2f, 0.2f, 0.2f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
@@ -77,7 +113,16 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
-	m_timeSinceLastAction += _dt;
+	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
+	/*if(!isSoundPlaying(m_idleSound))
+	{
+		m_idleSoundTimer = max(m_idleSoundTimer-_dt, 0.0f);
+		if(m_idleSoundTimer == 0.0f)
+		{
+			playSound(m_idleSound);
+			m_idleSoundTimer = IDLE_SOUND_DELAY;
+		}
+	}*/
 
 	D3DXVECTOR3 pickDir;
 	D3DXVECTOR3 pickOrig;
@@ -123,6 +168,7 @@ void GameState::update(float _dt)
 		{
 			Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(e.getModelId()), FLOAT3(e.getPosition().x, 0.0, e.getPosition().z));
 			model->setTextureIndex(m_modelIdHolder.getTexture(e.getModelId()));
+			model->setGlowIndex(m_modelIdHolder.getGlowmap(e.getModelId()));
 
 			if(this->m_modelIdHolder.getHat(e.getModelId()) != "")
 			{
@@ -159,14 +205,13 @@ void GameState::update(float _dt)
 		case Skill::STUNNING_STRIKE:
 			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
 			break;
-		case Skill::MELEE_ATTACK:
-			this->m_ClientSkillEffects.push_back(new MeleeAttackClientSkillEffect(e.getSenderId()));
-			break;
 		case Skill::MOVE:
 			this->m_ClientSkillEffects.push_back(new RunClientSkillEffect(e.getSenderId()));
 			break;
 		case Skill::IDLE:
 			this->m_ClientSkillEffects.push_back(new IdleClientSkillEffect(e.getSenderId()));
+			m_idleSoundTimer = IDLE_SOUND_DELAY;
+			m_idle = true;
 			break;
 		case Skill::DEATH:
 			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId()));
@@ -212,6 +257,9 @@ void GameState::update(float _dt)
 			break;
 		case Skill::SIMONS_EVIL:
 			m_ClientSkillEffects.push_back(new SimonsEvilClientSkillEffect(e.getTargetId()));
+			break;
+		case Skill::MELEE_ATTACK:
+			this->m_ClientSkillEffects.push_back(new MeleeAttackClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
 			break;
 		}
 	}
@@ -309,6 +357,13 @@ void GameState::update(float _dt)
 		m_ClientSkillEffects[i]->update(_dt);
 		if(!m_ClientSkillEffects[i]->getActive())
 		{
+			if(typeid(*m_ClientSkillEffects[i]) == typeid(ArrowClientSkillEffect))
+			{
+				if(((ArrowClientSkillEffect*)m_ClientSkillEffects[i])->getTargetId() == m_playerInfos[m_yourId].id)
+				{
+
+				}
+			}
 			delete m_ClientSkillEffects[i];
 			m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
 			i--;
@@ -344,8 +399,6 @@ void GameState::update(float _dt)
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
 		m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z)));
-
-		m_timeSinceLastAction = 0.0f;
 	}
 	if(g_mouse->isLButtonPressed())
 	{
@@ -355,16 +408,14 @@ void GameState::update(float _dt)
 
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
-		m_timeSinceLastAction = 0.0f;
 	}
 	if(g_mouse->isLButtonDown())
 	{
-		m_timeSinceLastAction = 0.0f;
+
 	}
 	else if(g_mouse->isLButtonReleased())
 	{
-		m_timeSinceLastAction = 0.0f;
+
 	}
 	if(g_mouse->isRButtonPressed() == true)
 	{
@@ -383,8 +434,12 @@ void GameState::update(float _dt)
 				{
 					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
 					validMove = false;
+					if(m_attackSoundTimer == 0.0f)
+					{
+						playSound(m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+						m_attackSoundTimer = ATTACK_SOUND_DELAY;
+					}
 				}
-
 			}
 
 			if(validMove)
@@ -403,20 +458,13 @@ void GameState::update(float _dt)
 			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y));
 			this->m_network->sendMessage(e);
 		}
-		
-		m_timeSinceLastAction = 0.0f;
 	}
 	else if(g_mouse->isRButtonReleased())
 	{
-		m_timeSinceLastAction = 0.0f;
+
 	}
 
-	if(m_timeSinceLastAction >= GameState::TIME_TO_IDLE)
-	{
-		playSound(m_idleSound);
-		m_timeSinceLastAction = 0.0f;
-	}
-
+	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities());
 	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	//this->m_cursor.setPosition(g_mouse->getPos());

@@ -261,6 +261,11 @@ void Model::setTextureIndex(string _textureIndex)
 	m_textureIndex = _textureIndex;
 }
 
+void Model::setGlowIndex(string _glowIndex)
+{
+	m_glowIndex = _glowIndex;
+}
+
 void Model::Update(float dt)
 {
 	this->animation->Update(dt);

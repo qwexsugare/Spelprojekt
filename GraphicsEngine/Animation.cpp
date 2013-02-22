@@ -351,6 +351,11 @@ string Animation::getPrioAnimation()
 	return this->prioAnimation;
 }
 
+string Animation::getCurrentAnimation()
+{
+	return this->currentAnimation;
+}
+
 void Animation::FFloat3ToD3DXVECTOR3(D3DXVECTOR3 &out, FFloat3 &in)
 {
 	out.x = in.x;

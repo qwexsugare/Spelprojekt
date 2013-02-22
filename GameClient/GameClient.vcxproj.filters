@@ -417,7 +417,13 @@
     </ClCompile>
     <ClCompile Include="MeleeAOEAttack.cpp">
       <Filter>Server\Skills</Filter>
+      </ClCompile>
+    <ClCompile Include="NetworkHeroInitMessage.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="SpeechManager.cpp">
+      <Filter>Client</Filter>
+      </ClCompile>
     <ClCompile Include="DeathClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
@@ -863,11 +869,20 @@
     <ClInclude Include="TowerPlacer.h">
       <Filter>Server\Tower Placer</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkHeroInitMessage.h">
+      <Filter>Network</Filter>
+      </ClInclude>
     <ClInclude Include="MeleeAOEAttack.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerInfo.h">
+      <Filter>Client</Filter>
+      </ClInclude>
     <ClInclude Include="DeathClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeechManager.h">
+      <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

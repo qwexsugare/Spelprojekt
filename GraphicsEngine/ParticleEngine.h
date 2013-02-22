@@ -12,30 +12,30 @@ private:
 	ID3D10Buffer* shaderParticles;
 	vector<GeoParticle> geoParticles;
 	BoundingSphere m_bs;
-
-	enum EngineType{CPUAndModels, CPUAndGShader, GPUBased};
-	EngineType type;
+	UINT type;
 
 	D3DXMATRIX	worldMatrix;
 	D3DXVECTOR3 position;
-	D3DXVECTOR3 rotation;
+	D3DXQUATERNION rotation;
 	D3DXVECTOR3 scale;
 	
 	bool isDead;
 public:
-	ParticleEngine(EngineType _type, D3DXVECTOR3 _position, D3DXVECTOR3 _rotation, D3DXVECTOR3 _scale);
+	enum EngineType{CPUAndModels, CPUAndGShader, GPUBased};
+
+	ParticleEngine(EngineType _type, D3DXVECTOR3 _position, D3DXQUATERNION _rotation, D3DXVECTOR3 _scale);
 	~ParticleEngine();
 
-	D3DXMATRIX*		getWorldMatrix();
-	D3DXVECTOR3*	getPosition;
-	D3DXVECTOR3*	getRotation;
-	D3DXVECTOR3*	getScale;
-	EngineType*		getType();
+	const D3DXMATRIX&	getWorldMatrix()const { return worldMatrix; }
+	const D3DXVECTOR3&	getPosition()const { return position; }
+	const D3DXQUATERNION&	getRotation() const { return rotation; }
+	const D3DXVECTOR3&	getScale()const { return scale; }
+	const UINT&	getType()const { return type; }
 	const BoundingSphere& getBs()const { return m_bs; }
 
-	void			setPosition();
-	void			setRotation();
-	void			setScale();
+	void setPosition(D3DXVECTOR3& _pos);
+	void setRotation(D3DXVECTOR3& _rot);
+	void setScale(D3DXVECTOR3& _scale);
 	void Draw(ID3D10Device* _device);
 	void Update(float _dt);
 	void Troll();
