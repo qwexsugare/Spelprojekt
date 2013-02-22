@@ -40,7 +40,7 @@ void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
 		break;
 	}
 	
-	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 30.0f));
+	this->m_hero->setPosition(FLOAT3(10.0f, 0.0f, 50.0f));
 	
 	EntityHandler::addEntity(m_hero);
 	m_hero->activateAllPassiveSkills();

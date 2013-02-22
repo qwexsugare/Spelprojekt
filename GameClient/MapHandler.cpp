@@ -186,6 +186,9 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
+
+	EntityHandler::addEntity(new Imp(FLOAT3(0,0,0), m_paths[0]));
+
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
 	//createWave(5,0,0,0,0,0,0,0);

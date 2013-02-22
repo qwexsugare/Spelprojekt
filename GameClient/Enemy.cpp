@@ -28,7 +28,6 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	//this->m_goalPosition = FLOAT3(5.0f, 0.0f,64.0f);
 	
 	m_targetType = UnitEntity::HeroType;
-	this->m_regularAttack = new MeleeAttack();
 	this->m_reachedPosition = true;
 	this->m_modelId = 80;
 	this->m_staticBuffer = 2.00f;
@@ -49,9 +48,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	m_highRescource = 10;
 	m_distanceToStatic = 15;
 	
-	Model *m = g_graphicsEngine->createModel("Beast", m_position);
-	this->m_obb = new BoundingOrientedBox(*m->getObb());
-	g_graphicsEngine->removeModel(m);
+
 
 	if(this->m_path.nrOfPoints > 0)
 	{
@@ -60,6 +57,11 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 
 	m_nextPosition = m_goalPosition;
 	m_dir = m_nextPosition - m_position;
+}
+
+Enemy::~Enemy()
+{
+	
 }
 
 FLOAT3 Enemy::getDirection()
@@ -151,6 +153,23 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		
 		this->m_dir = this->m_dir / this->m_dir.length();
 		this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * dt;
+
+		ServerEntity *stat = EntityHandler::getClosestStatic(this);
+		if((m_position - stat->getPosition()).length() < sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z)+this->getObb()->Extents.z)
+		{
+		
+			m_position= m_position + (m_position - stat->getPosition())*dt*2*m_movementSpeed;///(m_position - stat->getPosition()).length();
+		}
+
+
+		if(outOfBounds(m_position,0))
+		{
+			m_position = m_position -m_dir*m_movementSpeed*dt*2;
+			m_dir = FLOAT3(32,0,32) - m_position;
+			m_dir = m_dir/m_dir.length();
+		}
+
+		
 	}
 	
 
@@ -280,6 +299,8 @@ FLOAT3 Enemy::checkStatic(float dt)
 	FLOAT3 temp2 = FLOAT3(0,0,0);
 	ServerEntity *stat;
 	
+	
+		
 		for(int i = 1; i < 10; i++)
 		{
 			temp = m_position + currDir*i;
@@ -322,7 +343,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 				avoidDir =  cross/10;
 			}
 
-			if(outOfBounds(temp) && avoidTimer > 0.5f)
+			if(outOfBounds(temp,4) && avoidTimer > 0.5f)
 			{
 				float t = (temp1 - FLOAT3(32,0,32)).length();
 
@@ -376,15 +397,17 @@ FLOAT3 Enemy::crossProduct(FLOAT3 _first, FLOAT3 _second)
 	return FLOAT3(x,y,z);
 }
 
-bool Enemy::outOfBounds(FLOAT3 _pt)
+bool Enemy::outOfBounds(FLOAT3 _pt, int _offset)
 {
 	bool t = false;
 
-	if(_pt.x > 68 || _pt.z > 68 || _pt.x < -4 || _pt.z < -4)
+	if(_pt.x > 64+_offset || _pt.z > 64+_offset || _pt.x < 0-_offset || _pt.z < 0-_offset)
 		t = true;
 
 	return t;
 }
+
+
 
 bool Enemy::checkDistanceToStatic(float currFactor, float prevFactor)
 {
