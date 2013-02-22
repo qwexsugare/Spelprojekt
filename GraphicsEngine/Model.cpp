@@ -271,13 +271,24 @@ void Model::updateModelMatrix()
 	D3DXMATRIX rotationMatrix;
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, m_rotation.y, m_rotation.x, this->m_rotation.z);
 
-	this->m_modelMatrix = D3DXMATRIX(
+	/*this->m_modelMatrix = D3DXMATRIX(
 		this->m_scale.x, 0.0f, 0.0f, 0.0f,
 		0.0f, this->m_scale.y, 0.0f, 0.0f,
 		0.0f, 0.0f, this->m_scale.z, 0.0f,
 		this->m_position.x, this->m_position.y, this->m_position.z, 1.0f);
 	
-	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
+	D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);*/
+
+	this->m_modelMatrix = D3DXMATRIX(
+		this->m_scale.x, 0.0f, 0.0f, 0.0f,
+		0.0f, this->m_scale.y, 0.0f, 0.0f,
+		0.0f, 0.0f, this->m_scale.z, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+	
+	D3DXMatrixMultiply(&this->m_modelMatrix, &this->m_modelMatrix, &rotationMatrix);
+	m_modelMatrix._41 = m_position.x;
+	m_modelMatrix._42 = m_position.y;
+	m_modelMatrix._43 = m_position.z;
 	
 	if(this->m_obb)
 	{
