@@ -419,6 +419,9 @@
     <ClCompile Include="NetworkHeroInitMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="SpeechManager.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -866,6 +869,9 @@
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInfo.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeechManager.h">
       <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>

@@ -41,6 +41,8 @@ private:
 	int m_idleSound;
 	static const int NR_OF_ATTACK_SOUNDS = 3;
 	int m_attackSounds[NR_OF_ATTACK_SOUNDS];
+	static const int ATTACK_SOUND_DELAY = 5;
+	float m_attackSoundTimer;
 
 	void end();
 	void importMap(string _map);
