@@ -14,11 +14,11 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId)
 		
 		if(this->m_model->getObb() == NULL)
 		{
-			this->m_lifetime = this->m_lifetime + this->m_model->getBs()->Radius;
+			this->m_lifetime = this->m_lifetime + this->m_model->getBs()->Radius * 5.0f;
 		}
 		else if(this->m_model->getBs() == NULL)
 		{
-			this->m_lifetime = this->m_lifetime + this->m_model->getObb()->Extents.y;
+			this->m_lifetime = this->m_lifetime + this->m_model->getObb()->Extents.y * 5.0f;
 		}
 	}
 }
@@ -35,7 +35,7 @@ void DeathClientSkillEffect::update(float dt)
 	if(this->m_lifetime < 5.0f)
 	{
 		FLOAT3 pos = this->m_model->getPosition();
-		pos.y = pos.y - dt * this->m_lifetime;
+		pos.y = pos.y - dt;
 		this->m_model->setPosition(pos);
 	}
 }
