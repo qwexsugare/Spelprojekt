@@ -19,11 +19,13 @@ protected:
 	FLOAT3 m_dir;
 	FLOAT3 m_prevDir;
 	FLOAT3 m_goalPosition;
+	FLOAT3 m_goalDirection;
 	Path m_path;
 	int m_currentPoint;
 	float m_staticBuffer;
 	float avoidTimer;
 	float avoidTimerDos;
+	float m_distanceToStatic;
 	FLOAT3 m_staticAvDir;
 	FLOAT3 m_enemyAvDir;
 	int m_lowResource;
@@ -44,7 +46,7 @@ public:
 
 	FLOAT3 getDirection();
 	void checkPursue();
-	FLOAT3 checkStatic(float dt, FLOAT3 _pPos);
+	FLOAT3 checkStatic(float dt);
 	void checkCloseEnemies(float dt);
 	bool checkDistanceToStatic(float firstFactor, float secondFactor);
 	void attackHero();

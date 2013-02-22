@@ -334,10 +334,8 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="NetworkUpdateEntityMessage.cpp" />
-    <ClCompile Include="NetworkInitEntityMessage.cpp">
-=======
+    <ClCompile Include="NetworkInitEntityMessage.cpp" />
     <ClCompile Include="CourageHonorValor.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
@@ -423,6 +421,9 @@
     <ClCompile Include="NetworkHeroInitMessage.cpp">
 >>>>>>> 5220b60056201a5cab06e9df5266cbc5da67d944
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeechManager.cpp">
+      <Filter>Client</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -877,6 +878,9 @@
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInfo.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeechManager.h">
       <Filter>Client</Filter>
     </ClInclude>
 >>>>>>> 5220b60056201a5cab06e9df5266cbc5da67d944
