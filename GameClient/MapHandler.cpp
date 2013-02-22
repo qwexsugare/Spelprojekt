@@ -188,7 +188,7 @@ void MapHandler::loadMap(std::string filename)
 	
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
-	createWave(5,0,0,0,0,0,0,0);
+	//createWave(5,0,0,0,0,0,0,0);
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);

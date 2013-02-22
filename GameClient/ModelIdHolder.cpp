@@ -22,10 +22,10 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelId[8] = "redKnightPassiveAura";
 	
 
-	this->m_modelId[80] = "Imp"; //imp1
-	this->m_modelId[81] = "Imp"; //imp2
-	this->m_modelId[82] = "Imp"; //imp3
-	this->m_modelId[83] = "Imp"; //imp4
+	this->m_modelId[80] = "Imp"; //Frost Demon
+	this->m_modelId[81] = "Imp"; //Imp
+	this->m_modelId[82] = "Imp"; //Shade
+	this->m_modelId[83] = "Imp"; //Spitting
 
 	this->m_textures[80] = "color";
 	this->m_textures[81] = "color1";
@@ -37,10 +37,10 @@ ModelIdHolder::ModelIdHolder()
 	this->m_glowmaps[82] = "glowIntensity2";
 	this->m_glowmaps[83] = "glowIntensity3";
 
-	this->m_modelId[84] = "Beast";  
-	this->m_modelId[85] = "Beast"; 
-	this->m_modelId[86] = "Beast"; 
-	this->m_modelId[87] = "Beast"; 
+	this->m_modelId[84] = "Beast";  //Soul Eater
+	this->m_modelId[85] = "Beast";	//Brute 
+	this->m_modelId[86] = "Beast";  //Hellfire
+	this->m_modelId[87] = "Beast";  //Thunder
 
 	this->m_textures[84] = "color";
 	this->m_textures[85] = "color1";
@@ -62,8 +62,8 @@ ModelIdHolder::ModelIdHolder()
 	this->m_hatIds[97] = "GasMask";
 	this->m_hatIds[98] = "Kubb";
 	this->m_hatIds[99] = "TopHat";
-	this->m_rightHandIds[99] = "MentalistRapier";
-	this->m_rightHandIds[97] = "Crossbow";
+	//this->m_rightHandIds[99] = "MentalistRapier";
+	//this->m_rightHandIds[97] = "Crossbow";
 	this->m_textures[95] = "color";
 	this->m_textures[96] = "color1";
 	this->m_textures[97] = "color2";
