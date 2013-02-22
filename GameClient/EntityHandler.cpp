@@ -5,6 +5,7 @@ vector<ServerEntity*> EntityHandler::m_entities;
 unsigned int EntityHandler::m_nextId = 0;
 MessageQueue *EntityHandler::m_messageQueue;
 MessageHandler *EntityHandler::m_messageHandler;
+ServerQuadTree* EntityHandler::m_quadtree;
 
 EntityHandler::EntityHandler()
 {
@@ -16,6 +17,7 @@ EntityHandler::EntityHandler(MessageHandler* _messageHandler)
 	EntityHandler::m_messageQueue = new MessageQueue();
 	EntityHandler::m_messageHandler = _messageHandler;
 	_messageHandler->addQueue(EntityHandler::m_messageQueue);
+	EntityHandler::m_quadtree = new ServerQuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
 }
 
 EntityHandler::~EntityHandler()
@@ -31,6 +33,8 @@ void EntityHandler::removeAllEntities()
 	{
 		delete this->m_entities[i];
 	}
+
+	delete EntityHandler::m_quadtree;
 
 	EntityHandler::m_mutex.Unlock();
 }
@@ -62,6 +66,8 @@ void EntityHandler::update(float dt)
 		EntityHandler::m_entities[i]->update(dt);
 	}
 
+	EntityHandler::m_quadtree->updateServerEntities(dt);
+
 	EntityHandler::m_mutex.Unlock();
 }
 
@@ -69,8 +75,15 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 {
 	EntityHandler::m_mutex.Lock();
 	_entity->setId(EntityHandler::m_nextId);
+	if(_entity->getType() == ServerEntity::StaticType)
+	{
+		EntityHandler::m_quadtree->addServerEntity(_entity);
+	}
+	else
+	{
+		EntityHandler::m_entities.push_back(_entity);
+	}
 	EntityHandler::m_nextId++;
-	EntityHandler::m_entities.push_back(_entity);
 	EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
 	EntityHandler::m_mutex.Unlock();
 
@@ -85,15 +98,22 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 	bool found = false;
 	EntityHandler::m_mutex.Lock();
 
-	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	if(_entity->getType() == ServerEntity::StaticType)
 	{
-		if(EntityHandler::m_entities[i] == _entity)
+		found = EntityHandler::m_quadtree->removeServerEntity(_entity);
+	}
+	else
+	{
+		for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 		{
-			EntityHandler::m_messageHandler->removeQueue(EntityHandler::m_entities[i]->getMessageQueue()->getId());
-			delete EntityHandler::m_entities[i];
-			EntityHandler::m_entities.erase(EntityHandler::m_entities.begin() + i);
-			found = true;
-			i = EntityHandler::m_entities.size();
+			if(EntityHandler::m_entities[i] == _entity)
+			{
+				EntityHandler::m_messageHandler->removeQueue(EntityHandler::m_entities[i]->getMessageQueue()->getId());
+				delete EntityHandler::m_entities[i];
+				EntityHandler::m_entities.erase(EntityHandler::m_entities.begin() + i);
+				found = true;
+				i = EntityHandler::m_entities.size();
+			}
 		}
 	}
 
@@ -105,10 +125,40 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 vector<ServerEntity*> EntityHandler::getEntities()
 {
 	EntityHandler::m_mutex.Lock();
-	vector<ServerEntity*> result = EntityHandler::m_entities;
+
+	vector<ServerEntity*> ses;
+	EntityHandler::m_quadtree->getAllServerEntites(ses);
+
+	//ses.resize(EntityHandler::m_entities.size()+ses.size());
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+		ses.push_back(EntityHandler::m_entities[i]);
+
 	EntityHandler::m_mutex.Unlock();
-	
-	return result;
+
+	return ses;
+}
+
+vector<ServerEntity*> EntityHandler::getEntitiesByType(ServerEntity::Type _type)
+{
+	EntityHandler::m_mutex.Lock();
+
+	vector<ServerEntity*> ses;
+	if(_type == ServerEntity::StaticType)
+		EntityHandler::m_quadtree->getAllServerEntites(ses);
+	else
+	{
+		for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+		{
+			if(EntityHandler::m_entities[i]->getType() == _type)
+			{
+				ses.push_back(EntityHandler::m_entities[i]);
+			}
+		}
+	}
+
+	EntityHandler::m_mutex.Unlock();
+
+	return ses;
 }
 
 ServerEntity* EntityHandler::getClosestEntity(ServerEntity *entity)
@@ -146,28 +196,73 @@ ServerEntity* EntityHandler::getClosestEntity(ServerEntity *entity)
 	}
 }
 
-ServerEntity* EntityHandler::getClosestEnemy(ServerEntity *entity)
+ServerEntity* EntityHandler::getClosestEntityByType(ServerEntity* _entity, ServerEntity::Type _type)
 {
-	float shortestDistance = 9999999999.3f;
-	int shortestIndex = -1;
+	ServerEntity* closestEntity = NULL;
 
-	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	if(_type == ServerEntity::Type::StaticType)
 	{
-		if(EntityHandler::m_entities[i] != entity && (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::EnemyType)
+		vector<ServerEntity*> serverEntities;
+		EntityHandler::m_quadtree->getAllServerEntites(serverEntities);
+
+		if(serverEntities.size() > 1)
 		{
-			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
-			shortestIndex = i;
-		}
-	}
+			bool foundMatch = false;
+			float shortestDistance;
 
-	if(shortestIndex > -1)
-	{
-		return EntityHandler::m_entities[shortestIndex];
+			for(int i = 0; i < serverEntities.size(); i++)
+			{
+				if(serverEntities[i] != _entity)
+				{
+					if(foundMatch)
+					{
+						if((serverEntities[i]->getPosition()-_entity->getPosition()).length() < shortestDistance)
+						{
+							shortestDistance = (serverEntities[i]->getPosition()-_entity->getPosition()).length();
+							closestEntity = serverEntities[i];
+						}
+					}
+					else
+					{
+						shortestDistance = (serverEntities[i]->getPosition()-_entity->getPosition()).length();
+						closestEntity = serverEntities[i];
+						foundMatch = true;
+					}
+				}
+			}
+		}
 	}
 	else
 	{
-		return NULL;
+		if(EntityHandler::m_entities.size() > 1)
+		{
+			bool foundMatch = false;
+			float shortestDistance;
+
+			for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+			{
+				if(EntityHandler::m_entities[i] != _entity && EntityHandler::m_entities[i]->getType() == _type)
+				{
+					if(foundMatch)
+					{
+						if((EntityHandler::m_entities[i]->getPosition()-_entity->getPosition()).length() < shortestDistance)
+						{
+							shortestDistance = (EntityHandler::m_entities[i]->getPosition()-_entity->getPosition()).length();
+							closestEntity = EntityHandler::m_entities[i];
+						}
+					}
+					else
+					{
+						shortestDistance = (EntityHandler::m_entities[i]->getPosition()-_entity->getPosition()).length();
+						closestEntity = EntityHandler::m_entities[i];
+						foundMatch = true;
+					}
+				}
+			}
+		}
 	}
+
+	return closestEntity;
 }
 
 ServerEntity* EntityHandler::getClosestStatic(ServerEntity *entity)
@@ -175,18 +270,21 @@ ServerEntity* EntityHandler::getClosestStatic(ServerEntity *entity)
 	float shortestDistance = 9999999999.3f;
 	int shortestIndex = -1;
 
-	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	vector<ServerEntity*> entities;
+	m_quadtree->getAllServerEntites(entities);
+
+	for(int i = 0; i < entities.size(); i++)
 	{
-		if(EntityHandler::m_entities[i] != entity && (entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
+		if(entities[i] != entity && (entity->getPosition() - entities[i]->getPosition()).length() < shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
 		{
-			shortestDistance = abs((entity->getPosition() - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestDistance = abs((entity->getPosition() - entities[i]->getPosition()).length());
 			shortestIndex = i;
 		}
 	}
 
 	if(shortestIndex > -1)
 	{
-		return EntityHandler::m_entities[shortestIndex];
+		return entities[shortestIndex];
 	}
 	else
 	{
@@ -198,19 +296,22 @@ ServerEntity* EntityHandler::getClosestSuperStatic(FLOAT3 _pos)
 {
 	float shortestDistance = 9999999999.3f;
 	int shortestIndex = -1;
+	
+	vector<ServerEntity*> entities;
+	m_quadtree->getAllServerEntites(entities);
 
-	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	for(int i = 0; i < entities.size(); i++)
 	{
-		if((_pos - EntityHandler::m_entities[i]->getPosition()).length() < shortestDistance && EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
+		if((_pos - entities[i]->getPosition()).length() < shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
 		{
-			shortestDistance = abs((_pos - EntityHandler::m_entities[i]->getPosition()).length());
+			shortestDistance = abs((_pos - entities[i]->getPosition()).length());
 			shortestIndex = i;
 		}
 	}
 
 	if(shortestIndex > -1)
 	{
-		return EntityHandler::m_entities[shortestIndex];
+		return entities[shortestIndex];
 	}
 	else
 	{
@@ -277,21 +378,6 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 	}
 
 	return heroes;
-}
-
-vector<ServerEntity*> EntityHandler::getAllStaticObjects()
-{
-	vector<ServerEntity*> staticObjects;
-	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
-	{
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::StaticType)
-		{
-			ServerEntity* staticObject = EntityHandler::m_entities[i];
-			staticObjects.push_back(staticObject);
-		}
-	}
-
-	return staticObjects;
 }
 
 unsigned int EntityHandler::getId()

@@ -38,10 +38,10 @@ public:
 	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot, float _scale);
 	DECLDIR bool removeRoad(Road* _road);
 	
-	DECLDIR ParticleEngine* createParticleEngine(D3DXVECTOR3 _pos);
+	DECLDIR ParticleEngine* createParticleEngine(D3DXVECTOR3 _pos, D3DXQUATERNION _rot, D3DXVECTOR3 _scale);
 	DECLDIR bool removeParticleEngine(ParticleEngine* _particleEngine);
 	
-	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps);
+	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps, vector<string> _specularMaps);
 	DECLDIR bool removeTerrain(Terrain* _terrain);
 	
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
@@ -67,6 +67,8 @@ public:
 
 	DECLDIR SpotLight *createSpotLight(FLOAT3 position, FLOAT3 _direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range);
 	DECLDIR bool removeSpotLight(SpotLight* spotLight);
+
+	DECLDIR Mesh *getMesh(string filename);
 
 	DECLDIR void initQuadTree(FLOAT2 _extents);
 	DECLDIR void render();

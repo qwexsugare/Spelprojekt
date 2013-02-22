@@ -76,9 +76,6 @@
     <ClCompile Include="Server.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="MeleeAttack.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="MessageHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -337,8 +334,94 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="NetworkUpdateEntityMessage.cpp" />
     <ClCompile Include="NetworkInitEntityMessage.cpp">
+=======
+    <ClCompile Include="CourageHonorValor.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="CourageHonorValorEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="RangedAttack.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="CourageHonorValorClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeRegenEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeRegen.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="EnigmaticPresence.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="EnigmaticPresenceEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EnigmaticPresenceClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostDemon.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BruteSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAttack.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="HypnoticStareEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="HellfireSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Imp.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayedDamage.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="HypnoticStare.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Shade.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="SpittingDemon.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ThunderSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEaterSteed.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAOEAttack.cpp" />
+    <ClCompile Include="ServerQuadTree.cpp">
+      <Filter>Server\Quadtree</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerQuadTreeNode.cpp">
+      <Filter>Server\Quadtree</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAttackClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TowerPlacer.cpp">
+      <Filter>Server\Tower Placer</Filter>
+    </ClCompile>
+    <ClCompile Include="RunClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHeroInitMessage.cpp">
+>>>>>>> 5220b60056201a5cab06e9df5266cbc5da67d944
       <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
@@ -425,9 +508,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Server.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="MeleeAttack.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="MessageQueue.h">
@@ -589,9 +669,6 @@
     <ClInclude Include="DemonicPresence.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="ChainStrikeEffect.h">
-      <Filter>Server\Skills\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="CloudOfDarknessEffect.h">
       <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
@@ -706,10 +783,103 @@
     <ClInclude Include="Arrow.h">
       <Filter>Server</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="NetworkUpdateEntityMessage.h" />
     <ClInclude Include="NetworkInitEntityMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="CourageHonorValor.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeEffect.h">
+    </ClInclude>
+    <ClInclude Include="CourageHonorValorEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayedDamage.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="CourageHonorValorClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="RangedAttack.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeRegenEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeRegen.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="EnigmaticPresence.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="EnigmaticPresenceEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EnigmaticPresenceClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAttack.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="HypnoticStareEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="HypnoticStare.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostDemon.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BruteSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="HellfireSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Imp.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Shade.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SpittingDemon.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ThunderSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEaterSteed.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAOEAttack.h" />
+    <ClInclude Include="ServerQuadTree.h">
+      <Filter>Server\Quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerQuadTreeNode.h">
+      <Filter>Server\Quadtree</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAttackClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="RunClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TowerPlacer.h">
+      <Filter>Server\Tower Placer</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHeroInitMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInfo.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+>>>>>>> 5220b60056201a5cab06e9df5266cbc5da67d944
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -747,6 +917,15 @@
     </Filter>
     <Filter Include="Server\Towers\Effects">
       <UniqueIdentifier>{8ac81207-8312-449a-b74d-78565cecf9e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Enemies">
+      <UniqueIdentifier>{5845e709-0306-47d1-9940-40e192f45108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Quadtree">
+      <UniqueIdentifier>{fa0e9017-8c0a-4efa-9c1a-c4978e74b3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Tower Placer">
+      <UniqueIdentifier>{7be7bea1-bd1e-460e-bca8-3cdc6c3dbe73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

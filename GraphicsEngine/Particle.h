@@ -9,9 +9,9 @@ struct Particle
 {
 	D3DXVECTOR3 position;
 	D3DXVECTOR3 velocity;
-	D3DXVECTOR3 size;
-	ParticleType type;
+	D3DXVECTOR2 size;
 	float age;
+	UINT type;
 };
 
 struct GeoParticle

@@ -9,7 +9,7 @@ private:
 	unsigned int m_caster;
 	float m_timeToImpact;
 public:
-	static const int VELOCITY = 10.0f;
+	static const int VELOCITY = 7.0f;
 
 	Arrow();
 	Arrow(float _distance, unsigned int _target, unsigned int _caster);

@@ -377,6 +377,7 @@ void Server::broadcast(NetworkSkillBoughtMessage networkMessage)
 	this->m_mutex.Unlock();
 }
 
+
 void Server::broadcast(NetworkInitEntityMessage networkMessage)
 {
 	sf::Packet packet;
@@ -386,6 +387,21 @@ void Server::broadcast(NetworkInitEntityMessage networkMessage)
 
 	for(int i=0;i<this->clientArrPos;i++)
 	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+void Server::broadcast(NetworkHeroInitMessage networkMessage)
+{
+	sf::Packet packet;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		networkMessage.setYourId(i);
+		packet<<networkMessage;
 		this->clients[i].Send(packet);
 	}
 

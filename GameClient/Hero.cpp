@@ -43,6 +43,25 @@ Hero::~Hero()
 
 }
 
+void Hero::activateAllPassiveSkills()
+{
+	for(int i = 0; i < m_skills.size(); i++)
+	{
+		if(m_skills[i]->getId() == Skill::COURAGE_HONOR_VALOR)
+		{
+			m_skills[i]->activate(this->getId());
+		}
+		else if(m_skills[i]->getId() == Skill::LIFE_REGEN)
+		{
+			m_skills[i]->activate(this->getId());
+		}
+		else if(m_skills[i]->getId() == Skill::ENIGMATIC_PRESENCE)
+		{
+			m_skills[i]->activate(this->getId());
+		}
+	}
+}
+
 Hero::HERO_TYPE Hero::getHeroType()const
 {
 	return m_heroType;
@@ -143,6 +162,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 				this->m_reachedPosition = true;
 				//this->m_startPos= m_nextPosition;
 				this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 			}
 		}
 
@@ -160,7 +180,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
-	if((_nextPosition-m_goalPosition).lengthSquared()>0.25)
+	if((_nextPosition-m_goalPosition).lengthSquared()>0.251)
 	{
 
 		this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z));
@@ -177,6 +197,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 			this->m_reallyReachedPosition = false;
 
 			this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
 		}
 		else if(this->m_path.nrOfPoints == 1)
 		{
@@ -190,6 +211,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 			this->m_reallyReachedPosition = false;
 
 			this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
 		}
 		else
 		{
@@ -199,6 +221,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 			this->m_hasTarget = false;
 			this->m_target = NULL;
 			this->m_reallyReachedPosition = true;
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 			//this->m_startPos= m_nextPosition;
 
 			//this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());

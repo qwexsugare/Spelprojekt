@@ -145,14 +145,16 @@ struct AnimationFile
 	int numKeys;
 	vector<FSkeleton> skeletons;
 	int numLoops;
+	float currentKey;
 	bool isAnimating;
 	float time;
 	float overlapTime;
 	float animationWeight;
 	AnimationFile()
 	{
+		this->currentKey = 0;
 		this->numLoops = -1;
-		this->isAnimating = false;
+		this->isAnimating = true;
 		this->time = 0.0f;
 		this->overlapTime = 0.5f;
 		this->animationWeight = 1.0f;

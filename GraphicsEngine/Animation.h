@@ -19,13 +19,10 @@ private:
 	map<string, AnimationFile> animations;
 	map<string, AnimationFile*> currentAnimations;
 	map<string, AnimationFile*> currentAnimationsAdd;
-	TexturePack texPack;
-	float time;
-	int currentKey;
-	float nextKey;
-	void UpdateSkeletonTexture(vector<D3DXMATRIX>* mat);
+	vector<D3DXMATRIX> matrices;
+	TexturePack* texPack;
 	string currentAnimation;
-	string pendingAnimation;
+	string prioAnimation;
 	void RandomAnimationFunc(float dt);
 	void FFloat3ToD3DXVECTOR3(D3DXVECTOR3 &out, FFloat3 &in);
 	void FFloat4ToD3DXQUATERNION(D3DXQUATERNION &out, FFloat4 &in);
@@ -42,14 +39,15 @@ public:
 	void Update(float dt);
 	void setTexturePack(TexturePack* _texPack);
 	ID3D10ShaderResourceView* getResource();
+	void UpdateSkeletonTexture();
 
 	D3DXMATRIX* getHatMatrix();
 	D3DXMATRIX* getRightHandMatrix();
 	D3DXMATRIX* getLeftHandMatrix();
 	
-	// number of loops: -1 = infinite
-	void PlayLoop(string name, Motion body, int numberOfLoops, float overlapTime);
-	void Stop(string name, Motion body);
-	void Play(string name, Motion body);
+	DECLDIR void PlayLoop(string name, int numberOfLoops = _INF_Fisk_, float speedMultiplier = 1.0f, Motion body = Motion::FullBody, float overlapTime = 0.5f);
+	DECLDIR void Stop(string name, Motion body = Motion::FullBody);
+	DECLDIR void Play(string name, float speedMultiplier = 1.0f, Motion body = Motion::FullBody);
+	DECLDIR string getCurrentAnimation();
 	FishAnimationStuff ANewWierdFunction(AnimationFile* animationFile, int skeletonIndex, int jointIndex, float lerpValue);
 };

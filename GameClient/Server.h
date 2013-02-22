@@ -18,6 +18,7 @@
 #include "NetworkStartGameMessage.h"
 #include "NetworkSkillUsedMessage.h"
 #include "NetworkInitEntityMessage.h"
+#include "NetworkHeroInitMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -62,6 +63,7 @@ public:
 	void broadcast(NetworkSkillUsedMessage networkMessage);
 	void broadcast(NetworkSkillBoughtMessage networkMessage);
 	void broadcast(NetworkInitEntityMessage networkMessage);
+	void broadcast(NetworkHeroInitMessage networkMessage);
 
 	bool isRunning();
 

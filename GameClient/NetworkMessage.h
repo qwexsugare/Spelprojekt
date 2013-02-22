@@ -6,8 +6,8 @@
 class NetworkMessage
 {
 public:
-	static enum MESSAGE_TYPE {SelectHero, HeroSelected, Ready, Start, Entity, RemoveEntity, UseAction, UseActionPos, UseActionTarget, CreateAction, CreateActionPos, CreateActionTarget, RemoveActionTarget, BuySkill, SkillBought, Wave, Money, Disconnect, SkillUsed,initEntities,updateEntity};
-	
+	static enum MESSAGE_TYPE {HeroInit,SelectHero, HeroSelected, Ready, Start, Entity, RemoveEntity, UseAction, UseActionPos, UseActionTarget, CreateAction, CreateActionPos, CreateActionTarget, RemoveActionTarget, BuySkill, SkillBought, Wave, Money, Disconnect, SkillUsed,initEntities,updateEntity};
+
 protected:
 	MESSAGE_TYPE m_type;	
 

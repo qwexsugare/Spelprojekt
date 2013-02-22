@@ -8,7 +8,9 @@
 #include "DemonicPresence.h"
 #include "SimonsEvil.h"
 #include "SwiftAsACatPowerfulAsABoar.h"
-
+#include "CourageHonorValor.h"
+#include "EnigmaticPresence.h"
+#include "LifeRegen.h"
 #include "Aim.h"
 #include "DeadlyStrike.h"
 #include "Greed.h"
@@ -16,3 +18,6 @@
 #include "MentalResistance.h"
 #include "PhysicalResistance.h"
 #include "PoisonStrike.h"
+#include "HypnoticStare.h"
+#include "MeleeAttack.h"
+#include "RangedAttack.h"

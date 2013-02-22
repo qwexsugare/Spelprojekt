@@ -14,6 +14,7 @@ class Hero : public UnitEntity
 {
 public:
 	static enum HERO_TYPE {OFFICER, RED_KNIGHT, ENGINEER, DOCTOR, THE_MENTALIST};
+	static enum WEAPON_TYPE{DEFAULT, RANGED, MELEE};
 private:
 	FLOAT3 m_nextPosition;
 	FLOAT3 m_goalPosition;
@@ -30,11 +31,13 @@ private:
 	HERO_TYPE m_heroType;
 	int m_playerId;
 	UpdateEntityMessage* getUpdateEntityMessage();
+	float m_attackRange;
 public:
 	Hero();
 	Hero(HERO_TYPE _heroType, int _playerId);
 	virtual ~Hero();
 	
+	void activateAllPassiveSkills();
 	HERO_TYPE getHeroType()const;
 	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);

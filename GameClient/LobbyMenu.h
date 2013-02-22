@@ -29,6 +29,7 @@ public:
 	bool Character4IsDown();
 
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type);
+	int getCombat();
 private:
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Label;

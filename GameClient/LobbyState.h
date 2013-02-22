@@ -11,6 +11,7 @@ private:
 	StateEnum  m_nextState;
 	Client* m_network;
 	int m_lastRcvdHeroSelectedId;
+	Hero::HERO_TYPE m_heroType;
 public:
 	LobbyState();
 	LobbyState(Client* _network);

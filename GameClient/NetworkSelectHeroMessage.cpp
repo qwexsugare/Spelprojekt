@@ -5,9 +5,10 @@ NetworkSelectHeroMessage::NetworkSelectHeroMessage() : NetworkMessage(NetworkMes
 
 }
 
-NetworkSelectHeroMessage::NetworkSelectHeroMessage(int _heroId) : NetworkMessage(NetworkMessage::SelectHero)
+NetworkSelectHeroMessage::NetworkSelectHeroMessage(int _heroId, int _weapon) : NetworkMessage(NetworkMessage::SelectHero)
 {
-	m_heroId = _heroId;
+	this->m_heroId = _heroId;
+	this->m_weapon = _weapon;
 }
 
 NetworkSelectHeroMessage::~NetworkSelectHeroMessage()
@@ -17,10 +18,10 @@ NetworkSelectHeroMessage::~NetworkSelectHeroMessage()
 
 sf::Packet& operator<<(sf::Packet& packet,const NetworkSelectHeroMessage& e)
 {
-	return packet << *((int*)&e.m_type) << e.m_heroId;
+	return packet << *((int*)&e.m_type) << e.m_heroId << e.m_weapon;
 }
 
 sf::Packet& operator>>(sf::Packet& packet, NetworkSelectHeroMessage& e)
 {
-	return packet >> e.m_heroId;
+	return packet >> e.m_heroId >> e.m_weapon;
 }

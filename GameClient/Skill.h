@@ -8,10 +8,16 @@ private:
 	int m_id;
 	float m_cooldown;
 	float m_currentCooldown;
+	float m_range;
 public:
 	static enum SKILLS {
+		IDLE,
 		MOVE, 
 		ATTACK, 
+		MELEE_ATTACK,
+		RANGED_ATTACK,
+		AOE_MELEE_ATTACK,
+		AOE_ATTACK,
 		TOWER,
 		STRENGTH,
 		AGILITY,
@@ -39,12 +45,13 @@ public:
 		READY_AIM_FIRE,
 		TIME_IS_MONEY,
 		ENHANCED_DEVELOPMENT,
-		LIFE_REGAIN,
+		LIFE_REGEN,
 		SIMONS_EVIL,
 		TESLA_CHAIN_TURRET,
 		DEATH_PULSE,
 		FROST_TURRET,
-		POISON_ATTACK
+		POISON_ATTACK,
+		HYPNOTIC_STARE
 		};
 
 	Skill();
@@ -56,6 +63,8 @@ public:
 	virtual bool activate(FLOAT3 position, unsigned int _senderId);
 	float getCurrentCooldown()const { return m_currentCooldown; }
 	float getCooldown()const { return this->m_cooldown; }
+	float getRange();
+	void setRange(float _range);
 	int getId()const { return m_id; }
 	void resetCooldown();
 	void update(float _dt);

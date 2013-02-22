@@ -5,6 +5,7 @@ Skill::Skill()
 	m_id = -1;
 	m_currentCooldown = 0.0f;
 	m_cooldown = 0.0f;
+	this->m_range = 0.0f;
 }
 
 Skill::Skill(int _id, float _cooldown)
@@ -12,6 +13,7 @@ Skill::Skill(int _id, float _cooldown)
 	m_id = _id;
 	m_currentCooldown = 0;
 	m_cooldown = _cooldown;
+	this->m_range = 0.0f;
 }
 
 Skill::~Skill()
@@ -61,4 +63,14 @@ bool Skill::activate(FLOAT3 position, unsigned int _senderId)
 void Skill::resetCooldown()
 {
 	m_currentCooldown = m_cooldown;
+}
+
+float Skill::getRange()
+{
+	return this->m_range;
+}
+
+void Skill::setRange(float _range)
+{
+	this->m_range = _range;
 }

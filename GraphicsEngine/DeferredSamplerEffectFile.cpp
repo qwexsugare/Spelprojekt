@@ -10,14 +10,17 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_modelMatrix = this->m_effect->GetVariableByName("modelMatrix")->AsMatrix();
 	this->m_viewMatrix = this->m_effect->GetVariableByName("viewMatrix")->AsMatrix();
 	this->m_projectionMatrix = this->m_effect->GetVariableByName("projectionMatrix")->AsMatrix();
+	this->m_propsMatrix = this->m_effect->GetVariableByName("propsMatrix")->AsMatrix();
 	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
 	this->m_normalMap = this->m_effect->GetVariableByName("normalMap")->AsShaderResource();
 	this->m_glowMap = this->m_effect->GetVariableByName("glowMap")->AsShaderResource();
+	this->m_specularMap = this->m_effect->GetVariableByName("specularMap")->AsShaderResource();
 	this->m_boneTexture = this->m_effect->GetVariableByName("boneTex")->AsShaderResource();
 	this->m_technique = this->m_effect->GetTechniqueByName("DeferredSample");
 	this->m_animationTechnique = this->m_effect->GetTechniqueByName("DeferredAnimationSample");
 	this->m_superTechnique = this->m_effect->GetTechniqueByName("DeferredSuperSample");
+	this->m_propsTechnique = this->m_effect->GetTechniqueByName("DeferredPropsSample");
 	
 	D3D10_PASS_DESC passDescription;
 	this->m_technique->GetPassByIndex(0)->GetDesc(&passDescription);
@@ -70,8 +73,9 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	// Terrain
 	this->m_renderTerrain = this->m_effect->GetTechniqueByName("RenderTerrain");
 	this->m_terrainTextures = this->m_effect->GetVariableByName("terrainTextures")->AsShaderResource();
+	this->m_terrainNormalMaps = this->m_effect->GetVariableByName("terrainNormalMaps")->AsShaderResource();
+	this->m_terrainSpecularMaps = this->m_effect->GetVariableByName("terrainSpecularMaps")->AsShaderResource();
 	this->m_terrainBlendMaps = this->m_effect->GetVariableByName("terrainBlendMaps")->AsShaderResource();
-	this->m_normalMaps = this->m_effect->GetVariableByName("normalMap")->AsShaderResource();
 	
 	// Road
 	this->m_renderRoad = this->m_effect->GetTechniqueByName("RenderRoad");
@@ -107,6 +111,11 @@ void DeferredSamplerEffectFile::setProjectionMatrix(D3DXMATRIX _matrix)
 	this->m_projectionMatrix->SetMatrix((float*)_matrix);
 }
 
+void DeferredSamplerEffectFile::setPropsMatrix(D3DXMATRIX* _matrix)
+{
+	this->m_propsMatrix->SetMatrix((float*)_matrix);
+}
+
 void DeferredSamplerEffectFile::setTexture(ID3D10ShaderResourceView *_texture)
 {
 	this->m_texture->SetResource(_texture);
@@ -120,6 +129,11 @@ void DeferredSamplerEffectFile::setNormalMap(ID3D10ShaderResourceView *_texture)
 void DeferredSamplerEffectFile::setGlowMap(ID3D10ShaderResourceView *_texture)
 {
 	this->m_glowMap->SetResource(_texture);
+}
+
+void DeferredSamplerEffectFile::setSpecularMap(ID3D10ShaderResourceView *_texture)
+{
+	this->m_specularMap->SetResource(_texture);
 }
 
 void DeferredSamplerEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture)
@@ -140,6 +154,11 @@ ID3D10EffectTechnique *DeferredSamplerEffectFile::getAnimationTechnique()
 ID3D10EffectTechnique *DeferredSamplerEffectFile::getSuperTechnique()
 {
 	return this->m_superTechnique;
+}
+
+ID3D10EffectTechnique *DeferredSamplerEffectFile::getPropsTechnique()
+{
+	return this->m_propsTechnique;
 }
 
 ID3D10InputLayout *DeferredSamplerEffectFile::getInputLayout() const
@@ -167,14 +186,19 @@ ID3D10EffectTechnique* DeferredSamplerEffectFile::getRenderTerrainTechnique()
 	return this->m_renderTerrain;
 }
 
-void DeferredSamplerEffectFile::setNormalMaps(ID3D10ShaderResourceView* _texture)
-{
-	this->m_normalMaps->SetResource(_texture);
-}
-
 void DeferredSamplerEffectFile::setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size)
 {
 	this->m_terrainTextures->SetResourceArray(_textures, 0, _size);
+}
+
+void DeferredSamplerEffectFile::setTerrainNormalMaps(ID3D10ShaderResourceView** _normalMaps, int _size)
+{
+	this->m_terrainNormalMaps->SetResourceArray(_normalMaps, 0, _size);
+}
+
+void DeferredSamplerEffectFile::setTerrainSpecularMaps(ID3D10ShaderResourceView** _specularMaps, int _size)
+{
+	this->m_terrainSpecularMaps->SetResourceArray(_specularMaps, 0, _size);
 }
 
 void DeferredSamplerEffectFile::setTerrainBlendMaps(ID3D10ShaderResourceView** _blendMaps, int _size)
