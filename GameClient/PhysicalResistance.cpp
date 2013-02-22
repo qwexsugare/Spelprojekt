@@ -1,8 +1,15 @@
 #include "PhysicalResistance.h"
 
-PhysicalResistance::PhysicalResistance()
+PhysicalResistance::PhysicalResistance(unsigned int _senderId) : Skill(Skill::PHYSICAL_RESISTANCE, 0.0f)
 {
+	this->m_senderId = _senderId;
+	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
 
+	if(e != NULL)
+	{
+		UnitEntity* ue = (UnitEntity*)e;
+		ue->setPhysicalResistance(ue->getPhysicalResistance() - 0.15f);
+	}	
 }
 
 PhysicalResistance::~PhysicalResistance()
@@ -12,22 +19,8 @@ PhysicalResistance::~PhysicalResistance()
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setPhysicalResistance(ue->getPhysicalResistance() + 15.0f);
+		ue->setPhysicalResistance(ue->getPhysicalResistance() + 0.15f);
 	}	
-}
-
-bool PhysicalResistance::activate(unsigned int _senderId)
-{
-	this->m_senderId = _senderId;
-	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
-
-	if(e != NULL)
-	{
-		UnitEntity* ue = (UnitEntity*)e;
-		ue->setPhysicalResistance(ue->getPhysicalResistance() - 15.0f);
-	}	
-
-	return true;
 }
 
 void PhysicalResistance::updateSpecificSkill(float dt)

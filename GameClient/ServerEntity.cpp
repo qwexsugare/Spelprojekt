@@ -20,6 +20,18 @@ ServerEntity::ServerEntity(FLOAT3 _pos)
 	this->m_visible = true;
 }
 
+ServerEntity::ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedBox* _obb, Type _type)
+{
+	this->m_messageQueue = new MessageQueue();
+	this->m_position = _position;
+	this->m_rotation = _rotation;
+	this->m_obb = _obb;
+	this->m_bs = NULL;
+	this->m_type = _type;
+	this->m_modelId = 0;
+	this->m_visible = false;
+}
+
 ServerEntity::~ServerEntity()
 {
 	delete this->m_messageQueue;
@@ -48,14 +60,43 @@ MessageQueue *ServerEntity::getMessageQueue()
 
 NetworkEntityMessage ServerEntity::getUpdate()
 {
-	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, 0, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
 
 	return e;
+}
+
+ContainmentType ServerEntity::contains(const BoundingSphere& _bs)const
+{
+	if(m_obb)
+		return m_obb->Contains(_bs);
+	else if(m_bs)
+		return m_bs->Contains(_bs);
+	else
+		return ContainmentType::DISJOINT;
+}
+
+ContainmentType ServerEntity::contains(const BoundingOrientedBox& _obb)const
+{
+	if(m_obb)
+		return m_obb->Contains(_obb);
+	else if(m_bs)
+		return m_bs->Contains(_obb);
+	else
+		return ContainmentType::DISJOINT;
 }
 
 void ServerEntity::setPosition(FLOAT3 _position)
 {
 	this->m_position = _position;
+
+	if(this->m_obb)
+	{
+		this->m_obb->Center = XMFLOAT3(_position.x, _position.y, _position.z);
+	}
+	else if(this->m_bs)
+	{
+		this->m_bs->Center = XMFLOAT3(_position.x, _position.y, _position.z);
+	}
 }
 
 void ServerEntity::setId(unsigned int _id)
@@ -98,7 +139,7 @@ ServerEntity::Type ServerEntity::getType()
 	return m_type;
 }
 
-void ServerEntity::takeDamage(int physicalDamage, int mentalDamage)
+void ServerEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
 
 }

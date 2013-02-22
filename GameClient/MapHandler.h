@@ -3,21 +3,49 @@
 
 #include "EntityHandler.h"
 #include "Enemy.h"
+#include "SoulEaterSteed.h"
+#include "HellfireSteed.h"
+#include "BruteSteed.h"
+#include "ThunderSteed.h"
+#include "Imp.h"
+#include "FrostDemon.h"
+#include "SpittingDemon.h"
+#include "Shade.h"
+#include "Pathfinder.h"
+#include "Graphics.h"
+#include "MessageHandler.h"
 
 //Import a map and update it, creating new enemies when needed
 class MapHandler
 {
 private:
+	MessageQueue* m_messageQueue;
+
+	int m_nrOfPaths;
+	Path* m_paths;
+
 	vector<vector<ServerEntity*>> m_waves;
 	float m_waveTimer;
+	float m_enemySpawnTimer;
 	int m_currentWave;
+
+	int m_lives;
+
+	int m_gridHeight;
+	int m_gridWidth;
+	bool** m_grid;
 public:
+	static enum State {RUNNING, VICTORY, DEFEAT};
+
 	MapHandler();
 	~MapHandler();
 
 	void loadMap(std::string filename);
-	bool isDone();
+	State getState();
 	void update(float _dt);
+	void createWave(int _imps, int _shades, int _spits, int _frosts, int _souls, int _hell, int _thunder, int _brutes);
+
+	void enemyDied();
 };
 
 #endif

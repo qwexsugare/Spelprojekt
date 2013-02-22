@@ -46,6 +46,7 @@ void Client::Run()
 	while(this->m_hostSocket.IsValid())
 	{
 		sf::Packet packet;
+
 		if (this->m_hostSocket.Receive(packet) == sf::Socket::Done)
 		{
 			NetworkEntityMessage em;
@@ -53,6 +54,11 @@ void Client::Run()
 			NetworkCreateActionMessage cam;
 			NetworkCreateActionPositionMessage capm;
 			NetworkCreateActionTargetMessage catm;
+			NetworkSkillBoughtMessage sbm;
+			NetworkRemoveActionTargetMessage rat;
+			NetworkSkillUsedMessage sum;
+			NetworkHeroSelectedMessage nhsm;
+			NetworkHeroInitMessage nhim;
 
 			int type;
 			packet >> type;
@@ -62,9 +68,10 @@ void Client::Run()
 			case NetworkMessage::Entity:
 				packet >> em;
 				this->m_mutex.Lock();
+
 				this->m_entityMessageQueue.push(em);
 
-				if(this->m_entityMessageQueue.size() > 100)
+				if(this->m_entityMessageQueue.size() > 50)
 				{
 					this->m_entityMessageQueue.pop();
 				}
@@ -128,8 +135,84 @@ void Client::Run()
 				this->m_mutex.Unlock();
 				break;
 
+			case NetworkMessage::SkillBought:
+				packet >> sbm;
+
+				this->m_mutex.Lock();
+				this->m_skilllBoughtQueue.push(sbm);
+
+				if(this->m_skilllBoughtQueue.size() > 50)
+				{
+					this->m_skilllBoughtQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::RemoveActionTarget:
+				packet >> rat;
+
+				this->m_mutex.Lock();
+				this->m_removeActionTargetQueue.push(rat);
+
+				if(this->m_removeActionTargetQueue.size() > 50)
+				{
+					this->m_removeActionTargetQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::SkillUsed:
+				packet >> sum;
+
+				this->m_mutex.Lock();
+				this->m_skillUsedQueue.push(sum);
+
+				if(this->m_skillUsedQueue.size() > 50)
+				{
+					this->m_skillUsedQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
 			case NetworkMessage::Disconnect:
 				this->disconnect();
+				break;
+
+			case NetworkMessage::Start:
+				this->m_mutex.Lock();
+				this->m_startGameQueue.push(NetworkStartGameMessage());
+
+				if(this->m_startGameQueue.size() > 50)
+				{
+					this->m_startGameQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::HeroSelected:
+				packet >> nhsm;
+				this->m_mutex.Lock();
+				this->m_heroSelectedQueue.push(nhsm);
+
+				if(this->m_heroSelectedQueue.size() > 50)
+					this->m_heroSelectedQueue.pop();
+
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::HeroInit:
+				packet >> nhim;
+				this->m_mutex.Lock();
+				this->m_heroInitQueue.push(nhim);
+
+				if(this->m_heroInitQueue.size() > 50)
+					this->m_heroInitQueue.pop();
+
+				this->m_mutex.Unlock();
 				break;
 			}
 		}
@@ -164,6 +247,21 @@ bool Client::createActionPositionQueueEmpty()
 bool Client::createActionTargetQueueEmpty()
 {
 	return this->m_createActionTargetQueue.empty();
+}
+
+bool Client::skillBoughtQueueEmpty()
+{
+	return this->m_skilllBoughtQueue.empty();
+}
+
+bool Client::removeActionTargetQueueEmpty()
+{
+	return this->m_removeActionTargetQueue.empty();
+}
+
+bool Client::skillUsedQueueEmpty()
+{
+	return this->m_skillUsedQueue.empty();
 }
 
 NetworkEntityMessage Client::entityQueueFront()
@@ -226,6 +324,78 @@ NetworkCreateActionTargetMessage Client::createActionTargetQueueFront()
 	return ret;
 }
 
+NetworkSkillBoughtMessage Client::skillBoughtQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkSkillBoughtMessage ret = this->m_skilllBoughtQueue.front();
+	this->m_skilllBoughtQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkRemoveActionTargetMessage Client::removeActionTargetQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkRemoveActionTargetMessage ret = this->m_removeActionTargetQueue.front();
+	this->m_removeActionTargetQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkStartGameMessage Client::startGameQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkStartGameMessage ret = this->m_startGameQueue.front();
+	this->m_startGameQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkHeroSelectedMessage Client::heroSelectedQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkHeroSelectedMessage ret = this->m_heroSelectedQueue.front();
+	this->m_heroSelectedQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkSkillUsedMessage Client::skillUsedQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkSkillUsedMessage ret = this->m_skillUsedQueue.front();
+	this->m_skillUsedQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
+NetworkHeroInitMessage Client::heroInitQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkHeroInitMessage ret = this->m_heroInitQueue.front();
+	this->m_heroInitQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
@@ -254,4 +424,59 @@ void Client::sendMessage(NetworkUseActionTargetMessage _usm)
 		packet << _usm;
 		this->m_hostSocket.Send(packet);
 	}
+}
+
+void Client::sendMessage(NetworkBuySkillMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkSelectHeroMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkReadyMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkHeroInitMessage _usm)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+bool Client::startGameQueueEmpty()
+{
+	return m_startGameQueue.empty();
+}
+
+bool Client::heroSelectedQueueEmpty()
+{
+	return m_heroSelectedQueue.empty();
+}
+
+bool Client::heroInitQueueEmpty()
+{
+	return m_heroInitQueue.empty();
 }

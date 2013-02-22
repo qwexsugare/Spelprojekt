@@ -4,6 +4,8 @@
 #include "ForwardRenderingEffectFile.h"
 #include "DeferredRenderingEffectFile.h"
 #include "DeferredSamplerEffectFile.h"
+#include "GlowRenderingEffectFile.h"
+#include "SSAOEffectFile.h"
 #include "SpriteEffectFile.h"
 #include "Camera.h"
 #include "DeviceHandler.h"
@@ -33,6 +35,7 @@ private:
 	ForwardRenderingEffectFile* m_forwardRendering;
 	RenderTarget *m_forwardRenderTarget;
 	DepthStencil *m_forwardDepthStencil;
+	DepthStencil *m_SSAODepthStencil;
 
 	//Deferred sampling
 	DeferredSamplerEffectFile *m_deferredSampler;
@@ -41,11 +44,24 @@ private:
 	RenderTarget *m_positionBuffer;
 	RenderTarget *m_normalBuffer;
 	RenderTarget *m_diffuseBuffer;
+	RenderTarget *m_tangentBuffer;
+	RenderTarget *m_glowBuffer;
 
 	RenderTarget *m_positionBufferTransparant;
 	RenderTarget *m_normalBufferTransparant;
 	RenderTarget *m_diffuseBufferTransparant;
+	RenderTarget *m_tangentBufferTransparant;
+	RenderTarget *m_glowBufferTransparant;
 	FullScreenPlane *m_deferredPlane;
+
+	//Glow rendering
+	GlowRenderingEffectFile* m_glowRendering;
+	RenderTarget* m_glowRenderTarget;
+	RenderTarget* m_glowRenderTarget2;
+	D3D10_VIEWPORT m_glowViewport;
+
+	//SSAO
+	SSAOEffectFile* m_SSAORendering;
 
 	//2D rendering
 	SpriteEffectFile *m_spriteRendering;
@@ -60,7 +76,12 @@ private:
 	vector<PointLight*> m_pointLights;
 	vector<DirectionalLight*> m_directionalLights;
 	vector<SpotLight*> m_spotLights;
-	vector<Road*> m_roads;
+	vector<Model*> m_models;
+
+	// Shadow mapping
+	D3D10_VIEWPORT m_shadowMapViewport;
+
+	void renderShadowMap(const D3DXVECTOR2& _focalPoint);
 public:
 	World();
 	World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed);
@@ -69,8 +90,11 @@ public:
 	void render();
 	void update(float dt);
 	
-	void addRoad(Road* _road);
+	bool addRoad(Road* _road);
 	bool removeRoad(Road* _road);
+	
+	bool addParticleEngine(ParticleEngine* _pe);
+	bool removeParticleEngine(ParticleEngine* _pe);
 	
 	void addTerrain(Terrain* _terrain);
 	bool removeTerrain(Terrain* _terrain);
@@ -87,7 +111,7 @@ public:
 	void addMyText(MyText* _text);
 	bool removeMyText(MyText* _text);
 
-	void addPointLight(PointLight* _pointLight);
+	bool addPointLight(PointLight* _pointLight);
 	bool removePointLight(PointLight* _pointLight);
 
 	void addDirectionalLight(DirectionalLight* _directionalLight);
@@ -97,4 +121,5 @@ public:
 	bool removeSpotLight(SpotLight* _spotLight);
 
 	Camera *getCamera();
+	void initQuadTree(FLOAT2 _extents);
 };

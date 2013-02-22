@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "Entity.h"
 
+
 class Minimap
 {
 private:

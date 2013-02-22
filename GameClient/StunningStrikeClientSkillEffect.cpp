@@ -6,9 +6,8 @@
 StunningStrikeClientSkillEffect::StunningStrikeClientSkillEffect(FLOAT3 _position)
 {
 	m_position = _position;
-	m_graphicalEffect = g_graphicsEngine->createModel("Church", _position);
 	m_lifetime = 0.0f;
-	m_sound = createSoundHandle("orb.wav", false);
+	m_sound = createSoundHandle("orb.wav", false, true, _position);
 	playSound(m_sound);
 }
 

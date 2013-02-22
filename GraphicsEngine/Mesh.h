@@ -12,7 +12,6 @@ struct Mesh
 {
 	int nrOfVertices;
 	int numSkeletons;
-	ID3D10ShaderResourceView* m_texture;
 	vector<SubMesh*> subMeshes;
 
 	vector<Material> materials;
@@ -21,17 +20,16 @@ struct Mesh
 	BoundingOrientedBox* m_obb;
 	BoundingSphere* m_bs;
 
-	bool isAnimatied;
+	bool isAnimated;
 
 	Mesh()
 	{
 		this->buffer = NULL;
-		this->m_texture = NULL;
 		this->nrOfVertices = 0;
 		this->m_obb = NULL;
 		this->m_bs = NULL;
 		this->numSkeletons = 0;
-		this->isAnimatied = false;
+		this->isAnimated = false;
 	}
 
 	Mesh(ID3D10Buffer* _buffer, int _nrOfVertices)
@@ -41,13 +39,13 @@ struct Mesh
 		this->m_obb = NULL;
 		this->m_bs = NULL;
 		this->numSkeletons = 0;
-		this->isAnimatied = false;
+		this->isAnimated = false;
 	}
 	~Mesh()
 	{
 		if(this->buffer)
 			buffer->Release();
-		for(int i = 0; i < subMeshes.size(); i++)
+		for(unsigned int i = 0; i < subMeshes.size(); i++)
 		{
 			if(subMeshes[i])
 				delete subMeshes[i];

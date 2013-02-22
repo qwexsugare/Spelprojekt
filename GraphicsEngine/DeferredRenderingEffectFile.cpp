@@ -10,8 +10,10 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_positionTexture = this->m_effect->GetVariableByName("positionTexture")->AsShaderResource();
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
 	this->m_diffuseTexture = this->m_effect->GetVariableByName("diffuseTexture")->AsShaderResource();
+	this->m_tangentTexture = this->m_effect->GetVariableByName("tangentTexture")->AsShaderResource();
 
 	this->m_nrOfPointLights = this->m_effect->GetVariableByName("nrOfPointLights")->AsScalar();
+	this->m_nrOfShadowedPointLights = this->m_effect->GetVariableByName("nrOfShadowedPointLights")->AsScalar();
 	this->m_nrOfDirectionalLights = this->m_effect->GetVariableByName("nrOfDirectionalLights")->AsScalar();
 	this->m_nrOfSpotLights = this->m_effect->GetVariableByName("nrOfSpotLights")->AsScalar();
 	this->m_lightPosition = this->m_effect->GetVariableByName("lightPosition")->AsVector();
@@ -40,6 +42,11 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 		passDescription.pIAInputSignature,
 		passDescription.IAInputSignatureSize,
 		&this->m_vertexLayout);
+	 
+	this->m_pointLightShadowMaps = m_effect->GetVariableByName("pointLightShadowMaps")->AsShaderResource();
+	this->m_spotLightShadowMaps = m_effect->GetVariableByName("spotLightShadowMaps")->AsShaderResource();
+	this->m_pointLightWvps = m_effect->GetVariableByName("pointLightWvps")->AsMatrix();
+	this->m_spotLightWvps = m_effect->GetVariableByName("spotLightWvps")->AsMatrix();
 }
 
 DeferredRenderingEffectFile::~DeferredRenderingEffectFile()
@@ -62,6 +69,11 @@ void DeferredRenderingEffectFile::setDiffuseTexture(ID3D10ShaderResourceView* _d
 	this->m_diffuseTexture->SetResource(_diffuseTexture);
 }
 
+void DeferredRenderingEffectFile::setTangentTexture(ID3D10ShaderResourceView* _tangentTexture)
+{
+	this->m_tangentTexture->SetResource(_tangentTexture);
+}
+
 void DeferredRenderingEffectFile::setCameraPosition(D3DXVECTOR3 _lightPosition)
 {
 	this->m_cameraPosition->SetFloatVector(_lightPosition);
@@ -77,14 +89,35 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> pointLights, 
 	D3DXVECTOR2 *tempAngle = new D3DXVECTOR2[spotLights.size()];
 	float *tempRadius = new float[pointLights.size() + spotLights.size()];
 
+	int counter = 0;
 
 	for(int i = 0; i < pointLights.size() && i < 50; i++)
 	{
-		tempPos[i] = pointLights[i]->getPosition().toD3DXVector();
-		tempAmbient[i] = pointLights[i]->getAmbientColor().toD3DXVector();
-		tempDiffuse[i] = pointLights[i]->getDiffuseColor().toD3DXVector();
-		tempSpecular[i] = pointLights[i]->getSpecularColor().toD3DXVector();
-		tempRadius[i] = pointLights[i]->getRadius();
+		if(pointLights[i]->getCastShadow() == false)
+		{
+			tempPos[counter] = pointLights[i]->getPosition().toD3DXVector();
+			tempAmbient[counter] = pointLights[i]->getAmbientColor().toD3DXVector();
+			tempDiffuse[counter] = pointLights[i]->getDiffuseColor().toD3DXVector();
+			tempSpecular[counter] = pointLights[i]->getSpecularColor().toD3DXVector();
+			tempRadius[counter] = pointLights[i]->getRadius();
+			counter++;
+		}
+	}
+
+	int nrOfNotShadowedPointLights = counter;
+	counter = 0;
+
+	for(int i = 0; i < pointLights.size() && i < 50; i++)
+	{
+		if(pointLights[i]->getCastShadow() == true)
+		{
+			tempPos[nrOfNotShadowedPointLights + counter] = pointLights[i]->getPosition().toD3DXVector();
+			tempAmbient[nrOfNotShadowedPointLights + counter] = pointLights[i]->getAmbientColor().toD3DXVector();
+			tempDiffuse[nrOfNotShadowedPointLights + counter] = pointLights[i]->getDiffuseColor().toD3DXVector();
+			tempSpecular[nrOfNotShadowedPointLights + counter] = pointLights[i]->getSpecularColor().toD3DXVector();
+			tempRadius[nrOfNotShadowedPointLights + counter] = pointLights[i]->getRadius();
+			counter++;
+		}
 	}
 
 	for(int i = 0; i < directionalLights.size() && i < 50; i++)
@@ -106,7 +139,8 @@ void DeferredRenderingEffectFile::updateLights(vector<PointLight*> pointLights, 
 		tempRadius[pointLights.size() + i] = spotLights[i]->getRange();
 	}
 
-	this->m_nrOfPointLights->SetInt(pointLights.size());
+	this->m_nrOfPointLights->SetInt(nrOfNotShadowedPointLights);
+	this->m_nrOfShadowedPointLights->SetInt(pointLights.size() - nrOfNotShadowedPointLights);
 	this->m_nrOfDirectionalLights->SetInt(directionalLights.size());
 	this->m_nrOfSpotLights->SetInt(spotLights.size());
 	this->m_lightPosition->SetFloatVectorArray((float*)tempPos, 0, pointLights.size() + spotLights.size());
@@ -134,4 +168,24 @@ ID3D10EffectTechnique *DeferredRenderingEffectFile::getTechnique()
 ID3D10InputLayout *DeferredRenderingEffectFile::getVertexLayout()
 {
 	return this->m_vertexLayout;
+}
+
+void DeferredRenderingEffectFile::setPointLightShadowMaps(ID3D10ShaderResourceView** _res, int _size)
+{
+	this->m_pointLightShadowMaps->SetResourceArray(_res, 0, _size);
+}
+
+void DeferredRenderingEffectFile::setSpotLightShadowMaps(ID3D10ShaderResourceView** _res, int _size)
+{
+	this->m_spotLightShadowMaps->SetResourceArray(_res, 0, _size);
+}
+
+void DeferredRenderingEffectFile::setPointLightWvps(D3DXMATRIX* _wvps, int _size)
+{
+	this->m_pointLightWvps->SetMatrixArray((float*)_wvps, 0, _size);
+}
+
+void DeferredRenderingEffectFile::setSpotLightWvps(D3DXMATRIX* _wvps, int _size)
+{
+	this->m_spotLightWvps->SetMatrixArray((float*)_wvps, 0, _size);
 }

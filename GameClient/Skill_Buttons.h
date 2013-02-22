@@ -20,8 +20,10 @@ private:
 	//----------------------------------------------------------------------------------------------
 		int m_ButtonReaction ;
 		SpriteSheet* m_SkillButton;
+		SpriteSheet* m_cooldown;
 		unsigned int m_skillId;
 		
+		float m_cooldownTime;
 		int m_Delay;
 		int m_DelayTime;
 	//----------------------------------------------------------------------------------------------
@@ -73,16 +75,17 @@ public:
 				bool _Active = false);
 
 	int Clicked();
-	void Update();
+	void Update(float dt);
 	unsigned int getSkillId();
 	int GetButtonReaction();
 	void RemoveCooldown();
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
 	int StringtoINT(string stringInput);
-	void ChangeButton(string _Number, bool _Active);
+	void ChangeButton(string _Number, bool _Active, int id);
 	void ChangAbleBind(bool _Change);
 	int Skill_Buttons::ReturnClicked();
 	string setID(string _ID);
+	void setCooldown(float cooldown);
 };
 

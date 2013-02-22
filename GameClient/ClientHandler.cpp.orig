@@ -32,8 +32,8 @@ HRESULT ClientHandler::run()
 <<<<<<< HEAD
 	this->m_state = new IntroState();
 =======
-	this->m_state = new MainMenuState();
->>>>>>> e19ea7cabc5863ebb772b9fd4457c4840c0eefdc
+	this->m_state = new GameState();
+>>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);

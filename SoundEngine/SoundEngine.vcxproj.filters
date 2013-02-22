@@ -47,5 +47,8 @@
     <ClInclude Include="SoundEngine.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Wu.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

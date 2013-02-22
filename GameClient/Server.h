@@ -1,13 +1,6 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "Msg.h"
-#include "EntityMessage.h"
-#include "AttackMessage.h"
-#include "RemoveEntityMessage.h"
-#include "AttackEntityMessage.h"
-#include "UseSkillMessage.h"
-
 #include "NetworkMessage.h"
 #include "NetworkEntityMessage.h"
 #include "NetworkDisconnectMessage.h"
@@ -17,6 +10,14 @@
 #include "NetworkCreateActionMessage.h"
 #include "NetworkCreateActionPositionMessage.h"
 #include "NetworkCreateActionTargetMessage.h"
+#include "NetworkRemoveActionTargetMessage.h"
+#include "NetworkSkillBoughtMessage.h"
+#include "NetworkHeroSelectedMessage.h"
+#include "NetworkSelectHeroMessage.h"
+#include "NetworkReadyMessage.h"
+#include "NetworkStartGameMessage.h"
+#include "NetworkSkillUsedMessage.h"
+#include "NetworkHeroInitMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -34,11 +35,6 @@ private:
 	MessageQueue *m_messageQueue;
 
 	sf::Mutex m_mutex;
-
-	queue<Msg> msgQueue;
-	queue<EntityMessage> entityQueue;
-	queue<AttackMessage> attackMessageQueue;
-	queue<AttackEntityMessage> attackEntityMessageQueue;
 
 	vector<Player*> m_players;
 
@@ -60,13 +56,14 @@ public:
 	void broadcast(NetworkCreateActionMessage networkMessage);
 	void broadcast(NetworkCreateActionPositionMessage networkMessage);
 	void broadcast(NetworkCreateActionTargetMessage networkMessage);
+	void broadcast(NetworkRemoveActionTargetMessage networkMessage);
+	void broadcast(NetworkStartGameMessage networkMessage);
+	void broadcast(NetworkHeroSelectedMessage networkMessage);
+	void broadcast(NetworkSkillUsedMessage networkMessage);
+	void broadcast(NetworkSkillBoughtMessage networkMessage);
+	void broadcast(NetworkHeroInitMessage networkMessage);
 
 	bool isRunning();
-
-	Msg msgQueueFront();
-	EntityMessage entityQueueFront();
-	bool msgQueueEmpty();
-	bool entityQueueEmpty();
 
 	vector<Player*> getPlayers();
 };

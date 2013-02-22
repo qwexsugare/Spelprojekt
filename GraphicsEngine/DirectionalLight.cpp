@@ -16,6 +16,11 @@ DirectionalLight::DirectionalLight(FLOAT3 _direction, FLOAT3 _la, FLOAT3 _ld, FL
 	this->m_ls = _ls;
 }
 
+DirectionalLight::~DirectionalLight()
+{
+
+}
+
 FLOAT3 DirectionalLight::getDirection()
 {
 	return this->m_direction;

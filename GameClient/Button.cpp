@@ -1,4 +1,6 @@
 #include "Button.h"
+#include "Input.h"
+#include "Graphics.h"
 
 Button::Button()
 {
@@ -14,8 +16,10 @@ void Button::Init(FLOAT2 _ScreenPos,
 			 int _DelayTime,
 			 int _Cost,
 			 INT2 _TextPos,
-			 bool _TextBox)
+			 bool _TextBox,
+			 int _id)
 {
+	this->m_clicked = false;
 	this->m_ButtonReaction	=	0;
 	this->m_Value = 0;
 	//-----------------------------------------------------------------------------------------------
@@ -45,13 +49,15 @@ void Button::Init(FLOAT2 _ScreenPos,
 	this->m_Cost			=   _Cost;
 	this->m_TextPos.x		=	_TextPos.x;
 	this->m_TextPos.y		=	_TextPos.y;
-	this->m_ID				=	0;
+	this->m_ID				=	_id;
 	this->m_TextBox			=	_TextBox;
 	this->m_Label			=	new TextLabel(_TextName, "text1.png",INT2(m_TextPos.x, m_TextPos.y),100);
 	m_Button				=	g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
 }
 void Button::Update()
 {
+	m_clicked = false;
+
 	//Get the mouse position
 	INT2 tmpPos2 = g_mouse->getPos();
 	INT2 m_SS = g_graphicsEngine->getRealScreenSize();
@@ -66,14 +72,22 @@ void Button::Update()
 		   tmpPos.x <= this->m_Pos.x + halfSize.x && tmpPos.y <= this->m_Pos.y + halfSize.y) 
 		{
 			this->m_Delay += 1;
-			if (GetKeyState(VK_LBUTTON)< 0)
+			if (g_mouse->isLButtonReleased())
 			{
 				this->m_ButtonReaction = 1;
 				this->m_Button->setCurrentFrame(INT2(1,0));
 			}
-			else if(GetKeyState(VK_RBUTTON)< 0)
+			else if(g_mouse->isLButtonDown())
+			{
+				this->m_Button->setCurrentFrame(INT2(1,0));
+			}
+			else if(g_mouse->isRButtonReleased())
 			{
 				this->m_ButtonReaction = 2;
+				this->m_Button->setCurrentFrame(INT2(1,0));
+			}
+			else if(g_mouse->isRButtonDown())
+			{
 				this->m_Button->setCurrentFrame(INT2(1,0));
 			}
 			else
@@ -82,61 +96,19 @@ void Button::Update()
 				this->m_Button->setCurrentFrame(INT2(2,0));
 			}
 		} 
-		else 
+		else
 		{
 			this->m_ButtonReaction = 0;
 			this->m_Button->setCurrentFrame(INT2(0,0));
 		}
 		this->m_Delay += 1;
-		if(this->m_Max != 0)
-		{
-			float tmp_Pos = this->m_Pos.x;
-			if(this->m_ButtonReaction == 1)
-			{
-				this->m_Pos.x = tmpPos.x;
-				if (tmpPos.x > this->m_Max)
-				{
-					this->m_Keep = 1;
-				}
-				if (tmpPos.x < this->m_Min)
-				{
-					this->m_Keep = 1;
-				}
-				this->m_Keep = 1;
-			}
-		}
 	}
-	if(this->m_Keep == 1)
-	{
-		this->m_Pos.x = tmpPos.x;
-		this->m_Value = ((float)tmpPos.x/385.0f)*100.0f;
-		if (tmpPos.x > this->m_Max)
-		{
-			this->m_Pos.x = this->m_Max;
-			this->m_Value = 100.0f;
-			g_graphicsEngine->removeSpriteSheet(this->m_Button);
-			this->m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,this->m_Pos,this->m_Size,INT2(3,1),2);
-		}
-		if (tmpPos.x < this->m_Min)
-		{
-			this->m_Pos.x = this->m_Min;
-			this->m_Value = 0.0f;
-			g_graphicsEngine->removeSpriteSheet(this->m_Button);
-			this->m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,this->m_Pos,this->m_Size,INT2(3,1),2);
-		}
-		g_graphicsEngine->removeSpriteSheet(this->m_Button);
-		this->m_Button = g_graphicsEngine->createSpriteSheet(this->m_TextureName,this->m_Pos,this->m_Size,INT2(3,1),2);
-		if(GetKeyState(VK_LBUTTON) < 0)
-		{
-			this->m_Keep = 1;
-		}
-		else this->m_Keep =0;
-	}
-	if(m_TextBox == true)
+	if (this->m_TextBox == true)
 	{
 		this->m_Button->setCurrentFrame(INT2(1,0));
 	}
 
+	this->Clicked();
 }
 int Button::GetButtonReaction()
 {
@@ -144,8 +116,9 @@ int Button::GetButtonReaction()
 }
 int Button::Clicked()
 {
-	if (this->m_ButtonReaction==1 && this->m_Delay > this->m_DelayTime )
+	if (this->m_ButtonReaction==1 ) //&& this->m_Delay > this->m_DelayTime)
 	{
+		m_clicked = true;
 		this->m_Delay = 0;
 		return 1;
 	}
@@ -197,18 +170,46 @@ void Button::SetID(int _id)
 {
 	this->m_ID = _id;
 }
-string Button::GetID()
+int Button::GetID()
 {
-	stringstream ss;
-	ss << this->m_ID;
-	string tmp = ss.str();
-	return tmp;
+	return this->m_ID;
 }
-int Button::GetValue()
+float Button::GetValue()
 {
 	return this->m_Value;
 }
 void Button::SetTextBoxValue(bool _change)
 {
 	this->m_TextBox = _change;
+}
+
+void Button::setVisible(bool _visible)
+{
+	this->m_Button->setVisible(_visible);
+	this->m_Label->setVisible(_visible);
+}
+
+FLOAT2 Button::getPos()
+{
+	return this->m_Pos;
+}
+
+int Button::getCost()
+{
+	return this->m_Cost;
+}
+
+string Button::getText()
+{
+	return this->m_ButtonText;
+}
+
+INT2 Button::getTextPos()
+{
+	return this->m_TextPos;
+}
+
+string Button::getTextureName()
+{
+	return this->m_TextureName;
 }

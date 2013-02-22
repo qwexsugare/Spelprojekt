@@ -1,31 +1,31 @@
 #include "PoisonStrike.h"
 
-PoisonStrike::PoisonStrike()
+PoisonStrike::PoisonStrike() : Skill(Skill::POISON_STRIKE, 0.0f)
 {
 
 }
 
 PoisonStrike::~PoisonStrike()
 {
-	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
 
-	if(e != NULL)
-	{
-		UnitEntity* ue = (UnitEntity*)e;
-		ue->setPoisonChance(ue->getPoisonChance() - 25);
-	}
 }
 
-bool PoisonStrike::activate(unsigned int _senderId)
+bool PoisonStrike::activate(unsigned int _targetId, unsigned int _senderId)
 {
-	this->m_senderId = _senderId;
-	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
+	int poison = rand() % 100 + 1;
 
-	if(e != NULL)
+	UnitEntity *caster = (UnitEntity*)EntityHandler::getServerEntity(_senderId);
+	UnitEntity *target = (UnitEntity*)EntityHandler::getServerEntity(_targetId);
+
+	if(poison < PoisonStrike::POISON_STRIKE_CHANCE)
 	{
-		UnitEntity* ue = (UnitEntity*)e;
-		ue->setPoisonChance(ue->getPoisonChance() + 25);
-	}	
+		if(target->getPoisonCounter() < 4)
+		{
+			target->setPoisonCounter(target->getPoisonCounter() + 1);
+		}
+
+		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, 100 + target->getPoisonCounter() * 5, 0, Skill::POISON_STRIKE));
+	}
 
 	return true;
 }

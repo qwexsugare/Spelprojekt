@@ -5,13 +5,6 @@
 #include <SFML/System.hpp>
 #include <iostream>
 #include <queue>
-#include "EntityMessage.h"
-#include "AttackMessage.h"
-#include "Msg.h"
-#include "RemoveEntityMessage.h"
-#include "AttackEntityMessage.h"
-#include "UseSkillMessage.h"
-#include "UsePositionalSkillMessage.h"
 #include "NetworkMessage.h"
 #include "NetworkEntityMessage.h"
 #include "NetworkRemoveEntityMessage.h"
@@ -21,10 +14,19 @@
 #include "NetworkCreateActionMessage.h"
 #include "NetworkCreateActionPositionMessage.h"
 #include "NetworkCreateActionTargetMessage.h"
+#include "NetworkBuySkillMessage.h"
+#include "NetworkSkillBoughtMessage.h"
+#include "NetworkRemoveActionTargetMessage.h"
+#include "NetworkHeroSelectedMessage.h"
+#include "NetworkReadyMessage.h"
+#include "NetworkSelectHeroMessage.h"
+#include "NetworkStartGameMessage.h"
+#include "NetworkSkillUsedMessage.h"
+#include "NetworkHeroInitMessage.h"
 
 using namespace std;
 
-class Client :private sf::Thread
+class Client : private sf::Thread
 {
 private:
 	sf::Mutex m_mutex;
@@ -36,11 +38,20 @@ private:
 
 	//a threaded function that will recive messages from the server
 	virtual void Run();
+	NetworkEntityMessage m_lastestMessage;
+	bool m_hasMessage;
+
 	queue<NetworkEntityMessage> m_entityMessageQueue;
 	queue<NetworkRemoveEntityMessage> m_removeEntityMessageQueue;
 	queue<NetworkCreateActionMessage> m_createActionQueue;
 	queue<NetworkCreateActionPositionMessage> m_createActionPositionQueue;
 	queue<NetworkCreateActionTargetMessage> m_createActionTargetQueue;
+	queue<NetworkSkillBoughtMessage> m_skilllBoughtQueue;
+	queue<NetworkRemoveActionTargetMessage> m_removeActionTargetQueue;
+	queue<NetworkStartGameMessage> m_startGameQueue;
+	queue<NetworkHeroSelectedMessage> m_heroSelectedQueue;
+	queue<NetworkSkillUsedMessage> m_skillUsedQueue;
+	queue<NetworkHeroInitMessage> m_heroInitQueue;
 public:
 	Client();
 	~Client();
@@ -52,17 +63,34 @@ public:
 	void sendMessage(NetworkUseActionMessage _usm);
 	void sendMessage(NetworkUseActionPositionMessage _usm);
 	void sendMessage(NetworkUseActionTargetMessage _usm);
+	void sendMessage(NetworkBuySkillMessage _usm);
+	void sendMessage(NetworkSelectHeroMessage _usm);
+	void sendMessage(NetworkReadyMessage _usm);
+	void sendMessage(NetworkHeroInitMessage _usm);
 
 	NetworkEntityMessage entityQueueFront();
 	NetworkRemoveEntityMessage removeEntityQueueFront();
 	NetworkCreateActionMessage createActionQueueFront();
 	NetworkCreateActionPositionMessage createActionPositionQueueFront();
 	NetworkCreateActionTargetMessage createActionTargetQueueFront();
+	NetworkSkillBoughtMessage skillBoughtQueueFront();
+	NetworkRemoveActionTargetMessage removeActionTargetQueueFront();
+	NetworkStartGameMessage startGameQueueFront();
+	NetworkHeroSelectedMessage heroSelectedQueueFront();
+	NetworkSkillUsedMessage skillUsedQueueFront();
+	NetworkHeroInitMessage heroInitQueueFront();
+
 	bool entityQueueEmpty();
 	bool removeEntityQueueEmpty();
 	bool createActionQueueEmpty();
 	bool createActionPositionQueueEmpty();
 	bool createActionTargetQueueEmpty();
+	bool skillBoughtQueueEmpty();
+	bool removeActionTargetQueueEmpty();
+	bool startGameQueueEmpty();
+	bool skillUsedQueueEmpty();
+	bool heroSelectedQueueEmpty();
+	bool heroInitQueueEmpty();
 };
 
 #endif // CLIENT_H

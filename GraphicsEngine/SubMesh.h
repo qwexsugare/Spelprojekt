@@ -5,23 +5,27 @@
 struct SubMesh
 {
 	ID3D10Buffer* buffer;
-	ID3D10ShaderResourceView* diffuse;
+	map<string, ID3D10ShaderResourceView*> textures;
 	int skeletonId;
 	int numInfluences;
 	int numVerts;
 	int materialId;
+	//string name;
 
 	SubMesh(ID3D10Buffer* _buffer, int _nrOfVertices)
 	{
 		this->buffer = _buffer;
 		this->numVerts = _nrOfVertices;
-		this->diffuse = NULL;
 	}
 	~SubMesh()
 	{
 		if(buffer)
 			buffer->Release();
-		if(this->diffuse)
-			diffuse->Release();
+		map<string, ID3D10ShaderResourceView*>::const_iterator itr;
+		for(itr = textures.begin(); itr != textures.end(); ++itr)
+		{
+			if(itr->second)
+				itr->second->Release();
+		}
 	}
-}; 
+};

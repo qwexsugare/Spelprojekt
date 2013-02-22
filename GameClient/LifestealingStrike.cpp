@@ -1,31 +1,24 @@
 #include "LifestealingStrike.h"
 
-LifestealingStrike::LifestealingStrike()
+LifestealingStrike::LifestealingStrike() : Skill(Skill::LIFESTEALING_STRIKE, 0.0f)
 {
 
 }
 
 LifestealingStrike::~LifestealingStrike()
 {
-	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
 
-	if(e != NULL)
-	{
-		UnitEntity* ue = (UnitEntity*)e;
-		ue->setLifeStealChance(ue->getLifeStealChance() - 15.0f);
-	}	
 }
 
-bool LifestealingStrike::activate(unsigned int _senderId)
+bool LifestealingStrike::activate(unsigned int _targetId, unsigned int _senderId)
 {
-	this->m_senderId = _senderId;
-	ServerEntity *e = EntityHandler::getServerEntity(this->m_senderId);
+	int lifesteal = rand() % 100 + 1;
+	UnitEntity *caster = (UnitEntity*)EntityHandler::getServerEntity(_senderId);
 
-	if(e != NULL)
+	if(lifesteal < LifestealingStrike::LIFE_STEAL_CHANCE)
 	{
-		UnitEntity* ue = (UnitEntity*)e;
-		ue->setLifeStealChance(ue->getLifeStealChance() + 15.0f);
-	}	
+		caster->heal(caster->getPhysicalDamage() * 0.5f);
+	}
 
 	return true;
 }

@@ -8,9 +8,9 @@ void clearSoundEngine()
 	g_soundEngine->clear();
 }
 
-int createSoundHandle(string _filename, bool _music)
+int createSoundHandle(string _filename, bool _music, bool _3d, FLOAT3 _pos, float _volume)
 {
-	return g_soundEngine->createSoundHandle(_filename, _music);
+	return g_soundEngine->createSoundHandle(_filename, _music, _3d, WUFLOAT3(_pos.x, _pos.y, _pos.z), _volume);
 }
 
 void deactivateSound(int _handle)
@@ -43,9 +43,14 @@ void setMusicVolume(float _value)
 	g_soundEngine->setMusicVolume(_value);
 }
 
-void setSoundEffectsVolume(float _value)
+void setSoundVolume(float _value)
 {
-	g_soundEngine->setSoundEffectsVolume(_value);
+	g_soundEngine->setSoundVolume(_value);
+}
+
+void setSoundVolume(int _handle, float _volume)
+{
+	g_soundEngine->setSoundVolume(_handle, _volume);
 }
 
 void stopSound(int _handle)
@@ -58,68 +63,7 @@ void deleteSoundEngine()
 	delete g_soundEngine;
 }
 
-void updateSoundEngine()
+void updateSoundEngine(const FLOAT3& _listenerPos)
 {
-	g_soundEngine->update();
+	g_soundEngine->update(_listenerPos.x, _listenerPos.y, _listenerPos.z);
 }
-/*
-// RETARD CODE
-void clearSoundEngine()
-{
-
-}
-
-int createSoundHandle(string _filename, bool _music)
-{
-	return -1;
-}
-
-void deactivateSound(int _handle)
-{
-
-}
-
-void initSoundEngine()
-{
-
-}
-
-bool isSoundPlaying(int _handle)
-{
-	return false;
-}
-
-void loopSound(int _handle)
-{
-
-}
-
-void playSound(int _handle)
-{
-
-}
-
-void setMusicVolume(float _value)
-{
-
-}
-
-void setSoundEffectsVolume(float _value)
-{
-
-}
-
-void stopSound(int _handle)
-{
-
-}
-
-void deleteSoundEngine()
-{
-
-}
-
-void updateSoundEngine()
-{
-
-}*/

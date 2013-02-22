@@ -1,28 +1,28 @@
 #include "MapHandler.h"
+#include "MyAlgorithms.h"
+#include <fstream>
+#include "Imp.h"
+#include "SpittingDemon.h"
+#include "FrostDemon.h"
+#include "Shade.h"
+#include "BruteSteed.h"
+#include "SoulEaterSteed.h"
+#include "HellfireSteed.h"
+#include "ThunderSteed.h"
+
+Pathfinder *g_pathfinder;
 
 MapHandler::MapHandler()
 {
-	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[0].push_back(new Enemy(FLOAT3(0.0f, 0.0f, 0.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(10.0f, 0.0f, 0.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 0.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(15.0f, 0.0f, 5.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(25.0f, 0.0f, 10.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 15.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(30.0f, 0.0f, 8.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(35.0f, 0.0f, 15.0f)));
-	m_waves[0].push_back(new Enemy(FLOAT3(40.0f, 0.0f, 18.0f)));
-	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[1].push_back(new Enemy(FLOAT3(50.0f, 0.0f, 0.0f)));
-	m_waves[1].push_back(new Enemy(FLOAT3(100.0f, 0.0f, 0.0f)));
-	m_waves[1].push_back(new Enemy(FLOAT3(20.0f, 0.0f, 0.0f)));
-	this->m_waves.push_back(vector<ServerEntity*>());
-	m_waves[2].push_back(new Enemy(FLOAT3(5.0f, 0.0f, 30.0f)));
-	m_waves[2].push_back(new Enemy(FLOAT3(70.0f, 0.0f, 10.0f)));
-	m_waves[2].push_back(new Enemy(FLOAT3(10.0f, 0.0f, 20.0f)));
-
-	m_currentWave = 0;
-	m_waveTimer = 0.0f;
+	this->m_currentWave = 0;
+	this->m_waveTimer = 0.0f;
+	this->m_enemySpawnTimer = 0.0f;
+	this->m_gridHeight = 0;
+	this->m_gridWidth = 0;
+	this->m_nrOfPaths = 0;
+	this->m_grid = NULL;
+	this->m_paths = NULL;
+	this->m_lives = 10;
 }
 
 MapHandler::~MapHandler()
@@ -36,37 +36,282 @@ MapHandler::~MapHandler()
 				delete m_waves[i][j];
 		}
 	}
+
+	delete g_pathfinder;
+	
+	if(m_grid)
+	{
+		for(int i = 0; i < m_gridHeight; i++)
+			delete m_grid[i];
+		delete []m_grid;
+	}
+
+	if(m_paths)
+		delete []m_paths;
 }
 
-bool MapHandler::isDone()
+MapHandler::State MapHandler::getState()
 {
-	return false;	// Here to stay.
+	if(this->m_lives <= 0)
+	{
+		return MapHandler::State::DEFEAT;
+	}
+	else if(this->m_currentWave > this->m_waves.size())
+	{
+		return MapHandler::State::VICTORY;
+	}
+	else
+	{
+		return MapHandler::State::RUNNING;
+	}
 }
 
 void MapHandler::loadMap(std::string filename)
 {
-	this->m_waveTimer =  0.0f;
+	this->m_waveTimer = 0.0f;
+
+	int height;
+	int width;
+	Path paths[100];
+	ifstream stream;
+	stream.open(filename);
+	while(!stream.eof())
+	{
+		char buf[1024];
+		char key[1024];
+		stream.getline(buf, 1024);
+		sscanf(buf, "%s", key);
+		
+		if(strcmp(key, "width:") == 0)
+		{
+			sscanf(buf, "width: %d", &width);
+		}
+		else if(strcmp(key, "height:") == 0)
+		{
+			sscanf(buf, "height: %d", &height);
+		}
+		else if(strcmp(key, "MODELS:") == 0)
+		{
+			string s;
+			bool done = false;
+			while(!done)
+			{
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+				
+				if(strcmp(key, "end") == 0)
+				{
+					done = true;
+				}
+				else
+				{
+					char in[100];
+					FLOAT3 position;
+					FLOAT3 rotation;
+					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
+
+					position.z = -position.z;
+					rotation.x = rotation.x * (D3DX_PI/180.0f);
+					
+					Model *m = g_graphicsEngine->createModel(key, position);
+					m->setRotation(rotation);
+
+					EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
+					g_graphicsEngine->removeModel(m);
+				}
+			}
+		}
+		else if(strcmp(key, "GRID") == 0)
+		{
+			stream.getline(buf, 1024);
+			sscanf(buf, "width, height %d %d", &m_gridWidth, &m_gridHeight);
+
+			Map map = Map(this->m_gridWidth, this->m_gridHeight);
+			
+			m_grid = new bool*[m_gridHeight];
+			for(int j = 0; j < m_gridHeight; j++)
+			{
+				m_grid[j] = new bool[m_gridWidth];
+
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+
+				for(int i = 0; i < m_gridWidth; i++)
+				{
+					//m_grid[j][i] = atoi(&key[i]);
+					m_grid[j][i] = '0' - key[i];
+
+					if(m_grid[j][i] == true)
+					{
+						map.getNode(Position(i, j))->actAsWall();
+					}
+				}
+			}
+
+			g_pathfinder = new Pathfinder(map, FLOAT2(width, height));
+
+			// The END string key should be here, get rid of it
+			//stream.getline(buf, 1024);
+		}
+		else if(strcmp(key, "path") == 0)
+		{
+			stream.getline(buf, 1024);
+			sscanf(buf, "%s", key);
+
+			int nrOfPoints = 0;
+			FLOAT2 points[100];
+			while(strcmp(key, "end") != 0)
+			{
+				float notInvertZ;
+				sscanf(buf, "%f %f", &points[nrOfPoints].x, &notInvertZ);
+				points[nrOfPoints].y = -notInvertZ;
+				nrOfPoints++;
+				stream.getline(buf, 1024);
+				sscanf(buf, "%s", key);
+			}
+			
+			FLOAT2* optimizedPoints = new FLOAT2[nrOfPoints];
+			for(int i = 0; i < nrOfPoints; i++)
+			{
+				optimizedPoints[i] = points[i];
+			}
+
+			paths[m_nrOfPaths++] = Path(nrOfPoints, optimizedPoints);
+			delete []optimizedPoints;
+		}
+	}
+	
+	m_paths = new Path[m_nrOfPaths];
+	
+	for(int i = 0; i < m_nrOfPaths; i++)
+		m_paths[i] = paths[i];
+	
+	//this->m_waves.push_back(vector<ServerEntity*>());
+	
+	//createWave(5,0,0,0,0,0,0,0);
+	createWave(25,5,0,0,0,0,0,0);
+	createWave(18,8,4,0,0,0,0,0);
+	createWave(12,10,8,0,0,0,0,0);
+	createWave(8,10,9,3,0,0,0,0);
+	createWave(5,8,12,5,0,0,0,0);
+	createWave(3,8,9,8,2,0,0,0);
+	createWave(2,6,8,10,4,0,0,0);
+	createWave(0,6,7,11,6,2,0,0);
+	createWave(0,4,6,11,5,4,0,0);
+	createWave(0,3,4,9,8,6,0,0);
+	createWave(0,0,6,8,9,4,3,0);
+	createWave(0,0,4,5,11,6,4,0);
+	createWave(0,0,2,4,11,7,6,0);
+	createWave(0,0,0,4,10,8,6,2);
+	createWave(0,0,0,2,8,9,8,3);
+	createWave(0,0,0,0, 5,11,10,4);
+	createWave(0,0,0,0,3,9,10,8);
+	createWave(0,0,0,0,0,8,10,12);
+	createWave(0,0,0,0,0,4,8,18);
+	createWave(0,0,0,0,0,0,5,25);
+
+
+
+
+
+	
+
 }
 
 void MapHandler::update(float _dt)
 {
-	vector<ServerEntity*>* enemies = EntityHandler::getAllEnemies();
 	if(m_waveTimer > 0.0f)
 	{
 		m_waveTimer = max(m_waveTimer-_dt, 0.0f);
-		if(m_waveTimer == 0.0f)
+	}
+	else if(m_waveTimer == 0.0f && m_currentWave < m_waves.size())
+	{
+		this->m_enemySpawnTimer = max(this->m_enemySpawnTimer-_dt, 0.0f);
+
+		if(this->m_enemySpawnTimer == 0.0f)
 		{
-			for(int i = 0; i < m_waves[m_currentWave].size(); i++)
+			if(this->m_waves[this->m_currentWave].empty() == false)
 			{
-				EntityHandler::addEntity(m_waves[m_currentWave][i]);
-				m_waves[m_currentWave][i] = NULL; // Null them bitches, they are the entity handlers problem now.
+				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
+				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
+				this->m_enemySpawnTimer = 2.0f;
 			}
-			m_currentWave++;
+			else
+			{
+				m_currentWave++;
+				this->m_waveTimer = -1.0f;
+			}
 		}
 	}
-	else if(enemies->size() == 0 && m_currentWave < m_waves.size())
-	{
-		m_waveTimer = 10.0f;
+	else if(EntityHandler::getNrOfEnemies() == 0)
+	{	
+		if(this->m_currentWave < m_waves.size())
+		{
+			m_waveTimer = 10.0f;
+		}
+		else
+		{
+			this->m_currentWave = this->m_waves.size() + 1;
+		}
 	}
-	delete enemies;
+}
+
+void MapHandler::enemyDied()
+{
+	this->m_lives--;
+}
+
+void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int _souls, int _hell, int _thunder, int _brutes)
+{
+	m_waves.push_back(vector<ServerEntity*>());
+	int totalMonsters = _imps + _shades + _spits + _frosts + _souls + _hell + _thunder + _brutes;
+	int t = random(0,0);
+
+	for(int i = 0; i < totalMonsters; i ++)
+	{
+		if(i < _imps)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[m_waves.size()-1].push_back(new Imp(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _shades)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[m_waves.size()-1].push_back(new Shade(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _spits)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[m_waves.size()-1].push_back(new SpittingDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _frosts)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[m_waves.size()-1].push_back(new FrostDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _souls)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[m_waves.size()-1].push_back(new SoulEaterSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _hell)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[m_waves.size()-1].push_back(new HellfireSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _thunder)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[m_waves.size()-1].push_back(new ThunderSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+		if(i < _brutes)
+		{
+			t = random(0, sizeof(m_paths)-1);
+			m_waves[m_waves.size()-1].push_back(new BruteSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+		}
+			
+
+	
+	}
+
 }

@@ -10,15 +10,23 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
 
-	this->m_serverThread = new ServerThread();
+	this->m_serverThread = NULL;
+	this->m_client = NULL;
 }
 
 ClientHandler::~ClientHandler()
 {
-	delete this->m_serverThread;
+	if(this->m_serverThread)
+	{
+		delete this->m_serverThread;
+	}
 	if(this->m_state)
 	{
 		delete this->m_state;
+	}
+	if(this->m_client)
+	{
+		delete this->m_client;
 	}
 	delete g_graphicsEngine;
 	delete g_mouse;
@@ -28,8 +36,12 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	this->m_serverThread->Launch();
-	this->m_state = new GameState();
+	//this->m_serverThread->Launch();
+	this->m_state = new MainMenuState();
+
+	// Retarded thread code
+	/*this->update(0.0f);
+	g_graphicsEngine->Launch();*/
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
@@ -45,7 +57,7 @@ HRESULT ClientHandler::run()
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
-			 
+			
 			this->m_messages.push_back(msg);
 		}
 		else
@@ -53,7 +65,7 @@ HRESULT ClientHandler::run()
 			__int64 currTimeStamp = 0;
 			QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
 			float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
-
+			
 			this->update(dt);
 			g_graphicsEngine->update(dt);
 			g_graphicsEngine->render();
@@ -111,14 +123,35 @@ void ClientHandler::update(float _dt)
 		case State::CREATE_GAME:
 			this->m_state = new CreateGameState();
 			break;
+		case State::JOIN_GAME:
+			this->m_state = new JoinGameState();
+			break;
 		case State::LOBBY:
-			this->m_state = new LobbyState();
+			if(tempState->getType() == State::CREATE_GAME)
+			{
+				CreateGameState *tempCreateState = (CreateGameState*)tempState;
+
+				this->m_serverThread = new ServerThread(tempCreateState->getPort());
+				this->m_serverThread->Launch();
+
+				this->m_client = new Client();
+				this->m_client->connect(tempCreateState->getIP(), tempCreateState->getPort());
+			}
+			else
+			{
+				JoinGameState *tempJoinState = (JoinGameState*)tempState;
+
+				this->m_client = new Client();
+				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
+			}
+
+			this->m_state = new LobbyState(this->m_client);
 			break;
 		case State::LORE:
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
-			this->m_state = new GameState();
+			this->m_state = new GameState(this->m_client);
 			break;
 		case State::SETTINGS:
 			this->m_state = new SettingsState();
@@ -135,7 +168,8 @@ void ClientHandler::update(float _dt)
 		delete tempState;
 	}
 
-	updateSoundEngine();
+	D3DXVECTOR3 camPos = g_graphicsEngine->getCamera()->getPos();
+	updateSoundEngine(FLOAT3(camPos.x, camPos.y, camPos.z));
 
 	g_mouse->update(); // Must be last!
 	g_keyboard->update();

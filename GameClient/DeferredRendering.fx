@@ -1,12 +1,33 @@
+static const int MAX_SPOT_LIGHTS = 10;
+static const int MAX_POINT_LIGHT_SHADOWS = 100;
+
 Texture2D positionTexture;
 Texture2D normalTexture;
 Texture2D diffuseTexture;
+Texture2D tangentTexture;
+Texture2D spotLightShadowMaps[MAX_SPOT_LIGHTS];
+Texture2D pointLightShadowMaps[MAX_POINT_LIGHT_SHADOWS];
+
 
 SamplerState linearSampler 
 {
 	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Wrap;
 	AddressV = Wrap;
+};
+
+SamplerState pointSampler 
+{
+	Filter = MIN_MAG_MIP_POINT;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
+
+SamplerState shadowMapSampler 
+{
+	Filter = MIN_MAG_MIP_POINT;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 struct VSSceneIn
@@ -24,23 +45,23 @@ struct PSSceneIn
 //Variables that updated often
 cbuffer cbEveryFrame
 {
-	//Transformation matrices
-	//matrix viewMatrix;
-	//matrix projectionMatrix;
-	//matrix modelMatrix;
-
 	int nrOfPointLights;
+	int nrOfShadowedPointLights;
 	int nrOfDirectionalLights;
 	int nrOfSpotLights;
-	float3 lightPosition[100];
+	float3 lightPosition[150];
 	float3 lightDirection[100];
-	float3 la[150];
-	float3 ld[150];
-	float3 ls[150];
-	float lightRadius[100];
+	float3 la[200];
+	float3 ld[200];
+	float3 ls[200];
+	float lightRadius[150];
 	float2 lightAngle[50];
+	matrix pointLightWvps[MAX_SPOT_LIGHTS];
+	matrix spotLightWvps[MAX_POINT_LIGHT_SHADOWS];
 
 	float3 cameraPos;
+	float screenWidth = 1920;
+	float screenHeight = 1080;
 };
 
 // State Structures
@@ -95,6 +116,7 @@ float3 calcAmbientLight()
 
 float3 calcDiffuseLight(float3 lightDir, float3 normal, float3 color)
 {
+	//color = float3(0.0, 0.0f, 1.0f);
 	//Variables
 	float3 n = normal;
 	float3 s = normalize(lightDir);
@@ -107,7 +129,7 @@ float3 calcDiffuseLight(float3 lightDir, float3 normal, float3 color)
 
 float3 calcSpecularLight(float3 lightDir, float3 normal, float3 color)
 {
-	float3 ks = float3(1.0f, 1.0f, 1.0f);
+	//color = float3(0.0, 0.0f, 1.0f);
 	float f = 30.0f;
 
 	lightDir = -normalize(lightDir);
@@ -130,13 +152,53 @@ PSSceneIn VSScene(VSSceneIn input)
 	return output;
 }
 
+float calcShadow(float4 lightPos, Texture2D shadowmap)
+{
+	float shadowCoeff = 0.0f;
+	float shadowEpsilon = 0.0000001f;
+
+	// Project the texture_ coords and scale/offset to [0, 1].
+	lightPos /= lightPos.w;
+	
+	//Check if the position is inside the lights unit cube.
+	if(lightPos.x > -1 && lightPos.y > -1 && lightPos.z > -1 && lightPos.x < 1 && lightPos.y < 1 && lightPos.z < 1 )//&& length(float2(lightPos.x, lightPos.y)) < 1)
+	{
+		//Compute shadow map tex coord
+		float2 smTex = float2(0.5f * lightPos.x, -0.5f * lightPos.y) + 0.5f;
+
+		// Compute pixel depth for shadowing.
+		float depth = lightPos.z;
+
+		//Get the shadow map size
+		int width;
+		int height;
+		shadowmap.GetDimensions(width, height);
+
+		// 2x2 percentage closest filter.
+		float dx = 1.0f / width;
+		float s0 = (shadowmap.Sample(shadowMapSampler, smTex).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s1 = (shadowmap.Sample(shadowMapSampler, smTex + float2(dx, 0.0f)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s2 = (shadowmap.Sample(shadowMapSampler, smTex + float2(0.0f, dx)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		float s3 = (shadowmap.Sample(shadowMapSampler, smTex + float2(dx, dx)).r + shadowEpsilon < depth) ? 0.0f : 1.0f;
+		
+		// Transform to texel space
+		float2 texelPos = smTex * width;
+		
+		// Determine the lerp amounts.
+		float2 lerps = frac( texelPos );
+		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
+	}
+
+	return shadowCoeff;
+}
+
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
-
-	float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 tangent = tangentTexture.Sample(linearSampler, input.UVCoord);
+	
 	float3 ambientLight = float3(0.0f, 0.0f, 0.0f);
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
 	float3 specularLight = float3(0.0f, 0.0f, 0.0f);
@@ -146,17 +208,40 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float distance;
 	float cutoff = 0.005f;
 	float attenuation;
-	int nrOfPointAndDirectionalLights = nrOfPointLights + nrOfDirectionalLights;
+	int nrOfPointAndDirectionalLights = nrOfPointLights + nrOfShadowedPointLights + nrOfDirectionalLights;
+
+	//NormalMappingTangentSpace
+	float3 binormal = cross(normal.xyz, tangent.xyz);
+	float3x3 tbn = float3x3(tangent.xyz, binormal, normal.xyz);
+	//normal = float4(mul(normal.xyz, tbn), 0.0f);
 
 	for(i = 0; i < nrOfPointLights; i++)
 	{
-		distVector = (lightPosition[i] - position.xyz);
+		distVector = (lightPosition[i] - position);
 		distance = length(distVector);
 		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
 		ambientLight = ambientLight + la[i];
 		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
 		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
+	}
+
+	for(i = 0; i < nrOfShadowedPointLights; i++)
+	{
+		distVector = (lightPosition[nrOfPointLights + i] - position);
+		distance = length(distVector);
+		attenuation = 1 / ((distance / lightRadius[nrOfPointLights + i] + 1) * (distance / lightRadius[nrOfPointLights + i] + 1));
+
+		float shadowCoeff = calcShadow(mul(position, pointLightWvps[i * 6]), pointLightShadowMaps[i * 6]);
+		shadowCoeff += calcShadow(mul(position, pointLightWvps[i * 6 + 1]), pointLightShadowMaps[i * 6 + 1]);
+		shadowCoeff += calcShadow(mul(position, pointLightWvps[i * 6 + 2]), pointLightShadowMaps[i * 6 + 2]);
+		shadowCoeff += calcShadow(mul(position, pointLightWvps[i * 6 + 3]), pointLightShadowMaps[i * 6 + 3]);
+		shadowCoeff += calcShadow(mul(position, pointLightWvps[i * 6 + 4]), pointLightShadowMaps[i * 6 + 4]);
+		shadowCoeff += calcShadow(mul(position, pointLightWvps[i * 6 + 5]), pointLightShadowMaps[i * 6 + 5]);
+
+		ambientLight = ambientLight + la[nrOfPointLights + i];
+		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[nrOfPointLights + i]) * attenuation * shadowCoeff;
+		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[nrOfPointLights + i]) * attenuation * shadowCoeff;
 	}
 
 	for(i = 0; i < nrOfDirectionalLights; i++)
@@ -175,13 +260,22 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		float3 s = normalize(distVector);
 		float angle = max(acos(dot(s, normalize(lightDirection[nrOfDirectionalLights + i]))), 0.0f);
 		float spotfactor = max(((cos(angle) - lightAngle[i].x) / (lightAngle[i].y - lightAngle[i].x)), 0.0f);
+		float shadowCoeff = calcShadow(mul(position, spotLightWvps[i]), spotLightShadowMaps[i]);
 
 		ambientLight = ambientLight + la[nrOfPointAndDirectionalLights + i];
-		diffuseLight = diffuseLight + calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
-		specularLight = specularLight + calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation;
+		diffuseLight = diffuseLight + (calcDiffuseLight(s, normal.xyz, ld[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * shadowCoeff);
+		specularLight = specularLight + (calcSpecularLight(s, normal.xyz, ls[nrOfPointAndDirectionalLights + i]) * spotfactor * attenuation * shadowCoeff);
 	}
 
-	return float4(ambientLight, 0.0f) + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f);
+	/*float cowabunga = min(
+		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x+1.0f/1920.0f, input.UVCoord.y+1.0f/1080.0f))), 
+			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y-1.0f/1080.0f)))),
+		min(dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x, input.UVCoord.y+1.0f/1080.0f))), 
+			dot(normal, normalTexture.Sample(linearSampler, float2(input.UVCoord.x-1.0f/1920.0f, input.UVCoord.y)))));
+	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
+	
+	//return float4(0.5f*diffuseLight.xyz*diffuse + specularLight, diffuse.w);
+	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * tangent.w);
 }
 
 technique10 RenderModelDeferred
@@ -196,5 +290,5 @@ technique10 RenderModelDeferred
 
 	    SetDepthStencilState( DisableDepth, 0 );
 	    SetRasterizerState( rs );
-    }  
+    } 
 }

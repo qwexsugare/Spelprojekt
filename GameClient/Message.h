@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal};
 
 	Type type;
 	int senderId;
@@ -27,11 +27,34 @@ struct Message
 struct ReadyMessage : Message
 {
 	bool ready;
+
+	ReadyMessage(int _senderId, int _reciverId, bool _ready)
+	{
+		this->type = Type::Ready;
+		this->senderId = _senderId;
+		this->reciverId = _reciverId;
+		this->ready = _ready;
+	}
 };
 
 struct StartMessage : Message
 {
 
+};
+
+struct SelectHeroMessage : Message
+{
+	int heroId;
+	int weaponId;
+
+	SelectHeroMessage(int _senderId, int _reciverId, int _heroId, int _weaponId)
+	{
+		this->type = Type::SelectHero;
+		this->senderId = _senderId;
+		this->reciverId = _reciverId;
+		this->heroId = _heroId;
+		this->weaponId = _weaponId;
+	}
 };
 
 struct CollisionMessage : Message
@@ -104,5 +127,83 @@ struct CreateActionTargetMessage : Message
 		this->senderId = _senderId;
 		this->targetId = _targetId;
 		this->position = _position;
+	}
+};
+
+struct RemoveActionTargetMessage : Message
+{
+	unsigned int actionId;
+	unsigned int senderId;
+	unsigned int targetId;
+	
+	RemoveActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId)
+	{
+		this->type = Type::RemoveActionTarget;
+		this->reciverId = 1;
+		this->actionId = _actionId;
+		this->senderId = _senderId;
+		this->targetId = _targetId;
+	}
+};
+
+struct SkillBoughtMessage : Message
+{
+	unsigned int actionId;
+	unsigned int playerId;
+	unsigned int resources;
+
+	SkillBoughtMessage(unsigned int _actionId, unsigned int _playerId, unsigned int _resources)
+	{
+		this->type = Type::SkillBought;
+		this->reciverId = 1;
+		this->actionId = _actionId;
+		this->playerId = _playerId;
+		this->resources = _resources;
+	}
+};
+
+struct SkillUsedMessage : Message
+{
+	unsigned int actionId;
+	unsigned int playerId;
+	unsigned int actionIndex;
+	float cooldown;
+
+	SkillUsedMessage(unsigned int _actionId, unsigned int _playerId, unsigned int _actionIndex, float _cooldown)
+	{
+		this->type = Type::SkillUsed;
+		this->reciverId = 1;
+		this->actionId = _actionId;
+		this->playerId = _playerId;
+		this->actionIndex = _actionIndex;
+		this->cooldown = _cooldown;
+	}
+};
+
+struct EnemyDiedMessage : Message
+{
+	unsigned int victimId;
+	unsigned int killerId;
+	int resources;
+
+	EnemyDiedMessage(unsigned int _victimId, unsigned int _killerId, int resources)
+	{
+		this->type = Type::EnemyDied;
+		this->reciverId = 0;
+		this->victimId = _victimId;
+		this->killerId = _killerId;
+		this->resources = resources;
+	}
+};
+
+struct EnemyReachedGoalMessage : Message
+{
+	unsigned int enemyId;
+
+	EnemyReachedGoalMessage(unsigned int _enemyId)
+	{
+		this->type = Type::EnemyReachedGoal;
+		this->reciverId = 0;
+		this->enemyId = _enemyId;
 	}
 };

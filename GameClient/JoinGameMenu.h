@@ -15,6 +15,10 @@ public:
 	bool MainWriteIPIsDown();
 	bool MainWriteNameIsDown();
 
+	string getIP();
+	string getPort();
+	string getPlayerName();
+
 private:
 	vector<TextInput*> m_Label;
 	bool	m_WriteIP,

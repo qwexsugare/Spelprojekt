@@ -17,6 +17,10 @@ public:
 	void update(float dt);
 
 	StateEnum nextState();
+
+	string getIP();
+	int getPort();
+	string getPlayerName();
 };
 
 #endif

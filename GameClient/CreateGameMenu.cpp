@@ -10,6 +10,7 @@ CreateGameMenu::CreateGameMenu(void)
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 800), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 860), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 920), 100));
+	this->m_Label[1]->setText("1337");
 	this->m_IPLabel = new TextLabel(sf::IPAddress::GetLocalAddress().ToString(),"text2.png", INT2(920, 800), 100);
 
 	m_size.x		=	0;
@@ -112,4 +113,19 @@ CreateGameMenu::~CreateGameMenu(void)
 	}
 	delete this->m_IPLabel;
 
+}
+
+string CreateGameMenu::getIP()
+{
+	return this->m_Label[0]->getText();
+}
+
+string CreateGameMenu::getPort()
+{
+	return this->m_Label[1]->getText();
+}
+
+string CreateGameMenu::getPlayerName()
+{
+	return this->m_Label[2]->getText();
 }

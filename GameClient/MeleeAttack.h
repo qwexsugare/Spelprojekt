@@ -1,21 +1,19 @@
-#ifndef MELEE_ATTACK_H
-#define MELEE_ATTACK_H
+#pragma once
 
-#include "ServerEntity.h"
-#include "DataStructures.h"
+#include "skill.h"
 #include "EntityHandler.h"
+#include "DelayedDamage.h"
+#include "SkillIdHolder.h"
 
-class MeleeAttack : public ServerEntity
+class MeleeAttack : public Skill
 {
-private:
-	float m_damage;
-	float m_range;
-	unsigned int m_targetId;
 public:
-	MeleeAttack(FLOAT3 _position, float _damage, unsigned int _targetId);
-	virtual ~MeleeAttack();
+	static const float RANGE;
 
-	void update(float dt);
+	MeleeAttack();
+	~MeleeAttack();
+
+	virtual bool activate(unsigned int _targetId, unsigned int _senderId);
+
+	void updateSpecificSkill(float dt);
 };
-
-#endif

@@ -2,7 +2,6 @@
 #define SERVER_ENTITY
 
 #include "MessageQueue.h"
-#include "EntityMessage.h"
 #include "NetworkEntityMessage.h"
 #include "DataStructures.h"
 #include "DirectXMath.h"
@@ -24,18 +23,18 @@ protected:
 	bool m_visible;
 
 public:
-	static enum Type{EnemyType, HeroType, OtherType, ProjectileType};
+	static enum Type{EnemyType, HeroType, OtherType, ProjectileType, StaticType};
 	Type m_type;
 	ServerEntity();
 	ServerEntity(FLOAT3 m_pos);
+	ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedBox* _obb, Type _type);
 	virtual ~ServerEntity();
 
 	virtual void update(float dt);
 	const BoundingSphere* getBs()const { return this->m_bs; }
 	const BoundingOrientedBox* getObb()const { return this->m_obb; }
 	MessageQueue *getMessageQueue();
-	//EntityMessage getUpdate();
-	NetworkEntityMessage getUpdate();
+	virtual NetworkEntityMessage getUpdate();
 
 	void setId(unsigned int _id);
 	void setModelId(unsigned int _modelId);
@@ -47,8 +46,11 @@ public:
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
+	
+	ContainmentType contains(const BoundingSphere& _bs)const;
+	ContainmentType contains(const BoundingOrientedBox& _obb)const;
 
-	virtual void takeDamage(int physicalDamage, int mentalDamage);
+	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
 };

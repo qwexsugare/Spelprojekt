@@ -10,8 +10,6 @@
 #include "Mouse.h"
 #include "TextLabel.h"
 #include <sstream>
-extern GraphicsHandler* g_graphicsEngine;
-extern Mouse* g_mouse;
 
 using namespace std;
 class Button
@@ -39,7 +37,8 @@ private:
 		float		m_Value,
 					m_Max,
 					m_Min;
-		bool		m_TextBox;
+		bool		m_TextBox,
+					m_clicked;
 	//----------------------------------------------------------------------------------------------
 	// Wave name
 	//----------------------------------------------------------------------------------------------
@@ -69,18 +68,26 @@ public:
 				int _DelayTime = 100,
 				int _Cost = 0,
 				INT2 _TextPos = INT2(0,0),
-				bool _TextBox = false);
+				bool _TextBox = false,
+				int _id = 0);
 
 	void Button::RemoveSprite();
+	bool isClicked()const { return m_clicked; }
 	int Clicked();
 	void Update();
 	int GetButtonReaction();
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
 	void SetID(int _id);
-	string GetID();
+	int GetID();
 	int LoseAmountOfResources(int _resources);
-	int GetValue();
+	float GetValue();
 	void SetTextBoxValue(bool _change);
+	void setVisible(bool _visible);
+	FLOAT2 getPos();
+	int getCost();
+	string getText();
+	INT2 getTextPos();
+	string getTextureName();
 };
 

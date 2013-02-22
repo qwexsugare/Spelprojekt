@@ -22,11 +22,33 @@ struct Vertex
 	}
 };
 
+struct SuperVertex
+{
+	D3DXVECTOR3 pos;
+	D3DXVECTOR2 texCoord;
+	D3DXVECTOR3 normal;
+	D3DXVECTOR3 tangent;
+
+	SuperVertex()
+	{
+		
+	}
+
+	SuperVertex(D3DXVECTOR3 _pos, D3DXVECTOR2 _texCoord, D3DXVECTOR3 _normal, D3DXVECTOR3 _tangent)
+	{
+		this->pos = _pos;
+		this->texCoord = _texCoord;
+		this->normal = _normal;
+		this->tangent = _tangent;
+	}
+};
+
 struct AnimationVertex
 {
 	D3DXVECTOR3 pos;
 	D3DXVECTOR2 texCoord;
 	D3DXVECTOR3 normal;
+	D3DXVECTOR3 tangent;
 	D3DXVECTOR4 weight;
 	D3DXVECTOR4 bone;
 
@@ -35,11 +57,12 @@ struct AnimationVertex
 		
 	}
 
-	AnimationVertex(D3DXVECTOR3 _pos, D3DXVECTOR2 _texCoord, D3DXVECTOR3 _normal, D3DXVECTOR4 _weight, D3DXVECTOR4 _bone)
+	AnimationVertex(D3DXVECTOR3 _pos, D3DXVECTOR2 _texCoord, D3DXVECTOR3 _normal, D3DXVECTOR3 _tangent, D3DXVECTOR4 _weight, D3DXVECTOR4 _bone)
 	{
 		this->pos = _pos;
 		this->texCoord = _texCoord;
 		this->normal = _normal;
+		this->normal = _tangent;
 		this->weight = _weight;
 		this->bone = _bone;
 	}

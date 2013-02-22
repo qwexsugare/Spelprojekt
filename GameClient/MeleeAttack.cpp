@@ -1,14 +1,10 @@
 #include "MeleeAttack.h"
 
-MeleeAttack::MeleeAttack(FLOAT3 _position, float _damage, unsigned int _targetId) : ServerEntity()
-{
-	this->m_position = _position;
-	this->m_damage = _damage;
-	this->m_targetId = _targetId;
-	this->m_visible = false;
-	this->m_range = 2.0f;
+const float MeleeAttack::RANGE = 1.0f;
 
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.7f, 0.7f, 0.7f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
+MeleeAttack::MeleeAttack() : Skill(Skill::MELEE_ATTACK, 0.0f)
+{
+	this->setRange(MeleeAttack::RANGE);
 }
 
 MeleeAttack::~MeleeAttack()
@@ -16,16 +12,19 @@ MeleeAttack::~MeleeAttack()
 
 }
 
-void MeleeAttack::update(float dt)
+bool MeleeAttack::activate(unsigned int _targetId, unsigned int _senderId)
 {
-	Message *m;
+	UnitEntity* caster = (UnitEntity*)EntityHandler::getServerEntity(_senderId);
 
-	ServerEntity *se = EntityHandler::getServerEntity(this->m_targetId);
-
-	if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_range)
+	if(caster != NULL)
 	{
-		this->dealDamage(se, this->m_damage, true);
+		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, caster->getPhysicalDamage(), caster->getMentalDamage(), Skill::MELEE_ATTACK));
 	}
 
-	this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+	return true;
+}
+
+void MeleeAttack::updateSpecificSkill(float dt)
+{
+
 }

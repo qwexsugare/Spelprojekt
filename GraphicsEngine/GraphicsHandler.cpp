@@ -1,4 +1,5 @@
 #include "GraphicsHandler.h"
+#include <sstream>
 
 GraphicsHandler::GraphicsHandler()
 {
@@ -26,6 +27,8 @@ GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 		GetWindowRect(_hWnd, &rc);
 		this->m_realScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
 	}
+	
+	this->m_fpsText = this->createText("", INT2(300, 300), 40, D3DXCOLOR(1.0f, 0.2f, 0.2f, 1.0f));
 }
 
 GraphicsHandler::~GraphicsHandler()
@@ -35,10 +38,14 @@ GraphicsHandler::~GraphicsHandler()
 	delete this->m_deviceHandler;
 }
 
-Road* GraphicsHandler::createRoad(string _texture, FLOAT3 _pos, float _rot)
+Road* GraphicsHandler::createRoad(string _texture, FLOAT3 _pos, float _rot, float _scale)
 {
-	Road* road = new Road(m_deviceHandler->getDevice(), m_resourceHolder->getTextureHolder()->getTexture("textures/"+_texture), D3DXVECTOR3(_pos.x, _pos.y, _pos.z), _rot);
-	m_world->addRoad(road);
+	Road* road = new Road(m_deviceHandler->getDevice(), m_resourceHolder->getTextureHolder()->getTexture("textures/"+_texture), D3DXVECTOR3(_pos.x, _pos.y, _pos.z), _rot, _scale);
+	if(m_world->addRoad(road) == false)
+	{
+		delete road;
+		road = NULL;
+	}
 	return road;
 }
 
@@ -46,8 +53,21 @@ bool GraphicsHandler::removeRoad(Road* _road)
 {
 	return this->m_world->removeRoad(_road);
 }
-	
-Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps)
+
+ParticleEngine* GraphicsHandler::createParticleEngine(D3DXVECTOR3 _pos, D3DXQUATERNION _rot, D3DXVECTOR3 _scale)
+{
+	ParticleEngine* pe = new ParticleEngine(ParticleEngine::EngineType::GPUBased, _pos, _rot, _scale);
+
+	m_world->addParticleEngine(pe);
+	return pe;
+}
+
+bool GraphicsHandler::removeParticleEngine(ParticleEngine* _particleEngine)
+{
+	return m_world->removeParticleEngine(_particleEngine);
+}
+
+Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps, vector<string> _specularMaps)
 {
 	// Pre-define a shitload of vars
 	D3DXVECTOR3 v1(_v1.x, _v1.y, _v1.z);
@@ -55,12 +75,21 @@ Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _
 	ID3D10ShaderResourceView** textures = new ID3D10ShaderResourceView*[8];
 	for(int i = 0; i < _textures.size(); i++)
 		textures[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_textures[i]);
+
+	ID3D10ShaderResourceView** normalMaps = new ID3D10ShaderResourceView*[8];
+	for(int i = 0; i < _normalMaps.size(); i++)
+		normalMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_normalMaps[i]);
+
+	ID3D10ShaderResourceView** specularMaps = new ID3D10ShaderResourceView*[8];
+	for(int i = 0; i < _specularMaps.size(); i++)
+		specularMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_specularMaps[i]);
+
 	ID3D10ShaderResourceView** blendMaps = new ID3D10ShaderResourceView*[2];
 	for(int i = 0; i < _blendMaps.size(); i++)
 		blendMaps[i] = this->m_resourceHolder->getTextureHolder()->getTexture(_blendMaps[i]);
 
 	// Shove that heap of trash vars into the terrains crappy constructor.
-	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, v2.x / 8, v2.z / 8, textures, _textures.size(), blendMaps, _blendMaps.size());
+	Terrain* terrain = new Terrain(this->m_deviceHandler->getDevice(), v1, v2, v2.x / 8, v2.z / 8, textures, _textures.size(), blendMaps, _blendMaps.size(), normalMaps, specularMaps);
 	
 	this->m_world->addTerrain(terrain);
 
@@ -119,22 +148,27 @@ INT2 GraphicsHandler::getScreenSize()
 		return this->m_realScreenSize;
 }
 
-Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position)
+Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool _static, string _textureIndex)
 {
 	Model* model = NULL;
 	Mesh* mesh = this->m_resourceHolder->getMesh(_filename);
+
+	Animation* animation = new Animation();
+	*animation = this->m_resourceHolder->getAnimation(_filename);
+	animation->setTexturePack(this->m_resourceHolder->getTextureHolder()->getBoneTexture());
 	if(mesh != NULL)
 	{
-		Animation animation;
-		animation = this->m_resourceHolder->getAnimation(_filename);
-		animation.setTexturePack(&this->m_resourceHolder->getTextureHolder()->getBoneTexture(_filename));
-		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, D3DXVECTOR3(_position.x,  _position.y, _position.z), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+			1.0f, _textureIndex);
+		model->setStatic(_static);
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{
 			delete model;
 			model = NULL;
 		}
+		if(model->getMesh()->subMeshes[0]->textures["glowIntensity"])
+			model->setGlowIndex("glowIntensity");
 	}
 
 	return model;
@@ -170,10 +204,16 @@ bool GraphicsHandler::removeSpriteSheet(SpriteSheet *spriteSheet)
 	return this->m_world->removeSprite(spriteSheet);
 }
 
-PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius)
+PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius, bool shadow)
 {
-	PointLight *l = new PointLight(position, la, ld, ls, radius);
-	this->m_world->addPointLight(l);
+	PointLight *l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, shadow);
+
+	if(this->m_world->addPointLight(l) == false)
+	{
+		delete l;
+		l = NULL;
+	}
+
 	return l;
 }
 
@@ -194,9 +234,9 @@ bool GraphicsHandler::removeDirectionalLight(DirectionalLight *directionalLight)
 	return this->m_world->removeDirectionalLight(directionalLight);
 }
 
-SpotLight *GraphicsHandler::createSpotLight(FLOAT3 position, FLOAT3 direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range)
+SpotLight *GraphicsHandler::createSpotLight(FLOAT3 position, FLOAT3 _direction, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, FLOAT2 angle, float range)
 {
-	SpotLight *l = new SpotLight(position, direction, la, ld, ls, angle, range);
+	SpotLight *l = new SpotLight(m_deviceHandler->getDevice(), position, _direction, la, ld, ls, angle, range);
 	this->m_world->addSpotLight(l);
 	return l;
 }
@@ -204,6 +244,16 @@ SpotLight *GraphicsHandler::createSpotLight(FLOAT3 position, FLOAT3 direction, F
 bool GraphicsHandler::removeSpotLight(SpotLight* spotLight)
 {
 	return this->m_world->removeSpotLight(spotLight);
+}
+
+Mesh *GraphicsHandler::getMesh(string filename)
+{
+	return this->m_resourceHolder->getMesh(filename);
+}
+
+void GraphicsHandler::initQuadTree(FLOAT2 _extents)
+{
+	m_world->initQuadTree(_extents);
 }
 
 void GraphicsHandler::render()
@@ -214,4 +264,38 @@ void GraphicsHandler::render()
 void GraphicsHandler::update(float dt)
 {
 	this->m_world->update(dt);
+}
+
+void GraphicsHandler::Run()
+{
+	m_running = true;
+
+	__int64 cntsPerSec = 0;
+	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
+	float secsPerCnt = 1.0f / (float)cntsPerSec;
+
+	__int64 prevTimeStamp = 0;
+	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
+
+	while(m_running)
+	{
+		__int64 currTimeStamp = 0;
+		QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
+		float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
+		
+		static float lol = 0.0f;
+		lol += dt;
+		if(lol > 1.0f)
+		{
+			stringstream ss;
+			ss << "GPU Fps: " << 1.0f/dt;
+			this->m_fpsText->setString(ss.str());
+			lol = -0.5f;
+		}
+
+		this->update(dt);
+		this->render();
+
+		prevTimeStamp = currTimeStamp;
+	}
 }

@@ -2,6 +2,13 @@
 
 Skill_Buttons::Skill_Buttons()
 {
+
+}
+Skill_Buttons::~Skill_Buttons()
+{
+	this->m_ButtonReaction = 0;
+	g_graphicsEngine->removeSpriteSheet(m_SkillButton);
+	m_SkillButton = NULL;
 }
 void Skill_Buttons::Init(FLOAT2 _ScreenPos,
 			 FLOAT2 _Size, 
@@ -48,9 +55,11 @@ void Skill_Buttons::Init(FLOAT2 _ScreenPos,
 	this->m_Active			=	_Active;
 	this->m_ChangeAble		=	true;
 	this->m_Lock			=	false;
-	m_SkillButton = g_graphicsEngine->createSpriteSheet(this->m_FullName,m_Pos,m_Size,INT2(3,1),m_Layer);
+	this->m_SkillButton = g_graphicsEngine->createSpriteSheet(this->m_FullName,m_Pos,m_Size,INT2(3,1),m_Layer);
+	this->m_cooldown = g_graphicsEngine->createSpriteSheet("menu_textures\\Clock.png", this->m_Pos, this->m_Size, INT2(4, 3), this->m_Layer + 1);
+	this->m_cooldown->setVisible(false);
 }
-void Skill_Buttons::Update()
+void Skill_Buttons::Update(float dt)
 {
 	//Get the mouse position
 	INT2 tmpPos2 = g_mouse->getPos();
@@ -90,6 +99,16 @@ void Skill_Buttons::Update()
 		}
 		this->m_Delay += 1;
 	}
+
+	if(this->m_cooldown->getVisible() == true)
+	{
+		this->m_cooldownTime = this->m_cooldownTime - dt;
+
+		if(this->m_cooldownTime <= 0.0f)
+		{
+			this->m_cooldown->setVisible(false);
+		}
+	}
 }
 
 unsigned int Skill_Buttons::getSkillId()
@@ -101,11 +120,12 @@ int Skill_Buttons::GetButtonReaction()
 {
 	return this->m_ButtonReaction;
 }
-void Skill_Buttons::ChangeButton(string _Number, bool _Active)
+void Skill_Buttons::ChangeButton(string _Number, bool _Active, int id)
 {
-	this->m_id				=	StringtoINT(_Number);	
+	this->m_skillId				=	id;	
 	this->m_Number			=	_Number;
-	this->m_FullName		=	m_TextureName + m_Number + m_TextType;
+	//this->m_FullName		=	m_TextureName + m_Number + m_TextType;
+	this->m_FullName = _Number;
 	this->m_Active			=	_Active;
 
 	g_graphicsEngine->removeSpriteSheet(m_SkillButton);
@@ -136,7 +156,8 @@ void Skill_Buttons::RemoveCooldown()
 void Skill_Buttons::setPosition(FLOAT2 _pos)
 {
 	this->m_Pos = _pos;
-	m_SkillButton->setPosition(m_Pos);
+	this->m_SkillButton->setPosition(this->m_Pos);
+	this->m_cooldown->setPosition(this->m_Pos);
 }
 #include <iostream>
 using namespace std;
@@ -168,10 +189,10 @@ string Skill_Buttons::setID(string _ID)
 	m_id = StringtoINT(_ID);
 	return m_Number;
 }
-Skill_Buttons::~Skill_Buttons()
-{
-	this->m_ButtonReaction = 0;
-	g_graphicsEngine->removeSpriteSheet(m_SkillButton);
-	m_SkillButton = NULL;
-}
 
+void Skill_Buttons::setCooldown(float cooldown)
+{
+	this->m_cooldown->setVisible(true);
+	this->m_cooldown->playAnimation(INT2(0, 0), INT2(3, 2), false, 12.0f / cooldown);
+	this->m_cooldownTime = cooldown;
+}

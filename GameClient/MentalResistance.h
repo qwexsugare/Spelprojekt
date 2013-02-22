@@ -8,10 +8,11 @@ class MentalResistance : public Skill
 private:
 	unsigned int m_senderId;
 public:
-	MentalResistance();
+	static const unsigned int COST = 900;
+
+	MentalResistance(unsigned int _senderId);
 	~MentalResistance();
 
-	bool activate(unsigned int _senderId);
 	void updateSpecificSkill(float dt);
 };
 

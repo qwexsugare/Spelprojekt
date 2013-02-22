@@ -3,33 +3,54 @@
 
 #include "ServerEntity.h"
 #include "EntityHandler.h"
-#include "Hero.h"
-#include "MeleeAttack.h"
+#include "Path.h"
+#include "Graphics.h"
 
 class Enemy : public UnitEntity
 {
-private:
+protected:
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
-	float m_movementSpeed;
 	float m_aggroRange; 
 	bool m_willPursue;
-	int m_closestHero;
-	float m_attackCooldown;
+	int m_closestTargetId;
 	FLOAT3 m_dir;
+	FLOAT3 m_prevDir;
 	FLOAT3 m_goalPosition;
+	FLOAT3 m_goalDirection;
+	Path m_path;
+	int m_currentPoint;
+	float m_staticBuffer;
+	float avoidTimer;
+	float avoidTimerDos;
+	float m_distanceToStatic;
+	FLOAT3 m_staticAvDir;
+	FLOAT3 m_enemyAvDir;
+	int m_lowResource;
+	UnitEntity::Type m_targetType;
+	int m_highRescource;
+	FLOAT3 m_rotationAdding;
+
+	ServerEntity *m_prevClosestStatic;
+	ServerEntity *m_currClosestStatic;
 public:
 	Enemy();
-	Enemy(FLOAT3 _pos);
+	Enemy(FLOAT3 _pos, Path _path);
 
 	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);
-	void setNextPosition(int index, float dt);
+	void setNextPosition(unsigned int _id, float dt);
 
+	FLOAT3 getDirection();
 	void checkPursue();
-	FLOAT3 checkStatic(float dt, FLOAT3 _pPos);
+	FLOAT3 checkStatic(float dt);
+	void checkCloseEnemies(float dt);
+	bool checkDistanceToStatic(float firstFactor, float secondFactor);
+	void attackHero();
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
+	bool outOfBounds(FLOAT3 _pt);
+	void setTargetType(UnitEntity::Type _type);
 
 };
 

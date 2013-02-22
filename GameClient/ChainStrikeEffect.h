@@ -10,10 +10,11 @@ private:
 	float m_jumpTimer;
 	int m_jumps;
 	int m_maxJumps;
+	int m_baseDamage;
 
 	static const int MAX_JUMP_DISTANCE = 10;
 public:
-	ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps);
+	ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage);
 	~ChainStrikeEffect();
 
 	void update(float _dt);
