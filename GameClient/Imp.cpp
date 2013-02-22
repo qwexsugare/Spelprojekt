@@ -23,10 +23,10 @@ Imp::Imp(FLOAT3 _pos, Path _path) : Enemy(_pos,_path)
 	m_baseAttackSpeed = 2.0 - m_agility* 0.05f;
 	m_attackSpeed = m_baseAttackSpeed;
 
-	m_basePhysicalResistance = m_strength*2;
+	m_basePhysicalResistance = 1.00f -m_strength*2*0.01f;
 	m_physicalResistance = m_basePhysicalResistance ; 
 
-	m_baseMentalResistance = 50*m_fortitude*2;
+	m_baseMentalResistance = 1.00f - 0.5f + m_fortitude*2*0.01f;
 	m_mentalResistance = m_baseMentalResistance;
 
 	m_regularAttack = new MeleeAttack();

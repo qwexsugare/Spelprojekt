@@ -43,6 +43,7 @@ public:
 	void loadMap(std::string filename);
 	State getState();
 	void update(float _dt);
+	void createWave(int _imps, int _shades, int _spits, int _frosts, int _souls, int _hell, int _thunder, int _brutes);
 
 	void enemyDied();
 };
