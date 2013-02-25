@@ -84,7 +84,7 @@ GameState::GameState(Client *_network)
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 
-	m_healthText = g_graphicsEngine->createText("No target acquired", INT2(500, 500), 30, D3DXCOLOR(1,1,1,1));
+	m_healthText = g_graphicsEngine->createText("No target acquired", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
 
 GameState::~GameState()
