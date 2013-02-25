@@ -30,7 +30,6 @@ private:
 	ParticleEngine *testParticleSystem;
 	unsigned int m_yourId;
 
-	SpotLight* s;
 	//Cursor m_cursor;
 
 	bool m_idle;
