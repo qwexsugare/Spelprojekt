@@ -283,7 +283,7 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	int totalMonsters = _imps + _shades + _spits + _frosts + _souls + _hell + _thunder + _brutes;
 	int t = random(0,0);
 	
-	int _min = 0;
+	int _min = sizeof(m_paths)-1;
 	int _max = sizeof(m_paths)-1;
 
 	for(int i = 0; i < totalMonsters; i ++)

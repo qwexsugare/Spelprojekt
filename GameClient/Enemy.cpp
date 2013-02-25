@@ -237,7 +237,7 @@ void Enemy::checkCloseEnemies(float dt)
 	ServerEntity* closestEnemy = EntityHandler::getClosestEntityByType(this, UnitEntity::EnemyType);
 
 	m_enemyAvDir = FLOAT3(0,0,0);
-	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < this->getObb()->Extents.z*4)
+	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z)*3)
 	{
 		
 		if((m_position+m_dir*dt*3*m_movementSpeed - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
@@ -249,7 +249,7 @@ void Enemy::checkCloseEnemies(float dt)
 			m_movementSpeed = m_baseMovementSpeed;
 
 		m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
-		m_dir = m_dir + m_enemyAvDir*5;
+		m_dir = m_dir + m_enemyAvDir*2;
 		//m_position = m_position +m_enemyAvDir*2*dt;
 	}
 	else 
