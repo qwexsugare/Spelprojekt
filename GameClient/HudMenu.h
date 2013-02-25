@@ -8,6 +8,7 @@
 #include <sstream>
 #include "Entity.h"
 #include "SkillIdHolder.h"
+#include "Sprite.h"
 
 class HudMenu :
 	public Menu

@@ -453,6 +453,8 @@ void GameState::update(float _dt)
 
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
 				this->m_network->sendMessage(e);
+
+				m_healthText->setString("No target");
 			}
 		}
 		else
