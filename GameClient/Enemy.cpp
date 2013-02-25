@@ -28,7 +28,6 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	//this->m_goalPosition = FLOAT3(5.0f, 0.0f,64.0f);
 	
 	m_targetType = UnitEntity::HeroType;
-	this->m_regularAttack = new MeleeAttack();
 	this->m_reachedPosition = true;
 	this->m_modelId = 80;
 	this->m_staticBuffer = 2.00f;

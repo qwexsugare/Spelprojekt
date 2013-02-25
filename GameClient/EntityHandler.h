@@ -46,6 +46,7 @@ public:
 	static vector<ServerEntity*> getAllHeroes();
 
 	static unsigned int getId();
+	static void initQuadTree(FLOAT2 _extents);
 };
 
 #endif

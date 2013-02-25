@@ -3,33 +3,38 @@
 ServerEntity::ServerEntity()
 {
 	this->m_messageQueue = new MessageQueue();
-	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_rotation = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_bs = NULL;
+	this->m_obb = NULL;
 	this->m_modelId = 0;
 	this->m_visible = true;
+	this->m_bvOffset = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->setPosition(FLOAT3(0.0f, 0.0f, 0.0f)); // Do this last.
 }
 
 ServerEntity::ServerEntity(FLOAT3 _pos)
 {
 	this->m_messageQueue = new MessageQueue();
-	this->m_position = _pos;
 	this->m_rotation = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_bs = NULL;
+	this->m_obb = NULL;
 	this->m_modelId = 0;
 	this->m_visible = true;
+	this->m_bvOffset = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->setPosition(_pos); // Do this last.
 }
 
 ServerEntity::ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedBox* _obb, Type _type)
 {
 	this->m_messageQueue = new MessageQueue();
-	this->m_position = _position;
 	this->m_rotation = _rotation;
 	this->m_obb = _obb;
+	this->m_bvOffset = FLOAT3(_obb->Center.x, _obb->Center.y, _obb->Center.z);
 	this->m_bs = NULL;
 	this->m_type = _type;
 	this->m_modelId = 0;
 	this->m_visible = false;
+	this->setPosition(_position); // Do this last.
 }
 
 ServerEntity::~ServerEntity()
@@ -85,17 +90,27 @@ ContainmentType ServerEntity::contains(const BoundingOrientedBox& _obb)const
 		return ContainmentType::DISJOINT;
 }
 
+bool ServerEntity::intersects(const BoundingOrientedBox& _obb)const
+{
+	if(m_obb)
+		return m_obb->Intersects(_obb);
+	else if(m_bs)
+		return m_bs->Intersects(_obb);
+	else
+		return false;
+}
+
 void ServerEntity::setPosition(FLOAT3 _position)
 {
 	this->m_position = _position;
 
 	if(this->m_obb)
 	{
-		this->m_obb->Center = XMFLOAT3(_position.x, _position.y, _position.z);
+		this->m_obb->Center = XMFLOAT3(m_position.x+m_bvOffset.x, m_position.y+m_bvOffset.y, m_position.z+m_bvOffset.z);
 	}
 	else if(this->m_bs)
 	{
-		this->m_bs->Center = XMFLOAT3(_position.x, _position.y, _position.z);
+		this->m_bs->Center = XMFLOAT3(m_position.x+m_bvOffset.x, m_position.y+m_bvOffset.y, m_position.z+m_bvOffset.z);
 	}
 }
 
