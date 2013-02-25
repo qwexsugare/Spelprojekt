@@ -1,7 +1,7 @@
 #include "HudMenu.h"
 
 
-HudMenu::HudMenu(Client *_network)
+HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 {
 	this->m_network = _network;
 	m_Chat = false;
@@ -17,11 +17,25 @@ HudMenu::HudMenu(Client *_network)
 	m_Chat = false;
 	this->m_skillWaitingForTarget = -1;
 	this->m_nrOfAttributesBought = 0;
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
+
+	switch(_heroType)
+	{
+	case Hero::OFFICER:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	case Hero::DOCTOR:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	case Hero::ENGINEER:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	case Hero::THE_MENTALIST:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	case Hero::RED_KNIGHT:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	}
 	
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Main_Buttons_SkillBar.png", FLOAT2(-1+(0.102083333f*(m_NumberOfSkills-1)),  -0.814814815f),  FLOAT2(1.03125f, 0.344444444f),2));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-Map.png",FLOAT2(0.79f,  0.6f),FLOAT2(0.421875f, 0.796296296f),5));
@@ -57,23 +71,13 @@ HudMenu::HudMenu(Client *_network)
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Wits.png", FLOAT2(0.28f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Fortitude.png", FLOAT2(0.56f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
-
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-1.png", FLOAT2(-0.938f, -0.64f),  FLOAT2(0.083333333f,0.148148148f),6));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.938f, -0.64f),  FLOAT2(0.083333333f,0.148148148f),6));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.95f,-0.50f),FLOAT2(0.033333333f,0.059259259f),"menu_textures\\Button-Unlock.png","",0,0,1,11,300);
 	
 	this->m_Buttons[1] = new Button();
-	this->m_Buttons[1]->Init(FLOAT2(-0.94f,0.94f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_All.png","",0,0,1,11,100);	
+	this->m_Buttons[1]->Init(FLOAT2(-0.94f,0.94f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_All.png","",0,0,1,11,100);
 /*
 	this->m_Buttons[1] = new Button();
 	this->m_Buttons[1]->Init(FLOAT2(-0.56f,0.94f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Tower.png","",0,0,1,11,100);	
@@ -481,5 +485,5 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 
 void HudMenu::setHealth(float health)
 {
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000 - health) / 1000 * 0.565555556f));
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.565555556f));
 }

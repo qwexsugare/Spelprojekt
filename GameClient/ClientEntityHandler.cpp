@@ -128,3 +128,11 @@ vector<Entity*> ClientEntityHandler::getAllStaticObjects()
 
 	return staticObjects;
 }
+
+void ClientEntityHandler::update(float dt)
+{
+	for(int i = 0; i < ClientEntityHandler::m_entities.size(); i++)
+	{
+		ClientEntityHandler::m_entities[i]->update(dt);
+	}
+}

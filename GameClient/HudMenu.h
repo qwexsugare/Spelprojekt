@@ -8,6 +8,7 @@
 #include <sstream>
 #include "Entity.h"
 #include "SkillIdHolder.h"
+#include "Sprite.h"
 
 class HudMenu : public Menu
 {
@@ -57,7 +58,7 @@ private:
 
 	void displayShop(bool _visible);
 public:
-	HudMenu(Client *_network);
+	HudMenu(Client *_network, Hero::HERO_TYPE _heroType);
 	~HudMenu(void);
 
 	void Update(float _dt, const vector<Entity*>& _entities);

@@ -165,12 +165,16 @@ int UnitEntity::getSkillIndex(Skill* _skill)
 
 void UnitEntity::increaseStrength(int _strength)
 {
-	if(_strength+m_strength > UnitEntity::MAX_STRENGTH)
-		_strength = UnitEntity::MAX_STRENGTH - m_strength;
-	
-	this->m_physicalDamage += _strength * 5;
-	this->m_physicalResistance += _strength * 0.02f;
-	this->m_strength += _strength;
+	this->m_strength = this->m_strength + _strength;
+
+	if(this->m_strength > UnitEntity::MAX_STRENGTH)
+	{
+		_strength = UnitEntity::MAX_STRENGTH - this->m_strength;
+		this->m_strength = UnitEntity::MAX_STRENGTH;
+	}
+
+	this->m_physicalDamage = this->m_physicalDamage + _strength * 5;
+	this->m_physicalResistance = this->m_physicalResistance + _strength * 0.02f;
 }
 
 void UnitEntity::increaseAgility(int _agility)
@@ -303,11 +307,6 @@ float UnitEntity::getAttackSpeed()
 
 float UnitEntity::getPhysicalDamage()
 {
-	if(random(0,m_physicalDamage) < 0)
-	{
-		bool lolDetVarMarcusFel=true;
-	}
-
 	return random(0,m_physicalDamage);
 }
 
@@ -351,7 +350,6 @@ void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int
 	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
 	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
 	this->m_lastDamageDealer = damageDealerId;
-	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(),(float)((float)this->m_health / (float)this->m_maxHealth) * 1000.0f));
 }
 
 void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)
@@ -404,6 +402,7 @@ void UnitEntity::update(float dt)
 
 NetworkEntityMessage UnitEntity::getUpdate()
 {
+<<<<<<< HEAD
 	float xdir=this->getDirection().x*this->getMovementSpeed();
 	float zdir=this->getDirection().z*this->getMovementSpeed();
 	/*
@@ -416,6 +415,9 @@ NetworkEntityMessage UnitEntity::getUpdate()
 	
 	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_position.x, this->m_position.z,this->m_rotation.x,this->m_position.x,this->m_position.z,this->getEndPos().x,this->getEndPos().z,this->getMovementSpeed());
 
+=======
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, (float)this->m_health / (float)this->m_maxHealth * 1000, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
+>>>>>>> 8a6bfef06695d48919f95f9110b18206483a3fe4
 
 	return e;
 }

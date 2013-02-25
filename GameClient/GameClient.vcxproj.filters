@@ -103,9 +103,6 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="HudMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -417,15 +414,24 @@
     </ClCompile>
     <ClCompile Include="MeleeAOEAttack.cpp">
       <Filter>Server\Skills</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="NetworkHeroInitMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="SpeechManager.cpp">
       <Filter>Client</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="DeathClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkInitEntityMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkUpdateEntityHealth.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Server\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,9 +547,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">
@@ -871,18 +874,27 @@
     </ClInclude>
     <ClInclude Include="NetworkHeroInitMessage.h">
       <Filter>Network</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="MeleeAOEAttack.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInfo.h">
       <Filter>Client</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="DeathClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="SpeechManager.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkInitEntityMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUpdateEntityHealth.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Server\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

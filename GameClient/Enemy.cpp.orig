@@ -155,13 +155,10 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			if((m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
 			{
 		
-				//this->m_dir = this->m_dir + m_goalDirection + m_staticAvDir + m_enemyAvDir;
-				if(this->m_dir.length()>0)
-				{
-				this->m_dir = this->m_dir / this->m_dir.length();
-				this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * lastDT;
+<<<<<<< HEAD
+		this->m_dir = this->m_dir / this->m_dir.length();
+		this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * dt;
 
-				}
 		ServerEntity *stat = EntityHandler::getClosestStatic(this);
 		if((m_position - stat->getPosition()).length() < sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z)+this->getObb()->Extents.z)
 		{
@@ -178,7 +175,16 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		}
 
 		
+	}
+=======
+				//this->m_dir = this->m_dir + m_goalDirection + m_staticAvDir + m_enemyAvDir;
+				if(this->m_dir.length()>0)
+				{
+				this->m_dir = this->m_dir / this->m_dir.length();
+				this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * lastDT;
+				}
 			}
+>>>>>>> 380f871e2522c3348758797fd8b713ed963e3d46
 	
 
 			if((m_dir).length() > 0.00001f)
