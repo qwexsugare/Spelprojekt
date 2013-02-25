@@ -1,11 +1,14 @@
 #include "Server.h"
 
+#include "DelayedDamage.h"
 Server::Server(MessageHandler *_messageHandler)
 {
 	this->clientArrPos=0;
 	this->m_messageHandler = _messageHandler;
 	this->m_messageQueue = new MessageQueue();
 	this->m_messageHandler->addQueue(this->m_messageQueue);
+
+	DelayedDamage::text = NULL;
 }
 
 Server::~Server()
