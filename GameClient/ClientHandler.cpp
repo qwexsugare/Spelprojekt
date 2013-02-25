@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Graphics.h"
 #include "SoundWrapper.h"
+#include "MyAlgorithms.h"
 
 ClientHandler::ClientHandler(HWND _hWnd)
 {
@@ -105,7 +106,7 @@ void ClientHandler::update(float _dt)
 		}
 	}
 	this->m_messages.clear();
-
+	
 	this->m_state->update(_dt);
 
 	if(this->m_state->isDone())

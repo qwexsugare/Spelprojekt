@@ -12,7 +12,7 @@
 GameState::GameState(Client *_network)
 {
 	this->m_network = _network;
-	this->importMap("race");
+	this->importMap("levelone");
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -88,6 +88,11 @@ GameState::~GameState()
 		g_graphicsEngine->removeRoad(m_roads[i]);
 	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 		delete m_ClientSkillEffects[i];
+	for(int i = 0; i < GameState::NR_OF_ATTACK_SOUNDS; i++)
+	{
+		stopSound(m_attackSounds[i]);
+		deactivateSound(m_attackSounds[i]);
+	}
 
 	if(m_minimap)
 		delete this->m_minimap;
