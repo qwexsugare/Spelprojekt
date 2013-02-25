@@ -402,7 +402,7 @@ void UnitEntity::update(float dt)
 
 NetworkEntityMessage UnitEntity::getUpdate()
 {
-	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, this->m_health, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, (float)this->m_health / (float)this->m_maxHealth * 1000, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
 
 	return e;
 }
