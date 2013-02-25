@@ -101,7 +101,7 @@ void ServerThread::update(float dt)
 					}
 					else if(players[i]->hasChosenHero())
 					{
-						if(players[i]->getHeroType() == ((SelectHeroMessage*)m)->heroId)
+						if(players[i]->getSelectedHeroType() == ((SelectHeroMessage*)m)->heroId)
 						{
 							okToSelect = false;
 						}
@@ -139,9 +139,9 @@ void ServerThread::update(float dt)
 				vector<Hero::HERO_TYPE> heroTypes;
 				for(int i = 0; i < players.size(); i++)
 				{
-					ids.push_back(players[i]->getHero()->getId());
-					heroTypes.push_back(players[i]->getHeroType());
 					players[i]->spawnHero();
+					ids.push_back(players[i]->getHero()->getId());
+					heroTypes.push_back(players[i]->getHero()->getHeroType());
 				}
 
 				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));

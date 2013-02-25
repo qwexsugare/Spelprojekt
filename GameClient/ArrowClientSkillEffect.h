@@ -2,6 +2,7 @@
 
 #include "ClientSkillEffect.h"
 #include "Model.h"
+#include "Hero.h"
 
 class ArrowClientSkillEffect : public ClientSkillEffect
 {
@@ -10,13 +11,12 @@ private:
 	int m_sound;
 	unsigned int m_targetId;
 	bool m_active;
-	bool m_unitTookDamage;
+	Hero::HERO_TYPE m_heroType;
 public:
-	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targedId);
+	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, unsigned int _masterId);
+	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, Hero::HERO_TYPE _heroType);
 	~ArrowClientSkillEffect();
 
-	unsigned int getTargetId()const;
-	bool unitTookDamage()const;
 	void update(float _dt);
 	bool getActive();
 };

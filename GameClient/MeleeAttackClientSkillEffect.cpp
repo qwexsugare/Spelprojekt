@@ -1,6 +1,7 @@
 #include "MeleeAttackClientSkillEffect.h"
 #include "SoundWrapper.h"
 #include "MyAlgorithms.h"
+#include "SpeechManager.h"
 
 float MeleeAttackClientSkillEffect::timeToNextDamageSound = 0.0f;
 
@@ -18,11 +19,30 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 
 	if(target)
 	{
-		if(target->m_type == UnitEntity::HeroType)
+		if(target->m_type == UnitEntity::EnemyType)
 		{
-			if(MeleeAttackClientSkillEffect::timeToNextDamageSound == 0.0f && _targetId == _playerInfo.id)
+			int sound;
+
+			switch(random(0, 2))
 			{
-				MeleeAttackClientSkillEffect::timeToNextDamageSound = TIME_BETWEEN_DAMAGE_SOUNDS;
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, false);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, false);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, false);
+				break;
+			}
+					
+			SpeechManager::speak(_targetId, sound); // The unit must be killed on the client before on the server for this sound solution to actually work.
+			deactivateSound(sound);
+		}
+		else if(target->m_type == UnitEntity::HeroType)
+		{
+			if(_targetId == _playerInfo.id)
+			{
 				int sound;
 
 				switch(_playerInfo.heroType)
@@ -98,8 +118,8 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 					}
 					break;
 				}
-
-				playSound(sound);
+				
+				SpeechManager::speak(_targetId, sound);
 				deactivateSound(sound);
 			}
 		}

@@ -28,7 +28,6 @@ HudMenu::HudMenu(Client *_network)
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-Map.png", FLOAT2(0,0),  FLOAT2(2,2),3));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\LowerHud-Bar.png", FLOAT2(-0.5f,-0.88f),  FLOAT2(1.030208333f,0.272222222f),0));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-HealtbarHud.png", FLOAT2(-0.876f,-0.3293f),  FLOAT2(0.245833333f,1.344f),5));
-	this->m_Sprite.push_back(g_graphicsEngine->createSpriteSheet("menu_textures\\HealthBar.dds",FLOAT2(-0.9375f,  -0.240740741f),FLOAT2(0.079166667f, 0.755555556f),INT2(10,1),2));
 
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Tower.png", FLOAT2(-0.56f,1.8f),  FLOAT2(0.260416667f,1.451851852f),10));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Strength.png", FLOAT2(-0.28f,1.8f),  FLOAT2(0.260416667f,1.451851852f),10));
@@ -102,7 +101,6 @@ HudMenu::HudMenu(Client *_network)
 	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
-	m_Sprite[0]->playAnimation(INT2(0,0),INT2(9,0),true,10);
 	m_DontChange = false;
 
 	this->m_LabelInput = new TextInput("text4.png",INT2(1100,1150),55);
@@ -160,6 +158,10 @@ HudMenu::HudMenu(Client *_network)
 
 	this->m_shopVisible = false;
 	this->displayShop(false);
+
+	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.240740741f);
+	this->m_healthBar = g_graphicsEngine->createSpriteSheet("menu_textures\\HealthBar.dds", this->m_fullHealthPos, FLOAT2(0.079166667f, 0.755555556f), INT2(10,1),2);
+	this->m_healthBar->playAnimation(INT2(0,0),INT2(9,0),true,10);
 }
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 {
@@ -367,6 +369,8 @@ HudMenu::~HudMenu(void)
 	}
 	delete this->m_ResourceLabel;
 	this->m_ResourceLabel = NULL;
+
+	g_graphicsEngine->removeSpriteSheet(this->m_healthBar);
 }
 
 void  HudMenu::UpdateShop()
@@ -452,4 +456,9 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 	{
 		this->m_SkillButtons[index]->setCooldown(cooldown);
 	}
+}
+
+void HudMenu::setHealth(float health)
+{
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000 - health) / 1000 * 0.565555556f));
 }

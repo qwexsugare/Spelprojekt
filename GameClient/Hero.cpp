@@ -94,8 +94,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 	{
 		this->m_attackCooldown = this->m_attackCooldown - dt;
 	}
-
-	if(this->m_hasTarget == true)
+if(this->m_hasTarget == true)
 	{
 		ServerEntity *se = EntityHandler::getServerEntity(this->m_target);
 
@@ -221,8 +220,9 @@ void Hero::updateSpecificUnitEntity(float dt)
 
 	if(this->m_health <= 0)
 	{
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
 		this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
-		this->m_health = 100;
+		this->m_health = this->m_maxHealth;
 		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 	}
 }

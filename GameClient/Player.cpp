@@ -9,6 +9,7 @@ Player::Player(unsigned int id)
 	this->m_messageQueue = new MessageQueue();
 	m_hero = NULL;
 	this->m_ready = false;
+	m_selectedHeroType = Hero::NONE;
 }
 
 Player::~Player()
@@ -18,36 +19,35 @@ Player::~Player()
 
 void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
 {
-	if(m_hero)
-		EntityHandler::removeEntity(m_hero);
+	m_selectedHeroType = _type;
+	m_selectedWeaponType = _weaponType;
+}
 
-	switch(_type)
+void Player::spawnHero()
+{
+	switch(m_selectedHeroType)
 	{
 	case Hero::ENGINEER:
-		this->m_hero = new Engineer(this->m_id, _weaponType);
+		this->m_hero = new Engineer(this->m_id, m_selectedWeaponType);
 		break;
 	case Hero::DOCTOR:
-		this->m_hero = new Doctor(this->m_id, _weaponType);
+		this->m_hero = new Doctor(this->m_id, m_selectedWeaponType);
 		break;
 	case Hero::RED_KNIGHT:
-		this->m_hero = new RedKnight(this->m_id, _weaponType);
+		this->m_hero = new RedKnight(this->m_id, m_selectedWeaponType);
 		break;
 	case Hero::THE_MENTALIST:
-		this->m_hero = new TheMentalist(this->m_id, _weaponType);
+		this->m_hero = new TheMentalist(this->m_id, m_selectedWeaponType);
 		break;
 	case Hero::OFFICER:
-		this->m_hero = new Officer(this->m_id, _weaponType);
+		this->m_hero = new Officer(this->m_id, m_selectedWeaponType);
 		break;
 	}
 	
 	this->m_hero->setPosition(FLOAT3(15.0f, 0.0f, 50.0f));
 	
 	EntityHandler::addEntity(m_hero);
-	m_hero->activateAllPassiveSkills();
-}
 
-void Player::spawnHero()
-{
 	vector<Skill*> skills = this->m_hero->getSkills();
 
 	for(int i = 0; i < skills.size(); i++)
@@ -56,11 +56,13 @@ void Player::spawnHero()
 	}
 
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_hero->getId(), this->m_hero->getPosition()));
+
+	m_hero->activateAllPassiveSkills();
 }
 
-Hero::HERO_TYPE Player::getHeroType()const
+Hero::HERO_TYPE Player::getSelectedHeroType()const
 {
-	return m_hero->getHeroType();
+	return m_selectedHeroType;
 }
 
 Hero* Player::getHero()

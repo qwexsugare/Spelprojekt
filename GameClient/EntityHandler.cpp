@@ -17,12 +17,12 @@ EntityHandler::EntityHandler(MessageHandler* _messageHandler)
 	EntityHandler::m_messageQueue = new MessageQueue();
 	EntityHandler::m_messageHandler = _messageHandler;
 	_messageHandler->addQueue(EntityHandler::m_messageQueue);
-	EntityHandler::m_quadtree = new ServerQuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
 }
 
 EntityHandler::~EntityHandler()
 {
 	delete this->m_messageQueue;
+	delete EntityHandler::m_quadtree;
 }
 
 void EntityHandler::removeAllEntities()
@@ -33,8 +33,6 @@ void EntityHandler::removeAllEntities()
 	{
 		delete this->m_entities[i];
 	}
-
-	delete EntityHandler::m_quadtree;
 
 	EntityHandler::m_mutex.Unlock();
 }
@@ -77,14 +75,20 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 	_entity->setId(EntityHandler::m_nextId);
 	if(_entity->getType() == ServerEntity::StaticType)
 	{
-		EntityHandler::m_quadtree->addServerEntity(_entity);
+		if(EntityHandler::m_quadtree->addServerEntity(_entity))
+		{
+			EntityHandler::m_nextId++;
+			EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
+		}
+		else
+			delete _entity;
 	}
 	else
 	{
 		EntityHandler::m_entities.push_back(_entity);
+		EntityHandler::m_nextId++;
+		EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
 	}
-	EntityHandler::m_nextId++;
-	EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
 	EntityHandler::m_mutex.Unlock();
 }
 
@@ -378,4 +382,9 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 unsigned int EntityHandler::getId()
 {
 	return EntityHandler::m_messageQueue->getId();
+}
+
+void EntityHandler::initQuadTree(FLOAT2 _extents)
+{
+	EntityHandler::m_quadtree = new ServerQuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y));
 }

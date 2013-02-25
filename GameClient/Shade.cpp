@@ -14,7 +14,6 @@ Shade::Shade(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
 	m_lowResource = 30;
 	m_highRescource = 40;
 	
-
 	m_health = 100*m_fortitude; 
 	m_physicalDamage = m_strength*5;
 	m_mentalDamage = m_wits*5;

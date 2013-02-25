@@ -198,8 +198,9 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	}
 
 
-	if(this->m_health <= 0)
+	if(this->m_health <= 0) //The enemy has died
 	{
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
 		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 		this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource, m_highRescource)));
 	}

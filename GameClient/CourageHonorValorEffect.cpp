@@ -18,28 +18,31 @@ CourageHonorValorEffect::CourageHonorValorEffect(unsigned int _caster)
 	m_type = OtherType;
 	
 	ServerEntity* caster = EntityHandler::getServerEntity(m_caster);
-	vector<ServerEntity*> heroes = EntityHandler::getAllHeroes();
-	for(int i = 0; i < heroes.size(); i++)
+	if(caster)
 	{
-		bool alreadyAffected = false;
-		for(int j = 0; j < m_affectedGuys.size(); j++)
+		vector<ServerEntity*> heroes = EntityHandler::getAllHeroes();
+		for(int i = 0; i < heroes.size(); i++)
 		{
-			if(heroes[i]->getId() == m_affectedGuys[j])
+			bool alreadyAffected = false;
+			for(int j = 0; j < m_affectedGuys.size(); j++)
 			{
-				alreadyAffected = true;
-				j = m_affectedGuys.size();
+				if(heroes[i]->getId() == m_affectedGuys[j])
+				{
+					alreadyAffected = true;
+					j = m_affectedGuys.size();
+				}
 			}
-		}
 
-		if(!alreadyAffected)
-		{
-			if((caster->getPosition()-heroes[i]->getPosition()).length() <= AOE)
+			if(!alreadyAffected)
 			{
-				m_affectedGuys.push_back(heroes[i]->getId());
-				((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED);
-				((UnitEntity*)heroes.at(i))->alterPhysicalResistance(PHYSICAL_RESISTANCE);
-				((UnitEntity*)heroes.at(i))->alterMentalDamage(MENTAL_DAMAGE);
-				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::COURAGE_HONOR_VALOR, 0, heroes[i]->getId(), heroes[i]->getPosition()));
+				if((caster->getPosition()-heroes[i]->getPosition()).length() <= AOE)
+				{
+					m_affectedGuys.push_back(heroes[i]->getId());
+					((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED);
+					((UnitEntity*)heroes.at(i))->alterPhysicalResistance(PHYSICAL_RESISTANCE);
+					((UnitEntity*)heroes.at(i))->alterMentalDamage(MENTAL_DAMAGE);
+					this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::COURAGE_HONOR_VALOR, 0, heroes[i]->getId(), heroes[i]->getPosition()));
+				}
 			}
 		}
 	}

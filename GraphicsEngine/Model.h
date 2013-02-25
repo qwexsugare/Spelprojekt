@@ -56,7 +56,6 @@ public:
 	DECLDIR bool intersects(const BoundingOrientedBox& _obb)const;
 	DECLDIR bool intersects(const BoundingSphere& _bs)const;
 	DECLDIR bool intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const;
-	DECLDIR bool intersects(const Model& _model)const;
 	DECLDIR bool isStatic()const { return m_static; }
 	DECLDIR void move(FLOAT3 _distance);
 	DECLDIR void move(D3DXVECTOR3 _distance);

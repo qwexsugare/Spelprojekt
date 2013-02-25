@@ -69,7 +69,9 @@ MapHandler::State MapHandler::getState()
 void MapHandler::loadMap(std::string filename)
 {
 	this->m_waveTimer = 0.0f;
-
+	
+	bool heightLoaded = false;
+	bool widthLoaded = false;
 	int height;
 	int width;
 	Path paths[100];
@@ -85,10 +87,20 @@ void MapHandler::loadMap(std::string filename)
 		if(strcmp(key, "width:") == 0)
 		{
 			sscanf(buf, "width: %d", &width);
+
+			if(heightLoaded)
+				EntityHandler::initQuadTree(FLOAT2(width, height));
+			else
+				widthLoaded = true;
 		}
 		else if(strcmp(key, "height:") == 0)
 		{
 			sscanf(buf, "height: %d", &height);
+
+			if(widthLoaded)
+				EntityHandler::initQuadTree(FLOAT2(width, height));
+			else
+				heightLoaded = true;
 		}
 		else if(strcmp(key, "MODELS:") == 0)
 		{
@@ -111,11 +123,12 @@ void MapHandler::loadMap(std::string filename)
 					sscanf(buf, "%s %f %f %f %f %f %f", &in, &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z);
 
 					position.z = -position.z;
-					rotation.x = rotation.x * (D3DX_PI/180.0f);
+					rotation.x *= -(D3DX_PI/180);
+					rotation.y *= (D3DX_PI/180);
+					rotation.z *= (D3DX_PI/180);
 					
-					Model *m = g_graphicsEngine->createModel(key, position);
+					Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
 					m->setRotation(rotation);
-
 					EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
 					g_graphicsEngine->removeModel(m);
 				}

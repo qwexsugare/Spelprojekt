@@ -9,25 +9,17 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_graphicsEngine = new GraphicsHandler(_hWnd, g_configFile);
 	g_mouse = new Mouse(500, 500, _hWnd);
 	g_keyboard = new Keyboard();
+	
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 15.0f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->rotate(0.0f, 0.4f, 0.0f);
 
-	this->m_serverThread = NULL;
-	this->m_client = NULL;
+	this->m_serverThread = new ServerThread();
 }
 
 ClientHandler::~ClientHandler()
 {
-	if(this->m_serverThread)
-	{
-		delete this->m_serverThread;
-	}
-	if(this->m_state)
-	{
-		delete this->m_state;
-	}
-	if(this->m_client)
-	{
-		delete this->m_client;
-	}
+	delete this->m_serverThread;
+	delete this->m_state;
 	delete g_graphicsEngine;
 	delete g_mouse;
 	delete g_keyboard;
@@ -36,12 +28,12 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	//this->m_serverThread->Launch();
-	this->m_state = new MainMenuState();
-
-	// Retarded thread code
-	/*this->update(0.0f);
-	g_graphicsEngine->Launch();*/
+	this->m_serverThread->Launch();
+<<<<<<< HEAD
+	this->m_state = new IntroState();
+=======
+	this->m_state = new GameState();
+>>>>>>> a703a8634a551f8bb706bf25c7c0bf7795ad246b
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
@@ -57,7 +49,7 @@ HRESULT ClientHandler::run()
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
-			
+
 			this->m_messages.push_back(msg);
 		}
 		else
@@ -65,7 +57,7 @@ HRESULT ClientHandler::run()
 			__int64 currTimeStamp = 0;
 			QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
 			float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
-			
+
 			this->update(dt);
 			g_graphicsEngine->update(dt);
 			g_graphicsEngine->render();
@@ -105,7 +97,7 @@ void ClientHandler::update(float _dt)
 		}
 	}
 	this->m_messages.clear();
-	
+
 	this->m_state->update(_dt);
 
 	if(this->m_state->isDone())
@@ -123,35 +115,14 @@ void ClientHandler::update(float _dt)
 		case State::CREATE_GAME:
 			this->m_state = new CreateGameState();
 			break;
-		case State::JOIN_GAME:
-			this->m_state = new JoinGameState();
-			break;
 		case State::LOBBY:
-			if(tempState->getType() == State::CREATE_GAME)
-			{
-				CreateGameState *tempCreateState = (CreateGameState*)tempState;
-
-				this->m_serverThread = new ServerThread(tempCreateState->getPort());
-				this->m_serverThread->Launch();
-
-				this->m_client = new Client();
-				this->m_client->connect(tempCreateState->getIP(), tempCreateState->getPort());
-			}
-			else
-			{
-				JoinGameState *tempJoinState = (JoinGameState*)tempState;
-
-				this->m_client = new Client();
-				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
-			}
-
-			this->m_state = new LobbyState(this->m_client);
+			this->m_state = new LobbyState();
 			break;
 		case State::LORE:
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
-			this->m_state = new GameState(this->m_client);
+			this->m_state = new GameState();
 			break;
 		case State::SETTINGS:
 			this->m_state = new SettingsState();
@@ -160,7 +131,6 @@ void ClientHandler::update(float _dt)
 			this->m_state = new CreditState();
 			break;
 		case State::EXIT:
-			this->m_state = NULL;
 			PostQuitMessage(0);
 			break;
 		}
@@ -168,8 +138,7 @@ void ClientHandler::update(float _dt)
 		delete tempState;
 	}
 
-	D3DXVECTOR3 camPos = g_graphicsEngine->getCamera()->getPos();
-	updateSoundEngine(FLOAT3(camPos.x, camPos.y, camPos.z));
+	updateSoundEngine();
 
 	g_mouse->update(); // Must be last!
 	g_keyboard->update();

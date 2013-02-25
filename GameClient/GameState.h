@@ -20,7 +20,6 @@ private:
 	vector<PLAYER_INFO> m_playerInfos;
 	HudMenu *m_hud;
 	Text* m_fpsText;
-	float m_rotation;
 	Terrain* m_terrain;
 	Client *m_network;
 	ModelIdHolder m_modelIdHolder;
@@ -31,7 +30,6 @@ private:
 	ParticleEngine *testParticleSystem;
 	unsigned int m_yourId;
 
-	SpotLight* s;
 	//Cursor m_cursor;
 
 	bool m_idle;

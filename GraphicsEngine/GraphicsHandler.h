@@ -50,6 +50,7 @@ public:
 	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size);
 	DECLDIR bool removeMyText(MyText *text);
 
+	DECLDIR Model* createModel(Model *_model, bool _static);
 	DECLDIR Model* createModel(string _filename, FLOAT3 _position, bool _static = false, string _textureIndex = "color");
 	DECLDIR bool removeModel(Model* _model);
 
