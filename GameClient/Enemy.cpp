@@ -236,19 +236,19 @@ void Enemy::checkCloseEnemies(float dt)
 	ServerEntity* closestEnemy = EntityHandler::getClosestEntityByType(this, UnitEntity::EnemyType);
 
 	m_enemyAvDir = FLOAT3(0,0,0);
-	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < this->getObb()->Extents.z*2)
+	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < this->getObb()->Extents.z*4)
 	{
 		
-		if((m_position+m_dir/10 - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
+		if((m_position+m_dir*dt*3*m_movementSpeed - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
 		{
-			m_movementSpeed = 0.8f;
+			m_movementSpeed = m_movementSpeed*0.5f;
 			//((UnitEntity*)closestEnemy)->setMovementSpeed(((UnitEntity*)closestEnemy)->getB);
 		}
 		else 
 			m_movementSpeed = m_baseMovementSpeed;
 
 		m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
-		m_dir = m_dir*5 + m_enemyAvDir;
+		m_dir = m_dir + m_enemyAvDir*5;
 		//m_position = m_position +m_enemyAvDir*2*dt;
 	}
 	else 
@@ -286,6 +286,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 {
 	
 	FLOAT3 avoidDir = FLOAT3(0,0,0);
+	FLOAT3 avd = avoidDir;
 	FLOAT3 currDir = this->m_dir;
 	currDir = currDir / currDir.length();
 	
@@ -301,7 +302,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 	
 	
 		
-		for(int i = 1; i < 10; i++)
+		for(int i = 1; i < 10; i=i+2)
 		{
 			temp = m_position + currDir*i;
 			temp1 = m_position + currDir*i+ (cross);
@@ -374,12 +375,12 @@ FLOAT3 Enemy::checkStatic(float dt)
 					m_movementSpeed = m_baseMovementSpeed;
 
 				m_distanceToStatic = i;
-				return (avoidDir/i)*min(avoidBuffer,1.0f);
+				avd = avd + (avoidDir/i)*min(avoidBuffer,1.0f);
 			}
 		}
 	
-	m_distanceToStatic = 0.0001f;
-	return avoidDir;
+	//m_distanceToStatic = 0.0001f;
+	return avd;
 
 }
 
