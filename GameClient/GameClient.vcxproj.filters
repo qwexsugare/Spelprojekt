@@ -427,6 +427,9 @@
     <ClCompile Include="DeathClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkInitEntityMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -883,6 +886,9 @@
     </ClInclude>
     <ClInclude Include="SpeechManager.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkInitEntityMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -62,7 +62,7 @@ void ServerThread::Run()
 		if(fpsTimer > 1.0f)
 		{
 			stringstream ss;
-			ss << "Server fps:" << 1.0f / dt;
+			ss << "Server fps:" << 1.0f / dt << " Entities: " << EntityHandler::getEntities().size();
 			fpsTimer = 0.0f;
 			fpsText->setString(ss.str());
 		}
@@ -171,7 +171,7 @@ void ServerThread::update(float dt)
 
 		for(int i = 0; i < entities.size(); i++)
 		{
-			if(entities[i]->getVisible() == true && entities[i]->getType() != ServerEntity::Type::StaticType)
+			if(entities[i]->getVisible() == true && (entities[i]->getType() != ServerEntity::Type::StaticType && entities[i]->getType() != ServerEntity::Type::HeroType && entities[i]->getType() != ServerEntity::Type::TowerType && entities[i]->getType() != ServerEntity::Type::EnemyType))
 			{
 				this->m_network->broadcast(entities[i]->getUpdate());
 			}

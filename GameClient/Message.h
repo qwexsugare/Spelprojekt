@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth};
 
 	Type type;
 	int senderId;
@@ -205,5 +205,74 @@ struct EnemyReachedGoalMessage : Message
 		this->type = Type::EnemyReachedGoal;
 		this->reciverId = 0;
 		this->enemyId = _enemyId;
+	}
+};
+
+struct InitEntityMessage :Message
+{
+	unsigned short modelid;
+	unsigned short id;
+	float xPos;
+	float zPos;
+	float sx;
+	float sz;
+	float ex;
+	float ez;
+	float yRot;
+	float scale;
+	int health;
+	unsigned short entityType;
+	float movementspeed;
+	InitEntityMessage(unsigned short ET, unsigned short modelid,unsigned short id, float xpos, float zpos, float yrot, float scale,int health,float sx, float sz,float ex, float ez,float mms)
+	{
+		this->id=id;
+		this->reciverId=1;
+		this->type=Type::initEntities;
+		this->modelid=modelid;
+		this->xPos=xpos;
+		this->zPos=zpos;
+		this->yRot=yrot;
+		this->scale=scale;
+		this->entityType=ET;
+		this->health=health;
+		this->sx=sx;
+		this->sz=sz;
+		this->ex=ex;
+		this->ez=ez;
+		this->movementspeed=mms;
+	}
+};
+
+struct UpdateEntityMessage :Message
+{
+	unsigned short id;
+	float xPos,zPos,yRot,sx,ex,sz,ez;
+	float movementspeed;
+	UpdateEntityMessage(unsigned short id, float xpos, float zpos, float yrot,float sx,float sz,float ex, float ez,float mms)
+	{
+		this->type=Type::updateEntity;
+		this->reciverId = 1;
+		this->id=id;
+		this->xPos=xpos;
+		this->zPos=zpos;
+		this->yRot=yrot;
+		this->sx=sx;
+		this->sz=sz;
+		this->ex=ex;
+		this->ez=ez;
+		this->movementspeed=mms;
+	}
+};
+
+struct updateEntityHealth :Message
+{
+	int id;
+	int health;
+	updateEntityHealth(int id, int health)
+	{
+		this->type=Type::updateEntityHealth;
+		this->reciverId = 1;
+		this->id=id;
+		this->health=health;
 	}
 };

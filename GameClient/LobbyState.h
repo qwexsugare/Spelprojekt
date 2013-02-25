@@ -10,7 +10,7 @@ private:
 	LobbyMenu *m_menu;
 	StateEnum  m_nextState;
 	Client* m_network;
-	int m_lastRcvdHeroSelectedId;
+	int m_currentHeroSelected;
 	Hero::HERO_TYPE m_heroType;
 public:
 	LobbyState();

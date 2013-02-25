@@ -199,11 +199,40 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
-
-	EntityHandler::addEntity(new Imp(FLOAT3(0,0,0), m_paths[0]));
+	//this->m_waves.push_back(vector<ServerEntity*>());
+	
 
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
+	//createWave(5,0,0,0,0,0,0,0);
+	createWave(25,5,0,0,0,0,0,0);
+	createWave(18,8,4,0,0,0,0,0);
+	createWave(12,10,8,0,0,0,0,0);
+	createWave(8,10,9,3,0,0,0,0);
+	createWave(5,8,12,5,0,0,0,0);
+	createWave(3,8,9,8,2,0,0,0);
+	createWave(2,6,8,10,4,0,0,0);
+	createWave(0,6,7,11,6,2,0,0);
+	createWave(0,4,6,11,5,4,0,0);
+	createWave(0,3,4,9,8,6,0,0);
+	createWave(0,0,6,8,9,4,3,0);
+	createWave(0,0,4,5,11,6,4,0);
+	createWave(0,0,2,4,11,7,6,0);
+	createWave(0,0,0,4,10,8,6,2);
+	createWave(0,0,0,2,8,9,8,3);
+	createWave(0,0,0,0, 5,11,10,4);
+	createWave(0,0,0,0,3,9,10,8);
+	createWave(0,0,0,0,0,8,10,12);
+	createWave(0,0,0,0,0,4,8,18);
+	createWave(0,0,0,0,0,0,5,25);
+
+	m_waves[0].push_back(new BruteSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+	m_waves[0].push_back(new SpittingDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+	m_waves[0].push_back(new ThunderSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+	m_waves[0].push_back(new FrostDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+	m_waves[0].push_back(new SoulEaterSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+	m_waves[0].push_back(new Shade(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
+
 	//createWave(5,0,0,0,0,0,0,0);
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
@@ -232,6 +261,7 @@ void MapHandler::loadMap(std::string filename)
 
 	
 
+>>>>>>> 258c8aaee06c3547923b7e15b8dca88a89d15075
 }
 
 void MapHandler::update(float _dt)
