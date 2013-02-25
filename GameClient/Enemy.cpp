@@ -158,7 +158,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		if((m_position - stat->getPosition()).length() < sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z)+this->getObb()->Extents.z)
 		{
 		
-			m_position= m_position + (m_position - stat->getPosition())*dt*2*m_movementSpeed;///(m_position - stat->getPosition()).length();
+			//m_position= m_position + (m_position - stat->getPosition())*dt*2*m_movementSpeed;///(m_position - stat->getPosition()).length();
 		}
 
 
@@ -248,7 +248,7 @@ void Enemy::checkCloseEnemies(float dt)
 			m_movementSpeed = m_baseMovementSpeed;
 
 		m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
-		m_dir = m_dir*2 + m_enemyAvDir;
+		m_dir = m_dir*5 + m_enemyAvDir;
 		//m_position = m_position +m_enemyAvDir*2*dt;
 	}
 	else 
@@ -313,7 +313,8 @@ FLOAT3 Enemy::checkStatic(float dt)
 			
 			if(stat != NULL)
 			{
-				avoidBuffer = sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z +0.2f);
+				avoidBuffer = sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x + stat->getObb()->Extents.z*stat->getObb()->Extents.z) + 
+							  sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z);// +0.3f;
 				test = (stat->getPosition() - temp1).length();
 				test2 = (stat->getPosition() - temp2).length();
 			}
