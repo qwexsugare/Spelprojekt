@@ -102,6 +102,11 @@ FLOAT3 Model::getPosition()const
 	return FLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 }
 
+D3DXVECTOR3 Model::getRotation()const
+{
+	return this->m_rotation;
+}
+
 D3DXVECTOR2 Model::getPosition2D()const
 {
 	return D3DXVECTOR2(this->m_position.x, this->m_position.z);

@@ -89,6 +89,7 @@ void ServerQuadTreeNode::addServerEntity(bool& _success, ServerEntity* _serverEn
 	{
 		_success = false;
 	}
+
 }
 
 void ServerQuadTreeNode::getAllServerEntites(vector<ServerEntity*>& _serverEntities)
@@ -184,7 +185,12 @@ void ServerQuadTreeNode::getServerEntities(vector<ServerEntity*> _serverEntities
 
 bool ServerQuadTreeNode::intersects(const ServerEntity* _serverEntity)const
 {
-	return _serverEntity->contains(*m_obb) != ContainmentType::DISJOINT;
+	/*return _serverEntity->contains(*m_obb) != ContainmentType::DISJOINT;*/
+
+	if(_serverEntity->contains(*m_obb) == ContainmentType::DISJOINT)
+		return false;
+	else
+		return true;
 }
 
 bool ServerQuadTreeNode::removeServerEntity(ServerEntity* _serverEntity)

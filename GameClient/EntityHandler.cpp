@@ -23,6 +23,7 @@ EntityHandler::EntityHandler(MessageHandler* _messageHandler)
 EntityHandler::~EntityHandler()
 {
 	delete this->m_messageQueue;
+	delete EntityHandler::m_quadtree;
 }
 
 void EntityHandler::removeAllEntities()
@@ -33,8 +34,6 @@ void EntityHandler::removeAllEntities()
 	{
 		delete this->m_entities[i];
 	}
-
-	delete EntityHandler::m_quadtree;
 
 	EntityHandler::m_mutex.Unlock();
 }

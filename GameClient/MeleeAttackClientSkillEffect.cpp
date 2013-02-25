@@ -1,6 +1,7 @@
 #include "MeleeAttackClientSkillEffect.h"
 #include "SoundWrapper.h"
 #include "MyAlgorithms.h"
+#include "SpeechManager.h"
 
 float MeleeAttackClientSkillEffect::timeToNextDamageSound = 0.0f;
 
@@ -20,9 +21,8 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 	{
 		if(target->m_type == UnitEntity::HeroType)
 		{
-			if(MeleeAttackClientSkillEffect::timeToNextDamageSound == 0.0f && _targetId == _playerInfo.id)
+			if(_targetId == _playerInfo.id)
 			{
-				MeleeAttackClientSkillEffect::timeToNextDamageSound = TIME_BETWEEN_DAMAGE_SOUNDS;
 				int sound;
 
 				switch(_playerInfo.heroType)
@@ -98,9 +98,8 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 					}
 					break;
 				}
-
-				playSound(sound);
-				deactivateSound(sound);
+				
+				SpeechManager::speak(_targetId, sound);
 			}
 		}
 	}

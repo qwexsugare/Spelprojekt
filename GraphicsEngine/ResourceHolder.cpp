@@ -58,3 +58,22 @@ Animation ResourceHolder::getAnimation(string name)
 {
 	return this->m_animationHolder->getAnimation(name);
 }
+
+string ResourceHolder::getFilename(Mesh *_mesh)
+{
+	// Check if a texture with the requested texture filename is already loaded.
+	map<string, Mesh*>::iterator searchResult = this->m_meshes.begin();
+	string result = "";
+
+	while(searchResult != this->m_meshes.end())
+	{
+		if(searchResult->second == _mesh)
+		{
+			result = searchResult->first;
+		}
+
+		searchResult++;
+	}
+
+	return result;
+}

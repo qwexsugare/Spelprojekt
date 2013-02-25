@@ -11,3 +11,4 @@
 #include "MeleeAttackClientSkillEffect.h"
 #include "RunClientSkillEffect.h"
 #include "IdleClientSkillEffect.h"
+#include "DeathClientSkillEffect.h"

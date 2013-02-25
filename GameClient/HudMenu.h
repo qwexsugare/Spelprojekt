@@ -21,6 +21,7 @@ public:
 	void addSkill(unsigned int _skillId);
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
+	void setHealth(float health);
 private:
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
