@@ -10,8 +10,8 @@ ServerQuadTreeNode::ServerQuadTreeNode()
 
 ServerQuadTreeNode::ServerQuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
 {
-	this->m_min = _min;
-	this->m_max = _max;
+	m_min = _min;
+	m_max = _max;
 	this->m_obb = new BoundingOrientedBox(
 		XMFLOAT3((this->m_min.x+this->m_max.x)/2.0f, 0.0f, (this->m_min.y+this->m_max.y)/2.0f),
 		XMFLOAT3((_max.x-_min.x)/2.0f, 100000.0f, (_max.y-_min.y)/2.0f),
@@ -20,10 +20,10 @@ ServerQuadTreeNode::ServerQuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR
 	
 	if(_levels > 1)
 	{
-		this->m_children[0] = new ServerQuadTreeNode(_levels-1, _min, (_max+_min)/2.0f);
-		this->m_children[1] = new ServerQuadTreeNode(_levels-1, D3DXVECTOR2((_max.x+_min.x)/2.0f, _min.y), D3DXVECTOR2(_max.x, (_max.y+_min.y)/2.0f));
-		this->m_children[2] = new ServerQuadTreeNode(_levels-1, D3DXVECTOR2(_min.x, (_max.y+_min.y)/2.0f), D3DXVECTOR2((_max.x+_min.x)/2.0f, _max.y));
-		this->m_children[3] = new ServerQuadTreeNode(_levels-1, (_max+_min)/2.0f, _max);
+		this->m_children[0] = new ServerQuadTreeNode(_levels-1, m_min, (m_max+m_min)/2.0f);
+		this->m_children[1] = new ServerQuadTreeNode(_levels-1, D3DXVECTOR2((m_max.x+m_min.x)/2.0f, m_min.y), D3DXVECTOR2(m_max.x, (m_max.y+m_min.y)/2.0f));
+		this->m_children[2] = new ServerQuadTreeNode(_levels-1, D3DXVECTOR2(m_min.x, (m_max.y+m_min.y)/2.0f), D3DXVECTOR2((m_max.x+m_min.x)/2.0f, m_max.y));
+		this->m_children[3] = new ServerQuadTreeNode(_levels-1, (m_max+m_min)/2.0f, m_max);
 	}
 	else
 	{
@@ -89,7 +89,6 @@ void ServerQuadTreeNode::addServerEntity(bool& _success, ServerEntity* _serverEn
 	{
 		_success = false;
 	}
-
 }
 
 void ServerQuadTreeNode::getAllServerEntites(vector<ServerEntity*>& _serverEntities)
@@ -185,12 +184,7 @@ void ServerQuadTreeNode::getServerEntities(vector<ServerEntity*> _serverEntities
 
 bool ServerQuadTreeNode::intersects(const ServerEntity* _serverEntity)const
 {
-	/*return _serverEntity->contains(*m_obb) != ContainmentType::DISJOINT;*/
-
-	if(_serverEntity->contains(*m_obb) == ContainmentType::DISJOINT)
-		return false;
-	else
-		return true;
+	return _serverEntity->intersects(*m_obb);
 }
 
 bool ServerQuadTreeNode::removeServerEntity(ServerEntity* _serverEntity)
