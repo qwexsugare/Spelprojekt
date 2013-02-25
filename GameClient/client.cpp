@@ -60,6 +60,7 @@ void Client::Run()
 			NetworkHeroSelectedMessage nhsm;
 			NetworkInitEntityMessage iem;
 			NetworkHeroInitMessage nhim;
+			NetworkUpdateEntityHealth nueh;
 
 			int type;
 			packet >> type;
@@ -221,6 +222,16 @@ void Client::Run()
 				if(this->m_heroInitQueue.size() > 50)
 					this->m_heroInitQueue.pop();
 
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::updateEntityHealth:
+				packet >> nueh;
+				this->m_mutex.Lock();
+				this->m_updateHealthMessage.push(nueh);
+
+				if(this->m_updateHealthMessage.size()>50)
+					this->m_updateHealthMessage.pop();
 				this->m_mutex.Unlock();
 				break;
 			}
@@ -414,6 +425,17 @@ NetworkHeroInitMessage Client::heroInitQueueFront()
 
 	return ret;
 }
+NetworkUpdateEntityHealth Client::updateEntityHealthFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkUpdateEntityHealth ret = this->m_updateHealthMessage.front();
+	this->m_updateHealthMessage.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
 
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
@@ -502,4 +524,9 @@ bool Client::initEntityMessageEmpty()
 bool Client::heroInitQueueEmpty()
 {
 	return m_heroInitQueue.empty();
+}
+
+bool Client::updateEntityHealthEmpty()
+{
+	return m_updateHealthMessage.empty();
 }

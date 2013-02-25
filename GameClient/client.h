@@ -24,6 +24,7 @@
 #include "NetworkSkillUsedMessage.h"
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
+#include "NetworkUpdateEntityHealth.h"
 
 using namespace std;
 
@@ -54,6 +55,7 @@ private:
 	queue<NetworkSkillUsedMessage> m_skillUsedQueue;
 	queue<NetworkInitEntityMessage> m_initEntityMessage;
 	queue<NetworkHeroInitMessage> m_heroInitQueue;
+	queue<NetworkUpdateEntityHealth> m_updateHealthMessage;
 public:
 	Client();
 	~Client();
@@ -82,7 +84,9 @@ public:
 	NetworkSkillUsedMessage skillUsedQueueFront();
 	NetworkInitEntityMessage initEntityMessageFront();
 	NetworkHeroInitMessage heroInitQueueFront();
+	NetworkUpdateEntityHealth updateEntityHealthFront();
 
+	bool updateEntityHealthEmpty();
 	bool entityQueueEmpty();
 	bool removeEntityQueueEmpty();
 	bool createActionQueueEmpty();

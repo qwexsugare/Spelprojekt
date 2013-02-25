@@ -116,6 +116,7 @@ void Server::handleMessages()
 	NetworkSkillUsedMessage sum;
 	NetworkInitEntityMessage iem;
 	NetworkEntityMessage nem;
+	NetworkUpdateEntityHealth nueh;
 
 	RemoveServerEntityMessage *m1;
 	CreateActionMessage *m2;
@@ -126,6 +127,8 @@ void Server::handleMessages()
 	SkillUsedMessage *m7;
 	InitEntityMessage *m8;
 	UpdateEntityMessage *m9;
+	updateEntityHealth *m10;
+
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
 	{
@@ -198,6 +201,11 @@ void Server::handleMessages()
 			nem = NetworkEntityMessage(m9->id,m9->xPos,m9->zPos,m9->yRot,m9->sx,m9->sz,m9->ex,m9->ez,m9->movementspeed);
 			this->broadcast(nem);
 			break;
+		case Message::updateEntityHealth:
+			m10=(updateEntityHealth*)m;
+			nueh = NetworkUpdateEntityHealth(m10->id,m10->health);
+			this->broadcast(nueh);
+			break;
 
 		}
 
@@ -225,6 +233,21 @@ void Server::shutDown()
 	}
 
 	this->Wait();
+}
+
+void Server::broadcast(NetworkUpdateEntityHealth networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<this->clientArrPos;i++)
+	{
+		this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
 }
 
 void Server::broadcast(NetworkEntityMessage networkMessage)

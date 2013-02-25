@@ -27,6 +27,7 @@ struct Entity
 		m_startPos=this->m_model->getPosition();
 		m_endPos=this->m_model->getPosition();
 		this->movementSpeed=1;
+		m_health=100;
 	}
 	void update(float dt)
 	{

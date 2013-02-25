@@ -88,7 +88,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 	{
 		this->m_attackCooldown = this->m_attackCooldown - dt;
 	}
-if(this->m_hasTarget == true)
+	if(this->m_hasTarget == true)
 	{
 		ServerEntity *se = EntityHandler::getServerEntity(this->m_target);
 
@@ -101,30 +101,76 @@ if(this->m_hasTarget == true)
 			FLOAT3 distance = se->getPosition() - this->m_position;
 			this->m_rotation.x = atan2(-distance.x, -distance.z);
 
-			if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRange)
+			//If the hero is in range, KILL IT!
+			if(se != NULL)
 			{
-				if(this->m_attackCooldown <= 0.0f)
+				if((se->getPosition() - this->m_position).length() <= this->m_regularAttack->getRange())
 				{
-					this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::ATTACK, this->m_id, se->getId(), this->m_position));
-					EntityHandler::addEntity(new Arrow((m_position-se->getPosition()).length(), se->getId(), m_id));
-					//this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage); // dont
-					this->m_attackCooldown = this->m_attackSpeed;
+					if(this->m_attackCooldown <= 0.0f)
+					{
+						//this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::ATTACK, this->m_id, se->getId(), this->m_position));
+						//EntityHandler::addEntity(new Arrow((m_position-se->getPosition()).length(), se->getId(), m_id));
+						//this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage); // dont
+						this->attack(this->m_target);
+						this->m_attackCooldown = this->m_attackSpeed;
+					}
+
+					if(this->m_reachedPosition == false)
+					{
+						this->m_reachedPosition = true;
+						this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
+					}
+				}
+				else //Otherwise you should find a way to get to the enemy
+				{
+					if(this->m_reachedPosition == true)
+					{
+						this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(se->getPosition().x, se->getPosition().z));
+
+						if(this->m_path.nrOfPoints > 0)
+						{
+							this->m_pathCounter = 1;
+							this->m_nextPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
+							this->m_reachedPosition = false;
+							this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
+							this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+						}
+					}
+					else //Move along the path
+					{
+						distance = this->m_nextPosition - this->m_position;
+
+						if(distance.length() - 0.125f > this->m_movementSpeed * dt)
+						{
+							distance = distance / distance.length();
+							this->m_position = this->m_position + (distance * this->m_movementSpeed * dt);
+							this->m_rotation.x = atan2(-distance.x, -distance.z);
+						}
+						else
+						{
+							if(this->m_pathCounter < this->m_path.nrOfPoints)
+							{
+								this->m_nextPosition = FLOAT3(this->m_path.points[this->m_pathCounter].x, 0.0f, this->m_path.points[this->m_pathCounter].y);
+								this->m_pathCounter++;
+								this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+							}
+							else if(this->m_reachedPosition == false)
+							{
+								this->m_position = this->m_nextPosition;
+								this->m_reachedPosition = true;
+								this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
+								this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+							}
+
+							this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+						}
+					}
 				}
 			}
-			else
+			else //The target is doesn't exist
 			{
-				if(distance.length() - this->m_attackRange > this->m_movementSpeed * dt)
-				{
-					distance = distance / distance.length();
-					this->m_position = this->m_position + (distance * this->m_movementSpeed * dt);
-				}
-				else
-				{
-					this->m_position = this->m_position + distance * (distance.length() - this->m_attackRange);
-				}
-
-				this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
-				this->m_rotation.x = atan2(-distance.x, -distance.z);
+				this->m_hasTarget = false;
+				this->m_reachedPosition = true;
 			}
 		}
 	}
@@ -175,6 +221,7 @@ if(this->m_hasTarget == true)
 		this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 		this->m_health = this->m_maxHealth;
 		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+		this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 	}
 }
 

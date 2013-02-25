@@ -86,7 +86,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 		//this->m_reachedPosition = false;
 
-		//this->checkPursue();
+		this->checkPursue();
 
 		if(m_willPursue)
 		{

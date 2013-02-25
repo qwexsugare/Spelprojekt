@@ -189,7 +189,14 @@ void GameState::update(float _dt)
 				entity->movementSpeed=e.getMovementSpeed();
 		}
 	}
-
+	while(!this->m_network->updateEntityHealthEmpty())
+	{
+		NetworkUpdateEntityHealth ueh = this->m_network->updateEntityHealthFront();
+		if(ueh.getId() == this->m_playerInfos[this->m_yourId].id)
+		{
+			this->m_hud->setHealth(ueh.getHealth());
+		}
+	}
 	while(this->m_network->initEntityMessageEmpty()==false)
 	{
 		NetworkInitEntityMessage iem = this->m_network->initEntityMessageFront();

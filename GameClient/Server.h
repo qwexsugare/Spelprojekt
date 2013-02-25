@@ -19,6 +19,7 @@
 #include "NetworkSkillUsedMessage.h"
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
+#include "NetworkUpdateEntityHealth.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -52,6 +53,7 @@ public:
 	~Server();
 	bool start(int port);
 	void shutDown();
+	void broadcast(NetworkUpdateEntityHealth networkMessage);
 	void broadcast(NetworkEntityMessage networkMessage);
 	void broadcast(NetworkRemoveEntityMessage networkMessage);
 	void broadcast(NetworkCreateActionMessage networkMessage);

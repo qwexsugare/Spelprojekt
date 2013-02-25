@@ -12,7 +12,7 @@
 GameState::GameState(Client *_network)
 {
 	this->m_network = _network;
-	this->importMap("race");
+	this->importMap("levelone");
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -69,6 +69,7 @@ GameState::GameState(Client *_network)
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
+<<<<<<< HEAD
 	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
@@ -76,6 +77,8 @@ GameState::GameState(Client *_network)
 	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	this->s = g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 5.0f, 50.0f), FLOAT3(2.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.6f, 0.3f), 500);
 
+=======
+>>>>>>> 8a6bfef06695d48919f95f9110b18206483a3fe4
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f, false);
 	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f, false);
@@ -93,6 +96,11 @@ GameState::~GameState()
 		g_graphicsEngine->removeRoad(m_roads[i]);
 	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 		delete m_ClientSkillEffects[i];
+	for(int i = 0; i < GameState::NR_OF_ATTACK_SOUNDS; i++)
+	{
+		stopSound(m_attackSounds[i]);
+		deactivateSound(m_attackSounds[i]);
+	}
 
 	if(m_minimap)
 		delete this->m_minimap;
@@ -129,12 +137,6 @@ void GameState::update(float _dt)
 			m_idleSoundTimer = IDLE_SOUND_DELAY;
 		}
 	}*/
-
-	D3DXVECTOR3 pickDir;
-	D3DXVECTOR3 pickOrig;
-	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-	this->s->setPosition(FLOAT3(pickOrig.x, pickOrig.y, pickOrig.z));
-	this->s->setDirection(FLOAT3(pickDir.x, pickDir.y, pickDir.z));
 	
 
 	// Update FRAMES PER SECOND (FPS) text
@@ -170,7 +172,11 @@ void GameState::update(float _dt)
 			p.z=e.getZPos();
 			entity->m_model->setPosition(p);
 			if(e.getYRot() == e.getYRot())
+
+			if(e.getEntityId() == this->m_playerInfos[this->m_yourId].id)
 			{
+				this->m_hud->setHealth(1000);
+			}
 				FLOAT3 rot;
 				rot.x=e.getYRot();
 				rot.y=0;
@@ -187,38 +193,6 @@ void GameState::update(float _dt)
 				entity->m_startPos=startPos;
 				entity->m_endPos=endPos;
 				entity->movementSpeed=e.getMovementSpeed();
-
-<<<<<<< HEAD
-=======
-			if(e.getRotation().x == e.getRotation().x)
-				entity->m_model->setRotation(e.getRotation());
-			entity->m_type = (ServerEntity::Type)e.getEntityType();
-			entity->m_health = e.getHealth();
-
-			if(e.getEntityId() == this->m_playerInfos[this->m_yourId].id)
-			{
-				this->m_hud->setHealth(e.getHealth());
->>>>>>> a42b432d66d963707e58f4ba49308438170819db
-			}
-		}
-		else
-		{
-
-		}
-	}
-
-<<<<<<< HEAD
-	while(this->m_network->removeEntityQueueEmpty() == false)
-	{
-		NetworkRemoveEntityMessage rem = this->m_network->removeEntityQueueFront();
-		bool found = false;
-
-		Entity* entity = this->m_clientEntityHandler->getEntity(rem.getEntityId());
-
-		if(entity != NULL)
-		{
-			g_graphicsEngine->removeModel(entity->m_model);
-			this->m_clientEntityHandler->removeEntity(entity);
 		}
 	}
 
@@ -256,11 +230,8 @@ void GameState::update(float _dt)
 					g_graphicsEngine->getCamera()->setX(iem.getXPos());
 					g_graphicsEngine->getCamera()->setZ(iem.getZPos() - 3.0f);
 				}
-			}		
+			}
 	}
-
-=======
->>>>>>> a42b432d66d963707e58f4ba49308438170819db
 	while(this->m_network->createActionQueueEmpty() == false)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
