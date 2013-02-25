@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "Graphics.h"
 #include "SoundWrapper.h"
-#include "MyAlgorithms.h"
 
 ClientHandler::ClientHandler(HWND _hWnd)
 {

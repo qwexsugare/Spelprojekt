@@ -127,7 +127,6 @@ void GameState::update(float _dt)
 			m_idleSoundTimer = IDLE_SOUND_DELAY;
 		}
 	}*/
-	
 
 	// Update FRAMES PER SECOND (FPS) text
 	static float lol = 0.0f;
