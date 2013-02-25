@@ -23,4 +23,5 @@ public:
 	TextureHolder *getTextureHolder();
 	AnimationHolder *getAnimationHolder();
 	Animation getAnimation(string name);
+	string getFilename(Mesh *_mesh);
 };

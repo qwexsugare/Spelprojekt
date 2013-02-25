@@ -397,7 +397,6 @@
     <ClCompile Include="SoulEaterSteed.cpp">
       <Filter>Server\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="ServerQuadTree.cpp">
       <Filter>Server\Quadtree</Filter>
     </ClCompile>
@@ -416,11 +415,17 @@
     <ClCompile Include="IdleClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="MeleeAOEAttack.cpp">
+      <Filter>Server\Skills</Filter>
+      </ClCompile>
     <ClCompile Include="NetworkHeroInitMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="SpeechManager.cpp">
       <Filter>Client</Filter>
+      </ClCompile>
+    <ClCompile Include="DeathClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkInitEntityMessage.cpp">
       <Filter>Network</Filter>
@@ -849,7 +854,6 @@
     <ClInclude Include="SoulEaterSteed.h">
       <Filter>Server\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="ServerQuadTree.h">
       <Filter>Server\Quadtree</Filter>
     </ClInclude>
@@ -870,9 +874,15 @@
     </ClInclude>
     <ClInclude Include="NetworkHeroInitMessage.h">
       <Filter>Network</Filter>
+      </ClInclude>
+    <ClInclude Include="MeleeAOEAttack.h">
+      <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInfo.h">
       <Filter>Client</Filter>
+      </ClInclude>
+    <ClInclude Include="DeathClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="SpeechManager.h">
       <Filter>Client</Filter>

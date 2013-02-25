@@ -18,6 +18,7 @@ protected:
 	BoundingOrientedBox* m_obb;
 	FLOAT3 m_position;
 	FLOAT3 m_rotation;
+	FLOAT3 m_bvOffset;
 
 	unsigned int m_modelId;
 	bool m_visible;
@@ -52,6 +53,7 @@ public:
 
 	ContainmentType contains(const BoundingSphere& _bs)const;
 	ContainmentType contains(const BoundingOrientedBox& _obb)const;
+	bool intersects(const BoundingOrientedBox& _obb)const;
 
 	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);

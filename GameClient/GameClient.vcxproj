@@ -162,6 +162,7 @@
     <ClCompile Include="ClientEntityHandler.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
+    <ClCompile Include="DeathClientSkillEffect.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
     <ClCompile Include="IdleClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
+    <ClInclude Include="DeathClientSkillEffect.h" />
     <ClInclude Include="DelayedDamage.h" />
     <ClInclude Include="IdleClientSkillEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />

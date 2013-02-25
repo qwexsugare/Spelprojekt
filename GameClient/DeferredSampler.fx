@@ -106,7 +106,7 @@ DepthStencilState EnableDepthNoWrite
 {
     DepthEnable = TRUE;
     DepthWriteMask = ZERO;
-	//DepthFunc = GREATER;
+	DepthFunc = LESS_EQUAL;
 };
 
 DepthStencilState EnableDepthSM
@@ -550,7 +550,7 @@ technique10 RenderTerrain
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
 		
-	    SetDepthStencilState(DisableDepth, 0);
+	    SetDepthStencilState(EnableDepth, 0);
 	    SetRasterizerState(rs);
     }
 }

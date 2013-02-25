@@ -21,6 +21,7 @@ public:
 	void addSkill(unsigned int _skillId);
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
+	void setHealth(float health);
 private:
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
@@ -38,6 +39,9 @@ private:
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Chattext;	
 	TextLabel* m_ResourceLabel;	
+
+	SpriteSheet *m_healthBar;
+	FLOAT2 m_fullHealthPos;
 
 	bool m_canAfford[20];
 	bool m_shopVisible;
