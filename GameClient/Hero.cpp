@@ -225,7 +225,7 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 			//this->m_startPos= m_nextPosition;
 
-			//this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+			this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 		} 
 
 	}

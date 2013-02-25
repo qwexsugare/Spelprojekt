@@ -12,7 +12,7 @@
 GameState::GameState(Client *_network)
 {
 	this->m_network = _network;
-	this->importMap("race");
+	this->importMap("levelone");
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -173,9 +173,8 @@ void GameState::update(float _dt)
 
 			if(e.getEntityId() == this->m_playerInfos[this->m_yourId].id)
 			{
-				this->m_hud->setHealth(e.getHealth());
+				this->m_hud->setHealth(1000);
 			}
-			{
 				FLOAT3 rot;
 				rot.x=e.getYRot();
 				rot.y=0;
@@ -192,15 +191,7 @@ void GameState::update(float _dt)
 				entity->m_startPos=startPos;
 				entity->m_endPos=endPos;
 				entity->movementSpeed=e.getMovementSpeed();
-
-			}
 		}
-		else
-		{
-
-		}
-	}
-
 	}
 
 	while(this->m_network->initEntityMessageEmpty()==false)
@@ -237,7 +228,8 @@ void GameState::update(float _dt)
 					g_graphicsEngine->getCamera()->setX(iem.getXPos());
 					g_graphicsEngine->getCamera()->setZ(iem.getZPos() - 3.0f);
 				}
-			}		
+			}
+	}
 	while(this->m_network->createActionQueueEmpty() == false)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();

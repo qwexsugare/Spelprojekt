@@ -72,7 +72,7 @@ void Client::Run()
 
 				this->m_entityMessageQueue.push(em);
 
-				if(this->m_entityMessageQueue.size() > 50)
+				if(this->m_entityMessageQueue.size() > 200)
 				{
 					this->m_entityMessageQueue.pop();
 				}
