@@ -5,9 +5,10 @@
 class SpeechManager
 {
 private:
-
+	static map<unsigned int, int> speeches;
 public:
 	static void init();
 	static void release();
-	static void speak();
+	static bool speak(unsigned int _id, int _sound);
+	static void update();
 };
