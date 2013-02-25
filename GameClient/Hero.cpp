@@ -88,8 +88,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 	{
 		this->m_attackCooldown = this->m_attackCooldown - dt;
 	}
-
-	if(this->m_hasTarget == true)
+if(this->m_hasTarget == true)
 	{
 		ServerEntity *se = EntityHandler::getServerEntity(this->m_target);
 

@@ -159,7 +159,7 @@ HudMenu::HudMenu(Client *_network)
 	this->m_shopVisible = false;
 	this->displayShop(false);
 
-	this->m_fullHealthPos = FLOAT2(-0.7375f, -0.240740741f);
+	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.240740741f);
 	this->m_healthBar = g_graphicsEngine->createSpriteSheet("menu_textures\\HealthBar.dds", this->m_fullHealthPos, FLOAT2(0.079166667f, 0.755555556f), INT2(10,1),2);
 	this->m_healthBar->playAnimation(INT2(0,0),INT2(9,0),true,10);
 }
@@ -460,5 +460,5 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 
 void HudMenu::setHealth(float health)
 {
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1100 - health) / 1100 * 0.555555556f));
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000 - health) / 1000 * 0.565555556f));
 }

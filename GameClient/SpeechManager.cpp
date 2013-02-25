@@ -41,7 +41,6 @@ bool SpeechManager::speak(unsigned int _id, int _sound)
 	{
 		SpeechManager::speeches[_id] = _sound;
 		playSound(_sound);
-		deactivateSound(_sound);
 	}
 
 	return success;
@@ -61,7 +60,6 @@ void SpeechManager::update()
 
 	for(int i = 0; i < removeIndices.size(); i++)
 	{
-		deactivateSound(removeIndices[i]->second);
 		SpeechManager::speeches.erase(removeIndices[i]);
 	}
 }
