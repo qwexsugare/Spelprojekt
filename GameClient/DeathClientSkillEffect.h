@@ -10,8 +10,9 @@ private:
 	Model *m_model;
 	float m_lifetime;
 	float* tardvar;
+	bool m_sink;
 public:
-	DeathClientSkillEffect(unsigned int _masterId);
+	DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _position);
 	~DeathClientSkillEffect();
 
 	void update(float dt);

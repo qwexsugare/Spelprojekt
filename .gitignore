@@ -1424,3 +1424,17 @@ GameClient/models/Kubb/dHatTexture_Color.png
 GameClient/models/Kubb/dHatTexture_Spec.png
 GameClient/models/Kubb/doctorHat_normals.TIF
 GameClient/models/Kubb/Kubb.BFish
+GameClient/models.rar
+GameClient/models/Beast/CharRebake_normals.TIF
+GameClient/models/Beast/Doctor.jpg
+GameClient/models/Beast/Engineer.jpg
+GameClient/models/Beast/Mentalist.JPG
+GameClient/models/Beast/Officer.jpg
+GameClient/models/Beast/RedKnight.jpg
+GameClient/models/Bench/bench.mb
+GameClient/models/Bench/Benk.mb
+GameClient/models/Bench/BenkLow.mb
+GameClient/models/fencePillar/fencePillar.mb
+GameClient/models/Kubb.rar
+GraphicsEngine/Animation.cpp.orig
+GraphicsEngine/Animation.h.orig
