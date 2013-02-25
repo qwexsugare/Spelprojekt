@@ -165,16 +165,12 @@ int UnitEntity::getSkillIndex(Skill* _skill)
 
 void UnitEntity::increaseStrength(int _strength)
 {
-	this->m_strength = this->m_strength + _strength;
-
-	if(this->m_strength > UnitEntity::MAX_STRENGTH)
-	{
-		_strength = UnitEntity::MAX_STRENGTH - this->m_strength;
-		this->m_strength = UnitEntity::MAX_STRENGTH;
-	}
-
-	this->m_physicalDamage = this->m_physicalDamage + _strength * 5;
-	this->m_physicalResistance = this->m_physicalResistance + _strength * 0.02f;
+	if(_strength+m_strength > UnitEntity::MAX_STRENGTH)
+		_strength = UnitEntity::MAX_STRENGTH - m_strength;
+	
+	this->m_physicalDamage += _strength * 5;
+	this->m_physicalResistance += _strength * 0.02f;
+	this->m_strength += _strength;
 }
 
 void UnitEntity::increaseAgility(int _agility)
@@ -307,6 +303,11 @@ float UnitEntity::getAttackSpeed()
 
 float UnitEntity::getPhysicalDamage()
 {
+	if(random(0,m_physicalDamage) < 0)
+	{
+		bool lolDetVarMarcusFel=true;
+	}
+
 	return random(0,m_physicalDamage);
 }
 
