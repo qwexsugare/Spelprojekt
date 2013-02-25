@@ -40,6 +40,9 @@ private:
 	vector<TextLabel*> m_Chattext;	
 	TextLabel* m_ResourceLabel;	
 
+	SpriteSheet *m_healthBar;
+	FLOAT2 m_fullHealthPos;
+
 	bool m_canAfford[20];
 	bool m_shopVisible;
 	vector<Button*> m_shopButtons;
