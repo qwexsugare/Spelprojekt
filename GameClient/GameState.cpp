@@ -12,7 +12,7 @@
 GameState::GameState(Client *_network)
 {
 	this->m_network = _network;
-	this->importMap("levelone");
+	this->importMap("race");
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
