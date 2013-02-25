@@ -74,8 +74,9 @@ void ArrowClientSkillEffect::update(float _dt)
 				}
 					
 				SpeechManager::speak(m_targetId, sound); // The unit must be killed on the client before on the server for this sound solution to actually work.
+				deactivateSound(sound);
 			}
-			else
+			else if(target->m_type == UnitEntity::HeroType)
 			{
 				int sound;
 
@@ -154,6 +155,7 @@ void ArrowClientSkillEffect::update(float _dt)
 				}
 
 				SpeechManager::speak(m_targetId, sound); // The unit must be killed on the client before on the server for this sound solution to actually work.
+				deactivateSound(sound);
 			}
 		}
 	}
