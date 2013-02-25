@@ -44,7 +44,7 @@ void Player::spawnHero()
 		break;
 	}
 	
-	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 29.0f));
+	this->m_hero->setPosition(FLOAT3(15.0f, 0.0f, 50.0f));
 
 	
 	//EntityHandler::addEntity(m_hero);

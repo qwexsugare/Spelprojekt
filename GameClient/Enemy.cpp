@@ -49,9 +49,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	m_highRescource = 10;
 	m_distanceToStatic = 15;
 	
-	Model *m = g_graphicsEngine->createModel("Beast", m_position);
-	this->m_obb = new BoundingOrientedBox(*m->getObb());
-	g_graphicsEngine->removeModel(m);
+
 
 	if(this->m_path.nrOfPoints > 0)
 	{
@@ -60,6 +58,11 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	lastDT=0;
 	m_nextPosition = m_goalPosition;
 	m_dir = m_nextPosition - m_position;
+}
+
+Enemy::~Enemy()
+{
+	
 }
 
 FLOAT3 Enemy::getDirection()
@@ -157,7 +160,24 @@ void Enemy::updateSpecificUnitEntity(float dt)
 				{
 				this->m_dir = this->m_dir / this->m_dir.length();
 				this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * lastDT;
+
 				}
+		ServerEntity *stat = EntityHandler::getClosestStatic(this);
+		if((m_position - stat->getPosition()).length() < sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z)+this->getObb()->Extents.z)
+		{
+		
+			//m_position= m_position + (m_position - stat->getPosition())*dt*2*m_movementSpeed;///(m_position - stat->getPosition()).length();
+		}
+
+
+		if(outOfBounds(m_position,0))
+		{
+			m_position = m_position -m_dir*m_movementSpeed*dt*2;
+			m_dir = FLOAT3(32,0,32) - m_position;
+			m_dir = m_dir/m_dir.length();
+		}
+
+		
 			}
 	
 
@@ -235,19 +255,19 @@ void Enemy::checkCloseEnemies(float dt)
 	ServerEntity* closestEnemy = EntityHandler::getClosestEntityByType(this, UnitEntity::EnemyType);
 
 	m_enemyAvDir = FLOAT3(0,0,0);
-	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < this->getObb()->Extents.z*2)
+	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z)*3)
 	{
 		
-		if((m_position+m_dir/10 - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
+		if((m_position+m_dir*dt*3*m_movementSpeed - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
 		{
-			m_movementSpeed = 0.8f;
+			m_movementSpeed = m_movementSpeed*0.5f;
 			//((UnitEntity*)closestEnemy)->setMovementSpeed(((UnitEntity*)closestEnemy)->getB);
 		}
 		else 
 			m_movementSpeed = m_baseMovementSpeed;
 
 		m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
-		m_dir = m_dir*2 + m_enemyAvDir;
+		m_dir = m_dir + m_enemyAvDir*2;
 		//m_position = m_position +m_enemyAvDir*2*dt;
 	}
 	else 
@@ -285,6 +305,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 {
 	
 	FLOAT3 avoidDir = FLOAT3(0,0,0);
+	FLOAT3 avd = avoidDir;
 	FLOAT3 currDir = this->m_dir;
 	currDir = currDir / currDir.length();
 	
@@ -298,7 +319,9 @@ FLOAT3 Enemy::checkStatic(float dt)
 	FLOAT3 temp2 = FLOAT3(0,0,0);
 	ServerEntity *stat;
 	
-		for(int i = 1; i < 10; i++)
+	
+		
+		for(int i = 1; i < 10; i=i+2)
 		{
 			temp = m_position + currDir*i;
 			temp1 = m_position + currDir*i+ (cross);
@@ -310,7 +333,8 @@ FLOAT3 Enemy::checkStatic(float dt)
 			
 			if(stat != NULL)
 			{
-				avoidBuffer = sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z +0.2f);
+				avoidBuffer = sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x + stat->getObb()->Extents.z*stat->getObb()->Extents.z) + 
+							  sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z);// +0.3f;
 				test = (stat->getPosition() - temp1).length();
 				test2 = (stat->getPosition() - temp2).length();
 			}
@@ -340,7 +364,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 				avoidDir =  cross/10;
 			}
 
-			if(outOfBounds(temp) && avoidTimer > 0.5f)
+			if(outOfBounds(temp,4) && avoidTimer > 0.5f)
 			{
 				float t = (temp1 - FLOAT3(32,0,32)).length();
 
@@ -370,12 +394,12 @@ FLOAT3 Enemy::checkStatic(float dt)
 					m_movementSpeed = m_baseMovementSpeed;
 
 				m_distanceToStatic = i;
-				return (avoidDir/i)*min(avoidBuffer,1.0f);
+				avd = avd + (avoidDir/i)*min(avoidBuffer,1.0f);
 			}
 		}
 	
-	m_distanceToStatic = 0.0001f;
-	return avoidDir;
+	//m_distanceToStatic = 0.0001f;
+	return avd;
 
 }
 
@@ -394,15 +418,17 @@ FLOAT3 Enemy::crossProduct(FLOAT3 _first, FLOAT3 _second)
 	return FLOAT3(x,y,z);
 }
 
-bool Enemy::outOfBounds(FLOAT3 _pt)
+bool Enemy::outOfBounds(FLOAT3 _pt, int _offset)
 {
 	bool t = false;
 
-	if(_pt.x > 68 || _pt.z > 68 || _pt.x < -4 || _pt.z < -4)
+	if(_pt.x > 64+_offset || _pt.z > 64+_offset || _pt.x < 0-_offset || _pt.z < 0-_offset)
 		t = true;
 
 	return t;
 }
+
+
 
 bool Enemy::checkDistanceToStatic(float currFactor, float prevFactor)
 {

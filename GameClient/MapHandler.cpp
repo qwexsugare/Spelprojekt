@@ -199,10 +199,13 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
+
+	EntityHandler::addEntity(new Imp(FLOAT3(0,0,0), m_paths[0]));
+
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
 	//createWave(5,0,0,0,0,0,0,0);
-	createWave(50,25,0,0,0,0,0,0);
+	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
 	createWave(8,10,9,3,0,0,0,0);
@@ -245,7 +248,7 @@ void MapHandler::update(float _dt)
 			{
 				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
 				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
-				this->m_enemySpawnTimer = 0.5f;
+				this->m_enemySpawnTimer = 2.0f;
 			}
 			else
 			{
@@ -277,47 +280,51 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	m_waves.push_back(vector<ServerEntity*>());
 	int totalMonsters = _imps + _shades + _spits + _frosts + _souls + _hell + _thunder + _brutes;
 	int t = random(0,0);
+	
+	int _min = 0;
+	int _max = sizeof(m_paths)-1;
 
 	for(int i = 0; i < totalMonsters; i ++)
 	{
 		if(i < _imps)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new Imp(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _shades)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new Shade(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _spits)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new SpittingDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _frosts)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new FrostDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _souls)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new SoulEaterSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _hell)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new HellfireSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _thunder)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new ThunderSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _brutes)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new BruteSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 			
