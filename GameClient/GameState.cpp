@@ -63,7 +63,7 @@ GameState::GameState(Client *_network)
 	m_idle = false;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_hud = new HudMenu(this->m_network);
+	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
@@ -83,6 +83,8 @@ GameState::GameState(Client *_network)
 	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
+
+	m_healthText = g_graphicsEngine->createText("No target acquired", INT2(500, 500), 30, D3DXCOLOR(1,1,1,1));
 }
 
 GameState::~GameState()
@@ -102,6 +104,7 @@ GameState::~GameState()
 	//delete this->m_network;
 	delete this->m_hud;
 	delete this->m_clientEntityHandler;
+	g_graphicsEngine->removeText(m_healthText);
 }
 
 void GameState::end()
@@ -466,12 +469,15 @@ void GameState::update(float _dt)
 				if(m_entities[i]->m_type == ServerEntity::EnemyType && m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 				{
 					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
-					validMove = false;
+					stringstream ss;
+					ss << m_entities[i]->m_health;
+					m_healthText->setString("Target health: " + ss.str());
 					if(m_attackSoundTimer == 0.0f)
 					{
 						SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
 						m_attackSoundTimer = ATTACK_SOUND_DELAY;
 					}
+					validMove = false;
 				}
 			}
 
@@ -482,6 +488,8 @@ void GameState::update(float _dt)
 
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
 				this->m_network->sendMessage(e);
+
+				m_healthText->setString("No target");
 			}
 		}
 		else
