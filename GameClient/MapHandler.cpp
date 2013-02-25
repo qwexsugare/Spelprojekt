@@ -202,7 +202,7 @@ void MapHandler::loadMap(std::string filename)
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
 	//createWave(5,0,0,0,0,0,0,0);
-	createWave(500,50,0,0,0,0,0,0);
+	createWave(50,25,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
 	createWave(8,10,9,3,0,0,0,0);
