@@ -464,5 +464,5 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 
 void HudMenu::setHealth(float health)
 {
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000 - health) / 1000 * 0.565555556f));
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.565555556f));
 }

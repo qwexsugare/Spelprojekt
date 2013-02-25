@@ -86,7 +86,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 		//this->m_reachedPosition = false;
 
-		this->checkPursue();
+		//this->checkPursue();
 
 		if(m_willPursue)
 		{
@@ -181,6 +181,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		}
 
 
+<<<<<<< HEAD
 		else if((m_goalPosition-m_position).length() < (this->m_movementSpeed * lastDT)+1)
 		{
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
@@ -188,9 +189,8 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		}
 
 
-	if(this->m_health <= 0) //The enemy has died
+		if(this->m_health <= 0)
 		{
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 			this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource, m_highRescource)));
 		}
@@ -201,6 +201,13 @@ void Enemy::updateSpecificUnitEntity(float dt)
 				this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x, m_position.z,this->getMovementSpeed()));
 		}
 		lastDT=0;
+=======
+	if(this->m_health <= 0) //The enemy has died
+	{
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
+		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+		this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource, m_highRescource)));
+>>>>>>> a42b432d66d963707e58f4ba49308438170819db
 	}
 
 		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);

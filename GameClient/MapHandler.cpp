@@ -202,7 +202,7 @@ void MapHandler::loadMap(std::string filename)
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
 	//createWave(5,0,0,0,0,0,0,0);
-	createWave(25,5,0,0,0,0,0,0);
+	createWave(50,25,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
 	createWave(8,10,9,3,0,0,0,0);
@@ -227,8 +227,6 @@ void MapHandler::loadMap(std::string filename)
 
 
 
-	
-
 }
 
 void MapHandler::update(float _dt)
@@ -247,7 +245,7 @@ void MapHandler::update(float _dt)
 			{
 				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
 				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
-				this->m_enemySpawnTimer = 2.0f;
+				this->m_enemySpawnTimer = 0.5f;
 			}
 			else
 			{

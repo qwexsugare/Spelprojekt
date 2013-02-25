@@ -44,6 +44,11 @@ ServerEntity::~ServerEntity()
 	delete this->m_obb;
 }
 
+FLOAT3 ServerEntity::getRotation()
+{
+	return this->m_rotation;
+}
+
 void ServerEntity::update(float dt)
 {
 	//Handle incoming messages
@@ -65,7 +70,7 @@ MessageQueue *ServerEntity::getMessageQueue()
 
 NetworkEntityMessage ServerEntity::getUpdate()
 {
-	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_type, this->m_modelId, 0, this->m_position, this->m_rotation, FLOAT3(1.0f, 1.0f, 1.0f));
+	NetworkEntityMessage e = NetworkEntityMessage(this->m_id, this->m_position.x,this->m_position.z, this->m_rotation.y,this->getPosition().x,this->getPosition().z,this->getEndPos().x,this->getEndPos().z,this->getMovementSpeed());
 
 	return e;
 }
@@ -148,6 +153,10 @@ bool ServerEntity::getVisible()
 {
 	return this->m_visible;
 }
+int ServerEntity::getHealth()
+{
+	return 0;
+}
 
 ServerEntity::Type ServerEntity::getType()
 {
@@ -167,4 +176,22 @@ void ServerEntity::dealDamage(ServerEntity* target, int physicalDamage, int ment
 void ServerEntity::heal(int health)
 {
 
+}
+
+FLOAT3 ServerEntity::getDirection()
+{
+	FLOAT3 f;
+	f.x=f.y=f.z=0;
+	return f;
+}
+
+FLOAT3 ServerEntity::getEndPos()
+{
+	FLOAT3 f;
+	f.x=f.y=f.z=0;
+	return f;
+}
+float ServerEntity::getMovementSpeed()
+{
+	return 0;
 }
