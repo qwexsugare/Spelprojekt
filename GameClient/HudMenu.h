@@ -13,7 +13,7 @@ class HudMenu :
 	public Menu
 {
 public:
-	HudMenu(Client *_network);
+	HudMenu(Client *_network, Hero::HERO_TYPE _heroType);
 	~HudMenu(void);
 
 	void Update(float _dt, const vector<Entity*>& _entities);
