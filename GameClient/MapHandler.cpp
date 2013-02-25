@@ -284,42 +284,42 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	{
 		if(i < _imps)
 		{
-			t = random(0, sizeof(m_paths)-1);
+			t = random(0, this->m_nrOfPaths-1);
 			m_waves[m_waves.size()-1].push_back(new Imp(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _shades)
 		{
-			t = random(0, sizeof(m_paths)-1);
+			t = random(0, this->m_nrOfPaths-1);
 			m_waves[m_waves.size()-1].push_back(new Shade(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _spits)
 		{
-			t = random(0, sizeof(m_paths)-1);
+			t = random(0, this->m_nrOfPaths-1);
 			m_waves[m_waves.size()-1].push_back(new SpittingDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _frosts)
 		{
-			t = random(0, sizeof(m_paths)-1);
+			t = random(0, this->m_nrOfPaths-1);
 			m_waves[m_waves.size()-1].push_back(new FrostDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _souls)
 		{
-			t = random(0, sizeof(m_paths)-1);
+			t = random(0, this->m_nrOfPaths-1);
 			m_waves[m_waves.size()-1].push_back(new SoulEaterSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _hell)
 		{
-			t = random(0, sizeof(m_paths)-1);
+			t = random(0, this->m_nrOfPaths-1);
 			m_waves[m_waves.size()-1].push_back(new HellfireSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _thunder)
 		{
-			t = random(0, sizeof(m_paths)-1);
+			t = random(0, this->m_nrOfPaths-1);
 			m_waves[m_waves.size()-1].push_back(new ThunderSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _brutes)
 		{
-			t = random(0, sizeof(m_paths)-1);
+			t = random(0, this->m_nrOfPaths-1);
 			m_waves[m_waves.size()-1].push_back(new BruteSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 			

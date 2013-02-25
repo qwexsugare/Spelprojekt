@@ -12,7 +12,7 @@
 GameState::GameState(Client *_network)
 {
 	this->m_network = _network;
-	this->importMap("levelone");
+	this->importMap("race");
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -164,6 +164,11 @@ void GameState::update(float _dt)
 				entity->m_model->setRotation(e.getRotation());
 			entity->m_type = (ServerEntity::Type)e.getEntityType();
 			entity->m_health = e.getHealth();
+
+			if(e.getEntityId() == this->m_playerInfos[this->m_yourId].id)
+			{
+				this->m_hud->setHealth(e.getHealth());
+			}
 		}
 		else
 		{
@@ -215,7 +220,7 @@ void GameState::update(float _dt)
 			m_idle = true;
 			break;
 		case Skill::DEATH:
-			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId()));
+			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		}
 	}

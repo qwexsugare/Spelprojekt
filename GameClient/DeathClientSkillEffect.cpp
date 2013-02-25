@@ -1,25 +1,23 @@
 #include "DeathClientSkillEffect.h"
 
-DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId)
+DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
 	this->m_masterId = _masterId;
-	this->m_lifetime = 5.0f;
+	this->m_lifetime = 10.0f;
+	this->m_sink = false;
 
 	Entity *e = ClientEntityHandler::getEntity(this->m_masterId);
+
+	if(e->m_type == ServerEntity::EnemyType)
+	{
+		this->m_sink = true;
+	}
 
 	if(e != NULL)
 	{
 		this->m_model = g_graphicsEngine->createModel(e->m_model, false);
+		this->m_model->setPosition(_position);
 		this->m_model->getAnimation()->Play("death", true);
-		
-		if(this->m_model->getObb() == NULL)
-		{
-			this->m_lifetime = this->m_lifetime + this->m_model->getBs()->Radius * 5.0f;
-		}
-		else if(this->m_model->getBs() == NULL)
-		{
-			this->m_lifetime = this->m_lifetime + this->m_model->getObb()->Extents.y * 5.0f;
-		}
 	}
 }
 
@@ -34,9 +32,12 @@ void DeathClientSkillEffect::update(float dt)
 
 	if(this->m_lifetime < 5.0f)
 	{
-		FLOAT3 pos = this->m_model->getPosition();
-		pos.y = pos.y - dt;
-		this->m_model->setPosition(pos);
+		if(this->m_sink == true)
+		{
+			FLOAT3 pos = this->m_model->getPosition();
+			pos.y = pos.y - dt;
+			this->m_model->setPosition(pos);
+		}
 	}
 }
 
