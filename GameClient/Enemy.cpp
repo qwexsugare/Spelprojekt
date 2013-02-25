@@ -19,6 +19,7 @@ Enemy::Enemy() : UnitEntity()
 	this->m_willPursue = false;
 	this->m_closestTargetId = -1;
 	m_targetType = UnitEntity::HeroType;
+	lastDT=0;
 }
 
 Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
@@ -57,7 +58,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	{
 		this->m_goalPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
 	}
-
+	lastDT=0;
 	m_nextPosition = m_goalPosition;
 	m_dir = m_nextPosition - m_position;
 }
@@ -69,123 +70,140 @@ FLOAT3 Enemy::getDirection()
 	else
 		return m_position;
 }
+FLOAT3 Enemy::getEndPos()
+{
+	return this->m_dir*1000;
+}
 
 void Enemy::updateSpecificUnitEntity(float dt)
 {
-	//Handle incoming messages
-	Message *m;
-
-	//this->m_reachedPosition = false;
-
-	this->checkPursue();
-
-	if(m_willPursue)
+	this->lastDT+=dt;
+	
+	if(this->lastDT>0.01)
 	{
-		this->setNextPosition(m_closestTargetId, dt);
+	
+		//Handle incoming messages
+		Message *m;
 
-		if( (m_position - EntityHandler::getServerEntity(m_closestTargetId)->getPosition()).length() < this->m_regularAttack->getRange())
+		//this->m_reachedPosition = false;
+
+		//this->checkPursue();
+
+		if(m_willPursue)
 		{
-			m_reachedPosition = true;
-			if(this->m_attackCooldown <= 0.0f)
+			this->setNextPosition(m_closestTargetId, lastDT);
+
+			if( (m_position - EntityHandler::getServerEntity(m_closestTargetId)->getPosition()).length() < this->m_regularAttack->getRange())
 			{
-				this->attackHero();
-				
+				m_reachedPosition = true;
+				if(this->m_attackCooldown <= 0.0f)
+				{
+					this->attackHero();
+				}
 			}
 		}
-	}
-	else
-		this->m_nextPosition = m_goalPosition;
+		else
+			this->m_nextPosition = m_goalPosition;
 
 
-	if(this->m_attackCooldown > 0.0f)
-	{
-		this->m_attackCooldown = this->m_attackCooldown - dt;
-	}
+		if(this->m_attackCooldown > 0.0f)
+		{
+			this->m_attackCooldown = this->m_attackCooldown - lastDT;
+		}
 	
-	m_prevDir = m_dir;
-	
-	
-	if(avoidTimer > 0.50f)
-	{
-		checkCloseEnemies(dt);
-		avoidTimer = 0.0f;
-	}
-
-	avoidTimer += dt;
-	m_goalDirection = (this->m_nextPosition - this->m_position);
-	m_staticAvDir = (m_staticAvDir +this->checkStatic(dt));
-
-	if(m_enemyAvDir.length() > 0)
-		m_enemyAvDir = m_enemyAvDir/m_enemyAvDir.length();
+		m_prevDir = m_dir;
 	
 	
-	if(m_goalDirection.length() > 0.0f)
-		m_goalDirection = m_goalDirection/m_goalDirection.length();
+		if(avoidTimer > 0.50f)
+		{
+			checkCloseEnemies(lastDT);
+			avoidTimer = 0.0f;
+		}
+
+		avoidTimer += lastDT;
+		m_goalDirection = (this->m_nextPosition - this->m_position);
+		m_staticAvDir = (m_staticAvDir +this->checkStatic(lastDT));
+
+		if(m_enemyAvDir.length() > 0)
+			m_enemyAvDir = m_enemyAvDir/m_enemyAvDir.length();
+	
+	
+		if(m_goalDirection.length() > 0.0f)
+			m_goalDirection = m_goalDirection/m_goalDirection.length();
 	
 
-	
-	if(checkDistanceToStatic(3,2))
-	{
-		m_dir =m_goalDirection;
-		m_staticAvDir = FLOAT3(0,0,0);
-	}
-	else if(checkDistanceToStatic(2,1))
-	{
-		m_dir =m_dir + m_staticAvDir*0.5f +m_goalDirection*2;
-	}
-	else if(checkDistanceToStatic(1,1))
-	{
-		m_dir.y = 0;
-		this->m_dir =this->m_dir*50 + m_staticAvDir*3.5f+ m_goalDirection;
-		//m_dir = m_dir/m_dir.length();
-	}
-	else if(checkDistanceToStatic(0.5f, 0.5f))
-		this->m_dir =this->m_dir*20 + m_staticAvDir*5 + m_goalDirection;
+			if(checkDistanceToStatic(3,2))
+			{
+				m_dir =m_goalDirection;
+				m_staticAvDir = FLOAT3(0,0,0);
+			}
+			else if(checkDistanceToStatic(2,1))
+			{
+				m_dir =m_dir + m_staticAvDir*0.5f +m_goalDirection*2;
+			}
+			else if(checkDistanceToStatic(1,1))
+			{
+				m_dir.y = 0;
+				this->m_dir =this->m_dir*50 + m_staticAvDir*3.5f+ m_goalDirection;
+				//m_dir = m_dir/m_dir.length();
+			}
+			else if(checkDistanceToStatic(0.5f, 0.5f))
+				this->m_dir =this->m_dir*20 + m_staticAvDir*5 + m_goalDirection;
 
-
-
-	if((m_nextPosition - m_position).length() >(this->m_movementSpeed * dt) && !m_reachedPosition )
-	{
+			if((m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
+			{
 		
-		//this->m_dir = this->m_dir + m_goalDirection + m_staticAvDir + m_enemyAvDir;
-		
-		this->m_dir = this->m_dir / this->m_dir.length();
-		this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * dt;
-	}
+				//this->m_dir = this->m_dir + m_goalDirection + m_staticAvDir + m_enemyAvDir;
+				if(this->m_dir.length()>0)
+				{
+				this->m_dir = this->m_dir / this->m_dir.length();
+				this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * lastDT;
+				}
+			}
 	
 
-	if((m_dir).length() > 0.00001f)
-	{
-		m_rotationAdding = (m_rotationAdding +(m_dir + m_prevDir)*0.5f)*0.5f;
-		m_rotation.x =  (atan2(-( m_rotationAdding).x, -( m_rotationAdding).z));
-	}
+			if((m_dir).length() > 0.00001f)
+			{
+				m_rotationAdding = (m_rotationAdding +(m_dir + m_prevDir)*0.5f)*0.5f;
+				m_rotation.x =  (atan2(-( m_rotationAdding).x, -( m_rotationAdding).z));
+			}
 
 		
 	
-	if((m_goalPosition-m_position).length() < (this->m_movementSpeed * dt)+2 && this->m_currentPoint < this->m_path.nrOfPoints-1)
-	{
+		if((m_goalPosition-m_position).length() < (this->m_movementSpeed * lastDT)+2 && this->m_currentPoint < this->m_path.nrOfPoints-1)
+		{
 		
-		this->m_currentPoint++;
-		this->m_goalPosition = FLOAT3(this->m_path.points[this->m_currentPoint].x, 0.0f, this->m_path.points[this->m_currentPoint].y);
-		this->m_reachedPosition = false;
-		m_nextPosition = m_goalPosition;
-		m_dir = (m_nextPosition - m_position)/(m_nextPosition - m_position).length();
+			this->m_currentPoint++;
+			this->m_goalPosition = FLOAT3(this->m_path.points[this->m_currentPoint].x, 0.0f, this->m_path.points[this->m_currentPoint].y);
+			this->m_reachedPosition = false;
+			m_nextPosition = m_goalPosition;
+			m_dir = (m_nextPosition - m_position)/(m_nextPosition - m_position).length();
 		
-	}
-	else if((m_goalPosition-m_position).length() < (this->m_movementSpeed * dt)+1)
-	{
-		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
-		this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id));
-	}
+		}
 
 
-	if(this->m_health <= 0)
-	{
-		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
-		this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource, m_highRescource)));
+		else if((m_goalPosition-m_position).length() < (this->m_movementSpeed * lastDT)+1)
+		{
+			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+			this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id));
+		}
+
+
+		if(this->m_health <= 0)
+		{
+			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+			this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource, m_highRescource)));
+		}
+
+	
+		if(this->m_dir.x!=m_prevDir.x&&this->m_dir.z!=m_prevDir.z)
+		{
+				this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x, m_position.z,this->getMovementSpeed()));
+		}
+		lastDT=0;
 	}
 
-	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 }
 
 void Enemy::setNextPosition(unsigned int _id, float dt)

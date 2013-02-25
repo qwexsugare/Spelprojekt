@@ -54,7 +54,7 @@ public:
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 	bool outOfBounds(FLOAT3 _pt);
 	void setTargetType(UnitEntity::Type _type);
-
+	FLOAT3 getEndPos();
 };
 
 #endif

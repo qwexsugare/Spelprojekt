@@ -33,6 +33,7 @@ struct Entity
 		float xdir=0;
 		float zdir=0;
 		
+		this->m_type;
 		if((this->m_model->getPosition() - this->m_endPos).length() > (this->m_direction * dt).length())
 		{
 			
