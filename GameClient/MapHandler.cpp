@@ -204,7 +204,7 @@ void MapHandler::loadMap(std::string filename)
 
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
-	//createWave(5,0,0,0,0,0,0,0);
+	createWave(5,0,0,0,0,0,0,0);
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
@@ -212,19 +212,19 @@ void MapHandler::loadMap(std::string filename)
 	createWave(5,8,12,5,0,0,0,0);
 	createWave(3,8,9,8,2,0,0,0);
 	createWave(2,6,8,10,4,0,0,0);
-	//createWave(0,6,7,11,6,2,0,0);
-	//createWave(0,4,6,11,5,4,0,0);
-	//createWave(0,3,4,9,8,6,0,0);
-	//createWave(0,0,6,8,9,4,3,0);
-	//createWave(0,0,4,5,11,6,4,0);
-	//createWave(0,0,2,4,11,7,6,0);
-	//createWave(0,0,0,4,10,8,6,2);
-	//createWave(0,0,0,2,8,9,8,3);
-	//createWave(0,0,0,0, 5,11,10,4);
-	//createWave(0,0,0,0,3,9,10,8);
-	//createWave(0,0,0,0,0,8,10,12);
-	//createWave(0,0,0,0,0,4,8,18);
-	//createWave(0,0,0,0,0,0,5,25);
+	createWave(0,6,7,11,6,2,0,0);
+	createWave(0,4,6,11,5,4,0,0);
+	createWave(0,3,4,9,8,6,0,0);
+	createWave(0,0,6,8,9,4,3,0);
+	createWave(0,0,4,5,11,6,4,0);
+	createWave(0,0,2,4,11,7,6,0);
+	createWave(0,0,0,4,10,8,6,2);
+	createWave(0,0,0,2,8,9,8,3);
+	createWave(0,0,0,0, 5,11,10,4);
+	createWave(0,0,0,0,3,9,10,8);
+	createWave(0,0,0,0,0,8,10,12);
+	createWave(0,0,0,0,0,4,8,18);
+	createWave(0,0,0,0,0,0,5,25);
 
 
 
