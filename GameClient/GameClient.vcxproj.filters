@@ -103,9 +103,6 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="HudMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -433,6 +430,9 @@
     <ClCompile Include="NetworkUpdateEntityHealth.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -547,9 +547,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">
@@ -895,6 +892,9 @@
     </ClInclude>
     <ClInclude Include="NetworkUpdateEntityHealth.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Server\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

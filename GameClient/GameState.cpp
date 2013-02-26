@@ -434,7 +434,7 @@ void GameState::update(float _dt)
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-		m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z)));
+		m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
 	}
 	if(g_mouse->isLButtonPressed())
 	{
@@ -468,7 +468,7 @@ void GameState::update(float _dt)
 			{
 				if(m_entities[i]->m_type == ServerEntity::EnemyType && m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
 				{
-					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id));
+					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id, -1));
 					stringstream ss;
 					ss << m_entities[i]->m_health;
 					m_healthText->setString("Target health: " + ss.str());
@@ -486,7 +486,7 @@ void GameState::update(float _dt)
 				float k = (-pickOrig.y)/pickDir.y;
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z));
+				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
 
 				m_healthText->setString("No target");
@@ -496,7 +496,7 @@ void GameState::update(float _dt)
 		{
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y));
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y), -1);
 			this->m_network->sendMessage(e);
 		}
 	}

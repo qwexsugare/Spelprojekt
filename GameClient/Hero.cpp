@@ -167,7 +167,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 					}
 				}
 			}
-			else //The target is doesn't exist
+			else //The target doesn't exist
 			{
 				this->m_hasTarget = false;
 				this->m_reachedPosition = true;

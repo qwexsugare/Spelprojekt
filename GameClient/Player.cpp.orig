@@ -19,9 +19,14 @@ Player::~Player()
 
 void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
 {
+<<<<<<< HEAD
+	if(m_hero)
+		delete this->m_hero;
+=======
 	m_selectedHeroType = _type;
 	m_selectedWeaponType = _weaponType;
 }
+>>>>>>> a42b432d66d963707e58f4ba49308438170819db
 
 void Player::spawnHero()
 {
@@ -44,14 +49,16 @@ void Player::spawnHero()
 		break;
 	}
 	
-<<<<<<< HEAD
-	this->m_hero->setPosition(FLOAT3(15.0f, 0.0f, 50.0f));
-=======
 	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 29.0f));
 
->>>>>>> 380f871e2522c3348758797fd8b713ed963e3d46
 	
+<<<<<<< HEAD
 	//EntityHandler::addEntity(m_hero);
+	m_hero->activateAllPassiveSkills();
+}
+=======
+	EntityHandler::addEntity(m_hero);
+>>>>>>> a42b432d66d963707e58f4ba49308438170819db
 
 	vector<Skill*> skills = this->m_hero->getSkills();
 
