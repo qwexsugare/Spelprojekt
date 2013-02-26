@@ -177,8 +177,8 @@ bool World::removeTerrain(Terrain* _terrain)
 
 void World::render()
 {
-	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
-	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
+	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
 
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
