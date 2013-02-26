@@ -89,7 +89,9 @@ UnitEntity::~UnitEntity()
 
 void UnitEntity::addSkill(Skill *_skill)
 {
+	this->m_mutex.Lock();
 	this->m_skills.push_back(_skill);
+	this->m_mutex.Unlock();
 }
 
 void UnitEntity::alterMentalDamage(float _value)
@@ -382,10 +384,14 @@ void UnitEntity::stun(float _time)
 
 void UnitEntity::update(float dt)
 {
+	this->m_mutex.Lock();
+
 	for(int i = 0; i < this->m_skills.size(); i++)
 	{
 		this->m_skills[i]->update(dt);
 	}
+
+	this->m_mutex.Unlock();
 
 	if(this->m_attackCooldown > 0.0f)
 	{
