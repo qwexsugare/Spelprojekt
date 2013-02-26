@@ -325,6 +325,10 @@ void World::render()
 			greatestExtent = 1337;
 		}
 
+
+		//Anders var här och pela
+		this->m_deferredSampler->setCameraPosition(this->m_camera->m_forward);
+
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;

@@ -301,6 +301,8 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </EntryPointName>
     </FxCompile>
     <FxCompile Include="..\GameClient\ParticleEngineRendering.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">

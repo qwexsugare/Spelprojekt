@@ -62,8 +62,13 @@ ModelIdHolder::ModelIdHolder()
 	this->m_hatIds[97] = "GasMask";
 	this->m_hatIds[98] = "Kubb";
 	this->m_hatIds[99] = "TopHat";
-	//this->m_rightHandIds[99] = "MentalistRapier";
-	//this->m_rightHandIds[97] = "Crossbow";
+	this->m_leftHandIds[95] = "lantern";
+	this->m_leftHandIds[97] = "lantern";
+	this->m_leftHandIds[98] = "lantern";
+	this->m_leftHandIds[99] = "lantern";
+	this->m_rightHandIds[96] = "Mace";
+	this->m_rightHandIds[97] = "Crossbow";
+	this->m_rightHandIds[99] = "MentalistRapier";
 	this->m_textures[95] = "color";
 	this->m_textures[96] = "color1";
 	this->m_textures[97] = "color2";
