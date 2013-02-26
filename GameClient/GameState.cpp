@@ -168,12 +168,14 @@ void GameState::update(float _dt)
 			p.y=0;
 			p.z=e.getZPos();
 			entity->m_model->setPosition(p);
-			if(e.getYRot() == e.getYRot())
 
 			if(e.getEntityId() == this->m_playerInfos[this->m_yourId].id)
 			{
 				this->m_hud->setHealth(1000);
 			}
+
+			if(e.getYRot() == e.getYRot())
+			{
 				FLOAT3 rot;
 				rot.x=e.getYRot();
 				rot.y=0;
@@ -190,6 +192,7 @@ void GameState::update(float _dt)
 				entity->m_startPos=startPos;
 				entity->m_endPos=endPos;
 				entity->movementSpeed=e.getMovementSpeed();
+			}
 		}
 	}
 	while(!this->m_network->updateEntityHealthEmpty())
