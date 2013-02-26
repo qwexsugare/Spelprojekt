@@ -1,6 +1,7 @@
 #include "TeslaChainTurret.h"
+#include "Graphics.h"
 
-TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int turretUpgrade)
+TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int turretUpgrade) : Turret(_position)
 {
 	this->m_lifeTime = 20.0f * turretLifeUpgrade;
 	this->m_damage = 20;
@@ -9,7 +10,10 @@ TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int 
 	this->m_attackCooldown = this->m_cooldown;
 	this->m_numberOfHits = 2 + turretUpgrade / 4;
 	this->m_modelId = 3;
-	this->m_position = _position;
+	
+	Model* temp = g_graphicsEngine->createModel("LightningTurret", _position);
+	m_obb = new BoundingOrientedBox(*temp->getObb());
+	g_graphicsEngine->removeModel(temp);
 }
 
 TeslaChainTurret::~TeslaChainTurret()

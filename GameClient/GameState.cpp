@@ -157,6 +157,8 @@ void GameState::update(float _dt)
 			p.y=0;
 			p.z=e.getZPos();
 			entity->m_model->setPosition(p);
+			{
+
 			if(e.getYRot() == e.getYRot())
 			{
 				FLOAT3 rot;
@@ -175,6 +177,7 @@ void GameState::update(float _dt)
 				entity->m_startPos=startPos;
 				entity->m_endPos=endPos;
 				entity->movementSpeed=e.getMovementSpeed();
+			}
 			}
 		}
 	}
@@ -658,6 +661,7 @@ void GameState::importMap(string _map)
 					rotation.x *= -(D3DX_PI/180);
 					rotation.y *= (D3DX_PI/180);
 					rotation.z *= (D3DX_PI/180);
+					//rotation = FLOAT3(0,0,0);
 				
 					Model *m = g_graphicsEngine->createModel(key, position, true);
 					m->setRotation(rotation);

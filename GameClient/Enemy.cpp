@@ -163,6 +163,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 				}
 
+				// This code makes the game crash
 				//ServerEntity *stat = EntityHandler::getClosestStatic(this);
 				//if((m_position - stat->getPosition()).length() < sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z)+this->getObb()->Extents.z)
 				//{

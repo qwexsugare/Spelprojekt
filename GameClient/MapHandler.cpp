@@ -126,6 +126,7 @@ void MapHandler::loadMap(std::string filename)
 					rotation.x *= -(D3DX_PI/180);
 					rotation.y *= (D3DX_PI/180);
 					rotation.z *= (D3DX_PI/180);
+					//rotation = FLOAT3(0,0,0);
 					
 					Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
 					m->setRotation(rotation);
@@ -204,7 +205,7 @@ void MapHandler::loadMap(std::string filename)
 
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
-	createWave(5,0,0,0,0,0,0,0);
+	/*createWave(5,0,0,0,0,0,0,0);
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
@@ -224,7 +225,7 @@ void MapHandler::loadMap(std::string filename)
 	createWave(0,0,0,0,3,9,10,8);
 	createWave(0,0,0,0,0,8,10,12);
 	createWave(0,0,0,0,0,4,8,18);
-	createWave(0,0,0,0,0,0,5,25);
+	createWave(0,0,0,0,0,0,5,25);*/
 
 
 
