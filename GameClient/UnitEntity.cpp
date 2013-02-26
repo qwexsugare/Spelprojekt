@@ -167,6 +167,7 @@ int UnitEntity::getSkillIndex(Skill* _skill)
 
 void UnitEntity::increaseStrength(int _strength)
 {
+	// Prevents the attribute gain to exceed max and minimizes the gain.
 	if(_strength+m_strength > UnitEntity::MAX_STRENGTH)
 		_strength = UnitEntity::MAX_STRENGTH - m_strength;
 	
@@ -177,6 +178,7 @@ void UnitEntity::increaseStrength(int _strength)
 
 void UnitEntity::increaseAgility(int _agility)
 {
+	// Prevents the attribute gain to exceed max and minimizes the gain.
 	if(_agility+m_agility > UnitEntity::MAX_AGILITY)
 		_agility = UnitEntity::MAX_AGILITY - m_agility;
 	
@@ -189,23 +191,23 @@ void UnitEntity::increaseAgility(int _agility)
 
 void UnitEntity::increaseWits(int _wits)
 {
+	// Prevents the attribute gain to exceed max and minimizes the gain.
 	if(_wits+this->m_wits > UnitEntity::MAX_WITS)
 		_wits = UnitEntity::MAX_WITS - this->m_wits;
 
-	this->m_mentalDamage = this->m_mentalDamage + _wits * 5;
-	this->m_turretDuration = this->m_turretDuration + _wits * 0.5f;
-	this->m_wits += _wits;
+	m_baseMentalDamage += _wits * 5;
+	m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
+	this->m_turretDuration += _wits * 0.5f;
+	m_wits += _wits;
 }
 
 void UnitEntity::increaseFortitude(int _fortitude)
-{
-	this->m_fortitude = _fortitude;
+{	
+	// Prevents the attribute gain to exceed max and minimizes the gain.
+	if(_fortitude+m_fortitude > UnitEntity::MAX_WITS)
+		_fortitude = UnitEntity::MAX_WITS - m_fortitude;
 
-	if(this->m_fortitude + _fortitude > UnitEntity::MAX_FORTITUDE)
-	{
-		_fortitude = UnitEntity::MAX_FORTITUDE - this->m_fortitude;
-		this->m_fortitude = UnitEntity::MAX_FORTITUDE;
-	}
+	m_fortitude += _fortitude;
 }
 
 void UnitEntity::setMaxHealth(int _maxHealth)
