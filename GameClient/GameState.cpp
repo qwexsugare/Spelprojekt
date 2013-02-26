@@ -423,7 +423,7 @@ void GameState::update(float _dt)
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-		switch(random(0, 3))
+		switch(random(2, 2))
 		{
 		case 0:
 			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_PULSE_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
@@ -661,6 +661,7 @@ void GameState::importMap(string _map)
 					rotation.x *= -(D3DX_PI/180);
 					rotation.y *= (D3DX_PI/180);
 					rotation.z *= (D3DX_PI/180);
+					//rotation = FLOAT3(0,0,0);
 				
 					Model *m = g_graphicsEngine->createModel(key, position, true);
 					m->setRotation(rotation);

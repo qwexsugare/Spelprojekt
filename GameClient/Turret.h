@@ -15,7 +15,6 @@ public:
 	Turret();
 	Turret(FLOAT3 position);
 	virtual ~Turret();
-	void update(float dt);
 };
 
 #endif
