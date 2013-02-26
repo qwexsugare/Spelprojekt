@@ -2,13 +2,14 @@
 
 TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int turretUpgrade)
 {
-	this->m_lifeTime = 20 * turretLifeUpgrade;
+	this->m_lifeTime = 20.0f * turretLifeUpgrade;
 	this->m_damage = 20;
 	this->m_cooldown = 2.0f;
 	this->m_attackRange = 2.0f;
 	this->m_attackCooldown = this->m_cooldown;
 	this->m_numberOfHits = 2 + turretUpgrade / 4;
 	this->m_modelId = 3;
+	this->m_position = _position;
 }
 
 TeslaChainTurret::~TeslaChainTurret()
