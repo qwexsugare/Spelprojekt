@@ -257,6 +257,7 @@ void Enemy::checkCloseEnemies(float dt)
 	m_enemyAvDir = FLOAT3(0,0,0);
 	if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z)*3)
 	{
+
 		
 		if((m_position+m_dir*dt*3*m_movementSpeed - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
 		{
@@ -267,7 +268,7 @@ void Enemy::checkCloseEnemies(float dt)
 			m_movementSpeed = m_baseMovementSpeed;
 
 		m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
-		m_dir = m_dir + m_enemyAvDir*2;
+		m_dir = m_dir + m_enemyAvDir*3;
 		//m_position = m_position +m_enemyAvDir*2*dt;
 	}
 	else 
@@ -321,7 +322,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 	
 	
 		
-		for(int i = 1; i < 10; i=i+2)
+		for(int i = 1; i < 10; i++)
 		{
 			temp = m_position + currDir*i;
 			temp1 = m_position + currDir*i+ (cross);
