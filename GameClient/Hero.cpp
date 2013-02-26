@@ -160,6 +160,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 								this->m_reachedPosition = true;
 								this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 								this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+								this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->getId(),this->getPosition().x,this->getPosition().z,this->getRotation().x,0.0f,0.0f,0.0f,0.0f,this->getMovementSpeed()));
 							}
 
 							this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
@@ -219,9 +220,12 @@ void Hero::updateSpecificUnitEntity(float dt)
 	{
 		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
 		this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
+		this->m_nextPosition = this->m_position;
 		this->m_health = this->m_maxHealth;
 		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 		this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+		this->m_hasTarget = false;
+		this->m_reachedPosition = true;
 	}
 }
 
