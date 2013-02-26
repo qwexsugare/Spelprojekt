@@ -163,7 +163,9 @@
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="DeathClientSkillEffect.cpp" />
+    <ClCompile Include="DeathPulseTurret.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
+    <ClCompile Include="FrostTurret.cpp" />
     <ClCompile Include="IdleClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
@@ -254,6 +256,7 @@
     <ClCompile Include="PhysicalResistance.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoisonStrike.cpp" />
+    <ClCompile Include="PoisonTurret.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RangedAttack.cpp" />
@@ -292,7 +295,7 @@
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="TheMentalist.cpp" />
     <ClCompile Include="ThunderSteed.cpp" />
-    <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="Turret.cpp" />
     <ClCompile Include="TowerPlacer.cpp" />
     <ClCompile Include="UnitEntity.cpp" />
   </ItemGroup>
@@ -318,7 +321,9 @@
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
     <ClInclude Include="DeathClientSkillEffect.h" />
+    <ClInclude Include="DeathPulseTurret.h" />
     <ClInclude Include="DelayedDamage.h" />
+    <ClInclude Include="FrostTurret.h" />
     <ClInclude Include="IdleClientSkillEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="MeleeAttack.h" />
@@ -415,6 +420,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerInfo.h" />
     <ClInclude Include="PoisonStrike.h" />
+    <ClInclude Include="PoisonTurret.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RangedAttack.h" />
@@ -454,8 +460,9 @@
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="TheMentalist.h" />
     <ClInclude Include="ThunderSteed.h" />
-    <ClInclude Include="Tower.h" />
+    <ClInclude Include="Turret.h" />
     <ClInclude Include="TowerPlacer.h" />
+    <ClInclude Include="Turrets.h" />
     <ClInclude Include="UnitEntity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

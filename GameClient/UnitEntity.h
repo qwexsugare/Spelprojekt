@@ -54,7 +54,7 @@ protected:
 public:
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
-	~UnitEntity();
+	virtual ~UnitEntity();
 	
 	void update(float dt);
 	virtual void updateSpecificUnitEntity(float dt) = 0;

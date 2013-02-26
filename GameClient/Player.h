@@ -20,6 +20,7 @@ class Player
 private:
 	unsigned int m_id;
 	unsigned int m_resources;
+	int m_attributesBought;
 
 	bool m_ready;
 	MessageQueue *m_messageQueue;
