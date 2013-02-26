@@ -1,9 +1,10 @@
 #pragma once
-#include "tower.h"
+
+#include "Turret.h"
 #include "ChainStrikeEffect.h"
 #include "DataStructures.h"
 
-class TeslaChainTurret : public Tower
+class TeslaChainTurret : public Turret
 {
 private:
 	float m_cooldown;

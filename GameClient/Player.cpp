@@ -294,8 +294,17 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 	case Skill::MOVE:
 		this->m_hero->setNextPosition(usm.getPosition());
 		break;
-
-	case Skill::DEATH_TOWER:
+		
+	case Skill::DEATH_PULSE_TURRET:
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		break;
+	case Skill::FROST_TURRET:
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		break;
+	case Skill::POISON_TURRET:
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		break;
+	case Skill::TESLA_CHAIN_TURRET:
 		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
 		break;
 

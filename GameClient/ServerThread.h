@@ -9,7 +9,6 @@
 #include "ServerEntity.h"
 #include "MapHandler.h"
 #include "CollisionHandler.h"
-#include "Tower.h"
 #include "GraphicsHandler.h"
 #include <sstream>
 
