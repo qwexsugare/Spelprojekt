@@ -210,11 +210,6 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float attenuation;
 	int nrOfPointAndDirectionalLights = nrOfPointLights + nrOfShadowedPointLights + nrOfDirectionalLights;
 
-	//NormalMappingTangentSpace
-	float3 binormal = cross(normal.xyz, tangent.xyz);
-	float3x3 tbn = float3x3(tangent.xyz, binormal, normal.xyz);
-	//normal = float4(mul(normal.xyz, tbn), 0.0f);
-
 	for(i = 0; i < nrOfPointLights; i++)
 	{
 		distVector = (lightPosition[i] - position);
@@ -276,6 +271,21 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	
 	//return float4(0.5f*diffuseLight.xyz*diffuse + specularLight, diffuse.w);
 	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * tangent.w);
+
+	
+	float3 fiskLight = normalize(float3(1, -1, 0));
+	float fiskDiff = dot(normal.xyz, -fiskLight);
+
+	diffuse *= fiskDiff;
+	float trollx = saturate(normal.x);
+	float trolly = saturate(normal.y);
+	float trollz = saturate(normal.z);
+
+	//had to do this to commiut
+
+	//return float4(trollx, trolly, trollz, normal.w);
+	//return float4(fiskDiff, fiskDiff, fiskDiff, diffuse.w);
+	return float4(diffuse.xyz, diffuse.w);
 }
 
 technique10 RenderModelDeferred

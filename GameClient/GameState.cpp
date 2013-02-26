@@ -278,6 +278,9 @@ void GameState::update(float _dt)
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
 			break;
+		case Skill::HYPNOTIC_STARE:
+			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getPosition().x));
+			break;
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
 			break;

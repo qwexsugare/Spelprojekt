@@ -65,6 +65,8 @@ public:
 	ID3D10EffectTechnique *getSuperTechnique();
 	ID3D10EffectTechnique *getPropsTechnique();
 
+	void setCameraPosition(D3DXVECTOR3 _cameraPos);
+
 
 	ID3D10EffectTechnique *getRenderTerrainTechnique();
 	void setTerrainTextures(ID3D10ShaderResourceView** _textures, int _size);

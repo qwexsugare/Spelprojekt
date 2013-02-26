@@ -200,12 +200,8 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
-
-	EntityHandler::addEntity(new Imp(FLOAT3(0,0,0), m_paths[0]));
-
-	//this->m_waves.push_back(vector<ServerEntity*>());
-	
-	/*createWave(5,0,0,0,0,0,0,0);
+	createWave(0,0,0,0,1,1,1,1); // MÖGs super advanced specified wave with extra cheese
+	createWave(5,0,0,0,0,0,0,0);
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
@@ -225,12 +221,7 @@ void MapHandler::loadMap(std::string filename)
 	createWave(0,0,0,0,3,9,10,8);
 	createWave(0,0,0,0,0,8,10,12);
 	createWave(0,0,0,0,0,4,8,18);
-	createWave(0,0,0,0,0,0,5,25);*/
-
-
-
-
-
+	createWave(0,0,0,0,0,0,5,25);
 }
 
 void MapHandler::update(float _dt)
