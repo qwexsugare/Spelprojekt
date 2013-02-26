@@ -434,7 +434,21 @@ void GameState::update(float _dt)
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-		m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_TOWER, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
+		switch(random(0, 3))
+		{
+		case 0:
+			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_PULSE_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
+			break;
+		case 1:
+			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::FROST_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
+			break;
+		case 2:
+			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::TESLA_CHAIN_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
+			break;
+		case 3:
+			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::POISON_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
+			break;
+		}
 	}
 	if(g_mouse->isLButtonPressed())
 	{

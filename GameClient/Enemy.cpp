@@ -158,26 +158,25 @@ void Enemy::updateSpecificUnitEntity(float dt)
 				//this->m_dir = this->m_dir + m_goalDirection + m_staticAvDir + m_enemyAvDir;
 				if(this->m_dir.length()>0)
 				{
-				this->m_dir = this->m_dir / this->m_dir.length();
-				this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * lastDT;
+					this->m_dir = this->m_dir / this->m_dir.length();
+					this->m_position = this->m_position + this->m_dir * this->m_movementSpeed * lastDT;
 
 				}
-		ServerEntity *stat = EntityHandler::getClosestStatic(this);
-		if((m_position - stat->getPosition()).length() < sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z)+this->getObb()->Extents.z)
-		{
+
+				//ServerEntity *stat = EntityHandler::getClosestStatic(this);
+				//if((m_position - stat->getPosition()).length() < sqrt(stat->getObb()->Extents.x + stat->getObb()->Extents.z)+this->getObb()->Extents.z)
+				//{
 		
-			//m_position= m_position + (m_position - stat->getPosition())*dt*2*m_movementSpeed;///(m_position - stat->getPosition()).length();
-		}
+				//	//m_position= m_position + (m_position - stat->getPosition())*dt*2*m_movementSpeed;///(m_position - stat->getPosition()).length();
+				//}
 
 
-		if(outOfBounds(m_position,0))
-		{
-			m_position = m_position -m_dir*m_movementSpeed*dt*2;
-			m_dir = FLOAT3(32,0,32) - m_position;
-			m_dir = m_dir/m_dir.length();
-		}
-
-		
+				if(outOfBounds(m_position,0))
+				{
+					m_position = m_position -m_dir*m_movementSpeed*dt*2;
+					m_dir = FLOAT3(32,0,32) - m_position;
+					m_dir = m_dir/m_dir.length();
+				}
 			}
 	
 
@@ -223,7 +222,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		lastDT=0;
 	}
 
-		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 }
 
 void Enemy::setNextPosition(unsigned int _id, float dt)
