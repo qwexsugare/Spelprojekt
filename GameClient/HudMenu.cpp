@@ -178,25 +178,34 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 		this->m_towerButtons.push_back(new Button());
 	}
 
-	this->m_towerButtons[0]->Init(FLOAT2(0 * 0.125f + 0.1f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::TESLA_CHAIN_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::TESLA_CHAIN_TURRET);
-	this->m_towerButtons[1]->Init(FLOAT2(1 * 0.125f + 0.1f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::FROST_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::FROST_TURRET);
-	this->m_towerButtons[2]->Init(FLOAT2(2 * 0.125f + 0.1f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::POISON_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::POISON_TURRET);
-	this->m_towerButtons[3]->Init(FLOAT2(3 * 0.125f + 0.1f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::DEATH_PULSE_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::DEATH_PULSE_TURRET);
+	this->m_towerButtons[0]->Init(FLOAT2(0 * 0.125f + 0.2f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::TESLA_CHAIN_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::TESLA_CHAIN_TURRET);
+	this->m_towerButtons[1]->Init(FLOAT2(1 * 0.125f + 0.2f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::FROST_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::FROST_TURRET);
+	this->m_towerButtons[2]->Init(FLOAT2(2 * 0.125f + 0.2f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::POISON_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::POISON_TURRET);
+	this->m_towerButtons[3]->Init(FLOAT2(3 * 0.125f + 0.2f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::DEATH_PULSE_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::DEATH_PULSE_TURRET);
 }
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 {
 	if(this->m_placingTower == true)
 	{
+		D3DXVECTOR3 pickDir;
+		D3DXVECTOR3 pickOrig;
+		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+		float k = (-pickOrig.y)/pickDir.y;
+		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+		this->m_towerModel->setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+
 		if(g_mouse->isLButtonPressed() == true)
 		{
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			g_graphicsEngine->removeModel(this->m_towerModel);
 
-			float k = (-pickOrig.y)/pickDir.y;
-			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 			this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_towerId, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), 0));	
-
+			this->m_placingTower = false;
+		}
+		else if(g_mouse->isRButtonPressed() == true)
+		{
+			g_graphicsEngine->removeModel(this->m_towerModel);
 			this->m_placingTower = false;
 		}
 	}
@@ -294,6 +303,26 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					//Go into tower placing mode
 					this->m_placingTower = true;
 					this->m_towerId = this->m_towerButtons[i]->GetID();
+
+					ModelIdHolder m;
+
+					switch(this->m_towerId)
+					{
+					case Skill::DEATH_PULSE_TURRET:
+						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+						break;
+					case Skill::TESLA_CHAIN_TURRET:
+						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+						break;
+					case Skill::FROST_TURRET:
+						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+						break;
+					case Skill::POISON_TURRET:
+						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+						break;
+					}
+
+					this->m_towerModel->setAlpha(0.5f);
 				}
 			}
 

@@ -11,6 +11,8 @@ private:
 	int m_damage;
 	int m_numberOfHits;
 public:
+	static const int COST = 150;
+
 	TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int turretUpgrade);
 	~TeslaChainTurret();
 

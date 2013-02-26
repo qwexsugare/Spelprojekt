@@ -9,6 +9,7 @@
 #include "Entity.h"
 #include "SkillIdHolder.h"
 #include "Sprite.h"
+#include "ModelIdHolder.h"
 
 class HudMenu : public Menu
 {
