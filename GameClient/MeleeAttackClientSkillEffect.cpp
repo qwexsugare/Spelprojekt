@@ -19,7 +19,27 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 
 	if(target)
 	{
-		if(target->m_type == UnitEntity::HeroType)
+		if(target->m_type == UnitEntity::EnemyType)
+		{
+			int sound;
+
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, false);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, false);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, false);
+				break;
+			}
+					
+			SpeechManager::speak(_targetId, sound); // The unit must be killed on the client before on the server for this sound solution to actually work.
+			deactivateSound(sound);
+		}
+		else if(target->m_type == UnitEntity::HeroType)
 		{
 			if(_targetId == _playerInfo.id)
 			{
@@ -100,6 +120,7 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 				}
 				
 				SpeechManager::speak(_targetId, sound);
+				deactivateSound(sound);
 			}
 		}
 	}

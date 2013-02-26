@@ -8,20 +8,10 @@
 #include <sstream>
 #include "Entity.h"
 #include "SkillIdHolder.h"
+#include "Sprite.h"
 
-class HudMenu :
-	public Menu
+class HudMenu : public Menu
 {
-public:
-	HudMenu(Client *_network);
-	~HudMenu(void);
-
-	void Update(float _dt, const vector<Entity*>& _entities);
-
-	void addSkill(unsigned int _skillId);
-	void setResources(unsigned int resources);
-	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
-	void setHealth(float health);
 private:
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
@@ -45,6 +35,7 @@ private:
 
 	bool m_canAfford[20];
 	bool m_shopVisible;
+	int m_nrOfAttributesBought;
 	vector<Button*> m_shopButtons;
 	vector<Button*> m_disabledShopButtons;
 	vector<Button*> m_resourceImages;
@@ -66,5 +57,15 @@ private:
 	void UnInit(int _Type);
 
 	void displayShop(bool _visible);
+public:
+	HudMenu(Client *_network, Hero::HERO_TYPE _heroType);
+	~HudMenu(void);
+
+	void Update(float _dt, const vector<Entity*>& _entities);
+
+	void addSkill(unsigned int _skillId);
+	void setResources(unsigned int resources);
+	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
+	void setHealth(float health);
 };
 

@@ -11,7 +11,7 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
-	this->m_mapHandler->loadMap("maps/race/race.txt");
+	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
 	// I crapped in ass
 	this->m_network->broadcast(NetworkEntityMessage());
 	TowerPlacer::init();
@@ -47,8 +47,7 @@ void ServerThread::Run()
 	this->m_state = State::LOBBY;
 	this->m_network->start(this->m_port);
 
-	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
-
+	EntityHandler::addEntity(new TeslaChainTurret(FLOAT3(0.0f, 0.0f, 0.0f), 10, 10));
 	while(this->m_state != State::EXIT)
 	{
 		__int64 currTimeStamp = 0;
@@ -61,7 +60,7 @@ void ServerThread::Run()
 		if(fpsTimer > 1.0f)
 		{
 			stringstream ss;
-			ss << "Server fps:" << 1.0f / dt;
+			ss << "Server fps:" << 1.0f / dt << " Entities: " << EntityHandler::getEntities().size();
 			fpsTimer = 0.0f;
 			fpsText->setString(ss.str());
 		}
@@ -170,7 +169,7 @@ void ServerThread::update(float dt)
 
 		for(int i = 0; i < entities.size(); i++)
 		{
-			if(entities[i]->getVisible() == true && entities[i]->getType() != ServerEntity::Type::StaticType)
+			if(entities[i]->getVisible() == true && (entities[i]->getType() != ServerEntity::Type::StaticType && entities[i]->getType() != ServerEntity::Type::HeroType && entities[i]->getType() != ServerEntity::Type::TowerType && entities[i]->getType() != ServerEntity::Type::EnemyType))
 			{
 				this->m_network->broadcast(entities[i]->getUpdate());
 			}

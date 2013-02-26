@@ -12,6 +12,7 @@
 #include "ClientEntityHandler.h"
 #include "Hero.h"
 #include "PlayerInfo.h"
+#include "Text.h"
 //#include "Cursor.h"
 
 class GameState : public State
@@ -30,8 +31,8 @@ private:
 	ParticleEngine *testParticleSystem;
 	unsigned int m_yourId;
 
-	SpotLight* s;
 	//Cursor m_cursor;
+	Text* m_healthText;
 
 	bool m_idle;
 	float m_idleSoundTimer;

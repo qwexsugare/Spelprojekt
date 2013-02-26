@@ -105,7 +105,7 @@ void ClientHandler::update(float _dt)
 		}
 	}
 	this->m_messages.clear();
-
+	
 	this->m_state->update(_dt);
 
 	if(this->m_state->isDone())

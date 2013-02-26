@@ -13,6 +13,8 @@ protected:
 	static const int MAX_WITS = 20;
 	static const int MAX_FORTITUDE = 20;
 
+	sf::Mutex m_mutex;
+
 	vector<Skill*> m_skills;
 	Skill* m_regularAttack;
 
@@ -54,7 +56,7 @@ protected:
 public:
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
-	~UnitEntity();
+	virtual ~UnitEntity();
 	
 	void update(float dt);
 	virtual void updateSpecificUnitEntity(float dt) = 0;

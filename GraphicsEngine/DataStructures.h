@@ -76,6 +76,14 @@ struct DECLDIR FLOAT3
 	{
 		return FLOAT3(x-_k.x, y-_k.y, z-_k.z);
 	}
+	bool operator==(const FLOAT3& _k)const
+	{
+		return (x==_k.x&& y==_k.y&& z==_k.z);
+	}
+	bool operator!=(const FLOAT3& _k)const
+	{
+		return (x!=_k.x&& y!=_k.y&& z!=_k.z);
+	}
 
 	template<typename T>
 	FLOAT3 operator*(const T& _k)const

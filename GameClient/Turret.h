@@ -5,17 +5,16 @@
 #include "EntityHandler.h"
 #include "Projectile.h"
 
-class Tower : public ServerEntity
+class Turret : public ServerEntity
 {
 protected:
 	float m_attackRange;
 	float m_attackCooldown;
 	float m_lifeTime;
 public:
-	Tower();
-	Tower(FLOAT3 position);
-	virtual ~Tower();
-	void update(float dt);
+	Turret();
+	Turret(FLOAT3 position);
+	virtual ~Turret();
 };
 
 #endif

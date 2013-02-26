@@ -18,6 +18,7 @@ public:
 private:
 	FLOAT3 m_nextPosition;
 	FLOAT3 m_goalPosition;
+	FLOAT3 m_startPos;
 	bool m_reachedPosition;
 	bool m_reallyReachedPosition;
 
@@ -29,6 +30,8 @@ private:
 
 	HERO_TYPE m_heroType;
 	int m_playerId;
+	UpdateEntityMessage* getUpdateEntityMessage();
+	float m_attackRange;
 public:
 	Hero();
 	Hero(HERO_TYPE _heroType, int _playerId);
@@ -40,6 +43,7 @@ public:
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setTarget(unsigned int _target);
 	FLOAT3 getDirection();
+	FLOAT3 getEndPos();
 };
 
 #endif

@@ -103,9 +103,6 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="HudMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -310,9 +307,6 @@
     <ClCompile Include="Officer.cpp">
       <Filter>Server\Heroes</Filter>
     </ClCompile>
-    <ClCompile Include="Tower.cpp">
-      <Filter>Server\Towers</Filter>
-    </ClCompile>
     <ClCompile Include="TeslaChainTurret.cpp">
       <Filter>Server\Towers</Filter>
     </ClCompile>
@@ -407,7 +401,7 @@
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="TowerPlacer.cpp">
-      <Filter>Server\Tower Placer</Filter>
+      <Filter>Server\Towers\Tower Placer</Filter>
     </ClCompile>
     <ClCompile Include="RunClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -417,15 +411,36 @@
     </ClCompile>
     <ClCompile Include="MeleeAOEAttack.cpp">
       <Filter>Server\Skills</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="NetworkHeroInitMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="SpeechManager.cpp">
       <Filter>Client</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="DeathClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkInitEntityMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkUpdateEntityHealth.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <Filter>Server\Towers</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostTurret.cpp">
+      <Filter>Server\Towers</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonTurret.cpp">
+      <Filter>Server\Towers</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathPulseTurret.cpp">
+      <Filter>Server\Towers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,9 +556,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">
@@ -762,9 +774,6 @@
     <ClInclude Include="RedKnight.h">
       <Filter>Server\Heroes</Filter>
     </ClInclude>
-    <ClInclude Include="Tower.h">
-      <Filter>Server\Towers</Filter>
-    </ClInclude>
     <ClInclude Include="TeslaChainTurret.h">
       <Filter>Server\Towers</Filter>
     </ClInclude>
@@ -867,22 +876,46 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="TowerPlacer.h">
-      <Filter>Server\Tower Placer</Filter>
+      <Filter>Server\Towers\Tower Placer</Filter>
     </ClInclude>
     <ClInclude Include="NetworkHeroInitMessage.h">
       <Filter>Network</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="MeleeAOEAttack.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInfo.h">
       <Filter>Client</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="DeathClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="SpeechManager.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkInitEntityMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUpdateEntityHealth.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Turret.h">
+      <Filter>Server\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="Turrets.h">
+      <Filter>Server\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonTurret.h">
+      <Filter>Server\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurret.h">
+      <Filter>Server\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathPulseTurret.h">
+      <Filter>Server\Towers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -928,7 +961,7 @@
     <Filter Include="Server\Quadtree">
       <UniqueIdentifier>{fa0e9017-8c0a-4efa-9c1a-c4978e74b3be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Server\Tower Placer">
+    <Filter Include="Server\Towers\Tower Placer">
       <UniqueIdentifier>{7be7bea1-bd1e-460e-bca8-3cdc6c3dbe73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

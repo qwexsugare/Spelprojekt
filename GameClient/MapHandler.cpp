@@ -69,7 +69,9 @@ MapHandler::State MapHandler::getState()
 void MapHandler::loadMap(std::string filename)
 {
 	this->m_waveTimer = 0.0f;
-
+	
+	bool heightLoaded = false;
+	bool widthLoaded = false;
 	int height;
 	int width;
 	Path paths[100];
@@ -85,10 +87,20 @@ void MapHandler::loadMap(std::string filename)
 		if(strcmp(key, "width:") == 0)
 		{
 			sscanf(buf, "width: %d", &width);
+
+			if(heightLoaded)
+				EntityHandler::initQuadTree(FLOAT2(width, height));
+			else
+				widthLoaded = true;
 		}
 		else if(strcmp(key, "height:") == 0)
 		{
 			sscanf(buf, "height: %d", &height);
+
+			if(widthLoaded)
+				EntityHandler::initQuadTree(FLOAT2(width, height));
+			else
+				heightLoaded = true;
 		}
 		else if(strcmp(key, "MODELS:") == 0)
 		{
@@ -114,10 +126,10 @@ void MapHandler::loadMap(std::string filename)
 					rotation.x *= -(D3DX_PI/180);
 					rotation.y *= (D3DX_PI/180);
 					rotation.z *= (D3DX_PI/180);
+					//rotation = FLOAT3(0,0,0);
 					
-					Model *m = g_graphicsEngine->createModel(key, position);
+					Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
 					m->setRotation(rotation);
-
 					EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
 					g_graphicsEngine->removeModel(m);
 				}
@@ -188,9 +200,7 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
-	//this->m_waves.push_back(vector<ServerEntity*>());
-	
-	//createWave(5,0,0,0,0,0,0,0);
+	createWave(5,0,0,0,0,0,0,0);
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
@@ -211,13 +221,6 @@ void MapHandler::loadMap(std::string filename)
 	createWave(0,0,0,0,0,8,10,12);
 	createWave(0,0,0,0,0,4,8,18);
 	createWave(0,0,0,0,0,0,5,25);
-
-
-
-
-
-	
-
 }
 
 void MapHandler::update(float _dt)
@@ -268,47 +271,51 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	m_waves.push_back(vector<ServerEntity*>());
 	int totalMonsters = _imps + _shades + _spits + _frosts + _souls + _hell + _thunder + _brutes;
 	int t = random(0,0);
+	
+	int _min = 0;
+	int _max = this->m_nrOfPaths-1;
 
 	for(int i = 0; i < totalMonsters; i ++)
 	{
 		if(i < _imps)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new Imp(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _shades)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new Shade(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _spits)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new SpittingDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _frosts)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new FrostDemon(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _souls)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new SoulEaterSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _hell)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new HellfireSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _thunder)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new ThunderSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 		if(i < _brutes)
 		{
-			t = random(0, this->m_nrOfPaths-1);
+			t = random(_min,_max);
 			m_waves[m_waves.size()-1].push_back(new BruteSteed(FLOAT3(this->m_paths[t].points[0].x, 0.0f, this->m_paths[t].points[0].y), this->m_paths[t]));
 		}
 			

@@ -27,6 +27,7 @@ public:
 	static int getNrOfEnemies();
 	static vector<Entity*> getAllHeroes();
 	static vector<Entity*> getAllStaticObjects();
+	static void update(float dt);
 };
 
 #endif
