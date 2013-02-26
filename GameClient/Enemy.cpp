@@ -394,7 +394,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 					m_movementSpeed = m_baseMovementSpeed;
 
 				m_distanceToStatic = i;
-				avd = avd + (avoidDir/i)*min(avoidBuffer,1.0f);
+				avd = avd + (avoidDir/i)*max(avoidBuffer,1.0f);
 			}
 		}
 	
