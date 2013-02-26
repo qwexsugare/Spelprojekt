@@ -84,6 +84,7 @@ public:
 	float GetValue();
 	void SetTextBoxValue(bool _change);
 	void setVisible(bool _visible);
+	void setText(string _text);
 	FLOAT2 getPos();
 	int getCost();
 	string getText();
