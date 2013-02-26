@@ -33,7 +33,7 @@ ServerEntity::ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedB
 	this->m_bs = NULL;
 	this->m_type = _type;
 	this->m_modelId = 0;
-	this->m_visible = false;
+	this->m_visible = true;
 	this->setPosition(_position); // Do this last.
 }
 

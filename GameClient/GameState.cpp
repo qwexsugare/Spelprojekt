@@ -423,7 +423,7 @@ void GameState::update(float _dt)
 		float k = (-pickOrig.y)/pickDir.y;
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
-		switch(random(2, 2))
+		switch(random(0, 3))
 		{
 		case 0:
 			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_PULSE_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));

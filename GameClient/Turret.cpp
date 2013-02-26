@@ -14,7 +14,6 @@ Turret::Turret(FLOAT3 position)
 	this->m_attackRange = 10.0f;
 	this->m_type = ServerEntity::TowerType;
 	this->m_position = position;
-	this->setModelId(4);
 }
 
 Turret::~Turret()
