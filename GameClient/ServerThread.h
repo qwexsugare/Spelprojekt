@@ -10,6 +10,7 @@
 #include "MapHandler.h"
 #include "CollisionHandler.h"
 #include "GraphicsHandler.h"
+#include "TeslaChainTurret.h"
 #include <sstream>
 
 class ServerThread : public sf::Thread

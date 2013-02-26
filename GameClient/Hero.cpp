@@ -113,6 +113,8 @@ void Hero::updateSpecificUnitEntity(float dt)
 						//this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage); // dont
 						this->attack(this->m_target);
 						this->m_attackCooldown = this->m_attackSpeed;
+						this->m_nextPosition = this->m_position;
+						this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 					}
 
 					if(this->m_reachedPosition == false)
@@ -203,7 +205,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 			}
 			else
 			{
-				//this->m_position = this->m_nextPosition;
+				this->m_nextPosition = this->m_position;
 				this->m_reachedPosition = true;
 				//this->m_startPos= m_nextPosition;
 				this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());

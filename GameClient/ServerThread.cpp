@@ -47,6 +47,7 @@ void ServerThread::Run()
 	this->m_state = State::LOBBY;
 	this->m_network->start(this->m_port);
 
+	EntityHandler::addEntity(new TeslaChainTurret(FLOAT3(60.0f, 0.0f, 50.0f), 0, 0));
 	while(this->m_state != State::EXIT)
 	{
 		__int64 currTimeStamp = 0;

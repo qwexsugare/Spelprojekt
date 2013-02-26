@@ -34,7 +34,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
-	m_swiftAsACatPowerfulAsABear = false;
+	this->m_swiftAsACatPowerfulAsABear = false;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -89,7 +89,9 @@ UnitEntity::~UnitEntity()
 
 void UnitEntity::addSkill(Skill *_skill)
 {
+	this->m_mutex.Lock();
 	this->m_skills.push_back(_skill);
+	this->m_mutex.Unlock();
 }
 
 void UnitEntity::alterMentalDamage(float _value)
@@ -187,16 +189,12 @@ void UnitEntity::increaseAgility(int _agility)
 
 void UnitEntity::increaseWits(int _wits)
 {
-	this->m_wits = _wits;
-
-	if(this->m_wits > UnitEntity::MAX_WITS)
-	{
+	if(_wits+this->m_wits > UnitEntity::MAX_WITS)
 		_wits = UnitEntity::MAX_WITS - this->m_wits;
-		this->m_wits = UnitEntity::MAX_WITS;
-	}
 
 	this->m_mentalDamage = this->m_mentalDamage + _wits * 5;
 	this->m_turretDuration = this->m_turretDuration + _wits * 0.5f;
+	this->m_wits += _wits;
 }
 
 void UnitEntity::increaseFortitude(int _fortitude)
@@ -303,11 +301,6 @@ float UnitEntity::getAttackSpeed()
 
 float UnitEntity::getPhysicalDamage()
 {
-	if(random(0,m_physicalDamage) < 0)
-	{
-		bool lolDetVarMarcusFel=true;
-	}
-
 	return random(0,m_physicalDamage);
 }
 
@@ -382,10 +375,14 @@ void UnitEntity::stun(float _time)
 
 void UnitEntity::update(float dt)
 {
+	this->m_mutex.Lock();
+
 	for(int i = 0; i < this->m_skills.size(); i++)
 	{
 		this->m_skills[i]->update(dt);
 	}
+
+	this->m_mutex.Unlock();
 
 	if(this->m_attackCooldown > 0.0f)
 	{
