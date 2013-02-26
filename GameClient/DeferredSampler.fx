@@ -542,14 +542,14 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	output.Diffuse += texColors[6]* blendSample2.z;
 	output.Diffuse += texColors[7]* blendSample2.w;
 
-	output.Normal =  normals[0] * blendSample1.x;
-	output.Normal += normals[1] * blendSample1.y;
-	output.Normal += normals[2] * blendSample1.z;
-	output.Normal += normals[3] * blendSample1.w;
-	output.Normal += normals[4] * blendSample2.x;
-	output.Normal += normals[5] * blendSample2.y;
-	output.Normal += normals[6] * blendSample2.z;
-	output.Normal += normals[7] * blendSample2.w;
+	output.Normal.xyz =  normals[0] * blendSample1.x;
+	output.Normal.xyz += normals[1] * blendSample1.y;
+	output.Normal.xyz += normals[2] * blendSample1.z;
+	output.Normal.xyz += normals[3] * blendSample1.w;
+	output.Normal.xyz += normals[4] * blendSample2.x;
+	output.Normal.xyz += normals[5] * blendSample2.y;
+	output.Normal.xyz += normals[6] * blendSample2.z;
+	output.Normal.xyz += normals[7] * blendSample2.w;
 
 	output.Normal = normalize(mul(output.Normal, modelMatrix));
 
@@ -561,7 +561,23 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	output.Tangent.w += specular[5].w * blendSample2.y;
 	output.Tangent.w += specular[6].w * blendSample2.z;
 	output.Tangent.w += specular[7].w * blendSample2.w;
-	
+
+
+	output.Normal.w = terrainNormalMaps[0].Sample(linearSampler, input.UVCoord).w;
+
+	output.Normal = (2.0f * output.Normal) - 1.0f;
+
+	float3 n = float3(0, 1, 0);
+
+	float3 v = cameraPos - input.EyeCoord;
+
+	float3x3 tbn = compute_tangent_frame(n, -v, input.UVCoord);
+
+	float3 nNormal = normalize(mul(output.Normal, tbn));
+	output.Normal.xyz = nNormal;
+
+	output.Normal.z *= -1;
+
 
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	//output.Tangent = float4(1, 0, 0, 0);
