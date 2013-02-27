@@ -266,8 +266,8 @@ void Enemy::checkCloseEnemies(float dt)
 		else 
 			m_movementSpeed = m_baseMovementSpeed;
 
-		m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
-		m_dir = m_dir + m_enemyAvDir*3;
+		m_enemyAvDir =  crossProduct(m_position - closestEnemy->getPosition(), FLOAT3(0,0,0));
+		//m_dir =m_enemyAvDir;
 		//m_position = m_position +m_enemyAvDir*2*dt;
 	}
 	else 
@@ -334,7 +334,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 			if(stat != NULL)
 			{
 				avoidBuffer = sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x + stat->getObb()->Extents.z*stat->getObb()->Extents.z) + 
-							  sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z);// +0.3f;
+							  sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z)+0.1f;
 				test = (stat->getPosition() - temp1).length();
 				test2 = (stat->getPosition() - temp2).length();
 			}
@@ -348,7 +348,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 				}
 				
 				avoidBuffer = test;
-				avoidDir = FLOAT3(0,0,0) -cross/10;
+				avoidDir = FLOAT3(0,0,0) -cross;
 			}
 
 		
@@ -361,7 +361,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 				}
 				
 				avoidBuffer = test2;
-				avoidDir =  cross/10;
+				avoidDir =  cross;
 			}
 
 			if(outOfBounds(temp,4) && avoidTimer > 0.5f)

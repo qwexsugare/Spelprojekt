@@ -204,7 +204,7 @@ void MapHandler::loadMap(std::string filename)
 
 	//this->m_waves.push_back(vector<ServerEntity*>());
 	
-	createWave(5,0,0,0,0,0,0,0);
+	
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
@@ -282,7 +282,7 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	int t = random(0,0);
 	
 	int _min = 0;
-	int _max = sizeof(m_paths)-1;
+	int _max = m_nrOfPaths-1;
 
 	for(int i = 0; i < totalMonsters; i ++)
 	{
