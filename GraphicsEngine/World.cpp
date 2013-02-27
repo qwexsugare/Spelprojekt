@@ -543,8 +543,15 @@ void World::render()
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
 	this->m_deferredRendering->setTangentTexture(this->m_tangentBuffer->getShaderResource());
 
+	vector<PointLight*> tempPointLights = this->m_quadTree->getPointLights(focalPoint);
+
+	for(int i = 0; i < this->m_pointLights.size(); i++)
+	{
+		tempPointLights.push_back(this->m_pointLights[i]);
+	}
+
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(focalPoint), this->m_directionalLights, this->m_spotLights);
+	this->m_deferredRendering->updateLights(tempPointLights, this->m_directionalLights, this->m_spotLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
@@ -747,6 +754,12 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
 
 	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(_focalPoint);
+
+	for(int i = 0; i < this->m_pointLights.size(); i++)
+	{
+		pointLights.push_back(this->m_pointLights[i]);
+	}
+
 	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[pointLights.size() * 6];
 	D3DXMATRIX* wvps = new D3DXMATRIX[pointLights.size() * 6];
 	
@@ -804,10 +817,10 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 	if(counter > 0)
 	{
-		if(counter * 6 < 100)
+		if(counter < 100)
 		{
-			m_deferredRendering->setPointLightWvps(wvps, counter * 6);
-			m_deferredRendering->setPointLightShadowMaps(resources, counter * 6);
+			m_deferredRendering->setPointLightWvps(wvps, counter);
+			m_deferredRendering->setPointLightShadowMaps(resources, counter);
 		}
 		else
 		{
@@ -1004,14 +1017,39 @@ bool World::removeMyText(MyText* _text)
 	return found;
 }
 
-bool World::addPointLight(PointLight* _pointLight)
+bool World::addPointLight(PointLight* _pointLight, bool _static)
 {
-	return this->m_quadTree->addLight(_pointLight);
+	if(_static == true)
+	{
+		return this->m_quadTree->addLight(_pointLight);
+	}
+	else
+	{
+		this->m_pointLights.push_back(_pointLight);
+		return true;
+	}
 }
 
 bool World::removePointLight(PointLight* _pointLight)
 {
-	return this->m_quadTree->removeLight(_pointLight);
+	bool found = false;
+
+	for(int i = 0; i < this->m_pointLights.size() && !found; i++)
+	{
+		if(this->m_pointLights[i] == _pointLight)
+		{
+			delete this->m_pointLights[i];
+			this->m_pointLights.erase(this->m_pointLights.begin()+i);
+			found = true;
+		}
+	}
+
+	if(found == false)
+	{
+		return this->m_quadTree->removeLight(_pointLight);
+	}
+
+	return found;
 }
 
 void World::addDirectionalLight(DirectionalLight* _directionalLight)
