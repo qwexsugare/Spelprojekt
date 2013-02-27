@@ -1,5 +1,4 @@
 #include "Hero.h"
-#include "Arrow.h"
 
 extern Pathfinder* g_pathfinder;
 
