@@ -126,6 +126,7 @@ void MapHandler::loadMap(std::string filename)
 					rotation.x *= -(D3DX_PI/180);
 					rotation.y *= (D3DX_PI/180);
 					rotation.z *= (D3DX_PI/180);
+					//rotation = FLOAT3(0,0,0);
 					
 					Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
 					m->setRotation(rotation);
@@ -199,11 +200,7 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
-
-	EntityHandler::addEntity(new Imp(FLOAT3(0,0,0), m_paths[0]));
-
-	//this->m_waves.push_back(vector<ServerEntity*>());
-	
+	createWave(0,0,0,0,1,1,1,1); // MÖGs super advanced specified wave with extra cheese
 	
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
@@ -225,11 +222,6 @@ void MapHandler::loadMap(std::string filename)
 	createWave(0,0,0,0,0,8,10,12);
 	createWave(0,0,0,0,0,4,8,18);
 	createWave(0,0,0,0,0,0,5,25);
-
-
-
-
-
 }
 
 void MapHandler::update(float _dt)
@@ -282,7 +274,7 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	int t = random(0,0);
 	
 	int _min = 0;
-	int _max = m_nrOfPaths-1;
+	int _max = this->m_nrOfPaths-1;
 
 	for(int i = 0; i < totalMonsters; i ++)
 	{

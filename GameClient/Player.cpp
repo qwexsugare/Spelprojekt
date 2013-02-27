@@ -297,15 +297,23 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		
 	case Skill::DEATH_PULSE_TURRET:
 		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		this->m_resources = this->m_resources - DeathPulseTurret::COST;
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::FROST_TURRET:
 		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		this->m_resources = this->m_resources - FrostTurret::COST;
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::POISON_TURRET:
 		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		this->m_resources = this->m_resources - PoisonTurret::COST;
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::TESLA_CHAIN_TURRET:
 		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		this->m_resources = this->m_resources - TeslaChainTurret::COST;
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 
 	default:

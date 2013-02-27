@@ -10,7 +10,9 @@ struct SubMesh
 	int numInfluences;
 	int numVerts;
 	int materialId;
-	//string name;
+#ifdef AndersFel
+	string name;
+#endif
 
 	SubMesh(ID3D10Buffer* _buffer, int _nrOfVertices)
 	{

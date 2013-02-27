@@ -1,6 +1,9 @@
 #ifndef STDAFX_H
 #define STDAFX_H
 
+
+#define AndersFel
+
 #include <SFML\System.hpp>
 #include <SFML\Network.hpp>
 #include <Windows.h>

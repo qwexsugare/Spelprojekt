@@ -8,16 +8,16 @@ Officer::Officer(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::OFFICER, _
 	this->increaseWits(1);
 	this->increaseFortitude(3);
 
-	this->m_health += 1000;
-
 	switch(_weaponType)
 	{
 	case WEAPON_TYPE::MELEE:
 		this->m_regularAttack = new MeleeAttack();
+		this->m_weaponType = WEAPON_TYPE::MELEE;
 		break;
 
 	case WEAPON_TYPE::RANGED:
 		this->m_regularAttack = new RangedAttack();
+		this->m_weaponType = WEAPON_TYPE::RANGED;
 		break;
 	}
 }

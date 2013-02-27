@@ -69,20 +69,9 @@ GameState::GameState(Client *_network)
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
-	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f);
-	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f);
-	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f);
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
-	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(2.0f, 2.0f, 2.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false);
-	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 75.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.0f), 20.0f, false);
-	//g_graphicsEngine->createPointLight(FLOAT3(25.0f, 10.0f, 25.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.0f, 0.5f, 0.5f), 20.0f, false);
-	//g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
-	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.2f, 0.2f, 0.2f), FLOAT3(0.01f, 0.01f, 0.01f));
 	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
-	//g_graphicsEngine->createSpotLight(FLOAT3(60.0f, 5.0f, 60.0f), FLOAT3(1.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-	//g_graphicsEngine->createSpotLight(FLOAT3(10.0f, 10.0f, 10.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
-	//g_graphicsEngine->createSpotLight(FLOAT3(50.0f, 10.0f, 50.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT2(0.9f, 0.8f), 300.0f);
 
 	m_healthText = g_graphicsEngine->createText("No target", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
@@ -168,12 +157,10 @@ void GameState::update(float _dt)
 			p.y=0;
 			p.z=e.getZPos();
 			entity->m_model->setPosition(p);
-			if(e.getYRot() == e.getYRot())
-
-			if(e.getEntityId() == this->m_playerInfos[this->m_yourId].id)
 			{
-				this->m_hud->setHealth(1000);
-			}
+
+			if(e.getYRot() == e.getYRot())
+			{
 				FLOAT3 rot;
 				rot.x=e.getYRot();
 				rot.y=0;
@@ -190,6 +177,8 @@ void GameState::update(float _dt)
 				entity->m_startPos=startPos;
 				entity->m_endPos=endPos;
 				entity->movementSpeed=e.getMovementSpeed();
+			}
+			}
 		}
 	}
 	while(!this->m_network->updateEntityHealthEmpty())
@@ -207,34 +196,34 @@ void GameState::update(float _dt)
 
 		Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(iem.getModelID()), FLOAT3(iem.getXPos(), 0.0, iem.getZPos()));
 		model->setTextureIndex(m_modelIdHolder.getTexture(iem.getModelID()));
-			model->setGlowIndex(m_modelIdHolder.getGlowmap(iem.getModelID()));
+		model->setGlowIndex(m_modelIdHolder.getGlowmap(iem.getModelID()));
 
-			if(this->m_modelIdHolder.getHat(iem.getModelID()) != "")
-			{
-				model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(iem.getModelID())));
-			}
-			if(this->m_modelIdHolder.getRightHand(iem.getModelID()) != "")
-			{
-				model->SetRightHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getRightHand(iem.getModelID())));
-			}
-			if(this->m_modelIdHolder.getLeftHand(iem.getModelID()) != "")
-			{
-				model->SetLeftHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getLeftHand(iem.getModelID())));
-			}
-			if(model)
-			{
-				//this->m_entities.push_back(new Entity(model, e.getEntityId()));
-				Entity *e = new Entity(model, iem.getID());
-				e->m_type = (ServerEntity::Type)iem.getType();
-				this->m_clientEntityHandler->addEntity(e);
+		if(this->m_modelIdHolder.getHat(iem.getModelID()) != "")
+		{
+			model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(iem.getModelID())));
+		}
+		if(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType()) != "")
+		{
+			model->SetRightHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType())));
+		}
+		if(this->m_modelIdHolder.getLeftHand(iem.getModelID(), iem.getWeaponType()) != "")
+		{
+			model->SetLeftHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getLeftHand(iem.getModelID(), iem.getWeaponType())));
+		}
+		if(model)
+		{
+			//this->m_entities.push_back(new Entity(model, e.getEntityId()));
+			Entity *e = new Entity(model, iem.getID());
+			e->m_type = (ServerEntity::Type)iem.getType();
+			this->m_clientEntityHandler->addEntity(e);
 
-				if(iem.getType() == ServerEntity::HeroType)
-				{
+			if(iem.getType() == ServerEntity::HeroType)
+			{
 					
-					g_graphicsEngine->getCamera()->setX(iem.getXPos());
-					g_graphicsEngine->getCamera()->setZ(iem.getZPos() - 3.0f);
-				}
+				g_graphicsEngine->getCamera()->setX(iem.getXPos());
+				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - 3.0f);
 			}
+		}
 	}
 	while(this->m_network->createActionQueueEmpty() == false)
 	{
@@ -288,6 +277,9 @@ void GameState::update(float _dt)
 			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
+			break;
+		case Skill::HYPNOTIC_STARE:
+			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getPosition().x));
 			break;
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
@@ -672,6 +664,7 @@ void GameState::importMap(string _map)
 					rotation.x *= -(D3DX_PI/180);
 					rotation.y *= (D3DX_PI/180);
 					rotation.z *= (D3DX_PI/180);
+					//rotation = FLOAT3(0,0,0);
 				
 					Model *m = g_graphicsEngine->createModel(key, position, true);
 					m->setRotation(rotation);

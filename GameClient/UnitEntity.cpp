@@ -34,7 +34,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
-	m_swiftAsACatPowerfulAsABear = false;
+	this->m_swiftAsACatPowerfulAsABear = false;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -89,7 +89,9 @@ UnitEntity::~UnitEntity()
 
 void UnitEntity::addSkill(Skill *_skill)
 {
+	this->m_mutex.Lock();
 	this->m_skills.push_back(_skill);
+	this->m_mutex.Unlock();
 }
 
 void UnitEntity::alterMentalDamage(float _value)
@@ -165,6 +167,7 @@ int UnitEntity::getSkillIndex(Skill* _skill)
 
 void UnitEntity::increaseStrength(int _strength)
 {
+	// Prevents the attribute gain to exceed max and minimizes the gain.
 	if(_strength+m_strength > UnitEntity::MAX_STRENGTH)
 		_strength = UnitEntity::MAX_STRENGTH - m_strength;
 	
@@ -175,6 +178,7 @@ void UnitEntity::increaseStrength(int _strength)
 
 void UnitEntity::increaseAgility(int _agility)
 {
+	// Prevents the attribute gain to exceed max and minimizes the gain.
 	if(_agility+m_agility > UnitEntity::MAX_AGILITY)
 		_agility = UnitEntity::MAX_AGILITY - m_agility;
 	
@@ -187,27 +191,23 @@ void UnitEntity::increaseAgility(int _agility)
 
 void UnitEntity::increaseWits(int _wits)
 {
-	this->m_wits = _wits;
-
-	if(this->m_wits > UnitEntity::MAX_WITS)
-	{
+	// Prevents the attribute gain to exceed max and minimizes the gain.
+	if(_wits+this->m_wits > UnitEntity::MAX_WITS)
 		_wits = UnitEntity::MAX_WITS - this->m_wits;
-		this->m_wits = UnitEntity::MAX_WITS;
-	}
 
-	this->m_mentalDamage = this->m_mentalDamage + _wits * 5;
-	this->m_turretDuration = this->m_turretDuration + _wits * 0.5f;
+	m_baseMentalDamage += _wits * 5;
+	m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
+	this->m_turretDuration += _wits * 0.5f;
+	m_wits += _wits;
 }
 
 void UnitEntity::increaseFortitude(int _fortitude)
-{
-	this->m_fortitude = _fortitude;
+{	
+	// Prevents the attribute gain to exceed max and minimizes the gain.
+	if(_fortitude+m_fortitude > UnitEntity::MAX_WITS)
+		_fortitude = UnitEntity::MAX_WITS - m_fortitude;
 
-	if(this->m_fortitude + _fortitude > UnitEntity::MAX_FORTITUDE)
-	{
-		_fortitude = UnitEntity::MAX_FORTITUDE - this->m_fortitude;
-		this->m_fortitude = UnitEntity::MAX_FORTITUDE;
-	}
+	m_fortitude += _fortitude;
 }
 
 void UnitEntity::setMaxHealth(int _maxHealth)
@@ -303,11 +303,6 @@ float UnitEntity::getAttackSpeed()
 
 float UnitEntity::getPhysicalDamage()
 {
-	if(random(0,m_physicalDamage) < 0)
-	{
-		bool lolDetVarMarcusFel=true;
-	}
-
 	return random(0,m_physicalDamage);
 }
 
@@ -382,10 +377,14 @@ void UnitEntity::stun(float _time)
 
 void UnitEntity::update(float dt)
 {
+	this->m_mutex.Lock();
+
 	for(int i = 0; i < this->m_skills.size(); i++)
 	{
 		this->m_skills[i]->update(dt);
 	}
+
+	this->m_mutex.Unlock();
 
 	if(this->m_attackCooldown > 0.0f)
 	{

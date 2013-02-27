@@ -442,6 +442,9 @@
     <ClCompile Include="DeathPulseTurret.cpp">
       <Filter>Server\Towers</Filter>
     </ClCompile>
+    <ClCompile Include="HypnoticStareClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -899,6 +902,9 @@
     <ClInclude Include="NetworkUpdateEntityHealth.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkUpdateEntityHealth.h">
+      <Filter>Network</Filter>
+    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Server\Enemies</Filter>
     </ClInclude>
@@ -916,6 +922,9 @@
     </ClInclude>
     <ClInclude Include="DeathPulseTurret.h">
       <Filter>Server\Towers</Filter>
+    </ClInclude>
+    <ClInclude Include="HypnoticStareClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
