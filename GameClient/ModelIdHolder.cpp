@@ -3,10 +3,10 @@
 ModelIdHolder::ModelIdHolder()
 {
 	this->m_modelIds[0] = ModelId("Char1_5");
-	this->m_modelIds[2] = ModelId("PoisonTurret");
-	this->m_modelIds[3] = ModelId("LightningTurret");
-	this->m_modelIds[4] = ModelId("DeathTurret");
-	this->m_modelIds[5] = ModelId("FrostTurret");
+	this->m_modelIds[2] = ModelId("PoisonTurret", "color", "glowIntensity");
+	this->m_modelIds[3] = ModelId("LightningTurret", "color", "glowIntensity");
+	this->m_modelIds[4] = ModelId("DeathTurret", "color", "glowIntensity");
+	this->m_modelIds[5] = ModelId("FrostTurret", "color", "glowIntensity");
 	this->m_modelIds[6] = ModelId("CloudOfDarkness");
 	this->m_modelIds[7] = ModelId("Pentagram");
 	this->m_modelIds[8] = ModelId("redKnightPassiveAura");
