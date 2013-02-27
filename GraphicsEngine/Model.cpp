@@ -336,3 +336,21 @@ void Model::setStatic(bool _static)
 {
 	m_static = _static;
 }
+
+FLOAT3 Model::getLeftHandPosition()
+{
+	if(this->m_leftHand != NULL)
+	{
+		D3DXVECTOR4 result;
+		D3DXMATRIX leftHandModelMatrix;
+
+		D3DXMatrixMultiply(&leftHandModelMatrix, this->animation->getLeftHandMatrix(), &this->m_modelMatrix);
+
+		D3DXVec3Transform(&result, &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &leftHandModelMatrix);
+		return FLOAT3(result.x, result.y, result.z);
+	}
+	else
+	{
+		return FLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+	}
+}
