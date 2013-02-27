@@ -72,4 +72,6 @@ public:
 	DECLDIR void setScale(float x, float y, float z);
 	DECLDIR void setRotation(FLOAT3 _rotation);
 	DECLDIR void setStatic(bool _static);
+
+	DECLDIR FLOAT3 getLeftHandPosition();
 };

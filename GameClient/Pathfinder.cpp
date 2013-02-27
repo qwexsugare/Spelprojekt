@@ -279,11 +279,18 @@ Path Pathfinder::getPath(FLOAT2 start, FLOAT2 end)
 
 	if(path.size() > 0)
 	{
-		FLOAT2 *points = new FLOAT2[path.size()];
+		FLOAT2 *points;
+
+		points = new FLOAT2[path.size()];
 
 		for(int i = 0; i < path.size(); i++)
 		{
 			points[i] = FLOAT2(this->mapSize.x * path[i].getX() / this->map.getWidth(), this->mapSize.y * path[i].getY() / this->map.getHeight());
+		}
+
+		if(path[path.size() - 1].getX() == endPos.getX() && path[path.size() - 1].getY() == endPos.getY())
+		{
+			points[path.size() - 1] = end;
 		}
 
 		Path p  = Path(path.size(), points);
