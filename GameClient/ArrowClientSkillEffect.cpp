@@ -2,7 +2,7 @@
 #include "SoundWrapper.h"
 #include "Graphics.h"
 #include "ClientEntityHandler.h"
-#include "Arrow.h"
+#include "RangedAttack.h"
 #include "SpeechManager.h"
 #include "MyAlgorithms.h"
 
@@ -12,6 +12,7 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	m_targetId = _targetId;
 	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
 	m_graphicalEffect->setAlpha(0.999f);
+
 	m_sound = createSoundHandle("click_button.wav", false, true, _position);
 	playSound(m_sound);
 
@@ -46,7 +47,7 @@ void ArrowClientSkillEffect::update(float _dt)
 	if(target)
 	{
 		FLOAT3 dist = target->m_model->getPosition()-m_graphicalEffect->getPosition();
-		FLOAT3 movement = dist/dist.length()*Arrow::VELOCITY*_dt;
+		FLOAT3 movement = dist/dist.length()*RangedAttack::VELOCITY*_dt;
 
 		if(dist.length() > movement.length())
 		{

@@ -152,7 +152,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aim.cpp" />
-    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -165,8 +164,9 @@
     <ClCompile Include="DeathClientSkillEffect.cpp" />
     <ClCompile Include="DeathPulseTurret.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
+    <ClCompile Include="FrostTurretProjectileClientSkillEffect.cpp" />
     <ClCompile Include="FrostTurret.cpp" />
-    <ClCompile Include="FrostTurretEffect.cpp" />
+    <ClCompile Include="FrostTurretProjectile.cpp" />
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp" />
     <ClCompile Include="IdleClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
@@ -311,7 +311,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aim.h" />
-    <ClInclude Include="Arrow.h" />
     <ClInclude Include="ArrowClientSkillEffect.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
@@ -325,8 +324,9 @@
     <ClInclude Include="DeathClientSkillEffect.h" />
     <ClInclude Include="DeathPulseTurret.h" />
     <ClInclude Include="DelayedDamage.h" />
+    <ClInclude Include="FrostTurretProjectileClientSkillEffect.h" />
     <ClInclude Include="FrostTurret.h" />
-    <ClInclude Include="FrostTurretEffect.h" />
+    <ClInclude Include="FrostTurretProjectile.h" />
     <ClInclude Include="HypnoticStareClientSkillEffect.h" />
     <ClInclude Include="IdleClientSkillEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />
