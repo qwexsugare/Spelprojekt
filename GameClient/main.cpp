@@ -73,7 +73,7 @@ HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize)
 	RECT rc = {0, 0, _screenSize.x, _screenSize.y};
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	hWnd = CreateWindow(	"Spelprojekt",
-							"Spelprojekt",
+							"Saints of The Asylum",
 							WS_OVERLAPPEDWINDOW,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,

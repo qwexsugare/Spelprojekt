@@ -202,13 +202,13 @@ void GameState::update(float _dt)
 		{
 			model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(iem.getModelID())));
 		}
-		if(this->m_modelIdHolder.getRightHand(iem.getModelID()) != "")
+		if(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType()) != "")
 		{
-			model->SetRightHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getRightHand(iem.getModelID())));
+			model->SetRightHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType())));
 		}
-		if(this->m_modelIdHolder.getLeftHand(iem.getModelID()) != "")
+		if(this->m_modelIdHolder.getLeftHand(iem.getModelID(), iem.getWeaponType()) != "")
 		{
-			model->SetLeftHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getLeftHand(iem.getModelID())));
+			model->SetLeftHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getLeftHand(iem.getModelID(), iem.getWeaponType())));
 		}
 		if(model)
 		{
@@ -277,6 +277,9 @@ void GameState::update(float _dt)
 			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
+			break;
+		case Skill::HYPNOTIC_STARE:
+			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getPosition().x));
 			break;
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));
@@ -661,6 +664,7 @@ void GameState::importMap(string _map)
 					rotation.x *= -(D3DX_PI/180);
 					rotation.y *= (D3DX_PI/180);
 					rotation.z *= (D3DX_PI/180);
+					//rotation = FLOAT3(0,0,0);
 				
 					Model *m = g_graphicsEngine->createModel(key, position, true);
 					m->setRotation(rotation);

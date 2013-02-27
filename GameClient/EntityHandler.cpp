@@ -93,7 +93,7 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 
 	if(_entity->getVisible() == true)
 	{
-		EntityHandler::m_messageQueue->pushOutgoingMessage(new InitEntityMessage(_entity->getType(),_entity->getModelId(),_entity->getId(),_entity->getPosition().x,_entity->getPosition().z,_entity->getRotation().y,1.0,_entity->getHealth(),_entity->getPosition().x,_entity->getPosition().z,_entity->getEndPos().x,_entity->getEndPos().z,_entity->getMovementSpeed()));
+		EntityHandler::m_messageQueue->pushOutgoingMessage(new InitEntityMessage(_entity->getType(),_entity->getModelId(), _entity->getWeaponType(),_entity->getId(),_entity->getPosition().x,_entity->getPosition().z,_entity->getRotation().y,1.0,_entity->getHealth(),_entity->getPosition().x,_entity->getPosition().z,_entity->getEndPos().x,_entity->getEndPos().z,_entity->getMovementSpeed()));
 	}
 }
 

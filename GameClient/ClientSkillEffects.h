@@ -12,3 +12,4 @@
 #include "RunClientSkillEffect.h"
 #include "IdleClientSkillEffect.h"
 #include "DeathClientSkillEffect.h"
+#include "HypnoticStareClientSkillEffect.h"

@@ -8,6 +8,11 @@
 #include "Projectile.h"
 #include "Skills.h"
 
+#include "DeathPulseTurret.h"
+#include "TeslaChainTurret.h"
+#include "PoisonTurret.h"
+#include "FrostTurret.h"
+
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"
 #include "NetworkUseActionTargetMessage.h"

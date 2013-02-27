@@ -2,6 +2,7 @@
 
 #include "Particle.h"
 #include "stdafx.h"
+#include "DeviceHandler.h"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ private:
 	vector<GeoParticle> geoParticles;
 	BoundingSphere m_bs;
 	UINT type;
+	DeviceHandler* deviceHandler;
+	void CreateVertexBuffer();
 
 	D3DXMATRIX	worldMatrix;
 	D3DXVECTOR3 position;
@@ -23,7 +26,7 @@ private:
 public:
 	enum EngineType{CPUAndModels, CPUAndGShader, GPUBased};
 
-	ParticleEngine(EngineType _type, D3DXVECTOR3 _position, D3DXQUATERNION _rotation, D3DXVECTOR3 _scale);
+	ParticleEngine(DeviceHandler* _deviceHandler, EngineType _type, D3DXVECTOR3 _position, D3DXQUATERNION _rotation, D3DXVECTOR3 _scale);
 	~ParticleEngine();
 
 	const D3DXMATRIX&	getWorldMatrix()const { return worldMatrix; }

@@ -21,6 +21,9 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_animationTechnique = this->m_effect->GetTechniqueByName("DeferredAnimationSample");
 	this->m_superTechnique = this->m_effect->GetTechniqueByName("DeferredSuperSample");
 	this->m_propsTechnique = this->m_effect->GetTechniqueByName("DeferredPropsSample");
+	// Troll ? 
+	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPos")->AsVector();
+
 	
 	D3D10_PASS_DESC passDescription;
 	this->m_technique->GetPassByIndex(0)->GetDesc(&passDescription);
@@ -85,6 +88,10 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	renderShadowMap = m_effect->GetTechniqueByName("RenderShadowMap");
 }
 
+void DeferredSamplerEffectFile::setCameraPosition(D3DXVECTOR3 _cameraPos)
+{
+	this->m_cameraPosition->SetFloatVector(_cameraPos);
+}
 
 DeferredSamplerEffectFile::~DeferredSamplerEffectFile()
 {

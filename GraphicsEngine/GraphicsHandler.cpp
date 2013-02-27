@@ -56,7 +56,7 @@ bool GraphicsHandler::removeRoad(Road* _road)
 
 ParticleEngine* GraphicsHandler::createParticleEngine(D3DXVECTOR3 _pos, D3DXQUATERNION _rot, D3DXVECTOR3 _scale)
 {
-	ParticleEngine* pe = new ParticleEngine(ParticleEngine::EngineType::GPUBased, _pos, _rot, _scale);
+	ParticleEngine* pe;// = new ParticleEngine(ParticleEngine::EngineType::GPUBased, _pos, _rot, _scale);
 
 	m_world->addParticleEngine(pe);
 	return pe;

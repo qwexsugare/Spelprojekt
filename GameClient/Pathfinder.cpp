@@ -277,14 +277,21 @@ Path Pathfinder::getPath(FLOAT2 start, FLOAT2 end)
 
 	vector<Position> path = this->getPath(startPos, endPos);
 
-	FLOAT2 *points = new FLOAT2[path.size()];
-
-	for(int i = 0; i < path.size(); i++)
+	if(path.size() > 0)
 	{
-		points[i] = FLOAT2(this->mapSize.x * path[i].getX() / this->map.getWidth(), this->mapSize.y * path[i].getY() / this->map.getHeight());
-	}
+		FLOAT2 *points = new FLOAT2[path.size()];
 
-	Path p  = Path(path.size(), points);
-	delete[] points;
-	return p;
+		for(int i = 0; i < path.size(); i++)
+		{
+			points[i] = FLOAT2(this->mapSize.x * path[i].getX() / this->map.getWidth(), this->mapSize.y * path[i].getY() / this->map.getHeight());
+		}
+
+		Path p  = Path(path.size(), points);
+		delete[] points;
+		return p;
+	}
+	else
+	{
+		return Path();
+	}
 }
