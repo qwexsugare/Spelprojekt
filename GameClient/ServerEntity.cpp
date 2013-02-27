@@ -105,6 +105,39 @@ bool ServerEntity::intersects(const BoundingOrientedBox& _obb)const
 		return false;
 }
 
+bool ServerEntity::intersects(const BoundingSphere& _bs)const
+{
+	if(m_obb)
+		return m_obb->Intersects(_bs);
+	else if(m_bs)
+		return m_bs->Intersects(_bs);
+	else
+		return false;
+}
+
+bool ServerEntity::intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const
+{
+	bool result;
+	
+	XMVECTOR origin = XMLoadFloat3(&XMFLOAT3(_origin.x, _origin.y, _origin.z));
+	_direction = -_direction;
+	XMVECTOR direction = XMLoadFloat3(&XMFLOAT3(_direction.x, _direction.y, _direction.z));
+
+	if(this->m_obb)
+	{
+		result = this->m_obb->Intersects(origin, direction, _dist);
+	}
+	else if(this->m_bs)
+		result = this->m_bs->Intersects(origin, direction, _dist);
+	else
+	{
+		_dist = 0;
+		result = false;
+	}
+
+	return result;
+}
+
 void ServerEntity::setPosition(FLOAT3 _position)
 {
 	this->m_position = _position;

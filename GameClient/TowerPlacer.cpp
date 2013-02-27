@@ -56,7 +56,7 @@ void TowerPlacer::place(Skill::SKILLS _towerType, const FLOAT3& _pos)
 		}
 		if(validPos)
 		{
-			EntityHandler::addEntity(new DeathPulseTurret(_pos));
+			EntityHandler::addEntity(new DeathPulseTurret(_pos, 100.0f));
 		}
 		break;
 	case Skill::FROST_TURRET:
@@ -71,7 +71,7 @@ void TowerPlacer::place(Skill::SKILLS _towerType, const FLOAT3& _pos)
 		}
 		if(validPos)
 		{
-			EntityHandler::addEntity(new FrostTurret(_pos));
+			EntityHandler::addEntity(new FrostTurret(_pos, 100.0f));
 		}
 		break;
 	case Skill::TESLA_CHAIN_TURRET:
@@ -101,7 +101,7 @@ void TowerPlacer::place(Skill::SKILLS _towerType, const FLOAT3& _pos)
 		}
 		if(validPos)
 		{
-			EntityHandler::addEntity(new PoisonTurret(_pos));
+			EntityHandler::addEntity(new PoisonTurret(_pos, 100.0f));
 		}
 		break;
 	}

@@ -54,6 +54,8 @@ public:
 	ContainmentType contains(const BoundingSphere& _bs)const;
 	ContainmentType contains(const BoundingOrientedBox& _obb)const;
 	bool intersects(const BoundingOrientedBox& _obb)const;
+	bool intersects(const BoundingSphere& _bs)const;
+	bool intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const;
 
 	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
