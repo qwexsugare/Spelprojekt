@@ -6,7 +6,6 @@ class SwiftAsACatPowerfulAsABoar : public Skill
 {
 private:
 	static const float COOLDOWN;
-	int m_master;
 public:
 	SwiftAsACatPowerfulAsABoar();
 	~SwiftAsACatPowerfulAsABoar();
