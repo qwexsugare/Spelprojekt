@@ -72,7 +72,7 @@ struct Entity
 
 		if(this->m_lanternLight != NULL)
 		{
-			this->m_lanternLight->setPosition(this->m_model->getPosition());
+			this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition());
 		}
 	
 		

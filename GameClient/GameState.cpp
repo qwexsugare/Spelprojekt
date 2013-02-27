@@ -71,7 +71,7 @@ GameState::GameState(Client *_network)
 
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, true);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
 
 	m_healthText = g_graphicsEngine->createText("No target", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
@@ -280,6 +280,9 @@ void GameState::update(float _dt)
 			else
 				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;
+		case Skill::FROST_TURRET_PROJECTILE:
+			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
 			break;
@@ -447,7 +450,6 @@ void GameState::update(float _dt)
 		g_mouse->getCursor()->setFrame(Cursor::DEFAULT, 1);
 	}
 	
-
 	if(g_mouse->isLButtonDown())
 	{
 
@@ -651,9 +653,15 @@ void GameState::importMap(string _map)
 					rotation.z *= (D3DX_PI/180);
 					//rotation = FLOAT3(0,0,0);
 				
-					Model *m = g_graphicsEngine->createModel(key, position, true);
-					m->setRotation(rotation);
-					m->setScale(scale, scale, scale);
+					if(key[0]=='S'&&key[1]=='P'&&key[2]=='A'&&key[3]=='W'&&key[4]=='N')
+					{
+					}
+					else
+					{
+						Model *m = g_graphicsEngine->createModel(key, position, true);
+						m->setRotation(rotation);
+						m->setScale(scale, scale, scale);
+					}
 				}
 			}
 		}

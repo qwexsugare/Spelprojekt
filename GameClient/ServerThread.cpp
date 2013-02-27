@@ -47,7 +47,6 @@ void ServerThread::Run()
 	this->m_state = State::LOBBY;
 	this->m_network->start(this->m_port);
 
-	EntityHandler::addEntity(new TeslaChainTurret(FLOAT3(0.0f, 0.0f, 0.0f), 10, 10));
 	while(this->m_state != State::EXIT)
 	{
 		__int64 currTimeStamp = 0;
@@ -137,7 +136,7 @@ void ServerThread::update(float dt)
 				vector<Hero::HERO_TYPE> heroTypes;
 				for(int i = 0; i < players.size(); i++)
 				{
-					players[i]->spawnHero();
+					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
 				}

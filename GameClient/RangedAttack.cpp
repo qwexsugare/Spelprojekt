@@ -14,14 +14,28 @@ RangedAttack::~RangedAttack()
 
 bool RangedAttack::activate(unsigned int _targetId, unsigned int _senderId)
 {
-	UnitEntity* caster = (UnitEntity*)EntityHandler::getServerEntity(_senderId);
+	bool ret;
 
-	if(caster != NULL)
+	ServerEntity* target = EntityHandler::getServerEntity(_targetId);
+	if(target)
 	{
-		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, caster->getPhysicalDamage(), caster->getMentalDamage(), Skill::RANGED_ATTACK));
-	}
+		ServerEntity* caster = EntityHandler::getServerEntity(_senderId);
+		if(caster)
+		{
+			float timeToImpact = (target->getPosition() - caster->getPosition()).length()/VELOCITY;
 
-	return true;
+			EntityHandler::addEntity(new DelayedDamage(
+				_senderId, _targetId, timeToImpact, ((UnitEntity*)caster)->getPhysicalDamage(), ((UnitEntity*)caster)->getMentalDamage(), Skill::RANGED_ATTACK));
+
+			ret = true;
+		}
+		else
+			ret = false;
+	}
+	else
+		ret = false;
+
+	return ret;
 }
 
 void RangedAttack::updateSpecificSkill(float dt)

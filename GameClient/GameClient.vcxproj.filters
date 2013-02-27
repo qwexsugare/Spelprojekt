@@ -322,9 +322,6 @@
     <ClCompile Include="ArrowClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="Arrow.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="CourageHonorValor.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
@@ -442,10 +439,13 @@
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="FrostTurretProjectileClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>Client\Controls</Filter>
       </ClCompile>
-    <ClCompile Include="FrostTurretEffect.cpp">
+    <ClCompile Include="FrostTurretProjectile.cpp">
       <Filter>Server\Towers\Effects</Filter>
     </ClCompile>
     <ClCompile Include="MeleeAOEClientSkillEffect.cpp">
@@ -798,9 +798,6 @@
     <ClInclude Include="ArrowClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="CourageHonorValor.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
@@ -935,7 +932,10 @@
     <ClInclude Include="MeleeAOEClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="FrostTurretEffect.h">
+    <ClInclude Include="FrostTurretProjectileClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretProjectile.h">
       <Filter>Server\Towers\Effects</Filter>
     </ClInclude>
   </ItemGroup>

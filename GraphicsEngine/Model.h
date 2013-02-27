@@ -37,6 +37,7 @@ public:
 	BoundingSphere* getBs()const { return this->m_bs; }
 	DECLDIR FLOAT3 getPosition()const;
 	D3DXVECTOR2 getPosition2D()const;
+	DECLDIR FLOAT2 getPosition2DAsFloat2()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	DECLDIR Mesh* getMesh()const;
@@ -71,4 +72,6 @@ public:
 	DECLDIR void setScale(float x, float y, float z);
 	DECLDIR void setRotation(FLOAT3 _rotation);
 	DECLDIR void setStatic(bool _static);
+
+	DECLDIR FLOAT3 getLeftHandPosition();
 };

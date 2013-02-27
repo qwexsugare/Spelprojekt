@@ -23,6 +23,11 @@ MapHandler::MapHandler()
 	this->m_grid = NULL;
 	this->m_paths = NULL;
 	this->m_lives = 10;
+	this->nrOfSpawnPoints=0;
+	for(int i=0;i<5;i++)
+	{
+		this->playerStartPositions[i]=FLOAT3(0.0f,0.0f,0.0f);
+	}
 }
 
 MapHandler::~MapHandler()
@@ -128,10 +133,34 @@ void MapHandler::loadMap(std::string filename)
 					rotation.z *= (D3DX_PI/180);
 					//rotation = FLOAT3(0,0,0);
 					
-					Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
-					m->setRotation(rotation);
-					EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
-					g_graphicsEngine->removeModel(m);
+					//if the model represents a spawn point
+					if(key[0]=='S'&&key[1]=='P'&&key[2]=='A'&&key[3]=='W'&&key[4]=='N')
+					{
+						//doctor
+						if(key[5]=='D')
+							this->playerStartPositions[HERO_TYPE::DOCTOR]=position;
+						//enginer
+						if(key[5]=='E')
+							this->playerStartPositions[HERO_TYPE::ENGINEER]=position;
+						//mentalist
+						if(key[5]=='M')
+							this->playerStartPositions[HERO_TYPE::THE_MENTALIST]=position;
+						//officer
+						if(key[5]=='O')
+							this->playerStartPositions[HERO_TYPE::OFFICER]=position;
+						//redknight
+						if(key[5]=='R')
+							this->playerStartPositions[HERO_TYPE::RED_KNIGHT]=position;
+
+						this->nrOfSpawnPoints++;
+					}
+					else
+					{
+						Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
+						m->setRotation(rotation);
+						EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
+						g_graphicsEngine->removeModel(m);
+					}
 				}
 			}
 		}
@@ -324,4 +353,14 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	
 	}
 
+}
+
+FLOAT3 MapHandler::getPlayerPosition(int p)
+{
+	FLOAT3 pos = FLOAT3(0.0f,0.0f,0.0f);
+	if(p>=0&&p<this->nrOfSpawnPoints)
+	{
+		pos = this->playerStartPositions[p];
+	}
+	return pos;
 }
