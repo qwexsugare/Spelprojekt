@@ -416,32 +416,6 @@ void GameState::update(float _dt)
 		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
 	}
 	
-	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
-	{
-		// Calc some fucken pick ray out mofos
-		D3DXVECTOR3 pickDir;
-		D3DXVECTOR3 pickOrig;
-		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-		float dist;
-		float k = (-pickOrig.y)/pickDir.y;
-		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
-		switch(random(0, 3))
-		{
-		case 0:
-			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::DEATH_PULSE_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
-			break;
-		case 1:
-			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::FROST_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
-			break;
-		case 2:
-			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::TESLA_CHAIN_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
-			break;
-		case 3:
-			m_network->sendMessage(NetworkUseActionPositionMessage(Skill::POISON_TURRET, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1));
-			break;
-		}
-	}
 	if(g_mouse->isLButtonPressed())
 	{
 		D3DXVECTOR3 pickDir;
