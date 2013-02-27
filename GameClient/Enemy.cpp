@@ -85,14 +85,14 @@ FLOAT3 Enemy::getDirection()
 }
 FLOAT3 Enemy::getEndPos()
 {
-	return this->m_dir*1000;
+	return FLOAT3(m_position.x+this->m_dir.x,0.0f, m_position.z+this->m_dir.z);
 }
 
 void Enemy::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
 	
-	if(this->lastDT>0.01)
+	if(this->lastDT>0.1)
 	{
 		//Handle incoming messages
 		Message *m;
@@ -162,15 +162,12 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			{
 				//m_dir.y = 0;
 				this->m_dir =this->m_dir*50 + m_staticAvDir*3.5f+ m_goalDirection;
-				
+				m_dir = m_dir/m_dir.length();
 			}
 			else if(checkDistanceToStatic(0.5f, 0.5f))
 				this->m_dir =this->m_dir*20 + m_staticAvDir*5 + m_goalDirection;
 			m_dir = m_dir/m_dir.length();
-					if(m_dir.x>500)
-		{
-			hoxit=m_dir;
-		}
+
 
 			if((m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
 			{
@@ -249,7 +246,10 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	
 		if(this->m_dir.x!=m_prevDir.x||this->m_dir.z!=m_prevDir.z)
 		{
-				this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x, m_position.z,this->getMovementSpeed()));
+			if(this->m_reachedPosition)
+				this->m_dir=FLOAT3(0.0f,0.0f,0.0f);
+
+			this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x+this->m_dir.x, m_position.z+this->m_dir.z,this->getMovementSpeed()));
 		}
 		lastDT=0;
 
@@ -304,6 +304,7 @@ void Enemy::checkCloseEnemies(float dt)
 			if((m_position - closestEnemy->getPosition()).length()>0)
 				m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
 			m_dir = m_dir + m_enemyAvDir*3;
+			m_dir = m_dir/m_dir.length();
 			//m_position = m_position +m_enemyAvDir*2*dt;
 		}
 		else 
