@@ -136,7 +136,7 @@ vector<ServerEntity*> EntityHandler::getEntities()
 	//ses.resize(EntityHandler::m_entities.size()+ses.size());
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 		ses.push_back(EntityHandler::m_entities[i]);
-
+	
 	EntityHandler::m_mutex.Unlock();
 
 	return ses;
@@ -392,4 +392,36 @@ unsigned int EntityHandler::getId()
 void EntityHandler::initQuadTree(FLOAT2 _extents)
 {
 	EntityHandler::m_quadtree = new ServerQuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y));
+}
+
+bool EntityHandler::intersects(const BoundingSphere& _bs)
+{
+	bool ret = false;
+	EntityHandler::m_mutex.Lock();
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(m_entities[i]->intersects(_bs))
+		{
+			ret = true;
+			i = EntityHandler::m_entities.size();
+		}
+	}
+	EntityHandler::m_mutex.Unlock();
+	return ret;
+}
+
+bool EntityHandler::intersects(const BoundingOrientedBox& _obb)
+{
+	bool ret = false;
+	EntityHandler::m_mutex.Lock();
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(m_entities[i]->intersects(_obb))
+		{
+			ret = true;
+			i = EntityHandler::m_entities.size();
+		}
+	}
+	EntityHandler::m_mutex.Unlock();
+	return ret;
 }

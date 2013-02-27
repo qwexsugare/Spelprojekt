@@ -34,7 +34,10 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
-	this->m_swiftAsACatPowerfulAsABear = false;
+	
+	m_swiftAsACatPowerfulAsABear = false;
+	m_frostTurretSlowEffectTimer = 0.0f;
+	m_frostTurretSlowEffectValue = 0.0f;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -74,7 +77,10 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 10.0f;
 	this->m_attackCooldown = 0.0f;
+	
 	m_swiftAsACatPowerfulAsABear = false;
+	m_frostTurretSlowEffectTimer = 0.0f;
+	m_frostTurretSlowEffectValue = 0.0f;
 }
 
 UnitEntity::~UnitEntity()
@@ -85,6 +91,19 @@ UnitEntity::~UnitEntity()
 	}
 
 	delete this->m_regularAttack;
+}
+
+void UnitEntity::applyFrostTurretSlowEffect(float _value)
+{
+	// If the unit is already affected, reset his movementspeed debuff before applying the new one
+	if(m_frostTurretSlowEffectTimer > 0.0f)
+	{
+		this->alterMovementSpeed(-m_frostTurretSlowEffectValue);
+	}
+
+	m_frostTurretSlowEffectTimer = 10.0f;
+	m_frostTurretSlowEffectValue = _value;
+	this->alterMovementSpeed(m_frostTurretSlowEffectValue);
 }
 
 void UnitEntity::addSkill(Skill *_skill)
@@ -208,6 +227,11 @@ void UnitEntity::increaseFortitude(int _fortitude)
 		_fortitude = UnitEntity::MAX_WITS - m_fortitude;
 
 	m_fortitude += _fortitude;
+}
+
+bool UnitEntity::isSlowedByFrostTurret()
+{
+	return m_frostTurretSlowEffectTimer > 0.0f;
 }
 
 void UnitEntity::setMaxHealth(int _maxHealth)
@@ -385,6 +409,16 @@ void UnitEntity::update(float dt)
 	}
 
 	this->m_mutex.Unlock();
+
+	if(m_frostTurretSlowEffectTimer != 0.0f)
+	{
+		m_frostTurretSlowEffectTimer = max(m_frostTurretSlowEffectTimer-dt, 0.0f);
+		if(m_frostTurretSlowEffectTimer == 0.0f)
+		{
+			this->alterMovementSpeed(-m_frostTurretSlowEffectValue);
+			m_frostTurretSlowEffectValue = 0.0f;
+		}
+	}
 
 	if(this->m_attackCooldown > 0.0f)
 	{

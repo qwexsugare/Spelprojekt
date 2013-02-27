@@ -166,6 +166,7 @@
     <ClCompile Include="DeathPulseTurret.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
     <ClCompile Include="FrostTurret.cpp" />
+    <ClCompile Include="FrostTurretEffect.cpp" />
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp" />
     <ClCompile Include="IdleClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
@@ -325,6 +326,7 @@
     <ClInclude Include="DeathPulseTurret.h" />
     <ClInclude Include="DelayedDamage.h" />
     <ClInclude Include="FrostTurret.h" />
+    <ClInclude Include="FrostTurretEffect.h" />
     <ClInclude Include="HypnoticStareClientSkillEffect.h" />
     <ClInclude Include="IdleClientSkillEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />
