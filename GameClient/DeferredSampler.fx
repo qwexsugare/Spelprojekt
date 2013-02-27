@@ -252,11 +252,8 @@ PSSuperSceneIn VSSuperScene(VSSuperSceneIn input)
 
 	//variables needed for lighting
 	float3 myNormal = input.Normal;
-	//myNormal.z *= -1;
-	float3 myTangent = input.Tangent;
-	//myTangent.z *= -1;
+
 	output.Normal = normalize(mul(float4(myNormal, 0.0f), modelMatrix));
-	output.Tangent = normalize(mul(float4(myTangent, 0.0f), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
 
 	return output;
@@ -338,8 +335,8 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 
 	output.Pos = input.EyeCoord;
 	output.Normal = float4(nNormal, 1);
-	output.Diffuse = float4(color.xyz, 1);
-	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).w);
+	output.Diffuse = color;
+	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).r);
 	output.Glow = glowMap.Sample(linearSampler, input.UVCoord);
 
 	return output;
@@ -382,6 +379,17 @@ technique10 DeferredPropsSample
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
 		
 	    SetDepthStencilState( gubbStencil, 0 );
+	    SetRasterizerState( rs );
+	}
+	pass p1
+	{
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSPropsScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
+		
+	    SetDepthStencilState( houseStencil, 0 );
 	    SetRasterizerState( rs );
 	}
 }
@@ -451,7 +459,7 @@ PSSuperSceneIn VSAnimScene(VSAnimSceneIn input)
 	//variables needed for lighting
 	output.Normal = normalize(mul(output.Normal, modelMatrix));
 	output.EyeCoord = mul(float4(output.Pos.xyz,1.0), modelMatrix);
-
+	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).r);
 	//output.Tangent = float4(t, 0);
 
 	return output;
@@ -467,7 +475,18 @@ technique10 DeferredAnimationSample
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
 		
-	    SetDepthStencilState( EnableDepth, 0 );
+	    SetDepthStencilState( gubbStencil, 0 );
+	    SetRasterizerState( rs );
+    }
+    pass p1
+    {
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSAnimScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
+		
+	    SetDepthStencilState( houseStencil, 0 );
 	    SetRasterizerState( rs );
     }
 }
@@ -576,7 +595,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	float3 nNormal = normalize(mul(output.Normal, tbn));
 	output.Normal.xyz = nNormal;
 
-	output.Normal.z *= -1;
+	//output.Normal.z *= -1;
 
 
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);

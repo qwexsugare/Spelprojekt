@@ -445,6 +445,9 @@
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="FrostTurretEffect.cpp">
+      <Filter>Server\Towers\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -925,6 +928,9 @@
     </ClInclude>
     <ClInclude Include="HypnoticStareClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretEffect.h">
+      <Filter>Server\Towers\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,14 +11,22 @@ HypnoticStareClientSkillEffect::HypnoticStareClientSkillEffect(unsigned int _mas
 
 	Entity *e = ClientEntityHandler::getEntity(_masterId);
 	if(e != NULL)
-		e->m_model->setGlowIndex("glowIntensity1");
+	{
+		this->m_oldTexture = e->m_model->getTextureIndex();
+		this->m_oldGlow = e->m_model->getGlowIndex();
+		e->m_model->setGlowIndex("glowIntensity");
+		e->m_model->setTextureIndex("color4");
+	}
 }
 
 HypnoticStareClientSkillEffect::~HypnoticStareClientSkillEffect()
 {
 	Entity *e = ClientEntityHandler::getEntity(m_masterId);
 	if(e)
-		e->m_model->setGlowIndex("glowIntensity");
+	{
+		e->m_model->setTextureIndex(this->m_oldTexture);
+		e->m_model->setGlowIndex(this->m_oldGlow);
+	}
 }
 
 void HypnoticStareClientSkillEffect::update(float _dt)

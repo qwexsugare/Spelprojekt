@@ -17,5 +17,6 @@ public:
 	~TeslaChainTurret();
 
 	void update(float dt);
+	void target(ServerEntity* _target);
 };
 

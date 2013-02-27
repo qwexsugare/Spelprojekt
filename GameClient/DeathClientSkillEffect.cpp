@@ -3,7 +3,7 @@
 DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
 	this->m_masterId = _masterId;
-	this->m_lifetime = 10.0f;
+	this->m_lifetime = 5.0f;
 	this->m_sink = false;
 
 	Entity *e = ClientEntityHandler::getEntity(this->m_masterId);
@@ -18,6 +18,9 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 		this->m_model = g_graphicsEngine->createModel(e->m_model, false);
 		this->m_model->setPosition(_position);
 		this->m_model->getAnimation()->Play("death", true);
+		this->m_model->SetHat(e->m_model->getHat());
+		this->m_model->SetLeftHand(e->m_model->getLeftHand());
+		this->m_model->SetRightHand(e->m_model->getRightHand());
 	}
 }
 
@@ -30,7 +33,7 @@ void DeathClientSkillEffect::update(float dt)
 {
 	this->m_lifetime = this->m_lifetime - dt;
 
-	if(this->m_lifetime < 5.0f)
+	if(this->m_lifetime < 1.5f)
 	{
 		if(this->m_sink == true)
 		{
