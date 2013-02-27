@@ -269,9 +269,9 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 							entityIndex = _entities.size();
 						}
 					}
-
 				}
 				this->m_skillWaitingForTarget = -1;
+				g_mouse->getCursor()->setFrame(Cursor::DEFAULT, 3);
 			}
 
 			for(int i = 0; i < m_NumberOfSkills; i++)
@@ -285,6 +285,25 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					{
 						this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
 						this->m_buttonIndex = i;
+
+						switch(this->m_skillWaitingForTarget)
+						{
+						case Skill::CLOUD_OF_DARKNESS:
+							g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
+							break;
+						case Skill::HEALING_TOUCH:
+							g_mouse->getCursor()->setFrame(Cursor::HEALING_TOUCH, 3);
+							break;
+						case Skill::TELEPORT:
+							g_mouse->getCursor()->setFrame(Cursor::TELEPORT, 3);
+							break;
+						case Skill::CHAIN_STRIKE:
+							g_mouse->getCursor()->setFrame(Cursor::CHAIN_STRIKE, 3);
+							break;
+						case Skill::HYPNOTIC_STARE:
+							g_mouse->getCursor()->setFrame(Cursor::HYPNOTIC_STARE, 3);
+							break;
+						}
 					}
 					else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
 						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)

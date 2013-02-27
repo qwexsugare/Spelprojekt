@@ -8,6 +8,7 @@ Enemy::Enemy() : UnitEntity()
 	m_type = Type::EnemyType;
 	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_goalPosition = FLOAT3(32.0f, 0.0f, 32.0f);
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
@@ -36,6 +37,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	m_type = Type::EnemyType;
 	
 	//this->m_goalPosition = FLOAT3(5.0f, 0.0f,64.0f);
+	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	m_targetType = UnitEntity::HeroType;
 	this->m_reachedPosition = true;
 	this->m_modelId = 80;
@@ -83,14 +85,14 @@ FLOAT3 Enemy::getDirection()
 }
 FLOAT3 Enemy::getEndPos()
 {
-	return FLOAT3(m_position.x+this->m_dir.x,0.0f, m_position.z+this->m_dir.z);
+	return this->m_dir*1000;
 }
 
 void Enemy::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
 	
-	if(this->lastDT>0.1)
+	if(this->lastDT>0.01)
 	{
 		//Handle incoming messages
 		Message *m;
@@ -160,13 +162,15 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			{
 				//m_dir.y = 0;
 				this->m_dir =this->m_dir*50 + m_staticAvDir*3.5f+ m_goalDirection;
-				m_dir = m_dir/m_dir.length();
+				
 			}
 			else if(checkDistanceToStatic(0.5f, 0.5f))
 				this->m_dir =this->m_dir*20 + m_staticAvDir*5 + m_goalDirection;
-			m_dir = m_dir + m_enemyAvDir*0.5f;
 			m_dir = m_dir/m_dir.length();
-
+					if(m_dir.x>500)
+		{
+			hoxit=m_dir;
+		}
 
 			if((m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
 			{
@@ -245,10 +249,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	
 		if(this->m_dir.x!=m_prevDir.x||this->m_dir.z!=m_prevDir.z)
 		{
-			if(this->m_reachedPosition)
-				this->m_dir=FLOAT3(0.0f,0.0f,0.0f);
-
-			this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x+this->m_dir.x, m_position.z+this->m_dir.z,this->getMovementSpeed()));
+				this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x, m_position.z,this->getMovementSpeed()));
 		}
 		lastDT=0;
 
@@ -284,38 +285,36 @@ void Enemy::setNextPosition(unsigned int _id, float dt)
 
 void Enemy::checkCloseEnemies(float dt)
 {
-	Enemy* closestEnemy = (Enemy*)EntityHandler::getClosestEntityByType(this, UnitEntity::EnemyType);
+	ServerEntity* closestEnemy = EntityHandler::getClosestEntityByType(this, UnitEntity::EnemyType);
 
 	if(closestEnemy)
 	{
 		m_enemyAvDir = FLOAT3(0,0,0);
-
-		if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z)*0.5f)
-		{
-			m_position = m_position + (m_position - closestEnemy->getPosition());
-			//if((m_position+m_dir*dt*3*m_movementSpeed - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
-			//{
-			//	this->alterMovementSpeed(-1.0f);
-			//	//((UnitEntity*)closestEnemy)->setMovementSpeed(((UnitEntity*)closestEnemy)->getB);
-			//}
-			//else 
-			//	this->alterMovementSpeed(1.0f);
-
-		}
 		if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z)*3)
 		{
 
+		
+			if((m_position+m_dir*dt*3*m_movementSpeed - closestEnemy->getPosition()).length() < (m_position - closestEnemy->getPosition() ).length())
+			{
+				m_movementSpeed = m_movementSpeed*0.5f;
+				//((UnitEntity*)closestEnemy)->setMovementSpeed(((UnitEntity*)closestEnemy)->getB);
+			}
+			else 
+				m_movementSpeed = m_baseMovementSpeed;
 			if((m_position - closestEnemy->getPosition()).length()>0)
-				this->updateEnemyAvDir(crossProduct(m_position - closestEnemy->getPosition(), FLOAT3(0,1,0)));
-				closestEnemy->updateEnemyAvDir(m_enemyAvDir*-1);
-				//m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
-				
-			
-			m_dir = m_dir/m_dir.length();
+				m_enemyAvDir =  (m_position - closestEnemy->getPosition())/(m_position - closestEnemy->getPosition()).length();
+			m_dir = m_dir + m_enemyAvDir*3;
+			//m_position = m_position +m_enemyAvDir*2*dt;
 		}
-		// Cant change the movement speed this way, interferes with unitentity ms management.
-		/*else 
-			m_movementSpeed = m_baseMovementSpeed;*/
+		else 
+			m_movementSpeed = m_baseMovementSpeed;
+<<<<<<< HEAD
+
+		m_enemyAvDir =  crossProduct(m_position - closestEnemy->getPosition(), FLOAT3(0,0,0));
+		//m_dir =m_enemyAvDir;
+		//m_position = m_position +m_enemyAvDir*2*dt;
+=======
+>>>>>>> 26d9c651a6d7f018e40f3f4872354af518d6ea78
 	}
 }
 
@@ -347,14 +346,6 @@ void Enemy::checkPursue()
 			}
 		}
 	}
-}
-
-void Enemy::updateEnemyAvDir(FLOAT3 _val)
-{
-	m_enemyAvDir = m_enemyAvDir + _val;
-	if(m_enemyAvDir.length() > 1.0f)
-		m_enemyAvDir = m_enemyAvDir/m_enemyAvDir.length();
-	//m_dir = m_dir + m_enemyAvDir*3;
 }
 
 FLOAT3 Enemy::checkStatic(float dt)
@@ -404,9 +395,15 @@ FLOAT3 Enemy::checkStatic(float dt)
 						m_currClosestStatic = stat;
 					}
 				
-					avoidBuffer = test;
+<<<<<<< HEAD
+				avoidBuffer = test;
 				avoidDir = FLOAT3(0,0,0) -cross;
+			}
+=======
+					avoidBuffer = test;
+					avoidDir = FLOAT3(0,0,0) -cross/10;
 				}
+>>>>>>> 26d9c651a6d7f018e40f3f4872354af518d6ea78
 
 				if(test2< avoidBuffer)
 				{
@@ -416,9 +413,15 @@ FLOAT3 Enemy::checkStatic(float dt)
 						m_currClosestStatic = stat;
 					}
 				
-					avoidBuffer = test2;
+<<<<<<< HEAD
+				avoidBuffer = test2;
 				avoidDir =  cross;
+			}
+=======
+					avoidBuffer = test2;
+					avoidDir =  cross/10;
 				}
+>>>>>>> 26d9c651a6d7f018e40f3f4872354af518d6ea78
 
 
 				if(outOfBounds(temp,4) && avoidTimer > 0.5f)
@@ -446,15 +449,13 @@ FLOAT3 Enemy::checkStatic(float dt)
 							avoidDir = FLOAT3(0,0,0) - cross/10;
 					}*/
 
-					// Cant change the movement speed this way, interferes with unitentity ms management.
-					/*if((m_position - stat->getPosition()).length() <m_movementSpeed*dt*(10-i))
+					if((m_position - stat->getPosition()).length() <m_movementSpeed*dt*(10-i))
 						m_movementSpeed = m_movementSpeed/2;
 					else
-						m_movementSpeed = m_baseMovementSpeed;*/
+						m_movementSpeed = m_baseMovementSpeed;
 
 					m_distanceToStatic = i;
-					//return (avoidDir/i)*max(avoidBuffer,1.0f);
-					avd = avd + (avoidDir/i)*max(avoidBuffer,1.0f);// + max(avd,((avoidDir/i)*max(avoidBuffer,1.0f)));
+					avd = avd + (avoidDir/i)*max(avoidBuffer,1.0f);
 				}
 			}
 		}

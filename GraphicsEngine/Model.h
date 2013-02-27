@@ -40,9 +40,9 @@ public:
 	DECLDIR FLOAT2 getPosition2DAsFloat2()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
-	Mesh* getMesh()const;
-	Mesh* getHat()const;
-	Mesh* getLeftHand()const;
+	DECLDIR Mesh* getMesh()const;
+	DECLDIR Mesh* getHat()const;
+	DECLDIR Mesh* getLeftHand()const;
 	DECLDIR Mesh* getRightHand()const;
 	string getTextureIndex()const { return m_textureIndex; }
 	string getGlowIndex()const { return m_glowIndex; }

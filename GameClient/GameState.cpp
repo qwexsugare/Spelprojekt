@@ -217,6 +217,11 @@ void GameState::update(float _dt)
 			e->m_type = (ServerEntity::Type)iem.getType();
 			this->m_clientEntityHandler->addEntity(e);
 
+			if(iem.getWeaponType() == ModelIdHolder::WEAPON_TYPE::AOE)
+			{
+				e->m_twoHandedWeapon = true;
+			}
+
 			if(iem.getType() == ServerEntity::HeroType)
 			{
 					
@@ -298,6 +303,9 @@ void GameState::update(float _dt)
 			break;
 		case Skill::MELEE_ATTACK:
 			this->m_ClientSkillEffects.push_back(new MeleeAttackClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
+			break;
+		case Skill::AOE_MELEE_ATTACK:
+			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
 			break;
 		}
 	}
@@ -418,16 +426,30 @@ void GameState::update(float _dt)
 	{
 		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
 	}
-	
-	if(g_mouse->isLButtonPressed())
-	{
-		D3DXVECTOR3 pickDir;
-		D3DXVECTOR3 pickOrig;
-		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-		float k = (-pickOrig.y)/pickDir.y;
-		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+	D3DXVECTOR3 pickDir;
+	D3DXVECTOR3 pickOrig;
+	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+	float dist;
+	float k = (-pickOrig.y)/pickDir.y;
+	D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+	int mouseOverEnemy = -1;
+	vector<Entity*> m_entities = m_clientEntityHandler->getEntities();
+	for(int i = 0; i < m_entities.size(); i++)
+	{
+		if(m_entities[i]->m_type == ServerEntity::EnemyType && m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+		{
+			mouseOverEnemy = i;
+			i = m_entities.size();
+			g_mouse->getCursor()->setFrame(Cursor::TARGET, 1);
+		}
 	}
+
+	if(mouseOverEnemy == -1)
+	{
+		g_mouse->getCursor()->setFrame(Cursor::DEFAULT, 1);
+	}
+	
 	if(g_mouse->isLButtonDown())
 	{
 
@@ -440,31 +462,19 @@ void GameState::update(float _dt)
 	{
 		if(m_minimap->isMouseInMap(g_mouse->getPos()) == false)
 		{
-			bool validMove = true;
-			
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-			float dist;
-			vector<Entity*> m_entities = m_clientEntityHandler->getEntities();
-			for(int i = 0; i < m_entities.size(); i++)
+			if(mouseOverEnemy >= 0)
 			{
-				if(m_entities[i]->m_type == ServerEntity::EnemyType && m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[mouseOverEnemy]->m_id, -1));
+				stringstream ss;
+				ss << m_entities[mouseOverEnemy]->m_health;
+				m_healthText->setString("Target health: " + ss.str());
+				if(m_attackSoundTimer == 0.0f)
 				{
-					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id, -1));
-					stringstream ss;
-					ss << m_entities[i]->m_health;
-					m_healthText->setString("Target health: " + ss.str());
-					if(m_attackSoundTimer == 0.0f)
-					{
-						SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
-						m_attackSoundTimer = ATTACK_SOUND_DELAY;
-					}
-					validMove = false;
+					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+					m_attackSoundTimer = ATTACK_SOUND_DELAY;
 				}
 			}
-
-			if(validMove)
+			else
 			{
 				float k = (-pickOrig.y)/pickDir.y;
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
@@ -643,9 +653,15 @@ void GameState::importMap(string _map)
 					rotation.z *= (D3DX_PI/180);
 					//rotation = FLOAT3(0,0,0);
 				
-					Model *m = g_graphicsEngine->createModel(key, position, true);
-					m->setRotation(rotation);
-					m->setScale(scale, scale, scale);
+					if(key[0]=='S'&&key[1]=='P'&&key[2]=='A'&&key[3]=='W'&&key[4]=='N')
+					{
+					}
+					else
+					{
+						Model *m = g_graphicsEngine->createModel(key, position, true);
+						m->setRotation(rotation);
+						m->setScale(scale, scale, scale);
+					}
 				}
 			}
 		}

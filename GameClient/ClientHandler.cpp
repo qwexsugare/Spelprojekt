@@ -104,8 +104,8 @@ void ClientHandler::update(float _dt)
 				break;
 		}
 	}
+
 	this->m_messages.clear();
-	
 	this->m_state->update(_dt);
 
 	if(this->m_state->isDone())
@@ -171,6 +171,6 @@ void ClientHandler::update(float _dt)
 	D3DXVECTOR3 camPos = g_graphicsEngine->getCamera()->getPos();
 	updateSoundEngine(FLOAT3(camPos.x, camPos.y, camPos.z));
 
-	g_mouse->update(); // Must be last!
+	g_mouse->update(); // Must be last! WHY?!
 	g_keyboard->update();
 }

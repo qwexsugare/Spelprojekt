@@ -19,9 +19,6 @@
     <ClCompile Include="CreditsMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="Cursor.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -445,8 +442,14 @@
     <ClCompile Include="FrostTurretProjectileClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>Client\Controls</Filter>
+      </ClCompile>
     <ClCompile Include="FrostTurretProjectile.cpp">
       <Filter>Server\Towers\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAOEClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -466,9 +469,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="CreditsMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Cursor.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
@@ -924,6 +924,12 @@
       <Filter>Server\Towers</Filter>
     </ClInclude>
     <ClInclude Include="HypnoticStareClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Cursor.h">
+      <Filter>Client\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAOEClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="FrostTurretProjectileClientSkillEffect.h">

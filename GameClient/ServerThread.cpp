@@ -137,7 +137,7 @@ void ServerThread::update(float dt)
 				vector<Hero::HERO_TYPE> heroTypes;
 				for(int i = 0; i < players.size(); i++)
 				{
-					players[i]->spawnHero();
+					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
 				}
