@@ -447,15 +447,6 @@ void GameState::update(float _dt)
 		g_mouse->getCursor()->setFrame(Cursor::DEFAULT, 1);
 	}
 	
-	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED)
-	{
-		// Calc some fucken pick ray out mofos
-		//D3DXVECTOR3 pickDir;
-		//D3DXVECTOR3 pickOrig;
-		//g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-		//float dist;
-		//float k = (-pickOrig.y)/pickDir.y;
-		//D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 	if(g_mouse->isLButtonDown())
 	{
 
