@@ -8,6 +8,8 @@ class HypnoticStareClientSkillEffect : public ClientSkillEffect
 private:
 	unsigned int m_masterId;
 	float m_timer;
+	string m_oldTexture;
+	string m_oldGlow;
 public:
 	HypnoticStareClientSkillEffect(unsigned int _masterId, float _duration);
 	~HypnoticStareClientSkillEffect();
