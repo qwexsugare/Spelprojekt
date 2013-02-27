@@ -595,7 +595,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	float3 nNormal = normalize(mul(output.Normal, tbn));
 	output.Normal.xyz = nNormal;
 
-	output.Normal.z *= -1;
+	//output.Normal.z *= -1;
 
 
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
