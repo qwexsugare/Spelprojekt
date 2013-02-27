@@ -15,16 +15,23 @@ SwiftAsACatPowerfulAsABoar::~SwiftAsACatPowerfulAsABoar()
 
 bool SwiftAsACatPowerfulAsABoar::activate(unsigned int _senderId)
 {
-	m_master = _senderId;
-	ServerEntity *e = EntityHandler::getServerEntity(m_master);
-
-	if(e != NULL)
+	if(this->getCurrentCooldown() == 0)
 	{
-		UnitEntity* ue = (UnitEntity*)e;
-		ue->setSwiftAsACatPowerfulAsABear(true);
-	}
+		ServerEntity *e = EntityHandler::getServerEntity(_senderId);
 
-	return true;
+		if(e)
+		{
+			UnitEntity* ue = (UnitEntity*)e;
+			ue->setSwiftAsACatPowerfulAsABear(true);
+			this->resetCooldown();;
+			
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
 }
 
 void SwiftAsACatPowerfulAsABoar::updateSpecificSkill(float dt)

@@ -294,10 +294,13 @@ void Enemy::checkPursue()
 	if(!m_willPursue)
 	{
 		ServerEntity* se = EntityHandler::getClosestEntityByType(this, m_targetType);
-		if((this->m_position-se->getPosition()).length() <= this->m_aggroRange )
+		if(se)
 		{
-			m_willPursue = true;
-			m_closestTargetId = se->getId();
+			if((this->m_position-se->getPosition()).length() <= this->m_aggroRange )
+			{
+				m_willPursue = true;
+				m_closestTargetId = se->getId();
+			}
 		}
 	}
 }
