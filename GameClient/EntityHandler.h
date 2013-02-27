@@ -47,6 +47,8 @@ public:
 
 	static unsigned int getId();
 	static void initQuadTree(FLOAT2 _extents);
+	static bool intersects(const BoundingSphere& _bs);
+	static bool intersects(const BoundingOrientedBox& _obb);
 };
 
 #endif

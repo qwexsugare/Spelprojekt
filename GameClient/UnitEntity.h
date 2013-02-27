@@ -53,10 +53,14 @@ protected:
 	unsigned int m_poisonCounter;
 	unsigned int m_deadlyStrikeChance;
 	bool m_swiftAsACatPowerfulAsABear;
+	float m_frostTurretSlowEffectTimer;
+	float m_frostTurretSlowEffectValue;
 public:
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
 	virtual ~UnitEntity();
+
+	void applyFrostTurretSlowEffect(float _value);
 	
 	void update(float dt);
 	virtual void updateSpecificUnitEntity(float dt) = 0;
@@ -73,6 +77,7 @@ public:
 	void increaseAgility(int _agility);
 	void increaseWits(int _wits);
 	void increaseFortitude(int _fortitude);
+	bool isSlowedByFrostTurret();
 	
 	void alterAttackSpeed(float _value);
 	void alterMentalDamage(float _value);
