@@ -63,6 +63,7 @@ public:
 	virtual FLOAT3 getDirection();
 	virtual FLOAT3 getEndPos();
 	virtual float getMovementSpeed();
+	virtual unsigned short getWeaponType();
 };
 
 #endif

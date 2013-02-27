@@ -33,7 +33,7 @@ protected:
 	int m_highRescource;
 	FLOAT3 m_rotationAdding;
 	float m_closestHero;
-
+	FLOAT3 hoxit;
 	ServerEntity *m_prevClosestStatic;
 	ServerEntity *m_currClosestStatic;
 public:
