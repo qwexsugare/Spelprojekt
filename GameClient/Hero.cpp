@@ -21,6 +21,7 @@ Hero::Hero() : UnitEntity()
 	this->increaseWits(1);
 	this->increaseFortitude(4);
 	this->m_startPos=FLOAT3(0.0,0.0,0.0);
+	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 }
 
 Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
@@ -36,6 +37,7 @@ Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 	this->m_attackRange = 5.0f;
 	this->m_hasTarget = false;
 	this->m_startPos=FLOAT3(0.0,0.0,0.0);
+	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 }
 
 Hero::~Hero()
@@ -162,6 +164,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 								this->m_reachedPosition = true;
 								this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 								this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+								this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->getId(),this->getPosition().x,this->getPosition().z,this->getRotation().x,0.0f,0.0f,0.0f,0.0f,this->getMovementSpeed()));
 							}
 
 							this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
@@ -221,9 +224,12 @@ void Hero::updateSpecificUnitEntity(float dt)
 	{
 		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
 		this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
+		this->m_nextPosition = this->m_position;
 		this->m_health = this->m_maxHealth;
 		this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 		this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+		this->m_hasTarget = false;
+		this->m_reachedPosition = true;
 	}
 }
 
@@ -311,4 +317,9 @@ UpdateEntityMessage* Hero::getUpdateEntityMessage()
 FLOAT3 Hero::getEndPos()
 {
 	return this->m_nextPosition;
+}
+
+unsigned short Hero::getWeaponType()
+{
+	return this->m_weaponType;
 }

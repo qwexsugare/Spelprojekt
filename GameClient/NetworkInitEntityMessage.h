@@ -1,13 +1,13 @@
 #pragma once
 #include "networkmessage.h"
-class NetworkInitEntityMessage :
-	public NetworkMessage
+class NetworkInitEntityMessage : public NetworkMessage
 {
 	//id,modelid,pos,rot,scale,type
 private:
 	unsigned short type;
 	unsigned short id;
 	unsigned short modelid;
+	unsigned short weaponType;
 	float xPos;
 	float zPos;
 	float sx,sz,ex,ez;
@@ -17,12 +17,13 @@ private:
 	float movementspeed;
 public:
 	NetworkInitEntityMessage(void);
-	NetworkInitEntityMessage(unsigned short type, unsigned short modelid, unsigned short id, float xPos, float zPos, float yRot, float scale,int health,float sx, float sy,float ex,float ey,float movementspeed);
+	NetworkInitEntityMessage(unsigned short type, unsigned short modelid, unsigned short weaponType, unsigned short id, float xPos, float zPos, float yRot, float scale,int health,float sx, float sy,float ex,float ey,float movementspeed);
 	~NetworkInitEntityMessage(void);
 
 	int getType();
 	int getID();
 	int getModelID();
+	int getWeaponType();
 	float getXPos();
 	float getZPos();
 	float getYRot();

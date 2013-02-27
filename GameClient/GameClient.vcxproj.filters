@@ -902,6 +902,9 @@
     <ClInclude Include="NetworkUpdateEntityHealth.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkUpdateEntityHealth.h">
+      <Filter>Network</Filter>
+    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Server\Enemies</Filter>
     </ClInclude>

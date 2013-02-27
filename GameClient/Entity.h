@@ -13,6 +13,7 @@ struct Entity
 	FLOAT3 m_startPos;
 	FLOAT3 m_endPos;
 	float movementSpeed;
+	PointLight *m_lanternLight;
 
 	Entity()
 	{
@@ -28,6 +29,15 @@ struct Entity
 		m_endPos=this->m_model->getPosition();
 		this->movementSpeed=1;
 		m_health=100;
+
+		if(this->m_model->getRightHand() != NULL)
+		{
+			this->m_lanternLight = g_graphicsEngine->createPointLight(this->m_model->getPosition() + FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false);
+		}
+		else
+		{
+			this->m_lanternLight = NULL;
+		}
 	}
 	void update(float dt)
 	{
@@ -56,6 +66,11 @@ struct Entity
 			this->m_direction.x=xdir;
 			this->m_direction.z=zdir;
 			this->m_model->setPosition(m_endPos);
+		}
+
+		if(this->m_lanternLight != NULL)
+		{
+			this->m_lanternLight->setPosition(this->m_model->getPosition());
 		}
 	
 		
