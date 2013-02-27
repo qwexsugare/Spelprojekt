@@ -169,6 +169,7 @@
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp" />
     <ClCompile Include="IdleClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
+    <ClCompile Include="MeleeAOEClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
@@ -328,6 +329,7 @@
     <ClInclude Include="HypnoticStareClientSkillEffect.h" />
     <ClInclude Include="IdleClientSkillEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />
+    <ClInclude Include="MeleeAOEClientSkillEffect.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="CloudOfDarkness.h" />
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />

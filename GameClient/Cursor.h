@@ -8,10 +8,14 @@ class Cursor
 {
 private:
 	SpriteSheet *m_sprite;
+	int m_priority;
 public:
+	static enum CURSOR_TYPE{DEFAULT, TARGET, CLICK, CHAIN_STRIKE, CLOUD_OF_DARKNESS, TELEPORT, HEALING_TOUCH, WALL, HYPNOTIC_STARE, CAT_BEAR, ENHANCED_DEVELOPMENT, TIME_IS_MONEY};
+
 	Cursor();
 	void setPosition(INT2 position);
-	void setFrame(int i);
+	void setFrame(CURSOR_TYPE cursor, int _priority);
+	void setPriority(int _priority);
 };
 
 #endif

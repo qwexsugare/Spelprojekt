@@ -2,6 +2,7 @@
 
 #include "DataStructures.h"
 #include <Windows.h>
+#include "Cursor.h"
 
 class Mouse
 {
@@ -13,6 +14,8 @@ private:
 	bool m_rButtonIsPressed;
 	bool m_rButtonIsReleased;
 	HWND m_hWnd;
+
+	Cursor *m_cursor;
 public:
 	Mouse(int _x, int _y, HWND _hWnd);
 	virtual ~Mouse();
@@ -31,4 +34,6 @@ public:
 	void setMousePosition(int _x, int _y);
 	void update();
 	void setMouseVisibility(bool _visible)const;
+
+	Cursor *getCursor();
 };

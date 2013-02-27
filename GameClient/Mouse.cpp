@@ -11,11 +11,16 @@ Mouse::Mouse(int _x, int _y,  HWND _hWnd)
 	this->m_rButtonIsDown = false;
 	this->m_rButtonIsPressed = false;
 	this->m_rButtonIsReleased = false;
+
+	ShowCursor(false);
+
+	this->m_cursor = new Cursor();
+	this->m_cursor->setPosition(this->getPos());
 }
 
 Mouse::~Mouse()
 {
-
+	delete this->m_cursor;
 }
 
 INT2 Mouse::getPos()const
@@ -30,7 +35,10 @@ INT2 Mouse::getPos()const
 void Mouse::lButtonDown()
 {
 	if(!this->m_lButtonIsDown)
+	{
 		this->m_lButtonIsPressed = true;
+		this->m_cursor->setFrame(Cursor::CLICK, 1);
+	}
 	this->m_lButtonIsDown = true;
 }
 
@@ -45,6 +53,7 @@ void Mouse::lButtonUp()
 {
 	m_lButtonIsDown = false;
 	m_lButtonIsReleased = true;
+	this->m_cursor->setFrame(Cursor::DEFAULT, 1);
 }
 
 void Mouse::rButtonUp()
@@ -76,4 +85,12 @@ void Mouse::update()
 	m_lButtonIsReleased = false;
 	m_rButtonIsPressed = false;
 	m_rButtonIsReleased = false;
+
+	this->m_cursor->setPosition(this->getPos());
+	//this->m_cursor->setFrame(Cursor::DEFAULT);
+}
+
+Cursor *Mouse::getCursor()
+{
+	return this->m_cursor;
 }

@@ -25,27 +25,27 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[96] = ModelId("Char1_5", "color1", "", "IronMan"); //Red Knight
 	this->m_modelIds[97] = ModelId("Char1_5", "color2", "", "GasMask"); //Engineer
 	this->m_modelIds[98] = ModelId("Char1_5", "color3", "", "Kubb");  //Doctor
-	this->m_modelIds[99] = ModelId("Char1_5", "color3", "", "TopHat"); //Mentalist
+	this->m_modelIds[99] = ModelId("Char1_5", "color4", "", "TopHat"); //Mentalist
 
 	//Officer
 	this->m_modelIds[95].weapons[WEAPON_TYPE::MELEE] = WeaponSet("OfficerRapier", "lantern");
-	this->m_modelIds[95].weapons[WEAPON_TYPE::RANGED] = WeaponSet("Crossbow", "lantern");
+	this->m_modelIds[95].weapons[WEAPON_TYPE::RANGED] = WeaponSet("HexaGun", "lantern");
 
 	//Red Knight
-	this->m_modelIds[96].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MentalistRapier", "lantern");
+	this->m_modelIds[96].weapons[WEAPON_TYPE::MELEE] = WeaponSet("Sword", "lantern");
 	this->m_modelIds[96].weapons[WEAPON_TYPE::AOE] = WeaponSet("Mace", "");
 
 	//Engineer
-	this->m_modelIds[97].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MentalistRapier", "lantern");
+	this->m_modelIds[97].weapons[WEAPON_TYPE::MELEE] = WeaponSet("Wrench", "lantern");
 	this->m_modelIds[97].weapons[WEAPON_TYPE::RANGED] = WeaponSet("Crossbow", "lantern");
 
 	//Doctor
-	this->m_modelIds[98].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MentalistRapier", "lantern");
-	this->m_modelIds[98].weapons[WEAPON_TYPE::RANGED] = WeaponSet("Crossbow", "lantern");
+	this->m_modelIds[98].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MeatCleaver", "lantern");
+	this->m_modelIds[98].weapons[WEAPON_TYPE::RANGED] = WeaponSet("DoctorRevolver", "lantern");
 
 	//Mentalist
 	this->m_modelIds[99].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MentalistRapier", "lantern");
-	this->m_modelIds[99].weapons[WEAPON_TYPE::RANGED] = WeaponSet("Crossbow", "lantern");
+	this->m_modelIds[99].weapons[WEAPON_TYPE::RANGED] = WeaponSet("MentalistRevolver", "lantern");
 }
 
 std::string ModelIdHolder::getHat(unsigned int id)

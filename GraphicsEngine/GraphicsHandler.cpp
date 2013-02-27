@@ -162,6 +162,9 @@ Model* GraphicsHandler::createModel(Model *_model, bool _static)
 		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, _model->getPosition().toD3DXVector(), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(_model->getRotation().y, _model->getRotation().x, _model->getRotation().z),
 			1.0f, _model->getTextureIndex());
 		model->setStatic(_static);
+		model->SetLeftHand(_model->getLeftHand());
+		model->SetRightHand(_model->getRightHand());
+		model->SetHat(_model->getHat());
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{
