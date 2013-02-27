@@ -9,6 +9,7 @@
 #include "Entity.h"
 #include "SkillIdHolder.h"
 #include "Sprite.h"
+#include "ModelIdHolder.h"
 
 class HudMenu : public Menu
 {
@@ -44,8 +45,10 @@ private:
 	int m_skillWaitingForTarget;
 	int m_buttonIndex;
 
-	//vector<Button*> m_towerButtons;
-	//Button m_towerShopButton;
+	vector<Button*> m_towerButtons;
+	bool m_placingTower;
+	int m_towerId;
+	Model* m_towerModel;
 
 	bool LockIsDown();
 	bool MenuIsDown();
