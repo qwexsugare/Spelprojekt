@@ -30,8 +30,6 @@ DelayedDamage::~DelayedDamage()
 
 }
 
-#include "Graphics.h"
-#include <sstream>
 void DelayedDamage::update(float dt)
 {
 	ServerEntity* target = EntityHandler::getServerEntity(this->m_target);

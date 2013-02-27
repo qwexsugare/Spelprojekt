@@ -444,6 +444,9 @@
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>Client\Controls</Filter>
+      </ClCompile>
+    <ClCompile Include="FrostTurretEffect.cpp">
+      <Filter>Server\Towers\Effects</Filter>
     </ClCompile>
     <ClCompile Include="MeleeAOEClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -902,6 +905,9 @@
     <ClInclude Include="NetworkUpdateEntityHealth.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkUpdateEntityHealth.h">
+      <Filter>Network</Filter>
+    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Server\Enemies</Filter>
     </ClInclude>
@@ -928,6 +934,9 @@
     </ClInclude>
     <ClInclude Include="MeleeAOEClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretEffect.h">
+      <Filter>Server\Towers\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -40,68 +40,35 @@ void TowerPlacer::init()
 
 void TowerPlacer::place(Skill::SKILLS _towerType, const FLOAT3& _pos)
 {
-	vector<ServerEntity*> entities = EntityHandler::getEntities();
 	bool validPos = true;
 	switch(_towerType)
 	{
 	case Skill::DEATH_PULSE_TURRET:
 		TowerPlacer::m_deathPulseTurretObb->Center = XMFLOAT3(_pos.x+m_deathPulseTurretObbOffset.x, _pos.y+m_deathPulseTurretObbOffset.y, _pos.z+m_deathPulseTurretObbOffset.z);
-		for(int i = 0; i < entities.size(); i++)
+		if(!EntityHandler::intersects(*TowerPlacer::m_deathPulseTurretObb))
 		{
-			if(entities[i]->intersects(*TowerPlacer::m_deathPulseTurretObb))
-			{
-				validPos = false;
-				i = entities.size();
-			}
-		}
-		if(validPos)
-		{
-			EntityHandler::addEntity(new DeathPulseTurret(_pos));
+			EntityHandler::addEntity(new DeathPulseTurret(_pos, 100.0f));
 		}
 		break;
 	case Skill::FROST_TURRET:
 		TowerPlacer::m_frostTurretObb->Center = XMFLOAT3(_pos.x+m_frostTurretObbOffset.x, _pos.y+m_frostTurretObbOffset.y, _pos.z+m_frostTurretObbOffset.z);
-		for(int i = 0; i < entities.size(); i++)
+		if(!EntityHandler::intersects(*TowerPlacer::m_frostTurretObb))
 		{
-			if(entities[i]->intersects(*TowerPlacer::m_frostTurretObb))
-			{
-				validPos = false;
-				i = entities.size();
-			}
-		}
-		if(validPos)
-		{
-			EntityHandler::addEntity(new FrostTurret(_pos));
+			EntityHandler::addEntity(new FrostTurret(_pos, 100.0f));
 		}
 		break;
 	case Skill::TESLA_CHAIN_TURRET:
 		TowerPlacer::m_teslaChainTurretObb->Center = XMFLOAT3(_pos.x+m_teslaChainTurretObbOffset.x, _pos.y+m_teslaChainTurretObbOffset.y, _pos.z+m_teslaChainTurretObbOffset.z);
-		for(int i = 0; i < entities.size(); i++)
+		if(!EntityHandler::intersects(*TowerPlacer::m_teslaChainTurretObb))
 		{
-			if(entities[i]->intersects(*TowerPlacer::m_teslaChainTurretObb))
-			{
-				validPos = false;
-				i = entities.size();
-			}
-		}
-		if(validPos)
-		{
-			EntityHandler::addEntity(new TeslaChainTurret(_pos, 9001, 9001));
+			EntityHandler::addEntity(new TeslaChainTurret(_pos, 999, 999));
 		}
 		break;
 	case Skill::POISON_TURRET:
 		TowerPlacer::m_poisonTurretObb->Center = XMFLOAT3(_pos.x+m_poisonTurretObbOffset.x, _pos.y+m_poisonTurretObbOffset.y, _pos.z+m_poisonTurretObbOffset.z);
-		for(int i = 0; i < entities.size(); i++)
+		if(!EntityHandler::intersects(*TowerPlacer::m_poisonTurretObb))
 		{
-			if(entities[i]->intersects(*TowerPlacer::m_poisonTurretObb))
-			{
-				validPos = false;
-				i = entities.size();
-			}
-		}
-		if(validPos)
-		{
-			EntityHandler::addEntity(new PoisonTurret(_pos));
+			EntityHandler::addEntity(new PoisonTurret(_pos, 100.0f));
 		}
 		break;
 	}

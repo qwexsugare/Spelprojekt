@@ -40,7 +40,7 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[97].weapons[WEAPON_TYPE::RANGED] = WeaponSet("Crossbow", "lantern");
 
 	//Doctor
-	this->m_modelIds[98].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MeatCleaver", "lantern");
+	this->m_modelIds[98].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MeatClever", "lantern");
 	this->m_modelIds[98].weapons[WEAPON_TYPE::RANGED] = WeaponSet("DoctorRevolver", "lantern");
 
 	//Mentalist

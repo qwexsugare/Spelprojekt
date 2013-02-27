@@ -33,7 +33,7 @@ protected:
 	int m_highRescource;
 	FLOAT3 m_rotationAdding;
 	float m_closestHero;
-
+	FLOAT3 hoxit;
 	ServerEntity *m_prevClosestStatic;
 	ServerEntity *m_currClosestStatic;
 public:
@@ -55,6 +55,7 @@ public:
 	bool outOfBounds(FLOAT3 _pt, int _offset);
 	bool completelyOutOfBounds(FLOAT3 _pt);
 	void setTargetType(UnitEntity::Type _type);
+	void updateEnemyAvDir(FLOAT3 _val);
 	FLOAT3 getEndPos();
 };
 

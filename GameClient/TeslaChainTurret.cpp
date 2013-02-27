@@ -6,7 +6,7 @@ TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int 
 	this->m_lifeTime = 20.0f * turretLifeUpgrade;
 	this->m_damage = 20;
 	this->m_cooldown = 2.0f;
-	this->m_attackRange = 2.0f;
+	this->m_attackRangeProt = 2.0f;
 	this->m_attackCooldown = this->m_cooldown;
 	this->m_numberOfHits = 2 + turretUpgrade / 4;
 	this->m_modelId = 3;
@@ -29,7 +29,7 @@ void TeslaChainTurret::update(float dt)
 	{
 		ServerEntity* se = EntityHandler::getClosestEntityByType(this, EnemyType);
 
-		if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRange)
+		if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRangeProt)
 		{
 			EntityHandler::addEntity(new ChainStrikeEffect(se->getId(), this->m_position, this->m_numberOfHits, this->m_damage));
 			this->m_attackCooldown = this->m_cooldown;
@@ -44,4 +44,9 @@ void TeslaChainTurret::update(float dt)
 	{
 		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 	}
+}
+
+void TeslaChainTurret::target(ServerEntity* _target)
+{
+	int dbg = 1;
 }
