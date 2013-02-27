@@ -1,10 +1,8 @@
 #include "FrostTurret.h"
 #include "Graphics.h"
-#include "MyAlgorithms.h"
-#include "FrostTurretEffect.h"
+#include "FrostTurretProjectile.h"
 
 const float FrostTurret::ATTACK_COOLDOWN = 1.0f;
-const float FrostTurret::SLOW_EFFECT = -1.5f;
 
 FrostTurret::FrostTurret()
 {
@@ -26,10 +24,6 @@ FrostTurret::~FrostTurret()
 }
 
 void FrostTurret::target(ServerEntity* _target)
-{
-	this->dealDamage(_target, random(1, 5), 0);
-	((UnitEntity*)_target)->applyFrostTurretSlowEffect(SLOW_EFFECT);
-	
-	//EntityHandler::addEntity(new FrostTurretEffect(_target->getId()));
-	//this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, _target->getId(), _target->getPosition()));
+{	
+	EntityHandler::addEntity(new FrostTurretProjectile(this->getId(), _target->getId()));
 }
