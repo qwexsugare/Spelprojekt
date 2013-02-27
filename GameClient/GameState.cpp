@@ -202,13 +202,13 @@ void GameState::update(float _dt)
 		{
 			model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(iem.getModelID())));
 		}
-		if(this->m_modelIdHolder.getRightHand(iem.getModelID()) != "")
+		if(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType()) != "")
 		{
-			model->SetRightHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getRightHand(iem.getModelID())));
+			model->SetRightHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType())));
 		}
-		if(this->m_modelIdHolder.getLeftHand(iem.getModelID()) != "")
+		if(this->m_modelIdHolder.getLeftHand(iem.getModelID(), iem.getWeaponType()) != "")
 		{
-			model->SetLeftHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getLeftHand(iem.getModelID())));
+			model->SetLeftHand(g_graphicsEngine->getMesh(this->m_modelIdHolder.getLeftHand(iem.getModelID(), iem.getWeaponType())));
 		}
 		if(model)
 		{

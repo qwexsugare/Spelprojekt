@@ -327,6 +327,8 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 			}
 
 			for(int i = 0; i < m_Buttons.size(); i++)
+
+
 			{
 				this->m_Buttons[i]->Update();
 			}

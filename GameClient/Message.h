@@ -222,13 +222,15 @@ struct InitEntityMessage :Message
 	float scale;
 	int health;
 	unsigned short entityType;
+	unsigned short weaponType;
 	float movementspeed;
-	InitEntityMessage(unsigned short ET, unsigned short modelid,unsigned short id, float xpos, float zpos, float yrot, float scale,int health,float sx, float sz,float ex, float ez,float mms)
+	InitEntityMessage(unsigned short ET, unsigned short modelid, unsigned short weaponType,unsigned short id, float xpos, float zpos, float yrot, float scale,int health,float sx, float sz,float ex, float ez,float mms)
 	{
 		this->id=id;
 		this->reciverId=1;
 		this->type=Type::initEntities;
 		this->modelid=modelid;
+		this->weaponType = weaponType;
 		this->xPos=xpos;
 		this->zPos=zpos;
 		this->yRot=yrot;

@@ -21,6 +21,7 @@ Hero::Hero() : UnitEntity()
 	this->increaseWits(1);
 	this->increaseFortitude(4);
 	this->m_startPos=FLOAT3(0.0,0.0,0.0);
+	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 }
 
 Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
@@ -36,6 +37,7 @@ Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 	this->m_attackRange = 5.0f;
 	this->m_hasTarget = false;
 	this->m_startPos=FLOAT3(0.0,0.0,0.0);
+	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 }
 
 Hero::~Hero()
@@ -311,4 +313,9 @@ UpdateEntityMessage* Hero::getUpdateEntityMessage()
 FLOAT3 Hero::getEndPos()
 {
 	return this->m_nextPosition;
+}
+
+unsigned short Hero::getWeaponType()
+{
+	return this->m_weaponType;
 }

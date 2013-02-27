@@ -5,6 +5,7 @@ NetworkInitEntityMessage::NetworkInitEntityMessage(void):NetworkMessage(NetworkM
 	this->type=0;
 	this->id=0;
 	this->modelid=0;
+	this->weaponType = 0;
 	this->xPos=0.0f;
 	this->zPos=0.0f;
 	this->scale=0.0f;
@@ -14,10 +15,11 @@ NetworkInitEntityMessage::NetworkInitEntityMessage(void):NetworkMessage(NetworkM
 	this->movementspeed=0;
 }
 
-NetworkInitEntityMessage::NetworkInitEntityMessage(unsigned short type, unsigned short modelid, unsigned short id, float xPos, float zPos, float yRot, float scale,int health,float sx, float sz,float ex, float ez,float mms):NetworkMessage(NetworkMessage::initEntities)
+NetworkInitEntityMessage::NetworkInitEntityMessage(unsigned short type, unsigned short modelid, unsigned short weaponType, unsigned short id, float xPos, float zPos, float yRot, float scale,int health,float sx, float sz,float ex, float ez,float mms):NetworkMessage(NetworkMessage::initEntities)
 {
 	this->type=type;
 	this->modelid=modelid;
+	this->weaponType = weaponType;
 	this->id=id;
 	this->xPos=xPos;
 	this->zPos=zPos;
@@ -37,12 +39,12 @@ NetworkInitEntityMessage::~NetworkInitEntityMessage(void)
 
 sf::Packet& operator<<(sf::Packet& packet,const NetworkInitEntityMessage& e)
 {
-	return packet<<*((int*)&e.m_type)<<e.type<<e.id<<e.modelid<<e.xPos<<e.zPos<<e.yRot<<e.scale<<e.health<<e.sx<<e.sz<<e.ex<<e.ez<<e.movementspeed;
+	return packet<<*((int*)&e.m_type)<<e.type<<e.id<<e.modelid<<e.weaponType<<e.xPos<<e.zPos<<e.yRot<<e.scale<<e.health<<e.sx<<e.sz<<e.ex<<e.ez<<e.movementspeed;
 }
 
 sf::Packet& operator>>(sf::Packet& packet, NetworkInitEntityMessage& e)
 {
-	return packet>>e.type>>e.id>>e.modelid>>e.xPos>>e.zPos>>e.yRot>>e.scale>>e.health>>e.sx>>e.sz>>e.ex>>e.ez>>e.movementspeed;
+	return packet>>e.type>>e.id>>e.modelid>>e.weaponType>>e.xPos>>e.zPos>>e.yRot>>e.scale>>e.health>>e.sx>>e.sz>>e.ex>>e.ez>>e.movementspeed;
 }
 
 int NetworkInitEntityMessage::getType()
@@ -56,6 +58,10 @@ int NetworkInitEntityMessage::getID()
 int NetworkInitEntityMessage::getModelID()
 {
 	return this->modelid;
+}
+int NetworkInitEntityMessage::getWeaponType()
+{
+	return this->weaponType;
 }
 float NetworkInitEntityMessage::getXPos()
 {

@@ -14,8 +14,8 @@ class Hero : public UnitEntity
 {
 public:
 	static enum HERO_TYPE {OFFICER, RED_KNIGHT, ENGINEER, DOCTOR, THE_MENTALIST, NONE};
-	static enum WEAPON_TYPE{DEFAULT, RANGED, MELEE};
-private:
+	static enum WEAPON_TYPE{NO_WEAPON, RANGED, MELEE, AOE};
+protected:
 	FLOAT3 m_nextPosition;
 	FLOAT3 m_goalPosition;
 	FLOAT3 m_startPos;
@@ -29,6 +29,7 @@ private:
 	int m_pathCounter;
 
 	HERO_TYPE m_heroType;
+	WEAPON_TYPE m_weaponType;
 	int m_playerId;
 	UpdateEntityMessage* getUpdateEntityMessage();
 	float m_attackRange;
@@ -44,6 +45,7 @@ public:
 	void setTarget(unsigned int _target);
 	FLOAT3 getDirection();
 	FLOAT3 getEndPos();
+	unsigned short getWeaponType();
 };
 
 #endif

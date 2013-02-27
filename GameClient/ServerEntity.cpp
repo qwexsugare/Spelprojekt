@@ -195,3 +195,8 @@ float ServerEntity::getMovementSpeed()
 {
 	return 0;
 }
+
+unsigned short ServerEntity::getWeaponType()
+{
+	return 0;
+}
