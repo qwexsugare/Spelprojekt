@@ -19,7 +19,7 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 
 	if(master != NULL)
 	{
-		master->m_model->getAnimation()->Play("rangeAttack");
+		master->m_model->getAnimation()->Play("RangeAttack");
 	}
 }
 

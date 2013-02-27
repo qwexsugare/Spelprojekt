@@ -14,6 +14,7 @@ struct Entity
 	FLOAT3 m_endPos;
 	float movementSpeed;
 	PointLight *m_lanternLight;
+	bool m_twoHandedWeapon;
 
 	Entity()
 	{
@@ -25,6 +26,7 @@ struct Entity
 		this->m_model = _model;
 		this->m_id = _id;
 		this->m_direction = FLOAT3(0.0f, 0.0f, 0.0f);
+		this->m_twoHandedWeapon = false;
 		m_startPos=this->m_model->getPosition();
 		m_endPos=this->m_model->getPosition();
 		this->movementSpeed=1;

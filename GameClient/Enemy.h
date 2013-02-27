@@ -55,6 +55,7 @@ public:
 	bool outOfBounds(FLOAT3 _pt, int _offset);
 	bool completelyOutOfBounds(FLOAT3 _pt);
 	void setTargetType(UnitEntity::Type _type);
+	void updateEnemyAvDir(FLOAT3 _val);
 	FLOAT3 getEndPos();
 };
 
