@@ -200,7 +200,7 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
-	createWave(0,0,0,0,1,1,1,1); // MÖGs super advanced specified wave with extra cheese
+	//createWave(0,0,0,0,1,1,1,1); // MÖGs super advanced specified wave with extra cheese
 	
 	createWave(25,5,0,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
@@ -274,7 +274,7 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	int t = random(0,0);
 	
 	int _min = 0;
-	int _max = this->m_nrOfPaths-1;
+	int _max = 0;//this->m_nrOfPaths-1;
 
 	for(int i = 0; i < totalMonsters; i ++)
 	{
