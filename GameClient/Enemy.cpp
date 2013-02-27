@@ -8,7 +8,6 @@ Enemy::Enemy() : UnitEntity()
 	m_type = Type::EnemyType;
 	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_goalPosition = FLOAT3(32.0f, 0.0f, 32.0f);
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_modelId = 1;
@@ -37,7 +36,6 @@ Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
 	m_type = Type::EnemyType;
 	
 	//this->m_goalPosition = FLOAT3(5.0f, 0.0f,64.0f);
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	m_targetType = UnitEntity::HeroType;
 	this->m_reachedPosition = true;
 	this->m_modelId = 80;
