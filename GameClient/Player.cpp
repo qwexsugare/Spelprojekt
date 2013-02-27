@@ -24,7 +24,7 @@ void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
 	m_selectedWeaponType = _weaponType;
 }
 
-void Player::spawnHero()
+void Player::spawnHero(FLOAT3 _position)
 {
 	switch(m_selectedHeroType)
 	{
@@ -45,7 +45,7 @@ void Player::spawnHero()
 		break;
 	}
 	
-	this->m_hero->setPosition(FLOAT3(15.0f, 0.0f, 50.0f));
+	this->m_hero->setPosition(_position);
 
 	
 	//EntityHandler::addEntity(m_hero);

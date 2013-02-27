@@ -640,9 +640,15 @@ void GameState::importMap(string _map)
 					rotation.z *= (D3DX_PI/180);
 					//rotation = FLOAT3(0,0,0);
 				
-					Model *m = g_graphicsEngine->createModel(key, position, true);
-					m->setRotation(rotation);
-					m->setScale(scale, scale, scale);
+					if(key[0]=='S'&&key[1]=='P'&&key[2]=='A'&&key[3]=='W'&&key[4]=='N')
+					{
+					}
+					else
+					{
+						Model *m = g_graphicsEngine->createModel(key, position, true);
+						m->setRotation(rotation);
+						m->setScale(scale, scale, scale);
+					}
 				}
 			}
 		}
