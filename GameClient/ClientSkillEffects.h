@@ -15,3 +15,4 @@
 #include "HypnoticStareClientSkillEffect.h"
 #include "FrostTurretProjectileClientSkillEffect.h"
 #include "MeleeAOEClientSkillEffect.h"
+#include "PoisonTurretProjectileClientSkillEffect.h"

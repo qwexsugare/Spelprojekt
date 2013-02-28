@@ -34,6 +34,7 @@ void FrostTurretProjectile::update(float _dt)
 		{
 			this->dealDamage(target, random(1, 5), 0);
 			((UnitEntity*)target)->applyFrostTurretSlowEffect(SLOW_EFFECT);
+			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 		}
 	}
 }

@@ -444,11 +444,17 @@
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>Client\Controls</Filter>
-      </ClCompile>
-    <ClCompile Include="FrostTurretProjectile.cpp">
-      <Filter>Server\Towers\Effects</Filter>
     </ClCompile>
     <ClCompile Include="MeleeAOEClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostTurretProjectile.cpp">
+      <Filter>Server\Towers\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonTurretProjectile.cpp">
+      <Filter>Server\Towers\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonTurretProjectileClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
   </ItemGroup>
@@ -936,7 +942,13 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="FrostTurretProjectile.h">
-      <Filter>Server\Towers\Effects</Filter>
+      <Filter>Server\Towers\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonTurretProjectile.h">
+      <Filter>Server\Towers\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonTurretProjectileClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -984,6 +996,9 @@
     </Filter>
     <Filter Include="Server\Towers\Tower Placer">
       <UniqueIdentifier>{7be7bea1-bd1e-460e-bca8-3cdc6c3dbe73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Towers\Projectiles">
+      <UniqueIdentifier>{ab0a6282-5db6-4445-ac41-c2d477c6298f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

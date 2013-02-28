@@ -260,6 +260,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoisonStrike.cpp" />
     <ClCompile Include="PoisonTurret.cpp" />
+    <ClCompile Include="PoisonTurretProjectile.cpp" />
+    <ClCompile Include="PoisonTurretProjectileClientSkillEffect.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RangedAttack.cpp" />
@@ -427,6 +429,8 @@
     <ClInclude Include="PlayerInfo.h" />
     <ClInclude Include="PoisonStrike.h" />
     <ClInclude Include="PoisonTurret.h" />
+    <ClInclude Include="PoisonTurretProjectile.h" />
+    <ClInclude Include="PoisonTurretProjectileClientSkillEffect.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RangedAttack.h" />

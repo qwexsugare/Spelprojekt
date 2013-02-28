@@ -55,11 +55,13 @@ protected:
 	bool m_swiftAsACatPowerfulAsABear;
 	float m_frostTurretSlowEffectTimer;
 	float m_frostTurretSlowEffectValue;
+	int m_poisonStacks;
 public:
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
 	virtual ~UnitEntity();
 
+	void addPoisonStack();
 	void applyFrostTurretSlowEffect(float _value);
 	
 	void update(float dt);
@@ -100,7 +102,7 @@ public:
 	int getAgility();
 	int getWits();
 	int getFortitude();
-	
+	int getPoisonStacks()const;
 	int getHealth();
 	int getMaxHealth();
 	float getMovementSpeed();

@@ -13,9 +13,6 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
 	m_graphicalEffect->setAlpha(0.999f);
 
-	m_sound = createSoundHandle("click_button.wav", false, true, _position);
-	playSound(m_sound);
-
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
 
 	if(master != NULL)
@@ -31,14 +28,11 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	m_targetId = _targetId;
 	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
 	m_graphicalEffect->setAlpha(0.999f);
-	m_sound = createSoundHandle("click_button.wav", false, true, _position);
-	playSound(m_sound);
 }
 
 ArrowClientSkillEffect::~ArrowClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_graphicalEffect);
-	deactivateSound(m_sound);
 }
 
 void ArrowClientSkillEffect::update(float _dt)
