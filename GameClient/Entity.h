@@ -34,8 +34,8 @@ struct Entity
 
 		if(this->m_model->getLeftHand() != NULL)
 		{
-			this->m_lanternLight = g_graphicsEngine->createPointLight(this->m_model->getPosition() + FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-			this->m_model->setShadow(false);
+			this->m_lanternLight = g_graphicsEngine->createPointLight(this->m_model->getPosition() + FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false, FLOAT3(0.0f, 1.0f, 0.0f));
+			this->m_model->setShadow(true);
 		}
 		else
 		{
@@ -51,17 +51,14 @@ struct Entity
 		this->m_type;
 		if((this->m_model->getPosition() - this->m_endPos).length() > (this->m_direction * dt).length())
 		{
-			
-			{
-				xdir=(m_endPos.x - this->m_model->getPosition().x)/(m_endPos - this->m_model->getPosition()).length()*movementSpeed;
-				zdir=(m_endPos.z - this->m_model->getPosition().z)/(m_endPos - this->m_model->getPosition()).length()*movementSpeed;
-				float d = atan2(-xdir, -zdir);
-				FLOAT3 rot=FLOAT3(d,0.0f,0.0f);
-				this->m_model->setRotation(rot);
-				this->m_direction.x=xdir;
-				this->m_direction.z=zdir;
-				this->m_model->setPosition(this->m_model->getPosition()+this->m_direction * dt);
-			}
+			xdir=(m_endPos.x - this->m_model->getPosition().x)/(m_endPos - this->m_model->getPosition()).length()*movementSpeed;
+			zdir=(m_endPos.z - this->m_model->getPosition().z)/(m_endPos - this->m_model->getPosition()).length()*movementSpeed;
+			float d = atan2(-xdir, -zdir);
+			FLOAT3 rot=FLOAT3(d,0.0f,0.0f);
+			this->m_model->setRotation(rot);
+			this->m_direction.x=xdir;
+			this->m_direction.z=zdir;
+			this->m_model->setPosition(this->m_model->getPosition()+this->m_direction * dt);
 		}
 		else
 		{
@@ -74,7 +71,7 @@ struct Entity
 
 		if(this->m_lanternLight != NULL)
 		{
-			this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition());
+			this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition(), FLOAT3(0.0f, 1.0f, 0.0f));
 		}
 	
 		

@@ -8,7 +8,7 @@ PointLight::PointLight()
 	this->m_ls = FLOAT3(0.0f, 0.0f, 0.0f);
 }
 
-PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius, bool _shadow)
+PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius, bool _shadow, FLOAT3 _shadowOffset)
 {
 	this->m_shadow = _shadow;
 	this->m_position = _position;
@@ -26,7 +26,7 @@ PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOA
 		this->m_shadowMaps[i] = new DepthStencil(_device, INT2(512, 512), false);
 	}
 
-	this->setPosition(this->m_position);
+	this->setPosition(this->m_position, _shadowOffset);
 }
 
 PointLight::~PointLight()
@@ -79,14 +79,14 @@ bool PointLight::getCastShadow()
 	return this->m_shadow;
 }
 
-void PointLight::setPosition(FLOAT3 _position)
+void PointLight::setPosition(FLOAT3 _position, FLOAT3 _shadowOffset)
 {
 	this->m_position = _position;
 	this->m_boundingSphere->Center = DirectX::XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 
 	D3DXMATRIX projMatrix;
 	D3DXMATRIX viewMatrix;
-	D3DXVECTOR3 eye = D3DXVECTOR3(m_position.x, m_position.y, m_position.z);
+	D3DXVECTOR3 eye = D3DXVECTOR3(m_position.x, m_position.y, m_position.z) + _shadowOffset.toD3DXVector();
 	D3DXVECTOR3 at;
 	D3DXVECTOR3 up;
 
