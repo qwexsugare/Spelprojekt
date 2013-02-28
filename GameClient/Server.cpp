@@ -1,6 +1,7 @@
 #include "Server.h"
-
 #include "DelayedDamage.h"
+
+#include <fstream>
 Server::Server(MessageHandler *_messageHandler)
 {
 	this->clientArrPos=0;
@@ -9,6 +10,10 @@ Server::Server(MessageHandler *_messageHandler)
 	this->m_messageHandler->addQueue(this->m_messageQueue);
 
 	DelayedDamage::text = NULL;
+
+	ofstream file("output.txt");
+	file << "Output:" << endl;
+	file.close();
 }
 
 Server::~Server()
