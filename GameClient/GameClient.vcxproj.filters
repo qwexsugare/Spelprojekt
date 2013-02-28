@@ -457,6 +457,9 @@
     <ClCompile Include="DeathPulseTurretClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="ChainStrikeClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -948,6 +951,9 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="DeathPulseTurretClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainStrikeClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>

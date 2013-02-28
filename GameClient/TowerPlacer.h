@@ -23,3 +23,4 @@ public:
 	static void place(Skill::SKILLS _towerType, const FLOAT3& _pos, const FLOAT3& _origin);
 	static void release();
 };
+

@@ -17,3 +17,4 @@
 #include "MeleeAOEClientSkillEffect.h"
 #include "PoisonTurretProjectileClientSkillEffect.h"
 #include "DeathPulseTurretClientSkillEffect.h"
+#include "ChainStrikeClientSkillEffect.h"

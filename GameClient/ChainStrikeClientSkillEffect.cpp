@@ -1,9 +1,9 @@
-#include "CloudOfDarknessClientSkillEffect.h"
+#include "ChainStrikeClientSkillEffect.h"
 #include "SoundWrapper.h"
-#include "CloudOfDarknessEffect.h"
+#include "ChainStrikeEffect.h"
 #include "Graphics.h"
 
-CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _position)
+ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(FLOAT3 _position)
 {
 	m_position = _position;
 	m_graphicalEffects[0] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.1f, _position.z), "color2");
@@ -15,13 +15,13 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _posit
 	m_graphicalEffects[0]->setAlpha(0.999f);
 	m_graphicalEffects[1]->setAlpha(0.999f);
 	m_graphicalEffects[2]->setAlpha(0.999f);
-	this->m_light = g_graphicsEngine->createPointLight(FLOAT3(_position.x, 0.6f, _position.z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(-2.0f, -2.0f, -2.0f), FLOAT3(-2.0f, -2.0f, -2.0f), 0.5f, false, true);
+	this->m_light = g_graphicsEngine->createPointLight(FLOAT3(_position.x, 0.6f, _position.z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 0.5f, false, true);
 	m_lifetime = 0.0f;
 	m_sound = createSoundHandle("rain.wav", false, true, m_position);
 	playSound(m_sound);
 }
 
-CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
+ChainStrikeClientSkillEffect::~ChainStrikeClientSkillEffect()
 {
 	g_graphicsEngine->removePointLight(this->m_light);
 	g_graphicsEngine->removeModel(m_graphicalEffects[0]);
@@ -31,21 +31,14 @@ CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
 	deactivateSound(m_sound);
 }
 
-void CloudOfDarknessClientSkillEffect::update(float _dt)
+void ChainStrikeClientSkillEffect::update(float _dt)
 {
 	m_lifetime += _dt;
-	
-	m_graphicalEffects[0]->rotate(-_dt, 0.0f, 0.0f);
-	m_graphicalEffects[1]->rotate(_dt, 0.0f, 0.0f);
-	m_graphicalEffects[2]->rotate(-_dt, 0.0f, 0.0f);
-	m_graphicalEffects[0]->setAlpha(m_graphicalEffects[0]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
-	m_graphicalEffects[1]->setAlpha(m_graphicalEffects[1]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
-	m_graphicalEffects[2]->setAlpha(m_graphicalEffects[2]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
 }
 
-bool CloudOfDarknessClientSkillEffect::getActive()
+bool ChainStrikeClientSkillEffect::getActive()
 {
-	if(m_lifetime >= CloudOfDarknessEffect::LIFETIME)
+	if(m_lifetime >= ChainStrikeEffect::TIME_BETWEEN_JUMPS)
 		return false;
 	else
 		return true;

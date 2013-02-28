@@ -20,16 +20,22 @@ bool ChainStrike::activate(unsigned int _targetId, unsigned int _senderId)
 	ServerEntity* target = EntityHandler::getServerEntity(_targetId);
 	if(target)
 	{
-		if(this->getCurrentCooldown() == 0 && (EntityHandler::getServerEntity(_senderId)->getPosition() - target->getPosition()).length() <= RANGE)
+		ServerEntity* caster = EntityHandler::getServerEntity(_senderId);
+		if(caster)
 		{
-			EntityHandler::addEntity(new ChainStrikeEffect(target->getId(), target->getPosition(), max(((Hero*)EntityHandler::getServerEntity(_senderId))->getWits()/2, 1), 200));
-			this->resetCooldown();
-			return true;
+			if(this->getCurrentCooldown() == 0 && (caster->getPosition() - target->getPosition()).length() <= RANGE)
+			{
+				EntityHandler::addEntity(new ChainStrikeEffect(_targetId, target->getPosition(), max(((Hero*)caster)->getWits()/2, 1), START_DAMAGE));
+				this->resetCooldown();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
-		{
 			return false;
-		}
 	}
 	else
 	{
