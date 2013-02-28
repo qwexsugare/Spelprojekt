@@ -84,8 +84,10 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_renderRoad = this->m_effect->GetTechniqueByName("RenderRoad");
 
 	// Shadow mapping
-	m_lightWvp = m_effect->GetVariableByName("lightWvp")->AsMatrix();
-	renderShadowMap = m_effect->GetTechniqueByName("RenderShadowMap");
+	this->m_lightWvp = m_effect->GetVariableByName("lightWvp")->AsMatrix();
+	this->m_renderShadowMap = m_effect->GetTechniqueByName("RenderShadowMap");
+	this->m_renderShadowMapAnimation = m_effect->GetTechniqueByName("RenderShadowMapAnimation");
+	this->m_renderShadowMapProps = m_effect->GetTechniqueByName("RenderShadowMapProp");
 }
 
 void DeferredSamplerEffectFile::setCameraPosition(D3DXVECTOR3 _cameraPos)
@@ -216,4 +218,19 @@ void DeferredSamplerEffectFile::setTerrainBlendMaps(ID3D10ShaderResourceView** _
 void DeferredSamplerEffectFile::setLightWvp(const D3DXMATRIX& _wvp)
 {
 	m_lightWvp->SetMatrix((float*)&_wvp);
+}
+
+ID3D10EffectTechnique *DeferredSamplerEffectFile::getShadowTechnique()
+{
+	return this->m_renderShadowMap;
+}
+
+ID3D10EffectTechnique *DeferredSamplerEffectFile::getShadowAnimationTechnique()
+{
+	return this->m_renderShadowMapAnimation;
+}
+
+ID3D10EffectTechnique *DeferredSamplerEffectFile::getShadowPropsTechnique()
+{
+	return this->m_renderShadowMapProps;
 }

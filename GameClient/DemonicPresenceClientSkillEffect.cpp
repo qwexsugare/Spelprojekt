@@ -11,6 +11,7 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	m_model = g_graphicsEngine->createModel("Pentagram", pos);
 	//m_model->getAnimation()->Play("attack");
 	m_model->setAlpha(0.75f);
+	m_model->setShadow(false);
 	m_sound = createSoundHandle("collision.wav", false, true, pos);
 	playSound(m_sound);
 }

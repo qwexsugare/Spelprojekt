@@ -155,7 +155,7 @@ PSSceneIn VSScene(VSSceneIn input)
 float calcShadow(float4 lightPos, Texture2D shadowmap)
 {
 	float shadowCoeff = 0.0f;
-	float shadowEpsilon = 0.0000001f;
+	float shadowEpsilon = 0.001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
 	lightPos /= lightPos.w;
@@ -189,6 +189,7 @@ float calcShadow(float4 lightPos, Texture2D shadowmap)
 		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
 	}
 
+	//return 1.0f;
 	return shadowCoeff;
 }
 

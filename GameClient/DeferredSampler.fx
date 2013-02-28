@@ -679,6 +679,73 @@ technique10 RenderShadowMap
 
 		SetDepthStencilState(EnableDepthSM, 0);
 		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
-		SetRasterizerState(testRS);
+		SetRasterizerState(rs);
+	}
+}
+
+float4 vsShadowMapProp(float3 _pos : POS) : SV_POSITION
+{
+	PSSuperSceneIn output = (PSSuperSceneIn)0;
+	matrix newModelMatrix = mul(propsMatrix, modelMatrix);
+
+	// transform the point into view space
+	float4 Pos = mul( float4(_pos,1.0), mul(newModelMatrix, lightWvp) );
+
+	return Pos;
+}
+
+technique10 RenderShadowMapProp
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_4_0, vsShadowMapProp()));
+		SetGeometryShader(NULL);
+		SetPixelShader(NULL);
+
+		SetDepthStencilState(EnableDepthSM, 0);
+		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetRasterizerState(rs);
+	}
+}
+
+float4 vsShadowMapAnimation(VSAnimSceneIn input) : SV_POSITION
+{
+	//Animation
+	float4 myPos = float4(input.Pos, 1.0);
+	float4 Pos = float4(0,0,0,0);
+
+	float _weight = input.Weight[0];
+	float4x4 _bone = GetBoneMatrix(0, input.Bone);
+	Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[1];
+	_bone = GetBoneMatrix(1, input.Bone);
+	Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[2];
+	_bone = GetBoneMatrix(2, input.Bone);
+	Pos += _weight * mul(myPos, _bone);
+
+	_weight = input.Weight[3];
+	_bone = GetBoneMatrix(3, input.Bone);
+	Pos += _weight * mul(myPos, _bone);
+	
+	// transform the point into viewProjection space
+	Pos = mul( Pos, mul(modelMatrix, lightWvp) );
+
+	return Pos;
+}
+
+technique10 RenderShadowMapAnimation
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_4_0, vsShadowMapAnimation()));
+		SetGeometryShader(NULL);
+		SetPixelShader(NULL);
+
+		SetDepthStencilState(EnableDepthSM, 0);
+		SetBlendState(NoBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		SetRasterizerState(rs);
 	}
 }
