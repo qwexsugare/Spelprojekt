@@ -165,6 +165,7 @@
     <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="DeathClientSkillEffect.cpp" />
     <ClCompile Include="DeathPulseTurret.cpp" />
+    <ClCompile Include="DeathPulseTurretClientSkillEffect.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
     <ClCompile Include="FrostTurretProjectileClientSkillEffect.cpp" />
     <ClCompile Include="FrostTurret.cpp" />
@@ -327,6 +328,7 @@
     <ClInclude Include="ClientSkillEffects.h" />
     <ClInclude Include="DeathClientSkillEffect.h" />
     <ClInclude Include="DeathPulseTurret.h" />
+    <ClInclude Include="DeathPulseTurretClientSkillEffect.h" />
     <ClInclude Include="DelayedDamage.h" />
     <ClInclude Include="FrostTurretProjectileClientSkillEffect.h" />
     <ClInclude Include="FrostTurret.h" />

@@ -286,6 +286,9 @@ void GameState::update(float _dt)
 		case Skill::POISON_TURRET_PROJECTILE:
 			m_ClientSkillEffects.push_back(new PoisonTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
 			break;
+		case Skill::DEATH_PULSE_TURRET_PROJECTILE:
+			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
+			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
 			break;

@@ -14,8 +14,8 @@ FrostTurretProjectile::FrostTurretProjectile(unsigned int _master, unsigned int 
 	this->m_type = OtherType;
 	ServerEntity* master = EntityHandler::getServerEntity(m_master);
 	ServerEntity* target = EntityHandler::getServerEntity(m_target);
-	float timeToImpact = (target->getPosition() - master->getPosition()).length()/FrostTurretProjectile::VELOCITY;
-	EntityHandler::addEntity(new DelayedDamage(m_master, m_target, timeToImpact, random(1,5), 0.0f, Skill::FROST_TURRET_PROJECTILE));
+	m_timeToImpact = (target->getPosition() - master->getPosition()).length()/FrostTurretProjectile::VELOCITY;
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::FROST_TURRET_PROJECTILE, m_master, m_target, master->getPosition()));
 }
 
 FrostTurretProjectile::~FrostTurretProjectile()
