@@ -1,0 +1,14 @@
+Output:
+Frost turret projectile did 3 damage and reduced health from 100 to 97
+Frost turret projectile did 5 damage and reduced health from 97 to 92
+Frost turret projectile did 3 damage and reduced health from 92 to 89
+Frost turret projectile did 5 damage and reduced health from 89 to 84
+Poison turret projectile did 19 damage and reduced health from 84 to 74
+Frost turret projectile did 5 damage and reduced health from 74 to 69
+Poison turret projectile did 26 damage and reduced health from 69 to 55
+Poison turret projectile did 3 damage and reduced health from 55 to 53
+Frost turret projectile did 2 damage and reduced health from 53 to 51
+Poison turret projectile did 20 damage and reduced health from 51 to 40
+Poison turret projectile did 60 damage and reduced health from 40 to 8
+Poison turret projectile did 6 damage and reduced health from 8 to 4
+Poison turret projectile did 70 damage and reduced health from 4 to -32

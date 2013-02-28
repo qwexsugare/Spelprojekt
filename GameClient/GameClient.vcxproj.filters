@@ -97,9 +97,6 @@
     <ClCompile Include="MapHandler.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="HudMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -565,9 +562,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="MapHandler.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">

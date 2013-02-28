@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "MyAlgorithms.h"
 #include "PoisonTurretProjectile.h"
+#include "EntityHandler.h"
 
 const float PoisonTurret::ATTACK_COOLDOWN = 1.0f;
 
