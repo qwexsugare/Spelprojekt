@@ -451,9 +451,6 @@
     <ClCompile Include="MeleeAOEClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="LightningClientEffect.cpp">
-      <Filter>Client\Skills</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -940,9 +937,6 @@
     </ClInclude>
     <ClInclude Include="FrostTurretProjectile.h">
       <Filter>Server\Towers\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="LightningClientEffect.h">
-      <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
