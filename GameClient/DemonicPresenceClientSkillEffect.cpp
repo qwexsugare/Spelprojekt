@@ -6,7 +6,9 @@
 DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int _masterId)
 {
 	m_masterId = _masterId;
-	FLOAT3 pos = ClientEntityHandler::getEntity(_masterId)->m_model->getPosition();
+	Entity *e = ClientEntityHandler::getEntity(_masterId);
+	e->m_model->getAnimation()->Play("DemonicPrecens");
+	FLOAT3 pos = e->m_model->getPosition();
 	pos.y = 0.01f;
 	m_model = g_graphicsEngine->createModel("Pentagram", pos);
 	//m_model->getAnimation()->Play("attack");

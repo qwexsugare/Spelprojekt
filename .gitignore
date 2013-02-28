@@ -1654,3 +1654,9 @@ GameClient/audio/lorebook/Introduction.wav
 GameClient/audio/lorebook/Level1.wav
 GameClient/audio/lorebook/Level2.wav
 GameClient/audio/lorebook/TheWorld.wav
+GameClient/models/Char1_5/PassiveAbility_1H_Melee.mb
+GameClient/models/Char1_5/PassiveAbility_1H_Range.mb
+GameClient/models/Char1_5/PassiveAbility_2H_Melee.mb
+GameClient/models/Char1_5/Spell.BFishA
+GameClient/models/Char1_5/SwiftAsButterfly.mb
+GameClient/Mycursor.cur

@@ -3,7 +3,7 @@
 #include "CloudOfDarknessEffect.h"
 #include "Graphics.h"
 
-CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _position)
+CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
 	m_position = _position;
 	m_graphicalEffects[0] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.1f, _position.z), "color2");
@@ -19,6 +19,13 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _posit
 	m_lifetime = 0.0f;
 	m_sound = createSoundHandle("rain.wav", false, true, m_position);
 	playSound(m_sound);
+
+	Entity *e = ClientEntityHandler::getEntity(_masterId);
+
+	if(e != NULL)
+	{
+		e->m_model->getAnimation()->Play("Spell");
+	}
 }
 
 CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()

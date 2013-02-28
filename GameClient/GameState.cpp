@@ -260,14 +260,11 @@ void GameState::update(float _dt)
 		switch(e.getActionId())
 		{
 		case Skill::CLOUD_OF_DARKNESS:
-			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
-		case Skill::ATTACK:
-			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
 			break;
 		case Skill::CHAIN_STRIKE:
 			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getPosition()));
-			break;
 		}
 	}
 
