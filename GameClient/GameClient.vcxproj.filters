@@ -444,13 +444,15 @@
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>Client\Controls</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="FrostTurretProjectile.cpp">
       <Filter>Server\Towers\Effects</Filter>
     </ClCompile>
     <ClCompile Include="MeleeAOEClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="Statistics.cpp" />
+    <ClCompile Include="StatisticsPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -938,6 +940,8 @@
     <ClInclude Include="FrostTurretProjectile.h">
       <Filter>Server\Towers\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Statistics.h" />
+    <ClInclude Include="StatisticsPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

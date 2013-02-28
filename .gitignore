@@ -1649,3 +1649,7 @@ GameClient/models/FrostTurret/FrostTurret.BFish
 GameClient/models/LightningTurret/LightningTurret.BFish
 dev/fix.png
 dev/Untitled.jpg
+GameClient/menu_textures/Button-MainMenu-ReadLore.png
+GameClient/menu_textures/MENU-END-0.png
+GameClient/menu_textures/MENU-END-1.png
+GameClient/menu_textures/MENU-LEVEL-0.png

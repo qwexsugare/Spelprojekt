@@ -286,6 +286,8 @@
     <ClCompile Include="SpeechManager.cpp" />
     <ClCompile Include="SpittingDemon.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="Statistics.cpp" />
+    <ClCompile Include="StatisticsPlayer.cpp" />
     <ClCompile Include="StunningStrike.cpp" />
     <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
@@ -454,6 +456,8 @@
     <ClInclude Include="SpeechManager.h" />
     <ClInclude Include="SpittingDemon.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="Statistics.h" />
+    <ClInclude Include="StatisticsPlayer.h" />
     <ClInclude Include="StunningStrike.h" />
     <ClInclude Include="StunningStrikeClientSkillEffect.h" />
     <ClInclude Include="StunningStrikeEffect.h" />
