@@ -37,9 +37,12 @@ private:
 	// Road
 	ID3D10EffectTechnique* m_renderRoad;
 	
+	//Shadows
 	ID3D10EffectMatrixVariable* m_lightWvp;
+	ID3D10EffectTechnique* m_renderShadowMap;
+	ID3D10EffectTechnique* m_renderShadowMapAnimation;
+	ID3D10EffectTechnique* m_renderShadowMapProps;
 public:
-	ID3D10EffectTechnique* renderShadowMap;
 
 	DeferredSamplerEffectFile();
 	DeferredSamplerEffectFile(ID3D10Device* _device);
@@ -64,6 +67,10 @@ public:
 	ID3D10EffectTechnique *getAnimationTechnique();
 	ID3D10EffectTechnique *getSuperTechnique();
 	ID3D10EffectTechnique *getPropsTechnique();
+
+	ID3D10EffectTechnique *getShadowTechnique();
+	ID3D10EffectTechnique *getShadowAnimationTechnique();
+	ID3D10EffectTechnique *getShadowPropsTechnique();
 
 	void setCameraPosition(D3DXVECTOR3 _cameraPos);
 

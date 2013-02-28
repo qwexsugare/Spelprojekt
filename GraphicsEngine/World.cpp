@@ -543,8 +543,15 @@ void World::render()
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
 	this->m_deferredRendering->setTangentTexture(this->m_tangentBuffer->getShaderResource());
 
+	vector<PointLight*> tempPointLights = this->m_quadTree->getPointLights(focalPoint);
+
+	for(int i = 0; i < this->m_pointLights.size(); i++)
+	{
+		tempPointLights.push_back(this->m_pointLights[i]);
+	}
+
 	this->m_deferredRendering->setCameraPosition(this->m_camera->m_forward);
-	this->m_deferredRendering->updateLights(this->m_quadTree->getPointLights(focalPoint), this->m_directionalLights, this->m_spotLights);
+	this->m_deferredRendering->updateLights(tempPointLights, this->m_directionalLights, this->m_spotLights);
 
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
@@ -747,6 +754,12 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 	m_deviceHandler->getDevice()->RSSetViewports(1, &m_shadowMapViewport);
 
 	vector<PointLight*> pointLights = this->m_quadTree->getPointLights(_focalPoint);
+
+	for(int i = 0; i < this->m_pointLights.size(); i++)
+	{
+		pointLights.push_back(this->m_pointLights[i]);
+	}
+
 	ID3D10ShaderResourceView** resources = new ID3D10ShaderResourceView*[pointLights.size() * 6];
 	D3DXMATRIX* wvps = new D3DXMATRIX[pointLights.size() * 6];
 	
@@ -764,10 +777,11 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 				m_deferredSampler->setLightWvp(pointLights[i]->getMatrix(j));
 				pointLights[i]->setShadowMapAsRenderTarget(m_deviceHandler->getDevice(), j);
 
-				stack<Model*> models = this->m_quadTree->getAllModels();
+				//Render the static models
+				stack<Model*> models = this->m_quadTree->getModels(pointLights[i]->getPosition2D());
 				while(!models.empty() && i * 6 + j < 100)
 				{
-					if(models.top()->getAlpha() == 1.0f)
+					if(models.top()->getAlpha() == 1.0f && models.top()->getShadow() == true)
 					{
 						this->m_deferredSampler->setModelMatrix(models.top()->getModelMatrix());
 						//this->m_deferredSampler->setModelAlpha(models.top()->getAlpha());
@@ -779,13 +793,13 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 								this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
 								this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 								this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-								m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+								this->m_deferredSampler->getShadowTechnique()->GetPassByIndex(0)->Apply(0);
 							}
 							else
 							{
 								this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 								this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
-								m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+								this->m_deferredSampler->getShadowTechnique()->GetPassByIndex(0)->Apply(0);
 							}
 
 							this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
@@ -794,9 +808,94 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 					models.pop();
 				}
+
+				//Render the non-staic modelss
+				for(int v = 0; v < m_models.size(); v++)
+				{
+					// Calculate models distance to camera and make it positive
+					D3DXVECTOR2 modelDistanceToCamera = m_models[v]->getPosition2D()-pointLights[i]->getPosition2D();
+					modelDistanceToCamera.x = abs(modelDistanceToCamera.x);
+					modelDistanceToCamera.y = abs(modelDistanceToCamera.y);
+
+					float distance = (m_models[v]->getPosition() - pointLights[i]->getPosition()).length();
+
+					// Find the greatest extent of the model bounding box
+					float greatestExtent;
+					if(m_models[v]->getObb())
+					{
+						if(this->m_models[v]->getObb()->Extents.x > this->m_models[v]->getObb()->Extents.z)
+							greatestExtent = this->m_models[v]->getObb()->Extents.x;
+						else
+							greatestExtent = this->m_models[v]->getObb()->Extents.z;
+					}
+					else if(m_models[v]->getBs())
+					{
+						greatestExtent = this->m_models[v]->getBs()->Radius;
+					}
+					else
+					{
+						// we are fucked
+						greatestExtent = 1337;
+					}
+
+					// Subtract the greatest extent from the distance
+					distance = distance - greatestExtent;
+
+					if(distance <= pointLights[i]->getRadius() && this->m_models[v]->getShadow() == true)
+					{
+						if(this->m_models[v]->getAlpha() == 1.0f)
+						{
+							this->m_deferredSampler->setModelMatrix(m_models[v]->getModelMatrix());
+
+							for(int m = 0; m < m_models[v]->getMesh()->subMeshes.size(); m++)
+							{
+
+								if(m_models[v]->getMesh()->isAnimated)
+								{
+									m_models[v]->getAnimation()->UpdateSkeletonTexture();
+									this->m_deferredSampler->setBoneTexture(m_models[v]->getAnimation()->getResource());
+									this->m_deviceHandler->setVertexBuffer(m_models[v]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+									this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+									this->m_deferredSampler->getShadowAnimationTechnique()->GetPassByIndex(0)->Apply(0);
+									this->m_deviceHandler->getDevice()->Draw(m_models[v]->getMesh()->subMeshes[m]->numVerts, 0);
+
+									//Draw Props
+									if(m_models[v]->getHat())
+									{	
+										this->m_deferredSampler->setPropsMatrix(m_models[v]->getAnimation()->getHatMatrix());
+										this->m_deviceHandler->setVertexBuffer(m_models[v]->getHat()->subMeshes[m]->buffer, sizeof(SuperVertex));
+										this->m_deferredSampler->getShadowPropsTechnique()->GetPassByIndex(0)->Apply(0);
+										this->m_deviceHandler->getDevice()->Draw(m_models[v]->getHat()->subMeshes[m]->numVerts, 0);
+									}
+									if(m_models[v]->getRightHand())
+									{
+										this->m_deferredSampler->setPropsMatrix(m_models[v]->getAnimation()->getRightHandMatrix());
+										this->m_deviceHandler->setVertexBuffer(m_models[v]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+										this->m_deferredSampler->getShadowPropsTechnique()->GetPassByIndex(0)->Apply(0);
+										this->m_deviceHandler->getDevice()->Draw(m_models[v]->getRightHand()->subMeshes[m]->numVerts, 0);
+									}
+									if(m_models[v]->getLeftHand())
+									{
+										this->m_deferredSampler->setPropsMatrix(m_models[v]->getAnimation()->getLeftHandMatrix());
+										this->m_deviceHandler->setVertexBuffer(m_models[v]->getLeftHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+										this->m_deferredSampler->getShadowPropsTechnique()->GetPassByIndex(0)->Apply(0);
+										this->m_deviceHandler->getDevice()->Draw(m_models[v]->getLeftHand()->subMeshes[m]->numVerts, 0);
+									}
+								}
+								else
+								{
+									this->m_deviceHandler->setVertexBuffer(m_models[v]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+									this->m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+									this->m_deferredSampler->getShadowTechnique()->GetPassByIndex(0)->Apply(0);
+									this->m_deviceHandler->getDevice()->Draw(m_models[v]->getMesh()->subMeshes[m]->numVerts, 0);
+								}
+							}
+						}
+					}
+				}
 		
-				resources[i * 6 + j] = pointLights[i]->getResource(j);
-				wvps[i * 6 + j] = pointLights[i]->getMatrix(j);
+				resources[counter] = pointLights[i]->getResource(j);
+				wvps[counter] = pointLights[i]->getMatrix(j);
 				counter++;
 			}
 		}
@@ -804,16 +903,28 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 	if(counter > 0)
 	{
-		if(counter * 6 < 100)
+		ID3D10ShaderResourceView** tempResources = new ID3D10ShaderResourceView*[counter];
+		D3DXMATRIX* tempWVPS = new D3DXMATRIX[counter];
+
+		for(int i = 0; i < counter; i++)
 		{
-			m_deferredRendering->setPointLightWvps(wvps, counter * 6);
-			m_deferredRendering->setPointLightShadowMaps(resources, counter * 6);
+			tempResources[i] = resources[i];
+			tempWVPS[i] = wvps[i];
+		}
+
+		if(counter < 100)
+		{
+			m_deferredRendering->setPointLightWvps(tempWVPS, counter);
+			m_deferredRendering->setPointLightShadowMaps(tempResources, counter);
 		}
 		else
 		{
-			m_deferredRendering->setPointLightWvps(wvps, 100);
-			m_deferredRendering->setPointLightShadowMaps(resources, 100);
+			m_deferredRendering->setPointLightWvps(tempWVPS, 100);
+			m_deferredRendering->setPointLightShadowMaps(tempResources, 100);
 		}
+
+		delete []tempWVPS;
+		delete []tempResources;
 	}
 
 	delete []wvps;
@@ -842,13 +953,13 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 						this->m_deferredSampler->setBoneTexture(models.top()->getAnimation()->getResource());
 						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-						m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+						m_deferredSampler->getShadowTechnique()->GetPassByIndex(0)->Apply(0);
 					}
 					else
 					{
 						this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 						this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputLayout());
-						m_deferredSampler->renderShadowMap->GetPassByIndex(0)->Apply(0);
+						m_deferredSampler->getShadowTechnique()->GetPassByIndex(0)->Apply(0);
 					}
 
 					this->m_deviceHandler->getDevice()->Draw(models.top()->getMesh()->subMeshes[m]->numVerts, 0);
@@ -1004,14 +1115,39 @@ bool World::removeMyText(MyText* _text)
 	return found;
 }
 
-bool World::addPointLight(PointLight* _pointLight)
+bool World::addPointLight(PointLight* _pointLight, bool _static)
 {
-	return this->m_quadTree->addLight(_pointLight);
+	if(_static == true)
+	{
+		return this->m_quadTree->addLight(_pointLight);
+	}
+	else
+	{
+		this->m_pointLights.push_back(_pointLight);
+		return true;
+	}
 }
 
 bool World::removePointLight(PointLight* _pointLight)
 {
-	return this->m_quadTree->removeLight(_pointLight);
+	bool found = false;
+
+	for(int i = 0; i < this->m_pointLights.size() && !found; i++)
+	{
+		if(this->m_pointLights[i] == _pointLight)
+		{
+			delete this->m_pointLights[i];
+			this->m_pointLights.erase(this->m_pointLights.begin()+i);
+			found = true;
+		}
+	}
+
+	if(found == false)
+	{
+		return this->m_quadTree->removeLight(_pointLight);
+	}
+
+	return found;
 }
 
 void World::addDirectionalLight(DirectionalLight* _directionalLight)

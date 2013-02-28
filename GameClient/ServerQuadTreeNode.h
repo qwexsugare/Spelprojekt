@@ -24,6 +24,8 @@ public:
 	void getAllServerEntites(vector<ServerEntity*>& _serverEntities);
 	void getServerEntities(vector<ServerEntity*> _serverEntities, D3DXVECTOR2 _focalPoint)const;
 	bool intersects(const ServerEntity* _serverEntity)const;
+	bool intersectsWithObject(const BoundingSphere& _bs);
+	bool intersectsWithObject(const BoundingOrientedBox& _obb);
 	bool removeServerEntity(ServerEntity* _serverEntity);
 	void updateServerEntities(float _dt);
 };

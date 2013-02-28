@@ -5,7 +5,6 @@
 #include "MessageQueue.h"
 #include "EntityHandler.h"
 #include "Hero.h"
-#include "Projectile.h"
 #include "Skills.h"
 
 #include "DeathPulseTurret.h"

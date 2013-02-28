@@ -1,6 +1,7 @@
 #include "Server.h"
-
 #include "DelayedDamage.h"
+
+#include <fstream>
 Server::Server(MessageHandler *_messageHandler)
 {
 	this->nrOfPlayers=0;

@@ -24,7 +24,7 @@ private:
 	bool m_shadow;
 public:
 	PointLight();
-	PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius, bool _shadow);
+	PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius, bool _shadow, FLOAT3 _shadowOffset = FLOAT3(0.0f, 0.0f, 0.0f));
 	~PointLight();
 
 	DECLDIR FLOAT3 getPosition();
@@ -43,7 +43,7 @@ public:
 
 	bool getCastShadow();
 
-	DECLDIR void setPosition(FLOAT3 _position);
+	DECLDIR void setPosition(FLOAT3 _position, FLOAT3 _shadowOffset = FLOAT3(0.0f, 0.0f ,0.0f));
 	DECLDIR void setAmbientColor(FLOAT3 _la);
 	DECLDIR void setDiffuseColor(FLOAT3 _ld);
 	DECLDIR void setSpecularColor(FLOAT3 _ls);

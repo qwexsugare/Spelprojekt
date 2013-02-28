@@ -38,6 +38,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
+	m_poisonStacks = 0;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -81,6 +82,7 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
+	m_poisonStacks = 0;
 }
 
 UnitEntity::~UnitEntity()
@@ -91,6 +93,11 @@ UnitEntity::~UnitEntity()
 	}
 
 	delete this->m_regularAttack;
+}
+
+void UnitEntity::addPoisonStack()
+{
+	m_poisonStacks++;
 }
 
 void UnitEntity::applyFrostTurretSlowEffect(float _value)
@@ -303,6 +310,11 @@ int UnitEntity::getWits()
 int UnitEntity::getFortitude()
 {
 	return this->m_fortitude;
+}
+
+int UnitEntity::getPoisonStacks()const
+{
+	return m_poisonStacks;
 }
 
 int UnitEntity::getHealth()

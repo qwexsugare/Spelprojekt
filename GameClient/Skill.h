@@ -54,7 +54,9 @@ public:
 		DEATH_PULSE_TURRET,
 		POISON_TURRET,
 		FROST_TURRET_PROJECTILE,
-		NR_OF_SKILLS	//just equals the number of the last enum, to initiate arrays
+		POISON_TURRET_PROJECTILE,
+		DEATH_PULSE_TURRET_PROJECTILE,
+		NR_OF_SKILLS
 		};
 
 	Skill();

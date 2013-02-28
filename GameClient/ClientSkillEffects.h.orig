@@ -13,8 +13,11 @@
 #include "IdleClientSkillEffect.h"
 #include "DeathClientSkillEffect.h"
 #include "HypnoticStareClientSkillEffect.h"
-<<<<<<< HEAD
 #include "FrostTurretProjectileClientSkillEffect.h"
+<<<<<<< HEAD
+#include "MeleeAOEClientSkillEffect.h"
 =======
 #include "MeleeAOEClientSkillEffect.h"
->>>>>>> 8b59be0798f3a6756cec2189fa62ee33fc1330af
+#include "PoisonTurretProjectileClientSkillEffect.h"
+#include "DeathPulseTurretClientSkillEffect.h"
+>>>>>>> 9e5ec5f0f1f142cf6316d895380f01b116cacbac

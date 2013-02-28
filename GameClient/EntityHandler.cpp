@@ -406,6 +406,10 @@ bool EntityHandler::intersects(const BoundingSphere& _bs)
 			i = EntityHandler::m_entities.size();
 		}
 	}
+	if(!ret)
+	{
+		ret = m_quadtree->intersectsWithObject(_bs);
+	}
 	EntityHandler::m_mutex.Unlock();
 	return ret;
 }
@@ -421,6 +425,10 @@ bool EntityHandler::intersects(const BoundingOrientedBox& _obb)
 			ret = true;
 			i = EntityHandler::m_entities.size();
 		}
+	}
+	if(!ret)
+	{
+		ret = m_quadtree->intersectsWithObject(_obb);
 	}
 	EntityHandler::m_mutex.Unlock();
 	return ret;
