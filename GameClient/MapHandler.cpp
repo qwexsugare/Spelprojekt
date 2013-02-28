@@ -169,7 +169,7 @@ void MapHandler::loadMap(std::string filename)
 			stream.getline(buf, 1024);
 			sscanf(buf, "width, height %d %d", &m_gridWidth, &m_gridHeight);
 
-			Map map = Map(this->m_gridWidth, this->m_gridHeight);
+			this->map = Map(this->m_gridWidth, this->m_gridHeight);
 			
 			m_grid = new bool*[m_gridHeight];
 			for(int j = 0; j < m_gridHeight; j++)
