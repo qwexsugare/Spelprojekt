@@ -23,6 +23,7 @@ MapHandler::MapHandler()
 	this->m_grid = NULL;
 	this->m_paths = NULL;
 	this->m_lives = 10;
+	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
 	{
@@ -294,6 +295,7 @@ void MapHandler::update(float _dt)
 void MapHandler::enemyDied()
 {
 	this->m_lives--;
+	Statistics::decreaseStartLife();
 }
 
 void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int _souls, int _hell, int _thunder, int _brutes)

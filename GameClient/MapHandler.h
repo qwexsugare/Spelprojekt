@@ -14,6 +14,7 @@
 #include "Pathfinder.h"
 #include "Graphics.h"
 #include "MessageHandler.h"
+#include "Statistics.h"
 
 //Import a map and update it, creating new enemies when needed
 class MapHandler

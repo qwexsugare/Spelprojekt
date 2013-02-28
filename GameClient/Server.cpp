@@ -3,19 +3,24 @@
 #include "DelayedDamage.h"
 Server::Server(MessageHandler *_messageHandler)
 {
-	this->clientArrPos=0;
+	this->nrOfPlayers=0;
 	this->m_messageHandler = _messageHandler;
 	this->m_messageQueue = new MessageQueue();
 	this->m_messageHandler->addQueue(this->m_messageQueue);
-
+	this->nextEmptyArrayPos=0;
 	DelayedDamage::text = NULL;
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		this->m_players[i]=0;
+	}
 }
 
 Server::~Server()
 {
-	for(int i = 0; i < this->m_players.size(); i++)
+	for(int i = 0; i < MAXPLAYERS; i++)
 	{
-		delete this->m_players[i];
+		if(this->m_players[i])
+			delete this->m_players[i];
 	}
 
 	delete this->m_messageQueue;
@@ -49,18 +54,31 @@ void Server::goThroughSelector()
 		
 			if(sock==this->listener)
 			{
-				sf::IPAddress ip;
-				sf::SocketTCP incSocket;
-				//accept the new socket
-				this->listener.Accept(incSocket, &ip);
-				cout << "client connected: " << ip.ToString()<<endl;
-				//and add it to the selector
-				this->selector.Add(incSocket);
-				this->clients[this->clientArrPos++]=incSocket;
+				if(this->nrOfPlayers<MAXPLAYERS)
+				{
+					sf::IPAddress ip;
+					sf::SocketTCP incSocket;
+					//accept the new socket
+					this->listener.Accept(incSocket, &ip);
+					cout << "client connected: " << ip.ToString()<<endl;
+					//and add it to the selector
+					this->selector.Add(incSocket);
 
-				Player *p = new Player(this->m_players.size());
-				this->m_players.push_back(p);
-				this->m_messageHandler->addQueue(p->getMessageQueue());
+					for(int i=0;i<MAXPLAYERS;i++)
+					{
+						if(this->m_players[i]==0)
+						{
+							nextEmptyArrayPos=i;
+							break;
+						}
+					}
+					Player *p = new Player(nextEmptyArrayPos);
+					this->m_players[nextEmptyArrayPos]=p;
+					this->clients[nextEmptyArrayPos]=incSocket;
+					this->nrOfPlayers++;
+				
+					this->m_messageHandler->addQueue(p->getMessageQueue());
+				}
 			}
 			//else its a client socket who wants to sent a message
 			else
@@ -73,7 +91,7 @@ void Server::goThroughSelector()
 
 					int socketIndex = 0;
 
-					for(int j = 1; j < this->clientArrPos; j++)
+					for(int j = 1; j < MAXPLAYERS; j++)
 					{
 						if(sock == this->clients[j])
 						{
@@ -87,15 +105,17 @@ void Server::goThroughSelector()
 				else
 				{
 					// if done wasnt completed, the socket will be removed from the selector
-					if(this->listener.IsValid())
+					//if(this->listener.IsValid())
 					{
-						this->selector.Remove(sock);
-						cout<<"A client disconnected!"<<endl;
-						for(int i=0;i<this->clientArrPos;i++)
+						for(int i=0;i<MAXPLAYERS;i++)
 						{
 							if(this->clients[i]==sock)
 							{
-								this->clients[i]=this->clients[--this->clientArrPos];
+								this->clients[i].Close();
+								delete this->m_players[i];
+								this->m_players[i]=0;
+								this->nrOfPlayers--;
+								this->selector.Remove(sock);
 							}
 						}
 					}
@@ -170,6 +190,7 @@ void Server::handleMessages()
 			packet<<sbm;
 
 			this->m_mutex.Lock();
+			if(this->clients[m5->playerId].IsValid())
 			this->clients[m5->playerId].Send(packet);
 			this->m_mutex.Unlock();
 
@@ -188,6 +209,7 @@ void Server::handleMessages()
 			packet<<sum;
 
 			this->m_mutex.Lock();
+			if(this->clients[m7->playerId].IsValid())
 			this->clients[m7->playerId].Send(packet);
 			this->m_mutex.Unlock();
 
@@ -220,7 +242,7 @@ void Server::shutDown()
 {
 	NetworkDisconnectMessage message = NetworkDisconnectMessage("Server is shutting down");
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
 		sf::Packet packet;
 		packet << message;
@@ -245,9 +267,10 @@ void Server::broadcast(NetworkUpdateEntityHealth networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -260,9 +283,10 @@ void Server::broadcast(NetworkEntityMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -275,9 +299,10 @@ void Server::broadcast(NetworkRemoveEntityMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -290,9 +315,10 @@ void Server::broadcast(NetworkCreateActionMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -305,9 +331,10 @@ void Server::broadcast(NetworkCreateActionPositionMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -320,9 +347,10 @@ void Server::broadcast(NetworkCreateActionTargetMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -335,9 +363,10 @@ void Server::broadcast(NetworkRemoveActionTargetMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -350,9 +379,10 @@ void Server::broadcast(NetworkStartGameMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 	
 	this->m_mutex.Unlock();
@@ -365,9 +395,10 @@ void Server::broadcast(NetworkHeroSelectedMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -380,9 +411,10 @@ void Server::broadcast(NetworkSkillUsedMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -395,9 +427,10 @@ void Server::broadcast(NetworkSkillBoughtMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -411,9 +444,10 @@ void Server::broadcast(NetworkInitEntityMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -424,11 +458,12 @@ void Server::broadcast(NetworkHeroInitMessage networkMessage)
 
 	this->m_mutex.Lock();
 
-	for(int i=0;i<this->clientArrPos;i++)
+	for(int i=0;i<MAXPLAYERS;i++)
 	{
 		networkMessage.setYourId(i);
 		packet<<networkMessage;
-		this->clients[i].Send(packet);
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -453,9 +488,10 @@ void Server::Run()
 		this->goThroughSelector();
 		this->handleMessages();
 
-		for(int i = 0; i < this->m_players.size(); i++)
+		for(int i = 0; i < MAXPLAYERS; i++)
 		{
-			this->m_players[i]->update(dt);
+			if(this->clients[i].IsValid())
+				this->m_players[i]->update(dt);
 		}
 	}
 }
@@ -526,5 +562,11 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 
 vector<Player*> Server::getPlayers()
 {
-	return this->m_players;
+	vector<Player*> p;
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			p.push_back(this->m_players[i]);
+	}
+	return p;
 }

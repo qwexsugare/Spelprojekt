@@ -53,7 +53,8 @@ public:
 		HYPNOTIC_STARE,
 		DEATH_PULSE_TURRET,
 		POISON_TURRET,
-		FROST_TURRET_PROJECTILE
+		FROST_TURRET_PROJECTILE,
+		NR_OF_SKILLS	//just equals the number of the last enum, to initiate arrays
 		};
 
 	Skill();
