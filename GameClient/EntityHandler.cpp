@@ -17,12 +17,12 @@ EntityHandler::EntityHandler(MessageHandler* _messageHandler)
 	EntityHandler::m_messageQueue = new MessageQueue();
 	EntityHandler::m_messageHandler = _messageHandler;
 	_messageHandler->addQueue(EntityHandler::m_messageQueue);
-	EntityHandler::m_quadtree = new ServerQuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f));
 }
 
 EntityHandler::~EntityHandler()
 {
 	delete this->m_messageQueue;
+	delete EntityHandler::m_quadtree;
 }
 
 void EntityHandler::removeAllEntities()
@@ -33,8 +33,6 @@ void EntityHandler::removeAllEntities()
 	{
 		delete this->m_entities[i];
 	}
-
-	delete EntityHandler::m_quadtree;
 
 	EntityHandler::m_mutex.Unlock();
 }
@@ -77,15 +75,26 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 	_entity->setId(EntityHandler::m_nextId);
 	if(_entity->getType() == ServerEntity::StaticType)
 	{
-		EntityHandler::m_quadtree->addServerEntity(_entity);
+		if(EntityHandler::m_quadtree->addServerEntity(_entity))
+		{
+			EntityHandler::m_nextId++;
+			EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
+		}
+		else
+			delete _entity;
 	}
 	else
 	{
 		EntityHandler::m_entities.push_back(_entity);
+		EntityHandler::m_nextId++;
+		EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
 	}
-	EntityHandler::m_nextId++;
-	EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
 	EntityHandler::m_mutex.Unlock();
+
+	if(_entity->getVisible() == true)
+	{
+		EntityHandler::m_messageQueue->pushOutgoingMessage(new InitEntityMessage(_entity->getType(),_entity->getModelId(), _entity->getWeaponType(),_entity->getId(),_entity->getPosition().x,_entity->getPosition().z,_entity->getRotation().y,1.0,_entity->getHealth(),_entity->getPosition().x,_entity->getPosition().z,_entity->getEndPos().x,_entity->getEndPos().z,_entity->getMovementSpeed()));
+	}
 }
 
 bool EntityHandler::removeEntity(ServerEntity *_entity)
@@ -127,7 +136,7 @@ vector<ServerEntity*> EntityHandler::getEntities()
 	//ses.resize(EntityHandler::m_entities.size()+ses.size());
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 		ses.push_back(EntityHandler::m_entities[i]);
-
+	
 	EntityHandler::m_mutex.Unlock();
 
 	return ses;
@@ -378,4 +387,41 @@ vector<ServerEntity*> EntityHandler::getAllHeroes()
 unsigned int EntityHandler::getId()
 {
 	return EntityHandler::m_messageQueue->getId();
+}
+
+void EntityHandler::initQuadTree(FLOAT2 _extents)
+{
+	EntityHandler::m_quadtree = new ServerQuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y));
+}
+
+bool EntityHandler::intersects(const BoundingSphere& _bs)
+{
+	bool ret = false;
+	EntityHandler::m_mutex.Lock();
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(m_entities[i]->intersects(_bs))
+		{
+			ret = true;
+			i = EntityHandler::m_entities.size();
+		}
+	}
+	EntityHandler::m_mutex.Unlock();
+	return ret;
+}
+
+bool EntityHandler::intersects(const BoundingOrientedBox& _obb)
+{
+	bool ret = false;
+	EntityHandler::m_mutex.Lock();
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+	{
+		if(m_entities[i]->intersects(_obb))
+		{
+			ret = true;
+			i = EntityHandler::m_entities.size();
+		}
+	}
+	EntityHandler::m_mutex.Unlock();
+	return ret;
 }

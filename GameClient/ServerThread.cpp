@@ -47,8 +47,6 @@ void ServerThread::Run()
 	this->m_state = State::LOBBY;
 	this->m_network->start(this->m_port);
 
-	EntityHandler::addEntity(new Tower(FLOAT3(60.0f, 0.0f, 50.0f)));
-
 	while(this->m_state != State::EXIT)
 	{
 		__int64 currTimeStamp = 0;
@@ -61,7 +59,7 @@ void ServerThread::Run()
 		if(fpsTimer > 1.0f)
 		{
 			stringstream ss;
-			ss << "Server fps:" << 1.0f / dt;
+			ss << "Server fps:" << 1.0f / dt << " Entities: " << EntityHandler::getEntities().size();
 			fpsTimer = 0.0f;
 			fpsText->setString(ss.str());
 		}
@@ -100,7 +98,7 @@ void ServerThread::update(float dt)
 					}
 					else if(players[i]->hasChosenHero())
 					{
-						if(players[i]->getHeroType() == ((SelectHeroMessage*)m)->heroId)
+						if(players[i]->getSelectedHeroType() == ((SelectHeroMessage*)m)->heroId)
 						{
 							okToSelect = false;
 						}
@@ -138,9 +136,9 @@ void ServerThread::update(float dt)
 				vector<Hero::HERO_TYPE> heroTypes;
 				for(int i = 0; i < players.size(); i++)
 				{
+					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
 					ids.push_back(players[i]->getHero()->getId());
-					heroTypes.push_back(players[i]->getHeroType());
-					players[i]->spawnHero();
+					heroTypes.push_back(players[i]->getHero()->getHeroType());
 				}
 
 				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));
@@ -170,7 +168,7 @@ void ServerThread::update(float dt)
 
 		for(int i = 0; i < entities.size(); i++)
 		{
-			if(entities[i]->getVisible() == true && entities[i]->getType() != ServerEntity::Type::StaticType)
+			if(entities[i]->getVisible() == true && (entities[i]->getType() != ServerEntity::Type::StaticType && entities[i]->getType() != ServerEntity::Type::HeroType && entities[i]->getType() != ServerEntity::Type::TowerType && entities[i]->getType() != ServerEntity::Type::EnemyType))
 			{
 				this->m_network->broadcast(entities[i]->getUpdate());
 			}

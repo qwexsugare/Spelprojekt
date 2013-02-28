@@ -2,80 +2,57 @@
 
 ModelIdHolder::ModelIdHolder()
 {
-	for(int i = 0; i < MAX_IDS; i++)
-	{
-		m_textures[i] = "color";
-		m_hatIds[i] = "";
-		m_rightHandIds[i] = "";
-		m_leftHandIds[i] = "";
-		m_glowmaps[i] = "";
-	}
+	this->m_modelIds[0] = ModelId("Char1_5");
+	this->m_modelIds[2] = ModelId("PoisonTurret", "color", "glowIntensity");
+	this->m_modelIds[3] = ModelId("LightningTurret", "color", "glowIntensity");
+	this->m_modelIds[4] = ModelId("DeathTurret", "color", "glowIntensity");
+	this->m_modelIds[5] = ModelId("FrostTurret", "color", "glowIntensity");
+	this->m_modelIds[6] = ModelId("CloudOfDarkness");
+	this->m_modelIds[7] = ModelId("Pentagram");
+	this->m_modelIds[8] = ModelId("redKnightPassiveAura");
 
-	this->m_modelId[0] = "Char1_5";
+	this->m_modelIds[80] = ModelId("Imp", "color", "glowIntensity"); //Frost demon
+	this->m_modelIds[81] = ModelId("Imp", "color1", "glowIntensity1"); //Imp
+	this->m_modelIds[82] = ModelId("Imp", "color2", "glowIntensity2"); //Shade
+	this->m_modelIds[83] = ModelId("Imp", "color3", "glowIntensity3"); //Spitting
 	
-	this->m_modelId[2] = "PoisonTurret";
-	this->m_modelId[3] = "LightningTurret";
-	this->m_modelId[4] = "DeathTurret";
-	this->m_modelId[5] = "FrostTurret";
-	this->m_modelId[6] = "CloudOfDarkness";
-	this->m_modelId[7] = "Pentagram";
-	this->m_modelId[8] = "redKnightPassiveAura";
-	
+	this->m_modelIds[84] = ModelId("Beast", "color", "glowIntensity"); //Soul Eater
+	this->m_modelIds[85] = ModelId("Beast", "color1", "glowIntensity1"); //Brute 
+	this->m_modelIds[86] = ModelId("Beast", "color2", "glowIntensity2"); //Hellfire
+	this->m_modelIds[87] = ModelId("Beast", "color3", "glowIntensity3"); //Thunder
 
-	this->m_modelId[80] = "Imp"; //Frost Demon
-	this->m_modelId[81] = "Imp"; //Imp
-	this->m_modelId[82] = "Imp"; //Shade
-	this->m_modelId[83] = "Imp"; //Spitting
+	this->m_modelIds[95] = ModelId("Char1_5", "color", "", "DECLHatt"); //Officer
+	this->m_modelIds[96] = ModelId("Char1_5", "color1", "", "IronMan"); //Red Knight
+	this->m_modelIds[97] = ModelId("Char1_5", "color2", "", "GasMask"); //Engineer
+	this->m_modelIds[98] = ModelId("Char1_5", "color3", "", "Kubb");  //Doctor
+	this->m_modelIds[99] = ModelId("Char1_5", "color4", "", "TopHat"); //Mentalist
 
-	this->m_textures[80] = "color";
-	this->m_textures[81] = "color1";
-	this->m_textures[82] = "color2";
-	this->m_textures[83] = "color3";
+	//Officer
+	this->m_modelIds[95].weapons[WEAPON_TYPE::MELEE] = WeaponSet("OfficerRapier", "lantern");
+	this->m_modelIds[95].weapons[WEAPON_TYPE::RANGED] = WeaponSet("HexaGun", "lantern");
 
-	this->m_glowmaps[80] = "glowIntensity";
-	this->m_glowmaps[81] = "glowIntensity1";
-	this->m_glowmaps[82] = "glowIntensity2";
-	this->m_glowmaps[83] = "glowIntensity3";
+	//Red Knight
+	this->m_modelIds[96].weapons[WEAPON_TYPE::MELEE] = WeaponSet("Sword", "lantern");
+	this->m_modelIds[96].weapons[WEAPON_TYPE::AOE] = WeaponSet("Mace", "");
 
-	this->m_modelId[84] = "Beast";  //Soul Eater
-	this->m_modelId[85] = "Beast";	//Brute 
-	this->m_modelId[86] = "Beast";  //Hellfire
-	this->m_modelId[87] = "Beast";  //Thunder
+	//Engineer
+	this->m_modelIds[97].weapons[WEAPON_TYPE::MELEE] = WeaponSet("Wrench", "lantern");
+	this->m_modelIds[97].weapons[WEAPON_TYPE::RANGED] = WeaponSet("Crossbow", "lantern");
 
-	this->m_textures[84] = "color";
-	this->m_textures[85] = "color1";
-	this->m_textures[86] = "color2";
-	this->m_textures[87] = "color3";
+	//Doctor
+	this->m_modelIds[98].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MeatClever", "lantern");
+	this->m_modelIds[98].weapons[WEAPON_TYPE::RANGED] = WeaponSet("DoctorRevolver", "lantern");
 
-	this->m_glowmaps[84] = "glowIntensity";
-	this->m_glowmaps[85] = "glowIntensity1";
-	this->m_glowmaps[86] = "glowIntensity2";
-	this->m_glowmaps[87] = "glowIntensity3";
-
-	this->m_modelId[95] = "Char1_5";
-	this->m_modelId[96] = "Char1_5";
-	this->m_modelId[97] = "Char1_5";
-	this->m_modelId[98] = "Char1_5";
-	this->m_modelId[99] = "Char1_5";
-	this->m_hatIds[95] = "DECLHatt";
-	this->m_hatIds[96] = "IronMan";
-	this->m_hatIds[97] = "GasMask";
-	this->m_hatIds[98] = "Kubb";
-	this->m_hatIds[99] = "TopHat";
-	//this->m_rightHandIds[99] = "MentalistRapier";
-	//this->m_rightHandIds[97] = "Crossbow";
-	this->m_textures[95] = "color";
-	this->m_textures[96] = "color1";
-	this->m_textures[97] = "color2";
-	this->m_textures[98] = "color3";
-	this->m_textures[99] = "color4";
+	//Mentalist
+	this->m_modelIds[99].weapons[WEAPON_TYPE::MELEE] = WeaponSet("MentalistRapier", "lantern");
+	this->m_modelIds[99].weapons[WEAPON_TYPE::RANGED] = WeaponSet("MentalistRevolver", "lantern");
 }
 
 std::string ModelIdHolder::getHat(unsigned int id)
 {
 	if(id < ModelIdHolder::MAX_IDS)
 	{
-		return this->m_hatIds[id];
+		return this->m_modelIds[id].hat;
 	}
 	else
 
@@ -84,27 +61,25 @@ std::string ModelIdHolder::getHat(unsigned int id)
 	}
 }
 
-std::string ModelIdHolder::getRightHand(unsigned int id)
+std::string ModelIdHolder::getRightHand(unsigned int id, unsigned short weaponType)
 {
-	if(id < ModelIdHolder::MAX_IDS)
+	if(id < ModelIdHolder::MAX_IDS && weaponType < 4)
 	{
-		return this->m_rightHandIds[id];
+		return this->m_modelIds[id].weapons[weaponType].rightHand;
 	}
 	else
-
 	{
 		return "";
 	}
 }
 
-std::string ModelIdHolder::getLeftHand(unsigned int id)
+std::string ModelIdHolder::getLeftHand(unsigned int id, unsigned short weaponType)
 {
-	if(id < ModelIdHolder::MAX_IDS)
+	if(id < ModelIdHolder::MAX_IDS && weaponType < 4)
 	{
-		return this->m_leftHandIds[id];
+		return this->m_modelIds[id].weapons[weaponType].leftHand;
 	}
 	else
-
 	{
 		return "";
 	}
@@ -114,7 +89,7 @@ std::string ModelIdHolder::getModel(unsigned int id)
 {
 	if(id < ModelIdHolder::MAX_IDS)
 	{
-		return this->m_modelId[id];
+		return this->m_modelIds[id].model;
 	}
 	else
 
@@ -125,10 +100,26 @@ std::string ModelIdHolder::getModel(unsigned int id)
 
 std::string ModelIdHolder::getTexture(int _index)const
 {
-	return m_textures[_index];
+	if(_index < ModelIdHolder::MAX_IDS)
+	{
+		return this->m_modelIds[_index].textures;
+	}
+	else
+
+	{
+		return "";
+	}
 }
 
 std::string ModelIdHolder::getGlowmap(int _index)const
 {
-	return m_glowmaps[_index];
+	if(_index < ModelIdHolder::MAX_IDS)
+	{
+		return this->m_modelIds[_index].glowMap;
+	}
+	else
+
+	{
+		return "";
+	}
 }

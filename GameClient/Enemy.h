@@ -8,6 +8,8 @@
 
 class Enemy : public UnitEntity
 {
+private:
+	float lastDT;
 protected:
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
@@ -30,15 +32,16 @@ protected:
 	UnitEntity::Type m_targetType;
 	int m_highRescource;
 	FLOAT3 m_rotationAdding;
-
+	float m_closestHero;
+	FLOAT3 hoxit;
 	ServerEntity *m_prevClosestStatic;
 	ServerEntity *m_currClosestStatic;
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path);
-
+	virtual ~Enemy();
 	void updateSpecificUnitEntity(float dt);
-	void setNextPosition(FLOAT3 _nextPosition);
+	//void setNextPosition(FLOAT3 _nextPosition);
 	void setNextPosition(unsigned int _id, float dt);
 
 	FLOAT3 getDirection();
@@ -49,9 +52,11 @@ public:
 	void attackHero();
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
-	bool outOfBounds(FLOAT3 _pt);
+	bool outOfBounds(FLOAT3 _pt, int _offset);
+	bool completelyOutOfBounds(FLOAT3 _pt);
 	void setTargetType(UnitEntity::Type _type);
-
+	void updateEnemyAvDir(FLOAT3 _val);
+	FLOAT3 getEndPos();
 };
 
 #endif

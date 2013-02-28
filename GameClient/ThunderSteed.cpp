@@ -34,6 +34,10 @@ ThunderSteed::ThunderSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
 
 	m_regularAttack = new RangedAttack();
 	m_aggroRange = m_regularAttack->getRange() *2.0f;
+
+	Model *m = g_graphicsEngine->createModel("Beast", m_position);
+	this->m_obb = new BoundingOrientedBox(*m->getObb());
+	g_graphicsEngine->removeModel(m);
 }
 
 void ThunderSteed::attackHero(int heroIndex)

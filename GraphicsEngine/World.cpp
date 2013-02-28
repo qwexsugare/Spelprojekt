@@ -178,6 +178,7 @@ bool World::removeTerrain(Terrain* _terrain)
 void World::render()
 {
 	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
+	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
 
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
@@ -325,11 +326,16 @@ void World::render()
 			greatestExtent = 1337;
 		}
 
+
+		//Anders var här och pela
+		this->m_deferredSampler->setCameraPosition(this->m_camera->m_forward);
+
 		// Subtract the greatest extent from the distance
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
-
+		
 		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+		//if(modelDistanceToCamera.x < 8.8f && modelDistanceToCamera.y < 5.86f)
 		{
 			if(m_models[i]->getAlpha() < 1.0f)
 			{
@@ -465,8 +471,7 @@ void World::render()
 		{
 			this->m_deferredSampler->setTexture(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getTextureIndex()]);
 			this->m_deferredSampler->setNormalMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-			if(transparentStaticModels[i]->getGlowIndex() != "")
-				this->m_deferredSampler->setGlowMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getGlowIndex()]);
+			this->m_deferredSampler->setGlowMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getGlowIndex()]);
 			this->m_deferredSampler->setSpecularMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 			if(transparentStaticModels[i]->getMesh()->isAnimated)
@@ -497,8 +502,7 @@ void World::render()
 		{
 			m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
 			m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-			if(transparentModels[i]->getGlowIndex() != "")
-				this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getGlowIndex()]);
+			this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getGlowIndex()]);
 			m_deferredSampler->setSpecularMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
 			if(transparentModels[i]->getMesh()->isAnimated)
@@ -646,7 +650,7 @@ void World::render()
 
 	/////////////////////////////////////////////////////////////////////////
 	//PPPPP//AAAAAA//RRRRR///TTTTTTTT//II//CCCCCC//LL//////EEEEEEE//SSSSSSS//
-	//PPPPP//AA//AA//RRRRR//////TT/////II//CC//////LL//////EE///////SS///////
+	//PPPPP//AA//AA//RR/RR//////TT/////II//CC//////LL//////EE///////SS///////
 	//PP/////AAAAAA//RRRR///////TT/////II//CC//////LL//////EEEE/////SSSSSSS//
 	//PP/////AA//AA//RR//RR/////TT/////II//CCCCCC//LLLLLL//EEEEEEE//SSSSSSS//
 	/////////////////////////////////////////////////////////////////////////

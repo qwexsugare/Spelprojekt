@@ -27,11 +27,16 @@ SkillIdHolder::SkillIdHolder()
 	this->m_SkillId[Skill::ENIGMATIC_PRESENCE] = "menu_textures\\Button-Skill-22.png";
 	this->m_SkillId[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = "menu_textures\\Button-Skill-23.png";
 	this->m_SkillId[Skill::COURAGE_HONOR_VALOR] = "menu_textures\\Button-Skill-24.png";
-	this->m_SkillId[Skill::READY_AIM_FIRE] = "menu_textures\\Button-Skill-20.png";
-	this->m_SkillId[Skill::TIME_IS_MONEY] = "menu_textures\\Button-Skill-20.png";
-	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-20.png";
+	this->m_SkillId[Skill::READY_AIM_FIRE] = "menu_textures\\Button-Skill-26.png";
+	this->m_SkillId[Skill::TIME_IS_MONEY] = "menu_textures\\Button-Skill-27.png";
+	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-25.png";
 	this->m_SkillId[Skill::LIFE_REGEN] = "menu_textures\\Button-Skill-29.png";
 	this->m_SkillId[Skill::HYPNOTIC_STARE] = "menu_textures\\Button-Skill-21.png";
+
+	this->m_SkillId[Skill::TESLA_CHAIN_TURRET] = "menu_textures\\Upgradebar_Buy_Tower_Tesla.png";
+	this->m_SkillId[Skill::DEATH_PULSE_TURRET] = "menu_textures\\Upgradebar_Buy_Tower_Death.png";
+	this->m_SkillId[Skill::POISON_TURRET] = "menu_textures\\Upgradebar_Buy_Tower_Poison.png";
+	this->m_SkillId[Skill::FROST_TURRET] = "menu_textures\\Upgradebar_Buy_Tower_Frost.png";
 
 	//Active
 	this->m_skillActive[Skill::TOWER] = false;
@@ -63,6 +68,11 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::ENHANCED_DEVELOPMENT] = true;
 	this->m_skillActive[Skill::LIFE_REGEN] = false;
 	this->m_skillActive[Skill::HYPNOTIC_STARE] = true;
+
+	this->m_skillActive[Skill::TESLA_CHAIN_TURRET] = true;
+	this->m_skillActive[Skill::DEATH_PULSE_TURRET] = true;
+	this->m_skillActive[Skill::POISON_TURRET] = true;
+	this->m_skillActive[Skill::FROST_TURRET] = true;
 
 	//Description
 	this->m_skillDescription[Skill::TOWER] = "";

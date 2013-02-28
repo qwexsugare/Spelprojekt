@@ -1,18 +1,22 @@
 #pragma once
-#include "tower.h"
+
+#include "Turret.h"
 #include "ChainStrikeEffect.h"
 #include "DataStructures.h"
 
-class TeslaChainTurret : public Tower
+class TeslaChainTurret : public Turret
 {
 private:
 	float m_cooldown;
 	int m_damage;
 	int m_numberOfHits;
 public:
+	static const int COST = 150;
+
 	TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int turretUpgrade);
 	~TeslaChainTurret();
 
 	void update(float dt);
+	void target(ServerEntity* _target);
 };
 

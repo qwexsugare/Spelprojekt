@@ -18,12 +18,13 @@ protected:
 	BoundingOrientedBox* m_obb;
 	FLOAT3 m_position;
 	FLOAT3 m_rotation;
+	FLOAT3 m_bvOffset;
 
 	unsigned int m_modelId;
 	bool m_visible;
 
 public:
-	static enum Type{EnemyType, HeroType, OtherType, ProjectileType, StaticType};
+	static enum Type{EnemyType, HeroType, OtherType, ProjectileType, StaticType, TowerType};
 	Type m_type;
 	ServerEntity();
 	ServerEntity(FLOAT3 m_pos);
@@ -42,17 +43,27 @@ public:
 	void setVisible(bool _visible);
 
 	FLOAT3 getPosition();
+	FLOAT3 getRotation();
 	unsigned int getId();
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
-	
+
+	virtual int getHealth();
+
 	ContainmentType contains(const BoundingSphere& _bs)const;
 	ContainmentType contains(const BoundingOrientedBox& _obb)const;
+	bool intersects(const BoundingOrientedBox& _obb)const;
+	bool intersects(const BoundingSphere& _bs)const;
+	bool intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const;
 
 	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
+	virtual FLOAT3 getDirection();
+	virtual FLOAT3 getEndPos();
+	virtual float getMovementSpeed();
+	virtual unsigned short getWeaponType();
 };
 
 #endif

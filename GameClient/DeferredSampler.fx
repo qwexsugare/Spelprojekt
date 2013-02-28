@@ -83,6 +83,8 @@ cbuffer cbEveryFrame
 	//Props Transformation Matrix
 	matrix propsMatrix;
 
+	float3 cameraPos;
+
 	matrix lightWvp;
 
 	float modelAlpha;
@@ -106,7 +108,7 @@ DepthStencilState EnableDepthNoWrite
 {
     DepthEnable = TRUE;
     DepthWriteMask = ZERO;
-	//DepthFunc = GREATER;
+	DepthFunc = LESS_EQUAL;
 };
 
 DepthStencilState EnableDepthSM
@@ -250,11 +252,8 @@ PSSuperSceneIn VSSuperScene(VSSuperSceneIn input)
 
 	//variables needed for lighting
 	float3 myNormal = input.Normal;
-	//myNormal.z *= -1;
-	float3 myTangent = input.Tangent;
-	//myTangent.z *= -1;
-	output.Normal = mul(float4(myNormal, 0.0f), modelMatrix);
-	output.Tangent = normalize(mul(float4(myTangent, 0.0f), modelMatrix));
+
+	output.Normal = normalize(mul(float4(myNormal, 0.0f), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
 
 	return output;
@@ -274,14 +273,45 @@ PSSuperSceneIn VSPropsScene(VSSuperSceneIn input)
 
 	//variables needed for lighting
 	float3 myNormal = input.Normal;
-	//myNormal.z *= -1;
-	float3 myTangent = input.Tangent;
-	//myTangent.z *= -1;
-	output.Normal = mul(float4(myNormal, 0.0f), newModelMatrix);
-	output.Tangent = normalize(mul(float4(myTangent, 0.0f), newModelMatrix));
+
+	output.Normal = normalize(mul(float4(myNormal, 0.0f), newModelMatrix));
+	//output.Tangent = normalize(mul(float4(myTangent, 0.0f), newModelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), newModelMatrix);
 
 	return output;
+}
+
+float3x3 invert_3x3( float3x3 M )
+{
+	float D = determinant( M );		
+	float3x3 T = transpose( M );	
+
+	return float3x3(
+		cross( T[1], T[2] ),
+		cross( T[2], T[0] ),
+		cross( T[0], T[1] ) ) / D;	
+}
+
+float3x3 compute_tangent_frame( float3 N, float3 p, float2 uv )
+{
+	// Implemenataion with full matrix inverse
+	// straight from theory.
+
+    // get edge vectors of the pixel triangle
+    float3 dp1 = ddx( p );
+    float3 dp2 = ddy( p );
+    float2 duv1 = ddx( uv );
+    float2 duv2 = ddy( uv );
+
+    // solve the linear system
+    float3x3 M = float3x3( dp1, dp2, cross( dp1, dp2 ) );
+    float3x3 inverseM = invert_3x3( M );
+    float3 T = mul( inverseM, float3( duv1.x, duv2.x, 0 ) );
+    float3 B = mul( inverseM, float3( duv1.y, duv2.y, 0 ) );
+
+    // construct tangent frame 
+    float maxLength = max( length(T), length(B) );
+    return float3x3( T / maxLength, B / maxLength, N );
 }
 
 PSSceneOut PSSuperScene(PSSuperSceneIn input)
@@ -291,43 +321,22 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	float4 specularColor = specularMap.Sample(linearSampler, input.UVCoord);
 	color.w *= modelAlpha;
 
-	float3 sampNormal = normalize(normalMap.Sample(linearSampler, input.UVCoord));
+	float3 sampNormal = (normalMap.Sample(linearSampler, input.UVCoord));
 
-	sampNormal = 2.0f * sampNormal - 1.0f;
-	//sampNormal =  mul(float4(sampNormal, 0.0f), modelMatrix);
-	//sampNormal *= -1;
-	
-	//float2 uvCoord = input.UVCoord;
+	sampNormal = (2.0f * sampNormal) - 1.0f;
 
+	float3 n = normalize(input.Normal.xyz);
 
-	sampNormal = normalize(sampNormal);
-	//sampNormal = 2.0f * sampNormal - 1.0f;
-	//sampNormal = mul(float4(sampNormal, 0.0f), modelMatrix);
+	float3 v = cameraPos - input.EyeCoord;
 
+	float3x3 tbn = compute_tangent_frame(n, -v, input.UVCoord);
 
-	//sampNormal.xy *= -1;
-	
-	float3 tang = normalize(input.Tangent);
-
-	float3 n = normalize(input.Normal);
-	float3 t = normalize(tang - dot(tang, n)*n);
-
-	//float3 b = cross(n, t);
-	//float3x3 tbn = float3x3(t, b, n);
-	//float3 newNormal = normalize(mul(sampNormal, tbn));
-	//float3 light = float3(0, -1, 0);
-	//light = normalize(light);
-	//light = normalize(mul(light, tbn));
-	//float diff = dot(light, newNormal);
+	float3 nNormal = normalize(mul(sampNormal, tbn));
 
 	output.Pos = input.EyeCoord;
-	output.Normal = normalize(normalMap.Sample(linearSampler, input.UVCoord));
-	//output.Normal = float4(normalize(n), 0.0f);
-
-	output.Diffuse = color;//float4(diff, diff, diff, 1.0f);//float4(1, 1, 1, 1);
-	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).w);
-
+	output.Normal = float4(nNormal, 1);
+	output.Diffuse = color;
+	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).r);
 	output.Glow = glowMap.Sample(linearSampler, input.UVCoord);
 
 	return output;
@@ -372,6 +381,17 @@ technique10 DeferredPropsSample
 	    SetDepthStencilState( gubbStencil, 0 );
 	    SetRasterizerState( rs );
 	}
+	pass p1
+	{
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSPropsScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
+		
+	    SetDepthStencilState( houseStencil, 0 );
+	    SetRasterizerState( rs );
+	}
 }
 
 float4x4 GetBoneMatrix(int boneIndex, float4 _bone)
@@ -412,21 +432,35 @@ PSSuperSceneIn VSAnimScene(VSAnimSceneIn input)
 	_bone = GetBoneMatrix(3, input.Bone);
 	output.Pos += _weight * mul(myPos, _bone);
 
-	////NormalMap
-	float3 tang = normalize(input.Tangent);
+	//Normal
+	float4 myNorm = float4(input.Normal, 0.0);
+	output.Normal = float4(0,0,0,0);
 
-	float3 n = normalize(input.Normal);
-	float3 t = normalize(tang - dot(tang, n)*n);
+	float _nweight = input.Weight[0];
+	output.Normal += _nweight * mul(myNorm, _bone);
+
+	_nweight = input.Weight[1];
+	_bone = GetBoneMatrix(1, input.Bone);
+	output.Normal += _nweight * mul(myNorm, _bone);
+
+	_nweight = input.Weight[2];
+	_bone = GetBoneMatrix(2, input.Bone);
+	output.Normal += _nweight * mul(myNorm, _bone);
+
+	_nweight = input.Weight[3];
+	_bone = GetBoneMatrix(3, input.Bone);
+	output.Normal += _nweight * mul(myNorm, _bone);
+	//Normal End
 	
 	// transform the point into viewProjection space
 	output.Pos = mul( output.Pos, mul(modelMatrix, viewProjection) );
 	output.UVCoord = input.UVCoord;
 	
 	//variables needed for lighting
-	output.Normal = normalize(mul(input.Normal, modelMatrix));
-	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
-
-	output.Tangent = float4(t, 0);
+	output.Normal = normalize(mul(output.Normal, modelMatrix));
+	output.EyeCoord = mul(float4(output.Pos.xyz,1.0), modelMatrix);
+	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).r);
+	//output.Tangent = float4(t, 0);
 
 	return output;
 }
@@ -441,7 +475,18 @@ technique10 DeferredAnimationSample
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
 		
-	    SetDepthStencilState( EnableDepth, 0 );
+	    SetDepthStencilState( gubbStencil, 0 );
+	    SetRasterizerState( rs );
+    }
+    pass p1
+    {
+		SetBlendState( SrcAlphaBlendRoad, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSAnimScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PSSuperScene() ) );
+		
+	    SetDepthStencilState( houseStencil, 0 );
 	    SetRasterizerState( rs );
     }
 }
@@ -457,6 +502,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
+	float4 norm = normalize(mul(input.Normal, modelMatrix));
 	output.Normal = normalize(mul(input.Normal, modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
 
@@ -515,14 +561,14 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	output.Diffuse += texColors[6]* blendSample2.z;
 	output.Diffuse += texColors[7]* blendSample2.w;
 
-	output.Normal =  normals[0] * blendSample1.x;
-	output.Normal += normals[1] * blendSample1.y;
-	output.Normal += normals[2] * blendSample1.z;
-	output.Normal += normals[3] * blendSample1.w;
-	output.Normal += normals[4] * blendSample2.x;
-	output.Normal += normals[5] * blendSample2.y;
-	output.Normal += normals[6] * blendSample2.z;
-	output.Normal += normals[7] * blendSample2.w;
+	output.Normal.xyz =  normals[0] * blendSample1.x;
+	output.Normal.xyz += normals[1] * blendSample1.y;
+	output.Normal.xyz += normals[2] * blendSample1.z;
+	output.Normal.xyz += normals[3] * blendSample1.w;
+	output.Normal.xyz += normals[4] * blendSample2.x;
+	output.Normal.xyz += normals[5] * blendSample2.y;
+	output.Normal.xyz += normals[6] * blendSample2.z;
+	output.Normal.xyz += normals[7] * blendSample2.w;
 
 	output.Normal = normalize(mul(output.Normal, modelMatrix));
 
@@ -534,6 +580,22 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	output.Tangent.w += specular[5].w * blendSample2.y;
 	output.Tangent.w += specular[6].w * blendSample2.z;
 	output.Tangent.w += specular[7].w * blendSample2.w;
+
+
+	output.Normal.w = terrainNormalMaps[0].Sample(linearSampler, input.UVCoord).w;
+
+	output.Normal = (2.0f * output.Normal) - 1.0f;
+
+	float3 n = float3(0, 1, 0);
+
+	float3 v = cameraPos - input.EyeCoord;
+
+	float3x3 tbn = compute_tangent_frame(n, -v, input.UVCoord);
+
+	float3 nNormal = normalize(mul(output.Normal, tbn));
+	output.Normal.xyz = nNormal;
+
+	//output.Normal.z *= -1;
 
 
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -550,7 +612,7 @@ technique10 RenderTerrain
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader( ps_4_0, drawTerrainPs()));
 		
-	    SetDepthStencilState(DisableDepth, 0);
+	    SetDepthStencilState(EnableDepth, 0);
 	    SetRasterizerState(rs);
     }
 }

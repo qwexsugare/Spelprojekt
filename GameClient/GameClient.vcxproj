@@ -79,6 +79,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Program Files %28x86%29\SFML-1.6\include\SFML;C:\Users\Anders\Documents\Spelprojekt\SoundEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;$(ProjectDir)\include;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;$(IncludePath);C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
+    <IncludePath>C:\Users\nepo\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Anders\Documents\Spelprojekt\SoundEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;$(ProjectDir)\include;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;$(IncludePath);C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
+    <IncludePath>C:\Users\Anders\Documents\Spelprojekt\SoundEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\SoundEngine;$(ProjectDir)\include;C:\Users\Marcus\Documents\Visual Studio 2012\Projects\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\SoundEngine;C:\Users\Diceling\Documents\GitHub\Spelprojekt\GraphicsEngine;C:\Program Files %28x86%29\SFML-1.6\include;$(WindowsSDK_IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(SolutionDir)\GraphicsEngine;C:\Users\Simon\Documents\GitHub\Spelprojekt\GraphicsEngine;$(IncludePath);C:\Users\Anders\Documents\Spelprojekt\GraphicsEngine;C:\Users\Alve\Documents\Visual Studio 2012\Projects\Spelprojekt\GraphicsEngine</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\SFML-1.6\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -152,7 +154,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aim.cpp" />
-    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -162,9 +163,16 @@
     <ClCompile Include="ClientEntityHandler.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="ClientSkillEffect.cpp" />
+    <ClCompile Include="DeathClientSkillEffect.cpp" />
+    <ClCompile Include="DeathPulseTurret.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
+    <ClCompile Include="FrostTurretProjectileClientSkillEffect.cpp" />
+    <ClCompile Include="FrostTurret.cpp" />
+    <ClCompile Include="FrostTurretProjectile.cpp" />
+    <ClCompile Include="HypnoticStareClientSkillEffect.cpp" />
     <ClCompile Include="IdleClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
+    <ClCompile Include="MeleeAOEClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="CloudOfDarkness.cpp" />
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp" />
@@ -234,6 +242,7 @@
     <ClCompile Include="NetworkEntityMessage.cpp" />
     <ClCompile Include="NetworkHeroInitMessage.cpp" />
     <ClCompile Include="NetworkHeroSelectedMessage.cpp" />
+    <ClCompile Include="NetworkInitEntityMessage.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
     <ClCompile Include="NetworkReadyMessage.cpp" />
     <ClCompile Include="NetworkRemoveActionTargetMessage.cpp" />
@@ -242,6 +251,7 @@
     <ClCompile Include="NetworkSkillBoughtMessage.cpp" />
     <ClCompile Include="NetworkSkillUsedMessage.cpp" />
     <ClCompile Include="NetworkStartGameMessage.cpp" />
+    <ClCompile Include="NetworkUpdateEntityHealth.cpp" />
     <ClCompile Include="NetworkUseActionMessage.cpp" />
     <ClCompile Include="NetworkUseActionPositionMessage.cpp" />
     <ClCompile Include="NetworkUseActionTargetMessage.cpp" />
@@ -251,6 +261,9 @@
     <ClCompile Include="PhysicalResistance.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoisonStrike.cpp" />
+    <ClCompile Include="PoisonTurret.cpp" />
+    <ClCompile Include="PoisonTurretProjectile.cpp" />
+    <ClCompile Include="PoisonTurretProjectileClientSkillEffect.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RangedAttack.cpp" />
@@ -289,7 +302,7 @@
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="TheMentalist.cpp" />
     <ClCompile Include="ThunderSteed.cpp" />
-    <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="Turret.cpp" />
     <ClCompile Include="TowerPlacer.cpp" />
     <ClCompile Include="UnitEntity.cpp" />
   </ItemGroup>
@@ -303,7 +316,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aim.h" />
-    <ClInclude Include="Arrow.h" />
     <ClInclude Include="ArrowClientSkillEffect.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
@@ -314,9 +326,16 @@
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="ClientSkillEffect.h" />
     <ClInclude Include="ClientSkillEffects.h" />
+    <ClInclude Include="DeathClientSkillEffect.h" />
+    <ClInclude Include="DeathPulseTurret.h" />
     <ClInclude Include="DelayedDamage.h" />
+    <ClInclude Include="FrostTurretProjectileClientSkillEffect.h" />
+    <ClInclude Include="FrostTurret.h" />
+    <ClInclude Include="FrostTurretProjectile.h" />
+    <ClInclude Include="HypnoticStareClientSkillEffect.h" />
     <ClInclude Include="IdleClientSkillEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />
+    <ClInclude Include="MeleeAOEClientSkillEffect.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="CloudOfDarkness.h" />
     <ClInclude Include="CloudOfDarknessClientSkillEffect.h" />
@@ -390,6 +409,7 @@
     <ClInclude Include="NetworkEntityMessage.h" />
     <ClInclude Include="NetworkHeroInitMessage.h" />
     <ClInclude Include="NetworkHeroSelectedMessage.h" />
+    <ClInclude Include="NetworkInitEntityMessage.h" />
     <ClInclude Include="NetworkMessage.h" />
     <ClInclude Include="NetworkReadyMessage.h" />
     <ClInclude Include="NetworkRemoveActionTargetMessage.h" />
@@ -398,6 +418,7 @@
     <ClInclude Include="NetworkSkillBoughtMessage.h" />
     <ClInclude Include="NetworkSkillUsedMessage.h" />
     <ClInclude Include="NetworkStartGameMessage.h" />
+    <ClInclude Include="NetworkUpdateEntityHealth.h" />
     <ClInclude Include="NetworkUseActionMessage.h" />
     <ClInclude Include="NetworkUseActionPositionMessage.h" />
     <ClInclude Include="NetworkUseActionTargetMessage.h" />
@@ -409,6 +430,9 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerInfo.h" />
     <ClInclude Include="PoisonStrike.h" />
+    <ClInclude Include="PoisonTurret.h" />
+    <ClInclude Include="PoisonTurretProjectile.h" />
+    <ClInclude Include="PoisonTurretProjectileClientSkillEffect.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RangedAttack.h" />
@@ -448,8 +472,9 @@
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="TheMentalist.h" />
     <ClInclude Include="ThunderSteed.h" />
-    <ClInclude Include="Tower.h" />
+    <ClInclude Include="Turret.h" />
     <ClInclude Include="TowerPlacer.h" />
+    <ClInclude Include="Turrets.h" />
     <ClInclude Include="UnitEntity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

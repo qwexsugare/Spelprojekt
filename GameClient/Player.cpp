@@ -9,6 +9,8 @@ Player::Player(unsigned int id)
 	this->m_messageQueue = new MessageQueue();
 	m_hero = NULL;
 	this->m_ready = false;
+	m_selectedHeroType = Hero::NONE;
+	this->m_attributesBought = 0;
 }
 
 Player::~Player()
@@ -18,36 +20,36 @@ Player::~Player()
 
 void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
 {
-	if(m_hero)
-		EntityHandler::removeEntity(m_hero);
+	m_selectedHeroType = _type;
+	m_selectedWeaponType = _weaponType;
+}
 
-	switch(_type)
+void Player::spawnHero(FLOAT3 _position)
+{
+	switch(m_selectedHeroType)
 	{
 	case Hero::ENGINEER:
-		this->m_hero = new Engineer(this->m_id, _weaponType);
+		this->m_hero = new Engineer(this->m_id, m_selectedWeaponType);
 		break;
 	case Hero::DOCTOR:
-		this->m_hero = new Doctor(this->m_id, _weaponType);
+		this->m_hero = new Doctor(this->m_id, m_selectedWeaponType);
 		break;
 	case Hero::RED_KNIGHT:
-		this->m_hero = new RedKnight(this->m_id, _weaponType);
+		this->m_hero = new RedKnight(this->m_id, m_selectedWeaponType);
 		break;
 	case Hero::THE_MENTALIST:
-		this->m_hero = new TheMentalist(this->m_id, _weaponType);
+		this->m_hero = new TheMentalist(this->m_id, m_selectedWeaponType);
 		break;
 	case Hero::OFFICER:
-		this->m_hero = new Officer(this->m_id, _weaponType);
+		this->m_hero = new Officer(this->m_id, m_selectedWeaponType);
 		break;
 	}
 	
-	this->m_hero->setPosition(FLOAT3(60.0f, 0.0f, 30.0f));
-	
-	EntityHandler::addEntity(m_hero);
-	m_hero->activateAllPassiveSkills();
-}
+	this->m_hero->setPosition(_position);
 
-void Player::spawnHero()
-{
+	
+	//EntityHandler::addEntity(m_hero);
+
 	vector<Skill*> skills = this->m_hero->getSkills();
 
 	for(int i = 0; i < skills.size(); i++)
@@ -55,12 +57,16 @@ void Player::spawnHero()
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(skills[i]->getId(), this->m_id, this->m_resources));
 	}
 
+	EntityHandler::addEntity(m_hero);
+
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_hero->getId(), this->m_hero->getPosition()));
+
+	m_hero->activateAllPassiveSkills();
 }
 
-Hero::HERO_TYPE Player::getHeroType()const
+Hero::HERO_TYPE Player::getSelectedHeroType()const
 {
-	return m_hero->getHeroType();
+	return m_selectedHeroType;
 }
 
 Hero* Player::getHero()
@@ -75,27 +81,52 @@ int Player::getId()const
 
 void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 {
-	if(this->m_hero->getNrOfSkills() < 6)
+	if(this->m_hero->getNrOfSkills() < 6 || bsm.getActionId() == Skill::STRENGTH || bsm.getActionId() == Skill::AGILITY || bsm.getActionId() == Skill::WITS || bsm.getActionId() == Skill::FORTITUDE)
 	{
 		bool skillBought = false;
 		Skill* a = NULL;
+		int attributeCost = 100 * (pow(1.5f, this->m_attributesBought));
 
 		switch(bsm.getActionId())
 		{
 		case Skill::STRENGTH:
-
+			if(this->m_resources >= attributeCost)
+			{
+				this->m_hero->increaseStrength(1);
+				this->m_attributesBought++;
+				this->m_resources = this->m_resources - attributeCost;
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::STRENGTH, this->m_id, this->m_resources));
+			}
 			break;
 
 		case Skill::AGILITY:
-
+			if(this->m_resources >= attributeCost)
+			{
+				this->m_hero->increaseAgility(1);
+				this->m_attributesBought++;
+				this->m_resources = this->m_resources - attributeCost;
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::AGILITY, this->m_id, this->m_resources));
+			}
 			break;
 
 		case Skill::WITS:
-
+			if(this->m_resources >= attributeCost)
+			{
+				this->m_hero->increaseWits(1);
+				this->m_attributesBought++;
+				this->m_resources = this->m_resources - attributeCost;
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::WITS, this->m_id, this->m_resources));
+			}
 			break;
 
 		case Skill::FORTITUDE:
-
+			if(this->m_resources >= attributeCost)
+			{
+				this->m_hero->increaseFortitude(1);
+				this->m_attributesBought++;
+				this->m_resources = this->m_resources - attributeCost;
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::FORTITUDE, this->m_id, this->m_resources));
+			}	
 			break;
 
 		case Skill::AIM:
@@ -263,18 +294,36 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 	case Skill::MOVE:
 		this->m_hero->setNextPosition(usm.getPosition());
 		break;
-
-	case Skill::DEATH_TOWER:
+		
+	case Skill::DEATH_PULSE_TURRET:
 		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		this->m_resources = this->m_resources - DeathPulseTurret::COST;
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+		break;
+	case Skill::FROST_TURRET:
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		this->m_resources = this->m_resources - FrostTurret::COST;
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+		break;
+	case Skill::POISON_TURRET:
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		this->m_resources = this->m_resources - PoisonTurret::COST;
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+		break;
+	case Skill::TESLA_CHAIN_TURRET:
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		this->m_resources = this->m_resources - TeslaChainTurret::COST;
+		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 
 	default:
-		Skill *s = this->m_hero->getSkill(usm.getActionId());
-
-		if(s != NULL)
+		if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
 		{
-			s->activate(usm.getPosition(), this->m_hero->getId());
-			this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s), s->getCooldown()));
+			Skill *s = this->m_hero->getSkills()[usm.getIndex()];
+			if(s->activate(usm.getPosition(), m_hero->getId()) == true)
+			{
+				this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
+			}
 		}
 
 		break;
@@ -283,12 +332,13 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 
 void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
-	Skill *s = this->m_hero->getSkill(usm.getActionId());
-
-	if(s != NULL)
+	if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
 	{
-		s->activate(this->m_hero->getId());
-		this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s), s->getCooldown()));
+		Skill *s = this->m_hero->getSkills()[usm.getIndex()];
+		if(s->activate(m_hero->getId()) == true)
+		{
+			this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
+		}
 	}
 }
 
@@ -301,12 +351,13 @@ void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 		break;
 
 	default:
-		Skill *s = this->m_hero->getSkill(usm.getActionId());
-
-		if(s != NULL)
+		if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
 		{
-			s->activate(usm.getTargetId(), m_hero->getId());
-			this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, this->m_hero->getSkillIndex(s), s->getCooldown()));
+			Skill *s = this->m_hero->getSkills()[usm.getIndex()];
+			if(s->activate(usm.getTargetId(), m_hero->getId()) == true)
+			{
+				this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
+			}
 		}
 
 		break;

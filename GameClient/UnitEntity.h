@@ -13,6 +13,8 @@ protected:
 	static const int MAX_WITS = 20;
 	static const int MAX_FORTITUDE = 20;
 
+	sf::Mutex m_mutex;
+
 	vector<Skill*> m_skills;
 	Skill* m_regularAttack;
 
@@ -51,10 +53,16 @@ protected:
 	unsigned int m_poisonCounter;
 	unsigned int m_deadlyStrikeChance;
 	bool m_swiftAsACatPowerfulAsABear;
+	float m_frostTurretSlowEffectTimer;
+	float m_frostTurretSlowEffectValue;
+	int m_poisonStacks;
 public:
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
-	~UnitEntity();
+	virtual ~UnitEntity();
+
+	void addPoisonStack();
+	void applyFrostTurretSlowEffect(float _value);
 	
 	void update(float dt);
 	virtual void updateSpecificUnitEntity(float dt) = 0;
@@ -71,6 +79,7 @@ public:
 	void increaseAgility(int _agility);
 	void increaseWits(int _wits);
 	void increaseFortitude(int _fortitude);
+	bool isSlowedByFrostTurret();
 	
 	void alterAttackSpeed(float _value);
 	void alterMentalDamage(float _value);
@@ -93,7 +102,7 @@ public:
 	int getAgility();
 	int getWits();
 	int getFortitude();
-	
+	int getPoisonStacks()const;
 	int getHealth();
 	int getMaxHealth();
 	float getMovementSpeed();

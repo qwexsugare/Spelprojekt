@@ -8,6 +8,7 @@ Animation::Animation()
 	D3DXMatrixIdentity(&this->hatMatrix);
 	D3DXMatrixIdentity(&this->rightHandMatrix);
 	D3DXMatrixIdentity(&this->leftHandMatrix);
+	this->waitAtEnd = false;
 }
 
 Animation::~Animation()
@@ -197,13 +198,20 @@ void Animation::RandomAnimationFunc(float dt)
 
 					if(itr->second.time >= (itr->second.skeletons[0].keys[itr->second.skeletons[0].keys.size()-1].time-offset)/fps)
 					{
-						itr->second.currentKey = 0;
-						itr->second.time = 0;
-						itr->second.numLoops--;
-						if(itr->second.numLoops == 0 && itr->second.numLoops != -1)
+						if(waitAtEnd == false)
 						{
-							itr->second.isAnimating = false;
-							prioAnimation = "";
+							itr->second.currentKey = 0;
+							itr->second.time = 0;
+							itr->second.numLoops--;
+							if(itr->second.numLoops == 0 && itr->second.numLoops != -1)
+							{
+								itr->second.isAnimating = false;
+								prioAnimation = "";
+							}
+						}
+						else
+						{
+							itr->second.time  = (itr->second.skeletons[0].keys[itr->second.skeletons[0].keys.size()-1].time-offset)/fps;
 						}
 					}
 					else
@@ -316,11 +324,12 @@ void Animation::UpdateSkeletonTexture()
 	}
 }
 
-void Animation::Play(string name, float speedMultiplier, Motion body)
+void Animation::Play(string name, bool waitAtEnd, float speedMultiplier, Motion body)
 {
 	this->animations[name].numLoops = 1;
 	this->animations[name].isAnimating = true;
 	this->prioAnimation = name;
+	this->waitAtEnd = waitAtEnd;
 }
 
 void Animation::PlayLoop(string name, int numberOfLoops, float speedMultiplier, Motion body, float overlapTime)
@@ -329,12 +338,17 @@ void Animation::PlayLoop(string name, int numberOfLoops, float speedMultiplier, 
 	this->animations[name].isAnimating = true;
 	this->animations[name].overlapTime = overlapTime;
 	this->currentAnimation = name;
+	this->waitAtEnd = false;
 }
-
 
 void Animation::Stop(string name, Motion body)
 {
 	this->animations[name].isAnimating = false;
+}
+
+string Animation::getPrioAnimation()
+{
+	return this->prioAnimation;
 }
 
 string Animation::getCurrentAnimation()

@@ -37,11 +37,12 @@ public:
 	BoundingSphere* getBs()const { return this->m_bs; }
 	DECLDIR FLOAT3 getPosition()const;
 	D3DXVECTOR2 getPosition2D()const;
+	DECLDIR FLOAT2 getPosition2DAsFloat2()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
-	Mesh* getMesh()const;
-	Mesh* getHat()const;
-	Mesh* getLeftHand()const;
+	DECLDIR Mesh* getMesh()const;
+	DECLDIR Mesh* getHat()const;
+	DECLDIR Mesh* getLeftHand()const;
 	DECLDIR Mesh* getRightHand()const;
 	string getTextureIndex()const { return m_textureIndex; }
 	string getGlowIndex()const { return m_glowIndex; }
@@ -56,7 +57,6 @@ public:
 	DECLDIR bool intersects(const BoundingOrientedBox& _obb)const;
 	DECLDIR bool intersects(const BoundingSphere& _bs)const;
 	DECLDIR bool intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const;
-	DECLDIR bool intersects(const Model& _model)const;
 	DECLDIR bool isStatic()const { return m_static; }
 	DECLDIR void move(FLOAT3 _distance);
 	DECLDIR void move(D3DXVECTOR3 _distance);
@@ -72,4 +72,6 @@ public:
 	DECLDIR void setScale(float x, float y, float z);
 	DECLDIR void setRotation(FLOAT3 _rotation);
 	DECLDIR void setStatic(bool _static);
+
+	DECLDIR FLOAT3 getLeftHandPosition();
 };

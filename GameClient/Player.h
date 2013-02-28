@@ -8,6 +8,11 @@
 #include "Projectile.h"
 #include "Skills.h"
 
+#include "DeathPulseTurret.h"
+#include "TeslaChainTurret.h"
+#include "PoisonTurret.h"
+#include "FrostTurret.h"
+
 #include "NetworkUseActionMessage.h"
 #include "NetworkUseActionPositionMessage.h"
 #include "NetworkUseActionTargetMessage.h"
@@ -20,17 +25,20 @@ class Player
 private:
 	unsigned int m_id;
 	unsigned int m_resources;
+	int m_attributesBought;
 
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;
+	Hero::HERO_TYPE m_selectedHeroType;
+	Hero::WEAPON_TYPE m_selectedWeaponType;
 public:
 	Player(unsigned int id);
 	~Player();
 	
 	void assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType);
-	void spawnHero();
-	Hero::HERO_TYPE getHeroType()const;
+	void spawnHero(FLOAT3 _position);
+	Hero::HERO_TYPE getSelectedHeroType()const;
 	int getId()const;
 	Hero* getHero();
 	void handleUseActionPositionMessage(NetworkUseActionPositionMessage usm);
@@ -39,7 +47,7 @@ public:
 	void handleBuySkillMessage(NetworkBuySkillMessage bsm);
 	void handleReadyMessage(NetworkReadyMessage rm);
 	void handleSelectHeroMessage(NetworkSelectHeroMessage shm);
-	bool hasChosenHero()const { return m_hero; }
+	bool hasChosenHero()const { return m_selectedHeroType != Hero::NONE; }
 	void update(float _dt);
 	MessageQueue *getMessageQueue();
 	void addResources(unsigned int resources);

@@ -5,19 +5,20 @@
 #include "UnitEntity.h"
 #include "ServerEntity.h"
 #include "EntityHandler.h"
+#include "Pathfinder.h"
 #include "Projectile.h"
-#include "MapHandler.h"
 #include "Path.h"
 #include "Skills.h"
 
 class Hero : public UnitEntity
 {
 public:
-	static enum HERO_TYPE {OFFICER, RED_KNIGHT, ENGINEER, DOCTOR, THE_MENTALIST};
-	static enum WEAPON_TYPE{DEFAULT, RANGED, MELEE};
-private:
+	static enum HERO_TYPE {OFFICER, RED_KNIGHT, ENGINEER, DOCTOR, THE_MENTALIST, NONE};
+	static enum WEAPON_TYPE{NO_WEAPON, RANGED, MELEE, AOE};
+protected:
 	FLOAT3 m_nextPosition;
 	FLOAT3 m_goalPosition;
+	FLOAT3 m_startPos;
 	bool m_reachedPosition;
 	bool m_reallyReachedPosition;
 
@@ -28,7 +29,10 @@ private:
 	int m_pathCounter;
 
 	HERO_TYPE m_heroType;
+	WEAPON_TYPE m_weaponType;
 	int m_playerId;
+	UpdateEntityMessage* getUpdateEntityMessage();
+	float m_attackRange;
 public:
 	Hero();
 	Hero(HERO_TYPE _heroType, int _playerId);
@@ -40,6 +44,8 @@ public:
 	void setNextPosition(FLOAT3 _nextPosition);
 	void setTarget(unsigned int _target);
 	FLOAT3 getDirection();
+	FLOAT3 getEndPos();
+	unsigned short getWeaponType();
 };
 
 #endif

@@ -43,6 +43,17 @@ struct DECLDIR FLOAT2
 		return FLOAT2(x*_k, y*_k);
 	}
 
+	template<typename T>
+	FLOAT2 operator/(const T& _k)const
+	{
+		return FLOAT2(x/_k, y/_k);
+	}
+
+	float length()const
+	{
+		return sqrt(this->x * this->x + this->y * this->y);
+	}
+
 	D3DXVECTOR2 toD3DXVector()
 	{
 		return D3DXVECTOR2(this->x, this->y);
@@ -75,6 +86,14 @@ struct DECLDIR FLOAT3
 	FLOAT3 operator-(const FLOAT3& _k)const
 	{
 		return FLOAT3(x-_k.x, y-_k.y, z-_k.z);
+	}
+	bool operator==(const FLOAT3& _k)const
+	{
+		return (x==_k.x&& y==_k.y&& z==_k.z);
+	}
+	bool operator!=(const FLOAT3& _k)const
+	{
+		return (x!=_k.x&& y!=_k.y&& z!=_k.z);
 	}
 
 	template<typename T>

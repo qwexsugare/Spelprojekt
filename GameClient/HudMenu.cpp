@@ -1,7 +1,7 @@
 #include "HudMenu.h"
 
 
-HudMenu::HudMenu(Client *_network)
+HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 {
 	this->m_network = _network;
 	m_Chat = false;
@@ -16,11 +16,26 @@ HudMenu::HudMenu(Client *_network)
 	m_Resources = 200000;
 	m_Chat = false;
 	this->m_skillWaitingForTarget = -1;
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
+	this->m_nrOfAttributesBought = 0;
+
+	switch(_heroType)
+	{
+	case Hero::OFFICER:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	case Hero::DOCTOR:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	case Hero::ENGINEER:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	case Hero::THE_MENTALIST:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	case Hero::RED_KNIGHT:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),6));
+		break;
+	}
 	
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Main_Buttons_SkillBar.png", FLOAT2(-1+(0.102083333f*(m_NumberOfSkills-1)),  -0.814814815f),  FLOAT2(1.03125f, 0.344444444f),2));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-Map.png",FLOAT2(0.79f,  0.6f),FLOAT2(0.421875f, 0.796296296f),5));
@@ -28,7 +43,6 @@ HudMenu::HudMenu(Client *_network)
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-Map.png", FLOAT2(0,0),  FLOAT2(2,2),3));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\LowerHud-Bar.png", FLOAT2(-0.5f,-0.88f),  FLOAT2(1.030208333f,0.272222222f),0));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\GUI-HealtbarHud.png", FLOAT2(-0.876f,-0.3293f),  FLOAT2(0.245833333f,1.344f),5));
-	this->m_Sprite.push_back(g_graphicsEngine->createSpriteSheet("menu_textures\\HealthBar.dds",FLOAT2(-0.9375f,  -0.240740741f),FLOAT2(0.079166667f, 0.755555556f),INT2(10,1),2));
 
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Tower.png", FLOAT2(-0.56f,1.8f),  FLOAT2(0.260416667f,1.451851852f),10));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Strength.png", FLOAT2(-0.28f,1.8f),  FLOAT2(0.260416667f,1.451851852f),10));
@@ -57,23 +71,13 @@ HudMenu::HudMenu(Client *_network)
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Wits.png", FLOAT2(0.28f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Fortitude.png", FLOAT2(0.56f,1.6f),  FLOAT2(0.260416667f,1.451851852f),10));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),5));
-
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-1.png", FLOAT2(-0.938f, -0.64f),  FLOAT2(0.083333333f,0.148148148f),6));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Beast-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.938f, -0.64f),  FLOAT2(0.083333333f,0.148148148f),6));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
-	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f,0.148148148f),5));
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.95f,-0.50f),FLOAT2(0.033333333f,0.059259259f),"menu_textures\\Button-Unlock.png","",0,0,1,11,300);
 	
 	this->m_Buttons[1] = new Button();
-	this->m_Buttons[1]->Init(FLOAT2(-0.94f,0.94f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_All.png","",0,0,1,11,100);	
+	this->m_Buttons[1]->Init(FLOAT2(-0.94f,0.94f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_All.png","",0,0,1,11,100);
 /*
 	this->m_Buttons[1] = new Button();
 	this->m_Buttons[1]->Init(FLOAT2(-0.56f,0.94f),FLOAT2(0.061458333f,0.111111111f),"menu_textures\\Upgradebar_Buy_Tower.png","",0,0,1,11,100);	
@@ -102,7 +106,6 @@ HudMenu::HudMenu(Client *_network)
 	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.025f, -0.883333333f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,4,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
-	m_Sprite[0]->playAnimation(INT2(0,0),INT2(9,0),true,10);
 	m_DontChange = false;
 
 	this->m_LabelInput = new TextInput("text4.png",INT2(1100,1150),55);
@@ -115,6 +118,7 @@ HudMenu::HudMenu(Client *_network)
 	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1100,1060),55);
 	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1100,1030),55);
 
+	//Shop buttons
 	for(int i = 0; i < 20; i++)
 	{
 		this->m_shopButtons.push_back(new Button());
@@ -122,21 +126,21 @@ HudMenu::HudMenu(Client *_network)
 
 	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TOWER),"0",0,0,1,12,100,0,INT2(422,80), false, Skill::TOWER);
 	this->m_shopButtons[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_LIFE),"3500",0,0,1,12,100,3500,INT2(422,200), false, Skill::TURRET_LIFE);
-	this->m_shopButtons[2]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::STRENGTH),"0",0,0,1,12,100,0,INT2(692,80), false, Skill::STRENGTH);
+	this->m_shopButtons[2]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::STRENGTH),"100",0,0,1,12,100,0,INT2(692,80), false, Skill::STRENGTH);
 	this->m_shopButtons[3]->Init(FLOAT2(-0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::PHYSICAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(692,200), false, Skill::PHYSICAL_RESISTANCE);
 	this->m_shopButtons[4]->Init(FLOAT2(-0.34f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::LIFESTEALING_STRIKE),"2200",0,0,1,12,100,2200,INT2(692,324), false, Skill::LIFESTEALING_STRIKE);
 	this->m_shopButtons[5]->Init(FLOAT2(-0.34f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::STUNNING_STRIKE),"2400",0,0,1,12,100,2400,INT2(692,440), false, Skill::STUNNING_STRIKE);
 	this->m_shopButtons[6]->Init(FLOAT2(-0.34f, 0.0f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::DEMONIC_PRESENCE),"4000",0,0,1,12,100,4000, INT2(692,560), false, Skill::DEMONIC_PRESENCE);
-	this->m_shopButtons[7]->Init(FLOAT2(-0.06f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::AGILITY),"0",0,0,1,12,100,0,INT2(1920/2,80), false, Skill::AGILITY);
+	this->m_shopButtons[7]->Init(FLOAT2(-0.06f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::AGILITY),"100",0,0,1,12,100,0,INT2(1920/2,80), false, Skill::AGILITY);
 	this->m_shopButtons[8]->Init(FLOAT2(-0.06f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TELEPORT),"500",0,0,1,12,100,500,INT2(1920/2,200), false, Skill::TELEPORT);
 	this->m_shopButtons[9]->Init(FLOAT2(-0.06f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::AIM),"1100",0,0,1,12,100,1100,INT2(1920/2,324), false, Skill::AIM);
 	this->m_shopButtons[10]->Init(FLOAT2(-0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::DEADLY_STRIKE),"2000",0,0,1,12,100,2000,INT2(1920/2,440), false, Skill::DEADLY_STRIKE);
-	this->m_shopButtons[11]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WITS),"0",0,0,1,12,100,0,INT2(1228,80), false, Skill::WITS);
+	this->m_shopButtons[11]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WITS),"100",0,0,1,12,100,0,INT2(1228,80), false, Skill::WITS);
 	this->m_shopButtons[12]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::POISON_STRIKE),"1700",0,0,1,12,100,1700,INT2(1228,200), false, Skill::POISON_STRIKE);
 	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HEALING_TOUCH),"1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH);
 	this->m_shopButtons[13]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CHAIN_STRIKE),"2500",0,0,1,12,100,2500,INT2(1228,440), false, Skill::CHAIN_STRIKE);
 	this->m_shopButtons[14]->Init(FLOAT2(0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CLOUD_OF_DARKNESS),"3500",0,0,1,12,100,3500,INT2(1228,560), false, Skill::CLOUD_OF_DARKNESS);
-	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::FORTITUDE),"0",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE);
+	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::FORTITUDE),"100",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE);
 	this->m_shopButtons[17]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::GREED),"700",0,0,1,12,100,700,INT2(1498,200), false, Skill::GREED);
 	this->m_shopButtons[18]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::MENTAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(1498,324), false, Skill::MENTAL_RESISTANCE);
 	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WALL),"3000",0,0,1,12,100,3000,INT2(1498,440), false, Skill::WALL);
@@ -160,10 +164,52 @@ HudMenu::HudMenu(Client *_network)
 
 	this->m_shopVisible = false;
 	this->displayShop(false);
+
+	//Healthbar
+	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.240740741f);
+	this->m_healthBar = g_graphicsEngine->createSpriteSheet("menu_textures\\HealthBar.dds", this->m_fullHealthPos, FLOAT2(0.079166667f, 0.755555556f), INT2(10,1),2);
+	this->m_healthBar->playAnimation(INT2(0,0),INT2(9,0),true,10);
+
+	//Towers
+	int nrOfTowers = 4;
+
+	for(int i = 0; i < nrOfTowers; i++)
+	{
+		this->m_towerButtons.push_back(new Button());
+	}
+
+	this->m_towerButtons[0]->Init(FLOAT2(0 * 0.125f + 0.2f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::TESLA_CHAIN_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::TESLA_CHAIN_TURRET);
+	this->m_towerButtons[1]->Init(FLOAT2(1 * 0.125f + 0.2f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::FROST_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::FROST_TURRET);
+	this->m_towerButtons[2]->Init(FLOAT2(2 * 0.125f + 0.2f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::POISON_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::POISON_TURRET);
+	this->m_towerButtons[3]->Init(FLOAT2(3 * 0.125f + 0.2f, -0.883333333f-0.004f), FLOAT2(0.079166667f,0.140740741f), this->m_skillHolder.getSkill(Skill::DEATH_PULSE_TURRET), "", 0.0f, 0.0f, 1.0f, 3, 100, 0, INT2(0,0), false, Skill::DEATH_PULSE_TURRET);
 }
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 {
-	if(m_Chat == false)
+	if(this->m_placingTower == true)
+	{
+		D3DXVECTOR3 pickDir;
+		D3DXVECTOR3 pickOrig;
+		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+		float k = (-pickOrig.y)/pickDir.y;
+		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+		this->m_towerModel->setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+
+		if(g_mouse->isLButtonPressed() == true)
+		{
+			g_graphicsEngine->removeModel(this->m_towerModel);
+
+			this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_towerId, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), 0));	
+			this->m_placingTower = false;
+		}
+		else if(g_mouse->isRButtonPressed() == true)
+		{
+			g_graphicsEngine->removeModel(this->m_towerModel);
+			this->m_placingTower = false;
+		}
+	}
+	else if(m_Chat == false)
 	{
 			float max = -0.897916667f+0.001041667f+(0.102083333f*6)+0.025f;
 
@@ -206,7 +252,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 
 					float k = (-pickOrig.y)/pickDir.y;
 					D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-					this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z)));		
+					this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), this->m_buttonIndex));		
 				}
 				else if(m_skillWaitingForTarget == Skill::HEALING_TOUCH || m_skillWaitingForTarget == Skill::HYPNOTIC_STARE || m_skillWaitingForTarget == Skill::CHAIN_STRIKE)
 				{
@@ -219,13 +265,13 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					{
 						if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
 						{
-							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id));
+							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
 							entityIndex = _entities.size();
 						}
 					}
-
 				}
 				this->m_skillWaitingForTarget = -1;
+				g_mouse->getCursor()->setFrame(Cursor::DEFAULT, 3);
 			}
 
 			for(int i = 0; i < m_NumberOfSkills; i++)
@@ -239,16 +285,69 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					{
 						this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
 						this->m_buttonIndex = i;
+
+						switch(this->m_skillWaitingForTarget)
+						{
+						case Skill::CLOUD_OF_DARKNESS:
+							g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
+							break;
+						case Skill::HEALING_TOUCH:
+							g_mouse->getCursor()->setFrame(Cursor::HEALING_TOUCH, 3);
+							break;
+						case Skill::TELEPORT:
+							g_mouse->getCursor()->setFrame(Cursor::TELEPORT, 3);
+							break;
+						case Skill::CHAIN_STRIKE:
+							g_mouse->getCursor()->setFrame(Cursor::CHAIN_STRIKE, 3);
+							break;
+						case Skill::HYPNOTIC_STARE:
+							g_mouse->getCursor()->setFrame(Cursor::HYPNOTIC_STARE, 3);
+							break;
+						}
 					}
 					else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
 						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)
 					{
-						this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId()));
+						this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId(), i));
 					}
 				}
 			}
 
+			for(int i = 0; i < this->m_towerButtons.size(); i++)
+			{
+				this->m_towerButtons[i]->Update();
+
+				if(this->m_towerButtons[i]->Clicked() == 1)
+				{
+					//Go into tower placing mode
+					this->m_placingTower = true;
+					this->m_towerId = this->m_towerButtons[i]->GetID();
+
+					ModelIdHolder m;
+
+					switch(this->m_towerId)
+					{
+					case Skill::DEATH_PULSE_TURRET:
+						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+						break;
+					case Skill::TESLA_CHAIN_TURRET:
+						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+						break;
+					case Skill::FROST_TURRET:
+						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+						break;
+					case Skill::POISON_TURRET:
+						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+						break;
+					}
+
+					this->m_towerModel->setAlpha(0.5f);
+				}
+			}
+
 			for(int i = 0; i < m_Buttons.size(); i++)
+
+
 			{
 				this->m_Buttons[i]->Update();
 			}
@@ -365,8 +464,16 @@ HudMenu::~HudMenu(void)
 		delete this->m_Chattext[i];
 		this->m_Chattext[i] = NULL;
 	}
+
+	for(int i = 0; i < this->m_towerButtons.size(); i++)
+	{
+		delete this->m_towerButtons[i];
+	}
+
 	delete this->m_ResourceLabel;
 	this->m_ResourceLabel = NULL;
+
+	g_graphicsEngine->removeSpriteSheet(this->m_healthBar);
 }
 
 void  HudMenu::UpdateShop()
@@ -411,9 +518,29 @@ void HudMenu::addSkill(unsigned int _skillId)
 {
 	if(this->m_skillHolder.getSkill(_skillId) != "")
 	{
-		this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
-		this->m_NumberOfSkills++;
-		this->m_DontChange = false;
+		if(_skillId == Skill::STRENGTH || _skillId == Skill::AGILITY || _skillId == Skill::WITS || _skillId == Skill::FORTITUDE)
+		{
+			this->m_nrOfAttributesBought++;
+			int cost = 100 * (pow(1.5f, this->m_nrOfAttributesBought));
+
+			stringstream ss;
+			ss << cost;
+			this->m_shopButtons[2]->setText(ss.str());
+			this->m_shopButtons[7]->setText(ss.str());
+			this->m_shopButtons[11]->setText(ss.str());
+			this->m_shopButtons[16]->setText(ss.str());
+
+			this->m_disabledShopButtons[2]->setText(ss.str());
+			this->m_disabledShopButtons[7]->setText(ss.str());
+			this->m_disabledShopButtons[11]->setText(ss.str());
+			this->m_disabledShopButtons[16]->setText(ss.str());
+		}
+		else
+		{
+			this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
+			this->m_NumberOfSkills++;
+			this->m_DontChange = false;
+		}
 	}
 }
 
@@ -452,4 +579,9 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 	{
 		this->m_SkillButtons[index]->setCooldown(cooldown);
 	}
+}
+
+void HudMenu::setHealth(float health)
+{
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.565555556f));
 }

@@ -195,6 +195,11 @@ void Button::setVisible(bool _visible)
 	this->m_Label->setVisible(_visible);
 }
 
+void Button::setText(string _text)
+{
+	this->m_Label->setText(_text);
+}
+
 FLOAT2 Button::getPos()
 {
 	return this->m_Pos;
