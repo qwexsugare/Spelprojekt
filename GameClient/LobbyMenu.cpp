@@ -109,22 +109,27 @@ void LobbyMenu::Update(float _dt)
 	if(Character0IsDown())
 	{
 		Change = 1;
+		m_Character0 = true;
 	}
 	if(Character1IsDown())
 	{
 		Change = 1;
+		m_Character1 = true;
 	}
 	if(Character2IsDown())
 	{
 		Change = 1;
+		m_Character2 = true;
 	}
 	if(Character3IsDown())
 	{
 		Change = 1;
+		m_Character3 = true;
 	}
 	if(Character4IsDown())
 	{
 		Change = 1;
+		m_Character4 = true;
 	}
 	this->m_LabelInput->update(_dt);
 	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
