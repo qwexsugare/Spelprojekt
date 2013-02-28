@@ -1,4 +1,4 @@
-#include "FrostTurretProjectileClientSkillEffect.h"
+#include "PoisonTurretProjectileClientSkillEffect.h"
 #include "SoundWrapper.h"
 #include "Graphics.h"
 #include "ClientEntityHandler.h"
@@ -6,7 +6,7 @@
 #include "SpeechManager.h"
 #include "MyAlgorithms.h"
 
-FrostTurretProjectileClientSkillEffect::FrostTurretProjectileClientSkillEffect(FLOAT3 _position, unsigned int _targetId)
+PoisonTurretProjectileClientSkillEffect::PoisonTurretProjectileClientSkillEffect(FLOAT3 _position, unsigned int _targetId)
 {
 	m_active = true;
 	m_targetId = _targetId;
@@ -15,12 +15,12 @@ FrostTurretProjectileClientSkillEffect::FrostTurretProjectileClientSkillEffect(F
 	m_graphicalEffect->setAlpha(0.999f);
 }
 
-FrostTurretProjectileClientSkillEffect::~FrostTurretProjectileClientSkillEffect()
+PoisonTurretProjectileClientSkillEffect::~PoisonTurretProjectileClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_graphicalEffect);
 }
 
-void FrostTurretProjectileClientSkillEffect::update(float _dt)
+void PoisonTurretProjectileClientSkillEffect::update(float _dt)
 {
 	Entity* target = ClientEntityHandler::getEntity(m_targetId);
 	if(target)
@@ -62,7 +62,7 @@ void FrostTurretProjectileClientSkillEffect::update(float _dt)
 	}
 }
 
-bool FrostTurretProjectileClientSkillEffect::getActive()
+bool PoisonTurretProjectileClientSkillEffect::getActive()
 {
 	return m_active;
 }

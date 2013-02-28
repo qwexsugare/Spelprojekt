@@ -1,5 +1,6 @@
 #include "TeslaChainTurret.h"
 #include "Graphics.h"
+#include "EntityHandler.h"
 
 TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int turretUpgrade) : Turret(_position)
 {

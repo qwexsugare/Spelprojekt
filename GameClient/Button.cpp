@@ -1,6 +1,7 @@
 #include "Button.h"
 #include "Input.h"
 #include "Graphics.h"
+#include "SoundWrapper.h"
 
 Button::Button()
 {
@@ -53,6 +54,7 @@ void Button::Init(FLOAT2 _ScreenPos,
 	this->m_TextBox			=	_TextBox;
 	this->m_Label			=	new TextLabel(_TextName, "text1.png",INT2(m_TextPos.x, m_TextPos.y),100);
 	m_Button				=	g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
+	this->m_clickSound = createSoundHandle("buttons/PushButton.wav", false, false);
 }
 void Button::Update()
 {
@@ -76,6 +78,8 @@ void Button::Update()
 			{
 				this->m_ButtonReaction = 1;
 				this->m_Button->setCurrentFrame(INT2(1,0));
+
+				playSound(m_clickSound);
 			}
 			else if(g_mouse->isLButtonDown())
 			{
@@ -85,6 +89,7 @@ void Button::Update()
 			{
 				this->m_ButtonReaction = 2;
 				this->m_Button->setCurrentFrame(INT2(1,0));
+
 			}
 			else if(g_mouse->isRButtonDown())
 			{
@@ -145,6 +150,7 @@ Button::~Button()
 	this->m_Button = NULL;
 	delete this->m_Label;
 	this->m_Label = NULL;
+	deactivateSound(m_clickSound);
 }
 void Button::RemoveSprite()
 {

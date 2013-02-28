@@ -36,6 +36,7 @@ private:
 	int m_gridHeight;
 	int m_gridWidth;
 	bool** m_grid;
+	Map map;
 public:
 	static enum State {RUNNING, VICTORY, DEFEAT};
 

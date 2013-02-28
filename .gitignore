@@ -1647,3 +1647,10 @@ GameClient/MapHandler.cpp.orig.orig
 GameClient/models/Beast/Beast.BFish
 GameClient/models/FrostTurret/FrostTurret.BFish
 GameClient/models/LightningTurret/LightningTurret.BFish
+dev/fix.png
+dev/Untitled.jpg
+GameClient/audio/lorebook/Gathering.wav
+GameClient/audio/lorebook/Introduction.wav
+GameClient/audio/lorebook/Level1.wav
+GameClient/audio/lorebook/Level2.wav
+GameClient/audio/lorebook/TheWorld.wav

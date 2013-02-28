@@ -187,6 +187,70 @@ bool ServerQuadTreeNode::intersects(const ServerEntity* _serverEntity)const
 	return _serverEntity->intersects(*m_obb);
 }
 
+bool ServerQuadTreeNode::intersectsWithObject(const BoundingSphere& _bs)
+{
+	bool intersects = false;
+	
+	for(int i = 0; i < m_serverEntities.size() && !intersects; i++)
+	{
+		if(m_serverEntities[i]->intersects(_bs))
+		{
+			intersects = true;
+		}
+	}
+
+	if(!intersects && this->m_children[0])
+	{
+		intersects = this->m_children[0]->intersectsWithObject(_bs);
+		if(!intersects)
+		{
+			intersects = this->m_children[1]->intersectsWithObject(_bs);
+			if(!intersects)
+			{
+				intersects = this->m_children[2]->intersectsWithObject(_bs);
+				if(!intersects)
+				{
+					intersects = this->m_children[3]->intersectsWithObject(_bs);
+				}
+			}
+		}
+	}
+
+	return intersects;
+}
+
+bool ServerQuadTreeNode::intersectsWithObject(const BoundingOrientedBox& _obb)
+{
+	bool intersects = false;
+	
+	for(int i = 0; i < m_serverEntities.size() && !intersects; i++)
+	{
+		if(m_serverEntities[i]->intersects(_obb))
+		{
+			intersects = true;
+		}
+	}
+
+	if(!intersects && this->m_children[0])
+	{
+		intersects = this->m_children[0]->intersectsWithObject(_obb);
+		if(!intersects)
+		{
+			intersects = this->m_children[1]->intersectsWithObject(_obb);
+			if(!intersects)
+			{
+				intersects = this->m_children[2]->intersectsWithObject(_obb);
+				if(!intersects)
+				{
+					intersects = this->m_children[3]->intersectsWithObject(_obb);
+				}
+			}
+		}
+	}
+
+	return intersects;
+}
+
 bool ServerQuadTreeNode::removeServerEntity(ServerEntity* _serverEntity)
 {
 	bool removed = false;
