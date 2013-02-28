@@ -98,7 +98,7 @@ void PointLight::setPosition(FLOAT3 _position)
 	D3DXMatrixMultiply(&this->m_wvp[0], &viewMatrix, &projMatrix);
 
 	at = D3DXVECTOR3(0.0f, -1.0f, 0.0f) + eye;
-	up = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	up = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[1], &viewMatrix, &projMatrix);
 
@@ -108,7 +108,7 @@ void PointLight::setPosition(FLOAT3 _position)
 	D3DXMatrixMultiply(&this->m_wvp[2], &viewMatrix, &projMatrix);
 
 	at = D3DXVECTOR3(-1.0f, 0.0f, 0.0f) + eye;
-	up = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+	up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[3], &viewMatrix, &projMatrix);
 
@@ -118,7 +118,7 @@ void PointLight::setPosition(FLOAT3 _position)
 	D3DXMatrixMultiply(&this->m_wvp[4], &viewMatrix, &projMatrix);
 
 	at = D3DXVECTOR3(0.0f, 0.0f, -1.0f) + eye;
-	up = D3DXVECTOR3(-1.0f, 0.0f, 0.0f);
+	up = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 	D3DXMatrixMultiply(&this->m_wvp[5], &viewMatrix, &projMatrix);
 }

@@ -169,6 +169,7 @@
     <ClCompile Include="FrostTurretProjectile.cpp" />
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp" />
     <ClCompile Include="IdleClientSkillEffect.cpp" />
+    <ClCompile Include="LightningClientEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="MeleeAOEClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
@@ -330,6 +331,7 @@
     <ClInclude Include="FrostTurretProjectile.h" />
     <ClInclude Include="HypnoticStareClientSkillEffect.h" />
     <ClInclude Include="IdleClientSkillEffect.h" />
+    <ClInclude Include="LightningClientEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="MeleeAOEClientSkillEffect.h" />
     <ClInclude Include="MeleeAttack.h" />

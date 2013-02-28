@@ -23,6 +23,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECT
 	this->m_rightHand = NULL;
 	this->m_leftHand = NULL;
 	this->m_hat = NULL;
+	this->m_shadow = true;
 
 	if(_mesh->m_bs == NULL)
 	{
@@ -358,4 +359,14 @@ FLOAT3 Model::getLeftHandPosition()
 	{
 		return FLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 	}
+}
+
+void Model::setShadow(bool _shadow)
+{
+	this->m_shadow = _shadow;
+}
+
+bool Model::getShadow()
+{
+	return this->m_shadow;
 }

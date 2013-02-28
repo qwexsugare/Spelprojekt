@@ -155,7 +155,7 @@ PSSceneIn VSScene(VSSceneIn input)
 float calcShadow(float4 lightPos, Texture2D shadowmap)
 {
 	float shadowCoeff = 0.0f;
-	float shadowEpsilon = 0.0000001f;
+	float shadowEpsilon = 0.001f;
 
 	// Project the texture_ coords and scale/offset to [0, 1].
 	lightPos /= lightPos.w;
@@ -189,7 +189,7 @@ float calcShadow(float4 lightPos, Texture2D shadowmap)
 		shadowCoeff = lerp( lerp( s0, s1, lerps.x ), lerp( s2, s3, lerps.x ), lerps.y );
 	}
 
-	return 1.0f;
+	//return 1.0f;
 	return shadowCoeff;
 }
 
@@ -213,20 +213,20 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 	for(i = 0; i < nrOfPointLights; i++)
 	{
-		distVector = (lightPosition[nrOfShadowedPointLights + i] - position);
+		distVector = (lightPosition[i] - position);
 		distance = length(distVector);
-		attenuation = 1 / ((distance / lightRadius[nrOfShadowedPointLights + i] + 1) * (distance / lightRadius[nrOfShadowedPointLights + i] + 1));
+		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
 
-		ambientLight = ambientLight + la[nrOfShadowedPointLights + i];
-		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[nrOfShadowedPointLights + i]) * attenuation;
-		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[nrOfShadowedPointLights + i]) * attenuation;
+		ambientLight = ambientLight + la[i];
+		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation;
+		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation;
 	}
 
 	for(i = 0; i < nrOfShadowedPointLights; i++)
 	{
-		distVector = (lightPosition[i] - position);
+		distVector = (lightPosition[nrOfPointLights + i] - position);
 		distance = length(distVector);
-		attenuation = 1 / ((distance / lightRadius[i] + 1) * (distance / lightRadius[i] + 1));
+		attenuation = 1 / ((distance / lightRadius[nrOfPointLights + i] + 1) * (distance / lightRadius[nrOfPointLights + i] + 1));
 
 		float shadowCoeff = calcShadow(mul(position, pointLightWvps[i * 6]), pointLightShadowMaps[i * 6]);
 		shadowCoeff += calcShadow(mul(position, pointLightWvps[i * 6 + 1]), pointLightShadowMaps[i * 6 + 1]);
@@ -235,9 +235,9 @@ float4 PSScene(PSSceneIn input) : SV_Target
 		shadowCoeff += calcShadow(mul(position, pointLightWvps[i * 6 + 4]), pointLightShadowMaps[i * 6 + 4]);
 		shadowCoeff += calcShadow(mul(position, pointLightWvps[i * 6 + 5]), pointLightShadowMaps[i * 6 + 5]);
 
-		ambientLight = ambientLight + la[i];
-		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[i]) * attenuation * shadowCoeff;
-		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[i]) * attenuation * shadowCoeff;
+		ambientLight = ambientLight + la[nrOfPointLights + i];
+		diffuseLight = diffuseLight + calcDiffuseLight(distVector, normal.xyz, ld[nrOfPointLights + i]) * attenuation * shadowCoeff;
+		specularLight = specularLight + calcSpecularLight(distVector, normal.xyz, ls[nrOfPointLights + i]) * attenuation * shadowCoeff;
 	}
 
 	for(i = 0; i < nrOfDirectionalLights; i++)

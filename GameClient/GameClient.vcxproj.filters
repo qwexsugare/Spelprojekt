@@ -444,11 +444,14 @@
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>Client\Controls</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="FrostTurretProjectile.cpp">
       <Filter>Server\Towers\Effects</Filter>
     </ClCompile>
     <ClCompile Include="MeleeAOEClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="LightningClientEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
   </ItemGroup>
@@ -937,6 +940,9 @@
     </ClInclude>
     <ClInclude Include="FrostTurretProjectile.h">
       <Filter>Server\Towers\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="LightningClientEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
