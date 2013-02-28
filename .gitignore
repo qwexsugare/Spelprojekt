@@ -1545,3 +1545,12 @@ GameClient/models/LightningTurret/LightningTurret.BFish
 GameClient/models/PoisonTurret/checkeredmap.jpg
 GameClient/models/PoisonTurret/PoisonTurret.BFish
 GameClient/textures/7.png
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/Char1_5/idle.BFishA
+GameClient/models/FrostTurret/checkeredmap.jpg
+GameClient/models/FrostTurret/FrostTurret.BFish
+GameClient/models/LightningTurret/checkeredmap.jpg
+GameClient/models/LightningTurret/LightningTurret.BFish
+GameClient/models/PoisonTurret/checkeredmap.jpg
+GameClient/models/PoisonTurret/PoisonTurret.BFish
+GameClient/textures/7.png
