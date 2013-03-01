@@ -301,6 +301,8 @@
     <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp" />
+    <ClCompile Include="TargetAcquiredPermissionToFire.cpp" />
+    <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
     <ClCompile Include="TeslaChainTurret.cpp" />
@@ -479,6 +481,8 @@
     <ClInclude Include="StunningStrikeClientSkillEffect.h" />
     <ClInclude Include="StunningStrikeEffect.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoar.h" />
+    <ClInclude Include="TargetAcquiredPermissionToFire.h" />
+    <ClInclude Include="TargetAcquiredPermissionToFireEffect.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="TeleportEffect.h" />
     <ClInclude Include="TeslaChainTurret.h" />

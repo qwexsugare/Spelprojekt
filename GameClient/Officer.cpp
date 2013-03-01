@@ -9,6 +9,7 @@ Officer::Officer(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::OFFICER, _
 	this->increaseFortitude(3);
 
 	this->m_skills.push_back(new ReadyAimFire());
+	this->m_skills.push_back(new TargetAcquiredPermissionToFire());
 
 	switch(_weaponType)
 	{

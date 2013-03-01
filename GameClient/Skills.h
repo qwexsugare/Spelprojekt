@@ -24,3 +24,4 @@
 #include "EnhancedDevelopment.h"
 #include "TurretLifetime.h"
 #include "ReadyAimFire.h"
+#include "TargetAcquiredPermissionToFire.h"

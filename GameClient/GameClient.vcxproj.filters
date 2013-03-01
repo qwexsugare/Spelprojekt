@@ -481,6 +481,12 @@
     <ClCompile Include="ReadyAimFire.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="TargetAcquiredPermissionToFire.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -995,6 +1001,12 @@
     </ClInclude>
     <ClInclude Include="ReadyAimFire.h">
       <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetAcquiredPermissionToFire.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetAcquiredPermissionToFireEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
