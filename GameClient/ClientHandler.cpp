@@ -26,6 +26,7 @@ ClientHandler::~ClientHandler()
 	}
 	if(this->m_client)
 	{
+		this->m_client->disconnect();
 		delete this->m_client;
 	}
 	delete g_graphicsEngine;

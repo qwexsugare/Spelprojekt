@@ -232,7 +232,6 @@ void Server::handleMessages()
 			nueh = NetworkUpdateEntityHealth(m10->id,m10->health);
 			this->broadcast(nueh);
 			break;
-
 		}
 
 		delete m;
@@ -555,6 +554,15 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		this->m_mutex.Lock();
 		this->m_players[socketIndex]->handleReadyMessage(nrm);
 		this->m_mutex.Unlock();
+		break;
+	case NetworkMessage::Disconnect:
+		for(int i=0;i<MAXPLAYERS;i++)
+		{
+			this->clients[socketIndex].Close();
+			delete this->m_players[socketIndex];
+			this->m_players[socketIndex]=0;
+			this->nrOfPlayers--;
+		}
 		break;
 	}
 
