@@ -4,6 +4,7 @@
 #include "ServerEntity.h"
 #include "Skill.h"
 #include "SkillIdHolder.h"
+#include "Statistics.h"
 
 class UnitEntity : public ServerEntity
 {

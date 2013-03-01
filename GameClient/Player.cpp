@@ -76,7 +76,7 @@ Hero* Player::getHero()
 
 int Player::getId()const
 {
-	return this->m_messageQueue->getId();
+	return this->m_id;
 }
 
 void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)

@@ -564,6 +564,11 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		this->m_players[socketIndex]=0;
 		this->nrOfPlayers--;
 		break;
+	case NetworkMessage::setPlayerName:
+		string pname;
+		packet >> pname;
+		Statistics::getStatisticsPlayer(socketIndex).setPlayerName(pname);
+		break;
 	}
 
 	return protFound;

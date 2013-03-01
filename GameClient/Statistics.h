@@ -1,6 +1,8 @@
 #pragma once
 #include "StatisticsPlayer.h"
+#include "Skill.h"
 #include <fstream>
+#define MAXPLAYERS 4
 
 class Statistics
 {
@@ -8,7 +10,8 @@ private:
 	static double timePlayed;
 	static int isAtWave;
 	static int startLife;
-	static StatisticsPlayer sPlayers[4];
+	//a player with id -1 means uninitilazed
+	static StatisticsPlayer sPlayers[MAXPLAYERS];
 public:
 	Statistics(void);
 	~Statistics(void);
@@ -18,5 +21,6 @@ public:
 	static void decreaseStartLife();
 	static StatisticsPlayer& getStatisticsPlayer(int id);
 	static void saveToFile(string filename);
+	static int convertSimonsIdToRealId(int id);
 };
 

@@ -1,11 +1,11 @@
 #pragma once
 #include "Skill.h"
-#include "Hero.h"
 class StatisticsPlayer
 {
+public:
+	static enum HERO_TYPE {OFFICER, RED_KNIGHT, ENGINEER, DOCTOR, THE_MENTALIST, NONE};
 private:
-	
-	Hero::HERO_TYPE hero;
+	HERO_TYPE hero;
 	int m_id;
 	int physicalDamageDealth;
 	int mentalDamageDealth;
@@ -15,16 +15,21 @@ private:
 	int skillMentalDamageDealth;
 	int skillPhysicalDamageDealth;
 	int skillsUsed[Skill::SKILLS::NR_OF_SKILLS];
+	int deamonsKilled;
+	int goldCollected;
+	string playerName;
+	int healedAmount;
 public:
+	void setId(int id);
+	void setHeroType(StatisticsPlayer::HERO_TYPE hero);
 	void addSkillMentalDamageDealth(int d);
 	void addSkillMentalPhysicalDamageDealth(int d);
 	int getSkillMentalDamageDealth();
 	int getSkillPhysicalDamageDealth();
 	StatisticsPlayer(void);
-	StatisticsPlayer(int id, Hero::HERO_TYPE hero);
 	~StatisticsPlayer(void);
 	int getPlayerId();
-	Hero::HERO_TYPE getPlayerHero();
+	StatisticsPlayer::HERO_TYPE getPlayerHero();
 	int getPhysicalDamageDealth();
 	int getMentalDamageDealth();
 	int getPhysicalDamageRecived();
@@ -36,6 +41,15 @@ public:
 	void addMentalDamageRecived(int d);
 	void increaseDeathCount();
 	void useSkill(Skill::SKILLS skill);
-	int getNrOfTimesSkillUsed(Skill::SKILLS skill);
+	int getNrOfTimesSkillUsed(int i);
+	void setPlayerName(string name);
+	string getPlayerName();
+	int getDeamonsKilled();
+	void increaseDeamonsKilled();
+	int getDeathCount();
+	void increaseGoldCollected(int g);
+	int getGoldCollected();
+	void increaseHealdAmount(int h);
+	int getHealedAmount();
 };
 
