@@ -72,10 +72,10 @@ GameState::GameState(Client *_network)
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, true);
 <<<<<<< HEAD
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.05f, 0.05f, 0.05f), FLOAT3(0.05f, 0.05f, 0.05f), FLOAT3(0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.05f, 0.00f, 0.01f), FLOAT3(0.02f, 0.02f, 0.02f), FLOAT3(0.0f, 0.0f, 0.0f));
 =======
-	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.000001f, 0.000001f, 0.000001f), FLOAT3(0.000001f, 0.000001f, 0.000001f), FLOAT3(0.0f, 0.0f, 0.0f));
->>>>>>> 8706c528cdee07a450ada599949c7e140d2ad145
+	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.05f, 0.05f, 0.05f), FLOAT3(0.05f, 0.05f, 0.05f), FLOAT3(0.0f, 0.0f, 0.0f));
+>>>>>>> 017ce6d60aff4a188911fd270f5d9fb185cbcd69
 
 	m_healthText = g_graphicsEngine->createText("No target", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
@@ -221,10 +221,7 @@ void GameState::update(float _dt)
 			e->m_type = (ServerEntity::Type)iem.getType();
 			this->m_clientEntityHandler->addEntity(e);
 
-			if(iem.getWeaponType() == ModelIdHolder::WEAPON_TYPE::AOE)
-			{
-				e->m_twoHandedWeapon = true;
-			}
+			e->m_weapon = iem.getWeaponType();
 
 			if(iem.getType() == ServerEntity::HeroType)
 			{
@@ -254,6 +251,18 @@ void GameState::update(float _dt)
 		case Skill::DEATH:
 			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
+		case Skill::LIFESTEALING_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::DEADLY_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::POISON_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
+			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
+			break;
 		}
 	}
 
@@ -266,9 +275,9 @@ void GameState::update(float _dt)
 		case Skill::CLOUD_OF_DARKNESS:
 			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
+			break;
 		case Skill::CHAIN_STRIKE:
 			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getPosition()));
-			break;
 		}
 	}
 
