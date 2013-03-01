@@ -16,7 +16,7 @@ public:
 	bool MainWriteGameIsDown();
 	bool MainWriteIPIsDown();
 	bool MainWriteNameIsDown();
-
+	bool LevelOneIsDown();
 	string getIP();
 	string getPort();
 	string getPlayerName();
