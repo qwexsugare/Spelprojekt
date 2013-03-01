@@ -465,7 +465,9 @@
     </ClCompile>
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
-    </ClCompile>
+      </ClCompile>
+    <ClCompile Include="Statistics.cpp" />
+    <ClCompile Include="StatisticsPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -968,6 +970,8 @@
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="Statistics.h" />
+    <ClInclude Include="StatisticsPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
