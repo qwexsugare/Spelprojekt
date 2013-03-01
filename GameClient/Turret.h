@@ -2,7 +2,6 @@
 #define TOWER_H
 
 #include "ServerEntity.h"
-#include "Projectile.h"
 
 class Turret : public ServerEntity
 {

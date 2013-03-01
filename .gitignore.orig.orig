@@ -1649,6 +1649,7 @@ GameClient/models/FrostTurret/FrostTurret.BFish
 GameClient/models/LightningTurret/LightningTurret.BFish
 dev/fix.png
 dev/Untitled.jpg
+<<<<<<< HEAD
 GameClient/models/wall/wall.rar
 GameClient/menu_textures/Level1_Button.png
 GameClient/menu_textures/Level1MAP.png
@@ -1660,17 +1661,6 @@ GameClient/menu_textures/Skill_1.png
 GameClient/menu_textures/Skill_10.png
 GameClient/menu_textures/Skill_11.png
 GameClient/menu_textures/Skill_12.png
-GameClient/audio/lorebook/Gathering.wav
-GameClient/audio/lorebook/Introduction.wav
-GameClient/audio/lorebook/Level1.wav
-GameClient/audio/lorebook/Level2.wav
-GameClient/audio/lorebook/TheWorld.wav
-GameClient/models/Char1_5/PassiveAbility_1H_Melee.mb
-GameClient/models/Char1_5/PassiveAbility_1H_Range.mb
-GameClient/models/Char1_5/PassiveAbility_2H_Melee.mb
-GameClient/models/Char1_5/Spell.BFishA
-GameClient/models/Char1_5/SwiftAsButterfly.mb
-GameClient/Mycursor.cur
 GameClient/menu_textures/Skill_13.png
 GameClient/menu_textures/Skill_14.png
 GameClient/menu_textures/Skill_15.png
@@ -1766,3 +1756,16 @@ GameClient/menu_textures/Button-MainMenu-ReadLore.png
 GameClient/textures/1_2_3_4_SM.png
 GameClient/textures/7_OLD.png
 GameClient/config.ini
+=======
+GameClient/audio/lorebook/Gathering.wav
+GameClient/audio/lorebook/Introduction.wav
+GameClient/audio/lorebook/Level1.wav
+GameClient/audio/lorebook/Level2.wav
+GameClient/audio/lorebook/TheWorld.wav
+GameClient/models/Char1_5/PassiveAbility_1H_Melee.mb
+GameClient/models/Char1_5/PassiveAbility_1H_Range.mb
+GameClient/models/Char1_5/PassiveAbility_2H_Melee.mb
+GameClient/models/Char1_5/Spell.BFishA
+GameClient/models/Char1_5/SwiftAsButterfly.mb
+GameClient/Mycursor.cur
+>>>>>>> 54db65184bcb4a689a5be13e5be4a82ca67ff776

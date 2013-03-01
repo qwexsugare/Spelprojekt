@@ -17,7 +17,10 @@ private:
 	static FLOAT3 m_poisonTurretObbOffset;
 	static FLOAT3 m_teslaChainTurretObbOffset;
 public:
+	static const int PLACE_RANGE = 5;
+
 	static void init();
-	static void place(Skill::SKILLS _towerType, const FLOAT3& _pos);
+	static void place(Skill::SKILLS _towerType, const FLOAT3& _pos, const FLOAT3& _origin);
 	static void release();
 };
+

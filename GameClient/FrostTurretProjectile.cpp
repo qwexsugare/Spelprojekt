@@ -14,8 +14,8 @@ FrostTurretProjectile::FrostTurretProjectile(unsigned int _master, unsigned int 
 	this->m_type = OtherType;
 	ServerEntity* master = EntityHandler::getServerEntity(m_master);
 	ServerEntity* target = EntityHandler::getServerEntity(m_target);
-	float timeToImpact = (target->getPosition() - master->getPosition()).length()/FrostTurretProjectile::VELOCITY;
-	EntityHandler::addEntity(new DelayedDamage(m_master, m_target, timeToImpact, random(1,5), 0.0f, Skill::FROST_TURRET_PROJECTILE));
+	m_timeToImpact = (target->getPosition() - master->getPosition()).length()/FrostTurretProjectile::VELOCITY;
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::FROST_TURRET_PROJECTILE, m_master, m_target, master->getPosition()));
 }
 
 FrostTurretProjectile::~FrostTurretProjectile()
@@ -32,8 +32,24 @@ void FrostTurretProjectile::update(float _dt)
 		ServerEntity* target = EntityHandler::getServerEntity(m_target);
 		if(target)
 		{
-			this->dealDamage(target, random(1, 5), 0);
+			int damage = random(1, 5);
+			int healthBefore = target->getHealth();
+			target->takeDamage(m_master, damage, 0);
 			((UnitEntity*)target)->applyFrostTurretSlowEffect(SLOW_EFFECT);
+
+			// dbg
+			ofstream file("output.txt", ios::app);
+			if(file.is_open())
+			{
+				target = EntityHandler::getServerEntity(m_target);
+				if(target)
+					file << "Frost turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to " << target->getHealth() << endl;
+				else
+					file << "Frost turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to death" << endl;
+				file.close();
+			}
+
+			// Remove me from server entity handler
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 		}
 	}

@@ -158,6 +158,7 @@
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
+    <ClCompile Include="ChainStrikeClientSkillEffect.cpp" />
     <ClCompile Include="ChainStrikeEffect.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientEntityHandler.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="ClientSkillEffect.cpp" />
     <ClCompile Include="DeathClientSkillEffect.cpp" />
     <ClCompile Include="DeathPulseTurret.cpp" />
+    <ClCompile Include="DeathPulseTurretClientSkillEffect.cpp" />
     <ClCompile Include="DelayedDamage.cpp" />
     <ClCompile Include="FrostTurretProjectileClientSkillEffect.cpp" />
     <ClCompile Include="FrostTurret.cpp" />
@@ -265,7 +267,6 @@
     <ClCompile Include="PoisonTurretProjectile.cpp" />
     <ClCompile Include="PoisonTurretProjectileClientSkillEffect.cpp" />
     <ClCompile Include="Position.cpp" />
-    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RangedAttack.cpp" />
     <ClCompile Include="RedKnight.cpp" />
     <ClCompile Include="RunClientSkillEffect.cpp" />
@@ -320,6 +321,7 @@
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChainStrike.h" />
+    <ClInclude Include="ChainStrikeClientSkillEffect.h" />
     <ClInclude Include="ChainStrikeEffect.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientEntityHandler.h" />
@@ -328,6 +330,7 @@
     <ClInclude Include="ClientSkillEffects.h" />
     <ClInclude Include="DeathClientSkillEffect.h" />
     <ClInclude Include="DeathPulseTurret.h" />
+    <ClInclude Include="DeathPulseTurretClientSkillEffect.h" />
     <ClInclude Include="DelayedDamage.h" />
     <ClInclude Include="FrostTurretProjectileClientSkillEffect.h" />
     <ClInclude Include="FrostTurret.h" />
@@ -434,7 +437,6 @@
     <ClInclude Include="PoisonTurretProjectile.h" />
     <ClInclude Include="PoisonTurretProjectileClientSkillEffect.h" />
     <ClInclude Include="Position.h" />
-    <ClInclude Include="Projectile.h" />
     <ClInclude Include="RangedAttack.h" />
     <ClInclude Include="RedKnight.h" />
     <ClInclude Include="RunClientSkillEffect.h" />

@@ -13,7 +13,7 @@ private:
 public:
 	static const int LIFETIME = 3;
 
-	CloudOfDarknessEffect(FLOAT3 _position, int _damage);
+	CloudOfDarknessEffect(FLOAT3 _position, int _damage, unsigned int _masterId);
 	~CloudOfDarknessEffect();
 
 	void update(float _dt);

@@ -14,8 +14,8 @@ PoisonTurretProjectile::PoisonTurretProjectile(unsigned int _master, unsigned in
 	this->m_type = OtherType;
 	ServerEntity* master = EntityHandler::getServerEntity(m_master);
 	ServerEntity* target = EntityHandler::getServerEntity(m_target);
-	float timeToImpact = (target->getPosition() - master->getPosition()).length()/PoisonTurretProjectile::VELOCITY;
-	EntityHandler::addEntity(new DelayedDamage(m_master, m_target, timeToImpact, random(1,5), 0.0f, Skill::FROST_TURRET_PROJECTILE));
+	m_timeToImpact = (target->getPosition() - master->getPosition()).length()/PoisonTurretProjectile::VELOCITY;
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::POISON_TURRET_PROJECTILE, m_master, m_target, master->getPosition()));
 }
 
 PoisonTurretProjectile::~PoisonTurretProjectile()

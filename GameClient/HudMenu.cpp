@@ -251,7 +251,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					}
 				}
 				this->m_skillWaitingForTarget = -1;
-				g_mouse->getCursor()->setFrame(Cursor::DEFAULT, 3);
+				g_mouse->getCursor()->setPriority(1);
 			}
 
 			for(int i = 0; i < m_NumberOfSkills; i++)

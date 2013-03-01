@@ -3,7 +3,7 @@
 #include "Graphics.h"
 #include "Skill.h"
 
-CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
+CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage, unsigned int _masterId)
 {
 	m_damage = _damage;
 	m_position = _position;
@@ -37,7 +37,7 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage)
 		}
 	}
 
-	this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::CLOUD_OF_DARKNESS, 0, _position));
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::CLOUD_OF_DARKNESS, _masterId, _position));
 }
 
 CloudOfDarknessEffect::~CloudOfDarknessEffect()

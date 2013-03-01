@@ -35,6 +35,16 @@ vector<ServerEntity*> ServerQuadTree::getServerEntities(D3DXVECTOR2 _focalPoint)
 	return ses;
 }
 
+bool ServerQuadTree::intersectsWithObject(const BoundingSphere& _bs)
+{
+	return m_parent->intersectsWithObject(_bs);
+}
+
+bool ServerQuadTree::intersectsWithObject(const BoundingOrientedBox& _obb)
+{
+	return m_parent->intersectsWithObject(_obb);
+}
+
 bool ServerQuadTree::removeServerEntity(ServerEntity* _serverEntity)
 {
 	return m_parent->removeServerEntity(_serverEntity);

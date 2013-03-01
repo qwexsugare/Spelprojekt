@@ -2,6 +2,8 @@
 #include "EntityHandler.h"
 #include "SoundWrapper.h"
 
+const FLOAT ChainStrikeEffect::TIME_BETWEEN_JUMPS = 50.5f;
+
 ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage)
 {
 	m_firstTarget = _firstTarget;
@@ -22,9 +24,9 @@ ChainStrikeEffect::~ChainStrikeEffect()
 
 void ChainStrikeEffect::update(float _dt)
 {
-	m_jumpTimer-=_dt;
+	m_jumpTimer = max(m_jumpTimer-_dt, 0.0f);
 
-	if(m_jumpTimer <= 0.0f)
+	if(m_jumpTimer == 0.0f)
 	{
 		// If its the first jump we can use the first target variable to make a simpler algorithm.
 		if(m_invalidTargets.size() == 0)
@@ -34,7 +36,7 @@ void ChainStrikeEffect::update(float _dt)
 			if(target)
 			{
 				m_position = target->getPosition();
-				this->dealDamage(target, 200/(++m_jumps), false);
+				this->dealDamage(target, m_baseDamage/(++m_jumps), false);
 
 				// If max number of jumps is reached, delete me
 				if(m_jumps == m_maxJumps)
@@ -108,6 +110,8 @@ void ChainStrikeEffect::update(float _dt)
 					this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 				else
 					m_invalidTargets.push_back(closestValidTarget->getId());
+
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::CHAIN_STRIKE, 0, m_position));
 			}
 			// No target was found, delete me
 			else
@@ -116,6 +120,6 @@ void ChainStrikeEffect::update(float _dt)
 			}
 		}
 
-		m_jumpTimer = 0.5f;
+		m_jumpTimer = TIME_BETWEEN_JUMPS;
 	}
 }
