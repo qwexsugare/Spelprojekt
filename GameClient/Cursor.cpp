@@ -16,7 +16,7 @@ void Cursor::setFrame(CURSOR_TYPE cursor, int _priority)
 	if(_priority >= this->m_priority)
 	{
 		int i = cursor;
-		this->m_sprite->setCurrentFrame(INT2(i % 4, i / 4));
+		this->m_sprite->setCurrentFrame(INT2(i % 3, i / 3));
 		this->m_priority = _priority;
 	}
 }

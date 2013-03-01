@@ -11,7 +11,7 @@ ClientHandler::ClientHandler(HWND _hWnd)
 	g_keyboard = new Keyboard();
 
 	this->m_serverThread = NULL;
-	this->m_client = NULL;
+	this->m_client = new Client();
 }
 
 ClientHandler::~ClientHandler()
@@ -26,6 +26,7 @@ ClientHandler::~ClientHandler()
 	}
 	if(this->m_client)
 	{
+		this->m_client->disconnect();
 		delete this->m_client;
 	}
 	delete g_graphicsEngine;
@@ -134,15 +135,24 @@ void ClientHandler::update(float _dt)
 				this->m_serverThread = new ServerThread(tempCreateState->getPort());
 				this->m_serverThread->Launch();
 
-				this->m_client = new Client();
 				this->m_client->connect(tempCreateState->getIP(), tempCreateState->getPort());
+
+				//sends le player name, code 1337, hardcoded
+				sf::Packet playerName;
+				playerName << (int)NetworkMessage::setPlayerName << tempCreateState->getPlayerName();
+
+				this->m_client->sendPacket(playerName);
+
 			}
 			else
 			{
 				JoinGameState *tempJoinState = (JoinGameState*)tempState;
-
-				this->m_client = new Client();
 				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
+
+				//sends le player name, code 1337, hardcoded
+				sf::Packet playerName;
+				playerName << (int)NetworkMessage::setPlayerName << tempJoinState->getPlayerName();
+				this->m_client->sendPacket(playerName);
 			}
 
 			this->m_state = new LobbyState(this->m_client);

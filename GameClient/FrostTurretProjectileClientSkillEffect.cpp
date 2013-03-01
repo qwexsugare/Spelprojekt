@@ -13,14 +13,11 @@ FrostTurretProjectileClientSkillEffect::FrostTurretProjectileClientSkillEffect(F
 	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
 	m_graphicalEffect->setScale(1.5f, 1.5f, 1.5f);
 	m_graphicalEffect->setAlpha(0.999f);
-	m_sound = createSoundHandle("click_button.wav", false, true, _position);
-	playSound(m_sound);
 }
 
 FrostTurretProjectileClientSkillEffect::~FrostTurretProjectileClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_graphicalEffect);
-	deactivateSound(m_sound);
 }
 
 void FrostTurretProjectileClientSkillEffect::update(float _dt)

@@ -3,6 +3,7 @@
 #include "ClientSkillEffect.h"
 #include "Model.h"
 #include "PointLight.h"
+#include "ClientEntityHandler.h"
 
 class CloudOfDarknessClientSkillEffect : public ClientSkillEffect
 {
@@ -14,7 +15,7 @@ private:
 	float m_lifetime;
 	ParticleEngine* particleSystem;
 public:
-	CloudOfDarknessClientSkillEffect(FLOAT3 _position);
+	CloudOfDarknessClientSkillEffect(unsigned int _masterId, FLOAT3 _position);
 	~CloudOfDarknessClientSkillEffect();
 
 	void update(float _dt);

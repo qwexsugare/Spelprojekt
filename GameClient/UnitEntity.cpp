@@ -38,6 +38,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
+	m_poisonStacks = 0;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -81,6 +82,7 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
+	m_poisonStacks = 0;
 }
 
 UnitEntity::~UnitEntity()
@@ -91,6 +93,11 @@ UnitEntity::~UnitEntity()
 	}
 
 	delete this->m_regularAttack;
+}
+
+void UnitEntity::addPoisonStack()
+{
+	m_poisonStacks++;
 }
 
 void UnitEntity::applyFrostTurretSlowEffect(float _value)
@@ -305,6 +312,11 @@ int UnitEntity::getFortitude()
 	return this->m_fortitude;
 }
 
+int UnitEntity::getPoisonStacks()const
+{
+	return m_poisonStacks;
+}
+
 int UnitEntity::getHealth()
 {
 	return this->m_health;
@@ -367,6 +379,20 @@ int UnitEntity::getPoisonCounter()
 
 void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
+	int networkId=Statistics::convertSimonsIdToRealId(damageDealerId);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).addMentalDamageDealth(mentalDamage* this->m_mentalResistance);
+		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageDealth(physicalDamage* this->m_physicalResistance);
+	}
+
+	networkId=Statistics::convertSimonsIdToRealId(this->m_id);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).addMentalDamageRecived(mentalDamage* this->m_mentalResistance);
+		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageRecived(physicalDamage* this->m_physicalResistance);
+	}
+
 	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
 	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
 	this->m_lastDamageDealer = damageDealerId;
@@ -391,6 +417,11 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 
 void UnitEntity::heal(int health)
 {
+	int networkId=Statistics::convertSimonsIdToRealId(this->m_id);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).increaseHealdAmount(health);
+	}
 	this->m_health = min(m_health+health, m_maxHealth);
 }
 
@@ -468,6 +499,5 @@ void UnitEntity::attack(unsigned int target)
 		}
 
 		this->m_regularAttack->activate(target, this->m_id);
- 		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(this->m_regularAttack->getId(), this->m_id, this->m_position));
 	}
 }

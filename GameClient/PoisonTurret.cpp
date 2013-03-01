@@ -1,6 +1,8 @@
 #include "PoisonTurret.h"
 #include "Graphics.h"
 #include "MyAlgorithms.h"
+#include "PoisonTurretProjectile.h"
+#include "EntityHandler.h"
 
 const float PoisonTurret::ATTACK_COOLDOWN = 1.0f;
 
@@ -25,6 +27,5 @@ PoisonTurret::~PoisonTurret()
 
 void PoisonTurret::target(ServerEntity* _target)
 {
-	this->dealDamage(_target, random(1, 5), 0);
-	//this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::DEMONIC_PRESENCE, 0, _target->getId(), _target->getPosition()));
+	EntityHandler::addEntity(new PoisonTurretProjectile(this->getId(), _target->getId()));
 }

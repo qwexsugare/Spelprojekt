@@ -14,6 +14,7 @@
 #include "Pathfinder.h"
 #include "Graphics.h"
 #include "MessageHandler.h"
+#include "Statistics.h"
 
 //Import a map and update it, creating new enemies when needed
 class MapHandler
@@ -36,6 +37,7 @@ private:
 	int m_gridHeight;
 	int m_gridWidth;
 	bool** m_grid;
+	Map map;
 public:
 	static enum State {RUNNING, VICTORY, DEFEAT};
 

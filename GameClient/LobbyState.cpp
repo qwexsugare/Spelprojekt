@@ -49,6 +49,10 @@ void LobbyState::update(float _dt)
 		this->m_currentHeroSelected = Hero::THE_MENTALIST;
 		m_network->sendMessage(NetworkSelectHeroMessage(4, this->m_menu->getCombat()));
 	}
+	else if(m_menu->MainMenuIsDown())
+	{
+		this->m_network->disconnect();
+	}
 
 	if(this->m_menu->CloseCombatIsDown() && this->m_currentHeroSelected != Hero::NONE)
 	{

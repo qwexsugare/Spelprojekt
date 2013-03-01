@@ -23,6 +23,7 @@ MapHandler::MapHandler()
 	this->m_grid = NULL;
 	this->m_paths = NULL;
 	this->m_lives = 10;
+	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
 	{
@@ -169,7 +170,7 @@ void MapHandler::loadMap(std::string filename)
 			stream.getline(buf, 1024);
 			sscanf(buf, "width, height %d %d", &m_gridWidth, &m_gridHeight);
 
-			Map map = Map(this->m_gridWidth, this->m_gridHeight);
+			this->map = Map(this->m_gridWidth, this->m_gridHeight);
 			
 			m_grid = new bool*[m_gridHeight];
 			for(int j = 0; j < m_gridHeight; j++)
@@ -255,6 +256,7 @@ void MapHandler::loadMap(std::string filename)
 
 void MapHandler::update(float _dt)
 {
+	Statistics::addTime(_dt);
 	if(m_waveTimer > 0.0f)
 	{
 		m_waveTimer = max(m_waveTimer-_dt, 0.0f);
@@ -274,6 +276,7 @@ void MapHandler::update(float _dt)
 			else
 			{
 				m_currentWave++;
+				Statistics::waveFinnished();
 				this->m_waveTimer = -1.0f;
 			}
 		}
@@ -294,6 +297,7 @@ void MapHandler::update(float _dt)
 void MapHandler::enemyDied()
 {
 	this->m_lives--;
+	Statistics::decreaseStartLife();
 }
 
 void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int _souls, int _hell, int _thunder, int _brutes)
@@ -303,7 +307,7 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	int t = random(0,0);
 	
 	int _min = 0;
-	int _max = 0;//this->m_nrOfPaths-1;
+	int _max = this->m_nrOfPaths-1;
 
 	for(int i = 0; i < totalMonsters; i ++)
 	{

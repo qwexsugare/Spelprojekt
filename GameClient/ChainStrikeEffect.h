@@ -14,6 +14,8 @@ private:
 
 	static const int MAX_JUMP_DISTANCE = 10;
 public:
+	static const FLOAT TIME_BETWEEN_JUMPS;
+
 	ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage);
 	~ChainStrikeEffect();
 

@@ -15,7 +15,7 @@ Player::Player(unsigned int id)
 
 Player::~Player()
 {
-	delete this->m_messageQueue;
+	//delete this->m_messageQueue;
 }
 
 void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
@@ -76,7 +76,7 @@ Hero* Player::getHero()
 
 int Player::getId()const
 {
-	return this->m_messageQueue->getId();
+	return this->m_id;
 }
 
 void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
@@ -296,22 +296,22 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		break;
 		
 	case Skill::DEATH_PULSE_TURRET:
-		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition());
 		this->m_resources = this->m_resources - DeathPulseTurret::COST;
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::FROST_TURRET:
-		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition());
 		this->m_resources = this->m_resources - FrostTurret::COST;
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::POISON_TURRET:
-		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition());
 		this->m_resources = this->m_resources - PoisonTurret::COST;
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::TESLA_CHAIN_TURRET:
-		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition());
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition());
 		this->m_resources = this->m_resources - TeslaChainTurret::COST;
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;

@@ -8,7 +8,6 @@ class FrostTurretProjectileClientSkillEffect : public ClientSkillEffect
 {
 private:
 	Model* m_graphicalEffect;
-	int m_sound;
 	unsigned int m_targetId;
 	bool m_active;
 public:

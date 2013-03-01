@@ -9,6 +9,7 @@ Animation::Animation()
 	D3DXMatrixIdentity(&this->rightHandMatrix);
 	D3DXMatrixIdentity(&this->leftHandMatrix);
 	this->waitAtEnd = false;
+	this->priority = 0;
 }
 
 Animation::~Animation()
@@ -206,7 +207,8 @@ void Animation::RandomAnimationFunc(float dt)
 							if(itr->second.numLoops == 0 && itr->second.numLoops != -1)
 							{
 								itr->second.isAnimating = false;
-								prioAnimation = "";
+								this->prioAnimation = "";
+								this->priority = 0;
 							}
 						}
 						else
@@ -324,12 +326,16 @@ void Animation::UpdateSkeletonTexture()
 	}
 }
 
-void Animation::Play(string name, bool waitAtEnd, float speedMultiplier, Motion body)
+void Animation::Play(string name, bool waitAtEnd, int priority, float speedMultiplier, Motion body)
 {
-	this->animations[name].numLoops = 1;
-	this->animations[name].isAnimating = true;
-	this->prioAnimation = name;
-	this->waitAtEnd = waitAtEnd;
+	if(priority >= this->priority)
+	{
+		this->animations[name].numLoops = 1;
+		this->animations[name].isAnimating = true;
+		this->prioAnimation = name;
+		this->waitAtEnd = waitAtEnd;
+		this->priority = priority;
+	}
 }
 
 void Animation::PlayLoop(string name, int numberOfLoops, float speedMultiplier, Motion body, float overlapTime)

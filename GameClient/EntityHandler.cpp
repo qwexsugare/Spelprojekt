@@ -69,6 +69,7 @@ void EntityHandler::update(float dt)
 	EntityHandler::m_mutex.Unlock();
 }
 
+#include <sstream>
 void EntityHandler::addEntity(ServerEntity *_entity)
 {
 	EntityHandler::m_mutex.Lock();
@@ -95,6 +96,7 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 	{
 		EntityHandler::m_messageQueue->pushOutgoingMessage(new InitEntityMessage(_entity->getType(),_entity->getModelId(), _entity->getWeaponType(),_entity->getId(),_entity->getPosition().x,_entity->getPosition().z,_entity->getRotation().y,1.0,_entity->getHealth(),_entity->getPosition().x,_entity->getPosition().z,_entity->getEndPos().x,_entity->getEndPos().z,_entity->getMovementSpeed()));
 	}
+	
 }
 
 bool EntityHandler::removeEntity(ServerEntity *_entity)
@@ -406,6 +408,10 @@ bool EntityHandler::intersects(const BoundingSphere& _bs)
 			i = EntityHandler::m_entities.size();
 		}
 	}
+	if(!ret)
+	{
+		ret = m_quadtree->intersectsWithObject(_bs);
+	}
 	EntityHandler::m_mutex.Unlock();
 	return ret;
 }
@@ -421,6 +427,10 @@ bool EntityHandler::intersects(const BoundingOrientedBox& _obb)
 			ret = true;
 			i = EntityHandler::m_entities.size();
 		}
+	}
+	if(!ret)
+	{
+		ret = m_quadtree->intersectsWithObject(_obb);
 	}
 	EntityHandler::m_mutex.Unlock();
 	return ret;

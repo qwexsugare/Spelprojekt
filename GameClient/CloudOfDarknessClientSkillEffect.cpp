@@ -3,7 +3,7 @@
 #include "CloudOfDarknessEffect.h"
 #include "Graphics.h"
 
-CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _position)
+CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
 	//m_position = _position;
 	//m_graphicalEffects[0] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.1f, _position.z), "color2");
@@ -15,7 +15,7 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _posit
 	//m_graphicalEffects[0]->setAlpha(0.999f);
 	//m_graphicalEffects[1]->setAlpha(0.999f);
 	//m_graphicalEffects[2]->setAlpha(0.999f);
-	//this->m_light = g_graphicsEngine->createPointLight(FLOAT3(_position.x, 0.6f, _position.z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(-2.0f, -2.0f, -2.0f), FLOAT3(-2.0f, -2.0f, -2.0f), 0.5f, false);
+	this->m_light = g_graphicsEngine->createPointLight(FLOAT3(_position.x, 0.6f, _position.z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(-2.0f, -2.0f, -2.0f), FLOAT3(-2.0f, -2.0f, -2.0f), 0.5f, false, true);
 	m_lifetime = 0.0f;
 	//m_sound = createSoundHandle("rain.wav", false, true, m_position);
 	//playSound(m_sound);
@@ -23,6 +23,12 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(FLOAT3 _posit
 	//Anders
 	D3DXVECTOR3 newPos = D3DXVECTOR3(_position.x, _position.y, _position.z);
 	this->particleSystem = g_graphicsEngine->createParticleEngine(D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR3(1, 1, 1));
+	Entity *e = ClientEntityHandler::getEntity(_masterId);
+
+	if(e != NULL)
+	{
+		e->m_model->getAnimation()->Play("Spell");
+	}
 }
 
 CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
