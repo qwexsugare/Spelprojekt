@@ -18,7 +18,8 @@ void Button::Init(FLOAT2 _ScreenPos,
 			 int _Cost,
 			 INT2 _TextPos,
 			 bool _TextBox,
-			 int _id)
+			 int _id,
+			 string _Skill)
 {
 	this->m_clicked = false;
 	this->m_ButtonReaction	=	0;
@@ -54,7 +55,13 @@ void Button::Init(FLOAT2 _ScreenPos,
 	this->m_TextBox			=	_TextBox;
 	this->m_Label			=	new TextLabel(_TextName, "text1.png",INT2(m_TextPos.x, m_TextPos.y),100);
 	m_Button				=	g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
-	this->m_clickSound = createSoundHandle("buttons/PushButton.wav", false, false);
+	this->m_clickSound		=	createSoundHandle("buttons/PushButton.wav", false, false);
+	this->m_Skill			=	_Skill;
+	if(m_Skill != "")
+	{
+		m_SpriteSkill = g_graphicsEngine->createSprite(m_Skill, FLOAT2(m_Pos.x+0.1f,m_Pos.y+0.1f),FLOAT2(0.260416667f,0.185185185f),20);
+		m_SpriteSkill->setVisible(false);
+	}
 }
 void Button::Update()
 {
@@ -99,12 +106,20 @@ void Button::Update()
 			{
 				this->m_ButtonReaction = 3;
 				this->m_Button->setCurrentFrame(INT2(2,0));
+				if(m_Skill != "")
+				{
+					m_SpriteSkill->setVisible(true);
+				}
 			}
 		} 
 		else
 		{
 			this->m_ButtonReaction = 0;
 			this->m_Button->setCurrentFrame(INT2(0,0));
+			if(m_Skill != "")
+			{
+				m_SpriteSkill->setVisible(false);
+			}
 		}
 		this->m_Delay += 1;
 	}
@@ -150,6 +165,11 @@ Button::~Button()
 	this->m_Button = NULL;
 	delete this->m_Label;
 	this->m_Label = NULL;
+	if(m_Skill != "")
+	{
+		g_graphicsEngine->removeSprite(m_SpriteSkill);
+		this->m_SpriteSkill = NULL;
+	}
 	deactivateSound(m_clickSound);
 }
 void Button::RemoveSprite()
