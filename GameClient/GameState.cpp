@@ -217,10 +217,7 @@ void GameState::update(float _dt)
 			e->m_type = (ServerEntity::Type)iem.getType();
 			this->m_clientEntityHandler->addEntity(e);
 
-			if(iem.getWeaponType() == ModelIdHolder::WEAPON_TYPE::AOE)
-			{
-				e->m_twoHandedWeapon = true;
-			}
+			e->m_weapon = iem.getWeaponType();
 
 			if(iem.getType() == ServerEntity::HeroType)
 			{
@@ -249,6 +246,18 @@ void GameState::update(float _dt)
 			break;
 		case Skill::DEATH:
 			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
+		case Skill::LIFESTEALING_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::DEADLY_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::POISON_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
+			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
 		}
 	}

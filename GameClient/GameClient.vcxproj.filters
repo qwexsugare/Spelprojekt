@@ -457,6 +457,12 @@
     <ClCompile Include="DeathPulseTurretClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="PassiveAttackClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -948,6 +954,12 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="DeathPulseTurretClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="PassiveAttackClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
