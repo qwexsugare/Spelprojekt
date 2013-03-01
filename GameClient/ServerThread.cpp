@@ -4,6 +4,7 @@
 
 ServerThread::ServerThread(int _port) : sf::Thread()
 {
+	this->m_statistics = Statistics();
 	this->m_port = _port;
 	this->m_messageHandler = new MessageHandler();
 	this->m_messageQueue = new MessageQueue();
@@ -30,6 +31,7 @@ ServerThread::~ServerThread()
 	this->m_entityHandler->removeAllEntities();
 	delete this->m_entityHandler;
 	TowerPlacer::release();
+	Statistics::saveToFile("STATSlastgame.txt");
 }
 
 void ServerThread::Run()
@@ -139,6 +141,11 @@ void ServerThread::update(float dt)
 					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
+				}
+
+				for(int i = 0; i < heroTypes.size(); i++)
+				{
+					Statistics::getStatisticsPlayer(i) = StatisticsPlayer(ids[i], heroTypes[i]);
 				}
 
 				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));

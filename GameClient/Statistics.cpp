@@ -43,7 +43,14 @@ void Statistics::saveToFile(string filename)
 	file.open(filename.c_str());
 	if(file.is_open())
 	{
-		file <<"Life remaining: " <<  this->startLife;
+		file << "Time played: " << Statistics::timePlayed<<endl;
+		file <<"Life remaining: " <<  Statistics::startLife<<endl;
+		file << "Reached level: " << Statistics::isAtWave<<endl;
 		file.close();
 	}
+
+		static double timePlayed;
+	static int isAtWave;
+	static int startLife;
+	static StatisticsPlayer sPlayers[4];
 }

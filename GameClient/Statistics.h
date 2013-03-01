@@ -17,6 +17,6 @@ public:
 	static void setStartLife(int l);
 	static void decreaseStartLife();
 	static StatisticsPlayer& getStatisticsPlayer(int id);
-	void saveToFile(string filename);
+	static void saveToFile(string filename);
 };
 

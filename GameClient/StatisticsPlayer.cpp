@@ -3,7 +3,7 @@
 
 StatisticsPlayer::StatisticsPlayer(void)
 {
-	this->hero=HERO_TYPE::OFFICER;
+	this->hero=Hero::HERO_TYPE::OFFICER;
 	this->m_id=0;
 	this->physicalDamageDealth=0;
 	this->mentalDamageDealth=0;
@@ -12,13 +12,13 @@ StatisticsPlayer::StatisticsPlayer(void)
 	this->deathCounter=0;
 	this->skillMentalDamageDealth=0;
 	this->skillPhysicalDamageDealth=0;
-	for(int i=0;i<SKILLS::NR_OF_SKILLS;i++)
+	for(int i=0;i<Skill::SKILLS::NR_OF_SKILLS;i++)
 	{
 		this->skillsUsed[i]=0;
 	}
 }
 
-StatisticsPlayer::StatisticsPlayer(int id,HERO_TYPE hero)
+StatisticsPlayer::StatisticsPlayer(int id,Hero::HERO_TYPE hero)
 {
 	this->hero=hero;
 	this->m_id=id;
@@ -29,7 +29,7 @@ StatisticsPlayer::StatisticsPlayer(int id,HERO_TYPE hero)
 	this->deathCounter=0;
 	this->skillMentalDamageDealth=0;
 	this->skillPhysicalDamageDealth=0;
-	for(int i=0;i<SKILLS::NR_OF_SKILLS;i++)
+	for(int i=0;i<Skill::SKILLS::NR_OF_SKILLS;i++)
 	{
 		this->skillsUsed[i]=0;
 	}
@@ -75,7 +75,7 @@ int StatisticsPlayer::getPhysicalDamageRecived()
 {
 	return this->physicalDamageRecived;
 }
-HERO_TYPE StatisticsPlayer::getPlayerHero()
+Hero::HERO_TYPE StatisticsPlayer::getPlayerHero()
 {
 	return this->hero;
 }
@@ -87,11 +87,11 @@ int StatisticsPlayer::getTotalDamageDealth()
 {
 	return this->mentalDamageDealth+this->physicalDamageDealth;
 }
-void StatisticsPlayer::useSkill(SKILLS skill)
+void StatisticsPlayer::useSkill(Skill::SKILLS skill)
 {
 	this->skillsUsed[skill]++;
 }
-int StatisticsPlayer::getNrOfTimesSkillUsed(SKILLS skill)
+int StatisticsPlayer::getNrOfTimesSkillUsed(Skill::SKILLS skill)
 {
 	return this->skillsUsed[skill];
 }
