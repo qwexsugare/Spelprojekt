@@ -1766,3 +1766,10 @@ GameClient/menu_textures/Button-MainMenu-ReadLore.png
 GameClient/textures/1_2_3_4_SM.png
 GameClient/textures/7_OLD.png
 GameClient/config.ini
+GameClient/models/Char1_5/CharRebake_normals.TIF
+GameClient/models/redKnightPassiveAura/redKnightPassiveAura.png
+GameClient/Models_and_Textures.zip
+GameClient/output.txt
+GameClient/models/Char1_5/CharRebake_normals.TIF
+GameClient/output.txt
+GameClient/GameState.cpp
