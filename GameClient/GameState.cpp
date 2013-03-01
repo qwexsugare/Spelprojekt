@@ -14,6 +14,10 @@ GameState::GameState(Client *_network)
 	this->m_network = _network;
 	this->importMap("levelone");
 
+	//Create particle system
+	g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR3(1, 1, 1));
+
+
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
 	NetworkHeroInitMessage e = m_network->heroInitQueueFront();

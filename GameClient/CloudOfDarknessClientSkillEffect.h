@@ -12,6 +12,7 @@ private:
 	int m_sound;
 	FLOAT3 m_position;
 	float m_lifetime;
+	ParticleEngine* particleSystem;
 public:
 	CloudOfDarknessClientSkillEffect(FLOAT3 _position);
 	~CloudOfDarknessClientSkillEffect();

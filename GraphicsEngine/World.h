@@ -5,6 +5,7 @@
 #include "DeferredRenderingEffectFile.h"
 #include "DeferredSamplerEffectFile.h"
 #include "GlowRenderingEffectFile.h"
+#include "ParticleEngineEffectFile.h"
 #include "SSAOEffectFile.h"
 #include "SpriteEffectFile.h"
 #include "Camera.h"
@@ -59,6 +60,9 @@ private:
 	RenderTarget* m_glowRenderTarget;
 	RenderTarget* m_glowRenderTarget2;
 	D3D10_VIEWPORT m_glowViewport;
+
+	//Particle Rendering
+	ParticleEngineEffectFile* m_particleRendering;
 
 	//SSAO
 	SSAOEffectFile* m_SSAORendering;
