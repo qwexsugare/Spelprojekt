@@ -51,9 +51,7 @@ void LobbyState::update(float _dt)
 	}
 	else if(m_menu->MainMenuIsDown())
 	{
-		sf::Packet packet;
-		packet << (int)NetworkMessage::Disconnect;
-		this->m_network->sendPacket(packet);
+		this->m_network->disconnect();
 	}
 
 	if(this->m_menu->CloseCombatIsDown() && this->m_currentHeroSelected != Hero::NONE)
