@@ -12,6 +12,7 @@
 #include "GraphicsHandler.h"
 #include "TeslaChainTurret.h"
 #include <sstream>
+#include "Statistics.h"
 
 class ServerThread : public sf::Thread
 {

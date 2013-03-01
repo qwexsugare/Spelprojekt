@@ -30,6 +30,9 @@ bool Client::connect(sf::IPAddress ip, int port)
 void Client::disconnect()
 {
 	//if(this->hostSocket.IsValid())
+	sf::Packet packet;
+	packet << (int)NetworkMessage::Disconnect;
+	this->m_hostSocket.Send(packet);
 	this->m_hostSocket.Close();
 }
 
@@ -484,6 +487,13 @@ void Client::sendMessage(NetworkSelectHeroMessage _usm)
 		sf::Packet packet;
 		packet << _usm;
 		this->m_hostSocket.Send(packet);
+	}
+}
+void Client::sendPacket(sf::Packet p)
+{
+	if(this->isConnected())
+	{
+		this->m_hostSocket.Send(p);
 	}
 }
 

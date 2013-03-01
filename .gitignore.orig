@@ -1713,10 +1713,6 @@ GameClient/textures/7.png
 GameClient/models/Beast/Beast.BFish
 GameClient/models/FrostTurret/FrostTurret.BFish
 GameClient/models/PoisonTurret/PoisonTurret.BFish
-<<<<<<< HEAD
-GameClient/menu_textures/MouseCursor.png
-GameClient/ModelIdHolder.cpp.orig
-=======
 GameClient/models/Beast/Beast.BFish
 GameClient/models/Beast/Beast_Annimations.rar
 GameClient/models/Beast/Beast_Scaled_DM_HS.png
@@ -1728,18 +1724,10 @@ GameClient/models/Char/Engineer.jpg
 GameClient/models/Char/Mentalist.JPG
 GameClient/models/Char/Officer.jpg
 GameClient/models/Char/RedKnight.jpg
->>>>>>> 8b59be0798f3a6756cec2189fa62ee33fc1330af
 GameClient/models/Char1_5/2Hattack.BFishA
 GameClient/models/Char1_5/2Hidle.BFishA
 GameClient/models/Char1_5/2Hrun.BFishA
 GameClient/models/Char1_5/ChainLight.BFishA
-<<<<<<< HEAD
-GameClient/models/Char1_5/PassiveAbility_1H_Melee.mb
-GameClient/models/Char1_5/PassiveAbility_1H_Range.mb
-GameClient/models/Char1_5/PassiveAbility_2H_Melee.mb
-GameClient/models/Char1_5/RangeAttack.BFishA
-GameClient/models/Char1_5/SwiftAsButterfly.mb
-=======
 GameClient/models/Char1_5/char_ani/attack.BFishA
 GameClient/models/Char1_5/char_ani/idle.BFishA
 GameClient/models/Char1_5/char_ani/run.BFishA
@@ -1749,15 +1737,11 @@ GameClient/models/Char1_5/RangeAttack.BFishA
 GameClient/models/Char1_5/twoHandAnimations/2Hattack.BFishA
 GameClient/models/Char1_5/twoHandAnimations/2Hidle.BFishA
 GameClient/models/Char1_5/twoHandAnimations/2Hrun.BFishA
->>>>>>> b104e406f77daaea96d37ce2dff8b27eda8193cb
 GameClient/models/DoctorRevolver/DoctorRevolver.BFish
 GameClient/models/DoctorRevolver/Revolver_normals.TIF
 GameClient/models/DoctorRevolver/Revolver_UV_DM.png
 GameClient/models/DoctorRevolver/Revolver_UV_SM.png
-<<<<<<< HEAD
-=======
 GameClient/models/FrostTurret/FrostTurret.BFish
->>>>>>> b104e406f77daaea96d37ce2dff8b27eda8193cb
 GameClient/models/HexaGun/HexaGun.BFish
 GameClient/models/HexaGun/Hexagun_UV_DM.png
 GameClient/models/HexaGun/Hexagun_UV_GM.png
@@ -1778,22 +1762,34 @@ GameClient/models/MentalistRevolver/MRTextureSpec.png
 GameClient/models/OfficerRapier/OfficeRapierTexture_Color.png
 GameClient/models/OfficerRapier/OfficeRapierTexture_spec.png
 GameClient/models/OfficerRapier/OfficerRapier.BFish
-<<<<<<< HEAD
 GameClient/models/wall/wall_old.BFish
->>>>>>> b104e406f77daaea96d37ce2dff8b27eda8193cb
 GameClient/models/Wrench/Wrench.BFish
 GameClient/models/Wrench/wrench_normals.TIF
 GameClient/models/Wrench/Wrench_UV_DM.png
 GameClient/models/Wrench/Wrench_UV_GM.png
 GameClient/models/Wrench/Wrench_UV_SM.png
-GameClient/Mycursor.cur
 GameClient/config.ini
 GameClient/MapHandler.cpp.orig.orig
 GameClient/models/Beast/Beast.BFish
 GameClient/models/FrostTurret/FrostTurret.BFish
 GameClient/models/LightningTurret/LightningTurret.BFish
->>>>>>> 8b59be0798f3a6756cec2189fa62ee33fc1330af
 dev/fix.png
->>>>>>> b104e406f77daaea96d37ce2dff8b27eda8193cb
 dev/Untitled.jpg
->>>>>>> b10c339e505e0a772be7dbff27c07bae9e0654f8
+<<<<<<< HEAD
+GameClient/menu_textures/Button-MainMenu-ReadLore.png
+GameClient/menu_textures/MENU-END-0.png
+GameClient/menu_textures/MENU-END-1.png
+GameClient/menu_textures/MENU-LEVEL-0.png
+=======
+GameClient/audio/lorebook/Gathering.wav
+GameClient/audio/lorebook/Introduction.wav
+GameClient/audio/lorebook/Level1.wav
+GameClient/audio/lorebook/Level2.wav
+GameClient/audio/lorebook/TheWorld.wav
+GameClient/models/Char1_5/PassiveAbility_1H_Melee.mb
+GameClient/models/Char1_5/PassiveAbility_1H_Range.mb
+GameClient/models/Char1_5/PassiveAbility_2H_Melee.mb
+GameClient/models/Char1_5/Spell.BFishA
+GameClient/models/Char1_5/SwiftAsButterfly.mb
+GameClient/Mycursor.cur
+>>>>>>> 54db65184bcb4a689a5be13e5be4a82ca67ff776

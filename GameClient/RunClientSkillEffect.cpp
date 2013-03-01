@@ -6,15 +6,16 @@ RunClientSkillEffect::RunClientSkillEffect(unsigned int masterId)
 
 	if(master != NULL)
 	{
-		if(master->m_twoHandedWeapon == false)
-		{
-			master->m_model->getAnimation()->Stop("idle");
-			master->m_model->getAnimation()->PlayLoop("run");
-		}
-		else
+		if(master->m_weapon == ModelIdHolder::AOE)
 		{
 			master->m_model->getAnimation()->Stop("2Hidle");
 			master->m_model->getAnimation()->PlayLoop("2Hrun");
+
+		}
+		else
+		{
+			master->m_model->getAnimation()->Stop("idle");
+			master->m_model->getAnimation()->PlayLoop("run");
 		}
 	}
 }

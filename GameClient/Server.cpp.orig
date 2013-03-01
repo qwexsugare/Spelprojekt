@@ -10,10 +10,17 @@ Server::Server(MessageHandler *_messageHandler)
 	this->m_messageHandler->addQueue(this->m_messageQueue);
 	this->nextEmptyArrayPos=0;
 	DelayedDamage::text = NULL;
+<<<<<<< HEAD
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
 		this->m_players[i]=0;
 	}
+=======
+
+	ofstream file("output.txt");
+	file << "Output:" << endl;
+	file.close();
+>>>>>>> 54db65184bcb4a689a5be13e5be4a82ca67ff776
 }
 
 Server::~Server()
@@ -232,6 +239,7 @@ void Server::handleMessages()
 			nueh = NetworkUpdateEntityHealth(m10->id,m10->health);
 			this->broadcast(nueh);
 			break;
+
 		}
 
 		delete m;
@@ -554,15 +562,6 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		this->m_mutex.Lock();
 		this->m_players[socketIndex]->handleReadyMessage(nrm);
 		this->m_mutex.Unlock();
-		break;
-	case NetworkMessage::Disconnect:
-		for(int i=0;i<MAXPLAYERS;i++)
-		{
-			this->clients[socketIndex].Close();
-			delete this->m_players[socketIndex];
-			this->m_players[socketIndex]=0;
-			this->nrOfPlayers--;
-		}
 		break;
 	}
 

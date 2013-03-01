@@ -12,6 +12,7 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 	
 	if(master != NULL)
 	{
+		master->m_model->getAnimation()->PlayLoop("2Hidle");
 		master->m_model->getAnimation()->Play("2Hattack");
 	}
 

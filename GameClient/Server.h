@@ -28,6 +28,8 @@
 #include <vector>
 #include "MessageHandler.h"
 #include "Player.h"
+#include "Statistics.h"
+#define MAXPLAYERS 4
 
 using namespace std;
 class Server : private sf::Thread
@@ -38,12 +40,13 @@ private:
 
 	sf::Mutex m_mutex;
 
-	vector<Player*> m_players;
+	Player* m_players[MAXPLAYERS];
 
 	sf::SelectorTCP selector;
 	sf::SocketTCP listener;
-	sf::SocketTCP clients[4];
-	int clientArrPos;
+	sf::SocketTCP clients[MAXPLAYERS];
+	int nrOfPlayers;
+	int nextEmptyArrayPos;
 	virtual void Run();
 	void goThroughSelector();
 	void handleMessages();

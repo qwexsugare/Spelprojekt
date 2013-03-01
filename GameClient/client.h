@@ -71,6 +71,7 @@ public:
 	void sendMessage(NetworkSelectHeroMessage _usm);
 	void sendMessage(NetworkReadyMessage _usm);
 	void sendMessage(NetworkHeroInitMessage _usm);
+	void sendPacket(sf::Packet p);
 
 	NetworkEntityMessage entityQueueFront();
 	NetworkRemoveEntityMessage removeEntityQueueFront();
