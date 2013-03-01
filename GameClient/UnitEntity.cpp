@@ -395,6 +395,20 @@ int UnitEntity::getPoisonCounter()
 
 void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
+	int networkId=Statistics::convertSimonsIdToRealId(damageDealerId);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).addMentalDamageDealth(mentalDamage* this->m_mentalResistance);
+		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageDealth(physicalDamage* this->m_physicalResistance);
+	}
+
+	networkId=Statistics::convertSimonsIdToRealId(this->m_id);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).addMentalDamageRecived(mentalDamage* this->m_mentalResistance);
+		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageRecived(physicalDamage* this->m_physicalResistance);
+	}
+
 	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
 	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
 	this->m_lastDamageDealer = damageDealerId;
@@ -419,6 +433,11 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 
 void UnitEntity::heal(int health)
 {
+	int networkId=Statistics::convertSimonsIdToRealId(this->m_id);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).increaseHealdAmount(health);
+	}
 	this->m_health = min(m_health+health, m_maxHealth);
 }
 

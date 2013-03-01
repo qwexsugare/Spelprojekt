@@ -15,7 +15,7 @@ Player::Player(unsigned int id)
 
 Player::~Player()
 {
-	delete this->m_messageQueue;
+	//delete this->m_messageQueue;
 }
 
 void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
@@ -76,7 +76,7 @@ Hero* Player::getHero()
 
 int Player::getId()const
 {
-	return this->m_messageQueue->getId();
+	return this->m_id;
 }
 
 void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)

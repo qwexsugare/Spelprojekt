@@ -54,9 +54,9 @@ bool GraphicsHandler::removeRoad(Road* _road)
 	return this->m_world->removeRoad(_road);
 }
 
-ParticleEngine* GraphicsHandler::createParticleEngine(D3DXVECTOR3 _pos, D3DXQUATERNION _rot, D3DXVECTOR3 _scale)
+ParticleEngine* GraphicsHandler::createParticleEngine(D3DXVECTOR4 _pos, D3DXQUATERNION _rot, D3DXVECTOR3 _scale)
 {
-	ParticleEngine* pe;// = new ParticleEngine(ParticleEngine::EngineType::GPUBased, _pos, _rot, _scale);
+	ParticleEngine* pe = new ParticleEngine(this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder(), ParticleEngine::EngineType::GPUBased, _pos, _rot, _scale);
 
 	m_world->addParticleEngine(pe);
 	return pe;

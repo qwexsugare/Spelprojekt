@@ -4,6 +4,7 @@
 
 ServerThread::ServerThread(int _port) : sf::Thread()
 {
+	this->m_statistics = Statistics();
 	this->m_port = _port;
 	this->m_messageHandler = new MessageHandler();
 	this->m_messageQueue = new MessageQueue();
@@ -30,6 +31,7 @@ ServerThread::~ServerThread()
 	this->m_entityHandler->removeAllEntities();
 	delete this->m_entityHandler;
 	TowerPlacer::release();
+	Statistics::saveToFile("STATISTICSlastgame.txt");
 }
 
 void ServerThread::Run()
@@ -92,7 +94,7 @@ void ServerThread::update(float dt)
 				bool okToSelect = true;
 				for(int i = 0; i < players.size(); i++)
 				{
-					if(m->senderId == players[i]->getId())
+					if(m->senderId == players[i]->getMessageQueue()->getId())
 					{
 						senderIndex = i;
 					}
@@ -141,6 +143,12 @@ void ServerThread::update(float dt)
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
 				}
 
+				for(int i = 0; i < heroTypes.size(); i++)
+				{
+					Statistics::getStatisticsPlayer(i).setId(ids[i]);
+					Statistics::getStatisticsPlayer(i).setHeroType((StatisticsPlayer::HERO_TYPE)(heroTypes[i]));
+				}
+
 				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));
 			}
 		}
@@ -187,6 +195,8 @@ void ServerThread::update(float dt)
 					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
 					{
 						this->m_network->getPlayers()[i]->addResources(edm->resources);
+						Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseDeamonsKilled();
+						Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseGoldCollected(edm->resources);
 						i = 5;
 					}
 				}
