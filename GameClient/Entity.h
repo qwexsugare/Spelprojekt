@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 #include "ServerEntity.h"
+#include "ModelIdHolder.h"
 
 struct Entity
 {
@@ -14,7 +15,7 @@ struct Entity
 	FLOAT3 m_endPos;
 	float movementSpeed;
 	PointLight *m_lanternLight;
-	bool m_twoHandedWeapon;
+	unsigned int m_weapon;
 
 	Entity()
 	{
@@ -26,7 +27,7 @@ struct Entity
 		this->m_model = _model;
 		this->m_id = _id;
 		this->m_direction = FLOAT3(0.0f, 0.0f, 0.0f);
-		this->m_twoHandedWeapon = false;
+		this->m_weapon = ModelIdHolder::NO_WEAPON;
 		m_startPos=this->m_model->getPosition();
 		m_endPos=this->m_model->getPosition();
 		this->movementSpeed=1;

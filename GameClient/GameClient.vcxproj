@@ -157,6 +157,7 @@
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeClientSkillEffect.cpp" />
     <ClCompile Include="ChainStrikeEffect.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="FrostTurretProjectile.cpp" />
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp" />
     <ClCompile Include="IdleClientSkillEffect.cpp" />
+    <ClCompile Include="PassiveAttackClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAOEAttack.cpp" />
     <ClCompile Include="MeleeAOEClientSkillEffect.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
@@ -322,6 +324,7 @@
     <ClInclude Include="ArrowClientSkillEffect.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h" />
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeClientSkillEffect.h" />
     <ClInclude Include="ChainStrikeEffect.h" />
@@ -339,6 +342,7 @@
     <ClInclude Include="FrostTurretProjectile.h" />
     <ClInclude Include="HypnoticStareClientSkillEffect.h" />
     <ClInclude Include="IdleClientSkillEffect.h" />
+    <ClInclude Include="PassiveAttackClientSkillEffect.h" />
     <ClInclude Include="MeleeAOEAttack.h" />
     <ClInclude Include="MeleeAOEClientSkillEffect.h" />
     <ClInclude Include="MeleeAttack.h" />

@@ -30,6 +30,7 @@ private:
 	D3DXMATRIX rightHandMatrix;
 	D3DXMATRIX leftHandMatrix;
 	bool waitAtEnd;
+	int priority;
 	void UpdateCurrAnimations();
 
 public:
@@ -48,7 +49,7 @@ public:
 	
 	DECLDIR void PlayLoop(string name, int numberOfLoops = _INF_Fisk_, float speedMultiplier = 1.0f, Motion body = Motion::FullBody, float overlapTime = 0.5f);
 	DECLDIR void Stop(string name, Motion body = Motion::FullBody);
-	DECLDIR void Play(string name, bool waitAtEnd = false, float speedMultiplier = 1.0f, Motion body = Motion::FullBody);
+	DECLDIR void Play(string name, bool waitAtEnd = false, int priority = 0, float speedMultiplier = 1.0f, Motion body = Motion::FullBody);
 	DECLDIR string getPrioAnimation();
 	DECLDIR string getCurrentAnimation();
 	FishAnimationStuff ANewWierdFunction(AnimationFile* animationFile, int skeletonIndex, int jointIndex, float lerpValue);

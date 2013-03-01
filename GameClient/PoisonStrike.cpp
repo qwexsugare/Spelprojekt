@@ -13,6 +13,7 @@ PoisonStrike::~PoisonStrike()
 bool PoisonStrike::activate(unsigned int _targetId, unsigned int _senderId)
 {
 	int poison = rand() % 100 + 1;
+	bool triggered = false;
 
 	UnitEntity *caster = (UnitEntity*)EntityHandler::getServerEntity(_senderId);
 	UnitEntity *target = (UnitEntity*)EntityHandler::getServerEntity(_targetId);
@@ -25,9 +26,10 @@ bool PoisonStrike::activate(unsigned int _targetId, unsigned int _senderId)
 		}
 
 		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, 100 + target->getPoisonCounter() * 5, 0, Skill::POISON_STRIKE));
+		triggered = true;
 	}
 
-	return true;
+	return triggered;
 }
 
 void PoisonStrike::updateSpecificSkill(float dt)
