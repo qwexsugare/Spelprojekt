@@ -6,8 +6,17 @@ IdleClientSkillEffect::IdleClientSkillEffect(unsigned int masterId)
 
 	if(master != NULL)
 	{
-		master->m_model->getAnimation()->Stop("run");
-		master->m_model->getAnimation()->PlayLoop("idle");
+		if(master->m_weapon == ModelIdHolder::AOE)
+		{
+			master->m_model->getAnimation()->Stop("2Hrun");
+			master->m_model->getAnimation()->PlayLoop("2Hidle");
+
+		}
+		else
+		{
+			master->m_model->getAnimation()->Stop("run");
+			master->m_model->getAnimation()->PlayLoop("idle");
+		}
 	}
 }
 

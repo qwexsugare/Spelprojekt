@@ -162,6 +162,9 @@ Model* GraphicsHandler::createModel(Model *_model, bool _static)
 		model = new Model(this->m_deviceHandler->getDevice(), mesh, animation, _model->getPosition().toD3DXVector(), D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3(_model->getRotation().y, _model->getRotation().x, _model->getRotation().z),
 			1.0f, _model->getTextureIndex());
 		model->setStatic(_static);
+		model->SetLeftHand(_model->getLeftHand());
+		model->SetRightHand(_model->getRightHand());
+		model->SetHat(_model->getHat());
 		// If the world failed to add the model, delete the model;
 		if(!this->m_world->addModel(model))
 		{
@@ -232,11 +235,11 @@ bool GraphicsHandler::removeSpriteSheet(SpriteSheet *spriteSheet)
 	return this->m_world->removeSprite(spriteSheet);
 }
 
-PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius, bool shadow)
+PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius, bool shadow, bool _static, FLOAT3 _shadowOffset)
 {
-	PointLight *l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, shadow);
+	PointLight *l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, shadow, _shadowOffset);
 
-	if(this->m_world->addPointLight(l) == false)
+	if(this->m_world->addPointLight(l, _static) == false)
 	{
 		delete l;
 		l = NULL;

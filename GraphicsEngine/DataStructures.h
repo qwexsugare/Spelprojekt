@@ -43,6 +43,17 @@ struct DECLDIR FLOAT2
 		return FLOAT2(x*_k, y*_k);
 	}
 
+	template<typename T>
+	FLOAT2 operator/(const T& _k)const
+	{
+		return FLOAT2(x/_k, y/_k);
+	}
+
+	float length()const
+	{
+		return sqrt(this->x * this->x + this->y * this->y);
+	}
+
 	D3DXVECTOR2 toD3DXVector()
 	{
 		return D3DXVECTOR2(this->x, this->y);

@@ -5,8 +5,7 @@
 #include "UnitEntity.h"
 #include "ServerEntity.h"
 #include "EntityHandler.h"
-#include "Projectile.h"
-#include "MapHandler.h"
+#include "Pathfinder.h"
 #include "Path.h"
 #include "Skills.h"
 

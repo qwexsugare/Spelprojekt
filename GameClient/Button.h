@@ -20,6 +20,7 @@ private:
 	//----------------------------------------------------------------------------------------------
 		int m_ButtonReaction ;
 		SpriteSheet* m_Button;
+		Sprite* m_SpriteSkill;
 		TextLabel* m_Label;
 	//----------------------------------------------------------------------------------------------
 	// Button size
@@ -49,8 +50,10 @@ private:
 		string			m_ButtonText;
 
 		string			m_TextureName;
-
+		string			m_Skill;
 	//----------------------------------------------------------------------------------------------
+
+		int m_clickSound;
 
 public:
 	Button();
@@ -69,7 +72,8 @@ public:
 				int _Cost = 0,
 				INT2 _TextPos = INT2(0,0),
 				bool _TextBox = false,
-				int _id = 0);
+				int _id = 0,
+				string _Skill = "");
 
 	void Button::RemoveSprite();
 	bool isClicked()const { return m_clicked; }

@@ -479,7 +479,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 						avoidDir = cross/(0.1f*i);
 					else
 						avoidDir = FLOAT3(0,0,0) - cross/(0.1f*i);
-
+					avoidDir=avoidDir/avoidDir.length();
 					return avoidDir;
 				}
 

@@ -8,6 +8,7 @@ class RangedAttack : public Skill
 {
 public:
 	static const float RANGE;
+	static const int VELOCITY = 7.0f;
 
 	RangedAttack();
 	~RangedAttack();

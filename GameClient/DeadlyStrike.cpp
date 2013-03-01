@@ -13,6 +13,7 @@ DeadlyStrike::~DeadlyStrike()
 bool DeadlyStrike::activate(unsigned int _targetId, unsigned int _senderId)
 {
 	int deadlyStrike = rand() % 100 + 1;
+	bool triggered = false;
 
 	UnitEntity *caster = (UnitEntity*)EntityHandler::getServerEntity(_senderId);
 	UnitEntity *target = (UnitEntity*)EntityHandler::getServerEntity(_targetId);
@@ -21,9 +22,10 @@ bool DeadlyStrike::activate(unsigned int _targetId, unsigned int _senderId)
 	{
 		target->takeDamage(_senderId, INT_MAX, INT_MAX);
 		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, INT_MAX, INT_MAX, Skill::DEADLY_STRIKE));
+		triggered = true;
 	}
 
-	return true;
+	return triggered;
 }
 
 void DeadlyStrike::updateSpecificSkill(float dt)

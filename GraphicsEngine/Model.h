@@ -26,6 +26,7 @@ private:
 	string m_textureIndex;
 	string m_glowIndex;
 	bool m_static;
+	bool m_shadow;
 public:
 	Model();
 	Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f),
@@ -37,6 +38,7 @@ public:
 	BoundingSphere* getBs()const { return this->m_bs; }
 	DECLDIR FLOAT3 getPosition()const;
 	D3DXVECTOR2 getPosition2D()const;
+	DECLDIR FLOAT2 getPosition2DAsFloat2()const;
 	D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	DECLDIR Mesh* getMesh()const;
@@ -71,4 +73,8 @@ public:
 	DECLDIR void setScale(float x, float y, float z);
 	DECLDIR void setRotation(FLOAT3 _rotation);
 	DECLDIR void setStatic(bool _static);
+	DECLDIR void setShadow(bool _shadow);
+	bool getShadow();
+
+	DECLDIR FLOAT3 getLeftHandPosition();
 };

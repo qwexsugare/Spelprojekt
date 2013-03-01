@@ -69,9 +69,9 @@ GameState::GameState(Client *_network)
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
-	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false);
-	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.01f, 0.01f, 0.01f));
+	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
+	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, true);
+	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.05f, 0.05f, 0.05f), FLOAT3(0.05f, 0.05f, 0.05f), FLOAT3(0.0f, 0.0f, 0.0f));
 
 	m_healthText = g_graphicsEngine->createText("No target", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
@@ -217,6 +217,8 @@ void GameState::update(float _dt)
 			e->m_type = (ServerEntity::Type)iem.getType();
 			this->m_clientEntityHandler->addEntity(e);
 
+			e->m_weapon = iem.getWeaponType();
+
 			if(iem.getType() == ServerEntity::HeroType)
 			{
 					
@@ -245,6 +247,18 @@ void GameState::update(float _dt)
 		case Skill::DEATH:
 			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
+		case Skill::LIFESTEALING_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::DEADLY_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::POISON_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
+			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
+			break;
 		}
 	}
 
@@ -255,11 +269,11 @@ void GameState::update(float _dt)
 		switch(e.getActionId())
 		{
 		case Skill::CLOUD_OF_DARKNESS:
-			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
-		case Skill::ATTACK:
-			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getPosition()));
 			break;
+		case Skill::CHAIN_STRIKE:
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getPosition()));
 		}
 	}
 
@@ -274,6 +288,15 @@ void GameState::update(float _dt)
 				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), m_playerInfos[m_yourId].heroType));
 			else
 				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
+			break;
+		case Skill::FROST_TURRET_PROJECTILE:
+			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			break;
+		case Skill::POISON_TURRET_PROJECTILE:
+			m_ClientSkillEffects.push_back(new PoisonTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			break;
+		case Skill::DEATH_PULSE_TURRET_PROJECTILE:
+			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
 			break;
 		case Skill::HEALING_TOUCH:
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
@@ -295,6 +318,9 @@ void GameState::update(float _dt)
 			break;
 		case Skill::MELEE_ATTACK:
 			this->m_ClientSkillEffects.push_back(new MeleeAttackClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
+			break;
+		case Skill::AOE_MELEE_ATTACK:
+			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
 			break;
 		}
 	}
@@ -415,16 +441,30 @@ void GameState::update(float _dt)
 	{
 		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
 	}
-	
-	if(g_mouse->isLButtonPressed())
-	{
-		D3DXVECTOR3 pickDir;
-		D3DXVECTOR3 pickOrig;
-		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-		float k = (-pickOrig.y)/pickDir.y;
-		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+	D3DXVECTOR3 pickDir;
+	D3DXVECTOR3 pickOrig;
+	g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+	float dist;
+	float k = (-pickOrig.y)/pickDir.y;
+	D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+	int mouseOverEnemy = -1;
+	vector<Entity*> m_entities = m_clientEntityHandler->getEntities();
+	for(int i = 0; i < m_entities.size(); i++)
+	{
+		if(m_entities[i]->m_type == ServerEntity::EnemyType && m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+		{
+			mouseOverEnemy = i;
+			i = m_entities.size();
+			g_mouse->getCursor()->setFrame(Cursor::TARGET, 1);
+		}
 	}
+
+	if(mouseOverEnemy == -1)
+	{
+		g_mouse->getCursor()->setFrame(Cursor::DEFAULT, 1);
+	}
+	
 	if(g_mouse->isLButtonDown())
 	{
 
@@ -437,31 +477,19 @@ void GameState::update(float _dt)
 	{
 		if(m_minimap->isMouseInMap(g_mouse->getPos()) == false)
 		{
-			bool validMove = true;
-			
-			D3DXVECTOR3 pickDir;
-			D3DXVECTOR3 pickOrig;
-			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-			float dist;
-			vector<Entity*> m_entities = m_clientEntityHandler->getEntities();
-			for(int i = 0; i < m_entities.size(); i++)
+			if(mouseOverEnemy >= 0)
 			{
-				if(m_entities[i]->m_type == ServerEntity::EnemyType && m_entities[i]->m_model->intersects(dist, pickOrig, pickDir))
+				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[mouseOverEnemy]->m_id, -1));
+				stringstream ss;
+				ss << m_entities[mouseOverEnemy]->m_health;
+				m_healthText->setString("Target health: " + ss.str());
+				if(m_attackSoundTimer == 0.0f)
 				{
-					this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[i]->m_id, -1));
-					stringstream ss;
-					ss << m_entities[i]->m_health;
-					m_healthText->setString("Target health: " + ss.str());
-					if(m_attackSoundTimer == 0.0f)
-					{
-						SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
-						m_attackSoundTimer = ATTACK_SOUND_DELAY;
-					}
-					validMove = false;
+					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+					m_attackSoundTimer = ATTACK_SOUND_DELAY;
 				}
 			}
-
-			if(validMove)
+			else
 			{
 				float k = (-pickOrig.y)/pickDir.y;
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
@@ -640,9 +668,15 @@ void GameState::importMap(string _map)
 					rotation.z *= (D3DX_PI/180);
 					//rotation = FLOAT3(0,0,0);
 				
-					Model *m = g_graphicsEngine->createModel(key, position, true);
-					m->setRotation(rotation);
-					m->setScale(scale, scale, scale);
+					if(key[0]=='S'&&key[1]=='P'&&key[2]=='A'&&key[3]=='W'&&key[4]=='N')
+					{
+					}
+					else
+					{
+						Model *m = g_graphicsEngine->createModel(key, position, true);
+						m->setRotation(rotation);
+						m->setScale(scale, scale, scale);
+					}
 				}
 			}
 		}
@@ -682,7 +716,7 @@ void GameState::importMap(string _map)
 
 						position.z = -position.z;
 
-						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, FLOAT3(1.0f, 1.0f, 1.0f), radius, false);
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, FLOAT3(1.0f, 1.0f, 1.0f), radius, false, true);
 					}
 					else if(strcmp(key, "PL") == 0)
 					{
@@ -694,7 +728,7 @@ void GameState::importMap(string _map)
 
 						position.z = -position.z;
 
-						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius, false);
+						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, color, radius, false, true);
 					}
 					else if(strcmp(key, "SL") == 0)
 					{

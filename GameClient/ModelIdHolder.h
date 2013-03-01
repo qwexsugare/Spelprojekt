@@ -7,9 +7,8 @@ class ModelIdHolder
 {
 public:
 	static const int MAX_IDS = 100;
-private:
 	enum WEAPON_TYPE{NO_WEAPON, RANGED, MELEE, AOE};
-
+private:
 	struct WeaponSet
 	{
 		std::string leftHand;

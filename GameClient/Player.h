@@ -5,7 +5,6 @@
 #include "MessageQueue.h"
 #include "EntityHandler.h"
 #include "Hero.h"
-#include "Projectile.h"
 #include "Skills.h"
 
 #include "DeathPulseTurret.h"
@@ -37,7 +36,7 @@ public:
 	~Player();
 	
 	void assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType);
-	void spawnHero();
+	void spawnHero(FLOAT3 _position);
 	Hero::HERO_TYPE getSelectedHeroType()const;
 	int getId()const;
 	Hero* getHero();

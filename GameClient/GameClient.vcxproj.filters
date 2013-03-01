@@ -19,9 +19,6 @@
     <ClCompile Include="CreditsMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="Cursor.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -98,9 +95,6 @@
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="MapHandler.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="HudMenu.cpp">
@@ -325,9 +319,6 @@
     <ClCompile Include="ArrowClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="Arrow.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="CourageHonorValor.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
@@ -445,9 +436,38 @@
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="FrostTurretEffect.cpp">
-      <Filter>Server\Towers\Effects</Filter>
+    <ClCompile Include="FrostTurretProjectileClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>Client\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAOEClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostTurretProjectile.cpp">
+      <Filter>Server\Towers\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonTurretProjectile.cpp">
+      <Filter>Server\Towers\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="PoisonTurretProjectileClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathPulseTurretClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="PassiveAttackClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>    
+    <ClCompile Include="ChainStrikeClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+      </ClCompile>
+    <ClCompile Include="Statistics.cpp" />
+    <ClCompile Include="StatisticsPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -466,9 +486,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="CreditsMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Cursor.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
@@ -559,9 +576,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="MapHandler.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">
@@ -798,9 +812,6 @@
     <ClInclude Include="ArrowClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="CourageHonorValor.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
@@ -929,9 +940,38 @@
     <ClInclude Include="HypnoticStareClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="FrostTurretEffect.h">
-      <Filter>Server\Towers\Effects</Filter>
+    <ClInclude Include="Cursor.h">
+      <Filter>Client\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="MeleeAOEClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretProjectileClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretProjectile.h">
+      <Filter>Server\Towers\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonTurretProjectile.h">
+      <Filter>Server\Towers\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PoisonTurretProjectileClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathPulseTurretClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="PassiveAttackClientSkillEffect.h">
+       <Filter>Client\Skills</Filter>
+    </ClInclude>   
+    <ClInclude Include="ChainStrikeClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Statistics.h" />
+    <ClInclude Include="StatisticsPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -978,6 +1018,9 @@
     </Filter>
     <Filter Include="Server\Towers\Tower Placer">
       <UniqueIdentifier>{7be7bea1-bd1e-460e-bca8-3cdc6c3dbe73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Towers\Projectiles">
+      <UniqueIdentifier>{ab0a6282-5db6-4445-ac41-c2d477c6298f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ CreateGameMenu::CreateGameMenu(void)
 
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
-	this->m_Buttons.resize(5);
+	this->m_Buttons.resize(6);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,1,5);
 	this->m_Buttons[1] = new Button();
@@ -42,12 +42,18 @@ CreateGameMenu::CreateGameMenu(void)
 	this->m_Buttons[3]->Init(FLOAT2(0.2f,  -0.47f),FLOAT2(0.3125f*2,0.05555555f*1.5f),"menu_textures\\Button-Text.png","",0,0,1,5);
 	this->m_Buttons[4] = new Button();
 	this->m_Buttons[4]->Init(FLOAT2(0.2f,  -0.56f),FLOAT2(0.3125f*2,0.05555555f*1.5f),"menu_textures\\Button-Text.png","",0,0,1,5);
+	this->m_Buttons[5] = new Button();
+	this->m_Buttons[5]->Init(FLOAT2(-0.65f,  -0.1f),FLOAT2(0.364583333f,0.285185185f),"menu_textures\\Level1_Button.png","",0,0,1,5);
 }
 void CreateGameMenu::Update(float _dt)
 {
 	for(int i=0; i < this->m_Buttons.size(); i++)
 	{
 		this->m_Buttons[i]->Update();
+	}
+	if (LevelOneIsDown())
+	{
+
 	}
 	if (MainWriteGameIsDown() || m_WriteGame == true)
 		this->m_Label[0]->update(_dt);
@@ -114,7 +120,14 @@ CreateGameMenu::~CreateGameMenu(void)
 	delete this->m_IPLabel;
 
 }
-
+bool CreateGameMenu::LevelOneIsDown()
+{
+	if(this->m_Buttons[1]->Clicked() == 1)
+	{
+		return true;
+	}
+	return false;
+}
 string CreateGameMenu::getIP()
 {
 	return this->m_Label[0]->getText();
