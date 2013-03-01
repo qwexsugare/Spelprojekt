@@ -18,4 +18,5 @@
 #include "PoisonTurretProjectileClientSkillEffect.h"
 #include "DeathPulseTurretClientSkillEffect.h"
 #include "PassiveAttackClientSkillEffect.h"
+#include "ChainStrikeClientSkillEffect.h"
 #include "SwiftAsACatPowerfulAsABoarClientSkillEffect.h"

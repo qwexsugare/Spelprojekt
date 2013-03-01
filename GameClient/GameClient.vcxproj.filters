@@ -459,6 +459,9 @@
     </ClCompile>
     <ClCompile Include="PassiveAttackClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
+    </ClCompile>    
+    <ClCompile Include="ChainStrikeClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -957,6 +960,9 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="PassiveAttackClientSkillEffect.h">
+       <Filter>Client\Skills</Filter>
+    </ClInclude>   
+    <ClInclude Include="ChainStrikeClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h">

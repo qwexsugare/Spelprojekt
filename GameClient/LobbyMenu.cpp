@@ -110,25 +110,46 @@ void LobbyMenu::Update(float _dt)
 	{
 		Change = 1;
 		m_Character0 = true;
+		m_Character1 = false;
+		m_Character2 = false;
+		m_Character3 = false;
+		m_Character4 = false;
 	}
 	if(Character1IsDown())
 	{
 		Change = 1;
+		m_Character0 = false;
 		m_Character1 = true;
+		m_Character2 = false;
+		m_Character3 = false;
+		m_Character4 = false;
 	}
 	if(Character2IsDown())
 	{
 		Change = 1;
+		m_Character0 = false;
+		m_Character1 = false;
 		m_Character2 = true;
+		m_Character3 = false;
+		m_Character4 = false;
+
 	}
 	if(Character3IsDown())
 	{
 		Change = 1;
+		m_Character0 = false;
+		m_Character1 = false;
+		m_Character2 = false;
 		m_Character3 = true;
+		m_Character4 = false;
 	}
 	if(Character4IsDown())
 	{
 		Change = 1;
+		m_Character0 = false;
+		m_Character1 = false;
+		m_Character2 = false;
+		m_Character3 = false;
 		m_Character4 = true;
 	}
 	this->m_LabelInput->update(_dt);

@@ -1424,6 +1424,33 @@ GameClient/models/Kubb/dHatTexture_Color.png
 GameClient/models/Kubb/dHatTexture_Spec.png
 GameClient/models/Kubb/doctorHat_normals.TIF
 GameClient/models/Kubb/Kubb.BFish
+<<<<<<< HEAD
+GameClient/Gamecomponent.rar
+GameClient/GameState.cpp
+GameClient/maps/levelone/levelone.txt
+GameClient/maps/levelone/levelonegm.png
+GameClient/minimap/enemy_pos.png
+GameClient/minimap/player_pos.png
+GameClient/models/Arrow/Arrow_GM_0.png
+GameClient/models/Arrow/Arrow_GM_1.png
+GameClient/models/Arrow/Arrow_GM_2.png
+GameClient/models/Arrow/Arrow_GM_3.png
+GameClient/models/Arrow/Arrow_GM_GREEN.png
+GameClient/models/Arrow/Arrow_GM_ORANGE.png
+GameClient/models/Arrow/Arrow_GM_PURPLE.png
+GameClient/models/Arrow/Arrow_NM.png
+GameClient/models/Arrow/Arrow_SM.png
+GameClient/models/Beast/Beast_Annimations.rar
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/Char1_5/char_ani/attack.BFishA
+GameClient/models/Char1_5/char_ani/idle.BFishA
+GameClient/models/Char1_5/Char1_5_Animations.rar
+GameClient/models/Char1_5/idle.BFishA
+GameClient/models/FrostTurret/checkeredmap.jpg
+GameClient/models/FrostTurret/FrostTurret.BFish
+GameClient/models/LightningTurret/checkeredmap.jpg
+GameClient/models/LightningTurret/LightningTurret.BFish
+=======
 GameClient/audio/enemy/Monster_Frost_Attack_0.wav
 GameClient/audio/enemy/Monster_Frost_Attack_1.wav
 GameClient/audio/enemy/Monster_Frost_Attack_2.wav
@@ -1488,11 +1515,40 @@ GameClient/models/lantern/lyktaTexture_Color.png
 GameClient/models/lantern/lyktaTexture_Glow.png
 GameClient/models/lantern/lyktaTexture_Spec.png
 GameClient/models/lantern/lyktaxNormal_normals.PNG
+>>>>>>> b10c339e505e0a772be7dbff27c07bae9e0654f8
 GameClient/models/Mace/Mace.BFish
 GameClient/models/Mace/mace_normals.TIF
 GameClient/models/Mace/Mace_UV_DM.png
 GameClient/models/Mace/Mace_UV_GM.png
 GameClient/models/Mace/Mace_UV_SM.png
+<<<<<<< HEAD
+GameClient/models/Pentagram/Pentagram_1_2_NM.png
+GameClient/models/Pentagram/Pentagram_1_2_SM.png
+GameClient/models/Pentagram/Pentagram_1_DM.png
+GameClient/models/Pentagram/Pentagram_1_GM.png
+GameClient/models/Pentagram/Pentagram_2_GM.png
+GameClient/models/PoisonTurret/checkeredmap.jpg
+GameClient/models/PoisonTurret/PoisonTurret.BFish
+GameClient/models/Turret_Frost/Turret_Frost.BFish
+GameClient/models/Turret_Frost/Turret_Frost_DM.png
+GameClient/models/Turret_Frost/Turret_Frost_GM.png
+GameClient/models/Turret_Frost/Turret_Frost_NM.png
+GameClient/models/Turret_Frost/Turret_Frost_SM.png
+GameClient/models/Turret_Poison/Turret_Poison.BFish
+GameClient/models/Turret_Poison/Turret_Poison_DM.png
+GameClient/models/Turret_Poison/Turret_Poison_GM.png
+GameClient/models/Turret_Poison/Turret_Poison_NM.png
+GameClient/models/Turret_Poison/Turret_Poison_SM.png
+GameClient/models/Turret_Tesla/Turret_Tesla.BFish
+GameClient/models/Turret_Tesla/Turret_Tesla_DM.png
+GameClient/models/Turret_Tesla/Turret_Tesla_GM.png
+GameClient/models/Turret_Tesla/Turret_Tesla_NM.png
+GameClient/models/Turret_Tesla/Turret_Tesla_SM.png
+GameClient/models/wall/wall.rar
+GameClient/textures/1_2_3_4_SM.png
+GameClient/textures/7.png
+GameClient/textures/7_OLD.png
+=======
 GameClient/menu_textures/CharacterMenu-Button-Officer.png
 GameClient/menu_textures/CharacterMenu-Button-Officer.png
 GameClient/models.zip
@@ -1577,10 +1633,83 @@ GameClient/MapHandler.cpp.orig.orig
 GameClient/models/Beast/Beast.BFish
 GameClient/models/FrostTurret/FrostTurret.BFish
 GameClient/models/PoisonTurret/PoisonTurret.BFish
+>>>>>>> b10c339e505e0a772be7dbff27c07bae9e0654f8
 GameClient/textures/asd.png
 GameClient/textures/dsaa.png
 GameClient/textures/dsadas.png
 GameClient/textures/sada.png
+<<<<<<< HEAD
+GameClient/maps/levelone/levelone.txt
+GameClient/minimap/enemy_pos.png
+GameClient/minimap/player_pos.png
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/Char1_5/idle.BFishA
+GameClient/models/FrostTurret/checkeredmap.jpg
+GameClient/models/FrostTurret/FrostTurret.BFish
+GameClient/models/LightningTurret/checkeredmap.jpg
+GameClient/models/LightningTurret/LightningTurret.BFish
+GameClient/models/PoisonTurret/checkeredmap.jpg
+GameClient/models/PoisonTurret/PoisonTurret.BFish
+GameClient/textures/7.png
+GameClient/audio/buttons/CoinSell_Buy.wav
+GameClient/audio/buttons/PushButton.wav
+GameClient/audio/CoinSell_Buy.wav
+GameClient/audio/lorebook/Gathering.wav
+GameClient/audio/lorebook/Introduction.wav
+GameClient/audio/lorebook/Level1.wav
+GameClient/audio/lorebook/Level2.wav
+GameClient/audio/lorebook/TheWorld.wav
+GameClient/audio/PushButton.wav
+GameClient/maps/levelone/levelone.txt
+GameClient/menu_textures/Button-MainMenu-ReadLore.png
+GameClient/menu_textures_emilvers/Aura_CourageHonorValor.png
+GameClient/menu_textures_emilvers/Aura_DeadlyStrike.png
+GameClient/menu_textures_emilvers/Aura_DemonicPresence.png
+GameClient/menu_textures_emilvers/Aura_EnhancedDevelopment.png
+GameClient/menu_textures_emilvers/Aura_EnigmaticPresence.png
+GameClient/menu_textures_emilvers/Aura_HealingAura.png
+GameClient/menu_textures_emilvers/Aura_HypnoticStare.png
+GameClient/menu_textures_emilvers/Aura_LifeStealingStrike.png
+GameClient/menu_textures_emilvers/Aura_PoisonStrike.png
+GameClient/menu_textures_emilvers/Aura_ReadyAimFire.png
+GameClient/menu_textures_emilvers/Aura_StunningStrike.png
+GameClient/menu_textures_emilvers/Aura_SwiftAsACatPowerfulAsABear.png
+GameClient/menu_textures_emilvers/Aura_TurretLifeTime.png
+GameClient/menu_textures_emilvers/Button-MainMenu-ReadLore.png
+GameClient/menu_textures_emilvers/Imp-0.png
+GameClient/menu_textures_emilvers/Imp-1.png
+GameClient/menu_textures_emilvers/Imp-2.png
+GameClient/menu_textures_emilvers/Imp-3.png
+GameClient/menu_textures_emilvers/MENU-END-0.png
+GameClient/menu_textures_emilvers/MENU-END-1.png
+GameClient/menu_textures_emilvers/MENU-LEVEL-0.png
+GameClient/menu_textures_emilvers/MouseCursor.png
+GameClient/menu_textures_emilvers/Upgradebar_Buy_Tower_All.png
+GameClient/menu_textures_emilvers/Upgradebar_Buy_Tower_Death.png
+GameClient/menu_textures_emilvers/Upgradebar_Buy_Tower_Frost.png
+GameClient/menu_textures_emilvers/Upgradebar_Buy_Tower_Poison.png
+GameClient/menu_textures_emilvers/Upgradebar_Buy_Tower_Tesla.png
+GameClient/minimap/enemy_pos.png
+GameClient/minimap/player_pos.png
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/Char1_5/idle.BFishA
+GameClient/models/FrostTurret/checkeredmap.jpg
+GameClient/models/FrostTurret/FrostTurret.BFish
+GameClient/models/LightningTurret/checkeredmap.jpg
+GameClient/models/LightningTurret/LightningTurret.BFish
+GameClient/models/PoisonTurret/checkeredmap.jpg
+GameClient/models/PoisonTurret/PoisonTurret.BFish
+GameClient/textures/7.png
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/Char1_5/idle.BFishA
+GameClient/models/FrostTurret/checkeredmap.jpg
+GameClient/models/FrostTurret/FrostTurret.BFish
+GameClient/models/LightningTurret/checkeredmap.jpg
+GameClient/models/LightningTurret/LightningTurret.BFish
+GameClient/models/PoisonTurret/checkeredmap.jpg
+GameClient/models/PoisonTurret/PoisonTurret.BFish
+GameClient/textures/7.png
+=======
 GameClient/models/Beast/Beast.BFish
 GameClient/models/FrostTurret/FrostTurret.BFish
 GameClient/models/PoisonTurret/PoisonTurret.BFish
@@ -1599,7 +1728,7 @@ GameClient/models/Char/Engineer.jpg
 GameClient/models/Char/Mentalist.JPG
 GameClient/models/Char/Officer.jpg
 GameClient/models/Char/RedKnight.jpg
->>>>>>> b104e406f77daaea96d37ce2dff8b27eda8193cb
+>>>>>>> 8b59be0798f3a6756cec2189fa62ee33fc1330af
 GameClient/models/Char1_5/2Hattack.BFishA
 GameClient/models/Char1_5/2Hidle.BFishA
 GameClient/models/Char1_5/2Hrun.BFishA
@@ -1634,14 +1763,11 @@ GameClient/models/HexaGun/Hexagun_UV_DM.png
 GameClient/models/HexaGun/Hexagun_UV_GM.png
 GameClient/models/HexaGun/Hexagun_UV_SM.png
 GameClient/models/HexaGun/PistolTest_normals.TIF
-<<<<<<< HEAD
-=======
 GameClient/models/LightningTurret/LightningTurret.BFish
 GameClient/models/LightningTurret/Turret_Tesla_DM.png
 GameClient/models/LightningTurret/Turret_Tesla_GM.png
 GameClient/models/LightningTurret/Turret_Tesla_NM.png
 GameClient/models/LightningTurret/Turret_Tesla_SM.png
->>>>>>> b104e406f77daaea96d37ce2dff8b27eda8193cb
 GameClient/models/MeatClever/MeatCleaver_UV_DM.png
 GameClient/models/MeatClever/MeatCleaver_UV_GM.png
 GameClient/models/MeatClever/MeatCleaver_UV_SM.png
@@ -1652,11 +1778,7 @@ GameClient/models/MentalistRevolver/MRTextureSpec.png
 GameClient/models/OfficerRapier/OfficeRapierTexture_Color.png
 GameClient/models/OfficerRapier/OfficeRapierTexture_spec.png
 GameClient/models/OfficerRapier/OfficerRapier.BFish
-GameClient/models/Sword/Sword.BFish
-GameClient/models/Sword/Sword2_UV_DM.png
-GameClient/models/Sword/Sword2_UV_USE_SM.png
 <<<<<<< HEAD
-=======
 GameClient/models/wall/wall_old.BFish
 >>>>>>> b104e406f77daaea96d37ce2dff8b27eda8193cb
 GameClient/models/Wrench/Wrench.BFish
@@ -1664,12 +1786,14 @@ GameClient/models/Wrench/wrench_normals.TIF
 GameClient/models/Wrench/Wrench_UV_DM.png
 GameClient/models/Wrench/Wrench_UV_GM.png
 GameClient/models/Wrench/Wrench_UV_SM.png
-<<<<<<< HEAD
 GameClient/Mycursor.cur
-=======
 GameClient/config.ini
 GameClient/MapHandler.cpp.orig.orig
 GameClient/models/Beast/Beast.BFish
 GameClient/models/FrostTurret/FrostTurret.BFish
 GameClient/models/LightningTurret/LightningTurret.BFish
+>>>>>>> 8b59be0798f3a6756cec2189fa62ee33fc1330af
+dev/fix.png
 >>>>>>> b104e406f77daaea96d37ce2dff8b27eda8193cb
+dev/Untitled.jpg
+>>>>>>> b10c339e505e0a772be7dbff27c07bae9e0654f8
