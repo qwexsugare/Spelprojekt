@@ -3,7 +3,7 @@
 #include "MyAlgorithms.h"
 #include "Skill.h"
 
-StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position)
+StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position, unsigned int _masterId)
 {
 	m_position = _position;
 	
@@ -37,7 +37,7 @@ StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position)
 		}
 	}
 	
-	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::STUNNING_STRIKE, 0, _position));
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::STUNNING_STRIKE, _masterId, _position));
 }
 
 StunningStrikeEffect::~StunningStrikeEffect()

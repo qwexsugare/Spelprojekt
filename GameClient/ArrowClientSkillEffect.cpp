@@ -17,7 +17,10 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 
 	if(master != NULL)
 	{
-		//master->m_model->getAnimation()->PlayLoop("idle");
+		if(master->m_type == ServerEntity::HeroType)
+		{
+			master->m_model->getAnimation()->PlayLoop("idle");
+		}
 		master->m_model->getAnimation()->Play("RangeAttack");
 	}
 }

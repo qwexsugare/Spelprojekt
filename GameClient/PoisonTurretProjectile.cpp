@@ -6,7 +6,7 @@
 
 const float PoisonTurretProjectile::SLOW_EFFECT = -1.5f;
 
-PoisonTurretProjectile::PoisonTurretProjectile(unsigned int _master, unsigned int _target)
+PoisonTurretProjectile::PoisonTurretProjectile(unsigned int _master, unsigned int _target, unsigned int _mentalDamage)
 {
 	m_master = _master;
 	m_target = _target;
@@ -16,6 +16,7 @@ PoisonTurretProjectile::PoisonTurretProjectile(unsigned int _master, unsigned in
 	ServerEntity* target = EntityHandler::getServerEntity(m_target);
 	m_timeToImpact = (target->getPosition() - master->getPosition()).length()/PoisonTurretProjectile::VELOCITY;
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::POISON_TURRET_PROJECTILE, m_master, m_target, master->getPosition()));
+	this->m_mentalDamage = _mentalDamage;
 }
 
 PoisonTurretProjectile::~PoisonTurretProjectile()
@@ -33,7 +34,7 @@ void PoisonTurretProjectile::update(float _dt)
 		ServerEntity* target = EntityHandler::getServerEntity(m_target);
 		if(target)
 		{
-			int damage = random(1, 25) * (((UnitEntity*)target)->getPoisonStacks()+1);
+			int damage = random(1, 25) + (((UnitEntity*)target)->getPoisonStacks()+1) * this->m_mentalDamage;
 			int healthBefore = target->getHealth();
 			target->takeDamage(this->getId(), 0, damage);
 			((UnitEntity*)target)->addPoisonStack();

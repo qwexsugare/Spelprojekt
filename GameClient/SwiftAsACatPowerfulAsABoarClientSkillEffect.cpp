@@ -6,7 +6,14 @@ SwiftAsACatPowerfulAsABoarClientSkillEffect::SwiftAsACatPowerfulAsABoarClientSki
 
 	if(e != NULL)
 	{
-		e->m_model->getAnimation()->Play("SwiftAsButterfly");
+		if(e->m_weapon == ModelIdHolder::WEAPON_TYPE::AOE)
+		{
+			e->m_model->getAnimation()->Play("SwiftAsButterfly2Hand");
+		}
+		else
+		{
+			e->m_model->getAnimation()->Play("SwiftAsButterfly_1H");
+		}
 	}
 }
 

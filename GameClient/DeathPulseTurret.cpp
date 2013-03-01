@@ -11,7 +11,7 @@ DeathPulseTurret::DeathPulseTurret()
 
 }
 
-DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, float _lifetime) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _lifetime)
+DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20)
 {
 	this->m_modelId = 4;
 	

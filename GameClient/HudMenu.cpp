@@ -104,7 +104,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 		this->m_shopButtons.push_back(new Button());
 	}
 
-	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TOWER),"0",0,0,1,12,100,0,INT2(422,80), false, Skill::TOWER,"menu_textures\\Skill_0.png");
+	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_CONSTRUCTION),"100",0,0,1,12,100,0,INT2(422,80), false, Skill::TURRET_CONSTRUCTION,"menu_textures\\Skill_0.png");
 	this->m_shopButtons[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_LIFE),"3500",0,0,1,12,100,3500,INT2(422,200), false, Skill::TURRET_LIFE,"menu_textures\\Skill_1.png");
 	this->m_shopButtons[2]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::STRENGTH),"100",0,0,1,12,100,0,INT2(692,80), false, Skill::STRENGTH, "menu_textures\\Skill_2.png");
 	this->m_shopButtons[3]->Init(FLOAT2(-0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::PHYSICAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(692,200), false, Skill::PHYSICAL_RESISTANCE,"menu_textures\\Skill_3.png");
@@ -498,18 +498,20 @@ void HudMenu::addSkill(unsigned int _skillId)
 {
 	if(this->m_skillHolder.getSkill(_skillId) != "")
 	{
-		if(_skillId == Skill::STRENGTH || _skillId == Skill::AGILITY || _skillId == Skill::WITS || _skillId == Skill::FORTITUDE)
+		if(_skillId == Skill::STRENGTH || _skillId == Skill::AGILITY || _skillId == Skill::WITS || _skillId == Skill::FORTITUDE || _skillId == Skill::TURRET_CONSTRUCTION)
 		{
 			this->m_nrOfAttributesBought++;
 			int cost = 100 * (pow(1.5f, this->m_nrOfAttributesBought));
 
 			stringstream ss;
 			ss << cost;
+			this->m_shopButtons[0]->setText(ss.str());
 			this->m_shopButtons[2]->setText(ss.str());
 			this->m_shopButtons[7]->setText(ss.str());
 			this->m_shopButtons[11]->setText(ss.str());
 			this->m_shopButtons[16]->setText(ss.str());
 
+			this->m_disabledShopButtons[0]->setText(ss.str());
 			this->m_disabledShopButtons[2]->setText(ss.str());
 			this->m_disabledShopButtons[7]->setText(ss.str());
 			this->m_disabledShopButtons[11]->setText(ss.str());

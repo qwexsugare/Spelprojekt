@@ -21,3 +21,6 @@
 #include "HypnoticStare.h"
 #include "MeleeAttack.h"
 #include "RangedAttack.h"
+#include "EnhancedDevelopment.h"
+#include "TurretLifetime.h"
+#include "ReadyAimFire.h"

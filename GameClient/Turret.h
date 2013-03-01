@@ -12,6 +12,8 @@ protected:
 	float m_attackRangeProt;
 	float m_attackCooldown;
 	float m_lifeTime;
+	float m_readyAimFire;
+	float m_originalRange;
 public:
 	Turret();
 	Turret(FLOAT3 position);
@@ -20,6 +22,9 @@ public:
 
 	virtual void target(ServerEntity* _target) = 0;
 	void update(float _dt);
+
+	void addLifetime(float _dt);
+	void setReadyAimFire(float _readyAimFire);
 };
 
 #endif

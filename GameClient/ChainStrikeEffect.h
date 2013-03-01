@@ -16,7 +16,7 @@ private:
 public:
 	static const FLOAT TIME_BETWEEN_JUMPS;
 
-	ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage);
+	ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage, unsigned int _masterId);
 	~ChainStrikeEffect();
 
 	void update(float _dt);

@@ -3,12 +3,26 @@
 #include "StunningStrikeEffect.h"
 #include "Graphics.h"
 
-StunningStrikeClientSkillEffect::StunningStrikeClientSkillEffect(FLOAT3 _position)
+StunningStrikeClientSkillEffect::StunningStrikeClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
 	m_position = _position;
 	m_lifetime = 0.0f;
 	m_sound = createSoundHandle("orb.wav", false, true, _position);
 	playSound(m_sound);
+
+	Entity *e = ClientEntityHandler::getEntity(_masterId);
+
+	if(e != NULL)
+	{
+		if(e->m_weapon == ModelIdHolder::AOE)
+		{
+			e->m_model->getAnimation()->Play("StunningStrike2Hand");
+		}
+		else
+		{
+			e->m_model->getAnimation()->Play("StunningStrike");
+		}
+	}
 }
 
 StunningStrikeClientSkillEffect::~StunningStrikeClientSkillEffect()

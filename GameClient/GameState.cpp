@@ -234,7 +234,7 @@ void GameState::update(float _dt)
 		switch(e.getActionId())
 		{
 		case Skill::STUNNING_STRIKE:
-			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		case Skill::MOVE:
 			this->m_ClientSkillEffects.push_back(new RunClientSkillEffect(e.getSenderId()));
@@ -259,6 +259,9 @@ void GameState::update(float _dt)
 		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
+		case Skill::CHAIN_STRIKE:
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
 		}
 	}
 
@@ -271,9 +274,6 @@ void GameState::update(float _dt)
 		case Skill::CLOUD_OF_DARKNESS:
 			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
-			break;
-		case Skill::CHAIN_STRIKE:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getPosition()));
 		}
 	}
 

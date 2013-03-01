@@ -11,9 +11,10 @@ PoisonTurret::PoisonTurret()
 
 }
 
-PoisonTurret::PoisonTurret(FLOAT3 _pos, float _lifetime) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _lifetime)
+PoisonTurret::PoisonTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20)
 {
 	this->m_modelId = 2;
+	this->m_mentalDamage = _creator->getTurretConstruction() / 4 + 1;
 	
 	Model* temp = g_graphicsEngine->createModel("PoisonTurret", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
@@ -27,5 +28,5 @@ PoisonTurret::~PoisonTurret()
 
 void PoisonTurret::target(ServerEntity* _target)
 {
-	EntityHandler::addEntity(new PoisonTurretProjectile(this->getId(), _target->getId()));
+	EntityHandler::addEntity(new PoisonTurretProjectile(this->getId(), _target->getId(), this->m_mentalDamage));
 }

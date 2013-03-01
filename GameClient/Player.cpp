@@ -81,7 +81,7 @@ int Player::getId()const
 
 void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 {
-	if(this->m_hero->getNrOfSkills() < 6 || bsm.getActionId() == Skill::STRENGTH || bsm.getActionId() == Skill::AGILITY || bsm.getActionId() == Skill::WITS || bsm.getActionId() == Skill::FORTITUDE)
+	if(this->m_hero->getNrOfSkills() < 6 || bsm.getActionId() == Skill::STRENGTH || bsm.getActionId() == Skill::AGILITY || bsm.getActionId() == Skill::WITS || bsm.getActionId() == Skill::FORTITUDE || bsm.getActionId() == Skill::TURRET_CONSTRUCTION)
 	{
 		bool skillBought = false;
 		Skill* a = NULL;
@@ -90,7 +90,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		switch(bsm.getActionId())
 		{
 		case Skill::STRENGTH:
-			if(this->m_resources >= attributeCost)
+			if(this->m_resources >= attributeCost && this->m_hero->getStrength() < Hero::MAX_STRENGTH)
 			{
 				this->m_hero->increaseStrength(1);
 				this->m_attributesBought++;
@@ -100,7 +100,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			break;
 
 		case Skill::AGILITY:
-			if(this->m_resources >= attributeCost)
+			if(this->m_resources >= attributeCost && this->m_hero->getAgility() < Hero::MAX_AGILITY)
 			{
 				this->m_hero->increaseAgility(1);
 				this->m_attributesBought++;
@@ -110,7 +110,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			break;
 
 		case Skill::WITS:
-			if(this->m_resources >= attributeCost)
+			if(this->m_resources >= attributeCost && this->m_hero->getWits() < Hero::MAX_WITS)
 			{
 				this->m_hero->increaseWits(1);
 				this->m_attributesBought++;
@@ -120,12 +120,22 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			break;
 
 		case Skill::FORTITUDE:
-			if(this->m_resources >= attributeCost)
+			if(this->m_resources >= attributeCost && this->m_hero->getFortitude() < Hero::MAX_FORTITUDE)
 			{
 				this->m_hero->increaseFortitude(1);
 				this->m_attributesBought++;
 				this->m_resources = this->m_resources - attributeCost;
 				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::FORTITUDE, this->m_id, this->m_resources));
+			}	
+			break;
+
+		case Skill::TURRET_CONSTRUCTION:
+			if(this->m_resources >= attributeCost && this->m_hero->getTurretConstruction() < Hero::MAX_TURRET_CONSTRUCTION)
+			{
+				this->m_hero->increaseTurretConstruction(1);
+				this->m_attributesBought++;
+				this->m_resources = this->m_resources - attributeCost;
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::TURRET_CONSTRUCTION, this->m_id, this->m_resources));
 			}	
 			break;
 
@@ -144,6 +154,17 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			{
 				a = new DeadlyStrike();
 				this->m_resources = this->m_resources - DeadlyStrike::COST;
+				skillBought = true;
+			}
+
+			break;
+
+		case Skill::TURRET_LIFE:
+			if(this->m_resources >= TurretLifetime::COST)
+			{
+				a = new TurretLifetime();
+				a->activate(this->m_hero->getId());
+				this->m_resources = this->m_resources - TurretLifetime::COST;
 				skillBought = true;
 			}
 
@@ -296,22 +317,22 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 		break;
 		
 	case Skill::DEATH_PULSE_TURRET:
-		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition());
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero);
 		this->m_resources = this->m_resources - DeathPulseTurret::COST;
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::FROST_TURRET:
-		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition());
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero);
 		this->m_resources = this->m_resources - FrostTurret::COST;
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::POISON_TURRET:
-		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition());
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero);
 		this->m_resources = this->m_resources - PoisonTurret::COST;
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
 	case Skill::TESLA_CHAIN_TURRET:
-		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition());
+		TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero);
 		this->m_resources = this->m_resources - TeslaChainTurret::COST;
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 		break;
@@ -376,6 +397,6 @@ void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
 
 void Player::addResources(unsigned int resources)
 {
-	this->m_resources += resources;
+	this->m_resources += resources * this->m_hero->getGreed();
 	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(999, this->m_id, this->m_resources));
 }
