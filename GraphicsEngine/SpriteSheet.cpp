@@ -5,7 +5,7 @@ SpriteSheet::SpriteSheet(DeviceHandler *deviceHandler, ID3D10ShaderResourceView*
 	this->m_texture = _texture;
 	this->m_nrOfFrames = _nrOfFrames;
 	this->m_layer = _layer;
-
+	this->m_visible = true;
 	this->m_currentFrame = 0;
 	this->m_startFrame = 0;
 	this->m_endFrame = 0;
@@ -111,14 +111,26 @@ int SpriteSheet::getLayer()
 	return this->m_layer;
 }
 
-void SpriteSheet::setPosition(INT2 _position)
+bool SpriteSheet::getVisible()
 {
-	D3DXMatrixTranslation(&this->m_modelMatrix, this->m_position.x, this->m_position.y, 0.0f);
+	return this->m_visible;
 }
 
-void SpriteSheet::setSize(INT2 _size)
+void SpriteSheet::setPosition(FLOAT2 _position)
+{
+	//D3DXMatrixTranslation(&this->m_modelMatrix, this->m_position.x, this->m_position.y, 0.0f);
+	this->m_modelMatrix._41 = _position.x;
+	this->m_modelMatrix._42 = _position.y;
+}
+
+void SpriteSheet::setSize(FLOAT2 _size)
 {
 	//Scaling?
+}
+
+void SpriteSheet::setVisible(bool _visible)
+{
+	this->m_visible = _visible;
 }
 
 void SpriteSheet::setCurrentFrame(INT2 _currentFrame)
@@ -131,7 +143,7 @@ INT2 SpriteSheet::getCurrentFrame()
 	return INT2(this->m_currentFrame / this->m_nrOfFrames.x, this->m_currentFrame - this->m_currentFrame / this->m_nrOfFrames.x);
 }
 
-void SpriteSheet::playAnimation(INT2 _startFrame, INT2 _endFrame, bool _loop, int _framesPerSecond)
+void SpriteSheet::playAnimation(INT2 _startFrame, INT2 _endFrame, bool _loop, float _framesPerSecond)
 {
 	this->m_startFrame = _startFrame.y * this->m_nrOfFrames.x + _startFrame.x;
 	this->m_endFrame = _endFrame.y * this->m_nrOfFrames.x + _endFrame.x;

@@ -1,7 +1,25 @@
 #ifndef SERVER_H
 #define SERVER_H
-#include "EntityMessage.h"
-#include "Msg.h"
+
+#include "NetworkMessage.h"
+#include "NetworkEntityMessage.h"
+#include "NetworkDisconnectMessage.h"
+#include "NetworkRemoveEntityMessage.h"
+#include "NetworkUseActionMessage.h"
+#include "NetworkUseActionPositionMessage.h"
+#include "NetworkCreateActionMessage.h"
+#include "NetworkCreateActionPositionMessage.h"
+#include "NetworkCreateActionTargetMessage.h"
+#include "NetworkRemoveActionTargetMessage.h"
+#include "NetworkSkillBoughtMessage.h"
+#include "NetworkHeroSelectedMessage.h"
+#include "NetworkSelectHeroMessage.h"
+#include "NetworkReadyMessage.h"
+#include "NetworkStartGameMessage.h"
+#include "NetworkSkillUsedMessage.h"
+#include "NetworkInitEntityMessage.h"
+#include "NetworkHeroInitMessage.h"
+#include "NetworkUpdateEntityHealth.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -10,41 +28,49 @@
 #include <vector>
 #include "MessageHandler.h"
 #include "Player.h"
+#include "Statistics.h"
+#define MAXPLAYERS 4
 
 using namespace std;
 class Server : private sf::Thread
 {
 private:
 	MessageHandler *m_messageHandler;
+	MessageQueue *m_messageQueue;
 
 	sf::Mutex m_mutex;
 
-	queue<Msg> msgQueue;
-	queue<EntityMessage> entityQueue;
-
-	vector<Player*> m_players;
+	Player* m_players[MAXPLAYERS];
 
 	sf::SelectorTCP selector;
 	sf::SocketTCP listener;
-	sf::SocketTCP clients[4];
-	int clientArrPos;
+	sf::SocketTCP clients[MAXPLAYERS];
+	int nrOfPlayers;
+	int nextEmptyArrayPos;
 	virtual void Run();
 	void goThroughSelector();
-	bool handleClientInData(int socketIndex, sf::Packet packet, string prot);
+	void handleMessages();
+	bool handleClientInData(int socketIndex, sf::Packet packet, NetworkMessage::MESSAGE_TYPE type);
 public:
 	Server(MessageHandler *_messageHandler);
 	~Server();
 	bool start(int port);
 	void shutDown();
-	void broadcast(string msg);
-	void broadcast(EntityMessage ent);
-	void broadcast(Msg msg);
-	bool isRunning();
+	void broadcast(NetworkUpdateEntityHealth networkMessage);
+	void broadcast(NetworkEntityMessage networkMessage);
+	void broadcast(NetworkRemoveEntityMessage networkMessage);
+	void broadcast(NetworkCreateActionMessage networkMessage);
+	void broadcast(NetworkCreateActionPositionMessage networkMessage);
+	void broadcast(NetworkCreateActionTargetMessage networkMessage);
+	void broadcast(NetworkRemoveActionTargetMessage networkMessage);
+	void broadcast(NetworkStartGameMessage networkMessage);
+	void broadcast(NetworkHeroSelectedMessage networkMessage);
+	void broadcast(NetworkSkillUsedMessage networkMessage);
+	void broadcast(NetworkSkillBoughtMessage networkMessage);
+	void broadcast(NetworkInitEntityMessage networkMessage);
+	void broadcast(NetworkHeroInitMessage networkMessage);
 
-	Msg msgQueueFront();
-	EntityMessage entityQueueFront();
-	bool msgQueueEmpty();
-	bool entityQueueEmpty();
+	bool isRunning();
 
 	vector<Player*> getPlayers();
 };

@@ -22,6 +22,15 @@
     <Filter Include="Terrain">
       <UniqueIdentifier>{ab402ac7-ae17-450b-a8cb-9082d5817a71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Road">
+      <UniqueIdentifier>{7cdf0a2b-0938-4309-a6c0-44f85c99b1af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Light">
+      <UniqueIdentifier>{08d6d08d-12cf-4370-8d28-556c09166c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{cc9ad434-5a01-4619-8772-44ba467a5796}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHandler.h">
@@ -81,13 +90,7 @@
     <ClInclude Include="DeferredSamplerEffectFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DataStructures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FullScreenPlane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpriteEffectFile.h">
@@ -108,8 +111,59 @@
     <ClInclude Include="SubMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Road.h">
+      <Filter>Road</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="FishStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturePack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyText.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTextOffsets.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Text</Filter>
+    </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlowRenderingEffectFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SSAOEffectFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEngineEffectFile.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,9 +218,6 @@
     <ClCompile Include="FullScreenPlane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="QuadTreeNode.cpp">
       <Filter>QuadTree</Filter>
     </ClCompile>
@@ -179,8 +230,47 @@
     <ClCompile Include="SpriteSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Road.cpp">
+      <Filter>Road</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyText.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTextOffsets.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlowRenderingEffectFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SSAOEffectFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEngineEffectFile.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,5 +286,17 @@
     <FxCompile Include="..\GameClient\SpriteRendering.fx">
       <Filter>Shader files</Filter>
     </FxCompile>
+    <FxCompile Include="..\GameClient\GlowRendering.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\SSAO.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\ParticleEngineRendering.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\Beacon.fx" />
+    <FxCompile Include="..\GameClient\ParticleSystemStructs.fx" />
+    <FxCompile Include="..\GameClient\UpSideDownTwist.fx" />
   </ItemGroup>
 </Project>

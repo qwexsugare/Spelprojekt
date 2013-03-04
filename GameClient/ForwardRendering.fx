@@ -12,14 +12,16 @@ struct VSSceneIn
 	float3 Pos	: POS;
 	float2 UVCoord : UVCOORD;
 	float3 Normal : NORMAL;
+	float3 Tangent : TANGENT;
 };
 
 struct PSSceneIn
 {
-	float4 Pos  : SV_Position;		// SV_Position is a (S)ystem (V)ariable that denotes transformed position
+	float4 Pos  : SV_Position;
 	float2 UVCoord : UVCOORD;
 	float4 EyeCoord : EYE_COORD;
-	float3 Normal : NORMAL;
+	float4 Normal : NORMAL;
+	float3 Tangent : TANGENT;
 };
 
 //Variables that updated often
@@ -78,10 +80,17 @@ PSSceneIn VSScene(VSSceneIn input)
 	// transform the point into view space
 	output.Pos = mul( float4(input.Pos,1.0), mul(modelMatrix,worldViewProjection) );
 	output.UVCoord = input.UVCoord;
+	
+	//float4 kattpiss = mul( float4(input.Pos,1.0), modelMatrix );
+	////kattpiss.y = -kattpiss.y;
+	//kattpiss = mul(kattpiss, worldViewProjection);
+	////output.Pos.y = -output.Pos.y;
+	//output.Pos = kattpiss;
+	//output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = input.Normal;
-	output.EyeCoord = mul( float4(input.Pos,1.0), mul(modelMatrix,viewMatrix) );
+	output.Normal = mul(float4(input.Normal, 1.0f), modelMatrix);
+	output.EyeCoord = mul( float4(input.Pos,1.0), modelMatrix );
 
 	return output;
 }
@@ -92,6 +101,47 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	color.w *= modelAlpha;
 
 	return color;
+}
+
+float4 psFuckRoland(PSSceneIn input) : SV_Target
+{	
+	return float4(0.0f, 1.0f, 1.0f, 0.4f);
+}
+
+DepthStencilState stencilOpKeep
+{
+	DepthEnable = TRUE;
+	StencilEnable = TRUE;
+
+	DepthFunc = GREATER;
+	DepthWriteMask = ZERO;
+	
+	//StencilReadMask = 1;
+
+	FrontFaceStencilFunc = NEVER;
+	FrontFaceStencilFail = KEEP;
+	FrontFaceStencilPass = KEEP;
+	FrontFaceStencilDepthFail = KEEP;
+
+	BackFaceStencilFunc = EQUAL;
+	BackFaceStencilFail = KEEP;
+	BackFaceStencilPass = ZERO;
+	BackFaceStencilDepthFail = KEEP;
+};
+
+technique10 ForwardGubb
+{
+    pass p0
+    {
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, psFuckRoland() ) );
+		
+	    SetDepthStencilState( stencilOpKeep, 1 );
+	    SetRasterizerState( rs );
+    }
 }
 
 technique10 RenderModelForward

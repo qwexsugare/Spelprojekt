@@ -5,7 +5,21 @@ SoundEngine::SoundEngine()
 {
 	this->m_handleCounter = INT_MIN;
 	this->m_musicVolume = 1.0f;
-	this->m_soundEffectsVolume = 1.0f;
+	this->m_soundVolume = 1.0f;
+
+	// Initialize Framework
+	ALFWInit();
+	if (!ALFWInitOpenAL())
+	{
+		ALFWShutdown();
+	}
+}
+
+SoundEngine::SoundEngine(float _musicVolume, float _soundVolume)
+{
+	this->m_handleCounter = INT_MIN;
+	this->m_musicVolume = _musicVolume;
+	this->m_soundVolume = _soundVolume;
 
 	// Initialize Framework
 	ALFWInit();
@@ -32,7 +46,7 @@ void SoundEngine::clear()
 		alDeleteBuffers(1, &i->second);
 }
 
-int SoundEngine::createSoundHandle(string _filename, bool _music)
+int SoundEngine::createSoundHandle(string _filename, bool _music, bool _3d, WUFLOAT3 _pos, float _volume)
 {
 	int soundHandle = this->m_handleCounter++;
 	if(this->m_handleCounter == INT_MAX)
@@ -43,14 +57,13 @@ int SoundEngine::createSoundHandle(string _filename, bool _music)
 	alGenSources(1, &source);
 	alSourcei(source, AL_BUFFER, buffer);
 
-	float volume;
-
+	float finalVolume = _volume;
 	if(_music)
-		volume = this->m_musicVolume;
+		finalVolume *= this->m_musicVolume;
 	else
-		volume = this->m_soundEffectsVolume;
+		finalVolume *= this->m_soundVolume;
 
-	this->m_sounds.insert(pair<int, Sound*>(soundHandle, new Sound(source, volume, _music)));
+	this->m_sounds.insert(pair<int, Sound*>(soundHandle, new Sound(source, _volume, finalVolume, _music, _3d, _pos)));
 
 	return soundHandle;
 }
@@ -120,18 +133,32 @@ void SoundEngine::setMusicVolume(float _value)
 	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != this->m_sounds.end(); i++)
 	{
 		if(i->second->isMusic())
-			i->second->setVolume(this->m_musicVolume);
+			i->second->setVolume(this->m_musicVolume*i->second->getVolume());
 	}
 }
 
-void SoundEngine::setSoundEffectsVolume(float _value)
+void SoundEngine::setSoundVolume(float _value)
 {
-	this->m_soundEffectsVolume = _value;
+	this->m_soundVolume = _value;
 
 	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != this->m_sounds.end(); i++)
 	{
 		if(!i->second->isMusic())
-			i->second->setVolume(this->m_soundEffectsVolume);
+			i->second->setVolume(this->m_soundVolume*i->second->getVolume());
+	}
+}
+
+void SoundEngine::setSoundVolume(int _handle, float _volume)
+{
+	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != this->m_sounds.end(); i++)
+	{
+		if(i->first == _handle)
+		{
+			if(i->second->isMusic())
+				i->second->setVolume(_volume, this->m_musicVolume*_volume);
+			else
+				i->second->setVolume(_volume, this->m_soundVolume*_volume);
+		}
 	}
 }
 
@@ -140,12 +167,15 @@ void SoundEngine::stop(int _handle)const
 	this->m_sounds.at(_handle)->stop();
 }
 
-void SoundEngine::update()
+void SoundEngine::update(float _x, float _y, float _z)
 {
 	vector<map<int, Sound*>::iterator> removeIndices;
 
 	for(map<int, Sound*>::iterator i = m_sounds.begin(); i != m_sounds.end(); i++)
 	{
+		if(i->second->is3d())
+			i->second->update3dVolume(WUFLOAT3(_x, _y, _z));
+
 		// If the sound is active, replay it
 		if(i->second->isActive())
 		{

@@ -6,6 +6,7 @@ Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D1
 	this->m_texture = _texture;
 	this->m_nrOfVertices = 6;
 	this->m_layer = _layer;
+	this->m_visible = true;
 
 	//Convert the position and size to projection space
 	//position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
@@ -62,17 +63,19 @@ Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D1
 
 Sprite::~Sprite()
 {
-
+	this->m_buffer->Release();
 }
 
 void Sprite::setPosition(FLOAT2 position)
 {
 	//Convert the position to projection space
-	position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
-	position.y = (position.y / this->m_deviceHandler->getScreenSize().y) * 2 - 1;
+	//position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
+	//position.y = (position.y / this->m_deviceHandler->getScreenSize().y) * 2 - 1;
 
 	this->m_modelMatrix._41 = position.x;
 	this->m_modelMatrix._42 = position.y;
+
+	//D3DXMatrixTranslation(&this->m_modelMatrix, position.x, position.y, 0.0f);
 }
 
 void Sprite::setSize(FLOAT2 size)
@@ -112,8 +115,8 @@ void Sprite::setSize(FLOAT2 size)
 void Sprite::setRotation(float rotation)
 {
 	D3DXMATRIX rotationMatrix;
-	D3DXMatrixRotationZ(&rotationMatrix, rotation);
-	D3DXMatrixTransformation2D(&rotationMatrix, NULL, 0.0f, NULL, NULL, rotation, NULL);
+	//D3DXMatrixRotationZ(&rotationMatrix, rotation);
+	//D3DXMatrixTransformation2D(&rotationMatrix, NULL, 0.0f, NULL, NULL, rotation, NULL);
 
 	this->m_modelMatrix._11 = rotationMatrix._11;
 	this->m_modelMatrix._12 = rotationMatrix._12;
@@ -121,6 +124,16 @@ void Sprite::setRotation(float rotation)
 	this->m_modelMatrix._22 = rotationMatrix._22;
 
 	//D3DXMatrixMultiply(&this->m_modelMatrix, &rotationMatrix, &this->m_modelMatrix);
+}
+
+void Sprite::setVisible(bool _visible)
+{
+	this->m_visible = _visible;
+}
+
+bool Sprite::getVisible()
+{
+	return this->m_visible;
 }
 
 ID3D10Buffer *Sprite::getBuffer()

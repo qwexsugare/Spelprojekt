@@ -13,8 +13,10 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
 
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
-
+	
 	this->m_renderModelForward = this->m_effect->GetTechniqueByName("RenderModelForward");
+	
+	m_forwardGubb = m_effect->GetTechniqueByName("ForwardGubb");
 
 	D3D10_PASS_DESC passDescription;
 

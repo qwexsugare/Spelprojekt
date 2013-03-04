@@ -1,0 +1,8 @@
+Game statistics: 
+----------------
+Time played: 0
+Life remaining: 10
+Reached wave: 0
+
+Player Statistics:
+------------------

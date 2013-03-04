@@ -46,8 +46,6 @@ DeviceHandler::DeviceHandler(HWND _hWnd, bool _windowed, INT2 _screenSize)
 		}
 	}
 
-	this->m_device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-
 	this->setupViewPort(&this->m_viewport, this->m_screenSize.x, this->m_screenSize.y);
 	this->m_device->RSSetViewports( 1, &this->m_viewport );
 }
@@ -121,11 +119,11 @@ ID3D10Texture2D* DeviceHandler::getBackBuffer()
 	return backBuffer;
 }
 
-void DeviceHandler::setVertexBuffer(ID3D10Buffer *buffer)
+void DeviceHandler::setVertexBuffer(ID3D10Buffer *buffer, UINT _stride)
 {
 	if(this->m_currentBuffer != buffer)
 	{
-		UINT stride = sizeof(Vertex);
+		UINT stride = _stride;
 		UINT offset = 0;
 
 		this->m_device->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);

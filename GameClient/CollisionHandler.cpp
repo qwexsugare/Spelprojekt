@@ -2,12 +2,17 @@
 
 CollisionHandler::CollisionHandler()
 {
+}
 
+CollisionHandler::CollisionHandler(MessageHandler *messageHandler)
+{
+	this->m_myMessages = new MessageQueue();
+	messageHandler->addQueue(this->m_myMessages);
 }
 
 CollisionHandler::~CollisionHandler()
 {
-
+	delete this->m_myMessages;
 }
 
 void CollisionHandler::addCollision(ServerEntity *_ent1, ServerEntity *_ent2)
@@ -21,6 +26,7 @@ void CollisionHandler::addCollision(ServerEntity *_ent1, ServerEntity *_ent2)
 	CollisionMessage* newMsg2 = new CollisionMessage();
 	newMsg2->type = Message::Collision;
 	newMsg2->reciverId = _ent2->getMessageQueue()->getId();
+	newMsg2->affectedDudeId = _ent1->getId();
 	this->m_myMessages->pushOutgoingMessage(newMsg2);
 }
 
@@ -32,12 +38,12 @@ void CollisionHandler::update()
 		for(int j = i+1; j < ents.size(); j++)
 		{
 			// If the first entity has a bounding sphere, collide the second entity with it
-			if(ents[i]->getBoundingSphere())
+			if(ents[i]->getBs())
 			{
 				// If the second entity has a bounding sphere, collide the first entity with it
-				if(ents[j]->getBoundingSphere())
+				if(ents[j]->getBs())
 				{
-					if(ents[i]->getBoundingSphere()->Intersects(*ents[j]->getBoundingSphere()) || ents[i]->getBoundingSphere()->Contains(*ents[j]->getBoundingSphere()))
+					if(ents[i]->getBs()->Intersects(*ents[j]->getBs()) || ents[i]->getBs()->Contains(*ents[j]->getBs()))
 					{
 						this->addCollision(ents[i], ents[j]);
 					}
@@ -45,7 +51,7 @@ void CollisionHandler::update()
 				// If the second entity has a bounding oriented box, collide the first entity with it
 				else if(ents[j]->getObb())
 				{
-					if(ents[i]->getBoundingSphere()->Intersects(*ents[j]->getObb()) || ents[i]->getBoundingSphere()->Contains(*ents[j]->getObb()))
+					if(ents[i]->getBs()->Intersects(*ents[j]->getObb()) || ents[i]->getBs()->Contains(*ents[j]->getObb()))
 					{
 						this->addCollision(ents[i], ents[j]);
 					}
@@ -55,9 +61,9 @@ void CollisionHandler::update()
 			else if(ents[i]->getObb())
 			{
 				// If the second entity has a bounding sphere, collide the first entity with it
-				if(ents[j]->getBoundingSphere())
+				if(ents[j]->getBs())
 				{
-					if(ents[i]->getObb()->Intersects(*ents[j]->getBoundingSphere()) || ents[i]->getObb()->Contains(*ents[j]->getBoundingSphere()))
+					if(ents[i]->getObb()->Intersects(*ents[j]->getBs()) || ents[i]->getObb()->Contains(*ents[j]->getBs()))
 					{
 						this->addCollision(ents[i], ents[j]);
 					}

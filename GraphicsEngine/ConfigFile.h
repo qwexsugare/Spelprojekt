@@ -9,7 +9,7 @@ private:
 	bool m_windowed;
 	INT2 m_screenSize;
 	float m_musicVolume;
-	float m_soundEffectsVolume;
+	float m_soundVolume;
 public:
 	static const int DEFAULT_SCREEN_WIDTH = 1920;
 	static const int DEFAULT_SCREEN_HEIGHT = 1080;
@@ -23,6 +23,10 @@ public:
 	bool getWindowed()const;
 	INT2 getScreenSize()const;
 	float getMusicVolume()const { return this->m_musicVolume; }
-	float getSoundEffectsVolume()const { return this->m_soundEffectsVolume; }
+	float getSoundVolume()const { return this->m_soundVolume; }
+	void setMusicVolume(float _val) { m_musicVolume = _val; }
+	void setSoundVolume(float _val) { m_soundVolume = _val; }
+	void setScreenSize(INT2	_size) { m_screenSize = _size; }
 	void load();
+	void save();
 };

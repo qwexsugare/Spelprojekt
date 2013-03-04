@@ -11,6 +11,7 @@ ConfigFile* g_configFile;
 GraphicsHandler* g_graphicsEngine;
 Keyboard* g_keyboard;
 Mouse* g_mouse;
+Cursor* g_cursor;
 
 HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -18,6 +19,7 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCmdLine, int _nCmdShow)
 {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	srand((unsigned)time(0));
 
 	// Load config into config file class
 	g_configFile = new ConfigFile();
@@ -33,12 +35,12 @@ int WINAPI wWinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPWSTR _lpCm
 	initSoundEngine();
 	
 	setMusicVolume(g_configFile->getMusicVolume());
-	setSoundEffectsVolume(g_configFile->getSoundEffectsVolume());
-
+	setSoundVolume(g_configFile->getSoundVolume());
+	
 	ClientHandler* clientHandler = new ClientHandler(hwnd);
 	HRESULT hr = clientHandler->run();
 	delete clientHandler;
-
+	
 	deleteSoundEngine();
 
 	return hr;
@@ -72,7 +74,7 @@ HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize)
 	RECT rc = {0, 0, _screenSize.x, _screenSize.y};
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	hWnd = CreateWindow(	"Spelprojekt",
-							"Spelprojekt",
+							"Saints of The Asylum",
 							WS_OVERLAPPEDWINDOW,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,

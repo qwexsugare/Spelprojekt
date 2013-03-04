@@ -1,11 +1,11 @@
 #pragma once
 #include "State.h"
-//#include "JoinGameMenu.h"
+#include "JoinGameMenu.h"
 
 class JoinGameState : public State
 {
 private:
-	//JoinGameMenu *m_menu;
+	JoinGameMenu *m_menu;
 	StateEnum m_nextState;
 public:
 	JoinGameState();
@@ -13,5 +13,9 @@ public:
 
 	void update(float dt);
 	StateEnum nextState();
+
+	string getIP();
+	int getPort();
+	string getPlayerName();
 };
 

@@ -1,0 +1,23 @@
+Client				Server
+
+Lobby state
+
+SELECT HERO 1 (hero id)
+				HERO SELECTED 0 1 (Player id, hero id)
+READY
+				START
+
+Game state
+				ENTITY 3 1 0 1.0f 2.0f 0.5f 1.0f 2.0f 0.5f 1.0f 2.0f 0.5f (entity id, type, model id, position, rotation, scale)
+				REMOVE ENTITY 2 (entity id)
+USE ACTION 2 (action id)
+USE ACTION POSITION 2 1.0f 2.0f 0.5f (action id, position)
+USE ACTION TARGET 2 2 (action id, target id)
+				CREATE ACTION 2 1 (action id, user id)
+				CREATE ACTION POSITION 2 1 1.0f 2.0f 0.5f (action id, user id, position)
+				CREATE ACTION TARGET 2 1 3 (action id, user id, target id)
+BUY SKILL 2 (skill id)
+				SKILL BOUGHT (skill id)
+				WAVE 2 (wave nr)
+				MONEY 2000 (money)
+				DISCONNECT

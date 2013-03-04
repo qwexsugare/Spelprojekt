@@ -1,7 +1,0 @@
-Dumping objects ->
-{58394} normal block at 0x0075E088, 4 bytes long.
- Data: <  u > 20 DF 75 00 
-{223} normal block at 0x006EF878, 8 bytes long.
- Data: <  ?     > E4 F2 3F 00 00 00 00 00 
-{191} normal block at 0x006D83E8, 8 bytes long.
- Data: <L       > 4C 88 14 00 00 00 00 00 

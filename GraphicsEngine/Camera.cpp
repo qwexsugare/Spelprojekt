@@ -5,18 +5,17 @@ Camera::Camera()
 
 }
 
-Camera::Camera(int width, int height, INT2 _otherScreenSize)
+Camera::Camera(INT2 _configScreenSize, INT2 _actualScreenSize)
 {
+	this->m_configScreenSize = _configScreenSize;
+	this->m_actualScreenSize = _actualScreenSize;
 	this->m_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	this->m_forward = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 	this->m_up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	this->m_right = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	this->m_width = width;
-	this->m_height = height;
-	this->m_otherScreenSize = _otherScreenSize;
 
 	this->updateViewMatrix();
-	D3DXMatrixPerspectiveLH(&this->m_projectionMatrix, (float)D3DX_PI * 0.8f /* 0.6f? */, float(m_width) / float(m_height), 1.0f, 1000.0f);
+	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI/4.0f,  float(m_configScreenSize.x) / float(m_configScreenSize.y), 0.1f, 1000000.0f);
 }
 
 Camera::~Camera()
@@ -28,14 +27,14 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 {
 	// Do stuff in a retard right handed world
 	D3DXMATRIX rhProjMat;
-	D3DXMatrixPerspectiveRH(&rhProjMat, (float)D3DX_PI * 0.8f /* 0.6f? */, float(m_otherScreenSize.x) / float(m_otherScreenSize.y), 1.0f, 1000.0f);
+	D3DXMatrixPerspectiveFovRH(&rhProjMat, D3DX_PI/4.0f,  float(m_configScreenSize.x) / float(m_configScreenSize.y), 1.0f, 1000000.0f);
 	D3DXMATRIX rhViewMat;
 	D3DXMatrixLookAtRH(&rhViewMat, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
 
 	// Compute the vector of the pick ray in screen space
 	D3DXVECTOR3 v;
-	v.x = ( ( ( 2.0f * float(_mousePos.x) ) / float(this->m_otherScreenSize.x) ) - 1.0f ) / rhProjMat._11;
-	v.y = -( ( ( 2.0f * float(_mousePos.y) ) / float(this->m_otherScreenSize.y) ) - 1.0f ) / rhProjMat._22;
+	v.x = ( ( ( 2.0f * float(_mousePos.x)) / float(m_configScreenSize.x) ) - 1.0f ) / rhProjMat._11;
+	v.y = ( ( ( 2.0f * float(_mousePos.y) ) / float(m_configScreenSize.y) ) - 1.0f ) / rhProjMat._22;
 	v.z = 1.0f;
 
 	// Get the inverse view matrix
@@ -52,14 +51,14 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 	_pickOrigOut.z = m._43;
 }
 
-D3DXVECTOR3 Camera::getPos()const
+const D3DXVECTOR3& Camera::getPos()const
 {
 	return this->m_position;
 }
 
-D3DXVECTOR2 Camera::getPos2D()const
+FLOAT2 Camera::getPos2D()const
 {
-	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
+	return FLOAT2(this->m_position.x, this->m_position.z);
 }
 
 D3DXMATRIX Camera::getViewMatrix()
@@ -74,7 +73,7 @@ D3DXMATRIX Camera::getProjectionMatrix()
 
 void Camera::updateViewMatrix()
 {
-	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_position+m_forward), &this->m_up);
 }
 
 void Camera::moveRelative(float forward, float right, float up)
@@ -111,6 +110,24 @@ void Camera::set(FLOAT3 _position, FLOAT3 _forward, FLOAT3 _up, FLOAT3 _right)
 	this->m_forward = D3DXVECTOR3(_forward.x, _forward.y, _forward.z);
 	this->m_up = D3DXVECTOR3(_up.x, _up.y, _up.z);
 	this->m_right = D3DXVECTOR3(_right.x, _right.y, _right.z);
+	this->updateViewMatrix();
+}
 
-	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_forward + this->m_position), &this->m_up);
+void Camera::set(FLOAT2 _position)
+{
+	this->m_position.x = _position.x;
+	this->m_position.z = _position.y;
+	this->updateViewMatrix();
+}
+
+void Camera::setX(float _x)
+{
+	this->m_position.x = _x;
+	this->updateViewMatrix();
+}
+
+void Camera::setZ(float _z)
+{
+	this->m_position.z = _z;
+	this->updateViewMatrix();
 }

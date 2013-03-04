@@ -8,9 +8,8 @@
 #include "Sprite.h"
 #include "SpriteSheet.h"
 #include "Mouse.h"
-
-extern GraphicsHandler* g_graphicsEngine;
-extern Mouse* g_mouse;
+#include "TextLabel.h"
+#include <sstream>
 
 using namespace std;
 class Button
@@ -21,9 +20,8 @@ private:
 	//----------------------------------------------------------------------------------------------
 		int m_ButtonReaction ;
 		SpriteSheet* m_Button;
-		
-		int m_Delay;
-		int m_DelayTime;
+		Sprite* m_SpriteSkill;
+		TextLabel* m_Label;
 	//----------------------------------------------------------------------------------------------
 	// Button size
 	//----------------------------------------------------------------------------------------------
@@ -32,10 +30,16 @@ private:
 	// Button position
 	//----------------------------------------------------------------------------------------------
 		FLOAT2		m_Pos;
-		int			m_Max;
-		int			m_Min;
-		int			m_Keep;
-		float		m_Value;
+		int			m_Keep,
+					m_Layer,
+					m_Cost,
+					m_ID;
+		INT2		m_TextPos;
+		float		m_Value,
+					m_Max,
+					m_Min;
+		bool		m_TextBox,
+					m_clicked;
 	//----------------------------------------------------------------------------------------------
 	// Wave name
 	//----------------------------------------------------------------------------------------------
@@ -46,24 +50,49 @@ private:
 		string			m_ButtonText;
 
 		string			m_TextureName;
-
+		string			m_Skill;
 	//----------------------------------------------------------------------------------------------
+
+		int m_clickSound;
 
 public:
 	Button();
 	~Button();
-
-	void Init(	INT2 _ScreenPos,
-				INT2 _Size, 
+	int m_Delay;
+	int m_DelayTime;
+	void Init(	FLOAT2 _ScreenPos,
+				FLOAT2 _Size, 
 				string _TextureName, 
 				string _TextName,  
-				int _min = 0, 
-				int _max = 0, 
+				float _min = 0, 
+				float _max = 0, 
 				float _textSize = 1,
-				int _DelayTime = 100);
+				int _layer = 2,
+				int _DelayTime = 100,
+				int _Cost = 0,
+				INT2 _TextPos = INT2(0,0),
+				bool _TextBox = false,
+				int _id = 0,
+				string _Skill = "");
+
+	void Button::RemoveSprite();
+	bool isClicked()const { return m_clicked; }
 	int Clicked();
 	void Update();
 	int GetButtonReaction();
 	float ReturnSliderValue();
+	void setPosition(FLOAT2 _pos);
+	void SetID(int _id);
+	int GetID();
+	int LoseAmountOfResources(int _resources);
+	float GetValue();
+	void SetTextBoxValue(bool _change);
+	void setVisible(bool _visible);
+	void setText(string _text);
+	FLOAT2 getPos();
+	int getCost();
+	string getText();
+	INT2 getTextPos();
+	string getTextureName();
 };
 
