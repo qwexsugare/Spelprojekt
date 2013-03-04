@@ -989,7 +989,6 @@
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="StatisticsPlayer.h" />
     <ClInclude Include="Statistics.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -1007,6 +1006,9 @@
     </ClInclude>
     <ClInclude Include="TargetAcquiredPermissionToFireEffect.h">
       <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="StatisticsPlayer.h">
+      <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
