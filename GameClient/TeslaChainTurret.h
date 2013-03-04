@@ -18,7 +18,6 @@ public:
 	TeslaChainTurret(FLOAT3 _position, UnitEntity *_creator);
 	~TeslaChainTurret();
 
-	void update(float dt);
 	void target(ServerEntity* _target);
 };
 

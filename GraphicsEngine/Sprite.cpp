@@ -7,6 +7,8 @@ Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D1
 	this->m_nrOfVertices = 6;
 	this->m_layer = _layer;
 	this->m_visible = true;
+	m_position = position;
+	m_size = size;
 
 	//Convert the position and size to projection space
 	//position.x = (position.x / this->m_deviceHandler->getScreenSize().x) * 2 - 1;
@@ -64,6 +66,17 @@ Sprite::Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D1
 Sprite::~Sprite()
 {
 	this->m_buffer->Release();
+}
+
+bool Sprite::intersects(FLOAT2 _screenSpaceMousePos)
+{
+	if(_screenSpaceMousePos.x > (m_position.x-m_size.x/2.0f) &&
+		_screenSpaceMousePos.x < (m_position.x+m_size.x/2.0f) &&
+		_screenSpaceMousePos.y > (-m_position.y-m_size.y/2.0f) &&
+		_screenSpaceMousePos.y < (-m_position.y+m_size.y/2.0f))
+		return true;
+	else
+		return false;
 }
 
 void Sprite::setPosition(FLOAT2 position)

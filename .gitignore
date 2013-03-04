@@ -1887,6 +1887,7 @@ GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
 GameClient/models/redKnightPassiveAura/redKnightPassiveAura.png
 GameClient/models/Wrench/Wrench.BFish
 GameClient/menu_textures/Turret_Text_Death.png
+GameClient/models/Char1_5/Char1_5.BFish
 GameClient/menu_textures/Turret_Text_Frost.png
 GameClient/menu_textures/Turret_Text_Poison.png
 GameClient/menu_textures/Turret_Text_Tesla.png

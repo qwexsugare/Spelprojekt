@@ -439,6 +439,7 @@ void UnitEntity::heal(int health)
 		Statistics::getStatisticsPlayer(networkId).increaseHealdAmount(health);
 	}
 	this->m_health = min(m_health+health, m_maxHealth);
+	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(),(float)((float)this->m_health / (float)this->m_maxHealth) * 1000.0f));
 }
 
 void UnitEntity::stun(float _time)

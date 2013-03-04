@@ -102,28 +102,32 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 bool EntityHandler::removeEntity(ServerEntity *_entity)
 {
 	bool found = false;
-	EntityHandler::m_mutex.Lock();
 
-	if(_entity->getType() == ServerEntity::StaticType)
+	if(_entity != NULL)
 	{
-		found = EntityHandler::m_quadtree->removeServerEntity(_entity);
-	}
-	else
-	{
-		for(int i = 0; i < EntityHandler::m_entities.size(); i++)
+		EntityHandler::m_mutex.Lock();
+
+		if(_entity->getType() == ServerEntity::StaticType)
 		{
-			if(EntityHandler::m_entities[i] == _entity)
+			found = EntityHandler::m_quadtree->removeServerEntity(_entity);
+		}
+		else
+		{
+			for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 			{
-				EntityHandler::m_messageHandler->removeQueue(EntityHandler::m_entities[i]->getMessageQueue()->getId());
-				delete EntityHandler::m_entities[i];
-				EntityHandler::m_entities.erase(EntityHandler::m_entities.begin() + i);
-				found = true;
-				i = EntityHandler::m_entities.size();
+				if(EntityHandler::m_entities[i] == _entity)
+				{
+					EntityHandler::m_messageHandler->removeQueue(EntityHandler::m_entities[i]->getMessageQueue()->getId());
+					delete EntityHandler::m_entities[i];
+					EntityHandler::m_entities.erase(EntityHandler::m_entities.begin() + i);
+					found = true;
+					i = EntityHandler::m_entities.size();
+				}
 			}
 		}
-	}
 
-	EntityHandler::m_mutex.Unlock();
+		EntityHandler::m_mutex.Unlock();
+	}
 
 	return found;
 }
