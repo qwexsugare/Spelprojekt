@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 104.289
-Life remaining: -19
-Reached wave: 1
+Time played: 28.3669
+Life remaining: 10
+Reached wave: 0
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Doctor
-Deamons killed: 1
+Hero played: Engineer
+Deamons killed: 0
 Player deaths: 0
-Resources collected: 21
-Healed for: 338
+Resources collected: 0
+Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 105
-Physical damage taken: 228
+Total damage dealt: 0
+Physical damage taken: 0
 Mental damage taken: 0
-Physical damage dealt: 39
-Mental damage dealt: 66
+Physical damage dealt: 0
+Mental damage dealt: 0
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
