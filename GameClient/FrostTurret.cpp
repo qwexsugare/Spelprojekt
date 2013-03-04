@@ -27,6 +27,10 @@ FrostTurret::~FrostTurret()
 
 void FrostTurret::target(ServerEntity* _target)
 {	
+	FLOAT3 distance = _target->getPosition() - this->m_position;
+	this->m_rotation.x = atan2(-distance.x, -distance.z);
+	m_rotation.x += D3DX_PI/2.0f;
+	this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id, this->m_position.x, this->m_position.z, this->m_rotation.x, this->m_position.x, this->m_position.z, this->m_position.x, this->m_position.z, 0.0f));
 	EntityHandler::addEntity(new FrostTurretProjectile(this->getId(), _target->getId(), this->m_slowEffect));
 }
 

@@ -33,9 +33,9 @@ CreateGameMenu::CreateGameMenu(void)
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
 	this->m_Buttons.resize(6);
 	this->m_Buttons[0] = new Button();
-	this->m_Buttons[0]->Init(FLOAT2(0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,1,5);
+	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,1,5);
 	this->m_Buttons[1] = new Button();
-	this->m_Buttons[1]->Init(FLOAT2(-0.140625f, -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,1,5);
+	this->m_Buttons[1]->Init(FLOAT2(0.140625f, -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,1,5);
 	this->m_Buttons[2] = new Button();
 	this->m_Buttons[2]->Init(FLOAT2(0.2f,  -0.36f),FLOAT2(0.3125f*2,0.05555555f*1.5f),"menu_textures\\Button-Text.png","",0,0,1,5);
 	this->m_Buttons[3] = new Button();

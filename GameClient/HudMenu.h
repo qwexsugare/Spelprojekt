@@ -64,7 +64,7 @@ public:
 	HudMenu(Client *_network, Hero::HERO_TYPE _heroType);
 	~HudMenu(void);
 
-	void Update(float _dt, const vector<Entity*>& _entities);
+	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId);
 
 	void addSkill(unsigned int _skillId);
 	void setResources(unsigned int resources);
