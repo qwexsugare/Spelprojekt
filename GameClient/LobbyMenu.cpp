@@ -30,7 +30,7 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
 	
-	this->m_Buttons.resize(17);
+	/*this->m_Buttons.resize(17);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
 	this->m_Buttons[1] = new Button();
@@ -42,7 +42,21 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[4] = new Button();
 	this->m_Buttons[4]->Init(FLOAT2(0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-LevelInformation.png","",0,0,2,5);
 	this->m_Buttons[5] = new Button();
-	this->m_Buttons[5]->Init(FLOAT2(0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
+	this->m_Buttons[5]->Init(FLOAT2(0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);*/
+	
+	this->m_Buttons.resize(17);
+	this->m_Buttons[0] = new Button();
+	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
+	this->m_Buttons[1] = new Button();
+	this->m_Buttons[1]->Init(FLOAT2(-0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Store.png","",0,0,2,5);
+	this->m_Buttons[2] = new Button();
+	this->m_Buttons[2]->Init(FLOAT2(0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,2,5);
+	this->m_Buttons[3] = new Button();
+	this->m_Buttons[3]->Init(FLOAT2(0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-CharacterInformation.png","",0,0,2,5);
+	this->m_Buttons[4] = new Button();
+	this->m_Buttons[4]->Init(FLOAT2(0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-LevelInformation.png","",0,0,2,5);
+	this->m_Buttons[5] = new Button();
+	this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
 
 	this->m_Buttons[6] = new Button();
 	this->m_Buttons[6]->Init(FLOAT2(-0.72f, -0.1f),FLOAT2(0.272916667f*0.8f,0.142592593f*0.8f),"menu_textures\\Button-MainMenu-CloseCombat.png","",0,0,2,5);

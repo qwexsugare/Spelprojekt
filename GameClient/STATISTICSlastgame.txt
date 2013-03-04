@@ -1,8 +1,8 @@
 Game statistics: 
 ----------------
-Time played: 1524.87
-Life remaining: -49
-Reached wave: 2
+Time played: 24.6643
+Life remaining: 10
+Reached wave: 0
 
 Player Statistics:
 ------------------
@@ -14,11 +14,11 @@ Resources collected: 0
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 18
-Physical damage taken: 336
-Mental damage taken: 122
-Physical damage dealt: 4
-Mental damage dealt: 14
+Total damage dealt: 0
+Physical damage taken: 22
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -40,8 +40,8 @@ Skills used:
 0
 0
 0
-1936029991
-1008738336
+1936876886
+10
 0
 0
 0
@@ -55,34 +55,19 @@ Skills used:
 0
 0
 0
-0
-813707333
-952973496
-1024865892
-917321359
-956250327
-988560087
-1021721756
-860435181
-989084400
-892876005
-958413059
-1041907216
-1061568288
----------------
 931870518
 1058553616
 867120017
 1024736474
-228
+32768
 844181896
 901133729
 1000684445
-807677958
-924858060
-16380
-947337329
-949827689
-871576546
-813379682
+821047510
+937310137
+168
+965032294
+963852644
+887305274
+827011337
 ---------------

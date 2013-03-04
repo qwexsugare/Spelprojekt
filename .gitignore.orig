@@ -1886,8 +1886,10 @@ GameClient/models/PoisonTurret/PoisonTurret.BFish
 GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
 GameClient/models/redKnightPassiveAura/redKnightPassiveAura.png
 GameClient/models/Wrench/Wrench.BFish
-<<<<<<< HEAD
 GameClient/menu_textures/Turret_Text_Death.png
+GameClient/models/Char1_5/Char1_5.BFish
+<<<<<<< HEAD
+=======
 GameClient/menu_textures/Turret_Text_Frost.png
 GameClient/menu_textures/Turret_Text_Poison.png
 GameClient/menu_textures/Turret_Text_Tesla.png
@@ -2278,6 +2280,5 @@ GameClient/models/models/Wrench/Wrench_UV_DM.png
 GameClient/models/models/Wrench/Wrench_UV_GM.png
 GameClient/models/models/Wrench/Wrench_UV_SM.png
 GameClient/Models_Textures.rar
-=======
-GameClient/models/Char1_5/Char1_5.BFish
->>>>>>> c992c81f165b5b8842a8d14ef0f1c9613f84695d
+>>>>>>> a67d1e631b95f96037f8aa6ade2729f4ce5a90cd
+GameClient/menu_textures/MENU-CharacterMenu-Background2.png
