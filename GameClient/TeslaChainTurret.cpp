@@ -31,7 +31,7 @@ void TeslaChainTurret::update(float dt)
 
 		if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRangeProt)
 		{
-			EntityHandler::addEntity(new ChainStrikeEffect(se->getId(), this->m_position, this->m_numberOfHits, this->m_damage, this->m_id));
+			EntityHandler::addEntity(new ChainStrikeEffect(se->getId(), this->m_numberOfHits, this->m_damage, this->m_id));
 			this->m_attackCooldown = TeslaChainTurret::COOLDOWN;
 		}
 	}

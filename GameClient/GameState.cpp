@@ -264,7 +264,10 @@ void GameState::update(float _dt)
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
 		case Skill::CHAIN_STRIKE:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition()));
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), false));
+			break;
+		case Skill::CHAIN_STRIKE_FIRST_EXCEPTION:
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), true));
 			break;
 		}
 	}

@@ -9,12 +9,10 @@ class ChainStrikeClientSkillEffect : public ClientSkillEffect
 {
 private:
 	Model* m_graphicalEffects[3];
-	PointLight* m_light;
 	int m_sound;
-	FLOAT3 m_position;
 	float m_lifetime;
 public:
-	ChainStrikeClientSkillEffect(unsigned int _masterId, FLOAT3 _position);
+	ChainStrikeClientSkillEffect(unsigned int _masterId, FLOAT3 _position, bool _playAnimation);
 	~ChainStrikeClientSkillEffect();
 
 	void update(float _dt);

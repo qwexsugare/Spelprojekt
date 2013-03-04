@@ -47,9 +47,6 @@ void Player::spawnHero(FLOAT3 _position)
 	
 	this->m_hero->setPosition(_position);
 
-	
-	//EntityHandler::addEntity(m_hero);
-
 	vector<Skill*> skills = this->m_hero->getSkills();
 
 	for(int i = 0; i < skills.size(); i++)
