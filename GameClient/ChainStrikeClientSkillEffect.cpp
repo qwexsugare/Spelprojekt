@@ -22,7 +22,7 @@ ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(unsigned int _masterI
 	if(_playAnimation)
 	{
 		Entity *e = ClientEntityHandler::getEntity(_masterId);
-		if(e != NULL)
+		if(e != NULL && e->m_type == ServerEntity::HeroType)
 		{
 			e->m_model->getAnimation()->Play("ChainLight");
 		}

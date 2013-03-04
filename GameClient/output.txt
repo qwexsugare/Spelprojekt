@@ -626,3 +626,10 @@ Death Pulse turret projectile did 6 damage and reduced health from 25 to 21
 Death Pulse turret projectile did 2 damage and reduced health from 21 to 19
 Death Pulse turret projectile did 9 damage and reduced health from 19 to 14
 Death Pulse turret projectile did 3 damage and reduced health from 14 to 12
+Death Pulse turret projectile did 1 damage and reduced health from 100 to 99
+Death Pulse turret projectile did 6 damage and reduced health from 99 to 93
+Death Pulse turret projectile did 6 damage and reduced health from 93 to 87
+Poison turret projectile did 13 damage and reduced health from 87 to 74
+Death Pulse turret projectile did 9 damage and reduced health from 74 to 65
+Poison turret projectile did 21 damage and reduced health from 65 to 45
+Death Pulse turret projectile did 2 damage and reduced health from 45 to 43
