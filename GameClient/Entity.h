@@ -67,7 +67,7 @@ struct Entity
 			//zdir=0;
 			//this->m_direction.x=xdir;
 			//this->m_direction.z=zdir;
-			this->m_model->setPosition(m_endPos);
+			//this->m_model->setPosition(m_endPos);
 		}
 
 		if(this->m_lanternLight != NULL)

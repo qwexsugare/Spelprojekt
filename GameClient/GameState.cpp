@@ -303,10 +303,10 @@ void GameState::update(float _dt)
 				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;
 		case Skill::FROST_TURRET_PROJECTILE:
-			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 0.5f, e.getPosition().z), e.getTargetId()));
 			break;
 		case Skill::POISON_TURRET_PROJECTILE:
-			m_ClientSkillEffects.push_back(new PoisonTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			m_ClientSkillEffects.push_back(new PoisonTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 0.5f, e.getPosition().z), e.getTargetId()));
 			break;
 		case Skill::DEATH_PULSE_TURRET_PROJECTILE:
 			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
