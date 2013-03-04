@@ -1,24 +1,42 @@
 Game statistics: 
 ----------------
+<<<<<<< HEAD
 Time played: 1524.87
 Life remaining: -49
 Reached wave: 2
+=======
+Time played: 146.778
+Life remaining: -16
+Reached wave: 1
+>>>>>>> c992c81f165b5b8842a8d14ef0f1c9613f84695d
 
 Player Statistics:
 ------------------
 Player name: 
+<<<<<<< HEAD
+Hero played: Mentalist
+=======
 Hero played: Red knight
+>>>>>>> c992c81f165b5b8842a8d14ef0f1c9613f84695d
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
 Healed for: 0
 
 Damage statistics: 
+<<<<<<< HEAD
 Total damage dealt: 18
 Physical damage taken: 336
 Mental damage taken: 122
 Physical damage dealt: 4
 Mental damage dealt: 14
+=======
+Total damage dealt: 0
+Physical damage taken: 379
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
+>>>>>>> c992c81f165b5b8842a8d14ef0f1c9613f84695d
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -40,8 +58,13 @@ Skills used:
 0
 0
 0
+<<<<<<< HEAD
 1936029991
 1008738336
+=======
+1936876886
+10
+>>>>>>> c992c81f165b5b8842a8d14ef0f1c9613f84695d
 0
 0
 0
@@ -55,6 +78,7 @@ Skills used:
 0
 0
 0
+<<<<<<< HEAD
 0
 813707333
 952973496
@@ -69,7 +93,7 @@ Skills used:
 958413059
 1041907216
 1061568288
----------------
+=======
 931870518
 1058553616
 867120017
@@ -85,4 +109,5 @@ Skills used:
 949827689
 871576546
 813379682
+>>>>>>> c992c81f165b5b8842a8d14ef0f1c9613f84695d
 ---------------
