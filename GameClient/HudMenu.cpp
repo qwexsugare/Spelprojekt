@@ -17,7 +17,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Chat = false;
 	this->m_skillWaitingForTarget = -1;
 	this->m_nrOfAttributesBought = 0;
-
+	
 	switch(_heroType)
 	{
 	case Hero::OFFICER:
@@ -163,7 +163,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_towerButtons[2]->Init(FLOAT2(0.06f, -0.67f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::POISON_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::POISON_TURRET);
 	this->m_towerButtons[3]->Init(FLOAT2(0.12f, -0.85f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::DEATH_PULSE_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::DEATH_PULSE_TURRET);
 }
-void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
+void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
 {
 	if(this->m_placingTower == true)
 	{
@@ -252,17 +252,35 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 				}
 				else if(m_skillWaitingForTarget == Skill::HEALING_TOUCH)
 				{
-					D3DXVECTOR3 pickDir;
-					D3DXVECTOR3 pickOrig;
-					g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-						
-					float dist;
-					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
+					// Check if the target is the pic of yourself down in the corner
+					if(m_Images[0]->intersects(FLOAT2(
+						g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
 					{
-						if(_entities[entityIndex]->m_type == ServerEntity::HeroType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+						// Find yourself in the entity vector
+						for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
 						{
-							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
-							entityIndex = _entities.size();
+							if(_entities[entityIndex]->m_id == _heroId)
+							{
+								this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+								entityIndex = _entities.size();
+							}
+						}
+					}
+					// Else the pick ray is out on the battlefield
+					else
+					{
+						D3DXVECTOR3 pickDir;
+						D3DXVECTOR3 pickOrig;
+						g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+						
+						float dist;
+						for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
+						{
+							if(_entities[entityIndex]->m_type == ServerEntity::HeroType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+							{
+								this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+								entityIndex = _entities.size();
+							}
 						}
 					}
 				}
