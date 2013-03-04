@@ -30,3 +30,8 @@ void PoisonTurret::target(ServerEntity* _target)
 {
 	EntityHandler::addEntity(new PoisonTurretProjectile(this->getId(), _target->getId(), this->m_mentalDamage));
 }
+
+int PoisonTurret::getCost()
+{
+	return PoisonTurret::COST;
+}

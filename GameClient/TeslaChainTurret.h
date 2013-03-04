@@ -20,5 +20,6 @@ public:
 
 	void update(float dt);
 	void target(ServerEntity* _target);
+	int getCost();
 };
 

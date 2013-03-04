@@ -17,5 +17,6 @@ public:
 	~PoisonTurret();
 
 	void target(ServerEntity* _target);
+	int getCost();
 };
 

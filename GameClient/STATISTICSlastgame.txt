@@ -1,0 +1,72 @@
+Game statistics: 
+----------------
+Time played: 39.5167
+Life remaining: 6
+Reached wave: 0
+
+Player Statistics:
+------------------
+Player name: 
+Hero played: Officer
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 0
+
+Damage statistics: 
+Total damage dealt: -934431137
+Physical damage taken: 95
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: -934431137
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1065353216
+1053273620
+0
+0
+1053273620
+0
+1055622431
+0
+0
+0
+0
+289324521
+3134062
+3122118
+3134978
+3132188
+3130170
+3134556
+3134284
+3121724
+1518796340
+1518801725
+1966951268
+1517407200
+1517459408
+1516018272
+0
+0
+20971630
+2003788910
+1835626049
+1330398805
+---------------

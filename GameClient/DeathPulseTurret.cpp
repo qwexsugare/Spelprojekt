@@ -47,3 +47,8 @@ void DeathPulseTurret::target(ServerEntity* _target)
 		file.close();
 	}
 }
+
+int DeathPulseTurret::getCost()
+{
+	return DeathPulseTurret::COST;
+}

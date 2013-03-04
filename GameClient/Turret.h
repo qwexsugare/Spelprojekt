@@ -26,6 +26,8 @@ public:
 	void addLifetime(float _dt);
 	void setReadyAimFire(float _readyAimFire);
 	void setActive(bool _active);
+
+	virtual int getCost() = 0;
 };
 
 #endif

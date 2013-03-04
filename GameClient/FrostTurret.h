@@ -17,5 +17,6 @@ public:
 	~FrostTurret();
 
 	void target(ServerEntity* _target);
+	int getCost();
 };
 

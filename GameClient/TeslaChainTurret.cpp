@@ -50,3 +50,8 @@ void TeslaChainTurret::target(ServerEntity* _target)
 {
 	int dbg = 1;
 }
+
+int TeslaChainTurret::getCost()
+{
+	return TeslaChainTurret::COST;
+}

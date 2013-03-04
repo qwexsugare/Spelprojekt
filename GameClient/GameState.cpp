@@ -201,6 +201,7 @@ void GameState::update(float _dt)
 		Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(iem.getModelID()), FLOAT3(iem.getXPos(), 0.0, iem.getZPos()));
 		model->setTextureIndex(m_modelIdHolder.getTexture(iem.getModelID()));
 		model->setGlowIndex(m_modelIdHolder.getGlowmap(iem.getModelID()));
+		model->setRotation(FLOAT3(iem.getYRot(), 0.0f, 0.0f));
 
 		if(this->m_modelIdHolder.getHat(iem.getModelID()) != "")
 		{
@@ -277,6 +278,9 @@ void GameState::update(float _dt)
 		{
 		case Skill::CLOUD_OF_DARKNESS:
 			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
+		case Skill::WALL:
+			m_ClientSkillEffects.push_back(new WallClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		}
 	}

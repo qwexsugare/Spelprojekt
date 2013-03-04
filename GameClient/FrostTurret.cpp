@@ -29,3 +29,8 @@ void FrostTurret::target(ServerEntity* _target)
 {	
 	EntityHandler::addEntity(new FrostTurretProjectile(this->getId(), _target->getId(), this->m_slowEffect));
 }
+
+int FrostTurret::getCost()
+{
+	return FrostTurret::COST;
+}

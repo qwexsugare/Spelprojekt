@@ -104,6 +104,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 		if(se == NULL)
 		{
 			this->m_hasTarget = false;
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 		}
 		else
 		{
@@ -183,6 +184,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 			{
 				this->m_hasTarget = false;
 				this->m_reachedPosition = true;
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 			}
 		}
 	}

@@ -487,6 +487,21 @@
     <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp">
       <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="TimeIsMoney.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="WallEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="WallClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetAcquiredClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1007,6 +1022,21 @@
     </ClInclude>
     <ClInclude Include="TargetAcquiredPermissionToFireEffect.h">
       <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeIsMoney.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="WallEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="WallClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetAcquiredClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

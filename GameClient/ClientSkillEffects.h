@@ -20,3 +20,4 @@
 #include "PassiveAttackClientSkillEffect.h"
 #include "ChainStrikeClientSkillEffect.h"
 #include "SwiftAsACatPowerfulAsABoarClientSkillEffect.h"
+#include "WallClientSkillEffect.h"

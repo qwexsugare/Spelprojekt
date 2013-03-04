@@ -301,6 +301,7 @@
     <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp" />
+    <ClCompile Include="TargetAcquiredClientSkillEffect.cpp" />
     <ClCompile Include="TargetAcquiredPermissionToFire.cpp" />
     <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp" />
     <ClCompile Include="Teleport.cpp" />
@@ -311,10 +312,14 @@
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="TheMentalist.cpp" />
     <ClCompile Include="ThunderSteed.cpp" />
+    <ClCompile Include="TimeIsMoney.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="TowerPlacer.cpp" />
     <ClCompile Include="TurretLifetime.cpp" />
     <ClCompile Include="UnitEntity.cpp" />
+    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WallClientSkillEffect.cpp" />
+    <ClCompile Include="WallEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -481,6 +486,7 @@
     <ClInclude Include="StunningStrikeClientSkillEffect.h" />
     <ClInclude Include="StunningStrikeEffect.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoar.h" />
+    <ClInclude Include="TargetAcquiredClientSkillEffect.h" />
     <ClInclude Include="TargetAcquiredPermissionToFire.h" />
     <ClInclude Include="TargetAcquiredPermissionToFireEffect.h" />
     <ClInclude Include="Teleport.h" />
@@ -491,11 +497,15 @@
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="TheMentalist.h" />
     <ClInclude Include="ThunderSteed.h" />
+    <ClInclude Include="TimeIsMoney.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="TowerPlacer.h" />
     <ClInclude Include="TurretLifetime.h" />
     <ClInclude Include="Turrets.h" />
     <ClInclude Include="UnitEntity.h" />
+    <ClInclude Include="Wall.h" />
+    <ClInclude Include="WallClientSkillEffect.h" />
+    <ClInclude Include="WallEffect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
