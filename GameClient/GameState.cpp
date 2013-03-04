@@ -70,7 +70,7 @@ GameState::GameState(Client *_network)
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
-	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 11.0f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
@@ -118,6 +118,12 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
+	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
+	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities());
+	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
+	//this->m_cursor.setPosition(g_mouse->getPos());
+	SpeechManager::update();
+
 	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
 	if(!isSoundPlaying(m_idleSound))
 	{
@@ -519,12 +525,6 @@ void GameState::update(float _dt)
 	{
 
 	}
-
-	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
-	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities());
-	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
-	//this->m_cursor.setPosition(g_mouse->getPos());
-	SpeechManager::update();
 }
 
 void GameState::importMap(string _map)
