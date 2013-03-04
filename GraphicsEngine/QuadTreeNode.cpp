@@ -578,7 +578,7 @@ bool QuadTreeNode::removeParticleEngine(ParticleEngine* _pe)
 {
 	bool removed = false;
 	
-	for(int i = 0; i < this->m_lights.size() && !removed; i++)
+	for(int i = 0; i < this->m_particleEngines.size() && !removed; i++)
 	{
 		if(m_particleEngines[i] == _pe)
 		{

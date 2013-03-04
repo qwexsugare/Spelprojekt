@@ -459,15 +459,34 @@
     </ClCompile>
     <ClCompile Include="PassiveAttackClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
-    </ClCompile>    
+    </ClCompile>
     <ClCompile Include="ChainStrikeClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
-      </ClCompile>
-    <ClCompile Include="Statistics.cpp" />
-    <ClCompile Include="StatisticsPlayer.cpp" />
+    </ClCompile>
+    <ClCompile Include="Statistics.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="StatisticsPlayer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="EnhancedDevelopment.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretLifetime.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyAimFire.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetAcquiredPermissionToFire.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -962,16 +981,35 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="PassiveAttackClientSkillEffect.h">
-       <Filter>Client\Skills</Filter>
-    </ClInclude>   
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
     <ClInclude Include="ChainStrikeClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="Statistics.h" />
-    <ClInclude Include="StatisticsPlayer.h" />
+    <ClInclude Include="Statistics.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="EnhancedDevelopment.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretLifetime.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyAimFire.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetAcquiredPermissionToFire.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetAcquiredPermissionToFireEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="StatisticsPlayer.h">
+      <Filter>Client</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

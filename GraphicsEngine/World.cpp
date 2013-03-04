@@ -40,6 +40,9 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
 	this->m_glowRenderTarget2 = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
 
+	//ParticleStuff
+	this->m_particleRendering =  new ParticleEngineEffectFile(this->m_deviceHandler->getDevice());
+
 	//SSAO
 	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
 
@@ -112,6 +115,7 @@ World::~World()
 	delete this->m_deferredRendering;
 	delete this->m_glowRendering;
 	delete this->m_SSAORendering;
+	delete this->m_particleRendering;
 
 	delete this->m_positionBuffer;
 	delete this->m_normalBuffer;
@@ -666,11 +670,13 @@ void World::render()
 	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
 	while(!pes.empty())
 	{
-		//pes.top()->getstuffandrendershit();
+		pes.top()->Draw(m_particleRendering, m_camera);
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
 	}
-	
+
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
 	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
 
 	for(int i = 0; i < m_models.size(); i++)
@@ -697,6 +703,8 @@ void World::render()
 		}
 	}
 	
+	m_deviceHandler->setInputLayout(m_spriteRendering->getVertexLayout());		
+
 	//Sprites
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
@@ -982,6 +990,9 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 void World::update(float dt)
 {
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
+	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
+
 	//SpriteSheets
 	for(int i = 0; i < this->m_sprites.size(); i++)
 	{
@@ -990,6 +1001,14 @@ void World::update(float dt)
 
 	for(int i = 0; i < m_models.size(); i++)
 		m_models[i]->Update(dt);
+	
+	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
+	while(!pes.empty())
+	{
+		pes.top()->Update(dt);
+		/* What do you call a sheep with no legs? A cloud. */
+		pes.pop();
+	}
 
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
 	//while(!models.empty())

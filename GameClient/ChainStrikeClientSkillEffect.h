@@ -3,6 +3,7 @@
 #include "ClientSkillEffect.h"
 #include "Model.h"
 #include "PointLight.h"
+#include "ClientEntityHandler.h"
 
 class ChainStrikeClientSkillEffect : public ClientSkillEffect
 {
@@ -13,7 +14,7 @@ private:
 	FLOAT3 m_position;
 	float m_lifetime;
 public:
-	ChainStrikeClientSkillEffect(FLOAT3 _position);
+	ChainStrikeClientSkillEffect(unsigned int _masterId, FLOAT3 _position);
 	~ChainStrikeClientSkillEffect();
 
 	void update(float _dt);

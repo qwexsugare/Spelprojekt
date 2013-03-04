@@ -2,9 +2,9 @@
 #include "EntityHandler.h"
 #include "SoundWrapper.h"
 
-const FLOAT ChainStrikeEffect::TIME_BETWEEN_JUMPS = 50.5f;
+const FLOAT ChainStrikeEffect::TIME_BETWEEN_JUMPS = 0.5f;
 
-ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage)
+ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage, unsigned int _masterId)
 {
 	m_firstTarget = _firstTarget;
 	m_position = _positon;
@@ -15,6 +15,8 @@ ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon,
 	m_jumpTimer = 0.0f;
 	m_jumps = 0;
 	m_baseDamage = _baseDamage;
+
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::CHAIN_STRIKE, _masterId, _positon));
 }
 
 ChainStrikeEffect::~ChainStrikeEffect()

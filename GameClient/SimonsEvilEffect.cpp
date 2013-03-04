@@ -34,7 +34,7 @@ void SimonsEvilEffect::tick()
 	{
 		if(enemies[i]->contains(*m_bs))
 		{
-			enemies[i]->takeDamage(SimonsEvilEffect::DPS, 0, this->m_caster);
+			((UnitEntity*)enemies[i])->takeDamage(SimonsEvilEffect::DPS, 0, this->m_caster);
 		}
 	}
 	
@@ -44,7 +44,7 @@ void SimonsEvilEffect::tick()
 	{
 		if(heroes[i]->contains(*m_bs))
 		{
-			heroes[i]->heal(m_heal);
+			((UnitEntity*)heroes[i])->heal(m_heal);
 		}
 	}
 

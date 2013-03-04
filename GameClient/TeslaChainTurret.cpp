@@ -2,14 +2,13 @@
 #include "Graphics.h"
 #include "EntityHandler.h"
 
-TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, int turretLifeUpgrade, int turretUpgrade) : Turret(_position)
+const float TeslaChainTurret::RANGE = 2.0f;
+const float TeslaChainTurret::COOLDOWN = 2.0f;
+
+TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, UnitEntity *_creator) : Turret(_position, TeslaChainTurret::COOLDOWN, TeslaChainTurret::RANGE, 20 * _creator->getTurretDuration())
 {
-	this->m_lifeTime = 20.0f * turretLifeUpgrade;
 	this->m_damage = 20;
-	this->m_cooldown = 2.0f;
-	this->m_attackRangeProt = 2.0f;
-	this->m_attackCooldown = this->m_cooldown;
-	this->m_numberOfHits = 2 + turretUpgrade / 4;
+	this->m_numberOfHits = 1 + _creator->getTurretConstruction() / 4;
 	this->m_modelId = 3;
 	
 	Model* temp = g_graphicsEngine->createModel("LightningTurret", _position);
@@ -32,8 +31,8 @@ void TeslaChainTurret::update(float dt)
 
 		if(se != NULL && (se->getPosition() - this->m_position).length() <= this->m_attackRangeProt)
 		{
-			EntityHandler::addEntity(new ChainStrikeEffect(se->getId(), this->m_position, this->m_numberOfHits, this->m_damage));
-			this->m_attackCooldown = this->m_cooldown;
+			EntityHandler::addEntity(new ChainStrikeEffect(se->getId(), this->m_position, this->m_numberOfHits, this->m_damage, this->m_id));
+			this->m_attackCooldown = TeslaChainTurret::COOLDOWN;
 		}
 	}
 	else

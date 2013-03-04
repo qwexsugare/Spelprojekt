@@ -20,7 +20,7 @@ public:
 	static const int PLACE_RANGE = 5;
 
 	static void init();
-	static void place(Skill::SKILLS _towerType, const FLOAT3& _pos, const FLOAT3& _origin);
+	static void place(Skill::SKILLS _towerType, const FLOAT3& _pos, const FLOAT3& _origin, UnitEntity *_creator);
 	static void release();
 };
 

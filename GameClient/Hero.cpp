@@ -60,6 +60,14 @@ void Hero::activateAllPassiveSkills()
 		{
 			m_skills[i]->activate(this->getId());
 		}
+		else if(m_skills[i]->getId() == Skill::ENHANCED_DEVELOPMENT)
+		{
+			m_skills[i]->activate(this->getId());
+		}
+		else if(m_skills[i]->getId() == Skill::READY_AIM_FIRE)
+		{
+			m_skills[i]->activate(this->getId());
+		}
 	}
 }
 

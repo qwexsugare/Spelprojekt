@@ -18,7 +18,7 @@ bool StunningStrike::activate(unsigned int _senderId)
 {
 	if(this->getCurrentCooldown() == 0)
 	{
-		EntityHandler::addEntity(new StunningStrikeEffect(EntityHandler::getServerEntity(_senderId)->getPosition()));
+		EntityHandler::addEntity(new StunningStrikeEffect(EntityHandler::getServerEntity(_senderId)->getPosition(), _senderId));
 		this->resetCooldown();
 		return true;
 	}

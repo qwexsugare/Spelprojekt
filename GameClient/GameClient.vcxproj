@@ -157,6 +157,8 @@
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="EnhancedDevelopment.cpp" />
+    <ClCompile Include="ReadyAimFire.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeClientSkillEffect.cpp" />
@@ -299,6 +301,8 @@
     <ClCompile Include="StunningStrikeClientSkillEffect.cpp" />
     <ClCompile Include="StunningStrikeEffect.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoar.cpp" />
+    <ClCompile Include="TargetAcquiredPermissionToFire.cpp" />
+    <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp" />
     <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
     <ClCompile Include="TeslaChainTurret.cpp" />
@@ -309,6 +313,7 @@
     <ClCompile Include="ThunderSteed.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="TowerPlacer.cpp" />
+    <ClCompile Include="TurretLifetime.cpp" />
     <ClCompile Include="UnitEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +329,8 @@
     <ClInclude Include="ArrowClientSkillEffect.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="EnhancedDevelopment.h" />
+    <ClInclude Include="ReadyAimFire.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h" />
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeClientSkillEffect.h" />
@@ -474,6 +481,8 @@
     <ClInclude Include="StunningStrikeClientSkillEffect.h" />
     <ClInclude Include="StunningStrikeEffect.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoar.h" />
+    <ClInclude Include="TargetAcquiredPermissionToFire.h" />
+    <ClInclude Include="TargetAcquiredPermissionToFireEffect.h" />
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="TeleportEffect.h" />
     <ClInclude Include="TeslaChainTurret.h" />
@@ -484,6 +493,7 @@
     <ClInclude Include="ThunderSteed.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="TowerPlacer.h" />
+    <ClInclude Include="TurretLifetime.h" />
     <ClInclude Include="Turrets.h" />
     <ClInclude Include="UnitEntity.h" />
   </ItemGroup>
