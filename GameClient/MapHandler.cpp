@@ -16,7 +16,7 @@ MapHandler::MapHandler()
 {
 	this->m_currentWave = 0;
 	this->m_waveTimer = 30.0f;
-	this->m_enemySpawnTimer = 0.0f;
+	this->m_enemySpawnTimer = 30.0f;
 	this->m_gridHeight = 0;
 	this->m_gridWidth = 0;
 	this->m_nrOfPaths = 0;
