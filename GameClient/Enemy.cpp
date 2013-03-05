@@ -175,7 +175,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			t = m_staticAvDir.length();
 		}
 
-		m_dir = m_dir*4.5 + m_goalDirection*1.0f/t+ m_staticAvDir*(min(7.0f, m_distanceToPoint))+m_enemyAvDir;
+		m_dir = m_dir*4.5 + m_goalDirection*1.0f/t+ m_staticAvDir*(min(7.0f, m_distanceToPoint));//+m_enemyAvDir;
 			if(m_dir.length() > 0)
 			m_dir = m_dir/m_dir.length();
 		else 
