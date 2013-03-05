@@ -11,6 +11,8 @@ Player::Player(unsigned int id)
 	this->m_ready = false;
 	m_selectedHeroType = Hero::NONE;
 	this->m_attributesBought = 0;
+	this->m_nrOfDeaths = 0;
+	this->m_respawnTimer = 0.0f;
 }
 
 Player::~Player()
@@ -29,22 +31,23 @@ void Player::spawnHero(FLOAT3 _position)
 	switch(m_selectedHeroType)
 	{
 	case Hero::ENGINEER:
-		this->m_hero = new Engineer(this->m_id, m_selectedWeaponType);
+		this->m_hero = new Engineer(this->m_messageQueue->getId(), m_selectedWeaponType);
 		break;
 	case Hero::DOCTOR:
-		this->m_hero = new Doctor(this->m_id, m_selectedWeaponType);
+		this->m_hero = new Doctor(this->m_messageQueue->getId(), m_selectedWeaponType);
 		break;
 	case Hero::RED_KNIGHT:
-		this->m_hero = new RedKnight(this->m_id, m_selectedWeaponType);
+		this->m_hero = new RedKnight(this->m_messageQueue->getId(), m_selectedWeaponType);
 		break;
 	case Hero::THE_MENTALIST:
-		this->m_hero = new TheMentalist(this->m_id, m_selectedWeaponType);
+		this->m_hero = new TheMentalist(this->m_messageQueue->getId(), m_selectedWeaponType);
 		break;
 	case Hero::OFFICER:
-		this->m_hero = new Officer(this->m_id, m_selectedWeaponType);
+		this->m_hero = new Officer(this->m_messageQueue->getId(), m_selectedWeaponType);
 		break;
 	}
 	
+	this->m_heroSpawnLocation = _position;
 	this->m_hero->setPosition(_position);
 
 	vector<Skill*> skills = this->m_hero->getSkills();
@@ -299,6 +302,28 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 
 void Player::update(float _dt)
 {
+	while(this->m_messageQueue->incomingQueueEmpty() == false)
+	{
+		Message *m = this->m_messageQueue->pullIncomingMessage();
+
+		if(m->type == Message::HeroDied)
+		{
+			this->m_nrOfDeaths++;
+			this->m_respawnTimer = this->m_nrOfDeaths * 5.0f;
+		}
+
+		delete m;
+	}
+
+	if(this->m_respawnTimer > 0.0f)
+	{
+		this->m_respawnTimer = this->m_respawnTimer - _dt;
+
+		if(this->m_respawnTimer <= 0.0f)
+		{
+			this->m_hero->respawn(this->m_heroSpawnLocation);
+		}
+	}
 }
 
 bool Player::getReady()
@@ -313,15 +338,17 @@ MessageQueue *Player::getMessageQueue()
 
 void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 {
-	TimeIsMoney *timeIsMoney;
-
-	switch(usm.getActionId())
+	if(this->m_hero->getAlive() == true)
 	{
-	case Skill::MOVE:
-		this->m_hero->setNextPosition(usm.getPosition());
-		break;
+		TimeIsMoney *timeIsMoney;
+
+		switch(usm.getActionId())
+		{
+		case Skill::MOVE:
+			this->m_hero->setNextPosition(usm.getPosition());
+			break;
 		
-	case Skill::DEATH_PULSE_TURRET:
+		case Skill::DEATH_PULSE_TURRET:
 		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 		{
 			timeIsMoney = this->getTimeIsMoney();
@@ -338,9 +365,9 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::DEATH_PULSE_TURRET, this->m_id, usm.getPosition()));
 		}
-		break;
+			break;
 
-	case Skill::FROST_TURRET:
+		case Skill::FROST_TURRET:
 		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 		{
 			timeIsMoney = this->getTimeIsMoney();
@@ -357,9 +384,9 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::FROST_TURRET, this->m_id, usm.getPosition()));
 		}
-		break;
+			break;
 
-	case Skill::POISON_TURRET:
+		case Skill::POISON_TURRET:
 		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 		{
 			timeIsMoney = this->getTimeIsMoney();
@@ -376,9 +403,9 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::POISON_TURRET, this->m_id, usm.getPosition()));
 		}
-		break;
+			break;
 
-	case Skill::TESLA_CHAIN_TURRET:
+		case Skill::TESLA_CHAIN_TURRET:
 		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 		{
 			timeIsMoney = this->getTimeIsMoney();
@@ -395,53 +422,60 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::TESLA_CHAIN_TURRET, this->m_id, usm.getPosition()));
 		}
-		break;
+			break;
 
-	default:
-		if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
-		{
-			Skill *s = this->m_hero->getSkills()[usm.getIndex()];
-			if(s->activate(usm.getPosition(), m_hero->getId()) == true)
+		default:
+			if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
 			{
-				this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
+				Skill *s = this->m_hero->getSkills()[usm.getIndex()];
+				if(s->activate(usm.getPosition(), m_hero->getId()) == true)
+				{
+					this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
+				}
 			}
-		}
 
-		break;
+			break;
+		}
 	}
 }
 
 void Player::handleUseActionMessage(NetworkUseActionMessage usm)
 {
-	if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
+	if(this->m_hero->getAlive() == true)
 	{
-		Skill *s = this->m_hero->getSkills()[usm.getIndex()];
-		if(s->activate(m_hero->getId()) == true)
+		if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
 		{
-			this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
+			Skill *s = this->m_hero->getSkills()[usm.getIndex()];
+			if(s->activate(m_hero->getId()) == true)
+			{
+				this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
+			}
 		}
 	}
 }
 
 void Player::handleUseActionTargetMessage(NetworkUseActionTargetMessage usm)
 {
-	switch(usm.getActionId())
+	if(this->m_hero->getAlive() == true)
 	{
-	case Skill::ATTACK:
-		this->m_hero->setTarget(usm.getTargetId());
-		break;
-
-	default:
-		if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
+		switch(usm.getActionId())
 		{
-			Skill *s = this->m_hero->getSkills()[usm.getIndex()];
-			if(s->activate(usm.getTargetId(), m_hero->getId()) == true)
-			{
-				this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
-			}
-		}
+		case Skill::ATTACK:
+			this->m_hero->setTarget(usm.getTargetId());
+			break;
 
-		break;
+		default:
+			if(this->m_hero->getSkills().size() > usm.getIndex() && this->m_hero->getSkills()[usm.getIndex()]->getId() == usm.getActionId())
+			{
+				Skill *s = this->m_hero->getSkills()[usm.getIndex()];
+				if(s->activate(usm.getTargetId(), m_hero->getId()) == true)
+				{
+					this->m_messageQueue->pushOutgoingMessage(new SkillUsedMessage(s->getId(), this->m_id, usm.getIndex(), s->getCooldown()));
+				}
+			}
+
+			break;
+		}
 	}
 }
 

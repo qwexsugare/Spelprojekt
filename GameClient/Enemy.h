@@ -53,6 +53,7 @@ public:
 	void checkCloseEnemies(float dt);
 	bool checkDistanceToStatic(float firstFactor, float secondFactor);
 	void attackHero();
+	virtual void attackHero(int heroIndex) = 0;
 
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 	bool outOfBounds(FLOAT3 _pt, int _offset);

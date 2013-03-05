@@ -15,11 +15,10 @@ private:
 public:
 	static const float LIFETIME;
 	static const float RANGE;
-	static const int DAMAGE_PER_TOWER = 10;
+	static const int DAMAGE_PER_TOWER = 5;
 
 	TargetAcquiredPermissionToFireEffect(unsigned int _casterId, FLOAT3 _position);
 	~TargetAcquiredPermissionToFireEffect();
 
 	void update(float _dt);
 };
-
