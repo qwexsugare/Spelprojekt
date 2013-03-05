@@ -245,7 +245,7 @@ Mesh* MeshImporter::LoadFishes(ID3D10Device* device, TextureHolder* textureHolde
 	mesh = CreateMesh(device, &fishFile, ani.getNumAnimations() > 0, textureHolder, folderPath);
 
 	animationHolder->addAnimation(filename, ani);
-
+	
 	return mesh;
 }
 

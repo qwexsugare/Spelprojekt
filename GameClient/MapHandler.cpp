@@ -159,7 +159,10 @@ void MapHandler::loadMap(std::string filename)
 					{
 						Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
 						m->setRotation(rotation);
-						EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
+						if(strcmp(key, "Church")==0)
+							EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::GoalType));
+						else
+							EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
 						g_graphicsEngine->removeModel(m);
 					}
 				}
