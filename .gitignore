@@ -2420,3 +2420,8 @@ GameClient/audio/turrets/towerBuild.wav
 GameClient/audio/turrets/towerBuildHammerSound.wav
 GameClient/audio/turrets/towerBuildKlinkSound.wav
 GameClient/audio/turrets/TurretBuildup.wav
+dev/Excess Audio/beamAndLightning.wav
+dev/Excess Audio/chockSoundEnd.wav
+dev/Excess Audio/teslaTowerAttack.wav
+GameClient/audio.zip
+GameClient/audio/skills/chain_strike.wav

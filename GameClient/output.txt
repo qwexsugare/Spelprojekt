@@ -1534,3 +1534,28 @@ Death Pulse turret projectile did 10 damage and reduced health from 79 to 73
 Poison turret projectile did 20 damage and reduced health from 73 to 62
 Poison turret projectile did 5 damage and reduced health from 51 to 48
 Death Pulse turret projectile did 6 damage and reduced health from 48 to 44
+Death Pulse turret projectile did 1 damage and reduced health from 100 to 99
+Death Pulse turret projectile did 6 damage and reduced health from 99 to 95
+Death Pulse turret projectile did 2 damage and reduced health from 95 to 93
+Death Pulse turret projectile did 9 damage and reduced health from 93 to 88
+Death Pulse turret projectile did 6 damage and reduced health from 88 to 84
+Frost turret projectile did 3 damage and reduced health from 84 to 81
+Frost turret projectile did 1 damage and reduced health from 100 to 99
+Frost turret projectile did 5 damage and reduced health from 99 to 94
+Frost turret projectile did 3 damage and reduced health from 94 to 91
+Frost turret projectile did 5 damage and reduced health from 91 to 86
+Frost turret projectile did 4 damage and reduced health from 86 to 82
+Frost turret projectile did 3 damage and reduced health from 71 to 68
+Frost turret projectile did 1 damage and reduced health from 68 to 67
+Frost turret projectile did 1 damage and reduced health from 50 to 49
+Frost turret projectile did 1 damage and reduced health from 49 to 48
+Frost turret projectile did 2 damage and reduced health from 42 to 40
+Frost turret projectile did 3 damage and reduced health from 29 to 26
+Frost turret projectile did 4 damage and reduced health from 26 to 22
+Frost turret projectile did 4 damage and reduced health from 5 to 1
+Frost turret projectile did 4 damage and reduced health from 1 to -2
+Frost turret projectile did 2 damage and reduced health from 75 to 73
+Frost turret projectile did 4 damage and reduced health from 67 to 63
+Frost turret projectile did 5 damage and reduced health from 63 to 58
+Frost turret projectile did 2 damage and reduced health from 58 to 56
+Frost turret projectile did 1 damage and reduced health from 45 to 44

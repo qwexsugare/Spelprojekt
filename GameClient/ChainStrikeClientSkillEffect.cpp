@@ -14,10 +14,11 @@ ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(unsigned int _masterI
 	m_graphicalEffects[0]->setAlpha(0.999f);
 	m_graphicalEffects[1]->setAlpha(0.999f);
 	m_graphicalEffects[2]->setAlpha(0.999f);
-
 	m_lifetime = 0.0f;
-	m_sound = createSoundHandle("TurretBuildup.wav", false, true, _position);
-	playSound(m_sound);
+
+	int sound = createSoundHandle("skills/chain_strike.wav", false, true, _position);
+	playSound(sound);
+	deactivateSound(sound);
 
 	if(_playAnimation)
 	{
@@ -34,7 +35,6 @@ ChainStrikeClientSkillEffect::~ChainStrikeClientSkillEffect()
 	g_graphicsEngine->removeModel(m_graphicalEffects[0]);
 	g_graphicsEngine->removeModel(m_graphicalEffects[1]);
 	g_graphicsEngine->removeModel(m_graphicalEffects[2]);
-	deactivateSound(m_sound);
 }
 
 void ChainStrikeClientSkillEffect::update(float _dt)
