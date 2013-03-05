@@ -349,7 +349,8 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			break;
 		
 		case Skill::DEATH_PULSE_TURRET:
-			TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero);
+		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
+		{
 			timeIsMoney = this->getTimeIsMoney();
 
 			if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
@@ -362,10 +363,14 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			}
 
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::DEATH_PULSE_TURRET, this->m_id, usm.getPosition()));
+		}
 			break;
+
 		case Skill::FROST_TURRET:
-			TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero);
-			 timeIsMoney = this->getTimeIsMoney();
+		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
+		{
+			timeIsMoney = this->getTimeIsMoney();
 
 			if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
 			{
@@ -377,10 +382,14 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			}
 
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::FROST_TURRET, this->m_id, usm.getPosition()));
+		}
 			break;
+
 		case Skill::POISON_TURRET:
-			TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero);
-			 timeIsMoney = this->getTimeIsMoney();
+		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
+		{
+			timeIsMoney = this->getTimeIsMoney();
 
 			if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
 			{
@@ -392,9 +401,13 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			}
 
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::POISON_TURRET, this->m_id, usm.getPosition()));
+		}
 			break;
+
 		case Skill::TESLA_CHAIN_TURRET:
-			TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero);
+		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
+		{
 			timeIsMoney = this->getTimeIsMoney();
 
 			if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
@@ -407,6 +420,8 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			}
 
 			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::TESLA_CHAIN_TURRET, this->m_id, usm.getPosition()));
+		}
 			break;
 
 		default:
