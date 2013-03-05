@@ -175,7 +175,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			t = m_staticAvDir.length();
 		}
 
-		m_dir = m_dir*4.5 + m_goalDirection*1.0f/t+ m_staticAvDir*(min(7.0f, m_distanceToPoint));
+		m_dir = m_dir*4.5 + m_goalDirection*1.0f/t+ m_staticAvDir*(min(7.0f, m_distanceToPoint))+m_enemyAvDir;
 			if(m_dir.length() > 0)
 			m_dir = m_dir/m_dir.length();
 		else 
@@ -217,15 +217,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 						
 						m_dir = m_dir+v;
 						m_dir = m_dir/m_dir.length();
-						//m_dir = (crossProduct(m_dir, FLOAT3(0,1,0)) +(m_staticAvDir/m_staticAvDir.length()))*0.5f;// crossProduct(m_dir,FLOAT3(0,0,0));// + v*10;//+m_staticAvDir;
-						//m_position = m_position + m_dir*1.0f*m_movementSpeed*lastDT;
-						//m_dir = v + crossProduct(v,FLOAT3(0,0,0));
-
-						/// ---------------------------------------------  Titta här! ----------------------------
-						/// Imorgon ska det bestämmas hur faktisk kollision med statiska objekt ska hanteras 
-						///
-						///
-						///
+						
 
 					}
 					else 
@@ -340,7 +332,7 @@ void Enemy::checkCloseEnemies(float dt)
 
 		if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z)*0.5f)
 		{
-			m_position = m_position + (m_position - closestEnemy->getPosition());
+			m_position = m_position + (m_position - closestEnemy->getPosition()*2);
 		}
 		if(closestEnemy != NULL && (m_position - closestEnemy->getPosition() ).length() < sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x +this->getObb()->Extents.z*this->getObb()->Extents.z)*3)
 		{
