@@ -38,7 +38,11 @@ protected:
 	FLOAT3 hoxit;
 	ServerEntity *m_prevClosestStatic;
 	ServerEntity *m_currClosestStatic;
+
 	EnemyType m_enemyType;
+	FLOAT3 m_destination;
+	float m_destinationRadius;
+	float m_distanceToPoint; 
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path, EnemyType _type);

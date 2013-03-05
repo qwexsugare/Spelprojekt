@@ -159,7 +159,10 @@ void MapHandler::loadMap(std::string filename)
 					{
 						Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
 						m->setRotation(rotation);
-						EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
+						if(strcmp(key, "Church")==0)
+							EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::GoalType));
+						else
+							EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
 						g_graphicsEngine->removeModel(m);
 					}
 				}
@@ -307,7 +310,7 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	int t = random(0,0);
 	
 	int _min = 0;
-	int _max = this->m_nrOfPaths-1;
+	int _max = 4;//this->m_nrOfPaths-1;
 
 	for(int i = 0; i < totalMonsters; i ++)
 	{
