@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 59.5105
-Life remaining: -1
+Time played: 47.142
+Life remaining: 3
 Reached wave: 0
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Red knight
+Hero played: Doctor
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
-Healed for: 0
+Healed for: 47
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 129
+Total damage dealt: 114
+Physical damage taken: 390
 Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
+Physical damage dealt: 19
+Mental damage dealt: 95
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -42,8 +42,8 @@ Skills used:
 0
 0
 0
--2147483624
-538976288
+1936876886
+10
 0
 0
 0
@@ -57,17 +57,17 @@ Skills used:
 0
 0
 0
-0
-1009990660
-877278264
-1030503756
-833368486
-868758454
-898905483
-959461652
-836645326
-917386920
-901461411
-948189310
-1061699394
+931870518
+1053834952
+859910927
+1023491284
+1072185302
+838807995
+885732518
+1003502469
+53248
+924595987
+825635120
+958937123
+997669710
 ---------------

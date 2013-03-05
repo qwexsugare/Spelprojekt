@@ -2280,3 +2280,54 @@ GameClient/models/models/Wrench/Wrench_UV_GM.png
 GameClient/models/models/Wrench/Wrench_UV_SM.png
 GameClient/Models_Textures.rar
 GameClient/menu_textures/MENU-CharacterMenu-Background2.png
+GameClient/audio/Ambiant Envirement Sounds/CPUScream0.wav
+GameClient/audio/Ambiant Envirement Sounds/CPUScream1.wav
+GameClient/audio/Ambiant Envirement Sounds/maniacLaugh0.wav
+GameClient/audio/Ambiant Envirement Sounds/maniacLaugh1.wav
+GameClient/audio/Ambiant Envirement Sounds/scream0.wav
+GameClient/audio/Ambiant Envirement Sounds/scream1.wav
+GameClient/audio/Ambiant Envirement Sounds/scream2.wav
+GameClient/audio/Ambiant Envirement Sounds/Stepps0.wav
+GameClient/audio/Ambiant Envirement Sounds/Stepps1.wav
+GameClient/audio/Ambiant Envirement Sounds/Stepps2.wav
+GameClient/audio/Ambiant Envirement Sounds/thunder0.wav
+GameClient/audio/Ambiant Envirement Sounds/thunder1.wav
+GameClient/audio/Ambiant Envirement Sounds/thunder2.wav
+GameClient/audio/Ambiant Envirement Sounds/thunder3.wav
+GameClient/audio/Ambiant Envirement Sounds/thunder4.wav
+GameClient/audio/Ambiant Envirement Sounds/wind0.pkf
+GameClient/audio/Ambiant Envirement Sounds/wind0.wav
+GameClient/audio/Ambiant Envirement Sounds/wind1.pkf
+GameClient/audio/Ambiant Envirement Sounds/wind1.wav
+GameClient/audio/Ambiant Envirement Sounds/wind2.pkf
+GameClient/audio/Ambiant Envirement Sounds/wind2.wav
+GameClient/audio/beamAndLightning.wav
+GameClient/audio/chockBeemSoundStart.wav
+GameClient/audio/chockSoundEnd.wav
+GameClient/audio/churchBell1X.wav
+GameClient/audio/churchBell3X.wav
+GameClient/audio/codWindStartEnd.wav
+GameClient/audio/deathTowerAttack.wav
+GameClient/audio/doctor/Doctor_Damage_1.wav
+GameClient/audio/dpBreathingEnd.wav
+GameClient/audio/dpHearbeatScreamsStart.wav
+GameClient/audio/healingTouch.wav
+GameClient/audio/meleeAttack_0.wav
+GameClient/audio/meleeAttack_1.wav
+GameClient/audio/meleeAttack_2.wav
+GameClient/audio/poisonTowerAttack.wav
+GameClient/audio/rangeAttack_0.wav
+GameClient/audio/rangeAttack_1.wav
+GameClient/audio/rangeAttack_2.wav
+GameClient/audio/targetAcquird.wav
+GameClient/audio/teleport.wav
+GameClient/audio/teleportLonger.wav
+GameClient/audio/teslaTowerAttack.wav
+GameClient/audio/towerBuild.wav
+GameClient/audio/towerBuildHammerSound.wav
+GameClient/audio/towerBuildKlinkSound.wav
+GameClient/audio/twoHandedAttack_0.wav
+GameClient/audio/twoHandedAttack_1.wav
+GameClient/audio/twoHandedAttack_2.wav
+GameClient/audio/wallEnd.wav
+GameClient/audio/wallStartGroundShake.wav

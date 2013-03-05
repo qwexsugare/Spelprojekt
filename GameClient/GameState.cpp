@@ -226,6 +226,7 @@ void GameState::update(float _dt)
 			//this->m_entities.push_back(new Entity(model, e.getEntityId()));
 			Entity *e = new Entity(model, iem.getID());
 			e->m_type = (ServerEntity::Type)iem.getType();
+			e->m_subtype = iem.getSubtype();
 			this->m_clientEntityHandler->addEntity(e);
 
 			e->m_weapon = iem.getWeaponType();
