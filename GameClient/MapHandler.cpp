@@ -62,7 +62,7 @@ MapHandler::State MapHandler::getState()
 	{
 		return MapHandler::State::DEFEAT;
 	}
-	else if(this->m_currentWave > this->m_waves.size())
+	else if(this->m_currentWave >= this->m_waves.size())
 	{
 		return MapHandler::State::VICTORY;
 	}

@@ -3,7 +3,7 @@
 SkillIdHolder::SkillIdHolder()
 {
 	//Textures
-	this->m_SkillId[Skill::TOWER] = "menu_textures\\Button-Skill-0.png";
+	this->m_SkillId[Skill::TURRET_CONSTRUCTION] = "menu_textures\\Button-Skill-0.png";
 	this->m_SkillId[Skill::TURRET_LIFE] = "menu_textures\\Button-Skill-12.png";
 	this->m_SkillId[Skill::STRENGTH] = "menu_textures\\Button-Skill-1.png";
 	this->m_SkillId[Skill::PHYSICAL_RESISTANCE] = "menu_textures\\Button-Skill-7.png";
@@ -27,9 +27,10 @@ SkillIdHolder::SkillIdHolder()
 	this->m_SkillId[Skill::ENIGMATIC_PRESENCE] = "menu_textures\\Button-Skill-22.png";
 	this->m_SkillId[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = "menu_textures\\Button-Skill-23.png";
 	this->m_SkillId[Skill::COURAGE_HONOR_VALOR] = "menu_textures\\Button-Skill-24.png";
-	this->m_SkillId[Skill::READY_AIM_FIRE] = "menu_textures\\Button-Skill-26.png";
+	this->m_SkillId[Skill::READY_AIM_FIRE] = "menu_textures\\Button-Skill-25.png";
+	this->m_SkillId[Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE] = "menu_textures\\Button-Skill-26.png";
 	this->m_SkillId[Skill::TIME_IS_MONEY] = "menu_textures\\Button-Skill-27.png";
-	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-25.png";
+	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-28.png";
 	this->m_SkillId[Skill::LIFE_REGEN] = "menu_textures\\Button-Skill-29.png";
 	this->m_SkillId[Skill::HYPNOTIC_STARE] = "menu_textures\\Button-Skill-21.png";
 
@@ -39,7 +40,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_SkillId[Skill::FROST_TURRET] = "menu_textures\\Upgradebar_Buy_Tower_Frost.png";
 
 	//Active
-	this->m_skillActive[Skill::TOWER] = false;
+	this->m_skillActive[Skill::TURRET_CONSTRUCTION] = false;
 	this->m_skillActive[Skill::TURRET_LIFE] = false;
 	this->m_skillActive[Skill::STRENGTH] = false;
 	this->m_skillActive[Skill::PHYSICAL_RESISTANCE] = false;
@@ -64,7 +65,8 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = true;
 	this->m_skillActive[Skill::COURAGE_HONOR_VALOR] = false;
 	this->m_skillActive[Skill::READY_AIM_FIRE] = false;
-	this->m_skillActive[Skill::TIME_IS_MONEY] = false;
+	this->m_skillActive[Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE] = true;
+	this->m_skillActive[Skill::TIME_IS_MONEY] = true;
 	this->m_skillActive[Skill::ENHANCED_DEVELOPMENT] = true;
 	this->m_skillActive[Skill::LIFE_REGEN] = false;
 	this->m_skillActive[Skill::HYPNOTIC_STARE] = true;
@@ -75,7 +77,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::FROST_TURRET] = true;
 
 	//Description
-	this->m_skillDescription[Skill::TOWER] = "";
+	this->m_skillDescription[Skill::TURRET_CONSTRUCTION] = "";
 	this->m_skillDescription[Skill::TURRET_LIFE] = "";
 	this->m_skillDescription[Skill::STRENGTH] = "";
 	this->m_skillDescription[Skill::PHYSICAL_RESISTANCE] = "";

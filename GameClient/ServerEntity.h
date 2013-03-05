@@ -59,7 +59,6 @@ public:
 
 	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
-	void heal(int health);
 	virtual FLOAT3 getDirection();
 	virtual FLOAT3 getEndPos();
 	virtual float getMovementSpeed();

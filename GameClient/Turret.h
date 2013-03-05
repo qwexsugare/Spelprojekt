@@ -1,5 +1,4 @@
-#ifndef TOWER_H
-#define TOWER_H
+#pragma once
 
 #include "ServerEntity.h"
 
@@ -12,14 +11,22 @@ protected:
 	float m_attackRangeProt;
 	float m_attackCooldown;
 	float m_lifeTime;
+	float m_originalRange;
+	bool m_active;
 public:
 	Turret();
 	Turret(FLOAT3 position);
 	Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime);
 	virtual ~Turret();
-
+	
+	const BoundingSphere& getRange()const;
 	virtual void target(ServerEntity* _target) = 0;
 	void update(float _dt);
-};
+	virtual void updateSpecificTurret(float _dt);
 
-#endif
+	void addLifetime(float _dt);
+	void setReadyAimFire(float _readyAimFire);
+	void setActive(bool _active);
+
+	virtual int getCost() = 0;
+};

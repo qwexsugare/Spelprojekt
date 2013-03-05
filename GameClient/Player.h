@@ -31,6 +31,8 @@ private:
 	Hero *m_hero;
 	Hero::HERO_TYPE m_selectedHeroType;
 	Hero::WEAPON_TYPE m_selectedWeaponType;
+
+	TimeIsMoney *getTimeIsMoney();
 public:
 	Player(unsigned int id);
 	~Player();

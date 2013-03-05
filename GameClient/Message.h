@@ -221,6 +221,7 @@ struct InitEntityMessage :Message
 	float yRot;
 	float scale;
 	int health;
+	unsigned short subtype;
 	unsigned short entityType;
 	unsigned short weaponType;
 	float movementspeed;

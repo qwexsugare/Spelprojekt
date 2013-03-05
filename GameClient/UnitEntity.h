@@ -9,11 +9,6 @@
 class UnitEntity : public ServerEntity
 {
 protected:
-	static const int MAX_STRENGTH = 20;
-	static const int MAX_AGILITY = 20;
-	static const int MAX_WITS = 20;
-	static const int MAX_FORTITUDE = 20;
-
 	sf::Mutex m_mutex;
 
 	vector<Skill*> m_skills;
@@ -28,8 +23,9 @@ protected:
 	int m_agility;
 	int m_wits;
 	int m_fortitude;
+	int m_turretConstruction;
 
-	float m_turretDuration;
+	int m_turretDuration;
 	float m_greed;
 	float m_movementSpeedChange;
 	float m_baseMovementSpeed;
@@ -58,6 +54,12 @@ protected:
 	float m_frostTurretSlowEffectValue;
 	int m_poisonStacks;
 public:
+	static const int MAX_STRENGTH = 20;
+	static const int MAX_AGILITY = 20;
+	static const int MAX_WITS = 20;
+	static const int MAX_FORTITUDE = 20;
+	static const int MAX_TURRET_CONSTRUCTION = 20;
+
 	UnitEntity();
 	UnitEntity(FLOAT3 pos);
 	virtual ~UnitEntity();
@@ -80,14 +82,15 @@ public:
 	void increaseAgility(int _agility);
 	void increaseWits(int _wits);
 	void increaseFortitude(int _fortitude);
+	void increaseTurretConstruction(int _turretConstruction);
 	bool isSlowedByFrostTurret();
 	
 	void alterAttackSpeed(float _value);
 	void alterMentalDamage(float _value);
 	void alterMovementSpeed(float _value);
 	void alterPhysicalResistance(float _value);
+	void alterTurretDuration(int _turretDuration);
 	void setGreed(float _greed);
-	void setTurretDuration(float _turretLife);
 	void setMaxHealth(int _maxHealth);
 	void setMovementSpeed(float _movementSpeed);
 	void setAttackSpeed(float _attackSpeed);
@@ -106,6 +109,7 @@ public:
 	int getPoisonStacks()const;
 	int getHealth();
 	int getMaxHealth();
+	int getTurretConstruction();
 	float getMovementSpeed();
 	float getAttackSpeed();
 	float getPhysicalDamage();
@@ -113,7 +117,7 @@ public:
 	float getPhysicalResistance();
 	float getMentalResistance();
 	float getGreed();
-	float getTurretDuration();
+	int getTurretDuration();
 	int getPoisonCounter();
 
 	unsigned int getLastDamageDealer();

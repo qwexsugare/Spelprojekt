@@ -11,6 +11,7 @@ struct Entity
 	Model* m_model;
 	FLOAT3 m_direction;
 	ServerEntity::Type m_type;
+	int m_subtype;
 	FLOAT3 m_startPos;
 	FLOAT3 m_endPos;
 	float movementSpeed;
@@ -63,11 +64,11 @@ struct Entity
 		}
 		else
 		{
-			xdir=0;
-			zdir=0;
-			this->m_direction.x=xdir;
-			this->m_direction.z=zdir;
-			this->m_model->setPosition(m_endPos);
+			//xdir=0;
+			//zdir=0;
+			//this->m_direction.x=xdir;
+			//this->m_direction.z=zdir;
+			//this->m_model->setPosition(m_endPos);
 		}
 
 		if(this->m_lanternLight != NULL)

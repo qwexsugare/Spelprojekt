@@ -10,6 +10,7 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[6] = ModelId("CloudOfDarkness");
 	this->m_modelIds[7] = ModelId("Pentagram");
 	this->m_modelIds[8] = ModelId("redKnightPassiveAura");
+	this->m_modelIds[9] = ModelId("wall");
 
 	this->m_modelIds[80] = ModelId("Imp", "color", "glowIntensity"); //Frost demon
 	this->m_modelIds[81] = ModelId("Imp", "color1", "glowIntensity1"); //Imp

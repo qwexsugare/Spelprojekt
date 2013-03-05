@@ -219,7 +219,7 @@ void Server::handleMessages()
 			
 		case Message::initEntities:
 			m8 =(InitEntityMessage*)m;
-			iem = NetworkInitEntityMessage(m8->entityType, m8->modelid, m8->weaponType, m8->id,m8->xPos,m8->zPos,m8->yRot,m8->scale,m8->health,m8->sx,m8->sz,m8->ex,m8->ez,m8->movementspeed);
+			iem = NetworkInitEntityMessage(m8->entityType, m8->subtype, m8->modelid, m8->weaponType, m8->id,m8->xPos,m8->zPos,m8->yRot,m8->scale,m8->health,m8->sx,m8->sz,m8->ex,m8->ez,m8->movementspeed);
 			this->broadcast(iem);
 			break;
 

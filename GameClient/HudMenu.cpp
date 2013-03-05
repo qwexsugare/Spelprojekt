@@ -17,7 +17,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Chat = false;
 	this->m_skillWaitingForTarget = -1;
 	this->m_nrOfAttributesBought = 0;
-
+	
 	switch(_heroType)
 	{
 	case Hero::OFFICER:
@@ -104,7 +104,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 		this->m_shopButtons.push_back(new Button());
 	}
 
-	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TOWER),"0",0,0,1,12,100,0,INT2(422,80), false, Skill::TOWER,"menu_textures\\Skill_0.png");
+	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_CONSTRUCTION),"100",0,0,1,12,100,0,INT2(422,80), false, Skill::TURRET_CONSTRUCTION,"menu_textures\\Skill_0.png");
 	this->m_shopButtons[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_LIFE),"3500",0,0,1,12,100,3500,INT2(422,200), false, Skill::TURRET_LIFE,"menu_textures\\Skill_1.png");
 	this->m_shopButtons[2]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::STRENGTH),"100",0,0,1,12,100,0,INT2(692,80), false, Skill::STRENGTH, "menu_textures\\Skill_2.png");
 	this->m_shopButtons[3]->Init(FLOAT2(-0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::PHYSICAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(692,200), false, Skill::PHYSICAL_RESISTANCE,"menu_textures\\Skill_3.png");
@@ -158,12 +158,12 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 		this->m_towerButtons.push_back(new Button());
 	}
 
-	this->m_towerButtons[0]->Init(FLOAT2(-0.12f, -0.85f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::TESLA_CHAIN_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::TESLA_CHAIN_TURRET);
-	this->m_towerButtons[1]->Init(FLOAT2(-0.06f, -0.67f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::FROST_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::FROST_TURRET);
-	this->m_towerButtons[2]->Init(FLOAT2(0.06f, -0.67f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::POISON_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::POISON_TURRET);
-	this->m_towerButtons[3]->Init(FLOAT2(0.12f, -0.85f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::DEATH_PULSE_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::DEATH_PULSE_TURRET);
+	this->m_towerButtons[0]->Init(FLOAT2(-0.12f, -0.85f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::TESLA_CHAIN_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::TESLA_CHAIN_TURRET,"menu_textures\\Turret_Text_Tesla.png");
+	this->m_towerButtons[1]->Init(FLOAT2(-0.06f, -0.67f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::FROST_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::FROST_TURRET,"menu_textures\\Turret_Text_Frost.png");
+	this->m_towerButtons[2]->Init(FLOAT2(0.06f, -0.67f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::POISON_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::POISON_TURRET,"menu_textures\\Turret_Text_Poison.png");
+	this->m_towerButtons[3]->Init(FLOAT2(0.12f, -0.85f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::DEATH_PULSE_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::DEATH_PULSE_TURRET,"menu_textures\\Turret_Text_Death.png");
 }
-void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
+void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
 {
 	if(this->m_placingTower == true)
 	{
@@ -191,50 +191,99 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 	}
 	else if(m_Chat == false)
 	{
-			float max = -0.897916667f+0.001041667f+(0.102083333f*6)+0.025f;
-
-			//Move the skill buttons
-			if(m_DontChange == false)
+		// YOU MUST ADD ALL WAITING FOR TARGET SKILLS HERE TO NOT EQUAL IF YOU DONT WANT MULTIPLE ACTIONS TO HAPPEN AT THE SAME TIME.
+		if(m_skillWaitingForTarget != Skill::HEALING_TOUCH && g_mouse->isLButtonPressed() && m_Images[0]->intersects(FLOAT2(
+			g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
+		{
+			// Find yourself in the entity vector
+			for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
 			{
-				if (m_SkillHud <= m_NumberOfSkills-1)
+				if(_entities[entityIndex]->m_id == _heroId)
 				{
-					m_SkillHud += _dt*2;
-				}
+					g_graphicsEngine->getCamera()->set(_entities[entityIndex]->m_model->getPosition2DAsFloat2() - FLOAT2(0.0f, 4.0f) /* camera angle offset */);
 
+					entityIndex = _entities.size();
+				}
+			}
+		}
+
+		float max = -0.897916667f+0.001041667f+(0.102083333f*6)+0.025f;
+
+		//Move the skill buttons
+		if(m_DontChange == false)
+		{
+			if (m_SkillHud <= m_NumberOfSkills-1)
+			{
+				m_SkillHud += _dt*2;
+			}
+
+			this->m_Images[1]->setPosition(FLOAT2(-1.0f +((0.102083333f*(float)m_SkillHud)), -0.814814815f));
+			for(int i=0 ; i < m_SkillButtons.size(); i++)
+			{
+				this->m_SkillButtons[i]->setPosition(FLOAT2(-1.1782f +(0.102083333f*(((m_SkillHud+((m_NumberOfSkills-1)-i-(m_NumberOfSkills-5)))))),  -0.883333333f-0.004f));
+			}
+
+			if (m_SkillHud >= m_NumberOfSkills-1)
+			{
+				m_SkillHud = m_NumberOfSkills-1;
+
+				//Set all skill buttons to the correct position in the end
 				this->m_Images[1]->setPosition(FLOAT2(-1.0f +((0.102083333f*(float)m_SkillHud)), -0.814814815f));
 				for(int i=0 ; i < m_SkillButtons.size(); i++)
 				{
 					this->m_SkillButtons[i]->setPosition(FLOAT2(-1.1782f +(0.102083333f*(((m_SkillHud+((m_NumberOfSkills-1)-i-(m_NumberOfSkills-5)))))),  -0.883333333f-0.004f));
 				}
 
-				if (m_SkillHud >= m_NumberOfSkills-1)
+				m_DontChange = true;
+			}
+		}
+
+		if(g_mouse->isLButtonPressed() == true && this->m_skillWaitingForTarget > -1)
+		{
+			if(this->m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || this->m_skillWaitingForTarget == Skill::TELEPORT || this->m_skillWaitingForTarget == Skill::WALL || this->m_skillWaitingForTarget == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
+			{
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+
+				float k = (-pickOrig.y)/pickDir.y;
+				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+				this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), this->m_buttonIndex));		
+			}
+			else if(m_skillWaitingForTarget == Skill::HYPNOTIC_STARE || m_skillWaitingForTarget == Skill::CHAIN_STRIKE)
+			{
+				D3DXVECTOR3 pickDir;
+				D3DXVECTOR3 pickOrig;
+				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+						
+				float dist;
+				for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
 				{
-					m_SkillHud = m_NumberOfSkills-1;
-
-					//Set all skill buttons to the correct position in the end
-					this->m_Images[1]->setPosition(FLOAT2(-1.0f +((0.102083333f*(float)m_SkillHud)), -0.814814815f));
-					for(int i=0 ; i < m_SkillButtons.size(); i++)
+					if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
 					{
-						this->m_SkillButtons[i]->setPosition(FLOAT2(-1.1782f +(0.102083333f*(((m_SkillHud+((m_NumberOfSkills-1)-i-(m_NumberOfSkills-5)))))),  -0.883333333f-0.004f));
+						this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+						entityIndex = _entities.size();
 					}
-
-					m_DontChange = true;
 				}
 			}
-
-			if(g_mouse->isLButtonPressed() == true && this->m_skillWaitingForTarget > -1)
+			else if(m_skillWaitingForTarget == Skill::HEALING_TOUCH)
 			{
-				if(m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || m_skillWaitingForTarget == Skill::TELEPORT)
+				// Check if the target is the pic of yourself down in the corner
+				if(m_Images[0]->intersects(FLOAT2(
+					g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
 				{
-					D3DXVECTOR3 pickDir;
-					D3DXVECTOR3 pickOrig;
-					g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-
-					float k = (-pickOrig.y)/pickDir.y;
-					D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-					this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), this->m_buttonIndex));		
+					// Find yourself in the entity vector
+					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
+					{
+						if(_entities[entityIndex]->m_id == _heroId)
+						{
+							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+							entityIndex = _entities.size();
+						}
+					}
 				}
-				else if(m_skillWaitingForTarget == Skill::HEALING_TOUCH || m_skillWaitingForTarget == Skill::HYPNOTIC_STARE || m_skillWaitingForTarget == Skill::CHAIN_STRIKE)
+				// Else the pick ray is out on the battlefield
+				else
 				{
 					D3DXVECTOR3 pickDir;
 					D3DXVECTOR3 pickOrig;
@@ -243,117 +292,124 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities)
 					float dist;
 					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
 					{
-						if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+						if(_entities[entityIndex]->m_type == ServerEntity::HeroType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
 						{
 							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
 							entityIndex = _entities.size();
 						}
 					}
 				}
-				this->m_skillWaitingForTarget = -1;
-				g_mouse->getCursor()->setPriority(1);
 			}
+			this->m_skillWaitingForTarget = -1;
+			g_mouse->getCursor()->setPriority(1);
+		}
 
-			for(int i = 0; i < m_NumberOfSkills; i++)
+		for(int i = 0; i < m_NumberOfSkills; i++)
+		{
+			this->m_SkillButtons[i]->Update(_dt);
+
+			if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
 			{
-				this->m_SkillButtons[i]->Update(_dt);
-
-				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
+				if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT || m_SkillButtons[i]->getSkillId() == Skill::HYPNOTIC_STARE
+						|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::WALL || m_SkillButtons[i]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
 				{
-					if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT || m_SkillButtons[i]->getSkillId() == Skill::HYPNOTIC_STARE
-						|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE)
+					this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
+					this->m_buttonIndex = i;
+
+					switch(this->m_skillWaitingForTarget)
 					{
-						this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
-						this->m_buttonIndex = i;
-
-						switch(this->m_skillWaitingForTarget)
-						{
-						case Skill::CLOUD_OF_DARKNESS:
-							g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
+					case Skill::CLOUD_OF_DARKNESS:
+						g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
+						break;
+					case Skill::HEALING_TOUCH:
+						g_mouse->getCursor()->setFrame(Cursor::HEALING_TOUCH, 3);
+						break;
+					case Skill::TELEPORT:
+						g_mouse->getCursor()->setFrame(Cursor::TELEPORT, 3);
+						break;
+					case Skill::CHAIN_STRIKE:
+						g_mouse->getCursor()->setFrame(Cursor::CHAIN_STRIKE, 3);
+						break;
+					case Skill::HYPNOTIC_STARE:
+						g_mouse->getCursor()->setFrame(Cursor::HYPNOTIC_STARE, 3);
+						break;
+						case Skill::WALL:
+							g_mouse->getCursor()->setFrame(Cursor::WALL, 3);
 							break;
-						case Skill::HEALING_TOUCH:
-							g_mouse->getCursor()->setFrame(Cursor::HEALING_TOUCH, 3);
+						case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
+							g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
 							break;
-						case Skill::TELEPORT:
-							g_mouse->getCursor()->setFrame(Cursor::TELEPORT, 3);
-							break;
-						case Skill::CHAIN_STRIKE:
-							g_mouse->getCursor()->setFrame(Cursor::CHAIN_STRIKE, 3);
-							break;
-						case Skill::HYPNOTIC_STARE:
-							g_mouse->getCursor()->setFrame(Cursor::HYPNOTIC_STARE, 3);
-							break;
-						}
-					}
-					else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
-						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)
-					{
-						this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId(), i));
 					}
 				}
-			}
-
-			for(int i = 0; i < this->m_towerButtons.size(); i++)
-			{
-				this->m_towerButtons[i]->Update();
-
-				if(this->m_towerButtons[i]->Clicked() == 1)
+				else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
+						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[i]->getSkillId() == Skill::TIME_IS_MONEY)
 				{
-					//Go into tower placing mode
-					this->m_placingTower = true;
-					this->m_towerId = this->m_towerButtons[i]->GetID();
-
-					ModelIdHolder m;
-
-					switch(this->m_towerId)
-					{
-					case Skill::DEATH_PULSE_TURRET:
-						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
-						break;
-					case Skill::TESLA_CHAIN_TURRET:
-						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
-						break;
-					case Skill::FROST_TURRET:
-						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-						break;
-					case Skill::POISON_TURRET:
-						this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
-						break;
-					}
-
-					this->m_towerModel->setAlpha(0.5f);
+					this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId(), i));
 				}
 			}
+		}
 
-			for(int i = 0; i < m_Buttons.size(); i++)
+		for(int i = 0; i < this->m_towerButtons.size(); i++)
+		{
+			this->m_towerButtons[i]->Update();
 
-
+			if(this->m_towerButtons[i]->Clicked() == 1)
 			{
-				this->m_Buttons[i]->Update();
-			}
-			if (m_Buy == true)
-			{
-				UpdateShop();
+				//Go into tower placing mode
+				this->m_placingTower = true;
+				this->m_towerId = this->m_towerButtons[i]->GetID();
 
-				if (BuyAllSkillIsDown())
+				ModelIdHolder m;
+
+				switch(this->m_towerId)
 				{
-					this->displayShop(false);
-					m_Buy = false;
+				case Skill::DEATH_PULSE_TURRET:
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+					break;
+				case Skill::TESLA_CHAIN_TURRET:
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+					break;
+				case Skill::FROST_TURRET:
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+					break;
+				case Skill::POISON_TURRET:
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+					break;
 				}
-			}
-			else if(m_Buy == false)
-			{				
-				if (BuyAllSkillIsDown())
-				{
-					this->displayShop(true);
-					m_Buy = true;
-				}
-			}
 
-			if (g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED && m_Chat == false)
-			{
-				m_Chat = true;
+				this->m_towerModel->setAlpha(0.5f);
 			}
+		}
+
+		for(int i = 0; i < m_Buttons.size(); i++)
+
+
+		{
+			this->m_Buttons[i]->Update();
+		}
+		if (m_Buy == true)
+		{
+			UpdateShop();
+
+			if (BuyAllSkillIsDown())
+			{
+				this->displayShop(false);
+				m_Buy = false;
+			}
+		}
+		else if(m_Buy == false)
+		{				
+			if (BuyAllSkillIsDown())
+			{
+				this->displayShop(true);
+				m_Buy = true;
+			}
+		}
+
+		if (g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED && m_Chat == false)
+		{
+			m_Chat = true;
+		}
 	}
 	else
 	{
@@ -498,18 +554,20 @@ void HudMenu::addSkill(unsigned int _skillId)
 {
 	if(this->m_skillHolder.getSkill(_skillId) != "")
 	{
-		if(_skillId == Skill::STRENGTH || _skillId == Skill::AGILITY || _skillId == Skill::WITS || _skillId == Skill::FORTITUDE)
+		if(_skillId == Skill::STRENGTH || _skillId == Skill::AGILITY || _skillId == Skill::WITS || _skillId == Skill::FORTITUDE || _skillId == Skill::TURRET_CONSTRUCTION)
 		{
 			this->m_nrOfAttributesBought++;
 			int cost = 100 * (pow(1.5f, this->m_nrOfAttributesBought));
 
 			stringstream ss;
 			ss << cost;
+			this->m_shopButtons[0]->setText(ss.str());
 			this->m_shopButtons[2]->setText(ss.str());
 			this->m_shopButtons[7]->setText(ss.str());
 			this->m_shopButtons[11]->setText(ss.str());
 			this->m_shopButtons[16]->setText(ss.str());
 
+			this->m_disabledShopButtons[0]->setText(ss.str());
 			this->m_disabledShopButtons[2]->setText(ss.str());
 			this->m_disabledShopButtons[7]->setText(ss.str());
 			this->m_disabledShopButtons[11]->setText(ss.str());

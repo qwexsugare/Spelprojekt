@@ -206,11 +206,6 @@ void ServerEntity::dealDamage(ServerEntity* target, int physicalDamage, int ment
 
 }
 
-void ServerEntity::heal(int health)
-{
-
-}
-
 FLOAT3 ServerEntity::getDirection()
 {
 	FLOAT3 f;

@@ -75,7 +75,7 @@ GameState::GameState(Client *_network)
 
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, true);
-	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.005f, 0.005f, 0.005f), FLOAT3(0.05f, 0.05f, 0.05f), FLOAT3(0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 0.0f, 0.25f), FLOAT3(0.5f, 0.05f, 0.05f), FLOAT3(0.3f, 0.001f, 0.001f), FLOAT3(0.0f, 0.0f, 0.0f));
 
 	m_healthText = g_graphicsEngine->createText("No target", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
@@ -120,8 +120,14 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
+	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
+	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id);
+	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
+	//this->m_cursor.setPosition(g_mouse->getPos());
+	SpeechManager::update();
+
 	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
-	/*if(!isSoundPlaying(m_idleSound))
+	if(!isSoundPlaying(m_idleSound))
 	{
 		m_idleSoundTimer = max(m_idleSoundTimer-_dt, 0.0f);
 		if(m_idleSoundTimer == 0.0f)
@@ -129,7 +135,7 @@ void GameState::update(float _dt)
 			playSound(m_idleSound);
 			m_idleSoundTimer = IDLE_SOUND_DELAY;
 		}
-	}*/
+	}
 
 	// Update FRAMES PER SECOND (FPS) text
 	static float lol = 0.0f;
@@ -203,6 +209,7 @@ void GameState::update(float _dt)
 		Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(iem.getModelID()), FLOAT3(iem.getXPos(), 0.0, iem.getZPos()));
 		model->setTextureIndex(m_modelIdHolder.getTexture(iem.getModelID()));
 		model->setGlowIndex(m_modelIdHolder.getGlowmap(iem.getModelID()));
+		model->setRotation(FLOAT3(iem.getYRot(), 0.0f, 0.0f));
 
 		if(this->m_modelIdHolder.getHat(iem.getModelID()) != "")
 		{
@@ -221,6 +228,7 @@ void GameState::update(float _dt)
 			//this->m_entities.push_back(new Entity(model, e.getEntityId()));
 			Entity *e = new Entity(model, iem.getID());
 			e->m_type = (ServerEntity::Type)iem.getType();
+			e->m_subtype = iem.getSubtype();
 			this->m_clientEntityHandler->addEntity(e);
 
 			e->m_weapon = iem.getWeaponType();
@@ -240,7 +248,7 @@ void GameState::update(float _dt)
 		switch(e.getActionId())
 		{
 		case Skill::STUNNING_STRIKE:
-			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		case Skill::MOVE:
 			this->m_ClientSkillEffects.push_back(new RunClientSkillEffect(e.getSenderId()));
@@ -265,6 +273,12 @@ void GameState::update(float _dt)
 		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
+		case Skill::CHAIN_STRIKE:
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), false));
+			break;
+		case Skill::CHAIN_STRIKE_FIRST_EXCEPTION:
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), true));
+			break;
 		}
 	}
 
@@ -277,9 +291,9 @@ void GameState::update(float _dt)
 		case Skill::CLOUD_OF_DARKNESS:
 			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
+		case Skill::WALL:
+			m_ClientSkillEffects.push_back(new WallClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
-		case Skill::CHAIN_STRIKE:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getPosition()));
 		}
 	}
 
@@ -296,10 +310,10 @@ void GameState::update(float _dt)
 				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;
 		case Skill::FROST_TURRET_PROJECTILE:
-			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 0.5f, e.getPosition().z), e.getTargetId()));
 			break;
 		case Skill::POISON_TURRET_PROJECTILE:
-			m_ClientSkillEffects.push_back(new PoisonTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			m_ClientSkillEffects.push_back(new PoisonTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 0.5f, e.getPosition().z), e.getTargetId()));
 			break;
 		case Skill::DEATH_PULSE_TURRET_PROJECTILE:
 			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
@@ -431,19 +445,19 @@ void GameState::update(float _dt)
 	}
 
 	static float CAMERA_SPEED = 12.0f;
-	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState(VK_RIGHT) != Keyboard::KEY_UP))
+	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState('D') != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt);
 	}
-	else if((g_mouse->getPos().x <= 10 || g_keyboard->getKeyState(VK_LEFT) != Keyboard::KEY_UP))
+	else if((g_mouse->getPos().x <= 10 || g_keyboard->getKeyState('A') != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt);
 	}
-	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP))
+	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState('S') != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt);
 	}
-	else if((g_mouse->getPos().y <= 10 || g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP))
+	else if((g_mouse->getPos().y <= 10 || g_keyboard->getKeyState('W') != Keyboard::KEY_UP))
 	{
 		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
 	}
@@ -518,12 +532,6 @@ void GameState::update(float _dt)
 	{
 
 	}
-
-	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
-	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities());
-	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
-	//this->m_cursor.setPosition(g_mouse->getPos());
-	SpeechManager::update();
 }
 
 void GameState::importMap(string _map)

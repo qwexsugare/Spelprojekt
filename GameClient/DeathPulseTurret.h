@@ -2,6 +2,7 @@
 
 #include "turret.h"
 #include "Datastructures.h"
+#include "UnitEntity.h"
 
 class DeathPulseTurret : public Turret
 {
@@ -13,9 +14,10 @@ public:
 	static const int RANGE = 10;
 
 	DeathPulseTurret();
-	DeathPulseTurret(FLOAT3 _pos, float _lifetime);
+	DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator);
 	~DeathPulseTurret();
 
 	void target(ServerEntity* _target);
+	int getCost();
 };
 

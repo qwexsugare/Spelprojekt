@@ -38,7 +38,7 @@ void TowerPlacer::init()
 	g_graphicsEngine->removeModel(temp);
 }
 
-void TowerPlacer::place(Skill::SKILLS _towerType, const FLOAT3& _pos, const FLOAT3& _origin)
+void TowerPlacer::place(Skill::SKILLS _towerType, const FLOAT3& _pos, const FLOAT3& _origin, UnitEntity *_creator)
 {
 	float distance = (_pos-_origin).length();
 	if(distance <= PLACE_RANGE)
@@ -49,28 +49,28 @@ void TowerPlacer::place(Skill::SKILLS _towerType, const FLOAT3& _pos, const FLOA
 			TowerPlacer::m_deathPulseTurretObb->Center = XMFLOAT3(_pos.x+m_deathPulseTurretObbOffset.x, _pos.y+m_deathPulseTurretObbOffset.y, _pos.z+m_deathPulseTurretObbOffset.z);
 			if(!EntityHandler::intersects(*TowerPlacer::m_deathPulseTurretObb))
 			{
-				EntityHandler::addEntity(new DeathPulseTurret(_pos, 100.0f));
+				EntityHandler::addEntity(new DeathPulseTurret(_pos, _creator));
 			}
 			break;
 		case Skill::FROST_TURRET:
 			TowerPlacer::m_frostTurretObb->Center = XMFLOAT3(_pos.x+m_frostTurretObbOffset.x, _pos.y+m_frostTurretObbOffset.y, _pos.z+m_frostTurretObbOffset.z);
 			if(!EntityHandler::intersects(*TowerPlacer::m_frostTurretObb))
 			{
-				EntityHandler::addEntity(new FrostTurret(_pos, 100.0f));
+				EntityHandler::addEntity(new FrostTurret(_pos, _creator));
 			}
 			break;
 		case Skill::TESLA_CHAIN_TURRET:
 			TowerPlacer::m_teslaChainTurretObb->Center = XMFLOAT3(_pos.x+m_teslaChainTurretObbOffset.x, _pos.y+m_teslaChainTurretObbOffset.y, _pos.z+m_teslaChainTurretObbOffset.z);
 			if(!EntityHandler::intersects(*TowerPlacer::m_teslaChainTurretObb))
 			{
-				EntityHandler::addEntity(new TeslaChainTurret(_pos, 999, 999));
+				EntityHandler::addEntity(new TeslaChainTurret(_pos, _creator));
 			}
 			break;
 		case Skill::POISON_TURRET:
 			TowerPlacer::m_poisonTurretObb->Center = XMFLOAT3(_pos.x+m_poisonTurretObbOffset.x, _pos.y+m_poisonTurretObbOffset.y, _pos.z+m_poisonTurretObbOffset.z);
 			if(!EntityHandler::intersects(*TowerPlacer::m_poisonTurretObb))
 			{
-				EntityHandler::addEntity(new PoisonTurret(_pos, 100.0f));
+				EntityHandler::addEntity(new PoisonTurret(_pos, _creator));
 			}
 			break;
 		}

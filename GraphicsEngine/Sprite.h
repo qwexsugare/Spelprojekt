@@ -18,9 +18,13 @@ private:
 	D3DXMATRIX m_modelMatrix;
 	int m_layer;
 	bool m_visible;
+	FLOAT2 m_size;
+	FLOAT2 m_position;
 public:
 	Sprite(DeviceHandler *_deviceHandler, FLOAT2 position, FLOAT2 size,ID3D10ShaderResourceView *_texture, int _layer);
 	~Sprite();
+
+	DECLDIR bool intersects(FLOAT2 _screenSpaceMousePos);
 
 	DECLDIR void setPosition(FLOAT2 position);
 	DECLDIR void setSize(FLOAT2 size);

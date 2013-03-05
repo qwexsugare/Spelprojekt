@@ -25,7 +25,7 @@ bool ChainStrike::activate(unsigned int _targetId, unsigned int _senderId)
 		{
 			if(this->getCurrentCooldown() == 0 && (caster->getPosition() - target->getPosition()).length() <= RANGE)
 			{
-				EntityHandler::addEntity(new ChainStrikeEffect(_targetId, target->getPosition(), max(((Hero*)caster)->getWits()/2, 1), START_DAMAGE));
+				EntityHandler::addEntity(new ChainStrikeEffect(_targetId, max(((Hero*)caster)->getWits()/2, 1), START_DAMAGE, _senderId));
 				this->resetCooldown();
 				return true;
 			}

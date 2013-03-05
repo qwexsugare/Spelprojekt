@@ -75,7 +75,9 @@ private:
 	vector<Text*> m_texts;
 	vector<MyText*> m_myTexts;
 	QuadTree* m_quadTree;
-	vector<SpriteBase*> m_sprites;
+	vector<SpriteBase*> m_spritesBackground;
+	vector<SpriteBase*> m_spritesMiddle;
+	vector<SpriteBase*> m_spritesFront;
 	vector<Terrain*> m_terrains;
 	vector<PointLight*> m_pointLights;
 	vector<DirectionalLight*> m_directionalLights;
@@ -87,6 +89,9 @@ private:
 
 	void renderShadowMap(const D3DXVECTOR2& _focalPoint);
 public:
+	static const int DIRECTX_LAYER = 0;
+	static const int TEXT_LAYER = 10;
+
 	World();
 	World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed);
 	~World();

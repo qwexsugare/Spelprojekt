@@ -322,5 +322,8 @@
     <FxCompile Include="..\GameClient\Sphere.fx">
       <Filter>Shader files\ParticleBehavior</Filter>
     </FxCompile>
+    <FxCompile Include="..\GameClient\Beacon.fx" />
+    <FxCompile Include="..\GameClient\ParticleSystemStructs.fx" />
+    <FxCompile Include="..\GameClient\UpSideDownTwist.fx" />
   </ItemGroup>
 </Project>

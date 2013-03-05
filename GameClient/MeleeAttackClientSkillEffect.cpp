@@ -12,8 +12,7 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 	
 	if(master != NULL)
 	{
-		//master->m_model->getAnimation()->PlayLoop("idle");
-		master->m_model->getAnimation()->Play("attack");
+		master->m_model->getAnimation()->PlayLoop("attack");
 	}
 
 	Entity* target = ClientEntityHandler::getEntity(_targetId);
