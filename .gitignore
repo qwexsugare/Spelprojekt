@@ -2388,3 +2388,10 @@ dev/Excess Audio/reference/orb.wav
 dev/Excess Audio/reference/pickup.wav
 dev/Excess Audio/reference/Radiohead_-_Pyramid_Song_(sample).ogg
 dev/Excess Audio/reference/rain.wav
+GameClient/audio/enemy/Beast_Attack_0.wav
+GameClient/audio/enemy/Beast_Attack_1.wav
+GameClient/audio/enemy/Beast_Attack_2.wav
+GameClient/audio/enemy/Beast_Damage_0.wav
+GameClient/audio/enemy/Beast_Damage_1.wav
+GameClient/audio/enemy/Beast_Damage_2.wav
+GameClient/audio/enemy/Beast_Dying_0.wav

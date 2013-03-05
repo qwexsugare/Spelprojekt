@@ -2,7 +2,6 @@
 
 #include "clientskilleffect.h"
 #include "ClientEntityHandler.h"
-#include "Hero.h"
 
 class DeathClientSkillEffect : public ClientSkillEffect
 {

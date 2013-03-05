@@ -2,7 +2,7 @@
 #include "PoisonStrike.h"
 #include "RangedAttack.h"
 
-SpittingDemon::SpittingDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
+SpittingDemon::SpittingDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::SPITTING_DEMON)
 {
 	m_modelId        = 83;
 	

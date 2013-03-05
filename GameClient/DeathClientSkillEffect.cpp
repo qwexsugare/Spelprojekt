@@ -2,6 +2,8 @@
 #include "MyAlgorithms.h"
 #include "SpeechManager.h"
 #include "SoundWrapper.h"
+#include "Hero.h"
+#include "Enemy.h"
 
 DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
@@ -27,23 +29,23 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 	}
 
 	// Play death sound.
-	if(e->m_type == ServerEntity::HeroType)
+	int sound;
+	switch(e->m_type)
 	{
-		int sound;
-	
+	case ServerEntity::HeroType:
 		switch(e->m_subtype)
 		{
 		case Hero::RED_KNIGHT:
 			switch(random(0, 2))
 			{
 			case 0:
-				sound = createSoundHandle("red_knight/RedKnight_Death_0.wav", false, false);
+				sound = createSoundHandle("red_knight/RedKnight_Death_0.wav", false, true, e->m_startPos);
 				break;
 			case 1:
-				sound = createSoundHandle("red_knight/RedKnight_Death_1.wav", false, false);
+				sound = createSoundHandle("red_knight/RedKnight_Death_1.wav", false, true, e->m_startPos);
 				break;
 			case 2:
-				sound = createSoundHandle("red_knight/RedKnight_Death_2.wav", false, false);
+				sound = createSoundHandle("red_knight/RedKnight_Death_2.wav", false, true, e->m_startPos);
 				break;
 			}
 			break;
@@ -51,13 +53,13 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 			switch(random(0, 2))
 			{
 			case 0:
-				sound = createSoundHandle("engineer/Engineer_Death_0.wav", false, false);
+				sound = createSoundHandle("engineer/Engineer_Death_0.wav", false, true, e->m_startPos);
 				break;
 			case 1:
-				sound = createSoundHandle("engineer/Engineer_Death_1.wav", false, false);
+				sound = createSoundHandle("engineer/Engineer_Death_1.wav", false, true, e->m_startPos);
 				break;
 			case 2:
-				sound = createSoundHandle("engineer/Engineer_Death_2.wav", false, false);
+				sound = createSoundHandle("engineer/Engineer_Death_2.wav", false, true, e->m_startPos);
 				break;
 			}
 			break;
@@ -65,27 +67,27 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 			switch(random(0, 2))
 			{
 			case 0:
-				sound = createSoundHandle("mentalist/Mentalist_Death_0.wav", false, false);
+				sound = createSoundHandle("mentalist/Mentalist_Death_0.wav", false, true, e->m_startPos);
 				break;
 			case 1:
-				sound = createSoundHandle("mentalist/Mentalist_Death_1.wav", false, false);
+				sound = createSoundHandle("mentalist/Mentalist_Death_1.wav", false, true, e->m_startPos);
 				break;
 			case 2:
-				sound = createSoundHandle("mentalist/Mentalist_Death_2.wav", false, false);
+				sound = createSoundHandle("mentalist/Mentalist_Death_2.wav", false, true, e->m_startPos);
 				break;
 			}
-				break;
+			break;
 		case Hero::OFFICER:
 			switch(random(0, 2))
 			{
 			case 0:
-				sound = createSoundHandle("officer/Officer_Death_0.wav", false, false);
+				sound = createSoundHandle("officer/Officer_Death_0.wav", false, true, e->m_startPos);
 				break;
 			case 1:
-				sound = createSoundHandle("officer/Officer_Death_1.wav", false, false);
+				sound = createSoundHandle("officer/Officer_Death_1.wav", false, true, e->m_startPos);
 				break;
 			case 2:
-				sound = createSoundHandle("officer/Officer_Death_2.wav", false, false);
+				sound = createSoundHandle("officer/Officer_Death_2.wav", false, true, e->m_startPos);
 				break;
 			}
 			break;
@@ -93,21 +95,52 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 			switch(random(0, 2))
 			{
 			case 0:
-				sound = createSoundHandle("doctor/Doctor_Death_0.wav", false, false);
+				sound = createSoundHandle("doctor/Doctor_Death_0.wav", false, true, e->m_startPos);
 				break;
 			case 1:
-				sound = createSoundHandle("doctor/Doctor_Death_1.wav", false, false);
+				sound = createSoundHandle("doctor/Doctor_Death_1.wav", false, true, e->m_startPos);
 				break;
 			case 2:
-				sound = createSoundHandle("doctor/Doctor_Death_2.wav", false, false);
+				sound = createSoundHandle("doctor/Doctor_Death_2.wav", false, true, e->m_startPos);
 				break;
 			}
 			break;
 		}
-	
-		SpeechManager::speakUltimate(_masterId, sound);
-		deactivateSound(sound);
+		break;
+
+	case ServerEntity::EnemyType:
+		switch(e->m_subtype)
+		{
+		case Enemy::IMP:
+			sound = createSoundHandle("enemy/Monster_Imp_Death_0.wav", false, true, e->m_startPos);
+			break;
+		case Enemy::SHADE:
+			sound = createSoundHandle("enemy/Monster_Shade_Death_0.wav", false, true, e->m_startPos);
+			break;
+		case Enemy::FROST_DEMON:
+			sound = createSoundHandle("enemy/Monster_Frost_Death_0.wav", false, true, e->m_startPos);
+			break;
+		case Enemy::SPITTING_DEMON:
+			sound = createSoundHandle("enemy/Monster_Spitting_Death_0.wav", false, true, e->m_startPos);
+			break;
+		case Enemy::HELLFIRE_STEED:
+			sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
+			break;
+		case Enemy::SOUL_EATER_STEED:
+			sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
+			break;
+		case Enemy::THUNDERSTEED:
+			sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
+			break;
+		case Enemy::BRUTE_STEED:
+			sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
+			break;
+		}
+		break;
 	}
+
+	SpeechManager::speakUltimate(_masterId, sound);
+	deactivateSound(sound);
 }
 
 DeathClientSkillEffect::~DeathClientSkillEffect()

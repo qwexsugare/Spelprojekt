@@ -2,7 +2,7 @@
 #include "MeleeAttack.h"
 
 
-Imp::Imp(FLOAT3 _pos, Path _path) : Enemy(_pos,_path)
+Imp::Imp(FLOAT3 _pos, Path _path) : Enemy(_pos,_path, EnemyType::IMP)
 {
 	m_modelId = 81;
 	

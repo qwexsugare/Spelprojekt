@@ -2,7 +2,7 @@
 #include "MeleeAttack.h"
 
 
-BruteSteed::BruteSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
+BruteSteed::BruteSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::BRUTE_STEED)
 {
 	m_modelId        = 85;
 				    
