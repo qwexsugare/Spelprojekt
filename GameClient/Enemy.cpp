@@ -384,6 +384,7 @@ void Enemy::checkPursue()
 			{
 				m_willPursue = true;
 				m_closestTargetId = se->getId();
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::ENEMY_PURSUE, this->m_id, m_position));
 			}
 		}
 	}

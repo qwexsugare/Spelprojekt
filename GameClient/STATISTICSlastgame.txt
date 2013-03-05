@@ -17,7 +17,7 @@ Damage statistics:
 Total damage dealt: 0
 Physical damage taken: 178
 Mental damage taken: 0
-Physical damage dealt: 0
+Physical damage dealt: 4
 Mental damage dealt: 0
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
@@ -40,6 +40,8 @@ Skills used:
 0
 0
 0
+1936876886
+10
 0
 0
 1919117677
@@ -54,7 +56,20 @@ Skills used:
 0
 0
 0
-0
+813707333
+952973496
+1024865892
+917321359
+956250327
+988560087
+1021721756
+860435181
+989084400
+892876005
+958413059
+1041907216
+1061568288
+---------------
 0
 0
 993802996
