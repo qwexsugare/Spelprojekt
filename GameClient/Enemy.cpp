@@ -31,8 +31,9 @@ Enemy::Enemy() : UnitEntity()
 	FLOAT3 hoxit = FLOAT3(0.0f,0.0f,0.0f);
 }
 
-Enemy::Enemy(FLOAT3 _pos, Path _path) : UnitEntity(_pos)
+Enemy::Enemy(FLOAT3 _pos, Path _path, EnemyType _type) : UnitEntity(_pos)
 {
+	m_enemyType = _type;
 	m_type = Type::EnemyType;
 	
 	//this->m_goalPosition = FLOAT3(5.0f, 0.0f,64.0f);
@@ -116,7 +117,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 				m_reachedPosition = true;
 				if(this->m_attackCooldown <= 0.0f)
 				{
-					this->attackHero();
+					this->attackHero(this->m_closestTargetId);
 				}
 
 				if(EntityHandler::getServerEntity(m_closestTargetId)->getHealth() <= 0)
@@ -549,4 +550,9 @@ void Enemy::setTargetType(UnitEntity::Type _type)
 		m_closestTargetId = se->getId();
 	else
 		m_closestTargetId = -1;
+}
+
+int Enemy::getSubType()const
+{
+	return m_enemyType;
 }

@@ -21,13 +21,20 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	}
 }
 
-ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, Hero::HERO_TYPE _heroType)
+ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, Hero::HERO_TYPE _heroType, unsigned int _masterId)
 {
 	m_active = true;
 	m_heroType = _heroType;
 	m_targetId = _targetId;
 	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
 	m_graphicalEffect->setAlpha(0.999f);
+
+	Entity* master = ClientEntityHandler::getEntity(_masterId);
+
+	if(master != NULL)
+	{
+		master->m_model->getAnimation()->PlayLoop("RangeAttack");
+	}
 }
 
 ArrowClientSkillEffect::~ArrowClientSkillEffect()

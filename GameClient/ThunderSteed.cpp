@@ -3,7 +3,7 @@
 #include "RangedAttack.h"
 
 
-ThunderSteed::ThunderSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
+ThunderSteed::ThunderSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::THUNDERSTEED)
 {
 	m_modelId        = 87;
 

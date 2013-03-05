@@ -2,17 +2,143 @@
 #include "SoundWrapper.h"
 #include "Graphics.h"
 #include "ClientEntityHandler.h"
+#include "Enemy.h"
+#include "MyAlgorithms.h"
+#include "SpeechManager.h"
 
 DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned int _masterId)
 {
+	Entity* target = ClientEntityHandler::getEntity(_masterId);
+
 	m_masterId = _masterId;
-	FLOAT3 pos = ClientEntityHandler::getEntity(_masterId)->m_model->getPosition();
+	FLOAT3 pos = target->m_model->getPosition();
 	m_model = g_graphicsEngine->createModel("Bench", pos);
 	m_model->setAlpha(0.999f);
-	m_sound = createSoundHandle("bow.wav", false, true, pos);
+	m_sound = createSoundHandle("turrets/deathTowerAttack.wav", false, true, pos);
 	playSound(m_sound);
 	m_timer = 0.0f;
 	m_active = true;
+	
+	// Play damage sound.
+	int sound;
+	switch(target->m_subtype)
+	{
+	case Enemy::IMP:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, true, target->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, true, target->m_startPos);
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, true, target->m_startPos);
+			break;
+		}
+		break;
+	case Enemy::SHADE:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Monster_Shade_Damage_0.wav", false, true, target->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Monster_Shade_Damage_1.wav", false, true, target->m_startPos);
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Monster_Shade_Damage_2.wav", false, true, target->m_startPos);
+			break;
+		}
+		break;
+	case Enemy::FROST_DEMON:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Monster_Frost_Damage_0.wav", false, true, target->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Monster_Frost_Damage_1.wav", false, true, target->m_startPos);
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Monster_Frost_Damage_2.wav", false, true, target->m_startPos);
+			break;
+		}
+		break;
+	case Enemy::SPITTING_DEMON:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Monster_Spitting_Damage_0.wav", false, true, target->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Monster_Spitting_Damage_1.wav", false, true, target->m_startPos);
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Monster_Spitting_Damage_2.wav", false, true, target->m_startPos);
+			break;
+		}
+		break;
+	case Enemy::HELLFIRE_STEED:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+			break;
+		}
+		break;
+	case Enemy::SOUL_EATER_STEED:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+			break;
+		}
+		break;
+	case Enemy::THUNDERSTEED:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+			break;
+		}
+		break;
+	case Enemy::BRUTE_STEED:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+			break;
+		}
+		break;
+	}
+
+	SpeechManager::speak(_masterId, sound); // The unit must be killed on the client before on the server for this sound solution to actually work.
+	deactivateSound(sound);
 }
 
 DeathPulseTurretClientSkillEffect::~DeathPulseTurretClientSkillEffect()

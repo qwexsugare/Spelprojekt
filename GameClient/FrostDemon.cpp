@@ -3,7 +3,7 @@
 #include "RangedAttack.h"
 
 
-FrostDemon::FrostDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
+FrostDemon::FrostDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::FROST_DEMON)
 {
 	m_modelId = 80;
 

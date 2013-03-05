@@ -160,11 +160,11 @@ void ServerThread::update(float dt)
 		//Check if the map is finished
 		if(s == MapHandler::VICTORY)
 		{
-			//this->m_state = ServerThread::VICTORY;
+			this->m_state = ServerThread::VICTORY;
 		}
 		if(s == MapHandler::DEFEAT)
 		{
-			//this->m_state = ServerThread::DEFEAT;
+			this->m_state = ServerThread::DEFEAT;
 		}
 
 
@@ -213,11 +213,14 @@ void ServerThread::update(float dt)
 	}
 	if(this->m_state == State::VICTORY)
 	{
-		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 40 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{
-
+		g_graphicsEngine->createText("DEFEAT!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
+		this->m_state = ServerThread::EXIT;
 	}
 }

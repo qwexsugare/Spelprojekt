@@ -2,7 +2,7 @@
 #include "RangedAttack.h"
 
 
-HellfireSteed::HellfireSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
+HellfireSteed::HellfireSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::HELLFIRE_STEED)
 {
 	m_modelId        = 86;
 

@@ -90,7 +90,7 @@ GameState::GameState(Client *_network)
 
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, true);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 0.0f, 0.25f), FLOAT3(0.5f, 0.05f, 0.05f), FLOAT3(0.3f, 0.001f, 0.001f), FLOAT3(0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 
 	m_healthText = g_graphicsEngine->createText("No target", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
@@ -306,6 +306,7 @@ void GameState::update(float _dt)
 	{
 		NetworkCreateActionPositionMessage e = this->m_network->createActionPositionQueueFront();
 		
+		int sound; // a sound might be played and cant be declared inside switch
 		switch(e.getActionId())
 		{
 		case Skill::CLOUD_OF_DARKNESS:
@@ -313,6 +314,73 @@ void GameState::update(float _dt)
 			break;
 		case Skill::WALL:
 			m_ClientSkillEffects.push_back(new WallClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
+		case Skill::TESLA_CHAIN_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::DEATH_PULSE_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::FROST_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::POISON_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
+			m_ClientSkillEffects.push_back(new TargetAcquiredClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		}
 	}
@@ -325,7 +393,7 @@ void GameState::update(float _dt)
 		{
 		case Skill::RANGED_ATTACK:
 			if(e.getTargetId() == m_playerInfos[m_yourId].id)
-				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), m_playerInfos[m_yourId].heroType));
+				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), m_playerInfos[m_yourId].heroType, e.getSenderId()));
 			else
 				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;

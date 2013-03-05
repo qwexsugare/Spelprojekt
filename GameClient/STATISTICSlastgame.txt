@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 63.5964
-Life remaining: 1
+Time played: 38.3015
+Life remaining: 100
 Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Mentalist
-Deamons killed: 0
+Hero played: Doctor
+Deamons killed: 1
 Player deaths: 0
-Resources collected: 0
+Resources collected: 24
 Healed for: 0
 
 Damage statistics: 
 Total damage dealt: 194
 Physical damage taken: 376
 Mental damage taken: 0
-Physical damage dealt: 4
-Mental damage dealt: 190
+Physical damage dealt: 0
+Mental damage dealt: 104
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -42,8 +42,7 @@ Skills used:
 0
 0
 0
-1936876886
-10
+1919117677
 0
 0
 0
@@ -57,17 +56,22 @@ Skills used:
 0
 0
 0
-931870518
-1053834952
-859910927
-1023491284
-1072185302
-838807995
-885732518
-1003502469
-53248
+0
+993802996
+832385406
+962541884
+28672
+846082654
+939145138
+981547622
+1011235854
+924989142
+1027947829
+823603465
+1013464111
 922236650
 833565086
 898971007
 980302430
+864367478
 ---------------
