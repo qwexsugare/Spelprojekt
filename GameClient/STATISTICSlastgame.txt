@@ -1,7 +1,7 @@
 Game statistics: 
 ----------------
-Time played: 47.142
-Life remaining: 3
+Time played: 47.0061
+Life remaining: 5
 Reached wave: 0
 
 Player Statistics:
@@ -11,14 +11,14 @@ Hero played: Doctor
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
-Healed for: 47
+Healed for: 101
 
 Damage statistics: 
-Total damage dealt: 114
-Physical damage taken: 390
+Total damage dealt: 146
+Physical damage taken: 399
 Mental damage taken: 0
-Physical damage dealt: 19
-Mental damage dealt: 95
+Physical damage dealt: 7
+Mental damage dealt: 139
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 

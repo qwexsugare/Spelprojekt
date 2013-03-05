@@ -29,3 +29,8 @@ Officer::~Officer()
 {
 
 }
+
+int Officer::getSubType()const
+{
+	return Hero::HERO_TYPE::OFFICER;
+}

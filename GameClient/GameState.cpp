@@ -36,30 +36,45 @@ GameState::GameState(Client *_network)
 		m_attackSounds[0] = createSoundHandle("red_knight/RedKnight_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("red_knight/RedKnight_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("red_knight/RedKnight_Attack_2.wav", false, false);
+		m_moveSounds[0] = createSoundHandle("red_knight/RedKnight_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("red_knight/RedKnight_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("red_knight/RedKnight_Click_2.wav", false, false);
 		break;
 	case Hero::ENGINEER:
 		m_idleSound = createSoundHandle("Engineer_Idle_0.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("engineer/Engineer_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("engineer/Engineer_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("engineer/Engineer_Attack_2.wav", false, false);
+		m_moveSounds[0] = createSoundHandle("engineer/Engineer_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("engineer/Engineer_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("engineer/Engineer_Click_2.wav", false, false);
 		break;
 	case Hero::THE_MENTALIST:
 		m_idleSound = createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("mentalist/Mentalist_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("mentalist/Mentalist_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("mentalist/Mentalist_Attack_2.wav", false, false);
-			break;
+		m_moveSounds[0] = createSoundHandle("mentalist/Mentalist_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("mentalist/Mentalist_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("mentalist/Mentalist_Click_2.wav", false, false);
+		break;
 	case Hero::OFFICER:
 		m_idleSound = createSoundHandle("officer/Officer_Death_1.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("officer/Officer_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("officer/Officer_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("officer/Officer_Attack_2.wav", false, false);
+		m_moveSounds[0] = createSoundHandle("officer/Officer_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("officer/Officer_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("officer/Officer_Click_2.wav", false, false);
 		break;
 	case Hero::DOCTOR:
 		m_idleSound = createSoundHandle("doctor/Doctor_Idle.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("doctor/Doctor_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("doctor/Doctor_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("doctor/Doctor_Attack_2.wav", false, false);
+		m_moveSounds[0] = createSoundHandle("doctor/Doctor_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("doctor/Doctor_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("doctor/Doctor_Click_2.wav", false, false);
 		break;
 	}
 
@@ -90,6 +105,11 @@ GameState::~GameState()
 	{
 		stopSound(m_attackSounds[i]);
 		deactivateSound(m_attackSounds[i]);
+	}
+	for(int i = 0; i < GameState::NR_OF_MOVE_SOUNDS; i++)
+	{
+		stopSound(m_moveSounds[i]);
+		deactivateSound(m_moveSounds[i]);
 	}
 
 	if(m_minimap)
@@ -491,9 +511,9 @@ void GameState::update(float _dt)
 	{
 
 	}
-	if(g_mouse->isRButtonPressed() == true)
+	if(g_mouse->isRButtonPressed())
 	{
-		if(m_minimap->isMouseInMap(g_mouse->getPos()) == false)
+		if(!m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
 			if(mouseOverEnemy >= 0)
 			{
@@ -511,9 +531,10 @@ void GameState::update(float _dt)
 			{
 				float k = (-pickOrig.y)/pickDir.y;
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
+
+				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
 
 				m_healthText->setString("No target");
 			}

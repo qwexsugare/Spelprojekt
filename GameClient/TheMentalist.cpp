@@ -29,3 +29,8 @@ TheMentalist::~TheMentalist()
 {
 
 }
+
+int TheMentalist::getSubType()const
+{
+	return Hero::HERO_TYPE::THE_MENTALIST;
+}

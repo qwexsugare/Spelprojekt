@@ -32,3 +32,8 @@ RedKnight::~RedKnight()
 {
 
 }
+
+int RedKnight::getSubType()const
+{
+	return Hero::HERO_TYPE::RED_KNIGHT;
+}

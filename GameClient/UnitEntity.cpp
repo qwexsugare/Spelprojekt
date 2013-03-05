@@ -236,6 +236,7 @@ void UnitEntity::increaseFortitude(int _fortitude)
 
 	m_maxHealth += 100*_fortitude;
 	m_health += 100*_fortitude;
+	m_mentalDamage += _fortitude*0.02f;
 	m_fortitude += _fortitude;
 }
 

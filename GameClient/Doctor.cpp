@@ -29,3 +29,8 @@ Doctor::~Doctor()
 {
 
 }
+
+int Doctor::getSubType()const
+{
+	return Hero::HERO_TYPE::DOCTOR;
+}
