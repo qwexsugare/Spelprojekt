@@ -4,6 +4,8 @@
 #include "ParticleSystemStructs.fx"
 #include "UpSideDownTwist.fx"
 #include "Beacon.fx"
+#include "CirclePuls.fx"
+#include "Sphere.fx"
 
 Particle StreamOutVS(Particle input)
 {
@@ -51,7 +53,7 @@ void DrawGS(point VS_OUT input[1], inout TriangleStream<GS_OUT> triStream)
 
 float4 DrawPS(GS_OUT input) : SV_TARGET
 {
-	return tex.Sample(triLinearSam, float3(input.texC, 0))*input.color;
+	return tex.Sample(triLinearSam, input.texC)*input.color;
 }
 
 //Beacon
@@ -98,6 +100,58 @@ technique10 DrawUsDTwist
 	pass P0
 	{
 		SetVertexShader(	CompileShader( vs_4_0, UsDTwistVS() ) );
+		SetGeometryShader(	CompileShader( gs_4_0, DrawGS() ) );
+		SetPixelShader (	CompileShader( ps_4_0, DrawPS() ) );
+		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );
+		SetDepthStencilState( NoDepthWrites, 0 );
+	}
+}
+
+
+//CirclePuls
+//
+technique10 CirclePulsSOTech
+{
+	pass P0
+	{
+		SetVertexShader( CompileShader( vs_4_0, StreamOutVS() ) );
+		SetGeometryShader( CirclePulsStreamOut );
+		SetPixelShader ( NULL );
+		SetDepthStencilState( DisableDepth, 0 );
+	}
+}
+
+technique10 DrawCirclePuls
+{
+	pass P0
+	{
+		SetVertexShader(	CompileShader( vs_4_0, CirclePulsVS() ) );
+		SetGeometryShader(	CompileShader( gs_4_0, DrawGS() ) );
+		SetPixelShader (	CompileShader( ps_4_0, DrawPS() ) );
+		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );
+		SetDepthStencilState( NoDepthWrites, 0 );
+	}
+}
+
+
+//Sphere
+//
+technique10 SphereSOTech
+{
+	pass P0
+	{
+		SetVertexShader( CompileShader( vs_4_0, StreamOutVS() ) );
+		SetGeometryShader( SphereStreamOut );
+		SetPixelShader ( NULL );
+		SetDepthStencilState( DisableDepth, 0 );
+	}
+}
+
+technique10 DrawSphere
+{
+	pass P0
+	{
+		SetVertexShader(	CompileShader( vs_4_0, SphereVS() ) );
 		SetGeometryShader(	CompileShader( gs_4_0, DrawGS() ) );
 		SetPixelShader (	CompileShader( ps_4_0, DrawPS() ) );
 		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );

@@ -15,7 +15,7 @@ GameState::GameState(Client *_network)
 	this->importMap("levelone");
 
 	//Create particle system
-	g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR3(1, 1, 1));
+	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 
 
 	// Get all hero data from the network
@@ -118,6 +118,8 @@ GameState::~GameState()
 	delete this->m_hud;
 	delete this->m_clientEntityHandler;
 	g_graphicsEngine->removeText(m_healthText);
+	if(this->testParticleSystem)
+		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 }
 
 void GameState::end()
