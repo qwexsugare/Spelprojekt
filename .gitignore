@@ -2420,3 +2420,15 @@ GameClient/audio/turrets/towerBuild.wav
 GameClient/audio/turrets/towerBuildHammerSound.wav
 GameClient/audio/turrets/towerBuildKlinkSound.wav
 GameClient/audio/turrets/TurretBuildup.wav
+GameClient/models/Char/2HandAttack.BFishA
+GameClient/models/Char/StunningStrike.BFishA
+GameClient/models/Char/SwiftAsButterfly_1H.BFishA
+GameClient/models/Char/SwiftAsButterfly2Hand.BFishA
+GameClient/models/CloudOfDarkness/CloudofDarkness_0_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_0_SM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_1_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_1_SM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_2_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_2_SM.png
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/PoisonTurret/checkeredmap.jpg
