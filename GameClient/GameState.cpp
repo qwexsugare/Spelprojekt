@@ -306,6 +306,7 @@ void GameState::update(float _dt)
 	{
 		NetworkCreateActionPositionMessage e = this->m_network->createActionPositionQueueFront();
 		
+		int sound; // a sound might be played and cant be declared inside switch
 		switch(e.getActionId())
 		{
 		case Skill::CLOUD_OF_DARKNESS:
@@ -313,6 +314,70 @@ void GameState::update(float _dt)
 			break;
 		case Skill::WALL:
 			m_ClientSkillEffects.push_back(new WallClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
+		case Skill::TESLA_CHAIN_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::DEATH_PULSE_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::FROST_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::POISON_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
 			break;
 		}
 	}
