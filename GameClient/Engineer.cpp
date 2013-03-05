@@ -29,3 +29,8 @@ Engineer::~Engineer()
 {
 
 }
+
+int Engineer::getSubType()const
+{
+	return Hero::HERO_TYPE::ENGINEER;
+}
