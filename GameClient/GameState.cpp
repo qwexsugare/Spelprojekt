@@ -8,6 +8,7 @@
 #include "Path.h"
 #include "MyAlgorithms.h"
 #include "SpeechManager.h"
+#include "Enemy.h"
 
 GameState::GameState(Client *_network)
 {
@@ -120,17 +121,6 @@ GameState::~GameState()
 	g_graphicsEngine->removeText(m_healthText);
 	if(this->testParticleSystem)
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
-}
-
-void GameState::end()
-{
-	g_graphicsEngine->removeTerrain(this->m_terrain);
-	
-	delete this->m_clientEntityHandler;
-	
-	g_graphicsEngine->removeText(this->m_fpsText);
-
-	this->setDone(true);
 }
 
 State::StateEnum GameState::nextState()
@@ -267,6 +257,9 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::ENEMY_PURSUE:
+			this->playPursueSound(e.getSenderId());
+			break;
 		case Skill::STUNNING_STRIKE:
 			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
@@ -882,4 +875,131 @@ void GameState::importMap(string _map)
 
 	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, normalMaps, specularMaps);
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
+}
+
+void GameState::playPursueSound(unsigned int _speakerId)
+{
+	Entity* speaker = ClientEntityHandler::getEntity(_speakerId);
+	if(speaker)
+	{
+		int sound;
+		switch(speaker->m_subtype)
+		{
+		case Enemy::IMP:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Imp_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Imp_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Imp_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::SHADE:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Shade_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Shade_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Shade_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::FROST_DEMON:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Frost_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Frost_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Frost_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::SPITTING_DEMON:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Spitting_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Spitting_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Spitting_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::HELLFIRE_STEED:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::SOUL_EATER_STEED:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::THUNDERSTEED:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::BRUTE_STEED:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		}
+
+		SpeechManager::speak(_speakerId, sound);
+		deactivateSound(sound);
+	}
 }

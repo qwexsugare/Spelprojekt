@@ -46,8 +46,8 @@ private:
 	static const int ATTACK_SOUND_DELAY = 5;
 	float m_attackSoundTimer;
 
-	void end();
 	void importMap(string _map);
+	void playPursueSound(unsigned int _speakerId);
 public:
 	static const int IDLE_SOUND_DELAY = 7;
 
