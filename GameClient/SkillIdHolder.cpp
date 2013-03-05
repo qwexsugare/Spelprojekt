@@ -27,8 +27,8 @@ SkillIdHolder::SkillIdHolder()
 	this->m_SkillId[Skill::ENIGMATIC_PRESENCE] = "menu_textures\\Button-Skill-22.png";
 	this->m_SkillId[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = "menu_textures\\Button-Skill-23.png";
 	this->m_SkillId[Skill::COURAGE_HONOR_VALOR] = "menu_textures\\Button-Skill-24.png";
-	this->m_SkillId[Skill::READY_AIM_FIRE] = "menu_textures\\Button-Skill-25.png";
-	this->m_SkillId[Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE] = "menu_textures\\Button-Skill-26.png";
+	this->m_SkillId[Skill::READY_AIM_FIRE] = "menu_textures\\Button-Skill-26.png";
+	this->m_SkillId[Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE] = "menu_textures\\Button-Skill-25.png";
 	this->m_SkillId[Skill::TIME_IS_MONEY] = "menu_textures\\Button-Skill-27.png";
 	this->m_SkillId[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Button-Skill-28.png";
 	this->m_SkillId[Skill::LIFE_REGEN] = "menu_textures\\Button-Skill-29.png";

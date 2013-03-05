@@ -108,7 +108,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 				m_reachedPosition = true;
 				if(this->m_attackCooldown <= 0.0f)
 				{
-					this->attackHero();
+					this->attackHero(this->m_closestTargetId);
 				}
 			}
 		}

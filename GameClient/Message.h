@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied};
 
 	Type type;
 	int senderId;
@@ -276,5 +276,17 @@ struct updateEntityHealth :Message
 		this->reciverId = 1;
 		this->id=id;
 		this->health=health;
+	}
+};
+
+struct HeroDiedMessage : Message
+{
+	unsigned int heroId;
+
+	HeroDiedMessage(unsigned int _heroId, unsigned int _heroOwner)
+	{
+		this->type = Type::HeroDied;
+		this->reciverId = _heroOwner;
+		this->heroId = _heroId;
 	}
 };
