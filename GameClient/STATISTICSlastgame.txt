@@ -1,13 +1,13 @@
 Game statistics: 
 ----------------
 Time played: 38.3015
-Life remaining: 8
+Life remaining: 100
 Reached wave: 0
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Red knight
+Hero played: Officer
 Deamons killed: 1
 Player deaths: 0
 Resources collected: 24

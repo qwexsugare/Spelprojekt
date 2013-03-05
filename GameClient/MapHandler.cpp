@@ -15,14 +15,14 @@ Pathfinder *g_pathfinder;
 MapHandler::MapHandler()
 {
 	this->m_currentWave = 0;
-	this->m_waveTimer = 0.0f;
+	this->m_waveTimer = 30.0f;
 	this->m_enemySpawnTimer = 0.0f;
 	this->m_gridHeight = 0;
 	this->m_gridWidth = 0;
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
-	this->m_lives = 10;
+	this->m_lives = 100;
 	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
