@@ -1422,3 +1422,16 @@ Frost turret projectile did 3 damage and reduced health from 7 to 4
 Frost turret projectile did 1 damage and reduced health from 4 to 3
 Frost turret projectile did 2 damage and reduced health from 3 to 1
 Frost turret projectile did 5 damage and reduced health from 1 to -3
+Frost turret projectile did 3 damage and reduced health from 297 to 297
+Frost turret projectile did 4 damage and reduced health from 297 to 297
+Frost turret projectile did 2 damage and reduced health from 297 to 297
+Frost turret projectile did 3 damage and reduced health from 297 to 297
+Frost turret projectile did 1 damage and reduced health from 297 to 297
+Frost turret projectile did 4 damage and reduced health from 297 to 297
+Frost turret projectile did 5 damage and reduced health from 297 to 297
+Frost turret projectile did 1 damage and reduced health from 297 to 297
+Frost turret projectile did 5 damage and reduced health from 297 to 297
+Frost turret projectile did 3 damage and reduced health from 297 to 297
+Frost turret projectile did 1 damage and reduced health from 297 to 297
+Frost turret projectile did 5 damage and reduced health from 297 to 297
+Frost turret projectile did 4 damage and reduced health from 282 to 282

@@ -2425,3 +2425,15 @@ dev/Excess Audio/chockSoundEnd.wav
 dev/Excess Audio/teslaTowerAttack.wav
 GameClient/audio.zip
 GameClient/audio/skills/chain_strike.wav
+GameClient/models/Char/2HandAttack.BFishA
+GameClient/models/Char/StunningStrike.BFishA
+GameClient/models/Char/SwiftAsButterfly_1H.BFishA
+GameClient/models/Char/SwiftAsButterfly2Hand.BFishA
+GameClient/models/CloudOfDarkness/CloudofDarkness_0_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_0_SM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_1_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_1_SM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_2_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_2_SM.png
+GameClient/maps/levelone/levelonegm.png
+GameClient/maps/levelone/leveloneminimap(0).png

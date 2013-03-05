@@ -242,6 +242,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 		this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 		this->m_messageQueue->pushOutgoingMessage(new HeroDiedMessage(this->m_id, this->m_playerId));
 		this->m_alive = false;
+	}
 }
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
