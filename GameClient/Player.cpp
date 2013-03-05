@@ -349,7 +349,7 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			break;
 		
 		case Skill::DEATH_PULSE_TURRET:
-		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
+		if(this->m_resources >= DeathPulseTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 		{
 			timeIsMoney = this->getTimeIsMoney();
 
@@ -368,7 +368,7 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			break;
 
 		case Skill::FROST_TURRET:
-		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
+		if(this->m_resources >= FrostTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 		{
 			timeIsMoney = this->getTimeIsMoney();
 
@@ -387,7 +387,7 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			break;
 
 		case Skill::POISON_TURRET:
-		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
+		if(this->m_resources >= PoisonTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 		{
 			timeIsMoney = this->getTimeIsMoney();
 
@@ -406,7 +406,7 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			break;
 
 		case Skill::TESLA_CHAIN_TURRET:
-		if(TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
+		if(this->m_resources >= TeslaChainTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 		{
 			timeIsMoney = this->getTimeIsMoney();
 
