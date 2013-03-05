@@ -2339,27 +2339,27 @@ GameClient/audio/Ambiant Envirement Sounds/thunder1.wav
 GameClient/audio/Ambiant Envirement Sounds/thunder2.wav
 GameClient/audio/Ambiant Envirement Sounds/thunder3.wav
 GameClient/audio/Ambiant Envirement Sounds/thunder4.wav
-GameClient/audio/Ambiant Envirement Sounds/wind0.pkf
 GameClient/audio/Ambiant Envirement Sounds/wind0.wav
-GameClient/audio/Ambiant Envirement Sounds/wind1.pkf
 GameClient/audio/Ambiant Envirement Sounds/wind1.wav
-GameClient/audio/Ambiant Envirement Sounds/wind2.pkf
 GameClient/audio/Ambiant Envirement Sounds/wind2.wav
-GameClient/audio/beamAndLightning.wav
-GameClient/audio/chockBeemSoundStart.wav
-GameClient/audio/chockSoundEnd.wav
 GameClient/audio/churchBell1X.wav
 GameClient/audio/churchBell3X.wav
 GameClient/audio/codWindStartEnd.wav
-GameClient/audio/deathTowerAttack.wav
 GameClient/audio/doctor/Doctor_Damage_1.wav
 GameClient/audio/dpBreathingEnd.wav
 GameClient/audio/dpHearbeatScreamsStart.wav
+GameClient/audio/enemy/Beast_Attack_0.wav
+GameClient/audio/enemy/Beast_Attack_1.wav
+GameClient/audio/enemy/Beast_Attack_2.wav
+GameClient/audio/enemy/Beast_Damage_0.wav
+GameClient/audio/enemy/Beast_Damage_1.wav
+GameClient/audio/enemy/Beast_Damage_2.wav
+GameClient/audio/enemy/Beast_Dying_0.wav
+GameClient/audio/enemy/Monster_frost.wav
 GameClient/audio/healingTouch.wav
 GameClient/audio/meleeAttack_0.wav
 GameClient/audio/meleeAttack_1.wav
 GameClient/audio/meleeAttack_2.wav
-GameClient/audio/poisonTowerAttack.wav
 GameClient/audio/rangeAttack_0.wav
 GameClient/audio/rangeAttack_1.wav
 GameClient/audio/rangeAttack_2.wav
@@ -2415,6 +2415,58 @@ GameClient/models/Char/SwiftAsButterfly.BFishA
 GameClient/audio/enemy/Monster_frost.wav
 GameClient/audio/turrets/deathTowerAttack.wav
 GameClient/audio/turrets/poisonTowerAttack.wav
+GameClient/audio/skills/chain_strike.wav
+GameClient/audio/targetAcquird.wav
+GameClient/audio/teleport.wav
+GameClient/audio/teleportLonger.wav
+GameClient/audio/turrets/deathTowerAttack.wav
+GameClient/audio/turrets/poisonTowerAttack.wav
+GameClient/audio/turrets/towerBuild.wav
+GameClient/audio/turrets/towerBuildHammerSound.wav
+GameClient/audio/turrets/towerBuildKlinkSound.wav
+GameClient/audio/turrets/TurretBuildup.wav
+GameClient/audio/twoHandedAttack_0.wav
+GameClient/audio/twoHandedAttack_1.wav
+GameClient/audio/twoHandedAttack_2.wav
+GameClient/audio/wallEnd.wav
+GameClient/audio/wallStartGroundShake.wav
+GameClient/menu_textures/Classskills.png
+GameClient/menu_textures/Label_1.png
+GameClient/menu_textures/Label_1_P.png
+GameClient/menu_textures/Label_2.png
+GameClient/menu_textures/Label_2_P.png
+GameClient/menu_textures/Label_3.png
+GameClient/menu_textures/Label_3_P.png
+GameClient/menu_textures/Label_4.png
+GameClient/menu_textures/Label_4_P.png
+GameClient/menu_textures/new.rar
+GameClient/menu_textures/NewCharPortraits.zip
+GameClient/models/Char/2Hattack.BFishA
+GameClient/models/Char/2Hidle.BFishA
+GameClient/models/Char/2Hrun.BFishA
+GameClient/models/Char/attack.BFishA
+GameClient/models/Char/ChainLight.BFishA
+GameClient/models/Char/Char1_5_Animations.rar
+GameClient/models/Char/death.BFishA
+GameClient/models/Char/DemonicPrecens.BFishA
+GameClient/models/Char/Engineer_specular.jpg
+GameClient/models/Char/idle.BFishA
+GameClient/models/Char/PassiveAbility_1H_Melee.BFishA
+GameClient/models/Char/PassiveAbility_1H_Range.BFishA
+GameClient/models/Char/PassiveAbility_2H_Melee.BFishA
+GameClient/models/Char/RangeAttack.BFishA
+GameClient/models/Char/run.BFishA
+GameClient/models/Char/StunningStrike2Hand.BFishA
+GameClient/models/Char/SwiftAsButterfly.BFishA
+GameClient/models/Char1_5/Char1_5.BFish
+GameClient/models/Char1_5/CharRebake_normals.TIF
+GameClient/models/Char1_5/idle.BFishA
+GameClient/models/Beast1_5/Beast1_5.BFish
+GameClient/models/Char1_5/Char1_5.BFish
+GameClient/models/Char1_5/CharRebake_normals.TIF
+GameClient/models/Char1_5/idle.BFishA
+GameClient/textures/textures.rar
+GameClient/maps/levelone/levelonegm.png
 GameClient/audio/turrets/teslaTowerAttack.wav
 GameClient/audio/turrets/towerBuild.wav
 GameClient/audio/turrets/towerBuildHammerSound.wav

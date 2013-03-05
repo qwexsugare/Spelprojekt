@@ -1,28 +1,43 @@
 Game statistics: 
 ----------------
 <<<<<<< HEAD
-Time played: 34.1135
-=======
-Time played: 38.3015
->>>>>>> 690027c47adbfb27965f6fbe7c0962fef8433ff2
-Life remaining: 100
+Time played: 187.497
+Life remaining: -19
 Reached wave: 1
+=======
+Time played: 40.2858
+Life remaining: 100
+Reached wave: 0
+>>>>>>> bd14bdbb20b4640cbf7c21583e5ff14fd69c7d4e
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Doctor
+<<<<<<< HEAD
+Hero played: Red knight
 Deamons killed: 1
+=======
+Hero played: Officer
+Deamons killed: 0
+>>>>>>> bd14bdbb20b4640cbf7c21583e5ff14fd69c7d4e
 Player deaths: 0
-Resources collected: 24
+Resources collected: 25
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 194
-Physical damage taken: 376
+<<<<<<< HEAD
+Total damage dealt: 138
+Physical damage taken: 516
+Mental damage taken: 0
+Physical damage dealt: 85
+Mental damage dealt: 53
+=======
+Total damage dealt: 0
+Physical damage taken: 0
 Mental damage taken: 0
 Physical damage dealt: 0
-Mental damage dealt: 104
+Mental damage dealt: 0
+>>>>>>> bd14bdbb20b4640cbf7c21583e5ff14fd69c7d4e
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -44,6 +59,11 @@ Skills used:
 0
 0
 0
+<<<<<<< HEAD
+1936876886
+10
+=======
+>>>>>>> bd14bdbb20b4640cbf7c21583e5ff14fd69c7d4e
 0
 0
 1919117677
@@ -58,6 +78,23 @@ Skills used:
 0
 0
 0
+<<<<<<< HEAD
+931870518
+1058553616
+867120017
+1024736474
+228
+844181896
+901133729
+1000684445
+807677958
+924858060
+16380
+947337329
+949827689
+871576546
+813379682
+=======
 0
 0
 0
@@ -66,16 +103,13 @@ Skills used:
 962541884
 28672
 846082654
-939145138
+939276212
 981547622
 1011235854
 924989142
-1027947829
-823603465
-1013464111
-922236650
-833565086
-898971007
-980302430
-864367478
+1028603199
+826749223
+1014512703
+865416070
+>>>>>>> bd14bdbb20b4640cbf7c21583e5ff14fd69c7d4e
 ---------------
