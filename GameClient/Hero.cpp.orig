@@ -233,17 +233,25 @@ void Hero::updateSpecificUnitEntity(float dt)
 			this->m_rotation.x = atan2(-distance.x, -distance.z);
 		}
 	}
+<<<<<<< HEAD
+
+	/*if(this->m_health <= 0)
+=======
 	else if(this->m_alive == true)
+>>>>>>> 9c12c294e09aff378a4f2a7a0cda6f0d229841bd
 	{
 		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
 		this->m_position = FLOAT3(1000.0f, -1000.0f, 1000.0f);
 		this->m_hasTarget = NULL;
 		this->m_reachedPosition = true;
+<<<<<<< HEAD
+	}*/
+=======
 		this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 		this->m_messageQueue->pushOutgoingMessage(new HeroDiedMessage(this->m_id, this->m_playerId));
 		this->m_alive = false;
 	}
-}
+>>>>>>> 9c12c294e09aff378a4f2a7a0cda6f0d229841bd
 }
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
