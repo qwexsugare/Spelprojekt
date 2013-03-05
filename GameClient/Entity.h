@@ -11,6 +11,7 @@ struct Entity
 	Model* m_model;
 	FLOAT3 m_direction;
 	ServerEntity::Type m_type;
+	int m_subtype;
 	FLOAT3 m_startPos;
 	FLOAT3 m_endPos;
 	float movementSpeed;

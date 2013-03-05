@@ -1,6 +1,6 @@
 #include "ParticleEngine.h"
 
-ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR3 _scale)
+ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR2 _scale)
 {
 	this->device = _device;
 	this->type = _type;
@@ -11,7 +11,7 @@ ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHol
 
 	this->maxParticles = 100;
 
-	this->isDead = false;
+	this->isAlive = true;
 
 	this->totalTime = 0;
 	this->dt = 0;
@@ -21,8 +21,9 @@ ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHol
 	//this->particles = NULL;
 	//this->geoParticles = NULL;
 	this->shaderParticles = NULL;
+	this->behavior = ParticleBehavior::CirclePuls;
 
-	this->texture = this->textureHolder->getTexture("./particles/light.png");
+	this->texture = this->textureHolder->getTexture("./particles/textures/light.png");
 
 	CreateVertexBuffer();
 	CreateRandomTex();
@@ -32,6 +33,10 @@ ParticleEngine::~ParticleEngine()
 {
 	if(shaderParticles)
 		shaderParticles->Release();
+	this->randomTex->Release();
+	this->streamOutVB->Release();
+	this->drawVB->Release();
+	this->vertexBuffer->Release();
 }
 void ParticleEngine::CreateVertexBuffer()
 {
@@ -46,7 +51,7 @@ void ParticleEngine::CreateVertexBuffer()
 
 	Particle p;
 	ZeroMemory(&p, sizeof(Particle));
-	p.age = 0.0f;
+	p.age = 1.0f;
 	p.type = 0;
 	p.position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -143,11 +148,13 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 	_particleRendering->setEmitPos(this->position);
 	_particleRendering->setEmitDir(D3DXVECTOR4(0.0f, 1.0f, 0.0f, 0.0f));
 	_particleRendering->setTotalTime(this->totalTime);
+	_particleRendering->setSize(this->scale);
 	_particleRendering->setDt(this->dt);
 	D3DXMATRIX viewProj = _camera->getViewMatrix() * _camera->getProjectionMatrix();
 	_particleRendering->setViewProj(viewProj);
 	_particleRendering->setRandomTexture(randomTex);
 	_particleRendering->setTexture(texture);
+	_particleRendering->setIsAlive(this->isAlive);
 
 
 	device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -162,8 +169,151 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 		device->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	else
 		device->IASetVertexBuffers(0, 1, &drawVB, &stride, &offset);
-	
 
+	
+	switch(this->behavior)
+	{
+		case ParticleBehavior::Beacon:
+			DrawGPUBeacon(_particleRendering);
+			break;
+		case ParticleBehavior::CirclePuls:
+			DrawGPUCirclePuls(_particleRendering);
+			break;
+		case ParticleBehavior::Sphere:
+			DrawGPUSphere(_particleRendering);
+			break;
+		case ParticleBehavior::UpSideDownTwist:
+			DrawGPUUpSideDownTwist(_particleRendering);
+			break;
+	}
+
+}
+
+
+void ParticleEngine::DrawGPUBeacon(ParticleEngineEffectFile* _particleRendering)
+{
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
+
+	//StreamOut
+	device->SOSetTargets(1, &streamOutVB, &offset);
+	
+	D3D10_TECHNIQUE_DESC techDesc;
+	_particleRendering->getBeaconSOTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getBeaconSOTechnique()->GetPassByIndex(p)->Apply(0);
+		if(firstTime)
+		{
+			device->Draw(1, 0);
+			firstTime = false;
+		}
+		else
+		{
+			device->DrawAuto();
+		}
+	}
+	
+	ID3D10Buffer* bufferArray[1] = {0};
+	device->SOSetTargets(1, bufferArray, &offset);
+
+	swap(drawVB, streamOutVB);
+
+	//Draw
+	device->IASetVertexBuffers(0, 1, &drawVB, &stride, &offset);
+
+	_particleRendering->getDrawBeaconTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getDrawBeaconTechnique()->GetPassByIndex(p)->Apply(0);
+		device->DrawAuto();
+	}
+}
+
+void ParticleEngine::DrawGPUCirclePuls(ParticleEngineEffectFile* _particleRendering)
+{	
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
+
+	//StreamOut
+	device->SOSetTargets(1, &streamOutVB, &offset);
+	
+	D3D10_TECHNIQUE_DESC techDesc;
+	_particleRendering->getCirclePulsSOTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getCirclePulsSOTechnique()->GetPassByIndex(p)->Apply(0);
+		if(firstTime)
+		{
+			device->Draw(1, 0);
+			firstTime = false;
+		}
+		else
+		{
+			device->DrawAuto();
+		}
+	}
+	
+	ID3D10Buffer* bufferArray[1] = {0};
+	device->SOSetTargets(1, bufferArray, &offset);
+
+	swap(drawVB, streamOutVB);
+
+	//Draw
+	device->IASetVertexBuffers(0, 1, &drawVB, &stride, &offset);
+
+	_particleRendering->getDrawCirclePulsTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getDrawCirclePulsTechnique()->GetPassByIndex(p)->Apply(0);
+		device->DrawAuto();
+	}
+}
+
+void ParticleEngine::DrawGPUSphere(ParticleEngineEffectFile* _particleRendering)
+{
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
+
+	//StreamOut
+	device->SOSetTargets(1, &streamOutVB, &offset);
+	
+	D3D10_TECHNIQUE_DESC techDesc;
+	_particleRendering->getSphereSOTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getSphereSOTechnique()->GetPassByIndex(p)->Apply(0);
+		if(firstTime)
+		{
+			device->Draw(1, 0);
+			firstTime = false;
+		}
+		else
+		{
+			device->DrawAuto();
+		}
+	}
+	
+	ID3D10Buffer* bufferArray[1] = {0};
+	device->SOSetTargets(1, bufferArray, &offset);
+
+	swap(drawVB, streamOutVB);
+
+	//Draw
+	device->IASetVertexBuffers(0, 1, &drawVB, &stride, &offset);
+
+	_particleRendering->getDrawSphereTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getDrawSphereTechnique()->GetPassByIndex(p)->Apply(0);
+		device->DrawAuto();
+	}
+}
+
+void ParticleEngine::DrawGPUUpSideDownTwist(ParticleEngineEffectFile* _particleRendering)
+{
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
 
 	//StreamOut
 	device->SOSetTargets(1, &streamOutVB, &offset);
@@ -198,20 +348,24 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 		_particleRendering->getDrawUpSideDownTwistTechnique()->GetPassByIndex(p)->Apply(0);
 		device->DrawAuto();
 	}
-
 }
 
 void ParticleEngine::setPosition(D3DXVECTOR3& _pos)
 {
-
+	this->position = D3DXVECTOR4(_pos, 1);
 }
 
-void ParticleEngine::setRotation(D3DXVECTOR3& _rot)
+void ParticleEngine::setRotation(D3DXQUATERNION& _rot)
 {
-
+	this->rotation = _rot;
 }
 
-void ParticleEngine::setScale(D3DXVECTOR3& _scale)
+void ParticleEngine::setScale(D3DXVECTOR2& _scale)
 {
+	this->scale = _scale;
+}
 
+void ParticleEngine::setAlive(bool _alive)
+{
+	this->isAlive = false;
 }

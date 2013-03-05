@@ -35,32 +35,47 @@ Turret::~Turret()
 
 }
 
+const BoundingSphere& Turret::getRange()const
+{
+	return m_range;
+}
+
 void Turret::update(float _dt)
 {
-	this->m_lifeTime = this->m_lifeTime - _dt;
-	m_currentAttackCooldown = max(m_currentAttackCooldown-_dt, 0.0f);
+	this->m_lifeTime = max(this->m_lifeTime - _dt, 0.0f);
 
-	if(this->m_active == true)
+	if(this->m_lifeTime == 0.0f)
 	{
-		if(m_currentAttackCooldown == 0.0f)
-		{
-			ServerEntity* entity = EntityHandler::getClosestEntityByType(this, ServerEntity::EnemyType);
+		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+	}
+	else
+	{
+		m_currentAttackCooldown = max(m_currentAttackCooldown-_dt, 0.0f);
 
-			if(entity)
+		if(this->m_active == true)
+		{
+			this->updateSpecificTurret(_dt);
+
+			if(m_currentAttackCooldown == 0.0f)
 			{
-				if(entity->intersects(m_range))
+				ServerEntity* entity = EntityHandler::getClosestEntityByType(this, ServerEntity::EnemyType);
+
+				if(entity)
 				{
-					this->target(entity);
-					this->m_currentAttackCooldown = m_attackCooldown;
+					if(entity->intersects(m_range))
+					{
+						this->target(entity);
+						this->m_currentAttackCooldown = m_attackCooldown;
+					}
 				}
 			}
 		}
 	}
+}
 
-	if(this->m_lifeTime <= 0.0f)
-	{
-		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
-	}
+void Turret::updateSpecificTurret(float _dt)
+{
+
 }
 
 void Turret::addLifetime(float _dt)

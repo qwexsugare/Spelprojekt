@@ -3,7 +3,7 @@
 #include "MeleeAttack.h"
 
 
-SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
+SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::SOUL_EATER_STEED)
 {
 	m_modelId        = 84;
 				     

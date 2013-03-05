@@ -231,9 +231,12 @@ void UnitEntity::increaseWits(int _wits)
 void UnitEntity::increaseFortitude(int _fortitude)
 {	
 	// Prevents the attribute gain to exceed max and minimizes the gain.
-	if(_fortitude+m_fortitude > UnitEntity::MAX_WITS)
-		_fortitude = UnitEntity::MAX_WITS - m_fortitude;
+	if(_fortitude+m_fortitude > UnitEntity::MAX_FORTITUDE)
+		_fortitude = UnitEntity::MAX_FORTITUDE - m_fortitude;
 
+	m_maxHealth += 100*_fortitude;
+	m_health += 100*_fortitude;
+	m_mentalDamage += _fortitude*0.02f;
 	m_fortitude += _fortitude;
 }
 

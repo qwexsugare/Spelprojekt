@@ -3,7 +3,7 @@
 
 #include "ParticleSystemStructs.fx"
 
-[maxvertexcount(9)]
+[maxvertexcount(17)]
 void UsDTwistSO(point Particle input[1], inout PointStream<Particle> pStream)
 {
 	input[0].age += dt;

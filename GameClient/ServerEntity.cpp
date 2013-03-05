@@ -196,6 +196,11 @@ ServerEntity::Type ServerEntity::getType()
 	return m_type;
 }
 
+int ServerEntity::getSubType()const
+{
+	return -1;
+}
+
 void ServerEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
 

@@ -50,6 +50,7 @@ public:
 	bool getVisible();
 
 	virtual int getHealth();
+	virtual int getSubType()const;
 
 	ContainmentType contains(const BoundingSphere& _bs)const;
 	ContainmentType contains(const BoundingOrientedBox& _obb)const;
