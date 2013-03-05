@@ -2,7 +2,7 @@
 
 ModelIdHolder::ModelIdHolder()
 {
-	this->m_modelIds[0] = ModelId("Char1_5");
+	this->m_modelIds[0] = ModelId("Char");
 	this->m_modelIds[2] = ModelId("PoisonTurret", "color", "glowIntensity");
 	this->m_modelIds[3] = ModelId("LightningTurret", "color", "glowIntensity");
 	this->m_modelIds[4] = ModelId("DeathTurret", "color", "glowIntensity");
