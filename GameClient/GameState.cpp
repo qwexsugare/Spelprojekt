@@ -15,7 +15,7 @@ GameState::GameState(Client *_network)
 	this->importMap("levelone");
 
 	//Create particle system
-	g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR3(1, 1, 1));
+	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 
 
 	// Get all hero data from the network
@@ -36,30 +36,45 @@ GameState::GameState(Client *_network)
 		m_attackSounds[0] = createSoundHandle("red_knight/RedKnight_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("red_knight/RedKnight_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("red_knight/RedKnight_Attack_2.wav", false, false);
+		m_moveSounds[0] = createSoundHandle("red_knight/RedKnight_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("red_knight/RedKnight_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("red_knight/RedKnight_Click_2.wav", false, false);
 		break;
 	case Hero::ENGINEER:
 		m_idleSound = createSoundHandle("Engineer_Idle_0.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("engineer/Engineer_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("engineer/Engineer_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("engineer/Engineer_Attack_2.wav", false, false);
+		m_moveSounds[0] = createSoundHandle("engineer/Engineer_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("engineer/Engineer_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("engineer/Engineer_Click_2.wav", false, false);
 		break;
 	case Hero::THE_MENTALIST:
 		m_idleSound = createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("mentalist/Mentalist_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("mentalist/Mentalist_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("mentalist/Mentalist_Attack_2.wav", false, false);
-			break;
+		m_moveSounds[0] = createSoundHandle("mentalist/Mentalist_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("mentalist/Mentalist_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("mentalist/Mentalist_Click_2.wav", false, false);
+		break;
 	case Hero::OFFICER:
 		m_idleSound = createSoundHandle("officer/Officer_Death_1.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("officer/Officer_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("officer/Officer_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("officer/Officer_Attack_2.wav", false, false);
+		m_moveSounds[0] = createSoundHandle("officer/Officer_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("officer/Officer_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("officer/Officer_Click_2.wav", false, false);
 		break;
 	case Hero::DOCTOR:
 		m_idleSound = createSoundHandle("doctor/Doctor_Idle.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("doctor/Doctor_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("doctor/Doctor_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("doctor/Doctor_Attack_2.wav", false, false);
+		m_moveSounds[0] = createSoundHandle("doctor/Doctor_Click_0.wav", false, false);
+		m_moveSounds[1] = createSoundHandle("doctor/Doctor_Click_1.wav", false, false);
+		m_moveSounds[2] = createSoundHandle("doctor/Doctor_Click_2.wav", false, false);
 		break;
 	}
 
@@ -75,7 +90,7 @@ GameState::GameState(Client *_network)
 
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, true);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 0.0f, 0.25f), FLOAT3(0.5f, 0.05f, 0.05f), FLOAT3(0.3f, 0.001f, 0.001f), FLOAT3(0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 
 	m_healthText = g_graphicsEngine->createText("No target", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
@@ -91,6 +106,11 @@ GameState::~GameState()
 		stopSound(m_attackSounds[i]);
 		deactivateSound(m_attackSounds[i]);
 	}
+	for(int i = 0; i < GameState::NR_OF_MOVE_SOUNDS; i++)
+	{
+		stopSound(m_moveSounds[i]);
+		deactivateSound(m_moveSounds[i]);
+	}
 
 	if(m_minimap)
 		delete this->m_minimap;
@@ -98,6 +118,8 @@ GameState::~GameState()
 	delete this->m_hud;
 	delete this->m_clientEntityHandler;
 	g_graphicsEngine->removeText(m_healthText);
+	if(this->testParticleSystem)
+		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 }
 
 void GameState::end()
@@ -207,6 +229,7 @@ void GameState::update(float _dt)
 		Model* model = g_graphicsEngine->createModel(this->m_modelIdHolder.getModel(iem.getModelID()), FLOAT3(iem.getXPos(), 0.0, iem.getZPos()));
 		model->setTextureIndex(m_modelIdHolder.getTexture(iem.getModelID()));
 		model->setGlowIndex(m_modelIdHolder.getGlowmap(iem.getModelID()));
+		model->setRotation(FLOAT3(iem.getYRot(), 0.0f, 0.0f));
 
 		if(this->m_modelIdHolder.getHat(iem.getModelID()) != "")
 		{
@@ -225,6 +248,7 @@ void GameState::update(float _dt)
 			//this->m_entities.push_back(new Entity(model, e.getEntityId()));
 			Entity *e = new Entity(model, iem.getID());
 			e->m_type = (ServerEntity::Type)iem.getType();
+			e->m_subtype = iem.getSubtype();
 			this->m_clientEntityHandler->addEntity(e);
 
 			e->m_weapon = iem.getWeaponType();
@@ -282,10 +306,81 @@ void GameState::update(float _dt)
 	{
 		NetworkCreateActionPositionMessage e = this->m_network->createActionPositionQueueFront();
 		
+		int sound; // a sound might be played and cant be declared inside switch
 		switch(e.getActionId())
 		{
 		case Skill::CLOUD_OF_DARKNESS:
 			m_ClientSkillEffects.push_back(new CloudOfDarknessClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
+		case Skill::WALL:
+			m_ClientSkillEffects.push_back(new WallClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
+		case Skill::TESLA_CHAIN_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::DEATH_PULSE_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::FROST_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::POISON_TURRET:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("turrets/towerBuild.wav", false, true, e.getPosition());
+				break;
+			case 1:
+				sound = createSoundHandle("turrets/towerBuildHammerSound.wav", false, true, e.getPosition());
+				break;
+			case 2:
+				sound = createSoundHandle("turrets/towerBuildKlinkSound.wav", false, true, e.getPosition());
+				break;
+			}
+			playSound(sound);
+			deactivateSound(sound);
+			break;
+		case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
+			m_ClientSkillEffects.push_back(new TargetAcquiredClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		}
 	}
@@ -298,15 +393,15 @@ void GameState::update(float _dt)
 		{
 		case Skill::RANGED_ATTACK:
 			if(e.getTargetId() == m_playerInfos[m_yourId].id)
-				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), m_playerInfos[m_yourId].heroType));
+				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), m_playerInfos[m_yourId].heroType, e.getSenderId()));
 			else
 				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;
 		case Skill::FROST_TURRET_PROJECTILE:
-			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 0.5f, e.getPosition().z), e.getTargetId()));
 			break;
 		case Skill::POISON_TURRET_PROJECTILE:
-			m_ClientSkillEffects.push_back(new PoisonTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 1.0f, e.getPosition().z), e.getTargetId()));
+			m_ClientSkillEffects.push_back(new PoisonTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 0.5f, e.getPosition().z), e.getTargetId()));
 			break;
 		case Skill::DEATH_PULSE_TURRET_PROJECTILE:
 			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
@@ -486,9 +581,9 @@ void GameState::update(float _dt)
 	{
 
 	}
-	if(g_mouse->isRButtonPressed() == true)
+	if(g_mouse->isRButtonPressed())
 	{
-		if(m_minimap->isMouseInMap(g_mouse->getPos()) == false)
+		if(!m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
 			if(mouseOverEnemy >= 0)
 			{
@@ -506,9 +601,10 @@ void GameState::update(float _dt)
 			{
 				float k = (-pickOrig.y)/pickDir.y;
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
+
+				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
 
 				m_healthText->setString("No target");
 			}

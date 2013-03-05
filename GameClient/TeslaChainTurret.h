@@ -19,5 +19,6 @@ public:
 	~TeslaChainTurret();
 
 	void target(ServerEntity* _target);
+	int getCost();
 };
 

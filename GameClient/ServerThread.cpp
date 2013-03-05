@@ -160,11 +160,11 @@ void ServerThread::update(float dt)
 		//Check if the map is finished
 		if(s == MapHandler::VICTORY)
 		{
-			//this->m_state = ServerThread::VICTORY;
+			this->m_state = ServerThread::VICTORY;
 		}
 		if(s == MapHandler::DEFEAT)
 		{
-			//this->m_state = ServerThread::DEFEAT;
+			this->m_state = ServerThread::DEFEAT;
 		}
 
 
@@ -174,13 +174,13 @@ void ServerThread::update(float dt)
 
 		entities = this->m_entityHandler->getEntities();
 
-		for(int i = 0; i < entities.size(); i++)
-		{
-			if(entities[i]->getVisible() == true && (entities[i]->getType() != ServerEntity::Type::StaticType && entities[i]->getType() != ServerEntity::Type::HeroType && entities[i]->getType() != ServerEntity::Type::TowerType && entities[i]->getType() != ServerEntity::Type::EnemyType))
-			{
-				this->m_network->broadcast(entities[i]->getUpdate());
-			}
-		}
+		//for(int i = 0; i < entities.size(); i++)
+		//{
+		//	if(entities[i]->getVisible() == true && (entities[i]->getType() != ServerEntity::Type::StaticType && entities[i]->getType() != ServerEntity::Type::HeroType && entities[i]->getType() != ServerEntity::Type::TowerType && entities[i]->getType() != ServerEntity::Type::EnemyType))
+		//	{
+		//		this->m_network->broadcast(entities[i]->getUpdate());
+		//	}
+		//}
 
 		while(this->m_messageQueue->incomingQueueEmpty() == false)
 		{
@@ -213,11 +213,14 @@ void ServerThread::update(float dt)
 	}
 	if(this->m_state == State::VICTORY)
 	{
-		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 40 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{
-
+		g_graphicsEngine->createText("DEFEAT!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
+		this->m_state = ServerThread::EXIT;
 	}
 }

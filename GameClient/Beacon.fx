@@ -3,7 +3,7 @@
 
 #include "ParticleSystemStructs.fx"
 
-[maxvertexcount(2)]
+[maxvertexcount(17)]
 void StreamOutGS(point Particle input[1], inout PointStream<Particle> pStream)
 {
 	input[0].age += dt;

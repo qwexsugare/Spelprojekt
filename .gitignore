@@ -1806,6 +1806,50 @@ GameClient/models/PoisonTurret/checkeredmap.jpg
 GameClient/models/PoisonTurret/PoisonTurret.BFish
 GameClient/models/redKnightPassiveAura/redKnightPassiveAura.BFish
 GameClient/models/redKnightPassiveAura/redKnightPassiveAura.png
+GameClient/audio/audio.zip
+GameClient/maps.rar
+GameClient/maps/levelone/clean/levelone.txt
+GameClient/maps/levelone/clean/levelonebmp1.png
+GameClient/maps/levelone/clean/levelonebmp2.png
+GameClient/maps/levelone/clean/levelonegm.png
+GameClient/maps/levelone/clean/leveloneminimap.png
+GameClient/maps/levelone/old/levelone.txt
+GameClient/maps/levelone/old/levelonebmp1.png
+GameClient/maps/levelone/old/levelonebmp2.png
+GameClient/maps/levelone/old/levelonegm.png
+GameClient/maps/levelone/old/leveloneminimap.png
+GameClient/minimap.rar
+GameClient/models/Beast/Beast__.BFish
+GameClient/models/Char1_5.rar
+GameClient/models/Char1_5/Char1_5.BFish
+GameClient/models/Char1_5/StunningStrike2Hand.BFishA
+GameClient/models/Crossbow.rar
+GameClient/models/DoctorRevolver.rar
+GameClient/models/EngineerWrench.rar
+GameClient/models/FrostTurret.rar
+GameClient/models/FrostTurret/FrostTurret__.BFish
+GameClient/models/HexaGun.rar
+GameClient/models/LightningTurret/LightningTurret_.BFish
+GameClient/models/Mace.rar
+GameClient/models/MeatClever.rar
+GameClient/models/MentalistRevolver.rar
+GameClient/models/models_new.rar
+GameClient/models/OfficerRapier.rar
+GameClient/models/PoisonTurret.rar
+GameClient/models/RedKnightSword.rar
+GameClient/models/TeslaTurret.rar
+GameClient/particles.rar
+GameClient/particles/effects/HealingAura.gzp
+GameClient/particles/textures/light.png
+GameClient/textures.rar
+GameClient/textures/1.png
+GameClient/textures/2.png
+GameClient/textures/3.png
+GameClient/textures/4.png
+GameClient/textures/5.png
+GameClient/textures/6.png
+GameClient/textures/7.png
+GameClient/textures/textures.zip
 GameClient/models/Arrow/Arrow.BFish
 GameClient/models/Beast/Beast.BFish
 GameClient/models/Beast1_5/Beast1_5.BFish
@@ -1888,6 +1932,7 @@ GameClient/models/redKnightPassiveAura/redKnightPassiveAura.png
 GameClient/models/Wrench/Wrench.BFish
 GameClient/menu_textures/Turret_Text_Death.png
 GameClient/models/Char1_5/Char1_5.BFish
+GameClient/menu_textures/MENU-CharacterMenu-Background2.png
 GameClient/menu_textures/Turret_Text_Frost.png
 GameClient/menu_textures/Turret_Text_Poison.png
 GameClient/menu_textures/Turret_Text_Tesla.png
@@ -2318,6 +2363,58 @@ GameClient/audio/meleeAttack_2.wav
 GameClient/audio/rangeAttack_0.wav
 GameClient/audio/rangeAttack_1.wav
 GameClient/audio/rangeAttack_2.wav
+GameClient/audio/targetAcquird.wav
+GameClient/audio/teleport.wav
+GameClient/audio/teleportLonger.wav
+GameClient/audio/teslaTowerAttack.wav
+GameClient/audio/towerBuild.wav
+GameClient/audio/towerBuildHammerSound.wav
+GameClient/audio/towerBuildKlinkSound.wav
+GameClient/audio/twoHandedAttack_0.wav
+GameClient/audio/twoHandedAttack_1.wav
+GameClient/audio/twoHandedAttack_2.wav
+GameClient/audio/wallEnd.wav
+GameClient/audio/wallStartGroundShake.wav
+dev/Excess Audio/Doctor_COURAGE_REACTION.wav
+dev/Excess Audio/Engineer_COURAGE_REACTION.wav
+dev/Excess Audio/Mentalist_COURAGE_REACTION.wav
+dev/Excess Audio/Officer_COURAGE_REACTION.wav
+dev/Excess Audio/RedKnight_COURAGE.wav
+dev/Excess Audio/reference/280.mp3
+dev/Excess Audio/reference/bow.wav
+dev/Excess Audio/reference/collision.wav
+dev/Excess Audio/reference/knife.wav
+dev/Excess Audio/reference/orb.wav
+dev/Excess Audio/reference/pickup.wav
+dev/Excess Audio/reference/Radiohead_-_Pyramid_Song_(sample).ogg
+dev/Excess Audio/reference/rain.wav
+GameClient/audio/enemy/Beast_Attack_0.wav
+GameClient/audio/enemy/Beast_Attack_1.wav
+GameClient/audio/enemy/Beast_Attack_2.wav
+GameClient/audio/enemy/Beast_Damage_0.wav
+GameClient/audio/enemy/Beast_Damage_1.wav
+GameClient/audio/enemy/Beast_Damage_2.wav
+GameClient/audio/enemy/Beast_Dying_0.wav
+GameClient/models/Char/2Hattack.BFishA
+GameClient/models/Char/2Hidle.BFishA
+GameClient/models/Char/2Hrun.BFishA
+GameClient/models/Char/attack.BFishA
+GameClient/models/Char/ChainLight.BFishA
+GameClient/models/Char/death.BFishA
+GameClient/models/Char/DemonicPrecens.BFishA
+GameClient/models/Char/Engineer_specular.jpg
+GameClient/models/Char/idle.BFishA
+GameClient/models/Char/PassiveAbility_1H_Melee.BFishA
+GameClient/models/Char/PassiveAbility_1H_Range.BFishA
+GameClient/models/Char/PassiveAbility_2H_Melee.BFishA
+GameClient/models/Char/RangeAttack.BFishA
+GameClient/models/Char/run.BFishA
+GameClient/models/Char/Spell.BFishA
+GameClient/models/Char/StunningStrike2Hand.BFishA
+GameClient/models/Char/SwiftAsButterfly.BFishA
+GameClient/audio/enemy/Monster_frost.wav
+GameClient/audio/turrets/deathTowerAttack.wav
+GameClient/audio/turrets/poisonTowerAttack.wav
 GameClient/audio/skills/chain_strike.wav
 GameClient/audio/targetAcquird.wav
 GameClient/audio/teleport.wav
@@ -2370,3 +2467,25 @@ GameClient/models/Char1_5/CharRebake_normals.TIF
 GameClient/models/Char1_5/idle.BFishA
 GameClient/textures/textures.rar
 GameClient/maps/levelone/levelonegm.png
+GameClient/audio/turrets/teslaTowerAttack.wav
+GameClient/audio/turrets/towerBuild.wav
+GameClient/audio/turrets/towerBuildHammerSound.wav
+GameClient/audio/turrets/towerBuildKlinkSound.wav
+GameClient/audio/turrets/TurretBuildup.wav
+dev/Excess Audio/beamAndLightning.wav
+dev/Excess Audio/chockSoundEnd.wav
+dev/Excess Audio/teslaTowerAttack.wav
+GameClient/audio.zip
+GameClient/audio/skills/chain_strike.wav
+GameClient/models/Char/2HandAttack.BFishA
+GameClient/models/Char/StunningStrike.BFishA
+GameClient/models/Char/SwiftAsButterfly_1H.BFishA
+GameClient/models/Char/SwiftAsButterfly2Hand.BFishA
+GameClient/models/CloudOfDarkness/CloudofDarkness_0_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_0_SM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_1_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_1_SM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_2_NM.png
+GameClient/models/CloudOfDarkness/CloudofDarkness_2_SM.png
+GameClient/maps/levelone/levelonegm.png
+GameClient/maps/levelone/leveloneminimap(0).png

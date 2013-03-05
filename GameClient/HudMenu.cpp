@@ -240,7 +240,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 
 		if(g_mouse->isLButtonPressed() == true && this->m_skillWaitingForTarget > -1)
 		{
-			if(m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || m_skillWaitingForTarget == Skill::TELEPORT)
+			if(this->m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || this->m_skillWaitingForTarget == Skill::TELEPORT || this->m_skillWaitingForTarget == Skill::WALL || this->m_skillWaitingForTarget == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
 			{
 				D3DXVECTOR3 pickDir;
 				D3DXVECTOR3 pickOrig;
@@ -311,7 +311,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
 			{
 				if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT || m_SkillButtons[i]->getSkillId() == Skill::HYPNOTIC_STARE
-					|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE)
+						|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::WALL || m_SkillButtons[i]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
 				{
 					this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
 					this->m_buttonIndex = i;
@@ -333,10 +333,16 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					case Skill::HYPNOTIC_STARE:
 						g_mouse->getCursor()->setFrame(Cursor::HYPNOTIC_STARE, 3);
 						break;
+						case Skill::WALL:
+							g_mouse->getCursor()->setFrame(Cursor::WALL, 3);
+							break;
+						case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
+							g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
+							break;
 					}
 				}
 				else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
-					m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)
+						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[i]->getSkillId() == Skill::TIME_IS_MONEY)
 				{
 					this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId(), i));
 				}

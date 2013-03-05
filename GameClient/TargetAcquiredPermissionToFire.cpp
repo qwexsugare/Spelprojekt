@@ -14,9 +14,9 @@ TargetAcquiredPermissionToFire::~TargetAcquiredPermissionToFire()
 
 bool TargetAcquiredPermissionToFire::activate(FLOAT3 _position, unsigned int _senderId)
 {
-	if(this->getCurrentCooldown() == 0)
+	if(this->getCurrentCooldown() == 0 && EntityHandler::getEntitiesByType(ServerEntity::TowerType).size() > 0)
 	{
-		EntityHandler::addEntity(new TargetAcquiredPermissionToFireEffect(_position));
+		EntityHandler::addEntity(new TargetAcquiredPermissionToFireEffect(_senderId, _position));
 		this->resetCooldown();
 		return true;
 	}

@@ -27,5 +27,37 @@ FrostTurret::~FrostTurret()
 
 void FrostTurret::target(ServerEntity* _target)
 {	
+	/*FLOAT3 distance = _target->getPosition() - this->m_position;
+	this->m_rotation.x = atan2(-distance.x, -distance.z);
+	m_rotation.x += D3DX_PI/2.0f;
+	this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(
+		this->m_id, this->m_position.x, this->m_position.z, this->m_rotation.x, this->m_position.x, this->m_position.z, this->m_position.x, this->m_position.z, 0.0f));*/
 	EntityHandler::addEntity(new FrostTurretProjectile(this->getId(), _target->getId(), this->m_slowEffect));
+}
+
+void FrostTurret::updateSpecificTurret(float _dt)
+{
+	ServerEntity* entity = EntityHandler::getClosestEntityByType(this, ServerEntity::EnemyType);
+
+	if(entity)
+	{
+		if(entity->intersects(this->getRange()))
+		{
+			FLOAT3 distance = entity->getPosition() - this->m_position;
+			float desiredRotation = atan2(-distance.x, -distance.z) + D3DX_PI/2.0f;
+
+			if(desiredRotation > m_rotation.x)
+				m_rotation.x = min(m_rotation.x+_dt, desiredRotation);
+			else
+				m_rotation.x = max(m_rotation.x-_dt, desiredRotation);
+
+			this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(
+				this->m_id, this->m_position.x, this->m_position.z, this->m_rotation.x, this->m_position.x, this->m_position.z, this->m_position.x, this->m_position.z, 0.0f));
+		}
+	}
+}
+
+int FrostTurret::getCost()
+{
+	return FrostTurret::COST;
 }

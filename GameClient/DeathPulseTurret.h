@@ -18,5 +18,6 @@ public:
 	~DeathPulseTurret();
 
 	void target(ServerEntity* _target);
+	int getCost();
 };
 

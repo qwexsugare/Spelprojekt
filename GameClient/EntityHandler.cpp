@@ -69,12 +69,11 @@ void EntityHandler::update(float dt)
 	EntityHandler::m_mutex.Unlock();
 }
 
-#include <sstream>
 void EntityHandler::addEntity(ServerEntity *_entity)
 {
 	EntityHandler::m_mutex.Lock();
 	_entity->setId(EntityHandler::m_nextId);
-	if(_entity->getType() == ServerEntity::StaticType)
+	if(_entity->getType() == ServerEntity::StaticType || _entity->getType() == ServerEntity::GoalType)
 	{
 		if(EntityHandler::m_quadtree->addServerEntity(_entity))
 		{
@@ -94,9 +93,8 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 
 	if(_entity->getVisible() == true)
 	{
-		EntityHandler::m_messageQueue->pushOutgoingMessage(new InitEntityMessage(_entity->getType(),_entity->getModelId(), _entity->getWeaponType(),_entity->getId(),_entity->getPosition().x,_entity->getPosition().z,_entity->getRotation().y,1.0,_entity->getHealth(),_entity->getPosition().x,_entity->getPosition().z,_entity->getEndPos().x,_entity->getEndPos().z,_entity->getMovementSpeed()));
-	}
-	
+		EntityHandler::m_messageQueue->pushOutgoingMessage(new InitEntityMessage(_entity->getType(), _entity->getSubType(),_entity->getModelId(), _entity->getWeaponType(),_entity->getId(),_entity->getPosition().x,_entity->getPosition().z,_entity->getRotation().y,1.0,_entity->getHealth(),_entity->getPosition().x,_entity->getPosition().z,_entity->getEndPos().x,_entity->getEndPos().z,_entity->getMovementSpeed()));
+	}	
 }
 
 bool EntityHandler::removeEntity(ServerEntity *_entity)
@@ -107,7 +105,7 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 	{
 		EntityHandler::m_mutex.Lock();
 
-		if(_entity->getType() == ServerEntity::StaticType)
+	if(_entity->getType() == ServerEntity::StaticType ||_entity->getType() == ServerEntity::GoalType )
 		{
 			found = EntityHandler::m_quadtree->removeServerEntity(_entity);
 		}
@@ -153,7 +151,7 @@ vector<ServerEntity*> EntityHandler::getEntitiesByType(ServerEntity::Type _type)
 	EntityHandler::m_mutex.Lock();
 
 	vector<ServerEntity*> ses;
-	if(_type == ServerEntity::StaticType)
+	if(_type == ServerEntity::StaticType || _type == ServerEntity::StaticType )
 		EntityHandler::m_quadtree->getAllServerEntites(ses);
 	else
 	{
@@ -210,7 +208,7 @@ ServerEntity* EntityHandler::getClosestEntityByType(ServerEntity* _entity, Serve
 {
 	ServerEntity* closestEntity = NULL;
 
-	if(_type == ServerEntity::Type::StaticType)
+	if(_type == ServerEntity::Type::StaticType || _type == ServerEntity::Type::GoalType)
 	{
 		vector<ServerEntity*> serverEntities;
 		EntityHandler::m_quadtree->getAllServerEntites(serverEntities);
@@ -302,6 +300,34 @@ ServerEntity* EntityHandler::getClosestStatic(ServerEntity *entity)
 	}
 }
 
+ServerEntity* EntityHandler::getClosestStaticWithExtents(ServerEntity *entity)
+{
+	float shortestDistance = 9999999999.3f;
+	int shortestIndex = -1;
+
+	vector<ServerEntity*> entities;
+	m_quadtree->getAllServerEntites(entities);
+
+	for(int i = 0; i < entities.size(); i++)
+	{
+		if(entities[i] != entity && (entity->getPosition() - entities[i]->getPosition()).length()-sqrt(entities[i]->getObb()->Extents.x*entities[i]->getObb()->Extents.x + entities[i]->getObb()->Extents.z*entities[i]->getObb()->Extents.z)
+			< shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
+		{
+			shortestDistance = abs((entity->getPosition() - entities[i]->getPosition()).length());
+			shortestIndex = i;
+		}
+	}
+
+	if(shortestIndex > -1)
+	{
+		return entities[shortestIndex];
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
 ServerEntity* EntityHandler::getClosestSuperStatic(FLOAT3 _pos)
 {
 	float shortestDistance = 9999999999.3f;
@@ -312,11 +338,14 @@ ServerEntity* EntityHandler::getClosestSuperStatic(FLOAT3 _pos)
 
 	for(int i = 0; i < entities.size(); i++)
 	{
-		if((_pos - entities[i]->getPosition()).length() < shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
+		if((_pos - entities[i]->getPosition()).length() -sqrt(entities[i]->getObb()->Extents.x*entities[i]->getObb()->Extents.x + entities[i]->getObb()->Extents.z*entities[i]->getObb()->Extents.z)
+			< shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
 		{
 			shortestDistance = abs((_pos - entities[i]->getPosition()).length());
 			shortestIndex = i;
 		}
+
+		
 	}
 
 	if(shortestIndex > -1)

@@ -26,3 +26,8 @@ void TeslaChainTurret::target(ServerEntity* _target)
 	EntityHandler::addEntity(new ChainStrikeEffect(_target->getId(), this->m_numberOfHits, this->m_damage, this->m_id));
 	this->m_attackCooldown = TeslaChainTurret::COOLDOWN;
 }
+
+int TeslaChainTurret::getCost()
+{
+	return TeslaChainTurret::COST;
+}

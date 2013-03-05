@@ -4,7 +4,7 @@ RunClientSkillEffect::RunClientSkillEffect(unsigned int masterId)
 {
 	Entity* master = ClientEntityHandler::getEntity(masterId);
 
-	if(master != NULL)
+	if(master != NULL && master->m_type == ServerEntity::HeroType)
 	{
 		if(master->m_weapon == ModelIdHolder::AOE)
 		{

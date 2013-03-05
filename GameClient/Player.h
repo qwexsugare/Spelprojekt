@@ -25,12 +25,18 @@ private:
 	unsigned int m_id;
 	unsigned int m_resources;
 	int m_attributesBought;
+	float m_respawnTimer;
+	int m_nrOfDeaths;
+
+	FLOAT3 m_heroSpawnLocation;
 
 	bool m_ready;
 	MessageQueue *m_messageQueue;
 	Hero *m_hero;
 	Hero::HERO_TYPE m_selectedHeroType;
 	Hero::WEAPON_TYPE m_selectedWeaponType;
+
+	TimeIsMoney *getTimeIsMoney();
 public:
 	Player(unsigned int id);
 	~Player();
