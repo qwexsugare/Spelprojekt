@@ -28,40 +28,49 @@ private:
 	D3DXMATRIX	worldMatrix;
 	D3DXVECTOR4 position;
 	D3DXQUATERNION rotation;
-	D3DXVECTOR3 scale;
+	D3DXVECTOR2 scale;
 
 	ID3D10Buffer* vertexBuffer;
 	ID3D10Buffer* drawVB;
 	ID3D10Buffer* streamOutVB;
-
 	UINT maxParticles;
-
 	void CreateRandomTex();
-
 	float totalTime;
 	float dt;
 
 	bool firstTime;
 
 	void DrawGPUBased(ParticleEngineEffectFile* _particleRendering, Camera* _camera);
+	void DrawGPUBeacon(ParticleEngineEffectFile* _particleRendering);
+	void DrawGPUCirclePuls(ParticleEngineEffectFile* _particleRendering);
+	void DrawGPUSphere(ParticleEngineEffectFile* _particleRendering);
+	void DrawGPUUpSideDownTwist(ParticleEngineEffectFile* _particleRendering);
 	
-	bool isDead;
+	enum ParticleBehavior{	Beacon,
+							CirclePuls, 
+							Sphere, 
+							UpSideDownTwist};
+
+	ParticleBehavior behavior;
+
+	bool isAlive;
 public:
 	enum EngineType{CPUAndModels, CPUAndGShader, GPUBased};
 
-	ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR3 _scale);
+	ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR2 _scale);
 	~ParticleEngine();
 
 	const D3DXMATRIX&	getWorldMatrix()const { return worldMatrix; }
 	const D3DXVECTOR4&	getPosition()const { return position; }
 	const D3DXQUATERNION&	getRotation() const { return rotation; }
-	const D3DXVECTOR3&	getScale()const { return scale; }
+	const D3DXVECTOR2&	getScale()const { return scale; }
 	const UINT&	getType()const { return type; }
 	const BoundingSphere& getBs()const { return m_bs; }
 
-	void setPosition(D3DXVECTOR3& _pos);
-	void setRotation(D3DXVECTOR3& _rot);
-	void setScale(D3DXVECTOR3& _scale);
+	DECLDIR void setPosition(D3DXVECTOR3& _pos);
+	DECLDIR void setRotation(D3DXQUATERNION& _rot);
+	DECLDIR void setScale(D3DXVECTOR2& _scale);
+	DECLDIR void setAlive(bool _alive);
 	void Draw(ParticleEngineEffectFile* _particleRendering, Camera* _camera);
 	void Update(float _dt);
 	void Troll();

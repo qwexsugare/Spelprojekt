@@ -1,0 +1,71 @@
+Game statistics: 
+----------------
+Time played: 778.077
+Life remaining: -48
+Reached wave: 2
+
+Player Statistics:
+------------------
+Player name: 
+Hero played: Doctor
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 378
+
+Damage statistics: 
+Total damage dealt: 0
+Physical damage taken: 107
+Mental damage taken: 44
+Physical damage dealt: 0
+Mental damage dealt: 0
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+320023072
+0
+0
+0
+0
+0
+0
+0
+0
+0
+3015428
+3003318
+0
+3013972
+3011010
+3015498
+3015282
+3003070
+0
+1569060772
+0
+1568063928
+1567366624
+1565356816
+1565354064
+1960636261
+0
+1886611780
+1380275029
+1096171856
+1851869299
+---------------

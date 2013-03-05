@@ -31,6 +31,9 @@
     <Filter Include="Text">
       <UniqueIdentifier>{cc9ad434-5a01-4619-8772-44ba467a5796}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader files\ParticleBehavior">
+      <UniqueIdentifier>{97800d01-2d62-47b9-8391-7a8fff6ff282}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHandler.h">
@@ -165,6 +168,12 @@
     <ClInclude Include="ParticleEngineEffectFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleEffectImporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -272,6 +281,9 @@
     <ClCompile Include="ParticleEngineEffectFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleEffectImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\GameClient\ForwardRendering.fx">
@@ -294,6 +306,21 @@
     </FxCompile>
     <FxCompile Include="..\GameClient\ParticleEngineRendering.fx">
       <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\Beacon.fx">
+      <Filter>Shader files\ParticleBehavior</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\ParticleSystemStructs.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\UpSideDownTwist.fx">
+      <Filter>Shader files\ParticleBehavior</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\CirclePuls.fx">
+      <Filter>Shader files\ParticleBehavior</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\Sphere.fx">
+      <Filter>Shader files\ParticleBehavior</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -31,14 +31,19 @@ cbuffer cb
 	float4 camPosW;
 	float4 emitPosW;
 	float4 emitDirW;
-
+	float4 tintColor;
+	float2 size;
 	float totalTime;
 	float dt;
 	float4x4 viewProj;
+	bool isAlive;
+
 };
 
 cbuffer cbFixed
 {
+	float nrOfSpawnParticles = 16;
+
 	//Used to accelrate particles
 	float3 accel = {0.0f, 0.08f, 0.0f};
 

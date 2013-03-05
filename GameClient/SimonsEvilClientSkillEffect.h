@@ -10,6 +10,7 @@ private:
 	Model* m_model;
 	int m_sound;
 	float m_timer;
+	ParticleEngine* m_particleSystem;
 public:
 	SimonsEvilClientSkillEffect(unsigned int _masterId);
 	~SimonsEvilClientSkillEffect();
