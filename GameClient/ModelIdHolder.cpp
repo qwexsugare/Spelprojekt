@@ -10,6 +10,7 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[6] = ModelId("CloudOfDarkness");
 	this->m_modelIds[7] = ModelId("Pentagram");
 	this->m_modelIds[8] = ModelId("redKnightPassiveAura");
+	this->m_modelIds[9] = ModelId("wall");
 
 	this->m_modelIds[80] = ModelId("Imp", "color", "glowIntensity"); //Frost demon
 	this->m_modelIds[81] = ModelId("Imp", "color1", "glowIntensity1"); //Imp
@@ -21,11 +22,11 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[86] = ModelId("Beast", "color2", "glowIntensity2"); //Hellfire
 	this->m_modelIds[87] = ModelId("Beast", "color3", "glowIntensity3"); //Thunder
 
-	this->m_modelIds[95] = ModelId("Char1_5", "color", "", "DECLHatt"); //Officer
-	this->m_modelIds[96] = ModelId("Char1_5", "color1", "", "IronMan"); //Red Knight
-	this->m_modelIds[97] = ModelId("Char1_5", "color2", "", "GasMask"); //Engineer
-	this->m_modelIds[98] = ModelId("Char1_5", "color3", "", "Kubb");  //Doctor
-	this->m_modelIds[99] = ModelId("Char1_5", "color4", "", "TopHat"); //Mentalist
+	this->m_modelIds[95] = ModelId("Char", "color", "", "DECLHatt"); //Officer
+	this->m_modelIds[96] = ModelId("Char", "color1", "", "IronMan"); //Red Knight
+	this->m_modelIds[97] = ModelId("Char", "color2", "", "GasMask"); //Engineer
+	this->m_modelIds[98] = ModelId("Char", "color3", "", "Kubb");  //Doctor
+	this->m_modelIds[99] = ModelId("Char", "color4", "", "TopHat"); //Mentalist
 
 	//Officer
 	this->m_modelIds[95].weapons[WEAPON_TYPE::MELEE] = WeaponSet("OfficerRapier", "lantern");

@@ -11,6 +11,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_agility = 1;
 	this->m_wits = 1;
 	this->m_fortitude = 1;
+	this->m_turretConstruction = 1;
 
 	this->m_baseAttackSpeed = 2.0f;
 	this->m_attackSpeedChange = 0.0f;
@@ -32,7 +33,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_deadlyStrikeChance = 0;
 	this->m_poisonCounter = 0;
 	this->m_greed = 1.0f;
-	this->m_turretDuration = 10.0f;
+	this->m_turretDuration = 1;
 	this->m_attackCooldown = 0.0f;
 	
 	m_swiftAsACatPowerfulAsABear = false;
@@ -230,10 +231,23 @@ void UnitEntity::increaseWits(int _wits)
 void UnitEntity::increaseFortitude(int _fortitude)
 {	
 	// Prevents the attribute gain to exceed max and minimizes the gain.
-	if(_fortitude+m_fortitude > UnitEntity::MAX_WITS)
-		_fortitude = UnitEntity::MAX_WITS - m_fortitude;
+	if(_fortitude+m_fortitude > UnitEntity::MAX_FORTITUDE)
+		_fortitude = UnitEntity::MAX_FORTITUDE - m_fortitude;
 
+	m_maxHealth += 100*_fortitude;
+	m_health += 100*_fortitude;
+	m_mentalDamage += _fortitude*0.02f;
 	m_fortitude += _fortitude;
+}
+
+void UnitEntity::increaseTurretConstruction(int _towerConstruction)
+{
+	if(_towerConstruction + this->m_turretConstruction > UnitEntity::MAX_TURRET_CONSTRUCTION)
+	{
+		_towerConstruction = UnitEntity::MAX_TURRET_CONSTRUCTION - this->m_turretConstruction;
+	}
+
+	this->m_turretConstruction += _towerConstruction;
 }
 
 bool UnitEntity::isSlowedByFrostTurret()
@@ -287,9 +301,9 @@ void UnitEntity::setGreed(float _greed)
 	this->m_greed = _greed;
 }
 
-void UnitEntity::setTurretDuration(float _turretDuration)
+void UnitEntity::alterTurretDuration(int _turretDuration)
 {
-	this->m_turretDuration = _turretDuration;
+	this->m_turretDuration += _turretDuration;
 }
 
 int UnitEntity::getStrength()
@@ -310,6 +324,11 @@ int UnitEntity::getWits()
 int UnitEntity::getFortitude()
 {
 	return this->m_fortitude;
+}
+
+int UnitEntity::getTurretConstruction()
+{
+	return this->m_turretConstruction;
 }
 
 int UnitEntity::getPoisonStacks()const
@@ -362,7 +381,7 @@ float UnitEntity::getGreed()
 	return this->m_greed;
 }
 
-float UnitEntity::getTurretDuration()
+int UnitEntity::getTurretDuration()
 {
 	return this->m_turretDuration;
 }
@@ -379,6 +398,20 @@ int UnitEntity::getPoisonCounter()
 
 void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
+	int networkId=Statistics::convertSimonsIdToRealId(damageDealerId);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).addMentalDamageDealth(mentalDamage* this->m_mentalResistance);
+		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageDealth(physicalDamage* this->m_physicalResistance);
+	}
+
+	networkId=Statistics::convertSimonsIdToRealId(this->m_id);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).addMentalDamageRecived(mentalDamage* this->m_mentalResistance);
+		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageRecived(physicalDamage* this->m_physicalResistance);
+	}
+
 	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
 	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
 	this->m_lastDamageDealer = damageDealerId;
@@ -403,7 +436,13 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 
 void UnitEntity::heal(int health)
 {
+	int networkId=Statistics::convertSimonsIdToRealId(this->m_id);
+	if(networkId>=0)
+	{
+		Statistics::getStatisticsPlayer(networkId).increaseHealdAmount(health);
+	}
 	this->m_health = min(m_health+health, m_maxHealth);
+	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(),(float)((float)this->m_health / (float)this->m_maxHealth) * 1000.0f));
 }
 
 void UnitEntity::stun(float _time)

@@ -48,9 +48,7 @@ bool ClientEntityHandler::removeEntity(Entity *_entity)
 
 vector<Entity*> ClientEntityHandler::getEntities()
 {
-	vector<Entity*> result = ClientEntityHandler::m_entities;
-	
-	return result;
+	return ClientEntityHandler::m_entities;
 }
 
 Entity* ClientEntityHandler::getEntity(unsigned int id)

@@ -110,8 +110,9 @@ void Server::goThroughSelector()
 					{
 						for(int i=0;i<MAXPLAYERS;i++)
 						{
-							if(this->clients[i]==sock)
+							if(this->clients[i]==sock&&this->m_players[i]!=0)
 							{
+								this->m_messageHandler->removeQueue(this->m_players[i]->getMessageQueue()->getId());
 								this->clients[i].Close();
 								delete this->m_players[i];
 								this->m_players[i]=0;
@@ -218,7 +219,7 @@ void Server::handleMessages()
 			
 		case Message::initEntities:
 			m8 =(InitEntityMessage*)m;
-			iem = NetworkInitEntityMessage(m8->entityType, m8->modelid, m8->weaponType, m8->id,m8->xPos,m8->zPos,m8->yRot,m8->scale,m8->health,m8->sx,m8->sz,m8->ex,m8->ez,m8->movementspeed);
+			iem = NetworkInitEntityMessage(m8->entityType, m8->subtype, m8->modelid, m8->weaponType, m8->id,m8->xPos,m8->zPos,m8->yRot,m8->scale,m8->health,m8->sx,m8->sz,m8->ex,m8->ez,m8->movementspeed);
 			this->broadcast(iem);
 			break;
 
@@ -556,13 +557,17 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		this->m_mutex.Unlock();
 		break;
 	case NetworkMessage::Disconnect:
-		for(int i=0;i<MAXPLAYERS;i++)
-		{
-			this->clients[socketIndex].Close();
-			delete this->m_players[socketIndex];
-			this->m_players[socketIndex]=0;
-			this->nrOfPlayers--;
-		}
+		this->selector.Remove(this->clients[socketIndex]);
+		this->clients[socketIndex].Close();
+		this->m_messageHandler->removeQueue(this->m_players[socketIndex]->getMessageQueue()->getId());
+		delete this->m_players[socketIndex];
+		this->m_players[socketIndex]=0;
+		this->nrOfPlayers--;
+		break;
+	case NetworkMessage::setPlayerName:
+		string pname;
+		packet >> pname;
+		Statistics::getStatisticsPlayer(socketIndex).setPlayerName(pname);
 		break;
 	}
 
@@ -574,7 +579,7 @@ vector<Player*> Server::getPlayers()
 	vector<Player*> p;
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
-		if(this->clients[i].IsValid())
+		if(this->m_players[i]!=0)
 			p.push_back(this->m_players[i]);
 	}
 	return p;

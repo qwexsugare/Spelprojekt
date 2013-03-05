@@ -8,7 +8,7 @@ World::World()
 World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 {
 	this->m_deviceHandler = _deviceHandler;
-	this->m_sprites = vector<SpriteBase*>();
+	this->m_spritesMiddle = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
 	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2());
 
@@ -39,6 +39,9 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	int trollSize2 = 1080/4;
 	this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
 	this->m_glowRenderTarget2 = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
+
+	//ParticleStuff
+	this->m_particleRendering =  new ParticleEngineEffectFile(this->m_deviceHandler->getDevice());
 
 	//SSAO
 	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
@@ -75,9 +78,14 @@ World::~World()
 	for(int i = 0; i < m_models.size(); i++)
 		delete m_models[i];
 
-	for(int i = 0; i < this->m_sprites.size(); i++)
+	for(int i = 0; i < this->m_spritesMiddle.size(); i++)
 	{
-		delete this->m_sprites[i];
+		delete this->m_spritesMiddle[i];
+	}
+
+	for(int i = 0; i < this->m_spritesFront.size(); i++)
+	{
+		delete this->m_spritesFront[i];
 	}
 
 	for(int i = 0; i < this->m_pointLights.size(); i++)
@@ -112,6 +120,7 @@ World::~World()
 	delete this->m_deferredRendering;
 	delete this->m_glowRendering;
 	delete this->m_SSAORendering;
+	delete this->m_particleRendering;
 
 	delete this->m_positionBuffer;
 	delete this->m_normalBuffer;
@@ -666,11 +675,13 @@ void World::render()
 	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
 	while(!pes.empty())
 	{
-		//pes.top()->getstuffandrendershit();
+		pes.top()->Draw(m_particleRendering, m_camera);
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
 	}
-	
+
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
 	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
 
 	for(int i = 0; i < m_models.size(); i++)
@@ -697,15 +708,17 @@ void World::render()
 		}
 	}
 	
-	//Sprites
-	for(int i = 0; i < this->m_sprites.size(); i++)
-	{
-		if(this->m_sprites[i]->getVisible() == true)
-		{
-			this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer(), sizeof(Vertex));
+	m_deviceHandler->setInputLayout(m_spriteRendering->getVertexLayout());		
 
-			this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
-			this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
+	//Sprites in the middle
+	for(int i = 0; i < this->m_spritesMiddle.size(); i++)
+	{
+		if(this->m_spritesMiddle[i]->getVisible() == true)
+		{
+			this->m_deviceHandler->setVertexBuffer(m_spritesMiddle[i]->getBuffer(), sizeof(Vertex));
+
+			this->m_spriteRendering->setModelMatrix(m_spritesMiddle[i]->getModelMatrix());
+			this->m_spriteRendering->setTexture(m_spritesMiddle[i]->getTexture());
 
 			D3D10_TECHNIQUE_DESC techDesc;
 			this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
@@ -713,7 +726,7 @@ void World::render()
 			for( UINT p = 0; p < techDesc.Passes; p++ )
 			{
 				this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(m_sprites[i]->getNrOfVertices(), this->m_sprites[i]->getStartIndex());
+				this->m_deviceHandler->getDevice()->Draw(m_spritesMiddle[i]->getNrOfVertices(), this->m_spritesMiddle[i]->getStartIndex());
 			}
 		}
 	}
@@ -735,6 +748,27 @@ void World::render()
 			{
 				this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 				this->m_deviceHandler->getDevice()->Draw(m_myTexts[i]->getNumberOfPoints(), 0);
+			}
+		}
+	}
+
+	//Sprites in front of the text
+	for(int i = 0; i < this->m_spritesFront.size(); i++)
+	{
+		if(this->m_spritesFront[i]->getVisible() == true)
+		{
+			this->m_deviceHandler->setVertexBuffer(m_spritesFront[i]->getBuffer(), sizeof(Vertex));
+
+			this->m_spriteRendering->setModelMatrix(m_spritesFront[i]->getModelMatrix());
+			this->m_spriteRendering->setTexture(m_spritesFront[i]->getTexture());
+
+			D3D10_TECHNIQUE_DESC techDesc;
+			this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{
+				this->m_spriteRendering->getTechnique()->GetPassByIndex(p)->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(m_spritesFront[i]->getNrOfVertices(), this->m_spritesFront[i]->getStartIndex());
 			}
 		}
 	}
@@ -982,14 +1016,25 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 void World::update(float dt)
 {
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
+	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
+
 	//SpriteSheets
-	for(int i = 0; i < this->m_sprites.size(); i++)
+	for(int i = 0; i < this->m_spritesMiddle.size(); i++)
 	{
-		this->m_sprites[i]->update(dt);
+		this->m_spritesMiddle[i]->update(dt);
 	}
 
 	for(int i = 0; i < m_models.size(); i++)
 		m_models[i]->Update(dt);
+	
+	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
+	while(!pes.empty())
+	{
+		pes.top()->Update(dt);
+		/* What do you call a sheep with no legs? A cloud. */
+		pes.pop();
+	}
 
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
 	//while(!models.empty())
@@ -1039,32 +1084,66 @@ void World::addSprite(SpriteBase *sprite)
 {
     bool found = false;
 
-    for(int i = 0; i < this->m_sprites.size() && found == false; i++)
-    {
-            if(this->m_sprites[i]->getLayer() > sprite->getLayer())
-            {
-                    this->m_sprites.insert(this->m_sprites.begin() + i, sprite);
-                    found = true;
-            }
-    }
+	if(sprite->getLayer() > World::TEXT_LAYER)
+	{
+		for(int i = 0; i < this->m_spritesFront.size() && found == false; i++)
+		{
+			if(this->m_spritesFront[i]->getLayer() > sprite->getLayer())
+			{
+					this->m_spritesFront.insert(this->m_spritesFront.begin() + i, sprite);
+					found = true;
+			}
+		}
 
-    if(found == false)
-    {
-		this->m_sprites.push_back(sprite);
-    }
+		if(found == false)
+		{
+			this->m_spritesFront.push_back(sprite);
+		}
+	}
+	else
+	{
+		for(int i = 0; i < this->m_spritesMiddle.size() && found == false; i++)
+		{
+			if(this->m_spritesMiddle[i]->getLayer() > sprite->getLayer())
+			{
+					this->m_spritesMiddle.insert(this->m_spritesMiddle.begin() + i, sprite);
+					found = true;
+			}
+		}
+
+		if(found == false)
+		{
+			this->m_spritesMiddle.push_back(sprite);
+		}
+	}
 }
 
 bool World::removeSprite(SpriteBase *sprite)
 {
 	bool found = false;
 
-	for(int i = 0; i < this->m_sprites.size() && !found; i++)
+	if(sprite->getLayer() > World::TEXT_LAYER)
 	{
-		if(this->m_sprites[i] == sprite)
+		for(int i = 0; i < this->m_spritesFront.size() && !found; i++)
 		{
-			delete this->m_sprites[i];
-			this->m_sprites.erase(this->m_sprites.begin()+i);
-			found = true;
+			if(this->m_spritesFront[i] == sprite)
+			{
+				delete this->m_spritesFront[i];
+				this->m_spritesFront.erase(this->m_spritesFront.begin()+i);
+				found = true;
+			}
+		}
+	}
+	else
+	{
+		for(int i = 0; i < this->m_spritesMiddle.size() && !found; i++)
+		{
+			if(this->m_spritesMiddle[i] == sprite)
+			{
+				delete this->m_spritesMiddle[i];
+				this->m_spritesMiddle.erase(this->m_spritesMiddle.begin()+i);
+				found = true;
+			}
 		}
 	}
 

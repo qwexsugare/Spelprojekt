@@ -62,7 +62,7 @@ MapHandler::State MapHandler::getState()
 	{
 		return MapHandler::State::DEFEAT;
 	}
-	else if(this->m_currentWave > this->m_waves.size())
+	else if(this->m_currentWave >= this->m_waves.size())
 	{
 		return MapHandler::State::VICTORY;
 	}
@@ -259,6 +259,7 @@ void MapHandler::loadMap(std::string filename)
 
 void MapHandler::update(float _dt)
 {
+	Statistics::addTime(_dt);
 	if(m_waveTimer > 0.0f)
 	{
 		m_waveTimer = max(m_waveTimer-_dt, 0.0f);
@@ -278,6 +279,7 @@ void MapHandler::update(float _dt)
 			else
 			{
 				m_currentWave++;
+				Statistics::waveFinnished();
 				this->m_waveTimer = -1.0f;
 			}
 		}

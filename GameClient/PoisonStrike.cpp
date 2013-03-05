@@ -25,7 +25,7 @@ bool PoisonStrike::activate(unsigned int _targetId, unsigned int _senderId)
 			target->setPoisonCounter(target->getPoisonCounter() + 1);
 		}
 
-		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, 100 + target->getPoisonCounter() * 5, 0, Skill::POISON_STRIKE));
+		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, 0,  target->getPoisonCounter() * 5, Skill::POISON_STRIKE));
 		triggered = true;
 	}
 

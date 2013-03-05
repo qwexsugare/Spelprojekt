@@ -221,11 +221,13 @@ struct InitEntityMessage :Message
 	float yRot;
 	float scale;
 	int health;
+	unsigned short subtype;
 	unsigned short entityType;
 	unsigned short weaponType;
 	float movementspeed;
-	InitEntityMessage(unsigned short ET, unsigned short modelid, unsigned short weaponType,unsigned short id, float xpos, float zpos, float yrot, float scale,int health,float sx, float sz,float ex, float ez,float mms)
+	InitEntityMessage(unsigned short ET, unsigned short subtype, unsigned short modelid, unsigned short weaponType,unsigned short id, float xpos, float zpos, float yrot, float scale,int health,float sx, float sz,float ex, float ez,float mms)
 	{
+		this->subtype = subtype;
 		this->id=id;
 		this->reciverId=1;
 		this->type=Type::initEntities;
