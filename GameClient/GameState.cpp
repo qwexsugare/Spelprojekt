@@ -40,6 +40,7 @@ GameState::GameState(Client *_network)
 		m_moveSounds[0] = createSoundHandle("red_knight/RedKnight_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("red_knight/RedKnight_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("red_knight/RedKnight_Click_2.wav", false, false);
+		m_lowHealthSound = createSoundHandle("red_knight/RedKnight_LowHealth_0.wav", false, false);
 		break;
 	case Hero::ENGINEER:
 		m_idleSound = createSoundHandle("Engineer_Idle_0.wav", false, false);
@@ -49,6 +50,7 @@ GameState::GameState(Client *_network)
 		m_moveSounds[0] = createSoundHandle("engineer/Engineer_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("engineer/Engineer_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("engineer/Engineer_Click_2.wav", false, false);
+		m_lowHealthSound = createSoundHandle("engineer/Engineer_LowHealth_0.wav", false, false);
 		break;
 	case Hero::THE_MENTALIST:
 		m_idleSound = createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
@@ -58,6 +60,7 @@ GameState::GameState(Client *_network)
 		m_moveSounds[0] = createSoundHandle("mentalist/Mentalist_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("mentalist/Mentalist_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("mentalist/Mentalist_Click_2.wav", false, false);
+		m_lowHealthSound = createSoundHandle("mentalist/Mentalist_LowHealth_0.wav", false, false);
 		break;
 	case Hero::OFFICER:
 		m_idleSound = createSoundHandle("officer/Officer_Death_1.wav", false, false);
@@ -67,6 +70,7 @@ GameState::GameState(Client *_network)
 		m_moveSounds[0] = createSoundHandle("officer/Officer_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("officer/Officer_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("officer/Officer_Click_2.wav", false, false);
+		m_lowHealthSound = createSoundHandle("officer/Officer_LowHealth_0.wav", false, false);
 		break;
 	case Hero::DOCTOR:
 		m_idleSound = createSoundHandle("doctor/Doctor_Idle.wav", false, false);
@@ -76,6 +80,7 @@ GameState::GameState(Client *_network)
 		m_moveSounds[0] = createSoundHandle("doctor/Doctor_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("doctor/Doctor_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("doctor/Doctor_Click_2.wav", false, false);
+		m_lowHealthSound = createSoundHandle("doctor/Doctor_LowHealth_0.wav", false, false);
 		break;
 	}
 
@@ -102,6 +107,15 @@ GameState::~GameState()
 		g_graphicsEngine->removeRoad(m_roads[i]);
 	for(int i = 0; i < m_ClientSkillEffects.size(); i++)
 		delete m_ClientSkillEffects[i];
+	if(m_minimap)
+		delete this->m_minimap;
+	delete this->m_hud;
+	delete this->m_clientEntityHandler;
+	g_graphicsEngine->removeText(m_healthText);
+	if(this->testParticleSystem)
+		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
+
+	// Release all sounds
 	for(int i = 0; i < GameState::NR_OF_ATTACK_SOUNDS; i++)
 	{
 		stopSound(m_attackSounds[i]);
@@ -112,15 +126,8 @@ GameState::~GameState()
 		stopSound(m_moveSounds[i]);
 		deactivateSound(m_moveSounds[i]);
 	}
-
-	if(m_minimap)
-		delete this->m_minimap;
-	//delete this->m_network;
-	delete this->m_hud;
-	delete this->m_clientEntityHandler;
-	g_graphicsEngine->removeText(m_healthText);
-	if(this->testParticleSystem)
-		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
+	stopSound(m_lowHealthSound);
+	deactivateSound(m_lowHealthSound);
 }
 
 State::StateEnum GameState::nextState()
@@ -137,6 +144,8 @@ void GameState::update(float _dt)
 	//this->m_cursor.setPosition(g_mouse->getPos());
 	SpeechManager::update();
 
+	// Update sound timers
+	m_lowHealthSoundDelayTimer = max(m_lowHealthSoundDelayTimer-_dt, 0.0f);
 	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
 	if(!isSoundPlaying(m_idleSound))
 	{
@@ -204,6 +213,11 @@ void GameState::update(float _dt)
 		NetworkUpdateEntityHealth ueh = this->m_network->updateEntityHealthFront();
 		if(ueh.getId() == this->m_playerInfos[this->m_yourId].id)
 		{
+			if(ueh.getHealth() < 200 && m_lowHealthSoundDelayTimer == 0.0f)
+			{
+				SpeechManager::speak(m_playerInfos[m_yourId].id, m_lowHealthSound);
+				m_lowHealthSoundDelayTimer = LOW_HEALTH_SOUND_DELAY;
+			}
 			this->m_hud->setHealth(ueh.getHealth());
 		}
 	}
