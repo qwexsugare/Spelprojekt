@@ -3,7 +3,7 @@
 RedKnight::RedKnight(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::RED_KNIGHT, _playerId)
 {
 	m_modelId = 96;
-	this->increaseStrength(30);
+	this->increaseStrength(5);
 	this->increaseAgility(2);
 	this->increaseWits(1);
 	this->increaseFortitude(4);
