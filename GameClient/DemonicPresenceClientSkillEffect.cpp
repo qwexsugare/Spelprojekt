@@ -26,10 +26,14 @@ DemonicPresenceClientSkillEffect::~DemonicPresenceClientSkillEffect()
 
 void DemonicPresenceClientSkillEffect::update(float _dt)
 {
-	FLOAT3 pos = ClientEntityHandler::getEntity(m_masterId)->m_model->getPosition();
-	pos.y = 0.01f;
-	m_model->setPosition(pos);
-	m_model->rotate(_dt/3.0f, 0.0f, 0.0f);
+	Entity *e = ClientEntityHandler::getEntity(m_masterId);
+	if(e != NULL)
+	{
+		FLOAT3 pos = e->m_model->getPosition();
+		pos.y = 0.01f;
+		m_model->setPosition(pos);
+		m_model->rotate(_dt/3.0f, 0.0f, 0.0f);
+	}
 }
 
 bool DemonicPresenceClientSkillEffect::getActive()
