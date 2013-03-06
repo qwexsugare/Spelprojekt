@@ -9,7 +9,7 @@
 class Enemy : public UnitEntity
 {
 public:
-	static enum EnemyType{BRUTE_STEED, FROST_DEMON, HELLFIRE_STEED, IMP, SHADE, SOUL_EATER_STEED, SPITTING_DEMON, THUNDERSTEED};
+	static enum EnemyType{BRUTE_STEED, FROST_DEMON, HELLFIRE_STEED, IMP, SHADE, SOUL_EATER_STEED, SPITTING_DEMON, THUNDERSTEED, NONE};
 private:
 	float lastDT;
 protected:

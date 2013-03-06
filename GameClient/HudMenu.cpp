@@ -63,7 +63,23 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.6f,  -0.90f),FLOAT2(0.375f/2,  0.666666667f/2),1));	
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.6f,  -0.90f),FLOAT2(0.375f/1.4f,  0.666666667f/1.4f),1));
 	
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures/Imp-0.png", FLOAT2(-0.9f,  -0.8f), FLOAT2(0.1f,  0.1f), 9));
+	m_enemyIcons[Enemy::EnemyType::IMP] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::IMP]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::SHADE] = g_graphicsEngine->createSprite("menu_textures/Imp-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SHADE]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::FROST_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-0.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::FROST_DEMON]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-2.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-0.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED]->setVisible(false);
+	m_currentTargetEnemy = Enemy::NONE;
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
@@ -534,6 +550,9 @@ HudMenu::~HudMenu(void)
 		delete this->m_disabledShopButtons[i];
 	}
 
+	for(map<Enemy::EnemyType, Sprite*>::iterator iter = m_enemyIcons.begin(); iter != m_enemyIcons.end(); iter++)
+		g_graphicsEngine->removeSprite(iter->second);
+
 	for(int i = 0; i < this->m_shopBackground.size(); i++)
 	{
 		g_graphicsEngine->removeSprite(this->m_shopBackground[i]);
@@ -667,4 +686,15 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 void HudMenu::setHealth(float health)
 {
 	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.565555556f));
+}
+
+void HudMenu::setTargetEnemy(Enemy::EnemyType _enemyType)
+{
+	if(m_currentTargetEnemy != Enemy::NONE)
+		m_enemyIcons[m_currentTargetEnemy]->setVisible(false);
+
+	if(_enemyType != Enemy::NONE)
+		m_enemyIcons[_enemyType]->setVisible(true);
+
+	m_currentTargetEnemy = _enemyType;
 }
