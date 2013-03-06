@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 49.5558
-Life remaining: 100
-Reached wave: 0
+Time played: 109.653
+Life remaining: 81
+Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Officer
-Deamons killed: 0
+Hero played: Red knight
+Deamons killed: 7
 Player deaths: 0
-Resources collected: 0
+Resources collected: 202
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
+Total damage dealt: 1245
+Physical damage taken: 163
 Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
+Physical damage dealt: 229
+Mental damage dealt: 1016
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -41,9 +41,7 @@ Skills used:
 0
 0
 0
-0
-1919117677
-0
+1868983881
 0
 0
 0
@@ -57,17 +55,19 @@ Skills used:
 0
 0
 0
-993802996
-832385406
-962541884
-28672
-846082654
-939276212
-981547622
-1011235854
-924989142
-1028603199
-826749223
-1014512703
-865416070
+0
+971192788
+16342
+881144946
+1038892508
+810954818
+925120220
+966474102
+1000160125
+894579974
+993999646
+825045287
+1018051752
+887632883
+908998074
 ---------------

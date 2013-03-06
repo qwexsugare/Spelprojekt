@@ -126,25 +126,25 @@ vector<Position> Pathfinder::getPath(Position start, Position end)
 
 	vector<Position> p;
 	//tries to smooth the path
-	if(correctPath.size()>1)
-	{
-		Position start = correctPath[0];
-		p.push_back(start);
-		for(int i=1;i<correctPath.size()-1;i++)
-		{
-			if(this->walkableDistance(start,correctPath[i]))
-			{
-			}
-			else
-			{
-				start=correctPath[i];
-				p.push_back(start);
-			}
-		}
-		p.push_back(correctPath[correctPath.size()-1]);
-	}
+	//if(correctPath.size()>1)
+	//{
+	//	Position start = correctPath[0];
+	//	p.push_back(start);
+	//	for(int i=1;i<correctPath.size()-1;i++)
+	//	{
+	//		if(this->walkableDistance(start,correctPath[i]))
+	//		{
+	//		}
+	//		else
+	//		{
+	//			start=correctPath[i];
+	//			p.push_back(start);
+	//		}
+	//	}
+	//	p.push_back(correctPath[correctPath.size()-1]);
+	//}
 	
-	return p;
+	return correctPath;
 }
 void Pathfinder::handleNodesNeighbour(Node* currentNode)
 {
@@ -300,5 +300,20 @@ Path Pathfinder::getPath(FLOAT2 start, FLOAT2 end)
 	else
 	{
 		return Path();
+	}
+}
+
+bool Pathfinder::sameGridPosition(FLOAT2 pos1, FLOAT2 pos2)
+{
+	Position startPos = Position(pos1.x * this->map.getWidth() / this->mapSize.x, pos1.y * this->map.getHeight() / this->mapSize.y);
+	Position endPos = Position(pos2.x * this->map.getWidth() / this->mapSize.x, pos2.y * this->map.getHeight() / this->mapSize.y);
+
+	if(startPos.getX() == endPos.getX() && startPos.getY() == endPos.getY())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }

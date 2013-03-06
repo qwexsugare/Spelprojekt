@@ -10,7 +10,7 @@ FrostTurret::FrostTurret()
 
 }
 
-FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20)
+FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId())
 {
 	this->m_modelId = 5;
 	this->m_slowEffect = (1 + _creator->getTurretConstruction() / 4) * -0.1;

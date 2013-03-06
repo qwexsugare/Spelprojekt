@@ -11,7 +11,7 @@ DeathPulseTurret::DeathPulseTurret()
 
 }
 
-DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20)
+DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId())
 {
 	this->m_modelId = 4;
 	
@@ -33,7 +33,7 @@ void DeathPulseTurret::target(ServerEntity* _target)
 
 	int damage = random(1, 10);
 	int healthBefore = _target->getHealth();
-	_target->takeDamage(this->getId(), 0, damage);
+	_target->takeDamage(this->m_ownerId, 0, damage);
 
 	// dbg
 	ofstream file("output.txt", ios::app);

@@ -2,6 +2,7 @@
 #include "EntityHandler.h"
 #include "DelayedDamage.h"
 #include "MyAlgorithms.h"
+#include "Turret.h"
 
 FrostTurretProjectile::FrostTurretProjectile(unsigned int _master, unsigned int _target, float _slowEffect)
 {
@@ -13,6 +14,7 @@ FrostTurretProjectile::FrostTurretProjectile(unsigned int _master, unsigned int 
 	ServerEntity* master = EntityHandler::getServerEntity(m_master);
 	ServerEntity* target = EntityHandler::getServerEntity(m_target);
 	m_timeToImpact = (target->getPosition() - master->getPosition()).length()/FrostTurretProjectile::VELOCITY;
+	this->m_masterOwner = ((Turret*)master)->getOwnerId();
 
 	// Calc position of projectile with offset from the pipe of the turret and send network msg
 	FLOAT3 distance = target->getPosition() - master->getPosition();
@@ -36,7 +38,7 @@ void FrostTurretProjectile::update(float _dt)
 		{
 			int damage = random(1, 5);
 			int healthBefore = target->getHealth();
-			target->takeDamage(m_master, damage, 0);
+			target->takeDamage(this->m_masterOwner, damage, 0);
 			((UnitEntity*)target)->applyFrostTurretSlowEffect(this->m_slowEffect);
 
 			// dbg

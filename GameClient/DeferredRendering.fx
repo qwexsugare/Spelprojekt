@@ -4,9 +4,10 @@ static const int MAX_POINT_LIGHT_SHADOWS = 100;
 Texture2D positionTexture;
 Texture2D normalTexture;
 Texture2D diffuseTexture;
-Texture2D tangentTexture;
+Texture2D viewCoordTexture;
 Texture2D spotLightShadowMaps[MAX_SPOT_LIGHTS];
 Texture2D pointLightShadowMaps[MAX_POINT_LIGHT_SHADOWS];
+Texture2D randomTex;
 
 
 SamplerState linearSampler 
@@ -62,6 +63,8 @@ cbuffer cbEveryFrame
 	float3 cameraPos;
 	float screenWidth = 1920;
 	float screenHeight = 1080;
+	float2 screenSize;
+	matrix viewMatrix;
 };
 
 // State Structures
@@ -198,7 +201,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
 	float4 normal = normalTexture.Sample(linearSampler, input.UVCoord);
 	float4 diffuse = diffuseTexture.Sample(linearSampler, input.UVCoord);
-	float4 tangent = tangentTexture.Sample(linearSampler, input.UVCoord);
+	float4 viewCoord = viewCoordTexture.Sample(linearSampler, input.UVCoord);
 	
 	float3 ambientLight = float3(0.0f, 0.0f, 0.0f);
 	float3 diffuseLight = float3(0.0f, 0.0f, 0.0f);
@@ -271,7 +274,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
 	
 	//return float4(0.5f*diffuseLight.xyz*diffuse + specularLight, diffuse.w);
-	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * tangent.w);
+	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * viewCoord.w);
 
 	
 	float3 fiskLight = normalize(float3(1, -1, 0));
