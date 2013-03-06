@@ -244,7 +244,6 @@ void Hero::updateSpecificUnitEntity(float dt)
 		this->m_alive = false;
 	}
 }
-}
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
