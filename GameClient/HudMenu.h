@@ -32,7 +32,7 @@ private:
 
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Chattext;	
-	TextLabel* m_ResourceLabel;	
+	TextLabel* m_ResourceLabel;
 
 	SpriteSheet *m_healthBar;
 	FLOAT2 m_fullHealthPos;
@@ -73,6 +73,7 @@ public:
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);
+	void setLivesLeft(int livesLeft);
 	void setTargetEnemy(Enemy::EnemyType _enemyType);
 };
 

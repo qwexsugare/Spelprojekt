@@ -301,9 +301,6 @@ void GameState::update(float _dt)
 		case Skill::CHAIN_STRIKE_FIRST_EXCEPTION:
 			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), true));
 			break;
-		case Skill::CHURCH_PENETRATED:
-			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
-			break;
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
@@ -438,6 +435,10 @@ void GameState::update(float _dt)
 			break;
 		case Skill::AOE_MELEE_ATTACK:
 			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
+			break;
+		case Skill::CHURCH_PENETRATED:
+			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
+			this->m_hud->setLivesLeft(e.getTargetId());
 			break;
 		}
 	}

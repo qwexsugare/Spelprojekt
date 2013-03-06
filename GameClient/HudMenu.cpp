@@ -698,3 +698,8 @@ void HudMenu::setTargetEnemy(Enemy::EnemyType _enemyType)
 
 	m_currentTargetEnemy = _enemyType;
 }
+
+void HudMenu::setLivesLeft(int livesLeft)
+{
+	//Update some text
+}
