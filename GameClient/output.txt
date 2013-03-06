@@ -1435,3 +1435,192 @@ Frost turret projectile did 3 damage and reduced health from 297 to 297
 Frost turret projectile did 1 damage and reduced health from 297 to 297
 Frost turret projectile did 5 damage and reduced health from 297 to 297
 Frost turret projectile did 4 damage and reduced health from 282 to 282
+Frost turret projectile did 1 damage and reduced health from 100 to 99
+Frost turret projectile did 1 damage and reduced health from 99 to 98
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 100 to 95
+Frost turret projectile did 4 damage and reduced health from 95 to 91
+Frost turret projectile did 3 damage and reduced health from 91 to 88
+Frost turret projectile did 2 damage and reduced health from 88 to 86
+Frost turret projectile did 2 damage and reduced health from 86 to 84
+Frost turret projectile did 5 damage and reduced health from 84 to 79
+Frost turret projectile did 1 damage and reduced health from 79 to 78
+Frost turret projectile did 1 damage and reduced health from 78 to 77
+Frost turret projectile did 3 damage and reduced health from 77 to 74
+Frost turret projectile did 1 damage and reduced health from 74 to 73
+Frost turret projectile did 4 damage and reduced health from 73 to 69
+Frost turret projectile did 3 damage and reduced health from 69 to 66
+Frost turret projectile did 5 damage and reduced health from 66 to 61
+Frost turret projectile did 4 damage and reduced health from 61 to 57
+Frost turret projectile did 2 damage and reduced health from 57 to 55
+Frost turret projectile did 2 damage and reduced health from 55 to 53
+Frost turret projectile did 4 damage and reduced health from 53 to 49
+Frost turret projectile did 3 damage and reduced health from 49 to 46
+Frost turret projectile did 5 damage and reduced health from 46 to 41
+Frost turret projectile did 4 damage and reduced health from 41 to 37
+Frost turret projectile did 2 damage and reduced health from 37 to 35
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 1 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 4 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 3 damage and reduced health from 300 to 300
+Frost turret projectile did 5 damage and reduced health from 300 to 300
+Frost turret projectile did 2 damage and reduced health from 100 to 98
+Frost turret projectile did 2 damage and reduced health from 98 to 96
+Frost turret projectile did 3 damage and reduced health from 100 to 97
+Frost turret projectile did 5 damage and reduced health from 97 to 92
+Frost turret projectile did 3 damage and reduced health from 96 to 93
+Frost turret projectile did 1 damage and reduced health from 93 to 92
+Frost turret projectile did 2 damage and reduced health from 100 to 98
+Frost turret projectile did 5 damage and reduced health from 98 to 93
+Frost turret projectile did 5 damage and reduced health from 93 to 88
+Frost turret projectile did 3 damage and reduced health from 88 to 85
+Frost turret projectile did 1 damage and reduced health from 100 to 99
+Frost turret projectile did 4 damage and reduced health from 99 to 95
+Frost turret projectile did 4 damage and reduced health from 95 to 91
+Frost turret projectile did 3 damage and reduced health from 91 to 88
+Frost turret projectile did 1 damage and reduced health from 88 to 87
+Frost turret projectile did 5 damage and reduced health from 87 to 82
+Frost turret projectile did 4 damage and reduced health from 100 to 96
+Frost turret projectile did 3 damage and reduced health from 96 to 93
+Frost turret projectile did 1 damage and reduced health from 93 to 92
+Frost turret projectile did 5 damage and reduced health from 100 to 95
+Death Pulse turret projectile did 1 damage and reduced health from 100 to 99
+Death Pulse turret projectile did 6 damage and reduced health from 99 to 95
+Death Pulse turret projectile did 2 damage and reduced health from 95 to 93
+Death Pulse turret projectile did 9 damage and reduced health from 93 to 88
+Death Pulse turret projectile did 1 damage and reduced health from 100 to 99
+Death Pulse turret projectile did 6 damage and reduced health from 99 to 95
+Death Pulse turret projectile did 2 damage and reduced health from 95 to 93
+Death Pulse turret projectile did 9 damage and reduced health from 93 to 88
+Poison turret projectile did 16 damage and reduced health from 88 to 79
+Death Pulse turret projectile did 9 damage and reduced health from 79 to 74
+Poison turret projectile did 23 damage and reduced health from 65 to 53
+Death Pulse turret projectile did 9 damage and reduced health from 53 to 48
+Poison turret projectile did 6 damage and reduced health from 35 to 31
+Death Pulse turret projectile did 4 damage and reduced health from 31 to 28
+Poison turret projectile did 7 damage and reduced health from 25 to 21
+Death Pulse turret projectile did 1 damage and reduced health from 21 to 20
+Poison turret projectile did 21 damage and reduced health from 18 to 7
+Death Pulse turret projectile did 7 damage and reduced health from 7 to 3
+Death Pulse turret projectile did 7 damage and reduced health from 300 to 293
+Death Pulse turret projectile did 8 damage and reduced health from 293 to 285
+Poison turret projectile did 22 damage and reduced health from 100 to 88
+Poison turret projectile did 24 damage and reduced health from 79 to 66
+Death Pulse turret projectile did 8 damage and reduced health from 285 to 277
+Death Pulse turret projectile did 5 damage and reduced health from 277 to 272
+Poison turret projectile did 9 damage and reduced health from 58 to 53
+Poison turret projectile did 26 damage and reduced health from 100 to 86
+Death Pulse turret projectile did 10 damage and reduced health from 253 to 243
+Poison turret projectile did 23 damage and reduced health from 100 to 88
+Death Pulse turret projectile did 1 damage and reduced health from 243 to 242
+Poison turret projectile did 9 damage and reduced health from 86 to 81
+Death Pulse turret projectile did 3 damage and reduced health from 235 to 232
+Death Pulse turret projectile did 8 damage and reduced health from 217 to 209
+Poison turret projectile did 7 damage and reduced health from 100 to 96
+Death Pulse turret projectile did 8 damage and reduced health from 209 to 201
+Poison turret projectile did 4 damage and reduced health from 96 to 93
+Death Pulse turret projectile did 2 damage and reduced health from 300 to 298
+Poison turret projectile did 21 damage and reduced health from 93 to 82
+Death Pulse turret projectile did 2 damage and reduced health from 298 to 296
+Death Pulse turret projectile did 1 damage and reduced health from 296 to 295
+Poison turret projectile did 13 damage and reduced health from 100 to 93
+Death Pulse turret projectile did 3 damage and reduced health from 295 to 292
+Poison turret projectile did 17 damage and reduced health from 93 to 84
+Death Pulse turret projectile did 1 damage and reduced health from 292 to 291
+Poison turret projectile did 9 damage and reduced health from 300 to 291
+Death Pulse turret projectile did 8 damage and reduced health from 300 to 292
+Death Pulse turret projectile did 9 damage and reduced health from 292 to 283
+Poison turret projectile did 21 damage and reduced health from 84 to 73
+Death Pulse turret projectile did 7 damage and reduced health from 291 to 284
+Poison turret projectile did 20 damage and reduced health from 100 to 89
+Death Pulse turret projectile did 3 damage and reduced health from 284 to 281
+Poison turret projectile did 8 damage and reduced health from 73 to 68
+Death Pulse turret projectile did 1 damage and reduced health from 281 to 280
+Poison turret projectile did 7 damage and reduced health from 68 to 64
+Death Pulse turret projectile did 9 damage and reduced health from 280 to 271
+Poison turret projectile did 23 damage and reduced health from 100 to 88
+Death Pulse turret projectile did 3 damage and reduced health from 271 to 268
+Death Pulse turret projectile did 1 damage and reduced health from 268 to 267
+Poison turret projectile did 20 damage and reduced health from 100 to 89
+Death Pulse turret projectile did 7 damage and reduced health from 267 to 260
+Poison turret projectile did 17 damage and reduced health from 64 to 55
+Death Pulse turret projectile did 3 damage and reduced health from 260 to 257
+Poison turret projectile did 18 damage and reduced health from 55 to 45
+Death Pulse turret projectile did 3 damage and reduced health from 100 to 98
+Death Pulse turret projectile did 6 damage and reduced health from 257 to 251
+Death Pulse turret projectile did 2 damage and reduced health from 100 to 98
+Death Pulse turret projectile did 10 damage and reduced health from 100 to 94
+Death Pulse turret projectile did 2 damage and reduced health from 100 to 98
+Death Pulse turret projectile did 4 damage and reduced health from 251 to 247
+Death Pulse turret projectile did 1 damage and reduced health from 247 to 246
+Death Pulse turret projectile did 3 damage and reduced health from 246 to 243
+Death Pulse turret projectile did 7 damage and reduced health from 243 to 236
+Death Pulse turret projectile did 9 damage and reduced health from 236 to 227
