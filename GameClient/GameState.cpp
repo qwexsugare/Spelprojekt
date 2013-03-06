@@ -582,15 +582,17 @@ void GameState::update(float _dt)
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
-
 			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y), -1);
 			this->m_network->sendMessage(e);
+
+			m_hud->setTargetEnemy(Enemy::NONE);
 		}
 		else
 		{
 			if(mouseOverEnemy >= 0)
 			{
 				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[mouseOverEnemy]->m_id, -1));
+				m_hud->setTargetEnemy(Enemy::EnemyType(m_entities[mouseOverEnemy]->m_subtype));
 				stringstream ss;
 				ss << m_entities[mouseOverEnemy]->m_health;
 				m_healthText->setString("Target health: " + ss.str());
@@ -606,6 +608,8 @@ void GameState::update(float _dt)
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
+
+				m_hud->setTargetEnemy(Enemy::NONE);
 
 				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
 
