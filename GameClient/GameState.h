@@ -38,6 +38,9 @@ private:
 	float m_idleSoundTimer;
 
 	// Sounds
+	int m_lowHealthSound;
+	static const int LOW_HEALTH_SOUND_DELAY = 10;
+	float m_lowHealthSoundDelayTimer;
 	int m_idleSound;
 	static const int NR_OF_ATTACK_SOUNDS = 3;
 	int m_attackSounds[NR_OF_ATTACK_SOUNDS];
