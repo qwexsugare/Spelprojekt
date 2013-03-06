@@ -398,10 +398,7 @@ void GameState::update(float _dt)
 		switch(e.getActionId())
 		{
 		case Skill::RANGED_ATTACK:
-			if(e.getTargetId() == m_playerInfos[m_yourId].id)
-				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), m_playerInfos[m_yourId].heroType, e.getSenderId()));
-			else
-				m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
+			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;
 		case Skill::FROST_TURRET_PROJECTILE:
 			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 0.5f, e.getPosition().z), e.getTargetId()));
@@ -425,7 +422,9 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new EnigmaticPresenceClientSkillEffect(e.getTargetId()));
 			break;
 		case Skill::COURAGE_HONOR_VALOR:
-			m_ClientSkillEffects.push_back(new CourageHonorValorClientSkillEffect(e.getTargetId()));
+			for(int i = 0; i < m_playerInfos.size(); i++)
+				if(m_playerInfos[i].heroType == Hero::RED_KNIGHT)
+					m_ClientSkillEffects.push_back(new CourageHonorValorClientSkillEffect(e.getTargetId(), m_playerInfos[i].id));
 			break;
 		case Skill::SIMONS_EVIL:
 			m_ClientSkillEffects.push_back(new SimonsEvilClientSkillEffect(e.getTargetId()));
