@@ -30,7 +30,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
-	this->m_tangentBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_ViewCoordBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	//Glow
 	this->m_glowRendering = new GlowRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_glowBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -49,7 +49,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_positionBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
-	this->m_tangentBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_ViewCoordBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
@@ -69,6 +69,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	m_shadowMapViewport.MaxDepth = 1.0f;
 	m_shadowMapViewport.TopLeftX = 0;
 	m_shadowMapViewport.TopLeftY = 0;
+	
+	this->m_deferredRendering->setScreenSize(D3DXVECTOR2(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y));
 }
 
 World::~World()
@@ -125,7 +127,7 @@ World::~World()
 	delete this->m_positionBuffer;
 	delete this->m_normalBuffer;
 	delete this->m_diffuseBuffer;
-	delete this->m_tangentBuffer;
+	delete this->m_ViewCoordBuffer;
 	delete this->m_glowBuffer;
 	delete this->m_glowRenderTarget;
 	delete this->m_glowRenderTarget2;
@@ -134,7 +136,7 @@ World::~World()
 	delete this->m_positionBufferTransparant;
 	delete this->m_normalBufferTransparant;
 	delete this->m_diffuseBufferTransparant;
-	delete this->m_tangentBufferTransparant;
+	delete this->m_ViewCoordBufferTransparant;
 	delete this->m_glowBufferTransparant;
 
 	delete this->m_camera;
@@ -197,7 +199,7 @@ void World::render()
 	this->m_positionBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBuffer->clear(this->m_deviceHandler->getDevice());
-	this->m_tangentBuffer->clear(this->m_deviceHandler->getDevice());
+	this->m_ViewCoordBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_glowBuffer->clear(this->m_deviceHandler->getDevice());
 	m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 	m_forwardRenderTarget->clear(m_deviceHandler->getDevice());
@@ -208,7 +210,7 @@ void World::render()
 	renderTargets[0] = *this->m_positionBuffer->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBuffer->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBuffer->getRenderTargetView();
-	renderTargets[3] = *this->m_tangentBuffer->getRenderTargetView();
+	renderTargets[3] = *this->m_ViewCoordBuffer->getRenderTargetView();
 	renderTargets[4] = *this->m_glowBuffer->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
@@ -231,6 +233,9 @@ void World::render()
 	}
 	
 	//Render all models
+
+	this->m_deferredRendering->setViewMatrix(&this->m_camera->getViewMatrix());
+
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> staticModels = this->m_quadTree->getModels(focalPoint);
 	vector<Model*> transparentStaticModels;
@@ -441,13 +446,13 @@ void World::render()
 	this->m_positionBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBufferTransparant->clear(this->m_deviceHandler->getDevice());
-	this->m_tangentBufferTransparant->clear(this->m_deviceHandler->getDevice());
+	this->m_ViewCoordBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	//this->m_glowBufferTransparant->clear(this->m_deviceHandler->getDevice());
 
 	renderTargets[0] = *this->m_positionBufferTransparant->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBufferTransparant->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBufferTransparant->getRenderTargetView();
-	renderTargets[3] = *this->m_tangentBufferTransparant->getRenderTargetView();
+	renderTargets[3] = *this->m_ViewCoordBufferTransparant->getRenderTargetView();
 	//renderTargets[4] = *this->m_glowBufferTransparant->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
@@ -548,7 +553,7 @@ void World::render()
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBuffer->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
-	this->m_deferredRendering->setTangentTexture(this->m_tangentBuffer->getShaderResource());
+	this->m_deferredRendering->setViewCoordTexture(this->m_ViewCoordBuffer->getShaderResource());
 
 	vector<PointLight*> tempPointLights = this->m_quadTree->getPointLights(focalPoint);
 
@@ -574,7 +579,7 @@ void World::render()
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBufferTransparant->getShaderResource());
-	this->m_deferredRendering->setTangentTexture(this->m_tangentBufferTransparant->getShaderResource());
+	this->m_deferredRendering->setViewCoordTexture(this->m_ViewCoordBufferTransparant->getShaderResource());
 
 	for( UINT p = 0; p < techDesc.Passes; p++ )
 	{

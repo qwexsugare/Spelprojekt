@@ -10,7 +10,7 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_positionTexture = this->m_effect->GetVariableByName("positionTexture")->AsShaderResource();
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
 	this->m_diffuseTexture = this->m_effect->GetVariableByName("diffuseTexture")->AsShaderResource();
-	this->m_tangentTexture = this->m_effect->GetVariableByName("tangentTexture")->AsShaderResource();
+	this->m_viewCoordTexture = this->m_effect->GetVariableByName("viewCoordTexture")->AsShaderResource();
 
 	this->m_nrOfPointLights = this->m_effect->GetVariableByName("nrOfPointLights")->AsScalar();
 	this->m_nrOfShadowedPointLights = this->m_effect->GetVariableByName("nrOfShadowedPointLights")->AsScalar();
@@ -23,6 +23,13 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_lightSpecular = this->m_effect->GetVariableByName("ls")->AsVector();
 	this->m_lightAngle = this->m_effect->GetVariableByName("lightAngle")->AsVector();
 	this->m_lightRadius = this->m_effect->GetVariableByName("lightRadius")->AsScalar();
+	this->m_viewMatrix = this->m_effect->GetVariableByName("viewMatrix")->AsMatrix();
+	this->m_screenSize = this->m_effect->GetVariableByName("screenSize")->AsVector();
+
+	this->m_randomTex = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
+	ID3D10ShaderResourceView* resource;
+	D3DX10CreateShaderResourceViewFromFile(_device, "./textures/randNormal.jpg", NULL, NULL, &resource, NULL);
+	this->m_randomTex->SetResource(resource);
 
 	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPosition")->AsVector();
 
@@ -69,9 +76,9 @@ void DeferredRenderingEffectFile::setDiffuseTexture(ID3D10ShaderResourceView* _d
 	this->m_diffuseTexture->SetResource(_diffuseTexture);
 }
 
-void DeferredRenderingEffectFile::setTangentTexture(ID3D10ShaderResourceView* _tangentTexture)
+void DeferredRenderingEffectFile::setViewCoordTexture(ID3D10ShaderResourceView* _viewCoordTexture)
 {
-	this->m_tangentTexture->SetResource(_tangentTexture);
+	this->m_viewCoordTexture->SetResource(_viewCoordTexture);
 }
 
 void DeferredRenderingEffectFile::setCameraPosition(D3DXVECTOR3 _lightPosition)
@@ -188,4 +195,14 @@ void DeferredRenderingEffectFile::setPointLightWvps(D3DXMATRIX* _wvps, int _size
 void DeferredRenderingEffectFile::setSpotLightWvps(D3DXMATRIX* _wvps, int _size)
 {
 	this->m_spotLightWvps->SetMatrixArray((float*)_wvps, 0, _size);
+}
+
+void DeferredRenderingEffectFile::setViewMatrix(D3DXMATRIX* _mat)
+{
+	this->m_viewMatrix->SetMatrix((float*)_mat);
+}
+
+void DeferredRenderingEffectFile::setScreenSize(D3DXVECTOR2 _size)
+{
+	this->m_screenSize->SetFloatVector((float*)_size);
 }

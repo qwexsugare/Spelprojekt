@@ -116,9 +116,9 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 				animationVerts[v].texCoord.x = fishFile->FMeshes[m].vertices[v].uv.u;
 				animationVerts[v].texCoord.y = fishFile->FMeshes[m].vertices[v].uv.v;
 
-				animationVerts[v].tangent.x = fishFile->FMeshes[m].vertices[v].tangent.x;
-				animationVerts[v].tangent.y = fishFile->FMeshes[m].vertices[v].tangent.y;
-				animationVerts[v].tangent.z = fishFile->FMeshes[m].vertices[v].tangent.z;
+				//animationVerts[v].tangent.x = fishFile->FMeshes[m].vertices[v].tangent.x;
+				//animationVerts[v].tangent.y = fishFile->FMeshes[m].vertices[v].tangent.y;
+				//animationVerts[v].tangent.z = fishFile->FMeshes[m].vertices[v].tangent.z;
 
 				animationVerts[v].weight.x = fishFile->FMeshes[m].vertices[v].weights[0];
 				animationVerts[v].weight.y = fishFile->FMeshes[m].vertices[v].weights[1];
@@ -149,9 +149,9 @@ Mesh* MeshImporter::CreateMesh(ID3D10Device *device, FishFile* fishFile, bool is
 				verts[v].texCoord.x = fishFile->FMeshes[m].vertices[v].uv.u;
 				verts[v].texCoord.y = fishFile->FMeshes[m].vertices[v].uv.v;
 
-				verts[v].tangent.x = fishFile->FMeshes[m].vertices[v].tangent.x;
-				verts[v].tangent.y = fishFile->FMeshes[m].vertices[v].tangent.y;
-				verts[v].tangent.z = fishFile->FMeshes[m].vertices[v].tangent.z;
+				//verts[v].tangent.x = fishFile->FMeshes[m].vertices[v].tangent.x;
+				//verts[v].tangent.y = fishFile->FMeshes[m].vertices[v].tangent.y;
+				//verts[v].tangent.z = fishFile->FMeshes[m].vertices[v].tangent.z;
 			}
 		}
 
