@@ -10,10 +10,13 @@
 #include "SkillIdHolder.h"
 #include "Sprite.h"
 #include "ModelIdHolder.h"
+#include "Enemy.h"
 
 class HudMenu : public Menu
 {
 private:
+	Enemy::EnemyType m_currentTargetEnemy;
+	map<Enemy::EnemyType, Sprite*> m_enemyIcons;
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
 	int	m_NumberOfSkills;
@@ -70,5 +73,6 @@ public:
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);
+	void setTargetEnemy(Enemy::EnemyType _enemyType);
 };
 
