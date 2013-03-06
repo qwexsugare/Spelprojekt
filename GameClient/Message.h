@@ -199,12 +199,14 @@ struct EnemyDiedMessage : Message
 struct EnemyReachedGoalMessage : Message
 {
 	unsigned int enemyId;
+	FLOAT3 position;
 
-	EnemyReachedGoalMessage(unsigned int _enemyId)
+	EnemyReachedGoalMessage(unsigned int _enemyId, FLOAT3 _position)
 	{
 		this->type = Type::EnemyReachedGoal;
 		this->reciverId = 0;
 		this->enemyId = _enemyId;
+		this->position = _position;
 	}
 };
 

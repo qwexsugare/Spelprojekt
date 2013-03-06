@@ -272,7 +272,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		else if((m_goalPosition-m_position).length() < (this->m_movementSpeed * lastDT)+1 || (m_position - m_destination).length() < m_destinationRadius + 0.1f)
 		{
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
-			this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id));
+			this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id, this->m_position));
 		}
 		
 
