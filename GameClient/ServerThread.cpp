@@ -113,6 +113,16 @@ void ServerThread::update(float dt)
 					players[senderIndex]->assignHero(Hero::HERO_TYPE(((SelectHeroMessage*)m)->heroId), Hero::WEAPON_TYPE(((SelectHeroMessage*)m)->weaponId));
 				}
 			}
+			else if(m->type == Message::Type::JoinedGame)
+			{
+				for(int i = 0; i < players.size(); i++)
+				{
+					if(players[i]->hasChosenHero() == true)
+					{
+						this->m_network->broadcast(NetworkHeroSelectedMessage(players[i]->getSelectedHeroType(), players[i]->getId()));
+					}
+				}
+			}
 
 			delete m;
 		}

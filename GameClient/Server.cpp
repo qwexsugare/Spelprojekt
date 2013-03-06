@@ -76,8 +76,8 @@ void Server::goThroughSelector()
 					Player *p = new Player(nextEmptyArrayPos);
 					this->m_players[nextEmptyArrayPos]=p;
 					this->clients[nextEmptyArrayPos]=incSocket;
+					this->m_messageQueue->pushOutgoingMessage(new JoinedGameMessage(nextEmptyArrayPos));
 					this->nrOfPlayers++;
-				
 					this->m_messageHandler->addQueue(p->getMessageQueue());
 				}
 			}
