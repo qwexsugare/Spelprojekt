@@ -8,9 +8,10 @@ class CourageHonorValorClientSkillEffect : public ClientSkillEffect
 private:
 	unsigned int m_masterId;
 	Model* m_model;
-	float m_lifetime;
+	float m_soundTimer;
+	bool m_hasSpoken;
 public:
-	CourageHonorValorClientSkillEffect(unsigned int _masterId);
+	CourageHonorValorClientSkillEffect(unsigned int _masterId, unsigned int _redKnightId);
 	~CourageHonorValorClientSkillEffect();
 
 	bool getActive();

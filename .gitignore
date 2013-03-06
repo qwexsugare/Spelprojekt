@@ -2501,3 +2501,8 @@ GameClient/audio/attacks/twoHandedAttack_2.wav
 GameClient/audio/skills/codWindStartEnd.wav
 GameClient/audio/skills/healingTouch.wav
 GameClient/audio/turrets/frost_turret_attack.wav
+GameClient/audio/skills/Doctor_COURAGE_REACTION.wav
+GameClient/audio/skills/Engineer_COURAGE_REACTION.wav
+GameClient/audio/skills/Mentalist_COURAGE_REACTION.wav
+GameClient/audio/skills/Officer_COURAGE_REACTION.wav
+GameClient/audio/skills/RedKnight_COURAGE.wav
