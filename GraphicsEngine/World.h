@@ -45,13 +45,13 @@ private:
 	RenderTarget *m_positionBuffer;
 	RenderTarget *m_normalBuffer;
 	RenderTarget *m_diffuseBuffer;
-	RenderTarget *m_tangentBuffer;
+	RenderTarget *m_ViewCoordBuffer;
 	RenderTarget *m_glowBuffer;
 
 	RenderTarget *m_positionBufferTransparant;
 	RenderTarget *m_normalBufferTransparant;
 	RenderTarget *m_diffuseBufferTransparant;
-	RenderTarget *m_tangentBufferTransparant;
+	RenderTarget *m_ViewCoordBufferTransparant;
 	RenderTarget *m_glowBufferTransparant;
 	FullScreenPlane *m_deferredPlane;
 

@@ -302,3 +302,18 @@ Path Pathfinder::getPath(FLOAT2 start, FLOAT2 end)
 		return Path();
 	}
 }
+
+bool Pathfinder::sameGridPosition(FLOAT2 pos1, FLOAT2 pos2)
+{
+	Position startPos = Position(pos1.x * this->map.getWidth() / this->mapSize.x, pos1.y * this->map.getHeight() / this->mapSize.y);
+	Position endPos = Position(pos2.x * this->map.getWidth() / this->mapSize.x, pos2.y * this->map.getHeight() / this->mapSize.y);
+
+	if(startPos.getX() == endPos.getX() && startPos.getY() == endPos.getY())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

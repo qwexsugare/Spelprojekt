@@ -23,6 +23,7 @@ bool Teleport::activate(FLOAT3 _position, unsigned int _senderId)
 	{
 		((Hero*)caster)->setPosition(_position);
 		((Hero*)caster)->setNextPosition(((Hero*)caster)->getPosition());
+		((Hero*)caster)->getMessageQueue()->pushOutgoingMessage(((Hero*)caster)->getUpdateEntityMessage());
 		this->resetCooldown();
 		EntityHandler::addEntity(new TeleportEffect(_senderId));
 		return true;

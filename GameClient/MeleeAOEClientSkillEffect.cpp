@@ -25,13 +25,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 				switch(random(0, 2))
 				{
 				case 0:
-					impactSound = createSoundHandle("attacks/meleeAttack_0.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/twoHandedAttack_0.wav", false, true, target->m_startPos);
 					break;
 				case 1:
-					impactSound = createSoundHandle("attacks/meleeAttack_1.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/twoHandedAttack_1.wav", false, true, target->m_startPos);
 					break;
 				case 2:
-					impactSound = createSoundHandle("attacks/meleeAttack_2.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/twoHandedAttack_2.wav", false, true, target->m_startPos);
 					break;
 				}
 

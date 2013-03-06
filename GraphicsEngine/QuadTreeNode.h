@@ -12,6 +12,7 @@ using namespace DirectX;
 class QuadTreeNode
 {
 private:
+	D3DXVECTOR2 m_cameraOffset;
 	D3DXVECTOR2 m_min;
 	D3DXVECTOR2 m_max;
 	vector<Model*> m_models;
@@ -23,7 +24,7 @@ private:
 	BoundingOrientedBox* m_obb;
 public:
 	QuadTreeNode();
-	QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max);
+	QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max, D3DXVECTOR2 _cameraOffset);
 	~QuadTreeNode();
 	
 	void addParticleEngine(bool& _success, ParticleEngine* _particleEngine);
