@@ -130,6 +130,7 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
+	ClientEntityHandler::update(_dt);
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id);
 	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
@@ -157,8 +158,6 @@ void GameState::update(float _dt)
 		this->m_fpsText->setString(ss.str());
 		lol = -0.5f;
 	}
-
-	ClientEntityHandler::update(_dt);
 
 	while(this->m_network->entityQueueEmpty() == false)
 	{
@@ -579,7 +578,14 @@ void GameState::update(float _dt)
 	}
 	if(g_mouse->isRButtonPressed())
 	{
-		if(!m_minimap->isMouseInMap(g_mouse->getPos()))
+		if(m_minimap->isMouseInMap(g_mouse->getPos()))
+		{
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
+
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y), -1);
+			this->m_network->sendMessage(e);
+		}
+		else
 		{
 			if(mouseOverEnemy >= 0)
 			{
@@ -593,7 +599,7 @@ void GameState::update(float _dt)
 					m_attackSoundTimer = ATTACK_SOUND_DELAY;
 				}
 			}
-			else
+			else if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP)
 			{
 				float k = (-pickOrig.y)/pickDir.y;
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
@@ -604,13 +610,6 @@ void GameState::update(float _dt)
 
 				m_healthText->setString("No target");
 			}
-		}
-		else
-		{
-			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
-
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y), -1);
-			this->m_network->sendMessage(e);
 		}
 	}
 	else if(g_mouse->isRButtonReleased())
