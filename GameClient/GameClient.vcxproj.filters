@@ -505,6 +505,9 @@
     <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkAttributeUpdateMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1045,6 +1048,9 @@
     </ClInclude>
     <ClInclude Include="ChurchPenetratedClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkAttributeUpdateMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
