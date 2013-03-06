@@ -8,8 +8,8 @@ TheMentalist::TheMentalist(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::
 	this->increaseWits(5);
 	this->increaseFortitude(2);
 	
-	m_skills.push_back(new EnigmaticPresence());
 	m_skills.push_back(new HypnoticStare());
+	m_skills.push_back(new EnigmaticPresence());
 
 	switch(_weaponType)
 	{

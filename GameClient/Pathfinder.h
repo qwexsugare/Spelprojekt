@@ -8,7 +8,7 @@
 #include <iostream>
 
 //movments costs for moving in diaglonal or vert/horz
-#define DIAGMOVECOST 140
+#define DIAGMOVECOST 141
 #define NONDIAGMOVECOST 100
 
 using namespace std;
@@ -33,5 +33,6 @@ public:
 	~Pathfinder();
 	vector<Position> getPath(Position start, Position end);
 	Path getPath(FLOAT2 start, FLOAT2 end);
+	bool sameGridPosition(FLOAT2 pos1, FLOAT2 pos2);
 };
 #endif
