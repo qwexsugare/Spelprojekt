@@ -125,12 +125,20 @@ void Enemy::updateSpecificUnitEntity(float dt)
 					m_reachedPosition = false; 
 					m_attackCooldown = m_baseAttackSpeed;
 					m_willPursue = false;
+<<<<<<< HEAD
+					this->m_nextPosition = m_goalPosition;
+=======
 						this->m_nextPosition = m_goalPosition;
+
+>>>>>>> 310589d3cad56499878314bb71c3fdbdbe683b6a
 				}
 			}
 			else 
 			{
 				m_reachedPosition = false;
+<<<<<<< HEAD
+			}
+=======
 
 			if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
 				{
@@ -141,7 +149,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 				}
 			
-			}
+>>>>>>> 310589d3cad56499878314bb71c3fdbdbe683b6a
 		}
 		else
 		{

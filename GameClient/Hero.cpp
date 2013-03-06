@@ -236,14 +236,13 @@ void Hero::updateSpecificUnitEntity(float dt)
 	else if(this->m_alive == true)
 	{
 		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
-		this->m_position = FLOAT3(1000.0f, -1000.0f, 1000.0f);
+		this->m_position = FLOAT3(-1000.0f, 0.0f, -1000.0f);
 		this->m_hasTarget = NULL;
 		this->m_reachedPosition = true;
 		this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 		this->m_messageQueue->pushOutgoingMessage(new HeroDiedMessage(this->m_id, this->m_playerId));
 		this->m_alive = false;
 	}
-}
 }
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
@@ -344,6 +343,7 @@ void Hero::respawn(FLOAT3 _position)
 	this->m_reachedPosition = true;
 	this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::RESPAWN, this->m_id, this->m_position));
 	this->m_alive = true;
 }
 

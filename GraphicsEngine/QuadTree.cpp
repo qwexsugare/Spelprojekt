@@ -5,9 +5,9 @@ QuadTree::QuadTree()
 	this->m_parent = NULL;
 }
 
-QuadTree::QuadTree(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max)
+QuadTree::QuadTree(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max, D3DXVECTOR2 _cameraOffset)
 {
-	this->m_parent = new QuadTreeNode(_levels, _min, _max);
+	this->m_parent = new QuadTreeNode(_levels, _min, _max, _cameraOffset);
 }
 
 QuadTree::~QuadTree()

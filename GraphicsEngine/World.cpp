@@ -10,7 +10,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_spritesMiddle = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2());
+	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2(), D3DXVECTOR2()); // Init to something arbitrary, it will be fully initialized later in other function
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
@@ -188,8 +188,7 @@ bool World::removeTerrain(Terrain* _terrain)
 
 void World::render()
 {
-	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
-	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+m_camera->getZOffset());
 
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
@@ -348,8 +347,7 @@ void World::render()
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 		
-		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
-		//if(modelDistanceToCamera.x < 8.8f && modelDistanceToCamera.y < 5.86f)
+		if(modelDistanceToCamera.x < m_camera->getXOffset() && modelDistanceToCamera.y < m_camera->getZOffset())
 		{
 			if(m_models[i]->getAlpha() < 1.0f)
 			{
@@ -805,7 +803,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	int counter = 0;
 
-	for(int i = 0; i < pointLights.size() && i * 6 < 100; i++)
+	for(int i = 0; i < pointLights.size() && counter < 100; i++)
 	{
 		if(pointLights[i]->getCastShadow() == true)
 		{
@@ -818,7 +816,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 				//Render the static models
 				stack<Model*> models = this->m_quadTree->getModels(pointLights[i]->getPosition2D());
-				while(!models.empty() && i * 6 + j < 100)
+				while(!models.empty() && counter < 100)
 				{
 					if(models.top()->getAlpha() == 1.0f && models.top()->getShadow() == true)
 					{
@@ -1021,8 +1019,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 void World::update(float dt)
 {
-	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
-	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+m_camera->getZOffset());
 
 	//SpriteSheets
 	for(int i = 0; i < this->m_spritesMiddle.size(); i++)
@@ -1287,5 +1284,5 @@ void World::initQuadTree(FLOAT2 _extents)
 {
 	if(m_quadTree)
 		delete m_quadTree;
-	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y));
+	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y), D3DXVECTOR2(m_camera->getXOffset(), m_camera->getZOffset()));
 }

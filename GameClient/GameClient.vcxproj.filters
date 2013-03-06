@@ -502,6 +502,9 @@
     <ClCompile Include="TargetAcquiredClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1038,6 +1041,9 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="TargetAcquiredClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ChurchPenetratedClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>

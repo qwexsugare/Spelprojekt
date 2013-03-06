@@ -460,7 +460,11 @@ void Server::broadcast(NetworkHeroInitMessage networkMessage)
 
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
+<<<<<<< HEAD
 		sf::Packet packet;
+=======
+		sf::Packet packet;	
+>>>>>>> 188bbc1547ea7963f2fe4e8b9dd6ace531b24839
 		networkMessage.setYourId(i);
 		packet<<networkMessage;
 		if(this->clients[i].IsValid())

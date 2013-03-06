@@ -200,7 +200,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			{
 				if(_entities[entityIndex]->m_id == _heroId)
 				{
-					g_graphicsEngine->getCamera()->set(_entities[entityIndex]->m_model->getPosition2DAsFloat2() - FLOAT2(0.0f, 4.0f) /* camera angle offset */);
+					g_graphicsEngine->getCamera()->set(_entities[entityIndex]->m_model->getPosition2DAsFloat2() - FLOAT2(0.0f, g_graphicsEngine->getCamera()->getZOffset()));
 
 					entityIndex = _entities.size();
 				}

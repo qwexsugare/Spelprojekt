@@ -113,6 +113,16 @@ void ServerThread::update(float dt)
 					players[senderIndex]->assignHero(Hero::HERO_TYPE(((SelectHeroMessage*)m)->heroId), Hero::WEAPON_TYPE(((SelectHeroMessage*)m)->weaponId));
 				}
 			}
+			else if(m->type == Message::Type::JoinedGame)
+			{
+				for(int i = 0; i < players.size(); i++)
+				{
+					if(players[i]->hasChosenHero() == true)
+					{
+						this->m_network->broadcast(NetworkHeroSelectedMessage(players[i]->getSelectedHeroType(), players[i]->getId()));
+					}
+				}
+			}
 
 			delete m;
 		}
@@ -205,6 +215,8 @@ void ServerThread::update(float dt)
 			if(m->type == Message::Type::EnemyReachedGoal)
 			{
 				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
+				ServerEntity *e = EntityHandler::getServerEntity((edm->enemyId));
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::CHURCH_PENETRATED, edm->enemyId, edm->position));
 				this->m_mapHandler->enemyDied();
 			}
 
