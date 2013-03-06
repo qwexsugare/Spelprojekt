@@ -126,14 +126,17 @@ void Enemy::updateSpecificUnitEntity(float dt)
 					m_attackCooldown = m_baseAttackSpeed;
 					m_willPursue = false;
 					this->m_nextPosition = m_goalPosition;
-
 				}
 			}
 			else 
+			{
 				m_reachedPosition = false;
+			}
 		}
 		else
+		{
 			this->m_nextPosition = m_goalPosition;
+		}
 
 
 		if(this->m_attackCooldown > 0.0f)

@@ -461,6 +461,7 @@ void Server::broadcast(NetworkHeroInitMessage networkMessage)
 
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
+		sf::Packet packet;	
 		networkMessage.setYourId(i);
 		packet<<networkMessage;
 		if(this->clients[i].IsValid())

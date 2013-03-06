@@ -800,7 +800,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	int counter = 0;
 
-	for(int i = 0; i < pointLights.size() && i * 6 < 100; i++)
+	for(int i = 0; i < pointLights.size() && counter < 100; i++)
 	{
 		if(pointLights[i]->getCastShadow() == true)
 		{

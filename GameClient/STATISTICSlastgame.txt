@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 1524.87
-Life remaining: -49
-Reached wave: 2
+Time played: 149.713
+Life remaining: 80
+Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Officer
-Deamons killed: 1
+Hero played: Red knight
+Deamons killed: 2
 Player deaths: 0
-Resources collected: 25
+Resources collected: 64
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 138
-Physical damage taken: 516
+Total damage dealt: -1289640595
+Physical damage taken: 597
 Mental damage taken: 0
-Physical damage dealt: 4
-Mental damage dealt: 14
+Physical damage dealt: 137
+Mental damage dealt: -1289640732
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -27,7 +27,6 @@ Skills used:
 0
 0
 0
-991410270
 0
 0
 0
@@ -37,52 +36,103 @@ Skills used:
 0
 0
 0
-0
-0
-0
-1936876886
-10
-0
-0
-1919117677
-0
-0
-0
-0
+1065353216
+1065353216
+1065353216
+1055622431
+1036831949
+1056293519
+1065353216
+1065353216
 0
 0
 0
 0
 0
 0
+3183238
+3181330
+3192544
+3185620
 0
-813707333
-952973496
-1024865892
-917321359
-956250327
-988560087
-1021721756
-860435181
-989084400
-892876005
-958413059
-1041907216
-1061568288
+3191378
+3184726
+-2147483629
+1669845551
+0
+0
+1668351376
+0
+1575246256
+1669023241
+2002205936
+91226228
+1699152180
+1061503569
+1095715910
 ---------------
+Player name: 
+Hero played: Doctor
+Deamons killed: 2
+Player deaths: 0
+Resources collected: 58
+Healed for: 0
+
+Damage statistics: 
+Total damage dealt: 0
+Physical damage taken: 0
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
 0
 0
-993802996
-832385406
-962541884
-28672
-846082654
-939276212
-981547622
-1011235854
-924989142
-1028603199
-826749223
-1014512703
-865416070
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1065353216
+1065353216
+1065353216
+1055622431
+1036831949
+1056293519
+1065353216
+1065353216
+0
+0
+0
+0
+0
+0
+3183238
+3181330
+3192544
+3185620
+0
+3191378
+3184726
+-2147483629
+1669845551
+0
+0
+1668351376
+0
+1575246256
+1669023241
+2002205936
+91226228
+1699152180
+1061503569
+1095715910
 ---------------
