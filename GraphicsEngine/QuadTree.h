@@ -8,7 +8,7 @@ private:
 	QuadTreeNode* m_parent;
 public:
 	QuadTree();
-	QuadTree(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max);
+	QuadTree(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max, D3DXVECTOR2 _cameraOffset);
 	~QuadTree();
 	
 	bool addParticleEngine(ParticleEngine* _particleEngine);

@@ -1,5 +1,8 @@
 #include "Camera.h"
 
+const float Camera::X_OFFSET = 6.0f; //8.8f;
+const float Camera::Z_OFFSET = 4.0f; //5.86f;
+
 Camera::Camera()
 {
 
@@ -49,6 +52,16 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 	_pickOrigOut.x = m._41;
 	_pickOrigOut.y = m._42;
 	_pickOrigOut.z = m._43;
+}
+
+float Camera::getXOffset()const
+{
+	return X_OFFSET;
+}
+
+float Camera::getZOffset()const
+{
+	return Z_OFFSET;
 }
 
 const D3DXVECTOR3& Camera::getPos()const

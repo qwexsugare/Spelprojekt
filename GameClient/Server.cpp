@@ -163,7 +163,7 @@ void Server::handleMessages()
 		switch(m->type)
 		{
 		case Message::RemoveEntity:
-			m1 = (RemoveServerEntityMessage*)m;			
+			m1 = (RemoveServerEntityMessage*)m;
 			rem = NetworkRemoveEntityMessage(m1->removedId);
 			this->broadcast(rem);
 			break;
@@ -455,12 +455,12 @@ void Server::broadcast(NetworkInitEntityMessage networkMessage)
 }
 void Server::broadcast(NetworkHeroInitMessage networkMessage)
 {
-	sf::Packet packet;
 
 	this->m_mutex.Lock();
 
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
+		sf::Packet packet;
 		networkMessage.setYourId(i);
 		packet<<networkMessage;
 		if(this->clients[i].IsValid())

@@ -179,8 +179,6 @@ void GameState::update(float _dt)
 			p.y=0;
 			p.z=e.getZPos();
 			entity->m_model->setPosition(p);
-			{
-
 			if(e.getYRot() == e.getYRot())
 			{
 				FLOAT3 rot;
@@ -199,7 +197,6 @@ void GameState::update(float _dt)
 				entity->m_startPos=startPos;
 				entity->m_endPos=endPos;
 				entity->movementSpeed=e.getMovementSpeed();
-			}
 			}
 		}
 	}
@@ -243,11 +240,10 @@ void GameState::update(float _dt)
 
 			e->m_weapon = iem.getWeaponType();
 
-			if(iem.getType() == ServerEntity::HeroType)
+			if(iem.getID() == m_playerInfos[m_yourId].id)
 			{
-					
 				g_graphicsEngine->getCamera()->setX(iem.getXPos());
-				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - 3.0f);
+				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - g_graphicsEngine->getCamera()->getZOffset());
 			}
 		}
 	}
@@ -294,6 +290,10 @@ void GameState::update(float _dt)
 			break;
 		case Skill::CHURCH_PENETRATED:
 			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
+		case Skill::RESPAWN:
+			if(e.getSenderId() == m_playerInfos[m_yourId].id)
+				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
 			break;
 		}
 	}

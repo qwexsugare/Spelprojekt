@@ -343,6 +343,7 @@ void Hero::respawn(FLOAT3 _position)
 	this->m_reachedPosition = true;
 	this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::RESPAWN, this->m_id, this->m_position));
 	this->m_alive = true;
 }
 
