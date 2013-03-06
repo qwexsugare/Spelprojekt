@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 45.4721
-Life remaining: 100
-Reached wave: 0
+Time played: 102.148
+Life remaining: 87
+Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Officer
-Deamons killed: 0
+Hero played: Engineer
+Deamons killed: 4
 Player deaths: 0
-Resources collected: 0
+Resources collected: 105
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
+Total damage dealt: 642
+Physical damage taken: 96
 Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
+Physical damage dealt: 31
+Mental damage dealt: 611
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -65,9 +65,9 @@ Skills used:
 966474102
 1000160125
 894579974
-993999646
-825045287
-1018051752
-887632883
-908998074
+997145439
+842740232
+1037319625
+898708838
+916862624
 ---------------

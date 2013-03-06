@@ -668,3 +668,8 @@ void HudMenu::setHealth(float health)
 {
 	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.565555556f));
 }
+
+void HudMenu::setLivesLeft(int livesLeft)
+{
+	//Update some text
+}

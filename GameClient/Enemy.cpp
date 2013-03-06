@@ -366,10 +366,21 @@ void Enemy::checkPursue()
 {
 	float currDistToHero=0;
 	if(m_closestTargetId >= 0)
-		currDistToHero = (this->m_position - EntityHandler::getServerEntity(m_closestTargetId)->getPosition()).length();
-	
+	{
+		ServerEntity *e = EntityHandler::getServerEntity(m_closestTargetId);
+		if(e != NULL)
+		{
+			currDistToHero = (this->m_position - EntityHandler::getServerEntity(m_closestTargetId)->getPosition()).length();
+		}
+		else
+		{
+			currDistToHero = 99999.0f;
+		}
+	}
 	else 
+	{
 		currDistToHero = 99999.0f;
+	}
 
 		
 

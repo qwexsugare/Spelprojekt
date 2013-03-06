@@ -216,7 +216,7 @@ void ServerThread::update(float dt)
 			{
 				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
 				ServerEntity *e = EntityHandler::getServerEntity((edm->enemyId));
-				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::CHURCH_PENETRATED, edm->enemyId, edm->position));
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHURCH_PENETRATED, edm->enemyId, this->m_mapHandler->getLivesLeft(), edm->position));
 				this->m_mapHandler->enemyDied();
 			}
 

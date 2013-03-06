@@ -371,3 +371,8 @@ FLOAT3 MapHandler::getPlayerPosition(int p)
 	}
 	return pos;
 }
+
+int MapHandler::getLivesLeft()
+{
+	return this->m_lives;
+}

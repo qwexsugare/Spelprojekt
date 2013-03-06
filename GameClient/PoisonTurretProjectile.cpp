@@ -3,6 +3,7 @@
 #include "DelayedDamage.h"
 #include "Graphics.h"
 #include "MyAlgorithms.h"
+#include "Turret.h"
 
 const float PoisonTurretProjectile::SLOW_EFFECT = -1.5f;
 
@@ -15,6 +16,7 @@ PoisonTurretProjectile::PoisonTurretProjectile(unsigned int _master, unsigned in
 	ServerEntity* master = EntityHandler::getServerEntity(m_master);
 	ServerEntity* target = EntityHandler::getServerEntity(m_target);
 	m_timeToImpact = (target->getPosition() - master->getPosition()).length()/PoisonTurretProjectile::VELOCITY;
+	this->m_masterOwner = ((Turret*)master)->getOwnerId();
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::POISON_TURRET_PROJECTILE, m_master, m_target, master->getPosition()));
 	this->m_mentalDamage = _mentalDamage;
 }
@@ -36,7 +38,7 @@ void PoisonTurretProjectile::update(float _dt)
 		{
 			int damage = random(1, 25) + (((UnitEntity*)target)->getPoisonStacks()+1) * this->m_mentalDamage;
 			int healthBefore = target->getHealth();
-			target->takeDamage(this->getId(), 0, damage);
+			target->takeDamage(this->m_masterOwner, 0, damage);
 			((UnitEntity*)target)->addPoisonStack();
 
 			// dbg

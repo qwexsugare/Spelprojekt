@@ -51,6 +51,7 @@ public:
 
 	void enemyDied();
 	FLOAT3 getPlayerPosition(int p);
+	int getLivesLeft();
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "ChainStrikeEffect.h"
 #include "EntityHandler.h"
 #include "SoundWrapper.h"
+#include "Turret.h"
 
 const FLOAT ChainStrikeEffect::TIME_BETWEEN_JUMPS = 1.5f;
 
@@ -17,10 +18,11 @@ ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, int _maxJumps, i
 	m_baseDamage = _baseDamage;
 
 	ServerEntity* target = EntityHandler::getServerEntity(m_firstTarget);
-	if(target)
+	ServerEntity* master = EntityHandler::getServerEntity(m_masterId);
+	if(target && master)
 	{
 		m_position = target->getPosition();
-		target->takeDamage(m_masterId, 0, m_baseDamage/(++m_jumps));
+		target->takeDamage(((Turret*)master)->getOwnerId(), 0, m_baseDamage/(++m_jumps));
 		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::CHAIN_STRIKE_FIRST_EXCEPTION, m_masterId, m_position));
 
 		// If max number of jumps is reached, delete me
@@ -99,7 +101,12 @@ void ChainStrikeEffect::update(float _dt)
 		if(closestValidTarget && distanceToClosestValidTarget <= MAX_JUMP_DISTANCE)
 		{
 			m_position = closestValidTarget->getPosition();
-			closestValidTarget->takeDamage(m_masterId, 0, m_baseDamage/(++m_jumps));
+			ServerEntity* master = EntityHandler::getServerEntity(m_masterId);
+
+			if(master != NULL)
+			{
+				closestValidTarget->takeDamage(((Turret*)master)->getOwnerId(), 0, m_baseDamage/(++m_jumps));
+			}
 
 			// If max number of jumps is reached, delete me
 			if(m_jumps == m_maxJumps)
