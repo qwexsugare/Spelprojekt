@@ -61,7 +61,25 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.265f,  -0.90f),FLOAT2(0.375f/2,  0.666666667f/2),1));	
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.85f,  -0.79f),FLOAT2(0.375f/1.2f,  0.666666667f/1.2f),1));	
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.6f,  -0.90f),FLOAT2(0.375f/2,  0.666666667f/2),1));	
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.6f,  -0.90f),FLOAT2(0.375f/1.4f,  0.666666667f/1.4f),1));	
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Gear.png",FLOAT2(-0.6f,  -0.90f),FLOAT2(0.375f/1.4f,  0.666666667f/1.4f),1));
+	
+	m_enemyIcons[Enemy::EnemyType::IMP] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::IMP]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::SHADE] = g_graphicsEngine->createSprite("menu_textures/Imp-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SHADE]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::FROST_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-0.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::FROST_DEMON]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-2.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-0.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED]->setVisible(false);
+	m_currentTargetEnemy = Enemy::NONE;
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
@@ -200,7 +218,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			{
 				if(_entities[entityIndex]->m_id == _heroId)
 				{
-					g_graphicsEngine->getCamera()->set(_entities[entityIndex]->m_model->getPosition2DAsFloat2() - FLOAT2(0.0f, 4.0f) /* camera angle offset */);
+					g_graphicsEngine->getCamera()->set(_entities[entityIndex]->m_model->getPosition2DAsFloat2() - FLOAT2(0.0f, g_graphicsEngine->getCamera()->getZOffset()));
 
 					entityIndex = _entities.size();
 				}
@@ -240,7 +258,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 
 		if(g_mouse->isLButtonPressed() == true && this->m_skillWaitingForTarget > -1)
 		{
-			if(m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || m_skillWaitingForTarget == Skill::TELEPORT)
+			if(this->m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || this->m_skillWaitingForTarget == Skill::TELEPORT || this->m_skillWaitingForTarget == Skill::WALL || this->m_skillWaitingForTarget == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
 			{
 				D3DXVECTOR3 pickDir;
 				D3DXVECTOR3 pickOrig;
@@ -268,13 +286,9 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			}
 			else if(m_skillWaitingForTarget == Skill::HEALING_TOUCH)
 			{
-<<<<<<< HEAD
-				if(this->m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || this->m_skillWaitingForTarget == Skill::TELEPORT || this->m_skillWaitingForTarget == Skill::WALL || this->m_skillWaitingForTarget == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
-=======
 				// Check if the target is the pic of yourself down in the corner
 				if(m_Images[0]->intersects(FLOAT2(
 					g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
->>>>>>> 696c5a58db9a8ef6c498054a00c701be762f3269
 				{
 					// Find yourself in the entity vector
 					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
@@ -308,61 +322,14 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			g_mouse->getCursor()->setPriority(1);
 		}
 
-<<<<<<< HEAD
-			for(int i = 0; i < m_NumberOfSkills; i++)
-			{
-				this->m_SkillButtons[i]->Update(_dt);
-
-				if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
-				{
-					if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT || m_SkillButtons[i]->getSkillId() == Skill::HYPNOTIC_STARE
-						|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::WALL || m_SkillButtons[i]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
-					{
-						this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
-						this->m_buttonIndex = i;
-
-						switch(this->m_skillWaitingForTarget)
-						{
-						case Skill::CLOUD_OF_DARKNESS:
-							g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
-							break;
-						case Skill::HEALING_TOUCH:
-							g_mouse->getCursor()->setFrame(Cursor::HEALING_TOUCH, 3);
-							break;
-						case Skill::TELEPORT:
-							g_mouse->getCursor()->setFrame(Cursor::TELEPORT, 3);
-							break;
-						case Skill::CHAIN_STRIKE:
-							g_mouse->getCursor()->setFrame(Cursor::CHAIN_STRIKE, 3);
-							break;
-						case Skill::HYPNOTIC_STARE:
-							g_mouse->getCursor()->setFrame(Cursor::HYPNOTIC_STARE, 3);
-							break;
-						case Skill::WALL:
-							g_mouse->getCursor()->setFrame(Cursor::WALL, 3);
-							break;
-						case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
-							g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
-							break;
-						}
-					}
-					else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
-						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[i]->getSkillId() == Skill::TIME_IS_MONEY)
-					{
-						this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId(), i));
-					}
-				}
-			}
-=======
-		for(int i = 0; i < m_NumberOfSkills; i++)
+		for(int i = 1; i < m_NumberOfSkills; i++)
 		{
 			this->m_SkillButtons[i]->Update(_dt);
->>>>>>> 696c5a58db9a8ef6c498054a00c701be762f3269
-
-			if(g_keyboard->getKeyState('0' + i + 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
+			
+			if(g_keyboard->getKeyState('0' + i) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
 			{
 				if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT || m_SkillButtons[i]->getSkillId() == Skill::HYPNOTIC_STARE
-					|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE)
+						|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::WALL || m_SkillButtons[i]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
 				{
 					this->m_skillWaitingForTarget = this->m_SkillButtons[i]->getSkillId();
 					this->m_buttonIndex = i;
@@ -384,13 +351,62 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					case Skill::HYPNOTIC_STARE:
 						g_mouse->getCursor()->setFrame(Cursor::HYPNOTIC_STARE, 3);
 						break;
+					case Skill::WALL:
+						g_mouse->getCursor()->setFrame(Cursor::WALL, 3);
+						break;
+					case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
+						g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
+						break;
 					}
 				}
 				else if(m_SkillButtons[i]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[i]->getSkillId() == Skill::SIMONS_EVIL ||
-					m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR)
+						m_SkillButtons[i]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[i]->getSkillId() == Skill::TIME_IS_MONEY)
 				{
 					this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[i]->getSkillId(), i));
 				}
+			}
+		}
+
+		// Do the E skill
+		this->m_SkillButtons[0]->Update(_dt);
+
+		if(this->m_SkillButtons.size() > 0 && (g_keyboard->getKeyState('E') == Keyboard::KEY_PRESSED || this->m_SkillButtons[0]->Clicked() > 0))
+		{
+			if(m_SkillButtons[0]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[0]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[0]->getSkillId() == Skill::TELEPORT || m_SkillButtons[0]->getSkillId() == Skill::HYPNOTIC_STARE
+					|| m_SkillButtons[0]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[0]->getSkillId() == Skill::WALL || m_SkillButtons[0]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
+			{
+				this->m_skillWaitingForTarget = this->m_SkillButtons[0]->getSkillId();
+				this->m_buttonIndex = 0;
+
+				switch(this->m_skillWaitingForTarget)
+				{
+				case Skill::CLOUD_OF_DARKNESS:
+					g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
+					break;
+				case Skill::HEALING_TOUCH:
+					g_mouse->getCursor()->setFrame(Cursor::HEALING_TOUCH, 3);
+					break;
+				case Skill::TELEPORT:
+					g_mouse->getCursor()->setFrame(Cursor::TELEPORT, 3);
+					break;
+				case Skill::CHAIN_STRIKE:
+					g_mouse->getCursor()->setFrame(Cursor::CHAIN_STRIKE, 3);
+					break;
+				case Skill::HYPNOTIC_STARE:
+					g_mouse->getCursor()->setFrame(Cursor::HYPNOTIC_STARE, 3);
+					break;
+				case Skill::WALL:
+					g_mouse->getCursor()->setFrame(Cursor::WALL, 3);
+					break;
+				case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
+					g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
+					break;
+				}
+			}
+			else if(m_SkillButtons[0]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[0]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[0]->getSkillId() == Skill::SIMONS_EVIL ||
+					m_SkillButtons[0]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[0]->getSkillId() == Skill::TIME_IS_MONEY)
+			{
+				this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[0]->getSkillId(), 0));
 			}
 		}
 
@@ -534,6 +550,9 @@ HudMenu::~HudMenu(void)
 		delete this->m_disabledShopButtons[i];
 	}
 
+	for(map<Enemy::EnemyType, Sprite*>::iterator iter = m_enemyIcons.begin(); iter != m_enemyIcons.end(); iter++)
+		g_graphicsEngine->removeSprite(iter->second);
+
 	for(int i = 0; i < this->m_shopBackground.size(); i++)
 	{
 		g_graphicsEngine->removeSprite(this->m_shopBackground[i]);
@@ -667,4 +686,21 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 void HudMenu::setHealth(float health)
 {
 	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.565555556f));
+}
+
+<<<<<<< HEAD
+void HudMenu::setLivesLeft(int livesLeft)
+{
+	//Update some text
+=======
+void HudMenu::setTargetEnemy(Enemy::EnemyType _enemyType)
+{
+	if(m_currentTargetEnemy != Enemy::NONE)
+		m_enemyIcons[m_currentTargetEnemy]->setVisible(false);
+
+	if(_enemyType != Enemy::NONE)
+		m_enemyIcons[_enemyType]->setVisible(true);
+
+	m_currentTargetEnemy = _enemyType;
+>>>>>>> 89842ec1a296d6b1c3817e9b8e1721d35400c433
 }
