@@ -24,26 +24,25 @@ SamplerState pointSampler
 
 struct VSSceneIn
 {
-	float3 Pos	: POS;
-	float2 UVCoord : UVCOORD;
-	float3 Normal : NORMAL;
+	float3 Pos		: POS;
+	float2 UVCoord	: UVCOORD;
+	float3 Normal	: NORMAL;
 };
 
 struct VSSuperSceneIn
 {
-	float3 Pos	: POS;
-	float2 UVCoord : UVCOORD;
-	float3 Normal : NORMAL;
-	float3 Tangent : TANGENT;
+	float3 Pos		: POS;
+	float2 UVCoord	: UVCOORD;
+	float3 Normal	: NORMAL;
 };
 
 struct PSSuperSceneIn
 {
-	float4 Pos  : SV_Position;
-	float2 UVCoord : UVCOORD;
+	float4 Pos		: SV_Position;
+	float2 UVCoord	: UVCOORD;
 	float4 EyeCoord : EYE_COORD;
-	float4 Normal : NORMAL;
-	float3 Tangent : TANGENT;
+	float4 Normal	: NORMAL;
+	float3 ViewCoord: VIEWCOORD;
 };
 
 struct VSAnimSceneIn
@@ -51,26 +50,26 @@ struct VSAnimSceneIn
 	float3 Pos		: POS;
 	float2 UVCoord	: UVCOORD;
 	float3 Normal	: NORMAL;
-	float3 Tangent	: TANGENT;
 	float4 Weight	: WEIGHT;
 	float4 Bone		: BONE;
 };
 
 struct PSSceneIn
 {
-	float4 Pos  : SV_Position;
-	float2 UVCoord : UVCOORD;
+	float4 Pos		: SV_Position;
+	float2 UVCoord	: UVCOORD;
 	float4 EyeCoord : EYE_COORD;
-	float3 Normal : NORMAL;
+	float3 Normal	: NORMAL;
+	float3 ViewCoord: VIEWCOORD;
 };
 
 struct PSSceneOut
 {
-	float4 Pos : SV_TARGET0;
-	float4 Normal : SV_TARGET1;
-	float4 Diffuse : SV_TARGET2;
-	float4 Tangent : SV_TARGET3;
-	float4 Glow : SV_TARGET4;
+	float4 Pos		: SV_TARGET0;
+	float4 Normal	: SV_TARGET1;
+	float4 Diffuse	: SV_TARGET2;
+	float4 ViewCoord: SV_TARGET3;
+	float4 Glow		: SV_TARGET4;
 };
 
 //Variables that updated often
@@ -220,7 +219,7 @@ PSSceneOut PSScene(PSSceneIn input)
 	//output.Pos = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = color;
-	output.Tangent = float4(1, 0, 0, 0);
+	output.ViewCoord = float4(1, 0, 0, 0);
 	output.Glow = float4(1, 1, 1, 1);
 	return output;
 }
@@ -255,6 +254,7 @@ PSSuperSceneIn VSSuperScene(VSSuperSceneIn input)
 
 	output.Normal = normalize(mul(float4(myNormal, 0.0f), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
+	output.ViewCoord = mul(float4(input.Pos, 1.0), mul(viewMatrix, modelMatrix));
 
 	return output;
 }
@@ -275,8 +275,9 @@ PSSuperSceneIn VSPropsScene(VSSuperSceneIn input)
 	float3 myNormal = input.Normal;
 
 	output.Normal = normalize(mul(float4(myNormal, 0.0f), newModelMatrix));
-	//output.Tangent = normalize(mul(float4(myTangent, 0.0f), newModelMatrix));
+	//output.ViewCoord = normalize(mul(float4(myTangent, 0.0f), newModelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), newModelMatrix);
+	output.ViewCoord = mul(float4(input.Pos, 1.0), mul(viewMatrix, modelMatrix));
 
 	return output;
 }
@@ -336,7 +337,7 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	output.Pos = input.EyeCoord;
 	output.Normal = float4(nNormal, 1);
 	output.Diffuse = color;
-	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).r);
+	output.ViewCoord = float4(input.ViewCoord.xyz, specularMap.Sample(linearSampler, input.UVCoord).r);
 	output.Glow = glowMap.Sample(linearSampler, input.UVCoord);
 
 	return output;
@@ -459,8 +460,8 @@ PSSuperSceneIn VSAnimScene(VSAnimSceneIn input)
 	//variables needed for lighting
 	output.Normal = normalize(mul(float4(output.Normal.xyz, 0.0), modelMatrix));
 	output.EyeCoord = mul(float4(output.Pos.xyz,1.0), modelMatrix);
-	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).r);
-	//output.Tangent = float4(t, 0);
+	output.ViewCoord = mul(float4(input.Pos, 1.0), mul(viewMatrix, modelMatrix));
+	//output.ViewCoord = float4(t, 0);
 
 	return output;
 }
@@ -505,6 +506,8 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 	float4 norm = normalize(mul(input.Normal, modelMatrix));
 	output.Normal = normalize(mul(float4(input.Normal, 0.0), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
+	
+	output.ViewCoord = mul(float4(input.Pos, 1.0), mul(viewMatrix, modelMatrix));
 
 	return output;
 }
@@ -514,7 +517,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 	PSSceneOut output = (PSSceneOut)0;
 
 	output.Pos = input.EyeCoord;
-	output.Tangent = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	output.ViewCoord.w = 1.0f;
 	//output.Normal = float4(input.Normal, 1.0f);
 	//output.Normal = normalize(mul(normalMap.Sample(pointSampler, input.UVCoord), modelMatrix));
 
@@ -572,14 +575,14 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 
 	output.Normal = normalize(mul(output.Normal, modelMatrix));
 
-	output.Tangent.w =  specular[0].w * blendSample1.x;
-	output.Tangent.w += specular[1].w * blendSample1.y;
-	output.Tangent.w += specular[2].w * blendSample1.z;
-	output.Tangent.w += specular[3].w * blendSample1.w;
-	output.Tangent.w += specular[4].w * blendSample2.x;
-	output.Tangent.w += specular[5].w * blendSample2.y;
-	output.Tangent.w += specular[6].w * blendSample2.z;
-	output.Tangent.w += specular[7].w * blendSample2.w;
+	output.ViewCoord.w =  specular[0].w * blendSample1.x;
+	output.ViewCoord.w += specular[1].w * blendSample1.y;
+	output.ViewCoord.w += specular[2].w * blendSample1.z;
+	output.ViewCoord.w += specular[3].w * blendSample1.w;
+	output.ViewCoord.w += specular[4].w * blendSample2.x;
+	output.ViewCoord.w += specular[5].w * blendSample2.y;
+	output.ViewCoord.w += specular[6].w * blendSample2.z;
+	output.ViewCoord.w += specular[7].w * blendSample2.w;
 
 
 	output.Normal.w = terrainNormalMaps[0].Sample(linearSampler, input.UVCoord).w;
@@ -599,7 +602,7 @@ PSSceneOut drawTerrainPs(PSSceneIn input)
 
 
 	//output.Diffuse = float4(1.0f, 1.0f, 1.0f, 1.0f);
-	//output.Tangent = float4(1, 0, 0, 0);
+	output.ViewCoord = float4(input.ViewCoord.xyz, output.ViewCoord.w);
 
 	return output;
 }
@@ -641,7 +644,7 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 	output.Pos = input.EyeCoord;
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
-	output.Tangent = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	output.ViewCoord = float4(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//output.Glow = float4(0, 1, 0, 1);
 
