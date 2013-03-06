@@ -8,7 +8,7 @@
 DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
 	this->m_masterId = _masterId;
-	this->m_lifetime = 5.0f;
+	this->m_lifetime = 10.0f;
 	this->m_sink = false;
 	this->m_model = NULL;
 	this->m_lanternLight = NULL;
