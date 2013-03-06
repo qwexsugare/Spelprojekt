@@ -292,6 +292,9 @@ void GameState::update(float _dt)
 		case Skill::CHAIN_STRIKE_FIRST_EXCEPTION:
 			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), true));
 			break;
+		case Skill::CHURCH_PENETRATED:
+			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
+			break;
 		}
 	}
 

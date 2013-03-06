@@ -204,7 +204,7 @@ PSSceneIn VSScene(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.Normal = normalize(mul(float4(input.Normal, 0.0), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
 
 	return output;
@@ -457,7 +457,7 @@ PSSuperSceneIn VSAnimScene(VSAnimSceneIn input)
 	output.UVCoord = input.UVCoord;
 	
 	//variables needed for lighting
-	output.Normal = normalize(mul(output.Normal, modelMatrix));
+	output.Normal = normalize(mul(float4(output.Normal.xyz, 0.0), modelMatrix));
 	output.EyeCoord = mul(float4(output.Pos.xyz,1.0), modelMatrix);
 	output.Tangent = float4(0.0f, 0.0f, 0.0f, specularMap.Sample(linearSampler, input.UVCoord).r);
 	//output.Tangent = float4(t, 0);
@@ -503,7 +503,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 
 	//variables needed for lighting
 	float4 norm = normalize(mul(input.Normal, modelMatrix));
-	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.Normal = normalize(mul(float4(input.Normal, 0.0), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
 
 	return output;

@@ -158,6 +158,7 @@
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp" />
     <ClCompile Include="EnhancedDevelopment.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp" />
@@ -335,6 +336,7 @@
     <ClInclude Include="ArrowClientSkillEffect.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ChurchPenetratedClientSkillEffect.h" />
     <ClInclude Include="EnhancedDevelopment.h" />
     <ClInclude Include="ReadyAimFire.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h" />

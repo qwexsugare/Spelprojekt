@@ -2489,3 +2489,15 @@ GameClient/models/CloudOfDarkness/CloudofDarkness_2_NM.png
 GameClient/models/CloudOfDarkness/CloudofDarkness_2_SM.png
 GameClient/maps/levelone/levelonegm.png
 GameClient/maps/levelone/leveloneminimap(0).png
+GameClient/audio/attacks/meleeAttack_0.wav
+GameClient/audio/attacks/meleeAttack_1.wav
+GameClient/audio/attacks/meleeAttack_2.wav
+GameClient/audio/attacks/rangeAttack_0.wav
+GameClient/audio/attacks/rangeAttack_1.wav
+GameClient/audio/attacks/rangeAttack_2.wav
+GameClient/audio/attacks/twoHandedAttack_0.wav
+GameClient/audio/attacks/twoHandedAttack_1.wav
+GameClient/audio/attacks/twoHandedAttack_2.wav
+GameClient/audio/skills/codWindStartEnd.wav
+GameClient/audio/skills/healingTouch.wav
+GameClient/audio/turrets/frost_turret_attack.wav

@@ -120,17 +120,27 @@ void Enemy::updateSpecificUnitEntity(float dt)
 					this->attackHero(this->m_closestTargetId);
 				}
 
-				if(EntityHandler::getServerEntity(m_closestTargetId)->getHealth() <= 0)
+				if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
 				{
 					m_reachedPosition = false; 
 					m_attackCooldown = m_baseAttackSpeed;
 					m_willPursue = false;
-					this->m_nextPosition = m_goalPosition;
+						this->m_nextPosition = m_goalPosition;
 				}
 			}
 			else 
 			{
 				m_reachedPosition = false;
+
+			if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
+				{
+					m_reachedPosition = false; 
+					m_attackCooldown = m_baseAttackSpeed;
+					m_willPursue = false;
+						this->m_nextPosition = m_goalPosition;
+
+				}
+			
 			}
 		}
 		else
@@ -275,7 +285,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		else if((m_goalPosition-m_position).length() < (this->m_movementSpeed * lastDT)+1 || (m_position - m_destination).length() < m_destinationRadius + 0.1f)
 		{
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
-			this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id));
+			this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id, this->m_position));
 		}
 		
 

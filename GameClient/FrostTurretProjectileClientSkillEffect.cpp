@@ -15,7 +15,7 @@ FrostTurretProjectileClientSkillEffect::FrostTurretProjectileClientSkillEffect(F
 	m_graphicalEffect->setScale(1.5f, 1.5f, 1.5f);
 	m_graphicalEffect->setAlpha(0.999f);
 
-	int sound = createSoundHandle("turrets/TurretBuildup.wav", false, true, _position);
+	int sound = createSoundHandle("turrets/frost_turret_attack.wav", false, true, _position);
 	playSound(sound);
 	deactivateSound(sound);
 }

@@ -186,8 +186,8 @@ bool World::removeTerrain(Terrain* _terrain)
 
 void World::render()
 {
-	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
-	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
+	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
 
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
@@ -343,8 +343,8 @@ void World::render()
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 		
-		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
-		//if(modelDistanceToCamera.x < 8.8f && modelDistanceToCamera.y < 5.86f)
+		//if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
+		if(modelDistanceToCamera.x < 8.8f && modelDistanceToCamera.y < 5.86f)
 		{
 			if(m_models[i]->getAlpha() < 1.0f)
 			{
@@ -1016,8 +1016,8 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 void World::update(float dt)
 {
-	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
-	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
+	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
 
 	//SpriteSheets
 	for(int i = 0; i < this->m_spritesMiddle.size(); i++)

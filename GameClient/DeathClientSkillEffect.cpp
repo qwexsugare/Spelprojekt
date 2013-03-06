@@ -15,7 +15,7 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 
 	Entity *e = ClientEntityHandler::getEntity(this->m_masterId);
 
-	if(e->m_type == ServerEntity::EnemyType)
+	if(e != NULL && e->m_type == ServerEntity::EnemyType)
 	{
 		this->m_sink = true;
 	}
