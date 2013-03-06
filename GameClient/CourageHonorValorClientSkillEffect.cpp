@@ -7,7 +7,6 @@ CourageHonorValorClientSkillEffect::CourageHonorValorClientSkillEffect(unsigned 
 {
 	m_masterId = _masterId;
 	Entity *e = ClientEntityHandler::getEntity(_masterId);
-
 	if(e != NULL)
 	{
 		FLOAT3 pos = e->m_model->getPosition();
@@ -15,9 +14,8 @@ CourageHonorValorClientSkillEffect::CourageHonorValorClientSkillEffect(unsigned 
 		m_model = g_graphicsEngine->createModel("Pentagram", pos);
 		m_model->setAlpha(0.75f);
 		m_model->setShadow(false);
-		m_sound = createSoundHandle("collision.wav", false, true, pos);
-		playSound(m_sound);
 	}
+	m_lifetime = 0.0f;
 }
 
 CourageHonorValorClientSkillEffect::~CourageHonorValorClientSkillEffect()
@@ -25,7 +23,6 @@ CourageHonorValorClientSkillEffect::~CourageHonorValorClientSkillEffect()
 	Entity *e = ClientEntityHandler::getEntity(m_masterId);
 	if(e)
 		g_graphicsEngine->removeModel(m_model);
-	deactivateSound(m_sound);
 }
 
 void CourageHonorValorClientSkillEffect::update(float _dt)
