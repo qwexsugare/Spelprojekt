@@ -2533,3 +2533,16 @@ GameClient/audio/ambient/thunder3.wav
 GameClient/audio/ambient/thunder4.wav
 GameClient/audio/skills/dpBreathingEnd.wav
 GameClient/audio/skills/dpHearbeatScreamsStart.wav
+dev/Excess Audio/teleport.wav
+GameClient/audio/skills/healing_aura.wav
+GameClient/audio/skills/hypnotic_stare_end.wav
+GameClient/audio/skills/hypnotic_stare_start.wav
+GameClient/audio/skills/saacpaab0.wav
+GameClient/audio/skills/saacpaab1.wav
+GameClient/audio/skills/target_acquired_permission_to_fire.wav
+GameClient/audio/skills/targetAcquird.wav
+GameClient/audio/skills/teleport.wav
+GameClient/audio/skills/time_is_,money0.wav
+GameClient/audio/skills/time_is_money1.wav
+GameClient/audio/skills/wallEnd.wav
+GameClient/audio/skills/wallStartGroundShake.wav

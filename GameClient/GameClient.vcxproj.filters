@@ -511,6 +511,9 @@
     <ClCompile Include="AmbientSoundsManager.cpp">
       <Filter>Client\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="TeleportClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1057,6 +1060,9 @@
     </ClInclude>
     <ClInclude Include="AmbientSoundsManager.h">
       <Filter>Client\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
