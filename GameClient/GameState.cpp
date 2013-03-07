@@ -49,6 +49,8 @@ GameState::GameState(Client *_network)
 		m_moveSounds[1] = createSoundHandle("engineer/Engineer_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("engineer/Engineer_Click_2.wav", false, false);
 		m_lowHealthSound = createSoundHandle("engineer/Engineer_LowHealth_0.wav", false, false);
+		m_timeIsMoneySounds.push_back(createSoundHandle("skills/time_is_money0", false, false));
+		m_timeIsMoneySounds.push_back(createSoundHandle("skills/time_is_money1", false, false));
 		break;
 	case Hero::THE_MENTALIST:
 		m_idleSound = createSoundHandle("mentalist/Mentalist_Idle.wav", false, false);
@@ -120,6 +122,11 @@ GameState::~GameState()
 	{
 		stopSound(m_moveSounds[i]);
 		deactivateSound(m_moveSounds[i]);
+	}
+	for(int i = 0; i < m_timeIsMoneySounds.size(); i++)
+	{
+		stopSound(m_timeIsMoneySounds[i]);
+		deactivateSound(m_timeIsMoneySounds[i]);
 	}
 	stopSound(m_lowHealthSound);
 	deactivateSound(m_lowHealthSound);
@@ -263,6 +270,10 @@ void GameState::update(float _dt)
 		case Skill::ENEMY_PURSUE:
 			this->playPursueSound(e.getSenderId());
 			break;
+		case Skill::TIME_IS_MONEY:
+			if(e.getSenderId() == m_playerInfos[m_yourId].id)
+				playSound(m_timeIsMoneySounds[random(0, m_timeIsMoneySounds.size()-1)]);
+			break;
 		case Skill::STUNNING_STRIKE:
 			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
@@ -382,6 +393,9 @@ void GameState::update(float _dt)
 		case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
 			m_ClientSkillEffects.push_back(new TargetAcquiredClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
+		case Skill::TELEPORT:
+			m_ClientSkillEffects.push_back(new TeleportClientSkillEffect(e.getPosition()));
+			break;
 		}
 	}
 
@@ -407,7 +421,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
 			break;
 		case Skill::HYPNOTIC_STARE:
-			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getPosition().x));
+			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getSenderId(), e.getPosition().x));
 			break;
 		case Skill::DEMONIC_PRESENCE:
 			m_ClientSkillEffects.push_back(new DemonicPresenceClientSkillEffect(e.getTargetId()));

@@ -49,6 +49,7 @@ private:
 	int m_moveSounds[NR_OF_MOVE_SOUNDS];
 	static const int ATTACK_SOUND_DELAY = 5;
 	float m_attackSoundTimer;
+	vector<int> m_timeIsMoneySounds;
 
 	void importMap(string _map);
 	void playPursueSound(unsigned int _speakerId);
