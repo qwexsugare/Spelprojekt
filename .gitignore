@@ -2546,3 +2546,5 @@ GameClient/audio/skills/time_is_,money0.wav
 GameClient/audio/skills/time_is_money1.wav
 GameClient/audio/skills/wallEnd.wav
 GameClient/audio/skills/wallStartGroundShake.wav
+dev/Excess Audio/churchBell3X.wav
+GameClient/audio/gameplay/churchBell1X.wav
