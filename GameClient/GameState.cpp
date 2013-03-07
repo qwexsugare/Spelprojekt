@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "Graphics.h"
 #include "SoundWrapper.h"
-#include <sstream>
 #include "Skill.h"
 #include "ClientSkillEffects.h"
 #include "Path.h"
@@ -17,7 +16,6 @@ GameState::GameState(Client *_network)
 
 	//Create particle system
 	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
-
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -97,8 +95,6 @@ GameState::GameState(Client *_network)
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, true);
 	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
-
-	m_healthText = g_graphicsEngine->createText("No target", INT2(500, 500), 20, D3DXCOLOR(1,1,1,1));
 }
 
 GameState::~GameState()
@@ -111,7 +107,6 @@ GameState::~GameState()
 		delete this->m_minimap;
 	delete this->m_hud;
 	delete this->m_clientEntityHandler;
-	g_graphicsEngine->removeText(m_healthText);
 	if(this->testParticleSystem)
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 
@@ -137,6 +132,7 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
+	m_ambientSoundsManager.update(_dt);
 	ClientEntityHandler::update(_dt);
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id);
@@ -246,9 +242,7 @@ void GameState::update(float _dt)
 		if(model)
 		{
 			//this->m_entities.push_back(new Entity(model, e.getEntityId()));
-			Entity *e = new Entity(model, iem.getID());
-			e->m_type = (ServerEntity::Type)iem.getType();
-			e->m_subtype = iem.getSubtype();
+			Entity *e = new Entity(model, iem.getID(), (ServerEntity::Type)iem.getType(), iem.getSubtype());
 			this->m_clientEntityHandler->addEntity(e);
 
 			e->m_weapon = iem.getWeaponType();
@@ -468,6 +462,15 @@ void GameState::update(float _dt)
 							delete m_ClientSkillEffects[i];
 							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
 							i = m_ClientSkillEffects.size();
+
+							// Play sound
+							Entity* ent = ClientEntityHandler::getEntity(e.getTargetId());
+							if(ent)
+							{
+								int sound = createSoundHandle("skills/dpBreathingEnd.wav", false, true, ent->m_startPos);
+								playSound(sound);
+								deactivateSound(sound);
+							}
 						}
 					}
 				}
@@ -606,9 +609,7 @@ void GameState::update(float _dt)
 			{
 				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[mouseOverEnemy]->m_id, -1));
 				m_hud->setTargetEnemy(Enemy::EnemyType(m_entities[mouseOverEnemy]->m_subtype));
-				stringstream ss;
-				ss << m_entities[mouseOverEnemy]->m_health;
-				m_healthText->setString("Target health: " + ss.str());
+
 				if(m_attackSoundTimer == 0.0f)
 				{
 					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
@@ -625,8 +626,6 @@ void GameState::update(float _dt)
 				m_hud->setTargetEnemy(Enemy::NONE);
 
 				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
-
-				m_healthText->setString("No target");
 			}
 		}
 	}

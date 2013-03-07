@@ -2506,3 +2506,25 @@ GameClient/audio/skills/Engineer_COURAGE_REACTION.wav
 GameClient/audio/skills/Mentalist_COURAGE_REACTION.wav
 GameClient/audio/skills/Officer_COURAGE_REACTION.wav
 GameClient/audio/skills/RedKnight_COURAGE.wav
+dev/Excess Audio/Stepps0.wav
+dev/Excess Audio/Stepps1.wav
+dev/Excess Audio/Stepps2.wav
+dev/Excess Audio/wind0.wav
+dev/Excess Audio/wind1.wav
+dev/Excess Audio/wind2.wav
+GameClient/AmbientSoundsManager.cpp
+GameClient/AmbientSoundsManager.h
+GameClient/audio/ambient/CPUScream0.wav
+GameClient/audio/ambient/CPUScream1.wav
+GameClient/audio/ambient/maniacLaugh0.wav
+GameClient/audio/ambient/maniacLaugh1.wav
+GameClient/audio/ambient/scream0.wav
+GameClient/audio/ambient/scream1.wav
+GameClient/audio/ambient/scream2.wav
+GameClient/audio/ambient/thunder0.wav
+GameClient/audio/ambient/thunder1.wav
+GameClient/audio/ambient/thunder2.wav
+GameClient/audio/ambient/thunder3.wav
+GameClient/audio/ambient/thunder4.wav
+GameClient/audio/skills/dpBreathingEnd.wav
+GameClient/audio/skills/dpHearbeatScreamsStart.wav
