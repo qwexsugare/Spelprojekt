@@ -19,11 +19,15 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	{
 		master->m_model->getAnimation()->PlayLoop("RangeAttack");
 	}
+	
+	D3DXVECTOR3 newPos = D3DXVECTOR3(_position.x, _position.y, _position.z);
+	this->m_particleSystem = g_graphicsEngine->createParticleEngine(D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
 }
 
 ArrowClientSkillEffect::~ArrowClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_graphicalEffect);
+	g_graphicsEngine->removeParticleEngine(this->m_particleSystem);
 }
 
 void ArrowClientSkillEffect::update(float _dt)
@@ -31,6 +35,9 @@ void ArrowClientSkillEffect::update(float _dt)
 	Entity* target = ClientEntityHandler::getEntity(m_targetId);
 	if(target)
 	{
+		D3DXVECTOR3 newPos = D3DXVECTOR3(m_graphicalEffect->getPosition().x, m_graphicalEffect->getPosition().y, m_graphicalEffect->getPosition().z);
+		this->m_particleSystem->setPosition(newPos);
+
 		FLOAT3 dist = target->m_model->getPosition()-m_graphicalEffect->getPosition();
 		FLOAT3 movement = dist/dist.length()*RangedAttack::VELOCITY*_dt;
 
