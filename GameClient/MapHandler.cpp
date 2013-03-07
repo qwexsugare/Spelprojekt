@@ -155,6 +155,10 @@ void MapHandler::loadMap(std::string filename)
 
 						this->nrOfSpawnPoints++;
 					}
+					else if(strcmp(key, "Fountain") == 0)
+					{
+						EntityHandler::addEntity(new HealingFountain(position));
+					}
 					else
 					{
 						Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)

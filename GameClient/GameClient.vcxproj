@@ -161,7 +161,9 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp" />
     <ClCompile Include="EnhancedDevelopment.cpp" />
+    <ClCompile Include="HealingFountain.cpp" />
     <ClCompile Include="NetworkAttributeUpdateMessage.cpp" />
+    <ClCompile Include="NetworkEndGameMessage.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
@@ -342,7 +344,9 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChurchPenetratedClientSkillEffect.h" />
     <ClInclude Include="EnhancedDevelopment.h" />
+    <ClInclude Include="HealingFountain.h" />
     <ClInclude Include="NetworkAttributeUpdateMessage.h" />
+    <ClInclude Include="NetworkEndGameMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h" />
     <ClInclude Include="ChainStrike.h" />
