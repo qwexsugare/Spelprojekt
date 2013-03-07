@@ -48,11 +48,14 @@ private:
 	static const int ATTACK_SOUND_DELAY = 5;
 	float m_attackSoundTimer;
 	vector<int> m_timeIsMoneySounds;
+	int m_churchSound;
+	bool m_idling;
 
 	void importMap(string _map);
 	void playPursueSound(unsigned int _speakerId);
+	void playWallDeathSound(FLOAT3 _position);
 public:
-	static const int IDLE_SOUND_DELAY = 7;
+	static const int IDLE_SOUND_DELAY = 30;
 
 	GameState(Client *_network);
 	~GameState();

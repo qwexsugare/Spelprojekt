@@ -25,7 +25,7 @@ bool HypnoticStare::activate(unsigned int _targetId, unsigned int _senderId)
 	{
 		if(this->getCurrentCooldown() == 0 && (caster->getPosition() - target->getPosition()).length() <= RANGE)
 		{
-			EntityHandler::addEntity(new HypnoticStareEffect(target->getId(), ((Hero*)caster)->getWits()*TIME_FACTOR));
+			EntityHandler::addEntity(new HypnoticStareEffect(_targetId, _senderId, ((Hero*)caster)->getWits()*TIME_FACTOR));
 			this->resetCooldown();
 			return true;
 		}

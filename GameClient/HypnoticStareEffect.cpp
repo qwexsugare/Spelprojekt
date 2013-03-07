@@ -2,7 +2,7 @@
 #include "EntityHandler.h"
 #include "Enemy.h"
 
-HypnoticStareEffect::HypnoticStareEffect(unsigned int _affectedUnit, float _duration)
+HypnoticStareEffect::HypnoticStareEffect(unsigned int _affectedUnit, unsigned int _casterId, float _duration)
 {
 	m_affectedUnit = _affectedUnit;
 	m_timer = _duration;
@@ -17,7 +17,7 @@ HypnoticStareEffect::HypnoticStareEffect(unsigned int _affectedUnit, float _dura
 	{
 		((Enemy*)affectedUnit)->setTargetType(UnitEntity::EnemyType);
 		this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(
-			Skill::HYPNOTIC_STARE, 0, affectedUnit->getId(), FLOAT3(_duration, 0, 0))); // Set position.x to the duration so we use it as that instead mohahhaha >:D
+			Skill::HYPNOTIC_STARE, _casterId, affectedUnit->getId(), FLOAT3(_duration, 0, 0))); // Set position.x to the duration so we use it as that instead mohahhaha >:D
 	}
 	else
 		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));

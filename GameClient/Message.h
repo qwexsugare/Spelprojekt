@@ -135,14 +135,16 @@ struct RemoveActionTargetMessage : Message
 	unsigned int actionId;
 	unsigned int senderId;
 	unsigned int targetId;
+	FLOAT3 position;
 	
-	RemoveActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId)
+	RemoveActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId, FLOAT3 _position = FLOAT3(0.0f, 0.0f, 0.0f))
 	{
 		this->type = Type::RemoveActionTarget;
 		this->reciverId = 1;
 		this->actionId = _actionId;
 		this->senderId = _senderId;
 		this->targetId = _targetId;
+		this->position = _position;
 	}
 };
 
