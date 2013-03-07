@@ -10,7 +10,7 @@ Texture2D pointLightShadowMaps[MAX_POINT_LIGHT_SHADOWS];
 Texture2D randomTex;
 
 float aoScale = 2;
-float aoRadius = 0.003f;//0.03f;
+float aoRadius = 0.03f;
 float aoBias = 0;
 float aoIntensity = 1;
 
