@@ -14,14 +14,16 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	//m_model->getAnimation()->Play("attack");
 	m_model->setAlpha(0.75f);
 	m_model->setShadow(false);
-	m_sound = createSoundHandle("collision.wav", false, true, pos);
-	playSound(m_sound);
+
+	// Play sound
+	int sound = createSoundHandle("skills/dpHearbeatScreamsStart.wav", false, true, pos);
+	playSound(sound);
+	deactivateSound(sound);
 }
 
 DemonicPresenceClientSkillEffect::~DemonicPresenceClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_model);
-	deactivateSound(m_sound);
 }
 
 void DemonicPresenceClientSkillEffect::update(float _dt)

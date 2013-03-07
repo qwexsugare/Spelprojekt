@@ -105,7 +105,7 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 	{
 		EntityHandler::m_mutex.Lock();
 
-	if(_entity->getType() == ServerEntity::StaticType ||_entity->getType() == ServerEntity::GoalType )
+		if(_entity->getType() == ServerEntity::StaticType ||_entity->getType() == ServerEntity::GoalType )
 		{
 			found = EntityHandler::m_quadtree->removeServerEntity(_entity);
 		}

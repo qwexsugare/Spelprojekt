@@ -13,6 +13,7 @@
 #include "Hero.h"
 #include "PlayerInfo.h"
 #include "Text.h"
+#include "AmbientSoundsManager.h"
 //#include "Cursor.h"
 
 class GameState : public State
@@ -32,12 +33,12 @@ private:
 	unsigned int m_yourId;
 
 	//Cursor m_cursor;
-	Text* m_healthText;
 
 	bool m_idle;
 	float m_idleSoundTimer;
 
 	// Sounds
+	AmbientSoundsManager m_ambientSoundsManager;
 	int m_lowHealthSound;
 	static const int LOW_HEALTH_SOUND_DELAY = 10;
 	float m_lowHealthSoundDelayTimer;
@@ -48,6 +49,7 @@ private:
 	int m_moveSounds[NR_OF_MOVE_SOUNDS];
 	static const int ATTACK_SOUND_DELAY = 5;
 	float m_attackSoundTimer;
+	vector<int> m_timeIsMoneySounds;
 
 	void importMap(string _map);
 	void playPursueSound(unsigned int _speakerId);
