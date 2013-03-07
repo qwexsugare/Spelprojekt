@@ -10,6 +10,7 @@ class MeleeAOEAttack :
 {
 public:
 	static const float RANGE;
+	static const float AOE_RANGE;
 
 	MeleeAOEAttack();
 	~MeleeAOEAttack();

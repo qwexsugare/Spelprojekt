@@ -23,6 +23,9 @@ bool TimeIsMoney::activate(unsigned int _senderId)
 	{
 		this->resetCooldown();
 		this->m_active = true;
+		ServerEntity* e = EntityHandler::getServerEntity(_senderId);
+		if(e)
+			e->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::TIME_IS_MONEY, _senderId, e->getPosition()));
 		return true;
 	}
 	else

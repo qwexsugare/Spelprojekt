@@ -852,7 +852,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 				//Render the static models
 				stack<Model*> models = this->m_quadTree->getModels(pointLights[i]->getPosition2D());
-				while(!models.empty() && counter < 100)
+				while(!models.empty())
 				{
 					if(models.top()->getAlpha() == 1.0f && models.top()->getShadow() == true)
 					{

@@ -45,7 +45,7 @@ DeviceHandler::DeviceHandler(HWND _hWnd, bool _windowed, INT2 _screenSize)
 			break;
 		}
 	}
-
+	
 	this->setupViewPort(&this->m_viewport, this->m_screenSize.x, this->m_screenSize.y);
 	this->m_device->RSSetViewports( 1, &this->m_viewport );
 }

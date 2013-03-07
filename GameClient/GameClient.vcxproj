@@ -309,6 +309,7 @@
     <ClCompile Include="TargetAcquiredPermissionToFire.cpp" />
     <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp" />
     <ClCompile Include="Teleport.cpp" />
+    <ClCompile Include="TeleportClientSkillEffect.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
     <ClCompile Include="TeslaChainTurret.cpp" />
     <ClCompile Include="TeslaChainTurretEffect.cpp" />
@@ -497,6 +498,7 @@
     <ClInclude Include="TargetAcquiredPermissionToFire.h" />
     <ClInclude Include="TargetAcquiredPermissionToFireEffect.h" />
     <ClInclude Include="Teleport.h" />
+    <ClInclude Include="TeleportClientSkillEffect.h" />
     <ClInclude Include="TeleportEffect.h" />
     <ClInclude Include="TeslaChainTurret.h" />
     <ClInclude Include="TeslaChainTurretEffect.h" />

@@ -1,4 +1,5 @@
 #include "WallClientSkillEffect.h"
+#include "SoundWrapper.h"
 
 WallClientSkillEffect::WallClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
@@ -8,6 +9,11 @@ WallClientSkillEffect::WallClientSkillEffect(unsigned int _masterId, FLOAT3 _pos
 	{
 		master->m_model->getAnimation()->Play("Spell");
 	}
+
+	// Play sound
+	int sound = createSoundHandle("skills/wallStartGroundShake.wav", false, true, _position);
+	playSound(sound);
+	deactivateSound(sound);
 }
 
 WallClientSkillEffect::~WallClientSkillEffect()
