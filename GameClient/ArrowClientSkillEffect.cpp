@@ -49,7 +49,7 @@ ArrowClientSkillEffect::~ArrowClientSkillEffect()
 void ArrowClientSkillEffect::update(float _dt)
 {
 	Entity* target = ClientEntityHandler::getEntity(m_targetId);
-	if(target)
+	if(target && target->m_health > 0)
 	{
 		D3DXVECTOR3 newPos = D3DXVECTOR3(m_graphicalEffect->getPosition().x, m_graphicalEffect->getPosition().y, m_graphicalEffect->getPosition().z);
 		this->m_particleSystem->setPosition(newPos);
