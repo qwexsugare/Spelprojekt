@@ -22,6 +22,7 @@ private:
 	int getManhattanDistance(Position p1, Position p2);
 	void handleNodesNeighbour(Node* CurrentNode);
 	bool handleNeighbour(Node* CurrentNode, Position neighbourPos,int cost);
+	sf::Mutex m_mutex;
 
 	//expensive, maybe lookuptables for sqrt
 	bool walkableDistance(Position p1, Position p2);

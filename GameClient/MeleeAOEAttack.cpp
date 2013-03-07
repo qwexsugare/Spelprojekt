@@ -1,6 +1,7 @@
 #include "MeleeAOEAttack.h"
 
-const float MeleeAOEAttack::RANGE = 2.0f;
+const float MeleeAOEAttack::RANGE = 1.0f;
+const float MeleeAOEAttack::AOE_RANGE = 2.0f;
 
 MeleeAOEAttack::MeleeAOEAttack()
 {
@@ -23,7 +24,7 @@ bool MeleeAOEAttack::activate(unsigned int _targetId, unsigned int _senderId)
 
 		for(int i = 0; i < entities.size(); i++)
 		{
-			if(entities[i]->getType() == target->getType() && (entities[i]->getPosition() - caster->getPosition()).length() <= this->getRange())
+			if(entities[i]->getType() == target->getType() && (entities[i]->getPosition() - caster->getPosition()).length() <= MeleeAOEAttack::AOE_RANGE)
 			{
 				EntityHandler::addEntity(new DelayedDamage(_senderId, entities[i]->getId(), 0.5f, caster->getPhysicalDamage(), caster->getMentalDamage(), Skill::AOE_MELEE_ATTACK));
 			}
