@@ -4,8 +4,6 @@
 #include "EntityHandler.h"
 #include "SkillIdHolder.h"
 
-#include "Text.h"
-
 class DelayedDamage : public ServerEntity
 {
 private:
@@ -16,8 +14,6 @@ private:
 	int m_physicalDamage;
 	int m_mentalDamage;
 public:
-	static Text* text;
-
 	DelayedDamage(unsigned int _caster, unsigned int _target, float _timeToImpact, int _physicalDamage, int _mentalDamage, Skill::SKILLS skillId);
 	~DelayedDamage();
 

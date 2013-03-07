@@ -26,6 +26,10 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_basePhysicalResistance = 1.0f;
 	this->m_physicalResistanceChange = 0.0f;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
+	
+	this->m_baseMentalResistance = 1.0f;
+	this->m_mentalResistanceChange = 0.0f;
+	this->m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 
 	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0;
@@ -67,11 +71,14 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_physicalResistanceChange = 0.0f;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
 	
+	this->m_baseMentalResistance = 1.0f;
+	this->m_mentalResistanceChange = 0.0f;
+	this->m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
+	
 	this->m_baseMentalDamage = 1.0f;
 	this->m_mentalDamageChange = 0.0f;
 	this->m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
 
-	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0;
 	this->m_poisonChance = 0;
 	this->m_deadlyStrikeChance = 0;
@@ -199,7 +206,8 @@ void UnitEntity::increaseStrength(int _strength)
 		_strength = UnitEntity::MAX_STRENGTH - m_strength;
 	
 	this->m_physicalDamage += _strength * 5;
-	this->m_physicalResistance += _strength * 0.02f;
+	m_basePhysicalResistance -= _strength * 0.02f;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
 	this->m_strength += _strength;
 }
 
@@ -236,7 +244,8 @@ void UnitEntity::increaseFortitude(int _fortitude)
 
 	m_maxHealth += 100*_fortitude;
 	m_health += 100*_fortitude;
-	m_mentalDamage += _fortitude*0.02f;
+	m_baseMentalResistance -= _fortitude * 0.02f;
+	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 	m_fortitude += _fortitude;
 }
 
@@ -396,6 +405,7 @@ int UnitEntity::getPoisonCounter()
 	return this->m_poisonCounter;
 }
 
+#include <sstream>
 void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
 {
 	int networkId=Statistics::convertSimonsIdToRealId(damageDealerId);
@@ -416,6 +426,11 @@ void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int
 	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
 	this->m_lastDamageDealer = damageDealerId;
 	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(),(float)((float)this->m_health / (float)this->m_maxHealth) * 1000.0f));
+
+	// Dbg
+	stringstream ss;
+	ss << "Unit with " << m_physicalResistance << " phys res and " << m_mentalResistance << " mental res took damage" << endl;
+	OutputDebugString(ss.str().c_str());
 }
 
 void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage)

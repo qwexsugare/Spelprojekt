@@ -30,6 +30,8 @@
 class World
 {
 private:
+	sf::Mutex m_mutex;
+
 	Camera *m_camera;
 
 	//Forward rendering

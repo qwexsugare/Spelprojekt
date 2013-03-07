@@ -73,7 +73,10 @@ public:
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);
+<<<<<<< HEAD
 	void setLivesLeft(int livesLeft);
+=======
 	void setTargetEnemy(Enemy::EnemyType _enemyType);
+>>>>>>> 89842ec1a296d6b1c3817e9b8e1721d35400c433
 };
 

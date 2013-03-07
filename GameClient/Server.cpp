@@ -9,7 +9,7 @@ Server::Server(MessageHandler *_messageHandler)
 	this->m_messageQueue = new MessageQueue();
 	this->m_messageHandler->addQueue(this->m_messageQueue);
 	this->nextEmptyArrayPos=0;
-	DelayedDamage::text = NULL;
+
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
 		this->m_players[i]=0;

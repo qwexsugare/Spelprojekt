@@ -14,22 +14,28 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	//m_model->getAnimation()->Play("attack");
 	m_model->setAlpha(0.75f);
 	m_model->setShadow(false);
-	m_sound = createSoundHandle("collision.wav", false, true, pos);
-	playSound(m_sound);
+
+	// Play sound
+	int sound = createSoundHandle("skills/dpHearbeatScreamsStart.wav", false, true, pos);
+	playSound(sound);
+	deactivateSound(sound);
 }
 
 DemonicPresenceClientSkillEffect::~DemonicPresenceClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_model);
-	deactivateSound(m_sound);
 }
 
 void DemonicPresenceClientSkillEffect::update(float _dt)
 {
-	FLOAT3 pos = ClientEntityHandler::getEntity(m_masterId)->m_model->getPosition();
-	pos.y = 0.01f;
-	m_model->setPosition(pos);
-	m_model->rotate(_dt/3.0f, 0.0f, 0.0f);
+	Entity *e = ClientEntityHandler::getEntity(m_masterId);
+	if(e != NULL)
+	{
+		FLOAT3 pos = e->m_model->getPosition();
+		pos.y = 0.01f;
+		m_model->setPosition(pos);
+		m_model->rotate(_dt/3.0f, 0.0f, 0.0f);
+	}
 }
 
 bool DemonicPresenceClientSkillEffect::getActive()

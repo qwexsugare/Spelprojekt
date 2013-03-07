@@ -202,12 +202,12 @@ void ServerThread::update(float dt)
 
 				for(int i = 0; i < this->m_network->getPlayers().size(); i++)
 				{
+					this->m_network->getPlayers()[i]->addResources(edm->resources);
+					Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseGoldCollected(edm->resources);
+
 					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
 					{
-						this->m_network->getPlayers()[i]->addResources(edm->resources);
 						Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseDeamonsKilled();
-						Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseGoldCollected(edm->resources);
-						i = 5;
 					}
 				}
 			}
@@ -216,7 +216,7 @@ void ServerThread::update(float dt)
 			{
 				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
 				ServerEntity *e = EntityHandler::getServerEntity((edm->enemyId));
-				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::CHURCH_PENETRATED, edm->enemyId, edm->position));
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHURCH_PENETRATED, edm->enemyId, this->m_mapHandler->getLivesLeft(), edm->position));
 				this->m_mapHandler->enemyDied();
 			}
 

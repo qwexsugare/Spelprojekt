@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "ServerEntity.h"
 #include "ModelIdHolder.h"
+#include "Enemy.h"
 
 struct Entity
 {
@@ -23,8 +24,15 @@ struct Entity
 		this->m_model = NULL;
 	}
 
-	Entity(Model* _model, unsigned int _id)
+	Entity(Model* _model, unsigned int _id, ServerEntity::Type _type, int _subtype)
 	{
+		m_subtype = _subtype;
+		m_type = _type;
+		if(m_type == ServerEntity::EnemyType && m_subtype == Enemy::SHADE)
+		{
+			_model->setAlpha(0.75f);
+		}
+
 		this->m_model = _model;
 		this->m_id = _id;
 		this->m_direction = FLOAT3(0.0f, 0.0f, 0.0f);
