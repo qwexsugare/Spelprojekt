@@ -254,7 +254,7 @@ PSSuperSceneIn VSSuperScene(VSSuperSceneIn input)
 
 	output.Normal = normalize(mul(float4(myNormal, 0.0f), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), modelMatrix);
-	output.ViewCoord = mul(float4(input.Pos, 1.0), mul(viewMatrix, modelMatrix));
+	output.ViewCoord = mul(float4(input.Pos, 1.0), modelMatrix);
 
 	return output;
 }
@@ -277,7 +277,7 @@ PSSuperSceneIn VSPropsScene(VSSuperSceneIn input)
 	output.Normal = normalize(mul(float4(myNormal, 0.0f), newModelMatrix));
 	//output.ViewCoord = normalize(mul(float4(myTangent, 0.0f), newModelMatrix));
 	output.EyeCoord = mul(float4(input.Pos,1.0), newModelMatrix);
-	output.ViewCoord = mul(float4(input.Pos, 1.0), mul(viewMatrix, modelMatrix));
+	output.ViewCoord = mul(float4(input.Pos, 1.0), modelMatrix);
 
 	return output;
 }
@@ -460,7 +460,7 @@ PSSuperSceneIn VSAnimScene(VSAnimSceneIn input)
 	//variables needed for lighting
 	output.Normal = normalize(mul(float4(output.Normal.xyz, 0.0), modelMatrix));
 	output.EyeCoord = mul(float4(output.Pos.xyz,1.0), modelMatrix);
-	output.ViewCoord = mul(float4(input.Pos, 1.0), mul(viewMatrix, modelMatrix));
+	output.ViewCoord = mul(float4(input.Pos, 1.0), modelMatrix);
 	//output.ViewCoord = float4(t, 0);
 
 	return output;
@@ -507,7 +507,7 @@ PSSceneIn drawTerrainVs(VSSceneIn input)
 	output.Normal = normalize(mul(float4(input.Normal, 0.0), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
 	
-	output.ViewCoord = mul(float4(input.Pos, 1.0), mul(viewMatrix, modelMatrix));
+	output.ViewCoord = mul(float4(input.Pos, 1.0), modelMatrix);
 
 	return output;
 }
@@ -631,7 +631,7 @@ PSSceneIn drawRoadVs(VSSceneIn input)
 	output.UVCoord = input.UVCoord;
 
 	//variables needed for lighting
-	output.Normal = normalize(mul(input.Normal, modelMatrix));
+	output.Normal = normalize(mul(float4(input.Normal, 0), modelMatrix));
 	output.EyeCoord = mul(float4(input.Pos, 1.0f), modelMatrix);
 
 	return output;
@@ -644,7 +644,7 @@ PSSceneOut drawRoadPs(PSSceneIn input)
 	output.Pos = input.EyeCoord;
 	output.Normal = float4(normalize(input.Normal), 1.0f);
 	output.Diffuse = tex2D.Sample(linearSampler, input.UVCoord);
-	output.ViewCoord = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	output.ViewCoord = float4(input.EyeCoord.xyz, 1.0f);
 
 	//output.Glow = float4(0, 1, 0, 1);
 
