@@ -1039,3 +1039,10 @@ void GameState::playPursueSound(unsigned int _speakerId)
 		deactivateSound(sound);
 	}
 }
+
+void GameState::playWallDeathSound(FLOAT3 _position)
+{
+	int sound = createSoundHandle("skills/wallEnd.wav", false, true, _position);
+	playSound(sound);
+	deactivateSound(sound);
+}
