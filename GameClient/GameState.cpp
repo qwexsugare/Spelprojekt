@@ -522,6 +522,9 @@ void GameState::update(float _dt)
 				}
 			}
 			break;
+		case Skill::WALL:
+			
+			break;
 		}
 	}
 

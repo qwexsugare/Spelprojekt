@@ -200,7 +200,7 @@ void Server::handleMessages()
 
 		case Message::RemoveActionTarget:
 			m6 = (RemoveActionTargetMessage*)m;
-			rat = NetworkRemoveActionTargetMessage(m6->actionId, m6->targetId);
+			rat = NetworkRemoveActionTargetMessage(m6->actionId, m6->targetId, m6->position);
 			this->broadcast(rat);
 
 			break;

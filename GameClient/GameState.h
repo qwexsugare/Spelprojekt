@@ -53,6 +53,7 @@ private:
 
 	void importMap(string _map);
 	void playPursueSound(unsigned int _speakerId);
+	void playWallDeathSound(unsigned int _speakerId);
 public:
 	static const int IDLE_SOUND_DELAY = 7;
 
