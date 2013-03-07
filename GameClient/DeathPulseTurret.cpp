@@ -25,6 +25,7 @@ DeathPulseTurret::~DeathPulseTurret()
 
 }
 
+#include <sstream>
 void DeathPulseTurret::target(ServerEntity* _target)
 {
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::DEATH_PULSE_TURRET_PROJECTILE, this->getId(), _target->getId(), FLOAT3()));
@@ -36,16 +37,13 @@ void DeathPulseTurret::target(ServerEntity* _target)
 	_target->takeDamage(this->m_ownerId, 0, damage);
 
 	// dbg
-	ofstream file("output.txt", ios::app);
-	if(file.is_open())
-	{
-		_target = EntityHandler::getServerEntity(targetId);
-		if(_target)
-			file << "Death Pulse turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to " << _target->getHealth() << endl;
-		else
-			file << "Death Pulse turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to death" << endl;
-		file.close();
-	}
+	stringstream ss;
+	ServerEntity* target = EntityHandler::getServerEntity(targetId);
+	if(target)
+		ss << "Death Pulse turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to " << target->getHealth() << endl;
+	else
+		ss << "Death Pulse turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to death" << endl;
+	OutputDebugString(ss.str().c_str());
 }
 
 int DeathPulseTurret::getCost()

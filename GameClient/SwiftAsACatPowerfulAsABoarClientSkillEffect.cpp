@@ -1,4 +1,6 @@
 #include "SwiftAsACatPowerfulAsABoarClientSkillEffect.h"
+#include "SoundWrapper.h"
+#include "MyAlgorithms.h"
 
 SwiftAsACatPowerfulAsABoarClientSkillEffect::SwiftAsACatPowerfulAsABoarClientSkillEffect(unsigned int _masterId)
 {
@@ -14,6 +16,19 @@ SwiftAsACatPowerfulAsABoarClientSkillEffect::SwiftAsACatPowerfulAsABoarClientSki
 		{
 			e->m_model->getAnimation()->Play("SwiftAsButterfly_1H");
 		}
+
+		int sound;
+		switch(random(0, 1))
+		{
+		case 0:
+			sound = createSoundHandle("skills/saacpaab0", false, true, e->m_startPos);
+			break;
+		case 1:
+			sound = createSoundHandle("skills/saacpaab1", false, true, e->m_startPos);
+			break;
+		}
+		playSound(sound);
+		deactivateSound(sound);
 	}
 }
 

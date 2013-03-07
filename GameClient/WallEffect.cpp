@@ -27,5 +27,6 @@ void WallEffect::update(float dt)
 	if(this->m_duration <= 0.0f)
 	{
 		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+		this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::WALL, 0, 0));
 	}
 }

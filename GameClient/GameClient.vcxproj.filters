@@ -58,9 +58,6 @@
     <ClCompile Include="SettingsMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="SoundWrapper.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="TextInput.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -406,9 +403,6 @@
     <ClCompile Include="NetworkHeroInitMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="SpeechManager.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="DeathClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
@@ -508,6 +502,18 @@
     <ClCompile Include="NetworkAttributeUpdateMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="SoundWrapper.cpp">
+      <Filter>Client\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeechManager.cpp">
+      <Filter>Client\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbientSoundsManager.cpp">
+      <Filter>Client\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -571,9 +577,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="SettingsMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundWrapper.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
@@ -947,9 +950,6 @@
     <ClInclude Include="DeathClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="SpeechManager.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="NetworkInitEntityMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -1052,6 +1052,18 @@
     <ClInclude Include="NetworkAttributeUpdateMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="SpeechManager.h">
+      <Filter>Client\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundWrapper.h">
+      <Filter>Client\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbientSoundsManager.h">
+      <Filter>Client\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -1101,6 +1113,9 @@
     </Filter>
     <Filter Include="Server\Turrets\Projectiles">
       <UniqueIdentifier>{ab0a6282-5db6-4445-ac41-c2d477c6298f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Audio">
+      <UniqueIdentifier>{4f86fc7b-4a45-4276-808f-5c9ff04e83bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

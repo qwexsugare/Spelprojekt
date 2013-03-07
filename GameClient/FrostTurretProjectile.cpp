@@ -27,6 +27,7 @@ FrostTurretProjectile::~FrostTurretProjectile()
 
 }
 
+#include <sstream>
 void FrostTurretProjectile::update(float _dt)
 {
 	m_timeToImpact = max(m_timeToImpact-_dt, 0.0f);
@@ -42,16 +43,13 @@ void FrostTurretProjectile::update(float _dt)
 			((UnitEntity*)target)->applyFrostTurretSlowEffect(this->m_slowEffect);
 
 			// dbg
-			ofstream file("output.txt", ios::app);
-			if(file.is_open())
-			{
-				target = EntityHandler::getServerEntity(m_target);
-				if(target)
-					file << "Frost turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to " << target->getHealth() << endl;
-				else
-					file << "Frost turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to death" << endl;
-				file.close();
-			}
+			stringstream ss;
+			target = EntityHandler::getServerEntity(m_target);
+			if(target)
+				ss << "Frost turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to " << target->getHealth() << endl;
+			else
+				ss << "Frost turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to death" << endl;
+			OutputDebugString(ss.str().c_str());
 
 			// Remove me from server entity handler
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));

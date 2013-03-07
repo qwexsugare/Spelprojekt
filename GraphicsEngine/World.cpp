@@ -188,6 +188,8 @@ bool World::removeTerrain(Terrain* _terrain)
 
 void World::render()
 {
+	this->m_mutex.Lock();
+
 	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+m_camera->getZOffset());
 
 	//Init render stuff
@@ -519,16 +521,48 @@ void World::render()
 
 			if(transparentModels[i]->getMesh()->isAnimated)
 			{
-				//this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-				//this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				transparentModels[i]->getAnimation()->UpdateSkeletonTexture();
+				this->m_deferredSampler->setBoneTexture(transparentModels[i]->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				//Draw Props
+				if(transparentModels[i]->getHat())
+				{	
+					this->m_deferredSampler->setTexture(transparentModels[i]->getHat()->subMeshes[m]->textures["color"]);
+					this->m_deferredSampler->setGlowMap(transparentModels[i]->getHat()->subMeshes[m]->textures["glowIntensity"]);
+
+					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getHatMatrix());
+					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getHat()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getHat()->subMeshes[m]->numVerts, 0);
+				}
+				if(transparentModels[i]->getRightHand())
+				{
+					this->m_deferredSampler->setTexture(transparentModels[i]->getRightHand()->subMeshes[m]->textures["color"]);
+
+					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getRightHandMatrix());
+					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getRightHand()->subMeshes[m]->numVerts, 0);
+				}
+				if(transparentModels[i]->getLeftHand())
+				{
+					this->m_deferredSampler->setTexture(transparentModels[i]->getLeftHand()->subMeshes[m]->textures["color"]);
+					this->m_deferredSampler->setGlowMap(transparentModels[i]->getLeftHand()->subMeshes[m]->textures["glowIntensity"]);
+
+					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getLeftHandMatrix());
+					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getLeftHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getLeftHand()->subMeshes[m]->numVerts, 0);
+				}
+				this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[""]);
 			}
 			else
 			{
 				m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
-				//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
 				this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
 			}
@@ -782,6 +816,8 @@ void World::render()
 		this->m_texts[i]->render();
 	}
 
+	this->m_mutex.Unlock();
+
 	//Finish render
 	this->m_deviceHandler->present();
 }
@@ -846,7 +882,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 					models.pop();
 				}
 
-				//Render the non-staic modelss
+				//Render the non-static modelss
 				for(int v = 0; v < m_models.size(); v++)
 				{
 					// Calculate models distance to camera and make it positive
@@ -1019,6 +1055,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 void World::update(float dt)
 {
+	this->m_mutex.Lock();
 	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+m_camera->getZOffset());
 
 	//SpriteSheets
@@ -1044,10 +1081,14 @@ void World::update(float dt)
 	//	this->m_quadTree->addModel(models.top());
 	//	models.pop();
 	//}
+
+	this->m_mutex.Unlock();
 }
 
 bool World::addModel(Model *_model)
 {
+	this->m_mutex.Lock();
+
 	bool success;
 	if(_model->isStatic())
 		success = this->m_quadTree->addModel(_model);
@@ -1056,12 +1097,17 @@ bool World::addModel(Model *_model)
 		m_models.push_back(_model);
 		success = true;
 	}
+
+	this->m_mutex.Unlock();
+
 	return success;
 }
 
 bool World::removeModel(Model *_model)
 {
 	bool success = false;
+
+	this->m_mutex.Lock();
 
 	if(_model->isStatic())
 		success = this->m_quadTree->removeModel(_model);
@@ -1078,6 +1124,8 @@ bool World::removeModel(Model *_model)
 			}
 		}
 	}
+
+	this->m_mutex.Unlock();
 
 	return success;
 }

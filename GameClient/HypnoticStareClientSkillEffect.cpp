@@ -4,8 +4,9 @@
 #include "ClientEntityHandler.h"
 #include "HypnoticStareEffect.h"
 
-HypnoticStareClientSkillEffect::HypnoticStareClientSkillEffect(unsigned int _masterId, float _duration)
+HypnoticStareClientSkillEffect::HypnoticStareClientSkillEffect(unsigned int _masterId, unsigned int _casterId, float _duration)
 {
+	m_casterId = _casterId;
 	m_masterId = _masterId;
 	m_timer = _duration;
 
@@ -16,7 +17,16 @@ HypnoticStareClientSkillEffect::HypnoticStareClientSkillEffect(unsigned int _mas
 		this->m_oldGlow = e->m_model->getGlowIndex();
 		e->m_model->setGlowIndex("glowIntensity");
 		e->m_model->setTextureIndex("color4");
+		m_active = true;
 	}
+	else
+		m_active = false;
+
+	// Play sound
+	Entity* caster = ClientEntityHandler::getEntity(_casterId);
+	int sound = createSoundHandle("skills/hypnotic_stare_start.wav", false, true, caster->m_startPos);
+	playSound(sound);
+	deactivateSound(sound);
 }
 
 HypnoticStareClientSkillEffect::~HypnoticStareClientSkillEffect()
@@ -31,13 +41,23 @@ HypnoticStareClientSkillEffect::~HypnoticStareClientSkillEffect()
 
 void HypnoticStareClientSkillEffect::update(float _dt)
 {
-	m_timer = max(m_timer-_dt, 0.0f);
+	if(m_active)
+	{
+		m_timer = max(m_timer-_dt, 0.0f);
+		if(m_timer == 0.0f)
+		{
+			// Play sound
+			Entity* caster = ClientEntityHandler::getEntity(m_casterId);
+			int sound = createSoundHandle("skills/hypnotic_stare_end.wav", false, true, caster->m_startPos);
+			playSound(sound);
+			deactivateSound(sound);
+
+			m_active = false;
+		}
+	}
 }
 
 bool HypnoticStareClientSkillEffect::getActive()
 {
-	if(m_timer == 0.0f)
-		return false;
-	else
-		return true;
+	return m_active;
 }

@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aim.cpp" />
+    <ClCompile Include="AmbientSoundsManager.cpp" />
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -308,6 +309,7 @@
     <ClCompile Include="TargetAcquiredPermissionToFire.cpp" />
     <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp" />
     <ClCompile Include="Teleport.cpp" />
+    <ClCompile Include="TeleportClientSkillEffect.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
     <ClCompile Include="TeslaChainTurret.cpp" />
     <ClCompile Include="TeslaChainTurretEffect.cpp" />
@@ -334,6 +336,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aim.h" />
+    <ClInclude Include="AmbientSoundsManager.h" />
     <ClInclude Include="ArrowClientSkillEffect.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
@@ -495,6 +498,7 @@
     <ClInclude Include="TargetAcquiredPermissionToFire.h" />
     <ClInclude Include="TargetAcquiredPermissionToFireEffect.h" />
     <ClInclude Include="Teleport.h" />
+    <ClInclude Include="TeleportClientSkillEffect.h" />
     <ClInclude Include="TeleportEffect.h" />
     <ClInclude Include="TeslaChainTurret.h" />
     <ClInclude Include="TeslaChainTurretEffect.h" />
