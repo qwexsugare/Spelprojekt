@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 80.2005
-Life remaining: 94
+Time played: 66.2699
+Life remaining: 99
 Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Engineer
+Hero played: Mentalist
 Deamons killed: 1
 Player deaths: 0
-Resources collected: 30
+Resources collected: 33
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 184
-Physical damage taken: 136
+Total damage dealt: 1592468474
+Physical damage taken: 13
 Mental damage taken: 0
-Physical damage dealt: 28
-Mental damage dealt: 156
+Physical damage dealt: 0
+Mental damage dealt: 1592468474
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 

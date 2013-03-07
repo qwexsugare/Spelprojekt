@@ -14,7 +14,7 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 	FLOAT3 pos = target->m_model->getPosition();
 	m_model = g_graphicsEngine->createModel("Bench", pos);
 	m_model->setAlpha(0.999f);
-	m_soundVolume = 1.0f;
+	m_soundVolume = 0.25f;
 	m_sound = createSoundHandle("turrets/deathTowerAttack.wav", false, true, pos, m_soundVolume);
 	playSound(m_sound);
 	m_timer = 0.0f;
