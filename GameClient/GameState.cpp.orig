@@ -8,6 +8,7 @@
 #include "Path.h"
 #include "MyAlgorithms.h"
 #include "SpeechManager.h"
+#include "Enemy.h"
 
 GameState::GameState(Client *_network)
 {
@@ -85,7 +86,11 @@ GameState::GameState(Client *_network)
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
+<<<<<<< HEAD
+	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.50f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+=======
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
+>>>>>>> bb93d656f498fe0581bdda3a6822cd8a71624dbd
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, true);
@@ -122,17 +127,6 @@ GameState::~GameState()
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 }
 
-void GameState::end()
-{
-	g_graphicsEngine->removeTerrain(this->m_terrain);
-	
-	delete this->m_clientEntityHandler;
-	
-	g_graphicsEngine->removeText(this->m_fpsText);
-
-	this->setDone(true);
-}
-
 State::StateEnum GameState::nextState()
 {
 	return State::MAIN_MENU;
@@ -140,6 +134,7 @@ State::StateEnum GameState::nextState()
 
 void GameState::update(float _dt)
 {
+	ClientEntityHandler::update(_dt);
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id);
 	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
@@ -168,8 +163,6 @@ void GameState::update(float _dt)
 		lol = -0.5f;
 	}
 
-	ClientEntityHandler::update(_dt);
-
 	while(this->m_network->entityQueueEmpty() == false)
 	{
 		NetworkEntityMessage e = this->m_network->entityQueueFront();
@@ -189,8 +182,6 @@ void GameState::update(float _dt)
 			p.y=0;
 			p.z=e.getZPos();
 			entity->m_model->setPosition(p);
-			{
-
 			if(e.getYRot() == e.getYRot())
 			{
 				FLOAT3 rot;
@@ -209,7 +200,6 @@ void GameState::update(float _dt)
 				entity->m_startPos=startPos;
 				entity->m_endPos=endPos;
 				entity->movementSpeed=e.getMovementSpeed();
-			}
 			}
 		}
 	}
@@ -253,11 +243,10 @@ void GameState::update(float _dt)
 
 			e->m_weapon = iem.getWeaponType();
 
-			if(iem.getType() == ServerEntity::HeroType)
+			if(iem.getID() == m_playerInfos[m_yourId].id)
 			{
-					
 				g_graphicsEngine->getCamera()->setX(iem.getXPos());
-				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - 3.0f);
+				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - g_graphicsEngine->getCamera()->getZOffset());
 			}
 		}
 	}
@@ -267,6 +256,9 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::ENEMY_PURSUE:
+			this->playPursueSound(e.getSenderId());
+			break;
 		case Skill::STUNNING_STRIKE:
 			m_ClientSkillEffects.push_back(new StunningStrikeClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
@@ -299,6 +291,10 @@ void GameState::update(float _dt)
 		case Skill::CHAIN_STRIKE_FIRST_EXCEPTION:
 			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), true));
 			break;
+		case Skill::RESPAWN:
+			if(e.getSenderId() == m_playerInfos[m_yourId].id)
+				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+			break;
 		}
 	}
 
@@ -315,7 +311,6 @@ void GameState::update(float _dt)
 		case Skill::WALL:
 			m_ClientSkillEffects.push_back(new WallClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
-<<<<<<< HEAD
 		case Skill::TESLA_CHAIN_TURRET:
 			switch(random(0, 2))
 			{
@@ -379,10 +374,9 @@ void GameState::update(float _dt)
 			}
 			playSound(sound);
 			deactivateSound(sound);
-=======
+			break;
 		case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
 			m_ClientSkillEffects.push_back(new TargetAcquiredClientSkillEffect(e.getSenderId(), e.getPosition()));
->>>>>>> 75dd8146d7202db55232405c81c456dde4cdc58b
 			break;
 		}
 	}
@@ -431,6 +425,10 @@ void GameState::update(float _dt)
 			break;
 		case Skill::AOE_MELEE_ATTACK:
 			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
+			break;
+		case Skill::CHURCH_PENETRATED:
+			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
+			this->m_hud->setLivesLeft(e.getTargetId());
 			break;
 		}
 	}
@@ -585,11 +583,20 @@ void GameState::update(float _dt)
 	}
 	if(g_mouse->isRButtonPressed())
 	{
-		if(!m_minimap->isMouseInMap(g_mouse->getPos()))
+		if(m_minimap->isMouseInMap(g_mouse->getPos()))
+		{
+			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
+			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y), -1);
+			this->m_network->sendMessage(e);
+
+			m_hud->setTargetEnemy(Enemy::NONE);
+		}
+		else
 		{
 			if(mouseOverEnemy >= 0)
 			{
 				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[mouseOverEnemy]->m_id, -1));
+				m_hud->setTargetEnemy(Enemy::EnemyType(m_entities[mouseOverEnemy]->m_subtype));
 				stringstream ss;
 				ss << m_entities[mouseOverEnemy]->m_health;
 				m_healthText->setString("Target health: " + ss.str());
@@ -599,24 +606,19 @@ void GameState::update(float _dt)
 					m_attackSoundTimer = ATTACK_SOUND_DELAY;
 				}
 			}
-			else
+			else if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP)
 			{
 				float k = (-pickOrig.y)/pickDir.y;
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
 
+				m_hud->setTargetEnemy(Enemy::NONE);
+
 				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
 
 				m_healthText->setString("No target");
 			}
-		}
-		else
-		{
-			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
-
-			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y), -1);
-			this->m_network->sendMessage(e);
 		}
 	}
 	else if(g_mouse->isRButtonReleased())
@@ -884,4 +886,131 @@ void GameState::importMap(string _map)
 
 	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, normalMaps, specularMaps);
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
+}
+
+void GameState::playPursueSound(unsigned int _speakerId)
+{
+	Entity* speaker = ClientEntityHandler::getEntity(_speakerId);
+	if(speaker)
+	{
+		int sound;
+		switch(speaker->m_subtype)
+		{
+		case Enemy::IMP:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Imp_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Imp_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Imp_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::SHADE:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Shade_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Shade_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Shade_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::FROST_DEMON:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Frost_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Frost_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Frost_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::SPITTING_DEMON:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Monster_Spitting_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Monster_Spitting_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Monster_Spitting_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::HELLFIRE_STEED:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::SOUL_EATER_STEED:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::THUNDERSTEED:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		case Enemy::BRUTE_STEED:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
+			break;
+		}
+
+		SpeechManager::speak(_speakerId, sound);
+		deactivateSound(sound);
+	}
 }
