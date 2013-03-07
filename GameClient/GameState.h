@@ -31,9 +31,6 @@ private:
 	ParticleEngine *testParticleSystem;
 	unsigned int m_yourId;
 
-	//Cursor m_cursor;
-	Text* m_healthText;
-
 	bool m_idle;
 	float m_idleSoundTimer;
 
