@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 31.4475
-Life remaining: 100
-Reached wave: 0
+Time played: 66.2699
+Life remaining: 99
+Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Officer
-Deamons killed: 0
+Hero played: Mentalist
+Deamons killed: 1
 Player deaths: 0
-Resources collected: 0
+Resources collected: 33
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
+Total damage dealt: 1592468474
+Physical damage taken: 13
 Mental damage taken: 0
 Physical damage dealt: 0
-Mental damage dealt: 0
+Mental damage dealt: 1592468474
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -27,6 +27,7 @@ Skills used:
 0
 0
 0
+1052173727
 0
 0
 0
@@ -36,14 +37,11 @@ Skills used:
 0
 0
 0
-1065353216
-1065353216
-1065353216
-1055622431
 0
-997905501
-1065353216
-1065353216
+0
+0
+0
+1919117677
 0
 0
 0
@@ -58,16 +56,18 @@ Skills used:
 0
 0
 0
-0
-0
-0
-0
-0
-0
-0
-3288988
-0
-0
-3292718
-0
+1036729788
+842412336
+896021853
+1063861992
+892417265
+941832217
+969161137
+184
+921319129
+995048168
+845689430
+1015299191
+899364218
+906966537
 ---------------

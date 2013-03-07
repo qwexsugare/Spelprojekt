@@ -4,7 +4,7 @@
 #include "EntityHandler.h"
 #include "DelayedDamage.h"
 
-const float DeathPulseTurret::ATTACK_COOLDOWN = 1.0f;
+const float DeathPulseTurret::ATTACK_COOLDOWN = 2.0f;
 
 DeathPulseTurret::DeathPulseTurret()
 {
@@ -32,7 +32,7 @@ void DeathPulseTurret::target(ServerEntity* _target)
 
 	unsigned int targetId = _target->getId();
 
-	int damage = random(1, 10);
+	int damage = random(2, 20);
 	int healthBefore = _target->getHealth();
 	_target->takeDamage(this->m_ownerId, 0, damage);
 
