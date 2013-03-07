@@ -2526,3 +2526,5 @@ GameClient/audio/ambient/thunder1.wav
 GameClient/audio/ambient/thunder2.wav
 GameClient/audio/ambient/thunder3.wav
 GameClient/audio/ambient/thunder4.wav
+GameClient/audio/skills/dpBreathingEnd.wav
+GameClient/audio/skills/dpHearbeatScreamsStart.wav

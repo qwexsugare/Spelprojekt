@@ -242,9 +242,7 @@ void GameState::update(float _dt)
 		if(model)
 		{
 			//this->m_entities.push_back(new Entity(model, e.getEntityId()));
-			Entity *e = new Entity(model, iem.getID());
-			e->m_type = (ServerEntity::Type)iem.getType();
-			e->m_subtype = iem.getSubtype();
+			Entity *e = new Entity(model, iem.getID(), (ServerEntity::Type)iem.getType(), iem.getSubtype());
 			this->m_clientEntityHandler->addEntity(e);
 
 			e->m_weapon = iem.getWeaponType();
@@ -464,6 +462,15 @@ void GameState::update(float _dt)
 							delete m_ClientSkillEffects[i];
 							m_ClientSkillEffects.erase(m_ClientSkillEffects.begin()+i);
 							i = m_ClientSkillEffects.size();
+
+							// Play sound
+							Entity* ent = ClientEntityHandler::getEntity(e.getTargetId());
+							if(ent)
+							{
+								int sound = createSoundHandle("skills/dpBreathingEnd.wav", false, true, ent->m_startPos);
+								playSound(sound);
+								deactivateSound(sound);
+							}
 						}
 					}
 				}

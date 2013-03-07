@@ -14,11 +14,27 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	m_graphicalEffect->setAlpha(0.999f);
 
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
-
 	if(master != NULL)
 	{
 		master->m_model->getAnimation()->PlayLoop("RangeAttack");
 	}
+
+	// Play sound
+	int sound;
+	switch(random(0, 2))
+	{
+	case 0:
+		sound = createSoundHandle("attacks/rangeAttack_0", false, true, _position);
+		break;
+	case 1:
+		sound = createSoundHandle("attacks/rangeAttack_1", false, true, _position);
+		break;
+	case 2:
+		sound = createSoundHandle("attacks/rangeAttack_2", false, true, _position);
+		break;
+	}
+	playSound(sound);
+	deactivateSound(sound);
 }
 
 ArrowClientSkillEffect::~ArrowClientSkillEffect()
