@@ -156,7 +156,15 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 
 DeathClientSkillEffect::~DeathClientSkillEffect()
 {
-
+	if(this->m_model != NULL)
+	{
+		g_graphicsEngine->removeModel(this->m_model);
+	}
+		
+	if(this->m_lanternLight != NULL)
+	{
+		g_graphicsEngine->removePointLight(this->m_lanternLight);
+	}
 }
 
 void DeathClientSkillEffect::update(float dt)
@@ -185,13 +193,6 @@ bool DeathClientSkillEffect::getActive()
 {
 	if(this->m_lifetime <= 0.0f)
 	{
-		g_graphicsEngine->removeModel(this->m_model);
-		
-		if(this->m_lanternLight != NULL)
-		{
-			g_graphicsEngine->removePointLight(this->m_lanternLight);
-		}
-
 		return false;
 	}
 	else
