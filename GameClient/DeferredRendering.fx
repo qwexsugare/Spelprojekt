@@ -9,6 +9,10 @@ Texture2D spotLightShadowMaps[MAX_SPOT_LIGHTS];
 Texture2D pointLightShadowMaps[MAX_POINT_LIGHT_SHADOWS];
 Texture2D randomTex;
 
+float aoScale = 2;
+float aoRadius = 0.03f;
+float aoBias = 0;
+float aoIntensity = 1;
 
 SamplerState linearSampler 
 {
@@ -196,6 +200,35 @@ float calcShadow(float4 lightPos, Texture2D shadowmap, float radius)
 	return shadowCoeff;
 }
 
+float doAmbientOcclusion(in float2 tcoord, in float2 uv, in float3 pos, in float3 vNormal)
+{
+	float3 diff = viewCoordTexture.Sample(linearSampler, tcoord + uv) - pos;
+	const float3 v = normalize(diff);
+	const float d = length(diff) * aoScale;
+	return max(0.0f, dot(vNormal, v) * (1.0f/(1.0f + d)));
+}
+
+float ssao(float2 uv, float3 pos, float3 normal)
+{
+	float radius = aoRadius; 
+	const float2 vec[4] = {float2(1,0), float2(-1,0), float2(0,1), float2(0,-1)};
+	float2 rand = normalize(randomTex.Sample(linearSampler, screenSize * uv / (64 * 64)));
+	float ao = 0;
+	int iterations = 4;
+	for(int j = 0; j < iterations; ++j)
+	{
+		float2 coord1 = reflect(vec[j], rand) * radius;
+		float2 coord2 = float2(coord1.x * 0.707f - coord1.y * 0.707, coord1.x * 0.707 + coord1.y * 0.707);
+
+		ao += doAmbientOcclusion(uv, coord1 * 0.25f, pos, normal);
+		ao += doAmbientOcclusion(uv, coord2 * 0.5f, pos, normal);
+		ao += doAmbientOcclusion(uv, coord1 * 0.75f, pos, normal);
+		ao += doAmbientOcclusion(uv, coord2, pos, normal);
+	}
+
+	return ao /= (float)iterations * 4;
+}
+
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
 	float4 position = positionTexture.Sample(linearSampler, input.UVCoord);
@@ -274,7 +307,14 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	return (float4(ambientLight, 0.0f)*diffuse + float4(diffuseLight, 1.0f)*diffuse + float4(specularLight, 0.0f))*cowabunga;*/
 	
 	//return float4(0.5f*diffuseLight.xyz*diffuse + specularLight, diffuse.w);
-	return (float4(ambientLight, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * viewCoord.w);
+
+	//SSAO stuff
+
+
+	float ao = 0.0f;
+	ao = ssao( input.UVCoord, viewCoord, normal);
+
+	return ((float4(ambientLight - ao, 0.0f) * diffuse + float4(diffuseLight - ao, 1.0f) * diffuse + float4(specularLight, 0.0f) * viewCoord.w));
 
 	
 	float3 fiskLight = normalize(float3(1, -1, 0));

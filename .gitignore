@@ -2501,3 +2501,10 @@ GameClient/audio/attacks/twoHandedAttack_2.wav
 GameClient/audio/skills/codWindStartEnd.wav
 GameClient/audio/skills/healingTouch.wav
 GameClient/audio/turrets/frost_turret_attack.wav
+GameClient/audio/Ambiant Envirement Sounds/wind0.pkf
+GameClient/audio/Ambiant Envirement Sounds/wind1.pkf
+GameClient/audio/Ambiant Envirement Sounds/wind2.pkf
+GameClient/audio/beamAndLightning.wav
+GameClient/audio/chockBeemSoundStart.wav
+GameClient/audio/chockSoundEnd.wav
+GameClient/textures/randNormal.jpg
