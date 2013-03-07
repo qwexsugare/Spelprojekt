@@ -522,9 +522,6 @@ void GameState::update(float _dt)
 				}
 			}
 			break;
-		case Skill::WALL:
-			
-			break;
 		}
 	}
 
@@ -626,7 +623,12 @@ void GameState::update(float _dt)
 			{
 				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[mouseOverEnemy]->m_id, -1));
 				m_hud->setTargetEnemy(Enemy::EnemyType(m_entities[mouseOverEnemy]->m_subtype));
+<<<<<<< HEAD
+				stringstream ss;
+				ss << m_entities[mouseOverEnemy]->m_health;
+=======
 
+>>>>>>> 43bb11400762b8c704a2aa538241a90947937f6a
 				if(m_attackSoundTimer == 0.0f)
 				{
 					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
