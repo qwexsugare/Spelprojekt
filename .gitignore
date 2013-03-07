@@ -2512,8 +2512,6 @@ dev/Excess Audio/Stepps2.wav
 dev/Excess Audio/wind0.wav
 dev/Excess Audio/wind1.wav
 dev/Excess Audio/wind2.wav
-GameClient/AmbientSoundsManager.cpp
-GameClient/AmbientSoundsManager.h
 GameClient/audio/ambient/CPUScream0.wav
 GameClient/audio/ambient/CPUScream1.wav
 GameClient/audio/ambient/maniacLaugh0.wav
