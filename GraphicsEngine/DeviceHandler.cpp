@@ -10,9 +10,9 @@ DeviceHandler::DeviceHandler(HWND _hWnd, bool _windowed, INT2 _screenSize)
 	HRESULT hr;
 
 	UINT createDeviceFlags = 0;
-	#ifdef _DEBUG
+	/*#ifdef _DEBUG
 		createDeviceFlags |= D3D10_CREATE_DEVICE_DEBUG;
-	#endif
+	#endif*/
 
 	D3D10_DRIVER_TYPE driverTypes[] = 
 	{

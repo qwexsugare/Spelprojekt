@@ -188,6 +188,8 @@ bool World::removeTerrain(Terrain* _terrain)
 
 void World::render()
 {
+	this->m_mutex.Lock();
+
 	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+m_camera->getZOffset());
 
 	//Init render stuff
@@ -782,6 +784,8 @@ void World::render()
 		this->m_texts[i]->render();
 	}
 
+	this->m_mutex.Unlock();
+
 	//Finish render
 	this->m_deviceHandler->present();
 }
@@ -1019,6 +1023,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 void World::update(float dt)
 {
+	this->m_mutex.Lock();
 	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+m_camera->getZOffset());
 
 	//SpriteSheets
@@ -1044,10 +1049,14 @@ void World::update(float dt)
 	//	this->m_quadTree->addModel(models.top());
 	//	models.pop();
 	//}
+
+	this->m_mutex.Unlock();
 }
 
 bool World::addModel(Model *_model)
 {
+	this->m_mutex.Lock();
+
 	bool success;
 	if(_model->isStatic())
 		success = this->m_quadTree->addModel(_model);
@@ -1056,12 +1065,17 @@ bool World::addModel(Model *_model)
 		m_models.push_back(_model);
 		success = true;
 	}
+
+	this->m_mutex.Unlock();
+
 	return success;
 }
 
 bool World::removeModel(Model *_model)
 {
 	bool success = false;
+
+	this->m_mutex.Lock();
 
 	if(_model->isStatic())
 		success = this->m_quadTree->removeModel(_model);
@@ -1078,6 +1092,8 @@ bool World::removeModel(Model *_model)
 			}
 		}
 	}
+
+	this->m_mutex.Unlock();
 
 	return success;
 }

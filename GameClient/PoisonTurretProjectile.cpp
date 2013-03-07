@@ -26,7 +26,7 @@ PoisonTurretProjectile::~PoisonTurretProjectile()
 
 }
 
-#include <fstream>
+#include <sstream>
 void PoisonTurretProjectile::update(float _dt)
 {
 	m_timeToImpact = max(m_timeToImpact-_dt, 0.0f);
@@ -42,16 +42,13 @@ void PoisonTurretProjectile::update(float _dt)
 			((UnitEntity*)target)->addPoisonStack();
 
 			// dbg
-			ofstream file("output.txt", ios::app);
-			if(file.is_open())
-			{
-				target = EntityHandler::getServerEntity(m_target);
-				if(target)
-					file << "Poison turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to " << target->getHealth() << endl;
-				else
-					file << "Poison turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to death" << endl;
-				file.close();
-			}
+			stringstream ss;
+			target = EntityHandler::getServerEntity(m_target);
+			if(target)
+				ss << "Poison turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to " << target->getHealth() << endl;
+			else
+				ss << "Poison turret projectile did " << damage << " damage and reduced health from " << healthBefore << " to death" << endl;
+			OutputDebugString(ss.str().c_str());
 
 			// Remove me from server entity handler
 			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
