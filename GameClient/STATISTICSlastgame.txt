@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 98.7567
-Life remaining: 92
+Time played: 262.004
+Life remaining: 95
 Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
 Hero played: Red knight
-Deamons killed: 2
+Deamons killed: 5
 Player deaths: 0
-Resources collected: 68
+Resources collected: 175
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 570
-Physical damage taken: 185
+Total damage dealt: 1621
+Physical damage taken: 961
 Mental damage taken: 0
 Physical damage dealt: 0
-Mental damage dealt: 570
+Mental damage dealt: 1621
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -58,16 +58,16 @@ Skills used:
 0
 1036729788
 851718846
-911423043
-1064517387
-889992408
-922236606
-1031486802
-1067663260
-925382422
-216
-1015626856
-1025653955
-902641091
-911422951
+885404792
+1052327509
+873477110
+914962047
+1016871986
+1071202259
+912995941
+1012153356
+843264516
+1004092361
+888681702
+881341567
 ---------------
