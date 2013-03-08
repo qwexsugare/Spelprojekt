@@ -22,6 +22,7 @@
 #include "NetworkUpdateEntityHealth.h"
 #include "NetworkAttributeUpdateMessage.h"
 #include "NetworkWelcomeMessage.h"
+#include "NetworkEndGameMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
