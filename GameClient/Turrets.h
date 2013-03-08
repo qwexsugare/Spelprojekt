@@ -4,3 +4,4 @@
 #include "FrostTurret.h"
 #include "PoisonTurret.h"
 #include "DeathPulseTurret.h"
+#include "FrostTurretBase.h"

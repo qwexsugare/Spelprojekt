@@ -9,7 +9,7 @@ Server::Server(MessageHandler *_messageHandler)
 	this->m_messageQueue = new MessageQueue();
 	this->m_messageHandler->addQueue(this->m_messageQueue);
 	this->nextEmptyArrayPos=0;
-	DelayedDamage::text = NULL;
+
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
 		this->m_players[i]=0;
@@ -76,8 +76,8 @@ void Server::goThroughSelector()
 					Player *p = new Player(nextEmptyArrayPos);
 					this->m_players[nextEmptyArrayPos]=p;
 					this->clients[nextEmptyArrayPos]=incSocket;
+					this->m_messageQueue->pushOutgoingMessage(new JoinedGameMessage(nextEmptyArrayPos));
 					this->nrOfPlayers++;
-				
 					this->m_messageHandler->addQueue(p->getMessageQueue());
 				}
 			}
@@ -163,7 +163,7 @@ void Server::handleMessages()
 		switch(m->type)
 		{
 		case Message::RemoveEntity:
-			m1 = (RemoveServerEntityMessage*)m;			
+			m1 = (RemoveServerEntityMessage*)m;
 			rem = NetworkRemoveEntityMessage(m1->removedId);
 			this->broadcast(rem);
 			break;
@@ -200,7 +200,7 @@ void Server::handleMessages()
 
 		case Message::RemoveActionTarget:
 			m6 = (RemoveActionTargetMessage*)m;
-			rat = NetworkRemoveActionTargetMessage(m6->actionId, m6->targetId);
+			rat = NetworkRemoveActionTargetMessage(m6->actionId, m6->targetId, m6->position);
 			this->broadcast(rat);
 
 			break;
@@ -219,7 +219,7 @@ void Server::handleMessages()
 			
 		case Message::initEntities:
 			m8 =(InitEntityMessage*)m;
-			iem = NetworkInitEntityMessage(m8->entityType, m8->modelid, m8->weaponType, m8->id,m8->xPos,m8->zPos,m8->yRot,m8->scale,m8->health,m8->sx,m8->sz,m8->ex,m8->ez,m8->movementspeed);
+			iem = NetworkInitEntityMessage(m8->entityType, m8->subtype, m8->modelid, m8->weaponType, m8->id,m8->xPos,m8->zPos,m8->yRot,m8->scale,m8->health,m8->sx,m8->sz,m8->ex,m8->ez,m8->movementspeed);
 			this->broadcast(iem);
 			break;
 
@@ -455,12 +455,12 @@ void Server::broadcast(NetworkInitEntityMessage networkMessage)
 }
 void Server::broadcast(NetworkHeroInitMessage networkMessage)
 {
-	sf::Packet packet;
 
 	this->m_mutex.Lock();
 
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
+		sf::Packet packet;
 		networkMessage.setYourId(i);
 		packet<<networkMessage;
 		if(this->clients[i].IsValid())

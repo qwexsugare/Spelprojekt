@@ -30,8 +30,8 @@ protected:
 	HERO_TYPE m_heroType;
 	WEAPON_TYPE m_weaponType;
 	int m_playerId;
-	UpdateEntityMessage* getUpdateEntityMessage();
 	float m_attackRange;
+	bool m_alive;
 public:
 	Hero();
 	Hero(HERO_TYPE _heroType, int _playerId);
@@ -45,6 +45,9 @@ public:
 	FLOAT3 getDirection();
 	FLOAT3 getEndPos();
 	unsigned short getWeaponType();
+	void respawn(FLOAT3 _position);
+	UpdateEntityMessage* getUpdateEntityMessage();
+	bool getAlive();
 };
 
 #endif

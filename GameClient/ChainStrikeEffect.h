@@ -11,12 +11,13 @@ private:
 	int m_jumps;
 	int m_maxJumps;
 	int m_baseDamage;
+	unsigned int m_masterId;
 
-	static const int MAX_JUMP_DISTANCE = 10;
+	static const int MAX_JUMP_DISTANCE = 5;
 public:
 	static const FLOAT TIME_BETWEEN_JUMPS;
 
-	ChainStrikeEffect(unsigned int _firstTarget, FLOAT3 _positon, int _maxJumps, int _baseDamage);
+	ChainStrikeEffect(unsigned int _firstTarget, int _maxJumps, int _baseDamage, unsigned int _masterId);
 	~ChainStrikeEffect();
 
 	void update(float _dt);

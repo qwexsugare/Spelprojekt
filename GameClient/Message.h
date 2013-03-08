@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame};
 
 	Type type;
 	int senderId;
@@ -135,14 +135,16 @@ struct RemoveActionTargetMessage : Message
 	unsigned int actionId;
 	unsigned int senderId;
 	unsigned int targetId;
+	FLOAT3 position;
 	
-	RemoveActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId)
+	RemoveActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId, FLOAT3 _position = FLOAT3(0.0f, 0.0f, 0.0f))
 	{
 		this->type = Type::RemoveActionTarget;
 		this->reciverId = 1;
 		this->actionId = _actionId;
 		this->senderId = _senderId;
 		this->targetId = _targetId;
+		this->position = _position;
 	}
 };
 
@@ -199,12 +201,14 @@ struct EnemyDiedMessage : Message
 struct EnemyReachedGoalMessage : Message
 {
 	unsigned int enemyId;
+	FLOAT3 position;
 
-	EnemyReachedGoalMessage(unsigned int _enemyId)
+	EnemyReachedGoalMessage(unsigned int _enemyId, FLOAT3 _position)
 	{
 		this->type = Type::EnemyReachedGoal;
 		this->reciverId = 0;
 		this->enemyId = _enemyId;
+		this->position = _position;
 	}
 };
 
@@ -221,11 +225,13 @@ struct InitEntityMessage :Message
 	float yRot;
 	float scale;
 	int health;
+	unsigned short subtype;
 	unsigned short entityType;
 	unsigned short weaponType;
 	float movementspeed;
-	InitEntityMessage(unsigned short ET, unsigned short modelid, unsigned short weaponType,unsigned short id, float xpos, float zpos, float yrot, float scale,int health,float sx, float sz,float ex, float ez,float mms)
+	InitEntityMessage(unsigned short ET, unsigned short subtype, unsigned short modelid, unsigned short weaponType,unsigned short id, float xpos, float zpos, float yrot, float scale,int health,float sx, float sz,float ex, float ez,float mms)
 	{
+		this->subtype = subtype;
 		this->id=id;
 		this->reciverId=1;
 		this->type=Type::initEntities;
@@ -276,5 +282,29 @@ struct updateEntityHealth :Message
 		this->reciverId = 1;
 		this->id=id;
 		this->health=health;
+	}
+};
+
+struct HeroDiedMessage : Message
+{
+	unsigned int heroId;
+
+	HeroDiedMessage(unsigned int _heroId, unsigned int _heroOwner)
+	{
+		this->type = Type::HeroDied;
+		this->reciverId = _heroOwner;
+		this->heroId = _heroId;
+	}
+};
+
+struct JoinedGameMessage : Message
+{
+	unsigned int id;
+
+	JoinedGameMessage(unsigned int _id)
+	{
+		this->type = Message::Type::JoinedGame;
+		this->id = _id;
+		this->reciverId = 0;
 	}
 };

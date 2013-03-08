@@ -14,33 +14,46 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	m_graphicalEffect->setAlpha(0.999f);
 
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
-
 	if(master != NULL)
 	{
-		//master->m_model->getAnimation()->PlayLoop("idle");
-		master->m_model->getAnimation()->Play("RangeAttack");
+		master->m_model->getAnimation()->PlayLoop("RangeAttack");
 	}
-}
+	
+	D3DXVECTOR3 newPos = D3DXVECTOR3(_position.x, _position.y, _position.z);
+	this->m_particleSystem = g_graphicsEngine->createParticleEngine(D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
 
-ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, Hero::HERO_TYPE _heroType)
-{
-	m_active = true;
-	m_heroType = _heroType;
-	m_targetId = _targetId;
-	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
-	m_graphicalEffect->setAlpha(0.999f);
+	// Play sound
+	int sound;
+	switch(random(0, 2))
+	{
+	case 0:
+		sound = createSoundHandle("attacks/rangeAttack_0", false, true, _position);
+		break;
+	case 1:
+		sound = createSoundHandle("attacks/rangeAttack_1", false, true, _position);
+		break;
+	case 2:
+		sound = createSoundHandle("attacks/rangeAttack_2", false, true, _position);
+		break;
+	}
+	playSound(sound);
+	deactivateSound(sound);
 }
 
 ArrowClientSkillEffect::~ArrowClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_graphicalEffect);
+	g_graphicsEngine->removeParticleEngine(this->m_particleSystem);
 }
 
 void ArrowClientSkillEffect::update(float _dt)
 {
 	Entity* target = ClientEntityHandler::getEntity(m_targetId);
-	if(target)
+	if(target && target->m_health > 0)
 	{
+		D3DXVECTOR3 newPos = D3DXVECTOR3(m_graphicalEffect->getPosition().x, m_graphicalEffect->getPosition().y, m_graphicalEffect->getPosition().z);
+		this->m_particleSystem->setPosition(newPos);
+
 		FLOAT3 dist = target->m_model->getPosition()-m_graphicalEffect->getPosition();
 		FLOAT3 movement = dist/dist.length()*RangedAttack::VELOCITY*_dt;
 
@@ -76,7 +89,7 @@ void ArrowClientSkillEffect::update(float _dt)
 			{
 				int sound;
 
-				switch(m_heroType)
+				switch(target->m_subtype)
 				{
 				case Hero::RED_KNIGHT:
 					switch(random(0, 2))

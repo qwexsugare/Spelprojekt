@@ -47,6 +47,7 @@ vector<Position> Pathfinder::getPath(Position start, Position end)
 				this->map.getNode(currPos)->setHCost(this->getManhattanDistance(currPos,end));
 			}
 		}
+
 		Node* endNode= this->map.getNode(end);
 
 		this->map.getNode(start)->putOnOpenList();
@@ -275,7 +276,9 @@ Path Pathfinder::getPath(FLOAT2 start, FLOAT2 end)
 	Position startPos = Position(start.x * this->map.getWidth() / this->mapSize.x, start.y * this->map.getHeight() / this->mapSize.y);
 	Position endPos = Position(end.x * this->map.getWidth() / this->mapSize.x, end.y * this->map.getHeight() / this->mapSize.y);
 
+	this->m_mutex.Lock();
 	vector<Position> path = this->getPath(startPos, endPos);
+	this->m_mutex.Unlock();
 
 	if(path.size() > 0)
 	{
@@ -300,5 +303,20 @@ Path Pathfinder::getPath(FLOAT2 start, FLOAT2 end)
 	else
 	{
 		return Path();
+	}
+}
+
+bool Pathfinder::sameGridPosition(FLOAT2 pos1, FLOAT2 pos2)
+{
+	Position startPos = Position(pos1.x * this->map.getWidth() / this->mapSize.x, pos1.y * this->map.getHeight() / this->mapSize.y);
+	Position endPos = Position(pos2.x * this->map.getWidth() / this->mapSize.x, pos2.y * this->map.getHeight() / this->mapSize.y);
+
+	if(startPos.getX() == endPos.getX() && startPos.getY() == endPos.getY())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }

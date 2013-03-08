@@ -13,6 +13,7 @@
 #include "Hero.h"
 #include "PlayerInfo.h"
 #include "Text.h"
+#include "AmbientSoundsManager.h"
 //#include "Cursor.h"
 
 class GameState : public State
@@ -31,23 +32,30 @@ private:
 	ParticleEngine *testParticleSystem;
 	unsigned int m_yourId;
 
-	//Cursor m_cursor;
-	Text* m_healthText;
-
 	bool m_idle;
 	float m_idleSoundTimer;
 
 	// Sounds
+	AmbientSoundsManager m_ambientSoundsManager;
+	int m_lowHealthSound;
+	static const int LOW_HEALTH_SOUND_DELAY = 10;
+	float m_lowHealthSoundDelayTimer;
 	int m_idleSound;
 	static const int NR_OF_ATTACK_SOUNDS = 3;
 	int m_attackSounds[NR_OF_ATTACK_SOUNDS];
+	static const int NR_OF_MOVE_SOUNDS = 3;
+	int m_moveSounds[NR_OF_MOVE_SOUNDS];
 	static const int ATTACK_SOUND_DELAY = 5;
 	float m_attackSoundTimer;
+	vector<int> m_timeIsMoneySounds;
+	int m_churchSound;
+	bool m_idling;
 
-	void end();
 	void importMap(string _map);
+	void playPursueSound(unsigned int _speakerId);
+	void playWallDeathSound(FLOAT3 _position);
 public:
-	static const int IDLE_SOUND_DELAY = 7;
+	static const int IDLE_SOUND_DELAY = 30;
 
 	GameState(Client *_network);
 	~GameState();

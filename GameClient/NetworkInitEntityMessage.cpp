@@ -15,9 +15,10 @@ NetworkInitEntityMessage::NetworkInitEntityMessage(void):NetworkMessage(NetworkM
 	this->movementspeed=0;
 }
 
-NetworkInitEntityMessage::NetworkInitEntityMessage(unsigned short type, unsigned short modelid, unsigned short weaponType, unsigned short id, float xPos, float zPos, float yRot, float scale,int health,float sx, float sz,float ex, float ez,float mms):NetworkMessage(NetworkMessage::initEntities)
+NetworkInitEntityMessage::NetworkInitEntityMessage(unsigned short type, unsigned short subtype, unsigned short modelid, unsigned short weaponType, unsigned short id, float xPos, float zPos, float yRot, float scale,int health,float sx, float sz,float ex, float ez,float mms):NetworkMessage(NetworkMessage::initEntities)
 {
 	this->type=type;
+	this->subtype = subtype;
 	this->modelid=modelid;
 	this->weaponType = weaponType;
 	this->id=id;
@@ -39,17 +40,21 @@ NetworkInitEntityMessage::~NetworkInitEntityMessage(void)
 
 sf::Packet& operator<<(sf::Packet& packet,const NetworkInitEntityMessage& e)
 {
-	return packet<<*((int*)&e.m_type)<<e.type<<e.id<<e.modelid<<e.weaponType<<e.xPos<<e.zPos<<e.yRot<<e.scale<<e.health<<e.sx<<e.sz<<e.ex<<e.ez<<e.movementspeed;
+	return packet<<*((int*)&e.m_type)<<e.type<<e.subtype<<e.id<<e.modelid<<e.weaponType<<e.xPos<<e.zPos<<e.yRot<<e.scale<<e.health<<e.sx<<e.sz<<e.ex<<e.ez<<e.movementspeed;
 }
 
 sf::Packet& operator>>(sf::Packet& packet, NetworkInitEntityMessage& e)
 {
-	return packet>>e.type>>e.id>>e.modelid>>e.weaponType>>e.xPos>>e.zPos>>e.yRot>>e.scale>>e.health>>e.sx>>e.sz>>e.ex>>e.ez>>e.movementspeed;
+	return packet>>e.type>>e.subtype>>e.id>>e.modelid>>e.weaponType>>e.xPos>>e.zPos>>e.yRot>>e.scale>>e.health>>e.sx>>e.sz>>e.ex>>e.ez>>e.movementspeed;
 }
 
 int NetworkInitEntityMessage::getType()
 {
 	return this->type;
+}
+int NetworkInitEntityMessage::getSubtype()
+{
+	return this->subtype;
 }
 int NetworkInitEntityMessage::getID()
 {

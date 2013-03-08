@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "ServerEntity.h"
 #include "ModelIdHolder.h"
+#include "Enemy.h"
 
 struct Entity
 {
@@ -11,6 +12,7 @@ struct Entity
 	Model* m_model;
 	FLOAT3 m_direction;
 	ServerEntity::Type m_type;
+	int m_subtype;
 	FLOAT3 m_startPos;
 	FLOAT3 m_endPos;
 	float movementSpeed;
@@ -22,8 +24,15 @@ struct Entity
 		this->m_model = NULL;
 	}
 
-	Entity(Model* _model, unsigned int _id)
+	Entity(Model* _model, unsigned int _id, ServerEntity::Type _type, int _subtype)
 	{
+		m_subtype = _subtype;
+		m_type = _type;
+		if(m_type == ServerEntity::EnemyType && m_subtype == Enemy::SHADE)
+		{
+			_model->setAlpha(0.75f);
+		}
+
 		this->m_model = _model;
 		this->m_id = _id;
 		this->m_direction = FLOAT3(0.0f, 0.0f, 0.0f);
@@ -63,11 +72,11 @@ struct Entity
 		}
 		else
 		{
-			xdir=0;
-			zdir=0;
-			this->m_direction.x=xdir;
-			this->m_direction.z=zdir;
-			this->m_model->setPosition(m_endPos);
+			//xdir=0;
+			//zdir=0;
+			//this->m_direction.x=xdir;
+			//this->m_direction.z=zdir;
+			//this->m_model->setPosition(m_endPos);
 		}
 
 		if(this->m_lanternLight != NULL)

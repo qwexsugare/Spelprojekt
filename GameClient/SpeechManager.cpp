@@ -46,6 +46,29 @@ bool SpeechManager::speak(unsigned int _id, int _sound)
 	return success;
 }
 
+void SpeechManager::speakUltimate(unsigned int _id, int _sound)
+{
+	bool replaced = false;
+	for(map<unsigned int, int>::iterator iter = SpeechManager::speeches.begin(); iter != SpeechManager::speeches.end(); iter++)
+	{
+		if(iter->first == _id)
+		{
+			stopSound(iter->second);
+			iter->second = _sound;
+			iter = SpeechManager::speeches.end();
+			iter--;
+			replaced = true;
+		}
+	}
+
+	if(!replaced)
+	{
+		SpeechManager::speeches[_id] = _sound;
+	}
+	
+	playSound(_sound);
+}
+
 void SpeechManager::update()
 {
 	vector<map<unsigned int, int>::iterator> removeIndices;

@@ -15,14 +15,14 @@ Pathfinder *g_pathfinder;
 MapHandler::MapHandler()
 {
 	this->m_currentWave = 0;
-	this->m_waveTimer = 0.0f;
-	this->m_enemySpawnTimer = 0.0f;
+	this->m_waveTimer = 30.0f;
+	this->m_enemySpawnTimer = 30.0f;
 	this->m_gridHeight = 0;
 	this->m_gridWidth = 0;
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
-	this->m_lives = 10;
+	this->m_lives = 100;
 	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
@@ -62,7 +62,7 @@ MapHandler::State MapHandler::getState()
 	{
 		return MapHandler::State::DEFEAT;
 	}
-	else if(this->m_currentWave > this->m_waves.size())
+	else if(this->m_currentWave >= this->m_waves.size())
 	{
 		return MapHandler::State::VICTORY;
 	}
@@ -155,11 +155,18 @@ void MapHandler::loadMap(std::string filename)
 
 						this->nrOfSpawnPoints++;
 					}
+					else if(strcmp(key, "Fountain") == 0)
+					{
+						EntityHandler::addEntity(new HealingFountain(position));
+					}
 					else
 					{
 						Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
 						m->setRotation(rotation);
-						EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
+						if(strcmp(key, "Church")==0)
+							EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::GoalType));
+						else
+							EntityHandler::addEntity(new ServerEntity(position, rotation, new BoundingOrientedBox(*m->getObb()), ServerEntity::Type::StaticType));
 						g_graphicsEngine->removeModel(m);
 					}
 				}
@@ -230,9 +237,17 @@ void MapHandler::loadMap(std::string filename)
 	for(int i = 0; i < m_nrOfPaths; i++)
 		m_paths[i] = paths[i];
 	
-	//createWave(0,0,0,0,1,1,1,1); // MÖGs super advanced specified wave with extra cheese
+	//createWave(0,10,0,0,0,0,0,0); // MÖGs super advanced specified wave with extra cheese
 	
-	createWave(25,5,0,0,0,0,0,0);
+
+	/// This is where all waves are created! 
+	///
+	/// createWave(imps, shades, spitting, Frost, SoulEater, Hellfire, Thunder, Brute)
+	///
+	///
+	
+	createWave(5,5,0,0,0,0,0,0);
+	//createWave(0,0,10,0,0,0,0,0);
 	createWave(18,8,4,0,0,0,0,0);
 	createWave(12,10,8,0,0,0,0,0);
 	createWave(8,10,9,3,0,0,0,0);
@@ -247,7 +262,7 @@ void MapHandler::loadMap(std::string filename)
 	createWave(0,0,2,4,11,7,6,0);
 	createWave(0,0,0,4,10,8,6,2);
 	createWave(0,0,0,2,8,9,8,3);
-	createWave(0,0,0,0, 5,11,10,4);
+	createWave(0,0,0,0,5,11,10,4);
 	createWave(0,0,0,0,3,9,10,8);
 	createWave(0,0,0,0,0,8,10,12);
 	createWave(0,0,0,0,0,4,8,18);
@@ -307,7 +322,7 @@ void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int
 	int t = random(0,0);
 	
 	int _min = 0;
-	int _max = this->m_nrOfPaths-1;
+	int _max =  this->m_nrOfPaths-1;
 
 	for(int i = 0; i < totalMonsters; i ++)
 	{
@@ -367,4 +382,9 @@ FLOAT3 MapHandler::getPlayerPosition(int p)
 		pos = this->playerStartPositions[p];
 	}
 	return pos;
+}
+
+int MapHandler::getLivesLeft()
+{
+	return this->m_lives;
 }

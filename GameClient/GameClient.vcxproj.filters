@@ -58,9 +58,6 @@
     <ClCompile Include="SettingsMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="SoundWrapper.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="TextInput.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -302,10 +299,10 @@
       <Filter>Server\Heroes</Filter>
     </ClCompile>
     <ClCompile Include="TeslaChainTurret.cpp">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClCompile>
     <ClCompile Include="TeslaChainTurretEffect.cpp">
-      <Filter>Server\Towers\Effects</Filter>
+      <Filter>Server\Turrets\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Server</Filter>
@@ -392,7 +389,7 @@
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="TowerPlacer.cpp">
-      <Filter>Server\Towers\Tower Placer</Filter>
+      <Filter>Server\Turrets\Tower Placer</Filter>
     </ClCompile>
     <ClCompile Include="RunClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -405,9 +402,6 @@
     </ClCompile>
     <ClCompile Include="NetworkHeroInitMessage.cpp">
       <Filter>Network</Filter>
-    </ClCompile>
-    <ClCompile Include="SpeechManager.cpp">
-      <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="DeathClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -422,16 +416,16 @@
       <Filter>Server\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Turret.cpp">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClCompile>
     <ClCompile Include="FrostTurret.cpp">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClCompile>
     <ClCompile Include="PoisonTurret.cpp">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClCompile>
     <ClCompile Include="DeathPulseTurret.cpp">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClCompile>
     <ClCompile Include="HypnoticStareClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -446,10 +440,10 @@
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="FrostTurretProjectile.cpp">
-      <Filter>Server\Towers\Projectiles</Filter>
+      <Filter>Server\Turrets\Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="PoisonTurretProjectile.cpp">
-      <Filter>Server\Towers\Projectiles</Filter>
+      <Filter>Server\Turrets\Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="PoisonTurretProjectileClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -459,15 +453,76 @@
     </ClCompile>
     <ClCompile Include="PassiveAttackClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
-    </ClCompile>    
+    </ClCompile>
     <ClCompile Include="ChainStrikeClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
-      </ClCompile>
-    <ClCompile Include="Statistics.cpp" />
-    <ClCompile Include="StatisticsPlayer.cpp" />
+    </ClCompile>
+    <ClCompile Include="Statistics.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="StatisticsPlayer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="EnhancedDevelopment.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretLifetime.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadyAimFire.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetAcquiredPermissionToFire.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeIsMoney.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Server\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="WallEffect.cpp">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="WallClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetAcquiredClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkAttributeUpdateMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundWrapper.cpp">
+      <Filter>Client\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeechManager.cpp">
+      <Filter>Client\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbientSoundsManager.cpp">
+      <Filter>Client\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostTurretBase.cpp">
+      <Filter>Server\Turrets</Filter>
+    </ClCompile>
+    <ClCompile Include="HealingFountain.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkEndGameMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -531,9 +586,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="SettingsMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundWrapper.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
@@ -795,10 +847,10 @@
       <Filter>Server\Heroes</Filter>
     </ClInclude>
     <ClInclude Include="TeslaChainTurret.h">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClInclude>
     <ClInclude Include="TeslaChainTurretEffect.h">
-      <Filter>Server\Towers\Effects</Filter>
+      <Filter>Server\Turrets\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Server</Filter>
@@ -893,7 +945,7 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="TowerPlacer.h">
-      <Filter>Server\Towers\Tower Placer</Filter>
+      <Filter>Server\Turrets\Tower Placer</Filter>
     </ClInclude>
     <ClInclude Include="NetworkHeroInitMessage.h">
       <Filter>Network</Filter>
@@ -906,9 +958,6 @@
     </ClInclude>
     <ClInclude Include="DeathClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
-    </ClInclude>
-    <ClInclude Include="SpeechManager.h">
-      <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="NetworkInitEntityMessage.h">
       <Filter>Network</Filter>
@@ -923,19 +972,19 @@
       <Filter>Server\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Turret.h">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClInclude>
     <ClInclude Include="Turrets.h">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClInclude>
     <ClInclude Include="PoisonTurret.h">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClInclude>
     <ClInclude Include="FrostTurret.h">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClInclude>
     <ClInclude Include="DeathPulseTurret.h">
-      <Filter>Server\Towers</Filter>
+      <Filter>Server\Turrets</Filter>
     </ClInclude>
     <ClInclude Include="HypnoticStareClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
@@ -950,10 +999,10 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="FrostTurretProjectile.h">
-      <Filter>Server\Towers\Projectiles</Filter>
+      <Filter>Server\Turrets\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="PoisonTurretProjectile.h">
-      <Filter>Server\Towers\Projectiles</Filter>
+      <Filter>Server\Turrets\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="PoisonTurretProjectileClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
@@ -962,16 +1011,77 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="PassiveAttackClientSkillEffect.h">
-       <Filter>Client\Skills</Filter>
-    </ClInclude>   
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
     <ClInclude Include="ChainStrikeClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="Statistics.h" />
-    <ClInclude Include="StatisticsPlayer.h" />
+    <ClInclude Include="Statistics.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="EnhancedDevelopment.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretLifetime.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadyAimFire.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetAcquiredPermissionToFire.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetAcquiredPermissionToFireEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeIsMoney.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="StatisticsPlayer.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="WallEffect.h">
+      <Filter>Server\Skills\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="WallClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetAcquiredClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="ChurchPenetratedClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkAttributeUpdateMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeechManager.h">
+      <Filter>Client\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundWrapper.h">
+      <Filter>Client\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbientSoundsManager.h">
+      <Filter>Client\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="HealingFountain.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretBase.h">
+      <Filter>Server\Turrets</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkEndGameMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -1004,23 +1114,26 @@
     <Filter Include="Server\Heroes">
       <UniqueIdentifier>{b472bc64-8dc9-4875-80a2-557d54abfa9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Server\Towers">
-      <UniqueIdentifier>{0db08736-2a91-4a6d-845b-faa966d02fb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Server\Towers\Effects">
-      <UniqueIdentifier>{8ac81207-8312-449a-b74d-78565cecf9e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Server\Enemies">
       <UniqueIdentifier>{5845e709-0306-47d1-9940-40e192f45108}</UniqueIdentifier>
     </Filter>
     <Filter Include="Server\Quadtree">
       <UniqueIdentifier>{fa0e9017-8c0a-4efa-9c1a-c4978e74b3be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Server\Towers\Tower Placer">
+    <Filter Include="Server\Turrets">
+      <UniqueIdentifier>{0db08736-2a91-4a6d-845b-faa966d02fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Turrets\Effects">
+      <UniqueIdentifier>{8ac81207-8312-449a-b74d-78565cecf9e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Turrets\Tower Placer">
       <UniqueIdentifier>{7be7bea1-bd1e-460e-bca8-3cdc6c3dbe73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Server\Towers\Projectiles">
+    <Filter Include="Server\Turrets\Projectiles">
       <UniqueIdentifier>{ab0a6282-5db6-4445-ac41-c2d477c6298f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Audio">
+      <UniqueIdentifier>{4f86fc7b-4a45-4276-808f-5c9ff04e83bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

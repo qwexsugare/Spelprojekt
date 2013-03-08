@@ -2,7 +2,7 @@
 #include "MeleeAttack.h"
 
 
-Shade::Shade(FLOAT3 _pos, Path _path) : Enemy(_pos, _path)
+Shade::Shade(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::SHADE)
 {
 	m_modelId = 82;
 	

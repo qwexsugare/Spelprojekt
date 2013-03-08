@@ -8,9 +8,9 @@ World::World()
 World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 {
 	this->m_deviceHandler = _deviceHandler;
-	this->m_sprites = vector<SpriteBase*>();
+	this->m_spritesMiddle = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2());
+	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2(), D3DXVECTOR2()); // Init to something arbitrary, it will be fully initialized later in other function
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
@@ -30,7 +30,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
-	this->m_tangentBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_ViewCoordBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	//Glow
 	this->m_glowRendering = new GlowRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_glowBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -40,13 +40,16 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_glowRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
 	this->m_glowRenderTarget2 = new RenderTarget(this->m_deviceHandler->getDevice(), INT2(trollSize, trollSize2));
 
+	//ParticleStuff
+	this->m_particleRendering =  new ParticleEngineEffectFile(this->m_deviceHandler->getDevice());
+
 	//SSAO
 	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
 
 	this->m_positionBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_diffuseBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
-	this->m_tangentBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
+	this->m_ViewCoordBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	
 	this->m_deferredPlane = new FullScreenPlane(this->m_deviceHandler->getDevice(), NULL);
 	this->m_spriteRendering = new SpriteEffectFile(this->m_deviceHandler->getDevice());
@@ -66,6 +69,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	m_shadowMapViewport.MaxDepth = 1.0f;
 	m_shadowMapViewport.TopLeftX = 0;
 	m_shadowMapViewport.TopLeftY = 0;
+	
+	this->m_deferredRendering->setScreenSize(D3DXVECTOR2(this->m_deviceHandler->getScreenSize().x, this->m_deviceHandler->getScreenSize().y));
 }
 
 World::~World()
@@ -75,9 +80,14 @@ World::~World()
 	for(int i = 0; i < m_models.size(); i++)
 		delete m_models[i];
 
-	for(int i = 0; i < this->m_sprites.size(); i++)
+	for(int i = 0; i < this->m_spritesMiddle.size(); i++)
 	{
-		delete this->m_sprites[i];
+		delete this->m_spritesMiddle[i];
+	}
+
+	for(int i = 0; i < this->m_spritesFront.size(); i++)
+	{
+		delete this->m_spritesFront[i];
 	}
 
 	for(int i = 0; i < this->m_pointLights.size(); i++)
@@ -112,11 +122,12 @@ World::~World()
 	delete this->m_deferredRendering;
 	delete this->m_glowRendering;
 	delete this->m_SSAORendering;
+	delete this->m_particleRendering;
 
 	delete this->m_positionBuffer;
 	delete this->m_normalBuffer;
 	delete this->m_diffuseBuffer;
-	delete this->m_tangentBuffer;
+	delete this->m_ViewCoordBuffer;
 	delete this->m_glowBuffer;
 	delete this->m_glowRenderTarget;
 	delete this->m_glowRenderTarget2;
@@ -125,7 +136,7 @@ World::~World()
 	delete this->m_positionBufferTransparant;
 	delete this->m_normalBufferTransparant;
 	delete this->m_diffuseBufferTransparant;
-	delete this->m_tangentBufferTransparant;
+	delete this->m_ViewCoordBufferTransparant;
 	delete this->m_glowBufferTransparant;
 
 	delete this->m_camera;
@@ -177,8 +188,9 @@ bool World::removeTerrain(Terrain* _terrain)
 
 void World::render()
 {
-	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+4.0f);
-	//D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+5.86f);
+	this->m_mutex.Lock();
+
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+m_camera->getZOffset());
 
 	//Init render stuff
 	this->m_camera->updateViewMatrix();
@@ -189,7 +201,7 @@ void World::render()
 	this->m_positionBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBuffer->clear(this->m_deviceHandler->getDevice());
-	this->m_tangentBuffer->clear(this->m_deviceHandler->getDevice());
+	this->m_ViewCoordBuffer->clear(this->m_deviceHandler->getDevice());
 	this->m_glowBuffer->clear(this->m_deviceHandler->getDevice());
 	m_forwardDepthStencil->clear(this->m_deviceHandler->getDevice());
 	m_forwardRenderTarget->clear(m_deviceHandler->getDevice());
@@ -200,7 +212,7 @@ void World::render()
 	renderTargets[0] = *this->m_positionBuffer->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBuffer->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBuffer->getRenderTargetView();
-	renderTargets[3] = *this->m_tangentBuffer->getRenderTargetView();
+	renderTargets[3] = *this->m_ViewCoordBuffer->getRenderTargetView();
 	renderTargets[4] = *this->m_glowBuffer->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
@@ -223,6 +235,9 @@ void World::render()
 	}
 	
 	//Render all models
+
+	this->m_deferredRendering->setViewMatrix(&this->m_camera->getViewMatrix());
+
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	stack<Model*> staticModels = this->m_quadTree->getModels(focalPoint);
 	vector<Model*> transparentStaticModels;
@@ -334,8 +349,7 @@ void World::render()
 		modelDistanceToCamera.x -= greatestExtent;
 		modelDistanceToCamera.y -= greatestExtent;
 		
-		if(modelDistanceToCamera.x < 6.0f && modelDistanceToCamera.y < 4.0f)
-		//if(modelDistanceToCamera.x < 8.8f && modelDistanceToCamera.y < 5.86f)
+		if(modelDistanceToCamera.x < m_camera->getXOffset() && modelDistanceToCamera.y < m_camera->getZOffset())
 		{
 			if(m_models[i]->getAlpha() < 1.0f)
 			{
@@ -434,13 +448,13 @@ void World::render()
 	this->m_positionBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_normalBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	this->m_diffuseBufferTransparant->clear(this->m_deviceHandler->getDevice());
-	this->m_tangentBufferTransparant->clear(this->m_deviceHandler->getDevice());
+	this->m_ViewCoordBufferTransparant->clear(this->m_deviceHandler->getDevice());
 	//this->m_glowBufferTransparant->clear(this->m_deviceHandler->getDevice());
 
 	renderTargets[0] = *this->m_positionBufferTransparant->getRenderTargetView();
 	renderTargets[1] = *this->m_normalBufferTransparant->getRenderTargetView();
 	renderTargets[2] = *this->m_diffuseBufferTransparant->getRenderTargetView();
-	renderTargets[3] = *this->m_tangentBufferTransparant->getRenderTargetView();
+	renderTargets[3] = *this->m_ViewCoordBufferTransparant->getRenderTargetView();
 	//renderTargets[4] = *this->m_glowBufferTransparant->getRenderTargetView();
 
 	this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
@@ -507,16 +521,48 @@ void World::render()
 
 			if(transparentModels[i]->getMesh()->isAnimated)
 			{
-				//this->m_forwardRendering->setBoneTexture(models.top()->getAnimation()->getResource());
-				//this->m_deviceHandler->setVertexBuffer(models.top()->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				transparentModels[i]->getAnimation()->UpdateSkeletonTexture();
+				this->m_deferredSampler->setBoneTexture(transparentModels[i]->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				//Draw Props
+				if(transparentModels[i]->getHat())
+				{	
+					this->m_deferredSampler->setTexture(transparentModels[i]->getHat()->subMeshes[m]->textures["color"]);
+					this->m_deferredSampler->setGlowMap(transparentModels[i]->getHat()->subMeshes[m]->textures["glowIntensity"]);
+
+					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getHatMatrix());
+					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getHat()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getHat()->subMeshes[m]->numVerts, 0);
+				}
+				if(transparentModels[i]->getRightHand())
+				{
+					this->m_deferredSampler->setTexture(transparentModels[i]->getRightHand()->subMeshes[m]->textures["color"]);
+
+					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getRightHandMatrix());
+					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getRightHand()->subMeshes[m]->numVerts, 0);
+				}
+				if(transparentModels[i]->getLeftHand())
+				{
+					this->m_deferredSampler->setTexture(transparentModels[i]->getLeftHand()->subMeshes[m]->textures["color"]);
+					this->m_deferredSampler->setGlowMap(transparentModels[i]->getLeftHand()->subMeshes[m]->textures["glowIntensity"]);
+
+					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getLeftHandMatrix());
+					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getLeftHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getLeftHand()->subMeshes[m]->numVerts, 0);
+				}
+				this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[""]);
 			}
 			else
 			{
 				m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
 				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
-				//this->m_deviceHandler->getDevice()->OMSetRenderTargets(5, renderTargets , this->m_forwardDepthStencil->getDepthStencilView());
 				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
 				this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
 			}
@@ -541,7 +587,7 @@ void World::render()
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBuffer->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBuffer->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBuffer->getShaderResource());
-	this->m_deferredRendering->setTangentTexture(this->m_tangentBuffer->getShaderResource());
+	this->m_deferredRendering->setViewCoordTexture(this->m_ViewCoordBuffer->getShaderResource());
 
 	vector<PointLight*> tempPointLights = this->m_quadTree->getPointLights(focalPoint);
 
@@ -567,7 +613,7 @@ void World::render()
 	this->m_deferredRendering->setPositionsTexture(this->m_positionBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBufferTransparant->getShaderResource());
-	this->m_deferredRendering->setTangentTexture(this->m_tangentBufferTransparant->getShaderResource());
+	this->m_deferredRendering->setViewCoordTexture(this->m_ViewCoordBufferTransparant->getShaderResource());
 
 	for( UINT p = 0; p < techDesc.Passes; p++ )
 	{
@@ -666,11 +712,13 @@ void World::render()
 	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
 	while(!pes.empty())
 	{
-		//pes.top()->getstuffandrendershit();
+		pes.top()->Draw(m_particleRendering, m_camera);
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
 	}
-	
+
+	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
 	m_deviceHandler->getDevice()->OMSetRenderTargets(1, m_forwardRenderTarget->getRenderTargetView(), m_forwardDepthStencil->getDepthStencilView());
 
 	for(int i = 0; i < m_models.size(); i++)
@@ -697,15 +745,17 @@ void World::render()
 		}
 	}
 	
-	//Sprites
-	for(int i = 0; i < this->m_sprites.size(); i++)
-	{
-		if(this->m_sprites[i]->getVisible() == true)
-		{
-			this->m_deviceHandler->setVertexBuffer(m_sprites[i]->getBuffer(), sizeof(Vertex));
+	m_deviceHandler->setInputLayout(m_spriteRendering->getVertexLayout());		
 
-			this->m_spriteRendering->setModelMatrix(m_sprites[i]->getModelMatrix());
-			this->m_spriteRendering->setTexture(m_sprites[i]->getTexture());
+	//Sprites in the middle
+	for(int i = 0; i < this->m_spritesMiddle.size(); i++)
+	{
+		if(this->m_spritesMiddle[i]->getVisible() == true)
+		{
+			this->m_deviceHandler->setVertexBuffer(m_spritesMiddle[i]->getBuffer(), sizeof(Vertex));
+
+			this->m_spriteRendering->setModelMatrix(m_spritesMiddle[i]->getModelMatrix());
+			this->m_spriteRendering->setTexture(m_spritesMiddle[i]->getTexture());
 
 			D3D10_TECHNIQUE_DESC techDesc;
 			this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
@@ -713,7 +763,7 @@ void World::render()
 			for( UINT p = 0; p < techDesc.Passes; p++ )
 			{
 				this->m_spriteRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(m_sprites[i]->getNrOfVertices(), this->m_sprites[i]->getStartIndex());
+				this->m_deviceHandler->getDevice()->Draw(m_spritesMiddle[i]->getNrOfVertices(), this->m_spritesMiddle[i]->getStartIndex());
 			}
 		}
 	}
@@ -738,12 +788,35 @@ void World::render()
 			}
 		}
 	}
+
+	//Sprites in front of the text
+	for(int i = 0; i < this->m_spritesFront.size(); i++)
+	{
+		if(this->m_spritesFront[i]->getVisible() == true)
+		{
+			this->m_deviceHandler->setVertexBuffer(m_spritesFront[i]->getBuffer(), sizeof(Vertex));
+
+			this->m_spriteRendering->setModelMatrix(m_spritesFront[i]->getModelMatrix());
+			this->m_spriteRendering->setTexture(m_spritesFront[i]->getTexture());
+
+			D3D10_TECHNIQUE_DESC techDesc;
+			this->m_spriteRendering->getTechnique()->GetDesc( &techDesc );
+
+			for( UINT p = 0; p < techDesc.Passes; p++ )
+			{
+				this->m_spriteRendering->getTechnique()->GetPassByIndex(p)->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(m_spritesFront[i]->getNrOfVertices(), this->m_spritesFront[i]->getStartIndex());
+			}
+		}
+	}
 	
 	// Render texts
 	for(int i = 0; i < this->m_texts.size(); i++)
 	{
 		this->m_texts[i]->render();
 	}
+
+	this->m_mutex.Unlock();
 
 	//Finish render
 	this->m_deviceHandler->present();
@@ -766,7 +839,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 	m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	int counter = 0;
 
-	for(int i = 0; i < pointLights.size() && i * 6 < 100; i++)
+	for(int i = 0; i < pointLights.size() && counter < 100; i++)
 	{
 		if(pointLights[i]->getCastShadow() == true)
 		{
@@ -779,7 +852,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 				//Render the static models
 				stack<Model*> models = this->m_quadTree->getModels(pointLights[i]->getPosition2D());
-				while(!models.empty() && i * 6 + j < 100)
+				while(!models.empty())
 				{
 					if(models.top()->getAlpha() == 1.0f && models.top()->getShadow() == true)
 					{
@@ -809,7 +882,7 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 					models.pop();
 				}
 
-				//Render the non-staic modelss
+				//Render the non-static modelss
 				for(int v = 0; v < m_models.size(); v++)
 				{
 					// Calculate models distance to camera and make it positive
@@ -982,14 +1055,25 @@ void World::renderShadowMap(const D3DXVECTOR2& _focalPoint)
 
 void World::update(float dt)
 {
+	this->m_mutex.Lock();
+	D3DXVECTOR2 focalPoint = D3DXVECTOR2(m_camera->getPos2D().x, m_camera->getPos2D().y+m_camera->getZOffset());
+
 	//SpriteSheets
-	for(int i = 0; i < this->m_sprites.size(); i++)
+	for(int i = 0; i < this->m_spritesMiddle.size(); i++)
 	{
-		this->m_sprites[i]->update(dt);
+		this->m_spritesMiddle[i]->update(dt);
 	}
 
 	for(int i = 0; i < m_models.size(); i++)
 		m_models[i]->Update(dt);
+	
+	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
+	while(!pes.empty())
+	{
+		pes.top()->Update(dt);
+		/* What do you call a sheep with no legs? A cloud. */
+		pes.pop();
+	}
 
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
 	//while(!models.empty())
@@ -997,10 +1081,14 @@ void World::update(float dt)
 	//	this->m_quadTree->addModel(models.top());
 	//	models.pop();
 	//}
+
+	this->m_mutex.Unlock();
 }
 
 bool World::addModel(Model *_model)
 {
+	this->m_mutex.Lock();
+
 	bool success;
 	if(_model->isStatic())
 		success = this->m_quadTree->addModel(_model);
@@ -1009,12 +1097,17 @@ bool World::addModel(Model *_model)
 		m_models.push_back(_model);
 		success = true;
 	}
+
+	this->m_mutex.Unlock();
+
 	return success;
 }
 
 bool World::removeModel(Model *_model)
 {
 	bool success = false;
+
+	this->m_mutex.Lock();
 
 	if(_model->isStatic())
 		success = this->m_quadTree->removeModel(_model);
@@ -1032,6 +1125,8 @@ bool World::removeModel(Model *_model)
 		}
 	}
 
+	this->m_mutex.Unlock();
+
 	return success;
 }
 
@@ -1039,32 +1134,66 @@ void World::addSprite(SpriteBase *sprite)
 {
     bool found = false;
 
-    for(int i = 0; i < this->m_sprites.size() && found == false; i++)
-    {
-            if(this->m_sprites[i]->getLayer() > sprite->getLayer())
-            {
-                    this->m_sprites.insert(this->m_sprites.begin() + i, sprite);
-                    found = true;
-            }
-    }
+	if(sprite->getLayer() > World::TEXT_LAYER)
+	{
+		for(int i = 0; i < this->m_spritesFront.size() && found == false; i++)
+		{
+			if(this->m_spritesFront[i]->getLayer() > sprite->getLayer())
+			{
+					this->m_spritesFront.insert(this->m_spritesFront.begin() + i, sprite);
+					found = true;
+			}
+		}
 
-    if(found == false)
-    {
-		this->m_sprites.push_back(sprite);
-    }
+		if(found == false)
+		{
+			this->m_spritesFront.push_back(sprite);
+		}
+	}
+	else
+	{
+		for(int i = 0; i < this->m_spritesMiddle.size() && found == false; i++)
+		{
+			if(this->m_spritesMiddle[i]->getLayer() > sprite->getLayer())
+			{
+					this->m_spritesMiddle.insert(this->m_spritesMiddle.begin() + i, sprite);
+					found = true;
+			}
+		}
+
+		if(found == false)
+		{
+			this->m_spritesMiddle.push_back(sprite);
+		}
+	}
 }
 
 bool World::removeSprite(SpriteBase *sprite)
 {
 	bool found = false;
 
-	for(int i = 0; i < this->m_sprites.size() && !found; i++)
+	if(sprite->getLayer() > World::TEXT_LAYER)
 	{
-		if(this->m_sprites[i] == sprite)
+		for(int i = 0; i < this->m_spritesFront.size() && !found; i++)
 		{
-			delete this->m_sprites[i];
-			this->m_sprites.erase(this->m_sprites.begin()+i);
-			found = true;
+			if(this->m_spritesFront[i] == sprite)
+			{
+				delete this->m_spritesFront[i];
+				this->m_spritesFront.erase(this->m_spritesFront.begin()+i);
+				found = true;
+			}
+		}
+	}
+	else
+	{
+		for(int i = 0; i < this->m_spritesMiddle.size() && !found; i++)
+		{
+			if(this->m_spritesMiddle[i] == sprite)
+			{
+				delete this->m_spritesMiddle[i];
+				this->m_spritesMiddle.erase(this->m_spritesMiddle.begin()+i);
+				found = true;
+			}
 		}
 	}
 
@@ -1203,5 +1332,5 @@ void World::initQuadTree(FLOAT2 _extents)
 {
 	if(m_quadTree)
 		delete m_quadTree;
-	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y));
+	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y), D3DXVECTOR2(m_camera->getXOffset(), m_camera->getZOffset()));
 }

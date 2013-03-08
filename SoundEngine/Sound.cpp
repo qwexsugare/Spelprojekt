@@ -77,6 +77,6 @@ void Sound::stop()
 void Sound::update3dVolume(const WUFLOAT3& _listenerPos)
 {
 	float dist = (_listenerPos-m_pos).length();
-	alSourcef(this->m_source, AL_GAIN, m_volume/pow(dist/3.0f, 2));
-	//alSourcef(this->m_source, AL_GAIN, m_volume - (1.0f-1.0f/pow(dist/3.0f, 2)));
+	if(dist > FALLOFF_START)
+		alSourcef(this->m_source, AL_GAIN, m_volume/pow((dist-FALLOFF_START)/2.0f, 2));
 }

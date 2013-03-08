@@ -8,6 +8,9 @@ Officer::Officer(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::OFFICER, _
 	this->increaseWits(1);
 	this->increaseFortitude(3);
 
+	this->m_skills.push_back(new TargetAcquiredPermissionToFire());
+	this->m_skills.push_back(new ReadyAimFire());
+
 	switch(_weaponType)
 	{
 	case WEAPON_TYPE::MELEE:
@@ -25,4 +28,9 @@ Officer::Officer(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::OFFICER, _
 Officer::~Officer()
 {
 
+}
+
+int Officer::getSubType()const
+{
+	return Hero::HERO_TYPE::OFFICER;
 }
