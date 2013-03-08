@@ -83,6 +83,7 @@ GameState::GameState(Client *_network)
 		m_lowHealthSound = createSoundHandle("doctor/Doctor_LowHealth_0.wav", false, false);
 		break;
 	}
+	m_churchSound = createSoundHandle("gameplay/churchBell1X.wav", false, false);
 
 	m_attackSoundTimer = 0.0f;
 	m_idle = false;
@@ -94,8 +95,8 @@ GameState::GameState(Client *_network)
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->rotate(0.0f, -0.4f, 0.0f);
 
-	//g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, false);
-	//g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
+	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, false);
+	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
 	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 }
 
@@ -130,6 +131,8 @@ GameState::~GameState()
 	}
 	stopSound(m_lowHealthSound);
 	deactivateSound(m_lowHealthSound);
+	stopSound(m_churchSound);
+	deactivateSound(m_churchSound);
 }
 
 State::StateEnum GameState::nextState()
@@ -150,13 +153,16 @@ void GameState::update(float _dt)
 	// Update sound timers
 	m_lowHealthSoundDelayTimer = max(m_lowHealthSoundDelayTimer-_dt, 0.0f);
 	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
-	if(!isSoundPlaying(m_idleSound))
+	if(m_idle)
 	{
-		m_idleSoundTimer = max(m_idleSoundTimer-_dt, 0.0f);
-		if(m_idleSoundTimer == 0.0f)
+		if(m_idleSoundTimer > 0.0f)
 		{
-			playSound(m_idleSound);
-			m_idleSoundTimer = IDLE_SOUND_DELAY;
+			m_idleSoundTimer = max(m_idleSoundTimer-_dt, 0.0f);
+			if(m_idleSoundTimer == 0.0f)
+			{
+				SpeechManager::speak(m_playerInfos[m_yourId].id, m_idleSound);
+				m_idle = false;
+			}
 		}
 	}
 
@@ -444,6 +450,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
 			break;
 		case Skill::CHURCH_PENETRATED:
+			playSound(m_churchSound);
 			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
 			this->m_hud->setLivesLeft(e.getTargetId());
 			break;
@@ -523,7 +530,7 @@ void GameState::update(float _dt)
 			}
 			break;
 		case Skill::WALL:
-			
+			this->playWallDeathSound(e.getPosition());
 			break;
 		}
 	}
@@ -619,6 +626,7 @@ void GameState::update(float _dt)
 			this->m_network->sendMessage(e);
 
 			m_hud->setTargetEnemy(Enemy::NONE);
+			m_idle = false;
 		}
 		else
 		{
@@ -626,12 +634,12 @@ void GameState::update(float _dt)
 			{
 				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[mouseOverEnemy]->m_id, -1));
 				m_hud->setTargetEnemy(Enemy::EnemyType(m_entities[mouseOverEnemy]->m_subtype));
-
 				if(m_attackSoundTimer == 0.0f)
 				{
 					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
 					m_attackSoundTimer = ATTACK_SOUND_DELAY;
 				}
+				m_idle = false;
 			}
 			else if(g_keyboard->getKeyState(VK_SHIFT) == Keyboard::KEY_UP)
 			{
@@ -639,10 +647,9 @@ void GameState::update(float _dt)
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
-
 				m_hud->setTargetEnemy(Enemy::NONE);
-
 				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
+				m_idle = false;
 			}
 		}
 	}

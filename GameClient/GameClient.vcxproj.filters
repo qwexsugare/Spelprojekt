@@ -517,6 +517,12 @@
     <ClCompile Include="BigBadBoss.cpp">
       <Filter>Server\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="HealingFountain.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkEndGameMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1067,8 +1073,16 @@
     <ClInclude Include="TeleportClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="HealingFountain.h">
+      <Filter>Server</Filter>
     <ClInclude Include="BigBadBoss.h">
       <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretBase.h">
+      <Filter>Server\Turrets</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkEndGameMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

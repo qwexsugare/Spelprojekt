@@ -6,11 +6,12 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[2] = ModelId("PoisonTurret", "color", "glowIntensity");
 	this->m_modelIds[3] = ModelId("LightningTurret", "color", "glowIntensity");
 	this->m_modelIds[4] = ModelId("DeathTurret", "color", "glowIntensity");
-	this->m_modelIds[5] = ModelId("FrostTurret", "color", "glowIntensity");
-	this->m_modelIds[6] = ModelId("CloudOfDarkness");
-	this->m_modelIds[7] = ModelId("Pentagram");
-	this->m_modelIds[8] = ModelId("redKnightPassiveAura");
-	this->m_modelIds[9] = ModelId("wall");
+	this->m_modelIds[5] = ModelId("FrostGun", "color", "glowIntensity");
+	this->m_modelIds[6] = ModelId("FrostBase");
+	this->m_modelIds[7] = ModelId("CloudOfDarkness");
+	this->m_modelIds[8] = ModelId("Pentagram");
+	this->m_modelIds[9] = ModelId("redKnightPassiveAura");
+	this->m_modelIds[10] = ModelId("wall");
 
 	this->m_modelIds[80] = ModelId("Imp", "color", "glowIntensity"); //Frost demon
 	this->m_modelIds[81] = ModelId("Imp", "color1", "glowIntensity1"); //Imp
