@@ -523,6 +523,9 @@
     <ClCompile Include="NetworkEndGameMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkWelcomeMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1080,6 +1083,9 @@
       <Filter>Server\Turrets</Filter>
     </ClInclude>
     <ClInclude Include="NetworkEndGameMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkWelcomeMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
