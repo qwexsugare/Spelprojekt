@@ -200,7 +200,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
 			if(m_subTowerModel)
+			{
 				g_graphicsEngine->removeModel(this->m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 
 			this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_towerId, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), 0));	
 			this->m_placingTower = false;
@@ -209,7 +212,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
 			if(m_subTowerModel)
+			{
 				g_graphicsEngine->removeModel(this->m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 			this->m_placingTower = false;
 		}
 	}
