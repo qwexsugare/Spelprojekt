@@ -193,10 +193,14 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
 		this->m_towerModel->setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+		if(m_subTowerModel)
+			m_subTowerModel->setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
 
 		if(g_mouse->isLButtonPressed() == true)
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
+			if(m_subTowerModel)
+				g_graphicsEngine->removeModel(this->m_subTowerModel);
 
 			this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_towerId, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), 0));	
 			this->m_placingTower = false;
@@ -204,6 +208,8 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		else if(g_mouse->isRButtonPressed() == true)
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
+			if(m_subTowerModel)
+				g_graphicsEngine->removeModel(this->m_subTowerModel);
 			this->m_placingTower = false;
 		}
 	}
@@ -432,6 +438,8 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					break;
 				case Skill::FROST_TURRET:
 					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+					m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+					m_subTowerModel->setAlpha(0.5f);
 					break;
 				case Skill::POISON_TURRET:
 					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
@@ -574,6 +582,11 @@ HudMenu::~HudMenu(void)
 	this->m_ResourceLabel = NULL;
 
 	g_graphicsEngine->removeSpriteSheet(this->m_healthBar);
+	
+	if(m_towerModel)
+		g_graphicsEngine->removeModel(m_towerModel);
+	if(m_subTowerModel)
+		g_graphicsEngine->removeModel(m_subTowerModel);
 }
 
 void  HudMenu::UpdateShop()

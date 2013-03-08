@@ -514,6 +514,9 @@
     <ClCompile Include="TeleportClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="FrostTurretBase.cpp">
+      <Filter>Server\Turrets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1063,6 +1066,9 @@
     </ClInclude>
     <ClInclude Include="TeleportClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretBase.h">
+      <Filter>Server\Turrets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

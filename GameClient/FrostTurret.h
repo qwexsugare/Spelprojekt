@@ -7,6 +7,7 @@ class FrostTurret : public Turret
 {
 private:
 	float m_slowEffect;
+	ServerEntity* m_base;
 public:
 	static const int COST = 100;
 	static const float ATTACK_COOLDOWN;

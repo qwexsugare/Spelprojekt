@@ -22,7 +22,7 @@ void TowerPlacer::init()
 	m_deathPulseTurretObbOffset = FLOAT3(temp->getObb()->Center.x, temp->getObb()->Center.y, temp->getObb()->Center.z);
 	g_graphicsEngine->removeModel(temp);
 
-	temp = g_graphicsEngine->createModel("FrostTurret", FLOAT3(0,0,0));
+	temp = g_graphicsEngine->createModel("FrostBase", FLOAT3(0,0,0));
 	TowerPlacer::m_frostTurretObb = new BoundingOrientedBox(*temp->getObb());
 	m_frostTurretObbOffset = FLOAT3(temp->getObb()->Center.x, temp->getObb()->Center.y, temp->getObb()->Center.z);
 	g_graphicsEngine->removeModel(temp);
@@ -60,6 +60,7 @@ bool TowerPlacer::place(Skill::SKILLS _towerType, const FLOAT3& _pos, const FLOA
 			{
 				success = true;
 				EntityHandler::addEntity(new FrostTurret(_pos, _creator));
+				EntityHandler::addEntity(new FrostTurretBase(_pos, _creator->getTurretDuration() * 20));
 			}
 			break;
 		case Skill::TESLA_CHAIN_TURRET:

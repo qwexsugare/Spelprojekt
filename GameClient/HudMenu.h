@@ -52,6 +52,7 @@ private:
 	bool m_placingTower;
 	int m_towerId;
 	Model* m_towerModel;
+	Model* m_subTowerModel; // for frost turret base.
 
 	bool LockIsDown();
 	bool MenuIsDown();
