@@ -2,16 +2,15 @@
 
 #include "ClientSkillEffect.h"
 #include "Model.h"
+#include "ClientEntityHandler.h"
 
 class HealingTouchClientSkillEffect : public ClientSkillEffect
 {
 private:
-	Model* m_graphicalEffect;
-	int m_sound;
 	FLOAT3 m_position;
 	float m_lifetime;
 public:
-	HealingTouchClientSkillEffect(FLOAT3 _position);
+	HealingTouchClientSkillEffect(FLOAT3 _position, unsigned int casterId);
 	~HealingTouchClientSkillEffect();
 
 	void update(float _dt);

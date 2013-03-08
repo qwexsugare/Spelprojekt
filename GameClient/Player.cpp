@@ -5,7 +5,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_resources = 500;
+	this->m_resources = 50000;
 	this->m_messageQueue = new MessageQueue();
 	m_hero = NULL;
 	this->m_ready = false;
@@ -57,6 +57,13 @@ void Player::spawnHero(FLOAT3 _position)
 		this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(skills[i]->getId(), this->m_id, this->m_resources));
 	}
 
+	//Send the base attributes to the client
+	this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getStrength(), Skill::STRENGTH));
+	this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getAgility(), Skill::AGILITY));
+	this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getWits(), Skill::WITS));
+	this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getFortitude(), Skill::FORTITUDE));
+	this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getTurretConstruction(), Skill::TURRET_CONSTRUCTION));
+
 	EntityHandler::addEntity(m_hero);
 
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_hero->getId(), this->m_hero->getPosition()));
@@ -96,6 +103,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 				this->m_attributesBought++;
 				this->m_resources = this->m_resources - attributeCost;
 				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::STRENGTH, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getStrength(), Skill::STRENGTH));
 			}
 			break;
 
@@ -106,6 +114,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 				this->m_attributesBought++;
 				this->m_resources = this->m_resources - attributeCost;
 				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::AGILITY, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getAgility(), Skill::AGILITY));
 			}
 			break;
 
@@ -116,6 +125,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 				this->m_attributesBought++;
 				this->m_resources = this->m_resources - attributeCost;
 				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::WITS, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getWits(), Skill::WITS));
 			}
 			break;
 
@@ -126,6 +136,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 				this->m_attributesBought++;
 				this->m_resources = this->m_resources - attributeCost;
 				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::FORTITUDE, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getFortitude(), Skill::FORTITUDE));
 			}	
 			break;
 
@@ -136,6 +147,7 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 				this->m_attributesBought++;
 				this->m_resources = this->m_resources - attributeCost;
 				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(Skill::TURRET_CONSTRUCTION, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, this->m_hero->getTurretConstruction(), Skill::TURRET_CONSTRUCTION));
 			}	
 			break;
 
@@ -349,79 +361,79 @@ void Player::handleUseActionPositionMessage(NetworkUseActionPositionMessage usm)
 			break;
 		
 		case Skill::DEATH_PULSE_TURRET:
-		if(this->m_resources >= DeathPulseTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
-		{
-			timeIsMoney = this->getTimeIsMoney();
-
-			if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
+			if(this->m_resources >= DeathPulseTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 			{
-				timeIsMoney->setActive(false);
-			}
-			else
-			{
-				this->m_resources = this->m_resources - DeathPulseTurret::COST;
-			}
+				timeIsMoney = this->getTimeIsMoney();
 
-			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
-			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::DEATH_PULSE_TURRET, this->m_id, usm.getPosition()));
-		}
+				if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
+				{
+					timeIsMoney->setActive(false);
+				}
+				else
+				{
+					this->m_resources = this->m_resources - DeathPulseTurret::COST;
+				}
+
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::DEATH_PULSE_TURRET, this->m_id, usm.getPosition()));
+			}
 			break;
 
 		case Skill::FROST_TURRET:
-		if(this->m_resources >= FrostTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
-		{
-			timeIsMoney = this->getTimeIsMoney();
-
-			if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
+			if(this->m_resources >= FrostTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 			{
-				timeIsMoney->setActive(false);
-			}
-			else
-			{
-				this->m_resources = this->m_resources - FrostTurret::COST;
-			}
+				timeIsMoney = this->getTimeIsMoney();
 
-			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
-			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::FROST_TURRET, this->m_id, usm.getPosition()));
-		}
+				if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
+				{
+					timeIsMoney->setActive(false);
+				}
+				else
+				{
+					this->m_resources = this->m_resources - FrostTurret::COST;
+				}
+
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::FROST_TURRET, this->m_id, usm.getPosition()));
+			}
 			break;
 
 		case Skill::POISON_TURRET:
-		if(this->m_resources >= PoisonTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
-		{
-			timeIsMoney = this->getTimeIsMoney();
-
-			if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
+			if(this->m_resources >= PoisonTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 			{
-				timeIsMoney->setActive(false);
-			}
-			else
-			{
-				this->m_resources = this->m_resources - PoisonTurret::COST;
-			}
+				timeIsMoney = this->getTimeIsMoney();
 
-			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
-			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::POISON_TURRET, this->m_id, usm.getPosition()));
-		}
+				if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
+				{
+					timeIsMoney->setActive(false);
+				}
+				else
+				{
+					this->m_resources = this->m_resources - PoisonTurret::COST;
+				}
+
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::POISON_TURRET, this->m_id, usm.getPosition()));
+			}
 			break;
 
 		case Skill::TESLA_CHAIN_TURRET:
-		if(this->m_resources >= TeslaChainTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
-		{
-			timeIsMoney = this->getTimeIsMoney();
-
-			if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
+			if(this->m_resources >= TeslaChainTurret::COST && TowerPlacer::place(Skill::SKILLS(usm.getActionId()), usm.getPosition(), m_hero->getPosition(), this->m_hero))
 			{
-				timeIsMoney->setActive(false);
-			}
-			else
-			{
-				this->m_resources = this->m_resources - TeslaChainTurret::COST;
-			}
+				timeIsMoney = this->getTimeIsMoney();
 
-			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
-			this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::TESLA_CHAIN_TURRET, this->m_id, usm.getPosition()));
-		}
+				if(timeIsMoney != NULL && timeIsMoney->getActive() == true)
+				{
+					timeIsMoney->setActive(false);
+				}
+				else
+				{
+					this->m_resources = this->m_resources - TeslaChainTurret::COST;
+				}
+
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(-1, this->m_id, this->m_resources));
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::TESLA_CHAIN_TURRET, this->m_id, usm.getPosition()));
+			}
 			break;
 
 		default:
@@ -510,4 +522,9 @@ TimeIsMoney *Player::getTimeIsMoney()
 	}
 
 	return result;
+}
+
+void Player::setReady(bool _ready)
+{
+	this->m_ready = _ready;
 }

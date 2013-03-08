@@ -11,217 +11,236 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 {
 	this->m_lifetime = 1.0f;
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
-	
-	if(master != NULL)
+	if(master)
 	{
 		master->m_model->getAnimation()->PlayLoop("attack");
-	}
 
-	Entity* target = ClientEntityHandler::getEntity(_targetId);
-
-	if(target)
-	{
-		// Play damage sound.
-		int sound;
-		switch(target->m_type)
+		Entity* target = ClientEntityHandler::getEntity(_targetId);
+		if(target)
 		{
-		case ServerEntity::HeroType:
-			switch(_playerInfo.heroType)
+			if(master->m_type == ServerEntity::HeroType)
 			{
-			case Hero::RED_KNIGHT:
+				// Play impact sound
+				int impactSound;
 				switch(random(0, 2))
 				{
 				case 0:
-					sound = createSoundHandle("red_knight/RedKnight_Damage_0.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/meleeAttack_0.wav", false, true, target->m_model->getPosition());
 					break;
 				case 1:
-					sound = createSoundHandle("red_knight/RedKnight_Damage_1.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/meleeAttack_1.wav", false, true, target->m_model->getPosition());
 					break;
 				case 2:
-					sound = createSoundHandle("red_knight/RedKnight_Damage_2.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/meleeAttack_2.wav", false, true, target->m_model->getPosition());
 					break;
 				}
-				break;
-			case Hero::ENGINEER:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("engineer/Engineer_Damage_0.wav", false, true, target->m_startPos);
-					break;
-				case 1:
-					sound = createSoundHandle("engineer/Engineer_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("engineer/Engineer_Damage_2.wav", false, true, target->m_startPos);
-					break;
-				}
-				break;
-			case Hero::THE_MENTALIST:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("mentalist/Mentalist_Damage_0.wav", false, true, target->m_startPos);
-					break;
-				case 1:
-					sound = createSoundHandle("mentalist/Mentalist_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("mentalist/Mentalist_Damage_2.wav", false, true, target->m_startPos);
-					break;
-				}
-				break;
-			case Hero::OFFICER:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("officer/Officer_Damage_0.wav", false, true, target->m_startPos);
-					break;
-				case 1:
-					sound = createSoundHandle("officer/Officer_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("officer/Officer_Damage_2.wav", false, true, target->m_startPos);
-					break;
-				}
-				break;
-			case Hero::DOCTOR:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("doctor/Doctor_Damage_0.wav", false, true, target->m_startPos);
-					break;
-				case 1:
-					sound = createSoundHandle("doctor/Doctor_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("doctor/Doctor_Damage_2.wav", false, true, target->m_startPos);
-					break;
-				}
-				break;
-			}
-			break;
 
-		case ServerEntity::EnemyType:
-			switch(target->m_subtype)
+				playSound(impactSound);
+				deactivateSound(impactSound);
+			}
+
+			// Play damage sound.
+			int sound;
+			switch(target->m_type)
 			{
-			case Enemy::IMP:
-				switch(random(0, 2))
+			case ServerEntity::HeroType:
+				switch(_playerInfo.heroType)
 				{
-				case 0:
-					sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, true, target->m_startPos);
+				case Hero::RED_KNIGHT:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("red_knight/RedKnight_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("red_knight/RedKnight_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("red_knight/RedKnight_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				case 1:
-					sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, true, target->m_startPos);
+				case Hero::ENGINEER:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("engineer/Engineer_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("engineer/Engineer_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("engineer/Engineer_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				case 2:
-					sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, true, target->m_startPos);
+				case Hero::THE_MENTALIST:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("mentalist/Mentalist_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("mentalist/Mentalist_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("mentalist/Mentalist_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
+					break;
+				case Hero::OFFICER:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("officer/Officer_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("officer/Officer_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("officer/Officer_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
+					break;
+				case Hero::DOCTOR:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("doctor/Doctor_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("doctor/Doctor_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("doctor/Doctor_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
 				}
 				break;
-			case Enemy::SHADE:
-				switch(random(0, 2))
+
+			case ServerEntity::EnemyType:
+				switch(target->m_subtype)
 				{
-				case 0:
-					sound = createSoundHandle("enemy/Monster_Shade_Damage_0.wav", false, true, target->m_startPos);
+				case Enemy::IMP:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				case 1:
-					sound = createSoundHandle("enemy/Monster_Shade_Damage_1.wav", false, true, target->m_startPos);
+				case Enemy::SHADE:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Monster_Shade_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Monster_Shade_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Monster_Shade_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				case 2:
-					sound = createSoundHandle("enemy/Monster_Shade_Damage_2.wav", false, true, target->m_startPos);
+				case Enemy::FROST_DEMON:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Monster_Frost_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Monster_Frost_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Monster_Frost_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				}
-				break;
-			case Enemy::FROST_DEMON:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("enemy/Monster_Frost_Damage_0.wav", false, true, target->m_startPos);
+				case Enemy::SPITTING_DEMON:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Monster_Spitting_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Monster_Spitting_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Monster_Spitting_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				case 1:
-					sound = createSoundHandle("enemy/Monster_Frost_Damage_1.wav", false, true, target->m_startPos);
+				case Enemy::HELLFIRE_STEED:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				case 2:
-					sound = createSoundHandle("enemy/Monster_Frost_Damage_2.wav", false, true, target->m_startPos);
+				case Enemy::SOUL_EATER_STEED:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				}
-				break;
-			case Enemy::SPITTING_DEMON:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("enemy/Monster_Spitting_Damage_0.wav", false, true, target->m_startPos);
+				case Enemy::THUNDERSTEED:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
-				case 1:
-					sound = createSoundHandle("enemy/Monster_Spitting_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("enemy/Monster_Spitting_Damage_2.wav", false, true, target->m_startPos);
-					break;
-				}
-				break;
-			case Enemy::HELLFIRE_STEED:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
-					break;
-				case 1:
-					sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
-					break;
-				}
-				break;
-			case Enemy::SOUL_EATER_STEED:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
-					break;
-				case 1:
-					sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
-					break;
-				}
-				break;
-			case Enemy::THUNDERSTEED:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
-					break;
-				case 1:
-					sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
-					break;
-				}
-				break;
-			case Enemy::BRUTE_STEED:
-				switch(random(0, 2))
-				{
-				case 0:
-					sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
-					break;
-				case 1:
-					sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
-					break;
-				case 2:
-					sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+				case Enemy::BRUTE_STEED:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
 					break;
 				}
 				break;
 			}
-			break;
+
+			SpeechManager::speak(_targetId, sound);
+			deactivateSound(sound);
 		}
-
-		SpeechManager::speak(_targetId, sound);
-		deactivateSound(sound);
 	}
 }
 

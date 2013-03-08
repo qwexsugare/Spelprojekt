@@ -19,7 +19,7 @@ Turret::Turret(FLOAT3 position)
 	this->m_active = true;
 }
 
-Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime)
+Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime, unsigned int _ownerId)
 {
 	this->m_originalRange =_range; 
 	this->m_range = BoundingSphere(XMFLOAT3(_position.x, _position.y, _position.z), _range);
@@ -28,6 +28,7 @@ Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lif
 	this->m_position = _position;
 	this->m_active = true;
 	this->m_type = ServerEntity::TowerType;
+	this->m_ownerId = _ownerId;
 }
 
 Turret::~Turret()
@@ -92,4 +93,9 @@ void Turret::setReadyAimFire(float _readyAimFire)
 void Turret::setActive(bool _active)
 {
 	this->m_active = _active;
+}
+
+unsigned int Turret::getOwnerId()
+{
+	return this->m_ownerId;
 }

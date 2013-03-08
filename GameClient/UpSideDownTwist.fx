@@ -10,7 +10,7 @@ void UsDTwistSO(point Particle input[1], inout PointStream<Particle> pStream)
 
 	if(input[0].type == EMITTER)
 	{
-		if(input[0].age > 0.2f)
+		if(input[0].age > 0.01f && isAlive)
 		{
 			float3 randVe = RandUnitVec3(0.0f);
 			randVe.x *= 0.5f;
@@ -19,7 +19,7 @@ void UsDTwistSO(point Particle input[1], inout PointStream<Particle> pStream)
 			Particle p;
 			p.pos = float3(0, -1, 0);
 			p.vel = float3(0, 1, 0);//4.0f*randVe;
-			p.size = float2(1.0, 1.0);//float2(15.0f, 15.0f);
+			p.size = float2(0.1, 0.1);//float2(15.0f, 15.0f);
 			p.age = 0.0f;
 			p.type = PARTICLE;
 			float angle = 6.28/8;
@@ -34,7 +34,7 @@ void UsDTwistSO(point Particle input[1], inout PointStream<Particle> pStream)
 				// store results thru the pointer
 			
 				
-				p.pos = (float3(Vx1 , -1, Vz1));
+				p.pos = emitPosW + (float3(Vx1 , 0, Vz1));
 				pStream.Append(p);
 			}
 
@@ -73,13 +73,18 @@ VS_OUT UsDTwistVS(Particle input)
 	float Vz1 = sin(input.age/2)*x + cos(input.age/2)*z;
 
 	float3 trollVec = input.vel - float3(Vx1, 0, Vz1);
-	output.pos = (input.vel*(input.age) + (trollVec) + emitPosW.xyz);
+	float3 vel2 = (0, 1, 0);
+	output.pos = input.pos  + float3(0, t*2 , 0);
 
+	float maxAge = 2;
 
+	//t += 2/2;
 
-	float opacity = 1.0f - smoothstep(0.0f, 1.0f, t/2.0f);
+	float opacity = t*2 - t*t;
 
-	output.color = float4(1.0f, 1.0f, 1.0f, opacity);
+	//float opacity = smoothstep(0.0f, 1.0f, t/1.0f);
+
+	output.color = float4(1.0f, 1.0f, 1.0f, opacity/2);
 
 	output.size = input.size;
 	output.type = input.type;

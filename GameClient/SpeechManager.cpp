@@ -54,7 +54,6 @@ void SpeechManager::speakUltimate(unsigned int _id, int _sound)
 		if(iter->first == _id)
 		{
 			stopSound(iter->second);
-			deactivateSound(iter->second);
 			iter->second = _sound;
 			iter = SpeechManager::speeches.end();
 			iter--;

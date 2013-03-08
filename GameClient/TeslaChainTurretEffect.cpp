@@ -32,7 +32,7 @@ void TeslaChainTurretEffect::update(float _dt)
 			if(target)
 			{
 				m_position = target->getPosition();
-				this->dealDamage(target, this->m_baseDamage/(++m_jumps), false);
+				target->takeDamage(this->m_id, this->m_baseDamage/(++m_jumps), false);
 
 				// If max number of jumps is reached, delete me
 				if(m_jumps == m_maxJumps)

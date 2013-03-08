@@ -10,10 +10,13 @@
 #include "SkillIdHolder.h"
 #include "Sprite.h"
 #include "ModelIdHolder.h"
+#include "Enemy.h"
 
 class HudMenu : public Menu
 {
 private:
+	Enemy::EnemyType m_currentTargetEnemy;
+	map<Enemy::EnemyType, Sprite*> m_enemyIcons;
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
 	int	m_NumberOfSkills;
@@ -30,7 +33,7 @@ private:
 
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Chattext;	
-	TextLabel* m_ResourceLabel;	
+	TextLabel* m_ResourceLabel;
 
 	SpriteSheet *m_healthBar;
 	vector<Sprite*> m_LabelSprite;
@@ -52,6 +55,13 @@ private:
 	bool m_placingTower;
 	int m_towerId;
 	Model* m_towerModel;
+	Model* m_subTowerModel; // for frost turret base.
+
+	int m_strength;
+	int m_agility;
+	int m_wits;
+	int m_fortitude;
+	int m_towerConstruction;
 
 	bool LockIsDown();
 	bool MenuIsDown();
@@ -73,5 +83,12 @@ public:
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);
+	void setLivesLeft(int livesLeft);
+	void setTargetEnemy(Enemy::EnemyType _enemyType);
+	void setStrength(int _strength);
+	void setAgility(int _agility);
+	void setWits(int _wits);
+	void setFortitude(int _fortitude);
+	void setTowerConstruction(int _towerConstruction);
 };
 

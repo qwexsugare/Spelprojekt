@@ -9,7 +9,7 @@
 class Enemy : public UnitEntity
 {
 public:
-	static enum EnemyType{BRUTE_STEED, FROST_DEMON, HELLFIRE_STEED, IMP, SHADE, SOUL_EATER_STEED, SPITTING_DEMON, THUNDERSTEED};
+	static enum EnemyType{BOSS, BRUTE_STEED, FROST_DEMON, HELLFIRE_STEED, IMP, SHADE, SOUL_EATER_STEED, SPITTING_DEMON, THUNDERSTEED, NONE};
 private:
 	float lastDT;
 protected:
@@ -43,6 +43,8 @@ protected:
 	FLOAT3 m_destination;
 	float m_destinationRadius;
 	float m_distanceToPoint; 
+	bool m_isAttacking;
+	bool m_oldIsAttacking;
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path, EnemyType _type);

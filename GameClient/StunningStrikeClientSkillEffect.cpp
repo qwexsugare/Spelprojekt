@@ -7,8 +7,6 @@ StunningStrikeClientSkillEffect::StunningStrikeClientSkillEffect(unsigned int _m
 {
 	m_position = _position;
 	m_lifetime = 0.0f;
-	m_sound = createSoundHandle("orb.wav", false, true, _position);
-	playSound(m_sound);
 
 	Entity *e = ClientEntityHandler::getEntity(_masterId);
 
@@ -23,12 +21,16 @@ StunningStrikeClientSkillEffect::StunningStrikeClientSkillEffect(unsigned int _m
 			e->m_model->getAnimation()->Play("StunningStrike");
 		}
 	}
+
+	// Play sound
+	int sound = createSoundHandle("skills/StunningStrike.wav", false, true, _position);
+	playSound(sound);
+	deactivateSound(sound);
 }
 
 StunningStrikeClientSkillEffect::~StunningStrikeClientSkillEffect()
 {
-	stopSound(m_sound);
-	deactivateSound(m_sound);
+
 }
 
 void StunningStrikeClientSkillEffect::update(float _dt)

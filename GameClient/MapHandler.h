@@ -15,6 +15,7 @@
 #include "Graphics.h"
 #include "MessageHandler.h"
 #include "Statistics.h"
+#include "HealingFountain.h"
 
 //Import a map and update it, creating new enemies when needed
 class MapHandler
@@ -51,6 +52,7 @@ public:
 
 	void enemyDied();
 	FLOAT3 getPlayerPosition(int p);
+	int getLivesLeft();
 };
 
 #endif

@@ -14,7 +14,8 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 	FLOAT3 pos = target->m_model->getPosition();
 	m_model = g_graphicsEngine->createModel("Bench", pos);
 	m_model->setAlpha(0.999f);
-	m_sound = createSoundHandle("turrets/deathTowerAttack.wav", false, true, pos);
+	m_soundVolume = 0.25f;
+	m_sound = createSoundHandle("turrets/deathTowerAttack.wav", false, true, pos, m_soundVolume);
 	playSound(m_sound);
 	m_timer = 0.0f;
 	m_active = true;
@@ -27,13 +28,13 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 		switch(random(0, 2))
 		{
 		case 0:
-			sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, true, target->m_model->getPosition());
 			break;
 		case 1:
-			sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, true, target->m_model->getPosition());
 			break;
 		case 2:
-			sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, true, target->m_model->getPosition());
 			break;
 		}
 		break;
@@ -41,13 +42,13 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 		switch(random(0, 2))
 		{
 		case 0:
-			sound = createSoundHandle("enemy/Monster_Shade_Damage_0.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Shade_Damage_0.wav", false, true, target->m_model->getPosition());
 			break;
 		case 1:
-			sound = createSoundHandle("enemy/Monster_Shade_Damage_1.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Shade_Damage_1.wav", false, true, target->m_model->getPosition());
 			break;
 		case 2:
-			sound = createSoundHandle("enemy/Monster_Shade_Damage_2.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Shade_Damage_2.wav", false, true, target->m_model->getPosition());
 			break;
 		}
 		break;
@@ -55,13 +56,13 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 		switch(random(0, 2))
 		{
 		case 0:
-			sound = createSoundHandle("enemy/Monster_Frost_Damage_0.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Frost_Damage_0.wav", false, true, target->m_model->getPosition());
 			break;
 		case 1:
-			sound = createSoundHandle("enemy/Monster_Frost_Damage_1.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Frost_Damage_1.wav", false, true, target->m_model->getPosition());
 			break;
 		case 2:
-			sound = createSoundHandle("enemy/Monster_Frost_Damage_2.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Frost_Damage_2.wav", false, true, target->m_model->getPosition());
 			break;
 		}
 		break;
@@ -69,13 +70,13 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 		switch(random(0, 2))
 		{
 		case 0:
-			sound = createSoundHandle("enemy/Monster_Spitting_Damage_0.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Spitting_Damage_0.wav", false, true, target->m_model->getPosition());
 			break;
 		case 1:
-			sound = createSoundHandle("enemy/Monster_Spitting_Damage_1.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Spitting_Damage_1.wav", false, true, target->m_model->getPosition());
 			break;
 		case 2:
-			sound = createSoundHandle("enemy/Monster_Spitting_Damage_2.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Monster_Spitting_Damage_2.wav", false, true, target->m_model->getPosition());
 			break;
 		}
 		break;
@@ -83,13 +84,13 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 		switch(random(0, 2))
 		{
 		case 0:
-			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
 			break;
 		case 1:
-			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
 			break;
 		case 2:
-			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
 			break;
 		}
 		break;
@@ -97,13 +98,13 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 		switch(random(0, 2))
 		{
 		case 0:
-			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
 			break;
 		case 1:
-			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
 			break;
 		case 2:
-			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
 			break;
 		}
 		break;
@@ -111,13 +112,13 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 		switch(random(0, 2))
 		{
 		case 0:
-			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
 			break;
 		case 1:
-			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
 			break;
 		case 2:
-			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
 			break;
 		}
 		break;
@@ -125,13 +126,13 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 		switch(random(0, 2))
 		{
 		case 0:
-			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
 			break;
 		case 1:
-			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
 			break;
 		case 2:
-			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
 			break;
 		}
 		break;
@@ -161,6 +162,13 @@ void DeathPulseTurretClientSkillEffect::update(float _dt)
 			{
 				FLOAT3 pos = ClientEntityHandler::getEntity(m_masterId)->m_model->getPosition();
 				m_model->setPosition(pos);
+
+				// Fade out sound
+				if(m_timer > DeathPulseTurretClientSkillEffect::DURATION/2.0f)
+				{
+					m_soundVolume = max(m_soundVolume-_dt, 0.0f);
+					setSoundVolume(m_sound, m_soundVolume);
+				}
 			}
 			else
 				m_active = false;

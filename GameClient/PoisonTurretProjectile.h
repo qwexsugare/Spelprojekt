@@ -7,6 +7,7 @@ class PoisonTurretProjectile : public ServerEntity
 private:
 	unsigned int m_master;
 	unsigned int m_target;
+	unsigned int m_masterOwner;
 	float m_timeToImpact;
 	unsigned int m_mentalDamage;
 public:

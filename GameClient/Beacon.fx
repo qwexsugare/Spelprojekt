@@ -10,7 +10,7 @@ void StreamOutGS(point Particle input[1], inout PointStream<Particle> pStream)
 
 	if(input[0].type == EMITTER)
 	{
-		if(input[0].age > 0.2f)
+		if(input[0].age > 0.01f)
 		{
 			float3 randVe = RandUnitVec3(0.0f);
 			randVe.x *= 0.5f;
@@ -18,8 +18,9 @@ void StreamOutGS(point Particle input[1], inout PointStream<Particle> pStream)
 		
 			Particle p;
 			p.pos = emitPosW.xyz;
-			p.vel = 4.0f*randVe;
-			p.size = float2(1.0, 1.0);//float2(15.0f, 15.0f);
+			p.pos.y = 0.5;
+			p.vel = 0.5f*randVe;
+			p.size = float2(0.2, 0.2);//float2(15.0f, 15.0f);
 			p.age = 0.0f;
 			p.type = PARTICLE;
 
@@ -31,7 +32,7 @@ void StreamOutGS(point Particle input[1], inout PointStream<Particle> pStream)
 	}
 	else
 	{
-		if(input[0].age <= 10.0f)
+		if(input[0].age <= 0.5f)
 			pStream.Append(input[0]);
 	}
 }
@@ -50,10 +51,10 @@ VS_OUT DrawVS(Particle input)
 
 	float t = input.age;
 
-	output.pos = input.pos +  0.5f*(t*t*accel);//0.5f*t*t*accel + t*input.vel + input.pos;
-	float opacity = 1.0f - smoothstep(0.0f, 1.0f, t/10.0f);
-
-	output.color = float4(1.0f, 1.0f, 1.0f, opacity);
+	output.pos = emitPosW.xyz + float3(0, 0.5, 0) + (input.vel*t);//0.5f*(t*t*accel);//0.5f*t*t*accel + t*input.vel + input.pos;
+	//float opacity = 1.0f - smoothstep(0.0f, 1.0f, t/10.0f);
+	float opacity = t*2 - t*t;
+	output.color = float4(0.0f, 1.0f, 0.0f, opacity);
 
 	output.size = input.size;
 	output.type = input.type;

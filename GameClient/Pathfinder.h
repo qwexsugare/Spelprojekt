@@ -8,7 +8,7 @@
 #include <iostream>
 
 //movments costs for moving in diaglonal or vert/horz
-#define DIAGMOVECOST 140
+#define DIAGMOVECOST 141
 #define NONDIAGMOVECOST 100
 
 using namespace std;
@@ -22,6 +22,7 @@ private:
 	int getManhattanDistance(Position p1, Position p2);
 	void handleNodesNeighbour(Node* CurrentNode);
 	bool handleNeighbour(Node* CurrentNode, Position neighbourPos,int cost);
+	sf::Mutex m_mutex;
 
 	//expensive, maybe lookuptables for sqrt
 	bool walkableDistance(Position p1, Position p2);
@@ -33,5 +34,6 @@ public:
 	~Pathfinder();
 	vector<Position> getPath(Position start, Position end);
 	Path getPath(FLOAT2 start, FLOAT2 end);
+	bool sameGridPosition(FLOAT2 pos1, FLOAT2 pos2);
 };
 #endif

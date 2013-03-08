@@ -59,7 +59,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::FORTITUDE] = false;
 	this->m_skillActive[Skill::GREED] = false;
 	this->m_skillActive[Skill::MENTAL_RESISTANCE] = false;
-	this->m_skillActive[Skill::WALL] = true;	
+	this->m_skillActive[Skill::WALL] = true;
 	this->m_skillActive[Skill::SIMONS_EVIL] = true;
 	this->m_skillActive[Skill::ENIGMATIC_PRESENCE] = false;
 	this->m_skillActive[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = true;
@@ -67,7 +67,7 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::READY_AIM_FIRE] = false;
 	this->m_skillActive[Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE] = true;
 	this->m_skillActive[Skill::TIME_IS_MONEY] = true;
-	this->m_skillActive[Skill::ENHANCED_DEVELOPMENT] = true;
+	this->m_skillActive[Skill::ENHANCED_DEVELOPMENT] = false;
 	this->m_skillActive[Skill::LIFE_REGEN] = false;
 	this->m_skillActive[Skill::HYPNOTIC_STARE] = true;
 

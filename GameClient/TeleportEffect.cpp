@@ -16,6 +16,7 @@ TeleportEffect::TeleportEffect(unsigned int _casterId)
 	if(se)
 	{
 		((UnitEntity*)se)->alterMovementSpeed(BOOST);
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::TELEPORT, _casterId, se->getPosition()));
 	}
 }
 

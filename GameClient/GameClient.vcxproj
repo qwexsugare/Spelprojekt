@@ -155,11 +155,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aim.cpp" />
+    <ClCompile Include="AmbientSoundsManager.cpp" />
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
+    <ClCompile Include="BigBadBoss.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp" />
     <ClCompile Include="EnhancedDevelopment.cpp" />
+    <ClCompile Include="FrostTurretBase.cpp" />
+    <ClCompile Include="HealingFountain.cpp" />
+    <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="NetworkEndGameMessage.cpp" />
+    <ClCompile Include="NetworkWelcomeMessage.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
+    <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeClientSkillEffect.cpp" />
@@ -306,6 +315,7 @@
     <ClCompile Include="TargetAcquiredPermissionToFire.cpp" />
     <ClCompile Include="TargetAcquiredPermissionToFireEffect.cpp" />
     <ClCompile Include="Teleport.cpp" />
+    <ClCompile Include="TeleportClientSkillEffect.cpp" />
     <ClCompile Include="TeleportEffect.cpp" />
     <ClCompile Include="TeslaChainTurret.cpp" />
     <ClCompile Include="TeslaChainTurretEffect.cpp" />
@@ -321,6 +331,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallClientSkillEffect.cpp" />
     <ClCompile Include="WallEffect.cpp" />
+    <ClCompile Include="EndState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -332,11 +343,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aim.h" />
+    <ClInclude Include="AmbientSoundsManager.h" />
     <ClInclude Include="ArrowClientSkillEffect.h" />
+    <ClInclude Include="BigBadBoss.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ChurchPenetratedClientSkillEffect.h" />
     <ClInclude Include="EnhancedDevelopment.h" />
+    <ClInclude Include="FrostTurretBase.h" />
+    <ClInclude Include="HealingFountain.h" />
+    <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="NetworkEndGameMessage.h" />
+    <ClInclude Include="NetworkWelcomeMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />
+    <ClInclude Include="StunningStrikeVictimClientSkillEffect.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h" />
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeClientSkillEffect.h" />
@@ -491,6 +511,7 @@
     <ClInclude Include="TargetAcquiredPermissionToFire.h" />
     <ClInclude Include="TargetAcquiredPermissionToFireEffect.h" />
     <ClInclude Include="Teleport.h" />
+    <ClInclude Include="TeleportClientSkillEffect.h" />
     <ClInclude Include="TeleportEffect.h" />
     <ClInclude Include="TeslaChainTurret.h" />
     <ClInclude Include="TeslaChainTurretEffect.h" />
@@ -507,6 +528,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallClientSkillEffect.h" />
     <ClInclude Include="WallEffect.h" />
+    <ClInclude Include="EndState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

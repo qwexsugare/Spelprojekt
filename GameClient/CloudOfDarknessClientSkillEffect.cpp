@@ -17,8 +17,11 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(unsigned int 
 	m_graphicalEffects[2]->setAlpha(0.999f);
 	m_lifetime = 0.0f;
 
-	Entity *e = ClientEntityHandler::getEntity(_masterId);
+	int sound = createSoundHandle("skills/codWindStartEnd.wav", false, true, _position);
+	playSound(sound);
+	deactivateSound(sound);
 
+	Entity *e = ClientEntityHandler::getEntity(_masterId);
 	if(e != NULL)
 	{
 		e->m_model->getAnimation()->Play("Spell");

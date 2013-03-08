@@ -22,3 +22,6 @@
 #include "SwiftAsACatPowerfulAsABoarClientSkillEffect.h"
 #include "WallClientSkillEffect.h"
 #include "TargetAcquiredClientSkillEffect.h"
+#include "ChurchPenetratedClientSkillEffect.h"
+#include "TeleportClientSkillEffect.h"
+#include "StunningStrikeVictimClientSkillEffect.h"

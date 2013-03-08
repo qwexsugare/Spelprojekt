@@ -113,6 +113,16 @@ void ServerThread::update(float dt)
 					players[senderIndex]->assignHero(Hero::HERO_TYPE(((SelectHeroMessage*)m)->heroId), Hero::WEAPON_TYPE(((SelectHeroMessage*)m)->weaponId));
 				}
 			}
+			else if(m->type == Message::Type::JoinedGame)
+			{
+				for(int i = 0; i < players.size(); i++)
+				{
+					if(players[i]->hasChosenHero() == true)
+					{
+						this->m_network->broadcast(NetworkHeroSelectedMessage(players[i]->getSelectedHeroType(), players[i]->getId()));
+					}
+				}
+			}
 
 			delete m;
 		}
@@ -131,8 +141,8 @@ void ServerThread::update(float dt)
 
 			if(start == true)
 			{
-				this->m_state = State::GAME;
-				m_network->broadcast(NetworkStartGameMessage());
+				this->m_state = State::LOADING;
+				m_network->broadcast(NetworkStartGameMessage("levelone"));
 				
 				vector<unsigned int> ids;
 				vector<Hero::HERO_TYPE> heroTypes;
@@ -141,6 +151,7 @@ void ServerThread::update(float dt)
 					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
+					players[i]->setReady(false);
 				}
 
 				for(int i = 0; i < heroTypes.size(); i++)
@@ -152,6 +163,25 @@ void ServerThread::update(float dt)
 				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));
 			}
 		}
+	}
+	else if(this->m_state == State::LOADING)
+	{
+		vector<Player*> players = this->m_network->getPlayers();
+		bool ready = true;
+
+		for(int i = 0; i < players.size(); i++)
+		{
+			if(players[i]->getReady() == false)
+			{
+				ready = false;
+			}
+		}
+
+		if(ready == true)
+		{
+			this->m_state = State::GAME;
+		}
+
 	}
 	else if(this->m_state == State::GAME)
 	{
@@ -192,12 +222,12 @@ void ServerThread::update(float dt)
 
 				for(int i = 0; i < this->m_network->getPlayers().size(); i++)
 				{
+					this->m_network->getPlayers()[i]->addResources(edm->resources);
+					Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseGoldCollected(edm->resources);
+
 					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
 					{
-						this->m_network->getPlayers()[i]->addResources(edm->resources);
 						Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseDeamonsKilled();
-						Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseGoldCollected(edm->resources);
-						i = 5;
 					}
 				}
 			}
@@ -205,6 +235,8 @@ void ServerThread::update(float dt)
 			if(m->type == Message::Type::EnemyReachedGoal)
 			{
 				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
+				ServerEntity *e = EntityHandler::getServerEntity((edm->enemyId));
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHURCH_PENETRATED, edm->enemyId, this->m_mapHandler->getLivesLeft(), edm->position));
 				this->m_mapHandler->enemyDied();
 			}
 
@@ -213,14 +245,12 @@ void ServerThread::update(float dt)
 	}
 	if(this->m_state == State::VICTORY)
 	{
-		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
+		m_network->broadcast(NetworkEndGameMessage(true));
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{
-		g_graphicsEngine->createText("DEFEAT!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
+		m_network->broadcast(NetworkEndGameMessage(false));
 		this->m_state = ServerThread::EXIT;
 	}
 }
