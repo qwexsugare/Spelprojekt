@@ -473,7 +473,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
 			break;
 		case Skill::HEALING_TOUCH:
-			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition(), e.getSenderId()));
 			break;
 		case Skill::HYPNOTIC_STARE:
 			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getSenderId(), e.getPosition().x));

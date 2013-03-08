@@ -46,6 +46,12 @@ LobbyState::LobbyState(Client* _network)
 LobbyState::~LobbyState()
 {
 	delete this->m_menu;
+
+	g_graphicsEngine->removeModel(officer);
+	g_graphicsEngine->removeModel(redKnight);
+	g_graphicsEngine->removeModel(engi);
+	g_graphicsEngine->removeModel(doctor);
+	g_graphicsEngine->removeModel(mentalist);
 }
 
 void LobbyState::update(float _dt)
