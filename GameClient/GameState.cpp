@@ -9,10 +9,10 @@
 #include "SpeechManager.h"
 #include "Enemy.h"
 
-GameState::GameState(Client *_network)
+GameState::GameState(Client *_network, string mapName)
 {
 	this->m_network = _network;
-	this->importMap("levelone");
+	this->importMap(mapName);
 	m_exitButton = NULL;
 	//Create particle system
 	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
@@ -349,6 +349,23 @@ void GameState::update(float _dt)
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+		case Skill::STUNNING_STRIKE_VICTIM:
+			m_ClientSkillEffects.push_back(new StunningStrikeVictimClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::STRENGTH:
+			this->m_hud->setStrength(e.getSenderId());
+			break;
+		case Skill::AGILITY:
+			this->m_hud->setAgility(e.getSenderId());
+			break;
+		case Skill::WITS:
+			this->m_hud->setWits(e.getSenderId());
+			break;
+		case Skill::FORTITUDE:
+			this->m_hud->setFortitude(e.getSenderId());
+			break;
+		case Skill::TURRET_CONSTRUCTION:
+			this->m_hud->setTowerConstruction(e.getSenderId());
 			break;
 		}
 	}
@@ -458,7 +475,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
 			break;
 		case Skill::HEALING_TOUCH:
-			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition(), e.getSenderId()));
 			break;
 		case Skill::HYPNOTIC_STARE:
 			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getSenderId(), e.getPosition().x));

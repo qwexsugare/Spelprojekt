@@ -64,7 +64,9 @@ void Client::Run()
 			NetworkInitEntityMessage iem;
 			NetworkHeroInitMessage nhim;
 			NetworkUpdateEntityHealth nueh;
+			NetworkStartGameMessage nstm;
 			NetworkEndGameMessage negm;
+			NetworkWelcomeMessage nwm;
 			
 			int type;
 			packet >> type;
@@ -189,7 +191,8 @@ void Client::Run()
 
 			case NetworkMessage::Start:
 				this->m_mutex.Lock();
-				this->m_startGameQueue.push(NetworkStartGameMessage());
+				packet >> nstm;
+				this->m_startGameQueue.push(nstm);
 
 				if(this->m_startGameQueue.size() > 50)
 				{
@@ -236,6 +239,12 @@ void Client::Run()
 
 				if(this->m_updateHealthMessage.size()>50)
 					this->m_updateHealthMessage.pop();
+				this->m_mutex.Unlock();
+				break;
+			case NetworkMessage::welcomeMessage:
+				packet >>nwm;
+				this->m_mutex.Lock();
+				this->m_welcomeMessage.push(nwm);
 				this->m_mutex.Unlock();
 				break;
 
@@ -293,6 +302,21 @@ bool Client::removeActionTargetQueueEmpty()
 bool Client::skillUsedQueueEmpty()
 {
 	return this->m_skillUsedQueue.empty();
+}
+
+bool Client::networkWelcomeMessageEmpty()
+{
+	return this->m_welcomeMessage.empty();
+}
+
+NetworkWelcomeMessage Client::networkWelcomeMessageFront()
+{
+	this->m_mutex.Lock();
+	NetworkWelcomeMessage ret;
+	ret = m_welcomeMessage.front();
+	this->m_welcomeMessage.pop();
+	this->m_mutex.Unlock();
+	return ret;
 }
 
 NetworkEntityMessage Client::entityQueueFront()

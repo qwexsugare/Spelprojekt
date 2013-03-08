@@ -2,7 +2,7 @@
 #include "SoundWrapper.h"
 #include "Graphics.h"
 
-HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position)
+HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position, unsigned int casterId)
 {
 	m_position = _position;
 	m_lifetime = 0.0f;
@@ -10,6 +10,13 @@ HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position)
 	int sound = createSoundHandle("skills/healingTouch.wav", false, true, _position);
 	playSound(sound);
 	deactivateSound(sound);
+
+	Entity *e = ClientEntityHandler::getEntity(casterId);
+
+	if(e != NULL)
+	{
+		e->m_model->getAnimation()->Play("Spell");
+	}
 }
 
 HealingTouchClientSkillEffect::~HealingTouchClientSkillEffect()

@@ -20,7 +20,11 @@
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
 #include "NetworkUpdateEntityHealth.h"
-#include "NetworkWelcomeMessage.h"
+<<<<<<< HEAD
+=======
+#include "NetworkAttributeUpdateMessage.h"
+#include "NetworkEndGameMessage.h"
+>>>>>>> df8d7ad2794cc300db3c6bff87930fde307cf4e8
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -70,8 +74,11 @@ public:
 	void broadcast(NetworkSkillBoughtMessage networkMessage);
 	void broadcast(NetworkInitEntityMessage networkMessage);
 	void broadcast(NetworkHeroInitMessage networkMessage);
-	void broadcast(NetworkWelcomeMessage networkMessage);
+<<<<<<< HEAD
+=======
+	void broadcast(NetworkAttributeUpdateMessage networkMessage);
 	void broadcast(NetworkEndGameMessage networkMessage);
+>>>>>>> df8d7ad2794cc300db3c6bff87930fde307cf4e8
 
 	bool isRunning();
 

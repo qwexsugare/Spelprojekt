@@ -18,12 +18,14 @@ FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTAC
 	Model* temp = g_graphicsEngine->createModel("FrostGun", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
 	g_graphicsEngine->removeModel(temp);
-
-	this->m_base = NULL;
 }
 
 FrostTurret::~FrostTurret()
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> df8d7ad2794cc300db3c6bff87930fde307cf4e8
 }
 
 void FrostTurret::target(ServerEntity* _target)
@@ -47,13 +49,13 @@ void FrostTurret::updateSpecificTurret(float _dt)
 			else
 				m_rotation.x = max(m_rotation.x-_dt, desiredRotation);
 
-			static float updateRotLimiter = 0.0f;
+			static float updateRotLimiter = 0.02f;
 			updateRotLimiter = max(updateRotLimiter-_dt, 0.0f);
 			if(updateRotLimiter == 0.0f)
 			{
 				this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(
 					this->m_id, this->m_position.x, this->m_position.z, this->m_rotation.x, this->m_position.x, this->m_position.z, this->m_position.x, this->m_position.z, 0.0f));
-				updateRotLimiter = 0.02f;
+				updateRotLimiter = 1.0f;
 			}
 		}
 	}
