@@ -499,9 +499,6 @@
     <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkAttributeUpdateMessage.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="SoundWrapper.cpp">
       <Filter>Client\Audio</Filter>
     </ClCompile>
@@ -522,6 +519,9 @@
     </ClCompile>
     <ClCompile Include="NetworkEndGameMessage.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1058,9 +1058,6 @@
     <ClInclude Include="ChurchPenetratedClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkAttributeUpdateMessage.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="SpeechManager.h">
       <Filter>Client\Audio</Filter>
     </ClInclude>
@@ -1081,6 +1078,9 @@
     </ClInclude>
     <ClInclude Include="NetworkEndGameMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="StunningStrikeVictimClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

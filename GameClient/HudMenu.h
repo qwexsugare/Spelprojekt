@@ -54,6 +54,12 @@ private:
 	Model* m_towerModel;
 	Model* m_subTowerModel; // for frost turret base.
 
+	int m_strength;
+	int m_agility;
+	int m_wits;
+	int m_fortitude;
+	int m_towerConstruction;
+
 	bool LockIsDown();
 	bool MenuIsDown();
 
@@ -76,5 +82,10 @@ public:
 	void setHealth(float health);
 	void setLivesLeft(int livesLeft);
 	void setTargetEnemy(Enemy::EnemyType _enemyType);
+	void setStrength(int _strength);
+	void setAgility(int _agility);
+	void setWits(int _wits);
+	void setFortitude(int _fortitude);
+	void setTowerConstruction(int _towerConstruction);
 };
 

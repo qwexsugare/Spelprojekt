@@ -153,6 +153,7 @@ void Server::handleMessages()
 	InitEntityMessage *m8;
 	UpdateEntityMessage *m9;
 	updateEntityHealth *m10;
+	AttributeUpdateMessage *m11;
 
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
@@ -212,7 +213,7 @@ void Server::handleMessages()
 
 			this->m_mutex.Lock();
 			if(this->clients[m7->playerId].IsValid())
-			this->clients[m7->playerId].Send(packet);
+				this->clients[m7->playerId].Send(packet);
 			this->m_mutex.Unlock();
 
 			break;
@@ -228,10 +229,20 @@ void Server::handleMessages()
 			nem = NetworkEntityMessage(m9->id,m9->xPos,m9->zPos,m9->yRot,m9->sx,m9->sz,m9->ex,m9->ez,m9->movementspeed);
 			this->broadcast(nem);
 			break;
+
 		case Message::updateEntityHealth:
 			m10=(updateEntityHealth*)m;
 			nueh = NetworkUpdateEntityHealth(m10->id,m10->health);
 			this->broadcast(nueh);
+			break;
+
+		case Message::AttributeUpdate:
+			m11 = (AttributeUpdateMessage*)m;			
+			cam = NetworkCreateActionMessage(m11->attributeType, m11->attribute, FLOAT3());
+			packet << cam;
+
+			if(this->clients[m11->playerId].IsValid())
+				this->clients[m11->playerId].Send(packet);
 			break;
 		}
 

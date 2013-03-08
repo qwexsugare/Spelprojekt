@@ -315,6 +315,23 @@ void GameState::update(float _dt)
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+		case Skill::STUNNING_STRIKE_VICTIM:
+			m_ClientSkillEffects.push_back(new StunningStrikeVictimClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::STRENGTH:
+			this->m_hud->setStrength(e.getSenderId());
+			break;
+		case Skill::AGILITY:
+			this->m_hud->setAgility(e.getSenderId());
+			break;
+		case Skill::WITS:
+			this->m_hud->setWits(e.getSenderId());
+			break;
+		case Skill::FORTITUDE:
+			this->m_hud->setFortitude(e.getSenderId());
+			break;
+		case Skill::TURRET_CONSTRUCTION:
+			this->m_hud->setTowerConstruction(e.getSenderId());
 			break;
 		}
 	}

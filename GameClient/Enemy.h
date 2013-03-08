@@ -43,6 +43,8 @@ protected:
 	FLOAT3 m_destination;
 	float m_destinationRadius;
 	float m_distanceToPoint; 
+	bool m_isAttacking;
+	bool m_oldIsAttacking;
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path, EnemyType _type);
