@@ -13,8 +13,10 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Menu= false;
 	m_Locked = true;
 	m_DontChange = false;
-	m_Resources = 200000;
+	m_Resources = 0;
 	m_Chat = false;
+	m_subTowerModel = NULL;
+	m_towerModel = NULL;
 	this->m_skillWaitingForTarget = -1;
 	this->m_nrOfAttributesBought = 0;
 	this->m_subTowerModel = NULL;
@@ -224,8 +226,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	else if(m_Chat == false)
 	{
 		// YOU MUST ADD ALL WAITING FOR TARGET SKILLS HERE TO NOT EQUAL IF YOU DONT WANT MULTIPLE ACTIONS TO HAPPEN AT THE SAME TIME.
-		if(m_skillWaitingForTarget != Skill::HEALING_TOUCH && g_mouse->isLButtonPressed() && m_Images[0]->intersects(FLOAT2(
-			g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
+		if(g_keyboard->getKeyState('Q') != Keyboard::KEY_UP ||
+		(m_skillWaitingForTarget != Skill::HEALING_TOUCH && g_mouse->isLButtonDown() &&
+			m_Images[0]->intersects(FLOAT2(
+			g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f,
+			g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f))))
 		{
 			// Find yourself in the entity vector
 			for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)

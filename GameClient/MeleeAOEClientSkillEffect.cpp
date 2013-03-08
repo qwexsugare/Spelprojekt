@@ -25,13 +25,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 				switch(random(0, 2))
 				{
 				case 0:
-					impactSound = createSoundHandle("attacks/twoHandedAttack_0.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/twoHandedAttack_0.wav", false, true, target->m_model->getPosition());
 					break;
 				case 1:
-					impactSound = createSoundHandle("attacks/twoHandedAttack_1.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/twoHandedAttack_1.wav", false, true, target->m_model->getPosition());
 					break;
 				case 2:
-					impactSound = createSoundHandle("attacks/twoHandedAttack_2.wav", false, true, target->m_startPos);
+					impactSound = createSoundHandle("attacks/twoHandedAttack_2.wav", false, true, target->m_model->getPosition());
 					break;
 				}
 
@@ -50,13 +50,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("red_knight/RedKnight_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("red_knight/RedKnight_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("red_knight/RedKnight_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("red_knight/RedKnight_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("red_knight/RedKnight_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("red_knight/RedKnight_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -64,13 +64,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("engineer/Engineer_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("engineer/Engineer_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("engineer/Engineer_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("engineer/Engineer_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("engineer/Engineer_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("engineer/Engineer_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -78,13 +78,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("mentalist/Mentalist_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("mentalist/Mentalist_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("mentalist/Mentalist_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("mentalist/Mentalist_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("mentalist/Mentalist_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("mentalist/Mentalist_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -92,13 +92,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("officer/Officer_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("officer/Officer_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("officer/Officer_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("officer/Officer_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("officer/Officer_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("officer/Officer_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -106,13 +106,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("doctor/Doctor_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("doctor/Doctor_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("doctor/Doctor_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("doctor/Doctor_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("doctor/Doctor_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("doctor/Doctor_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -126,13 +126,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Imp_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Imp_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Imp_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -140,13 +140,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("enemy/Monster_Shade_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Shade_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("enemy/Monster_Shade_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Shade_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("enemy/Monster_Shade_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Shade_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -154,13 +154,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("enemy/Monster_Frost_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Frost_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("enemy/Monster_Frost_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Frost_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("enemy/Monster_Frost_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Frost_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -168,13 +168,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("enemy/Monster_Spitting_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Spitting_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("enemy/Monster_Spitting_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Spitting_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("enemy/Monster_Spitting_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Monster_Spitting_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -182,13 +182,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -196,13 +196,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -210,13 +210,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;
@@ -224,13 +224,13 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 					switch(random(0, 2))
 					{
 					case 0:
-						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
 						break;
 					case 1:
-						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
 						break;
 					case 2:
-						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_startPos);
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
 						break;
 					}
 					break;

@@ -2548,3 +2548,17 @@ GameClient/audio/skills/wallEnd.wav
 GameClient/audio/skills/wallStartGroundShake.wav
 dev/Excess Audio/churchBell3X.wav
 GameClient/audio/gameplay/churchBell1X.wav
+GameClient/models/FrostBase/FrostBase.BFish
+GameClient/models/FrostBase/Turret_Frost_DM.png
+GameClient/models/FrostBase/Turret_Frost_GM.png
+GameClient/models/FrostBase/Turret_Frost_NM.png
+GameClient/models/FrostBase/Turret_Frost_SM.png
+GameClient/models/FrostGun/FrostGun.BFish
+GameClient/models/FrostGun/Turret_Frost_DM.png
+GameClient/models/FrostGun/Turret_Frost_GM.png
+GameClient/models/FrostGun/Turret_Frost_NM.png
+GameClient/models/FrostGun/Turret_Frost_SM.png
+GameClient/models/Wrench/Wrench.BFish
+GameClient/models/Wrench/Wrench_UV_GM_GREEN.png
+GameClient/models/Wrench/Wrench_UV_GM_ORANGE.png
+GameClient/models/Wrench/Wrench_UV_GM_PURPLE.png

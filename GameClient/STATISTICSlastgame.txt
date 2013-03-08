@@ -1,23 +1,23 @@
 Game statistics: 
 ----------------
-Time played: 165.196
-Life remaining: 81
-Reached wave: 2
+Time played: 63.1708
+Life remaining: 0
+Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Officer
+Hero played: Doctor
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
-Healed for: 0
+Healed for: 63
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 37
-Mental damage taken: 208
-Physical damage dealt: 0
+Total damage dealt: 17
+Physical damage taken: 7
+Mental damage taken: 0
+Physical damage dealt: 17
 Mental damage dealt: 0
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
@@ -27,7 +27,7 @@ Skills used:
 0
 0
 0
-1052173727
+991410270
 0
 0
 0
@@ -39,7 +39,7 @@ Skills used:
 0
 0
 0
-1868983881
+808333607
 0
 0
 0
@@ -54,20 +54,20 @@ Skills used:
 0
 0
 0
-971192788
-200
-890778818
-1056521862
-859321096
-893072637
-990919380
-49152
-867316652
-976239146
-172
-1016413283
-813707347
-897856869
-997735180
-1033977108
+946223150
+1052262054
+875901941
+24576
+864433005
+927086349
+993671970
+827928881
+882324602
+951400601
+828911972
+1029455183
+16305
+909194792
+965491076
+1018248353
 ---------------

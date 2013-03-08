@@ -225,14 +225,14 @@ void ServerThread::update(float dt)
 	}
 	if(this->m_state == State::VICTORY)
 	{
-		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
+		m_network->broadcast(NetworkEndGameMessage(true));
+		m_entityHandler->removeAllEntities();
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{
-		g_graphicsEngine->createText("DEFEAT!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
+		m_network->broadcast(NetworkEndGameMessage(false));
+		m_entityHandler->removeAllEntities();
 		this->m_state = ServerThread::EXIT;
 	}
 }
