@@ -29,6 +29,8 @@ Enemy::Enemy() : UnitEntity()
 	m_distanceToStatic = 15;
 	this->m_staticBuffer = 2.00f;
 	FLOAT3 hoxit = FLOAT3(0.0f,0.0f,0.0f);
+	this->m_isAttacking = false;
+	this->m_oldIsAttacking = false;
 }
 
 Enemy::Enemy(FLOAT3 _pos, Path _path, EnemyType _type) : UnitEntity(_pos)
@@ -103,6 +105,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 	{
 		//Handle incoming messages
 		Message *m;
+		this->m_isAttacking = false;
 
 		//this->m_reachedPosition = false;
 
@@ -115,6 +118,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			if( (m_position - EntityHandler::getServerEntity(m_closestTargetId)->getPosition()).length() < this->m_regularAttack->getRange())
 			{
 				m_reachedPosition = true;
+				this->m_isAttacking = true;
 				if(this->m_attackCooldown <= 0.0f)
 				{
 					this->attackHero(this->m_closestTargetId);
@@ -134,7 +138,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 				this->m_nextPosition = m_goalPosition;
 			}
 
-			if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
+				if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
 			{
 				m_reachedPosition = false; 
 				m_attackCooldown = m_baseAttackSpeed;
@@ -328,6 +332,11 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		}
 		lastDT=0;
 
+		if(this->m_isAttacking == false && this->m_isAttacking != this->m_oldIsAttacking)
+		{
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
+			this->m_oldIsAttacking = this->m_isAttacking;
+		}
 	}
 
 	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);

@@ -19,6 +19,8 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_towerModel = NULL;
 	this->m_skillWaitingForTarget = -1;
 	this->m_nrOfAttributesBought = 0;
+	this->m_subTowerModel = NULL;
+	this->m_towerModel = NULL;
 	
 	switch(_heroType)
 	{
@@ -339,11 +341,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			g_mouse->getCursor()->setPriority(1);
 		}
 
-		for(int i = 1; i < m_NumberOfSkills; i++)
+		for(int i = 2; i < m_NumberOfSkills; i++)
 		{
 			this->m_SkillButtons[i]->Update(_dt);
 			
-			if(g_keyboard->getKeyState('0' + i) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
+			if(g_keyboard->getKeyState('0' + i - 1) == Keyboard::KEY_PRESSED || this->m_SkillButtons[i]->Clicked() > 0)
 			{
 				if(m_SkillButtons[i]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[i]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[i]->getSkillId() == Skill::TELEPORT || m_SkillButtons[i]->getSkillId() == Skill::HYPNOTIC_STARE
 						|| m_SkillButtons[i]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[i]->getSkillId() == Skill::WALL || m_SkillButtons[i]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
@@ -726,4 +728,29 @@ void HudMenu::setTargetEnemy(Enemy::EnemyType _enemyType)
 void HudMenu::setLivesLeft(int livesLeft)
 {
 	//Update some text
+}
+
+void HudMenu::setStrength(int _strength)
+{
+	this->m_strength = _strength;
+}
+
+void HudMenu::setAgility(int _agility)
+{
+	this->m_agility = _agility;
+}
+
+void HudMenu::setWits(int _wits)
+{
+	this->m_wits = _wits;
+}
+
+void HudMenu::setFortitude(int _fortitude)
+{
+	this->m_fortitude = _fortitude;
+}
+
+void HudMenu::setTowerConstruction(int _towerConstruction)
+{
+	this->m_towerConstruction = _towerConstruction;
 }

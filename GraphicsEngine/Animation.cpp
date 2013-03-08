@@ -352,6 +352,17 @@ void Animation::Stop(string name, Motion body)
 	this->animations[name].isAnimating = false;
 }
 
+void Animation::Stop()
+{
+	map<string, AnimationFile>::iterator it = this->animations.begin();
+
+	while(it != this->animations.end())
+	{
+		it->second.isAnimating = false;
+		it++;
+	}
+}
+
 string Animation::getPrioAnimation()
 {
 	return this->prioAnimation;

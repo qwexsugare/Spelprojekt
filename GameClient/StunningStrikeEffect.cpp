@@ -25,6 +25,7 @@ StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position, unsigned int _maste
 				if(enemy->getObb()->Intersects(*m_bs))
 				{
 					((UnitEntity*)(enemies)[i])->stun(8);
+					this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::STUNNING_STRIKE_VICTIM, enemies[i]->getId(), FLOAT3(0.0f, 0.0f, 0.0f)));
 				}
 			}
 			else if(enemy->getBs())
@@ -32,6 +33,7 @@ StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position, unsigned int _maste
 				if(enemy->getBs()->Intersects(*m_bs))
 				{
 					((UnitEntity*)(enemies)[i])->stun(8);
+					this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::STUNNING_STRIKE_VICTIM, enemies[i]->getId(), FLOAT3(0.0f, 0.0f, 0.0f)));
 				}
 			}
 		}

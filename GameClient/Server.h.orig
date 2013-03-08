@@ -24,8 +24,9 @@
 <<<<<<< HEAD
 #include "NetworkWelcomeMessage.h"
 =======
+#include "NetworkAttributeUpdateMessage.h"
 #include "NetworkEndGameMessage.h"
->>>>>>> 3479abe437aadd53136c6e761e8693d9efac7650
+>>>>>>> df8d7ad2794cc300db3c6bff87930fde307cf4e8
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -79,8 +80,9 @@ public:
 <<<<<<< HEAD
 	void broadcast(NetworkWelcomeMessage networkMessage);
 =======
+	void broadcast(NetworkAttributeUpdateMessage networkMessage);
 	void broadcast(NetworkEndGameMessage networkMessage);
->>>>>>> 3479abe437aadd53136c6e761e8693d9efac7650
+>>>>>>> df8d7ad2794cc300db3c6bff87930fde307cf4e8
 
 	bool isRunning();
 
