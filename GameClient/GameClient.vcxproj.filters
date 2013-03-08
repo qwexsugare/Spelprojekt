@@ -516,6 +516,7 @@
     </ClCompile>
     <ClCompile Include="FrostTurretBase.cpp">
       <Filter>Server\Turrets</Filter>
+    </ClCompile>
     <ClCompile Include="HealingFountain.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -1074,6 +1075,7 @@
     </ClInclude>
     <ClInclude Include="HealingFountain.h">
       <Filter>Server</Filter>
+    </ClInclude>
     <ClInclude Include="FrostTurretBase.h">
       <Filter>Server\Turrets</Filter>
     </ClInclude>
