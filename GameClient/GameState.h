@@ -57,7 +57,7 @@ private:
 public:
 	static const int IDLE_SOUND_DELAY = 30;
 
-	GameState(Client *_network);
+	GameState(Client *_network, string mapName);
 	~GameState();
 
 	StateEnum nextState();

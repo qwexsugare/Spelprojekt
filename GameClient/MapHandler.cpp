@@ -245,28 +245,26 @@ void MapHandler::loadMap(std::string filename)
 	/// createWave(imps, shades, spitting, Frost, SoulEater, Hellfire, Thunder, Brute)
 	///
 	///
+	string waveName="";
+	for(int i=0;i<filename.length()-4;i++)
+	{
+		waveName+=filename[i];
+	}
+
+	waveName+="waves.txt";
+	ifstream file;
+	file.open(waveName.c_str());
+
+	while(!file.eof())
+	{
+		int q,w,e,r,t,y,u,i;
+		q=w=e=r=t=y=u=i=0;
+		file >> q >> w >> e >> r >> t >> y >> u >> i;
+		createWave(q,w,e,r,t,y,u,i);
+	}
+	file.close();
+
 	
-	createWave(5,5,0,0,0,0,0,0);
-	//createWave(0,0,10,0,0,0,0,0);
-	createWave(18,8,4,0,0,0,0,0);
-	createWave(12,10,8,0,0,0,0,0);
-	createWave(8,10,9,3,0,0,0,0);
-	createWave(5,8,12,5,0,0,0,0);
-	createWave(3,8,9,8,2,0,0,0);
-	createWave(2,6,8,10,4,0,0,0);
-	createWave(0,6,7,11,6,2,0,0);
-	createWave(0,4,6,11,5,4,0,0);
-	createWave(0,3,4,9,8,6,0,0);
-	createWave(0,0,6,8,9,4,3,0);
-	createWave(0,0,4,5,11,6,4,0);
-	createWave(0,0,2,4,11,7,6,0);
-	createWave(0,0,0,4,10,8,6,2);
-	createWave(0,0,0,2,8,9,8,3);
-	createWave(0,0,0,0,5,11,10,4);
-	createWave(0,0,0,0,3,9,10,8);
-	createWave(0,0,0,0,0,8,10,12);
-	createWave(0,0,0,0,0,4,8,18);
-	createWave(0,0,0,0,0,0,5,25);
 }
 
 void MapHandler::update(float _dt)

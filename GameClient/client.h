@@ -25,6 +25,7 @@
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
 #include "NetworkUpdateEntityHealth.h"
+#include "NetworkWelcomeMessage.h"
 
 using namespace std;
 
@@ -56,6 +57,7 @@ private:
 	queue<NetworkInitEntityMessage> m_initEntityMessage;
 	queue<NetworkHeroInitMessage> m_heroInitQueue;
 	queue<NetworkUpdateEntityHealth> m_updateHealthMessage;
+	queue<NetworkWelcomeMessage> m_welcomeMessage;
 public:
 	Client();
 	~Client();
@@ -86,6 +88,7 @@ public:
 	NetworkInitEntityMessage initEntityMessageFront();
 	NetworkHeroInitMessage heroInitQueueFront();
 	NetworkUpdateEntityHealth updateEntityHealthFront();
+	NetworkWelcomeMessage networkWelcomeMessageFront();
 
 	bool updateEntityHealthEmpty();
 	bool entityQueueEmpty();
@@ -100,6 +103,7 @@ public:
 	bool heroSelectedQueueEmpty();
 	bool initEntityMessageEmpty();
 	bool heroInitQueueEmpty();
+	bool networkWelcomeMessageEmpty();
 };
 
 #endif // CLIENT_H

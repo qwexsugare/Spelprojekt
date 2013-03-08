@@ -8,6 +8,7 @@
 #include "Pathfinder.h"
 #include "Path.h"
 #include "Skills.h"
+#include "Statistics.h"
 
 class Hero : public UnitEntity
 {

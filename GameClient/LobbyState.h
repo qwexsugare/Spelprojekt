@@ -12,6 +12,7 @@ private:
 	Client* m_network;
 	int m_currentHeroSelected;
 	Hero::HERO_TYPE m_heroType;
+	string mapName;
 public:
 	LobbyState();
 	LobbyState(Client* _network);
@@ -19,4 +20,5 @@ public:
 
 	void update(float _dt);
 	StateEnum nextState();
+	string getMapName();
 };

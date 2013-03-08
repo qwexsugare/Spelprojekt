@@ -3,12 +3,12 @@
 #include "Input.h"
 #include "NetworkReadyMessage.h"
 
-LobbyState::LobbyState()
+LobbyState::LobbyState() : State(State::LOBBY)
 {
 
 }
 
-LobbyState::LobbyState(Client* _network)
+LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 {
 	this->m_network = _network;
 	this->m_menu = new LobbyMenu();
@@ -77,7 +77,8 @@ void LobbyState::update(float _dt)
 	//Kolla om nätverket har sagt att spelet har startat
 	while(!m_network->startGameQueueEmpty())
 	{
-		m_network->startGameQueueFront();
+		NetworkStartGameMessage e = m_network->startGameQueueFront();
+		this->mapName = e.getMapName();
 		this->setDone(true);
 		this->m_nextState = State::GAME;
 	}
@@ -88,9 +89,19 @@ void LobbyState::update(float _dt)
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
 		m_menu->selectHero(nhsm.getPlayerId(), m_heroType);
 	}
+
+	while(!m_network->networkWelcomeMessageEmpty())
+	{
+		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
+		this->mapName = nwm.getMapName();
+	}
 }
 
 State::StateEnum LobbyState::nextState()
 {
 	return this->m_nextState;
+}
+string LobbyState::getMapName()
+{
+	return this->mapName;
 }
