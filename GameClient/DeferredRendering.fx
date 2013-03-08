@@ -12,7 +12,7 @@ Texture2D randomTex;
 float aoScale = 2;
 float aoRadius = 0.03f;
 float aoBias = 0;
-float aoIntensity = 1;
+float aoIntensity = 0.5;
 
 SamplerState linearSampler 
 {
@@ -205,7 +205,7 @@ float doAmbientOcclusion(in float2 tcoord, in float2 uv, in float3 pos, in float
 	float3 diff = viewCoordTexture.Sample(linearSampler, tcoord + uv) - pos;
 	const float3 v = normalize(diff);
 	const float d = length(diff) * aoScale;
-	return max(0.0f, dot(vNormal, v) * (1.0f/(1.0f + d)));
+	return max(0.0f, dot(vNormal, v) * (1.0f/(1.0f + d))) * aoIntensity;
 }
 
 float ssao(float2 uv, float3 pos, float3 normal)
@@ -314,6 +314,8 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float ao = 0.0f;
 	ao = ssao( input.UVCoord, viewCoord, normal);
 
+	//return float4(0, 0, , diffuse.w);
+
 	return ((float4(ambientLight - ao, 0.0f) * diffuse + float4(diffuseLight - ao, 1.0f) * diffuse + float4(specularLight, 0.0f) * viewCoord.w));
 
 	
@@ -337,6 +339,7 @@ technique10 RenderModelDeferred
     pass p0
     {
 		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+		
 
         SetVertexShader( CompileShader( vs_4_0, VSScene() ) );
         SetGeometryShader( NULL );
