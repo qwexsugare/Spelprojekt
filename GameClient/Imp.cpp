@@ -6,16 +6,19 @@ Imp::Imp(FLOAT3 _pos, Path _path) : Enemy(_pos,_path, EnemyType::IMP)
 {
 	m_modelId = 81;
 	
-	m_strength = 2;
-	m_agility  = 7;
-	m_wits = 0;
-	m_fortitude = 1;
+	
+	m_baseMentalResistance = 1.00f - 0.5f;
+	this->increaseStrength(2);
+	this->increaseAgility(7);
+	this->increaseWits(0);
+	this->increaseFortitude(1);
+
 
 	m_lowResource = 20;
 	m_highRescource = 30;
 	
 
-	m_health = 100*m_fortitude; 
+	/*m_health = 100*m_fortitude; 
 	m_physicalDamage = m_strength*5;
 	m_mentalDamage = m_wits*5;
 	m_baseMovementSpeed = 2.0 + m_agility*0.1f;
@@ -27,7 +30,7 @@ Imp::Imp(FLOAT3 _pos, Path _path) : Enemy(_pos,_path, EnemyType::IMP)
 	m_physicalResistance = m_basePhysicalResistance ; 
 
 	m_baseMentalResistance = 1.00f - 0.5f + m_fortitude*2*0.01f;
-	m_mentalResistance = m_baseMentalResistance;
+	m_mentalResistance = m_baseMentalResistance;*/
 
 	m_regularAttack = new MeleeAttack();
 	m_aggroRange = m_regularAttack->getRange() *2.0f;
