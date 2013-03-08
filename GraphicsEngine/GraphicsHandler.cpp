@@ -330,3 +330,8 @@ void GraphicsHandler::Run()
 		prevTimeStamp = currTimeStamp;
 	}
 }
+
+void GraphicsHandler::clear()
+{
+	m_world->clear();
+}

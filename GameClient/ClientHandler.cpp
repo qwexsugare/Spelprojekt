@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "SoundWrapper.h"
 #include "EndState.h"
+#include "LoadingState.h"
 
 ClientHandler::ClientHandler(HWND _hWnd)
 {
@@ -150,7 +151,7 @@ void ClientHandler::update(float _dt)
 				JoinGameState *tempJoinState = (JoinGameState*)tempState;
 				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
 
-				//sends le player name, code 1337, hardcoded
+				//sends le player name, code 1337, hardcoreporn
 				sf::Packet playerName;
 				playerName << (int)NetworkMessage::setPlayerName << tempJoinState->getPlayerName();
 				this->m_client->sendPacket(playerName);
@@ -173,6 +174,9 @@ void ClientHandler::update(float _dt)
 		case State::END:
 			this->m_state = new EndState(((GameState*)tempState)->isVictorious());
 			break;
+		case State::LOADING:
+			this->m_state = new LoadingState(m_client);
+			break;
 		case State::EXIT:
 			this->m_state = NULL;
 			PostQuitMessage(0);
@@ -185,6 +189,6 @@ void ClientHandler::update(float _dt)
 	D3DXVECTOR3 camPos = g_graphicsEngine->getCamera()->getPos();
 	updateSoundEngine(FLOAT3(camPos.x, camPos.y, camPos.z));
 
-	g_mouse->update(); // Must be last! WHY?!
+	g_mouse->update(); // Must be last! WHY?! - Because otherwise the mouse buttons will NEVER be "pressed"
 	g_keyboard->update();
 }

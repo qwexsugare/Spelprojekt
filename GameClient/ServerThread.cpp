@@ -141,7 +141,7 @@ void ServerThread::update(float dt)
 
 			if(start == true)
 			{
-				this->m_state = State::GAME;
+				this->m_state = State::LOADING;
 				m_network->broadcast(NetworkStartGameMessage());
 				
 				vector<unsigned int> ids;
@@ -151,6 +151,7 @@ void ServerThread::update(float dt)
 					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
+					players[i]->setReady(false);
 				}
 
 				for(int i = 0; i < heroTypes.size(); i++)
@@ -162,6 +163,25 @@ void ServerThread::update(float dt)
 				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));
 			}
 		}
+	}
+	else if(this->m_state == State::LOADING)
+	{
+		vector<Player*> players = this->m_network->getPlayers();
+		bool ready = true;
+
+		for(int i = 0; i < players.size(); i++)
+		{
+			if(players[i]->getReady() == false)
+			{
+				ready = false;
+			}
+		}
+
+		if(ready == true)
+		{
+			this->m_state = State::GAME;
+		}
+
 	}
 	else if(this->m_state == State::GAME)
 	{
@@ -226,13 +246,11 @@ void ServerThread::update(float dt)
 	if(this->m_state == State::VICTORY)
 	{
 		m_network->broadcast(NetworkEndGameMessage(true));
-		m_entityHandler->removeAllEntities();
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{
 		m_network->broadcast(NetworkEndGameMessage(false));
-		m_entityHandler->removeAllEntities();
 		this->m_state = ServerThread::EXIT;
 	}
 }
