@@ -226,11 +226,13 @@ void ServerThread::update(float dt)
 	if(this->m_state == State::VICTORY)
 	{
 		m_network->broadcast(NetworkEndGameMessage(true));
+		m_entityHandler->removeAllEntities();
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{
 		m_network->broadcast(NetworkEndGameMessage(false));
+		m_entityHandler->removeAllEntities();
 		this->m_state = ServerThread::EXIT;
 	}
 }

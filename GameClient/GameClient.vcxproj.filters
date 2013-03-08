@@ -526,6 +526,9 @@
     <ClCompile Include="State.cpp">
       <Filter>Client\States</Filter>
     </ClCompile>
+    <ClCompile Include="FrostTurretBase.cpp">
+      <Filter>Server\Turrets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
