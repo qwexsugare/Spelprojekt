@@ -73,6 +73,7 @@ public:
 	void broadcast(NetworkHeroInitMessage networkMessage);
 	void broadcast(NetworkAttributeUpdateMessage networkMessage);
 	void broadcast(NetworkWelcomeMessage networkMessage);
+	void broadcast(NetworkEndGameMessage networkMessage);
 
 	bool isRunning();
 

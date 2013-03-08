@@ -1334,3 +1334,38 @@ void World::initQuadTree(FLOAT2 _extents)
 		delete m_quadTree;
 	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y), D3DXVECTOR2(m_camera->getXOffset(), m_camera->getZOffset()));
 }
+
+void World::clear()
+{
+	this->m_mutex.Lock();
+
+	delete m_quadTree;
+	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2(), D3DXVECTOR2()); // Init to something arbitrary, it will be fully initialized later in other function.
+
+	for(int i = 0; i < m_terrains.size(); i++)
+		delete m_terrains[i];
+	m_terrains.clear();
+	for(int i = 0; i < m_models.size(); i++)
+		delete m_models[i];
+	m_models.clear();
+
+	for(int i = 0; i < this->m_pointLights.size(); i++)
+	{
+		delete this->m_pointLights[i];
+	}
+	m_pointLights.clear();
+
+	for(int i = 0; i < this->m_directionalLights.size(); i++)
+	{
+		delete this->m_directionalLights[i];
+	}
+	m_directionalLights.clear();
+
+	for(int i = 0; i < this->m_spotLights.size(); i++)
+	{
+		delete this->m_spotLights[i];
+	}
+	m_spotLights.clear();
+
+	this->m_mutex.Unlock();
+}

@@ -31,7 +31,8 @@ private:
 	ClientEntityHandler *m_clientEntityHandler;
 	ParticleEngine *testParticleSystem;
 	unsigned int m_yourId;
-
+	bool m_victory;
+	Button* m_exitButton;
 	bool m_idle;
 	float m_idleSoundTimer;
 
@@ -43,7 +44,7 @@ private:
 	int m_idleSound;
 	static const int NR_OF_ATTACK_SOUNDS = 3;
 	int m_attackSounds[NR_OF_ATTACK_SOUNDS];
-	static const int NR_OF_MOVE_SOUNDS = 3;
+	static const int NR_OF_MOVE_SOUNDS = 4;
 	int m_moveSounds[NR_OF_MOVE_SOUNDS];
 	static const int ATTACK_SOUND_DELAY = 5;
 	float m_attackSoundTimer;
@@ -60,6 +61,7 @@ public:
 	GameState(Client *_network, string mapName);
 	~GameState();
 
+	bool isVictorious()const;
 	StateEnum nextState();
 	void update(float _dt);
 };

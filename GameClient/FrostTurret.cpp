@@ -24,7 +24,7 @@ FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTAC
 
 FrostTurret::~FrostTurret()
 {
-	EntityHandler::removeEntity(m_base);
+
 }
 
 void FrostTurret::target(ServerEntity* _target)
@@ -48,7 +48,7 @@ void FrostTurret::updateSpecificTurret(float _dt)
 			else
 				m_rotation.x = max(m_rotation.x-_dt, desiredRotation);
 
-			static float updateRotLimiter = 0.2f;
+			static float updateRotLimiter = 0.02f;
 			updateRotLimiter = max(updateRotLimiter-_dt, 0.0f);
 			if(updateRotLimiter == 0.0f)
 			{

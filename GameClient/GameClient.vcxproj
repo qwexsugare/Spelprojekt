@@ -157,12 +157,14 @@
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="AmbientSoundsManager.cpp" />
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
+    <ClCompile Include="BigBadBoss.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp" />
     <ClCompile Include="EnhancedDevelopment.cpp" />
     <ClCompile Include="FrostTurretBase.cpp" />
     <ClCompile Include="HealingFountain.cpp" />
+    <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="NetworkAttributeUpdateMessage.cpp" />
     <ClCompile Include="NetworkEndGameMessage.cpp" />
     <ClCompile Include="NetworkWelcomeMessage.cpp" />
@@ -329,6 +331,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallClientSkillEffect.cpp" />
     <ClCompile Include="WallEffect.cpp" />
+    <ClCompile Include="EndState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -342,12 +345,14 @@
     <ClInclude Include="Aim.h" />
     <ClInclude Include="AmbientSoundsManager.h" />
     <ClInclude Include="ArrowClientSkillEffect.h" />
+    <ClInclude Include="BigBadBoss.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChurchPenetratedClientSkillEffect.h" />
     <ClInclude Include="EnhancedDevelopment.h" />
     <ClInclude Include="FrostTurretBase.h" />
     <ClInclude Include="HealingFountain.h" />
+    <ClInclude Include="LoadingState.h" />
     <ClInclude Include="NetworkAttributeUpdateMessage.h" />
     <ClInclude Include="NetworkEndGameMessage.h" />
     <ClInclude Include="NetworkWelcomeMessage.h" />
@@ -523,6 +528,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallClientSkillEffect.h" />
     <ClInclude Include="WallEffect.h" />
+    <ClInclude Include="EndState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

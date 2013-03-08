@@ -141,7 +141,7 @@ void ServerThread::update(float dt)
 
 			if(start == true)
 			{
-				this->m_state = State::GAME;
+				this->m_state = State::LOADING;
 				m_network->broadcast(NetworkStartGameMessage("levelone"));
 				
 				vector<unsigned int> ids;
@@ -151,6 +151,7 @@ void ServerThread::update(float dt)
 					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
+					players[i]->setReady(false);
 				}
 
 				for(int i = 0; i < heroTypes.size(); i++)
@@ -162,6 +163,25 @@ void ServerThread::update(float dt)
 				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));
 			}
 		}
+	}
+	else if(this->m_state == State::LOADING)
+	{
+		vector<Player*> players = this->m_network->getPlayers();
+		bool ready = true;
+
+		for(int i = 0; i < players.size(); i++)
+		{
+			if(players[i]->getReady() == false)
+			{
+				ready = false;
+			}
+		}
+
+		if(ready == true)
+		{
+			this->m_state = State::GAME;
+		}
+
 	}
 	else if(this->m_state == State::GAME)
 	{
@@ -225,14 +245,12 @@ void ServerThread::update(float dt)
 	}
 	if(this->m_state == State::VICTORY)
 	{
-		g_graphicsEngine->createText("VICTORY!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
+		m_network->broadcast(NetworkEndGameMessage(true));
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{
-		g_graphicsEngine->createText("DEFEAT!", INT2(300, 200), 60 ,D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.4f, 0.4f, 0.4f), FLOAT3(0.5f, 0.5f, 0.5f));
+		m_network->broadcast(NetworkEndGameMessage(false));
 		this->m_state = ServerThread::EXIT;
 	}
 }

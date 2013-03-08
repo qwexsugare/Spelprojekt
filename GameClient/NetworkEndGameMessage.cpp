@@ -1,5 +1,9 @@
 #include "NetworkEndGameMessage.h"
 
+NetworkEndGameMessage::NetworkEndGameMessage() : NetworkMessage(NetworkMessage::EndGame)
+{
+}
+
 NetworkEndGameMessage::NetworkEndGameMessage(bool _victory) : NetworkMessage(NetworkMessage::EndGame)
 {
 	this->m_victory = _victory;

@@ -133,4 +133,5 @@ public:
 
 	Camera *getCamera();
 	void initQuadTree(FLOAT2 _extents);
+	void clear();
 };

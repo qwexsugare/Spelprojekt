@@ -3,6 +3,7 @@
 #include "State.h"
 #include "LobbyMenu.h"
 #include "client.h"
+#include "ModelIdHolder.h"
 
 class LobbyState : public State
 {
@@ -13,6 +14,12 @@ private:
 	int m_currentHeroSelected;
 	Hero::HERO_TYPE m_heroType;
 	string mapName;
+	ModelIdHolder m_modelIdHolder;
+	Model* officer;
+	Model* redKnight;
+	Model* engi;
+	Model* doctor;
+	Model* mentalist;
 public:
 	LobbyState();
 	LobbyState(Client* _network);

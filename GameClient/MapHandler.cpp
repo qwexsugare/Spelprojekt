@@ -22,7 +22,7 @@ MapHandler::MapHandler()
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
-	this->m_lives = 100;
+	this->m_lives = 1;
 	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
@@ -265,6 +265,7 @@ void MapHandler::loadMap(std::string filename)
 	file.close();
 
 	
+	createWave(25,5,0,0,0,0,0,0);  
 }
 
 void MapHandler::update(float _dt)
