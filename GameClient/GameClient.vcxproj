@@ -164,6 +164,7 @@
     <ClCompile Include="EnhancedDevelopment.cpp" />
     <ClCompile Include="FrostTurretBase.cpp" />
     <ClCompile Include="HealingFountain.cpp" />
+    <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="NetworkAttributeUpdateMessage.cpp" />
     <ClCompile Include="NetworkEndGameMessage.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
@@ -350,6 +351,7 @@
     <ClInclude Include="EnhancedDevelopment.h" />
     <ClInclude Include="FrostTurretBase.h" />
     <ClInclude Include="HealingFountain.h" />
+    <ClInclude Include="LoadingState.h" />
     <ClInclude Include="NetworkAttributeUpdateMessage.h" />
     <ClInclude Include="NetworkEndGameMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />

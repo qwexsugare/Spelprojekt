@@ -12,6 +12,26 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[8] = ModelId("Pentagram");
 	this->m_modelIds[9] = ModelId("redKnightPassiveAura");
 	this->m_modelIds[10] = ModelId("wall");
+	this->m_modelIds[11] = ModelId("Arrow");
+	this->m_modelIds[12] = ModelId("Bench");
+	this->m_modelIds[13] = ModelId("barrel");
+	this->m_modelIds[14] = ModelId("box");
+	this->m_modelIds[15] = ModelId("Church");
+	this->m_modelIds[16] = ModelId("cross");
+	this->m_modelIds[17] = ModelId("tree");
+	this->m_modelIds[18] = ModelId("fence");
+	this->m_modelIds[19] = ModelId("fencePillar");
+	this->m_modelIds[20] = ModelId("Fountain");
+	this->m_modelIds[21] = ModelId("gravestone");
+	this->m_modelIds[22] = ModelId("lampPost");
+	this->m_modelIds[23] = ModelId("CloudOfDarkness");
+	
+	this->m_modelIds[74] = ModelId("House05");
+	this->m_modelIds[75] = ModelId("House00");
+	this->m_modelIds[76] = ModelId("House01");
+	this->m_modelIds[77] = ModelId("House02");
+	this->m_modelIds[78] = ModelId("House03");
+	this->m_modelIds[79] = ModelId("House04");
 
 	this->m_modelIds[80] = ModelId("Imp", "color", "glowIntensity"); //Frost demon
 	this->m_modelIds[81] = ModelId("Imp", "color1", "glowIntensity1"); //Imp

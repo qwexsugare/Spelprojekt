@@ -107,7 +107,7 @@ void LobbyState::update(float _dt)
 	{
 		m_network->startGameQueueFront();
 		this->setDone(true);
-		this->m_nextState = State::GAME;
+		this->m_nextState = State::LOADING;
 	}
 
 	while(!m_network->heroSelectedQueueEmpty())
