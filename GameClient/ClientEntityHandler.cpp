@@ -11,6 +11,7 @@ ClientEntityHandler::~ClientEntityHandler()
 {
 	for(int i = 0; i < this->m_entities.size(); i++)
 	{
+		g_graphicsEngine->removeModel(m_entities[i]->m_model);
 		delete this->m_entities[i];
 	}
 }
@@ -19,8 +20,10 @@ void ClientEntityHandler::removeAllEntities()
 {
 	for(int i = 0; i < this->m_entities.size(); i++)
 	{
+		g_graphicsEngine->removeModel(m_entities[i]->m_model);
 		delete this->m_entities[i];
 	}
+	m_entities.clear();
 }
 
 void ClientEntityHandler::addEntity(Entity *_entity)

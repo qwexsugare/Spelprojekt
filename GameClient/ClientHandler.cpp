@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Graphics.h"
 #include "SoundWrapper.h"
+#include "EndState.h"
 
 ClientHandler::ClientHandler(HWND _hWnd)
 {
@@ -168,6 +169,9 @@ void ClientHandler::update(float _dt)
 			break;
 		case State::CREDITS:
 			this->m_state = new CreditState();
+			break;
+		case State::END:
+			this->m_state = new EndState(((GameState*)tempState)->isVictorious());
 			break;
 		case State::EXIT:
 			this->m_state = NULL;

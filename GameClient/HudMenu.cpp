@@ -13,8 +13,10 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Menu= false;
 	m_Locked = true;
 	m_DontChange = false;
-	m_Resources = 200000;
+	m_Resources = 0;
 	m_Chat = false;
+	m_subTowerModel = NULL;
+	m_towerModel = NULL;
 	this->m_skillWaitingForTarget = -1;
 	this->m_nrOfAttributesBought = 0;
 	
@@ -193,10 +195,17 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 
 		this->m_towerModel->setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
+		if(m_subTowerModel)
+			m_subTowerModel->setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
 
 		if(g_mouse->isLButtonPressed() == true)
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(this->m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 
 			this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_towerId, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), 0));	
 			this->m_placingTower = false;
@@ -204,14 +213,22 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		else if(g_mouse->isRButtonPressed() == true)
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(this->m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 			this->m_placingTower = false;
 		}
 	}
 	else if(m_Chat == false)
 	{
 		// YOU MUST ADD ALL WAITING FOR TARGET SKILLS HERE TO NOT EQUAL IF YOU DONT WANT MULTIPLE ACTIONS TO HAPPEN AT THE SAME TIME.
-		if(m_skillWaitingForTarget != Skill::HEALING_TOUCH && g_mouse->isLButtonPressed() && m_Images[0]->intersects(FLOAT2(
-			g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
+		if(g_keyboard->getKeyState('Q') != Keyboard::KEY_UP ||
+		(m_skillWaitingForTarget != Skill::HEALING_TOUCH && g_mouse->isLButtonDown() &&
+			m_Images[0]->intersects(FLOAT2(
+			g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f,
+			g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f))))
 		{
 			// Find yourself in the entity vector
 			for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
@@ -432,6 +449,8 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					break;
 				case Skill::FROST_TURRET:
 					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+					m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+					m_subTowerModel->setAlpha(0.5f);
 					break;
 				case Skill::POISON_TURRET:
 					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
@@ -574,6 +593,11 @@ HudMenu::~HudMenu(void)
 	this->m_ResourceLabel = NULL;
 
 	g_graphicsEngine->removeSpriteSheet(this->m_healthBar);
+	
+	if(m_towerModel)
+		g_graphicsEngine->removeModel(m_towerModel);
+	if(m_subTowerModel)
+		g_graphicsEngine->removeModel(m_subTowerModel);
 }
 
 void  HudMenu::UpdateShop()

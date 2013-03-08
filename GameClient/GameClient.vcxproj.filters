@@ -13,25 +13,13 @@
     <ClCompile Include="CreateGameMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="CreateGameState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="CreditsMenu.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="JoinGameMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="JoinGameState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="LobbyMenu.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="LobbyState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="LoreMenu.cpp">
@@ -41,9 +29,6 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenuState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
@@ -109,17 +94,8 @@
     <ClCompile Include="NetworkEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="LoreState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkDisconnectMessage.cpp">
       <Filter>Network</Filter>
-    </ClCompile>
-    <ClCompile Include="CreditState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="SettingsState.cpp">
-      <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="NetworkRemoveEntityMessage.cpp">
       <Filter>Network</Filter>
@@ -129,9 +105,6 @@
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Client\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="IntroState.cpp">
-      <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="NetworkUseActionMessage.cpp">
       <Filter>Network</Filter>
@@ -234,9 +207,6 @@
     </ClCompile>
     <ClCompile Include="Slider.cpp">
       <Filter>Client\Buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="Skill_Buttons.cpp">
       <Filter>Client\Buttons</Filter>
@@ -514,6 +484,51 @@
     <ClCompile Include="TeleportClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="BigBadBoss.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="HealingFountain.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkEndGameMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="EndState.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateGameState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="JoinGameState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="LoreState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostTurretBase.cpp">
+      <Filter>Server\Turrets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -528,13 +543,7 @@
     <ClInclude Include="CreateGameMenu.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="CreateGameState.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="CreditsMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
@@ -549,22 +558,13 @@
     <ClInclude Include="JoinGameMenu.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="JoinGameState.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="LobbyMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="LobbyState.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="LoreMenu.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenuState.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
@@ -577,9 +577,6 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="SettingsMenu.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="TextInput.h">
@@ -642,17 +639,8 @@
     <ClInclude Include="Skills.h">
       <Filter>Server\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="LoreState.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="NetworkDisconnectMessage.h">
       <Filter>Network</Filter>
-    </ClInclude>
-    <ClInclude Include="CreditState.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingsState.h">
-      <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
@@ -662,9 +650,6 @@
     </ClInclude>
     <ClInclude Include="NetworkRemoveEntityMessage.h">
       <Filter>Network</Filter>
-    </ClInclude>
-    <ClInclude Include="IntroState.h">
-      <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Client\Controls</Filter>
@@ -1064,6 +1049,51 @@
     <ClInclude Include="TeleportClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="HealingFountain.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="BigBadBoss.h">
+      <Filter>Server\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTurretBase.h">
+      <Filter>Server\Turrets</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkEndGameMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="EndState.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateGameState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="JoinGameState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="LoreState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -1116,6 +1146,9 @@
     </Filter>
     <Filter Include="Client\Audio">
       <UniqueIdentifier>{4f86fc7b-4a45-4276-808f-5c9ff04e83bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\States">
+      <UniqueIdentifier>{1c8bcbfa-fdec-4525-a90b-93e335c1f456}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -6,10 +6,10 @@
 class NetworkMessage
 {
 public:
-	static enum MESSAGE_TYPE {HeroInit,SelectHero, HeroSelected, Ready, Start, Entity, RemoveEntity, UseAction, UseActionPos, UseActionTarget, CreateAction, CreateActionPos, CreateActionTarget, RemoveActionTarget, BuySkill, SkillBought, Wave, Money, Disconnect, SkillUsed,initEntities,updateEntity,updateEntityHealth,setPlayerName};
+	static enum MESSAGE_TYPE {HeroInit,SelectHero, HeroSelected, Ready, Start, Entity, RemoveEntity, UseAction, UseActionPos, UseActionTarget, CreateAction, CreateActionPos, CreateActionTarget, RemoveActionTarget, BuySkill, SkillBought, Wave, Money, Disconnect, SkillUsed,initEntities,updateEntity,updateEntityHealth,setPlayerName, EndGame};
 
 protected:
-	MESSAGE_TYPE m_type;	
+	MESSAGE_TYPE m_type;
 
 public:
 	NetworkMessage();

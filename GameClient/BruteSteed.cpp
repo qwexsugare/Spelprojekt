@@ -6,16 +6,18 @@ BruteSteed::BruteSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::
 {
 	m_modelId        = 85;
 				    
-	m_strength       = 2;
-	m_agility        = 2;
-	m_wits           = 1;
-	m_fortitude      = 8;
+	m_baseMentalResistance =1.00f - 0.50f;
+	m_mentalResistance = m_baseMentalResistance;
+	this->increaseStrength(2);
+	this->increaseAgility(2);
+	this->increaseWits(1);
+	this->increaseFortitude(8);
 				    
 	m_lowResource    = 90;
 	m_highRescource  = 100;
 	
 
-	m_health = 100*m_fortitude; 
+	/*m_health = 100*m_fortitude; 
 	m_physicalDamage = m_strength*5;
 	m_mentalDamage = m_wits*5;
 	m_baseMovementSpeed = 2.0 + m_agility*0.1f;
@@ -27,7 +29,7 @@ BruteSteed::BruteSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::
 	m_physicalResistance = m_basePhysicalResistance ; 
 
 	m_baseMentalResistance =1.00f - 0.50f + m_fortitude*2*0.01f;
-	m_mentalResistance = m_baseMentalResistance;
+	m_mentalResistance = m_baseMentalResistance;*/
 	
 	m_regularAttack = new MeleeAttack();
 	m_aggroRange = m_regularAttack->getRange() *2.0f;
