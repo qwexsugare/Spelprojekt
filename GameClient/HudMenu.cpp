@@ -16,6 +16,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Resources = 0;
 	m_Chat = false;
 	m_subTowerModel = NULL;
+	m_towerModel = NULL;
 	this->m_skillWaitingForTarget = -1;
 	this->m_nrOfAttributesBought = 0;
 	

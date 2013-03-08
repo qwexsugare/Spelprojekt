@@ -13,7 +13,7 @@ GameState::GameState(Client *_network)
 {
 	this->m_network = _network;
 	this->importMap("levelone");
-
+	m_exitButton = NULL;
 	//Create particle system
 	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 
@@ -38,16 +38,18 @@ GameState::GameState(Client *_network)
 		m_moveSounds[0] = createSoundHandle("red_knight/RedKnight_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("red_knight/RedKnight_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("red_knight/RedKnight_Click_2.wav", false, false);
+		m_moveSounds[3] = createSoundHandle("red_knight/RedKnight_Click_3.wav", false, false);
 		m_lowHealthSound = createSoundHandle("red_knight/RedKnight_LowHealth_0.wav", false, false);
 		break;
 	case Hero::ENGINEER:
-		m_idleSound = createSoundHandle("Engineer_Idle_0.wav", false, false);
+		m_idleSound = createSoundHandle("engineer/Engineer_Idle_0.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("engineer/Engineer_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("engineer/Engineer_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("engineer/Engineer_Attack_2.wav", false, false);
 		m_moveSounds[0] = createSoundHandle("engineer/Engineer_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("engineer/Engineer_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("engineer/Engineer_Click_2.wav", false, false);
+		m_moveSounds[3] = createSoundHandle("engineer/Engineer_Click_3.wav", false, false);
 		m_lowHealthSound = createSoundHandle("engineer/Engineer_LowHealth_0.wav", false, false);
 		m_timeIsMoneySounds.push_back(createSoundHandle("skills/time_is_money0", false, false));
 		m_timeIsMoneySounds.push_back(createSoundHandle("skills/time_is_money1", false, false));
@@ -60,26 +62,29 @@ GameState::GameState(Client *_network)
 		m_moveSounds[0] = createSoundHandle("mentalist/Mentalist_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("mentalist/Mentalist_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("mentalist/Mentalist_Click_2.wav", false, false);
+		m_moveSounds[3] = createSoundHandle("mentalist/Mentalist_Click_3.wav", false, false);
 		m_lowHealthSound = createSoundHandle("mentalist/Mentalist_LowHealth_0.wav", false, false);
 		break;
 	case Hero::OFFICER:
-		m_idleSound = createSoundHandle("officer/Officer_Death_1.wav", false, false);
+		m_idleSound = createSoundHandle("officer/Officer_Idle_0.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("officer/Officer_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("officer/Officer_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("officer/Officer_Attack_2.wav", false, false);
 		m_moveSounds[0] = createSoundHandle("officer/Officer_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("officer/Officer_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("officer/Officer_Click_2.wav", false, false);
+		m_moveSounds[3] = createSoundHandle("officer/Officer_Click_3.wav", false, false);
 		m_lowHealthSound = createSoundHandle("officer/Officer_LowHealth_0.wav", false, false);
 		break;
 	case Hero::DOCTOR:
-		m_idleSound = createSoundHandle("doctor/Doctor_Idle.wav", false, false);
+		m_idleSound = createSoundHandle("doctor/Doctor_Idle_0.wav", false, false);
 		m_attackSounds[0] = createSoundHandle("doctor/Doctor_Attack_0.wav", false, false);
 		m_attackSounds[1] = createSoundHandle("doctor/Doctor_Attack_1.wav", false, false);
 		m_attackSounds[2] = createSoundHandle("doctor/Doctor_Attack_2.wav", false, false);
 		m_moveSounds[0] = createSoundHandle("doctor/Doctor_Click_0.wav", false, false);
 		m_moveSounds[1] = createSoundHandle("doctor/Doctor_Click_1.wav", false, false);
 		m_moveSounds[2] = createSoundHandle("doctor/Doctor_Click_2.wav", false, false);
+		m_moveSounds[3] = createSoundHandle("doctor/Doctor_Click_3.wav", false, false);
 		m_lowHealthSound = createSoundHandle("doctor/Doctor_LowHealth_0.wav", false, false);
 		break;
 	}
@@ -112,6 +117,8 @@ GameState::~GameState()
 	delete this->m_clientEntityHandler;
 	if(this->testParticleSystem)
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
+	if(m_exitButton)
+		delete m_exitButton;
 
 	// Release all sounds
 	for(int i = 0; i < GameState::NR_OF_ATTACK_SOUNDS; i++)
@@ -137,11 +144,36 @@ GameState::~GameState()
 
 State::StateEnum GameState::nextState()
 {
-	return State::MAIN_MENU;
+	return State::END;
 }
 
 void GameState::update(float _dt)
 {
+	while(m_network->endGameQueueEmpty() == false)
+	{
+		NetworkEndGameMessage e = m_network->endGameQueueFront();
+		m_victory = e.getVictory();
+		m_exitButton = new Button();
+		m_exitButton->Init(FLOAT2(0.0f, 0.0f), FLOAT2(0.2f, 0.1f), "menu_textures/Button-MainMenu-ExitGame.png", "");
+		if(m_victory == true)
+		{
+			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 50);
+		}
+		else
+		{
+			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 50);
+		}
+	}
+
+	if(this->m_exitButton != NULL)
+	{
+		m_exitButton->Update();
+		if(m_exitButton->isClicked())
+		{
+			this->setDone(true);
+		}
+	}
+
 	m_ambientSoundsManager.update(_dt);
 	ClientEntityHandler::update(_dt);
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
@@ -918,6 +950,11 @@ void GameState::importMap(string _map)
 
 	m_terrain = g_graphicsEngine->createTerrain(v1, v2, textures, blendMaps, normalMaps, specularMaps);
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
+}
+
+bool GameState::isVictorious()const
+{
+	return m_victory;
 }
 
 void GameState::playPursueSound(unsigned int _speakerId)

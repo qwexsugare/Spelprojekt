@@ -329,6 +329,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallClientSkillEffect.cpp" />
     <ClCompile Include="WallEffect.cpp" />
+    <ClCompile Include="EndState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -523,6 +524,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallClientSkillEffect.h" />
     <ClInclude Include="WallEffect.h" />
+    <ClInclude Include="EndState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

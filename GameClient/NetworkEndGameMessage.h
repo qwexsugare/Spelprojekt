@@ -7,6 +7,7 @@ private:
 
 	//Statistics
 public:
+	NetworkEndGameMessage();
 	NetworkEndGameMessage(bool _victory);
 	~NetworkEndGameMessage();
 
