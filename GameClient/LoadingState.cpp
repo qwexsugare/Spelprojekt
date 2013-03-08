@@ -2,8 +2,9 @@
 #include "Graphics.h"
 #include "SoundWrapper.h"
 
-LoadingState::LoadingState(Client* _network)
+LoadingState::LoadingState(Client* _network, string _mapName) : State(State::LOADING)
 {
+	m_mapName = _mapName;
 	m_network = _network;
 	m_skip = new Button();
 	m_skip->Init(FLOAT2(0.5f, -0.8f), FLOAT2(0.3f, 0.15f), "menu_textures/skip.png", "");
@@ -55,4 +56,9 @@ void LoadingState::update(float _dt)
 		m_network->sendMessage(NetworkReadyMessage(true));
 		this->setDone(true);
 	}
+}
+
+string LoadingState::getMapName()
+{
+	return this->m_mapName;
 }
