@@ -140,6 +140,8 @@ GameState::~GameState()
 	deactivateSound(m_lowHealthSound);
 	stopSound(m_churchSound);
 	deactivateSound(m_churchSound);
+
+	g_graphicsEngine->clear();
 }
 
 State::StateEnum GameState::nextState()

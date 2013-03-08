@@ -15,7 +15,7 @@ LobbyState::LobbyState(Client* _network)
 	m_currentHeroSelected = Hero::HERO_TYPE::NONE;
 
 	//g_graphicsEngine->createPointLight(FLOAT3(0.0f, 0.5f, 2.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
-	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
+	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.5f, 0.5f, 0.5f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 
 	//Officer
 	officer = g_graphicsEngine->createModel(m_modelIdHolder.getModel(95), FLOAT3(-1.3f, 0, 4), false, m_modelIdHolder.getTexture(95));
@@ -113,7 +113,7 @@ void LobbyState::update(float _dt)
 	{
 		m_network->startGameQueueFront();
 		this->setDone(true);
-		this->m_nextState = State::GAME;
+		this->m_nextState = State::LOADING;
 	}
 
 	while(!m_network->heroSelectedQueueEmpty())

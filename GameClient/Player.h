@@ -58,6 +58,7 @@ public:
 	void addResources(unsigned int resources);
 
 	bool getReady();
+	void setReady(bool _ready);
 };
 
 #endif

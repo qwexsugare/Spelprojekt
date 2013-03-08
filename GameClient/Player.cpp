@@ -523,3 +523,8 @@ TimeIsMoney *Player::getTimeIsMoney()
 
 	return result;
 }
+
+void Player::setReady(bool _ready)
+{
+	this->m_ready = _ready;
+}
