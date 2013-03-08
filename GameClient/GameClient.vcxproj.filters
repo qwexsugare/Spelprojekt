@@ -484,8 +484,8 @@
     <ClCompile Include="TeleportClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="FrostTurretBase.cpp">
-      <Filter>Server\Turrets</Filter>
+    <ClCompile Include="BigBadBoss.cpp">
+      <Filter>Server\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="HealingFountain.cpp">
       <Filter>Server</Filter>
@@ -1048,6 +1048,8 @@
     </ClInclude>
     <ClInclude Include="HealingFountain.h">
       <Filter>Server</Filter>
+    <ClInclude Include="BigBadBoss.h">
+      <Filter>Server\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="FrostTurretBase.h">
       <Filter>Server\Turrets</Filter>

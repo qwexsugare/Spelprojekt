@@ -157,6 +157,7 @@
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="AmbientSoundsManager.cpp" />
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
+    <ClCompile Include="BigBadBoss.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp" />
@@ -342,6 +343,7 @@
     <ClInclude Include="Aim.h" />
     <ClInclude Include="AmbientSoundsManager.h" />
     <ClInclude Include="ArrowClientSkillEffect.h" />
+    <ClInclude Include="BigBadBoss.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChurchPenetratedClientSkillEffect.h" />
