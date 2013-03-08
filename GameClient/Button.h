@@ -94,5 +94,6 @@ public:
 	string getText();
 	INT2 getTextPos();
 	string getTextureName();
+	void setTexture(string _Image);
 };
 

@@ -62,6 +62,7 @@ void LobbyState::update(float _dt)
 	{
 		this->m_currentHeroSelected = Hero::OFFICER;
 		m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
+
 	}
 	else if(m_menu->Character1IsDown())
 	{
