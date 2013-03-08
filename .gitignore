@@ -2548,3 +2548,7 @@ GameClient/audio/skills/wallEnd.wav
 GameClient/audio/skills/wallStartGroundShake.wav
 dev/Excess Audio/churchBell3X.wav
 GameClient/audio/gameplay/churchBell1X.wav
+GameClient/GameClient.vcxproj
+GameClient/GameClient.vcxproj.filters
+GameClient/GameState.cpp.orig
+GameClient/STATISTICSlastgame.txt
