@@ -21,6 +21,7 @@
 #include "NetworkHeroInitMessage.h"
 #include "NetworkUpdateEntityHealth.h"
 #include "NetworkAttributeUpdateMessage.h"
+#include "NetworkEndGameMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -71,6 +72,7 @@ public:
 	void broadcast(NetworkInitEntityMessage networkMessage);
 	void broadcast(NetworkHeroInitMessage networkMessage);
 	void broadcast(NetworkAttributeUpdateMessage networkMessage);
+	void broadcast(NetworkEndGameMessage networkMessage);
 
 	bool isRunning();
 
