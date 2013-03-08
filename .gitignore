@@ -2618,3 +2618,6 @@ GameClient/models/MeatClever/MeatCleaver_UV_GM_ORANGE.png
 GameClient/models/MeatClever/MeatCleaver_UV_GM_PURPLE.png
 GameClient/models/MentalistRevolver/MentalistRevolver.BFish
 GameClient/text/Shop.psd
+GameClient/maps/levelone/levelonewaves.txt
+GameClient/menu_textures/MENU-CharacterMenu-Middleground2.png
+GameClient/menu_textures/MENU-CharacterMenu-Middleground3.png

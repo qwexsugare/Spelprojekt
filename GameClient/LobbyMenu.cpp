@@ -11,8 +11,8 @@ LobbyMenu::LobbyMenu(void)
 	m_Character4 = false;
 	m_String = "";
 	m_Combat = 2;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background2.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground.png", FLOAT2(0,0), FLOAT2(2,2),1));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background2.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground3.png", FLOAT2(0,0), FLOAT2(2,2),1));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LobbyMenu-Foreground.dds", FLOAT2(0,0), FLOAT2(2,2),4));
 	FLOAT2 m_size, m_side; 
 	m_size.x = 0;
