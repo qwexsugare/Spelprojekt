@@ -1,13 +1,13 @@
 Game statistics: 
 ----------------
-Time played: 48.9525
-Life remaining: 94
-Reached wave: 0
+Time played: 98.2781
+Life remaining: 82
+Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Engineer
+Hero played: Red knight
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
@@ -15,9 +15,9 @@ Healed for: 0
 
 Damage statistics: 
 Total damage dealt: 0
-Physical damage taken: 178
+Physical damage taken: 9
 Mental damage taken: 0
-Physical damage dealt: 4
+Physical damage dealt: 0
 Mental damage dealt: 0
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
@@ -40,8 +40,6 @@ Skills used:
 0
 0
 0
-1936876886
-10
 0
 0
 1919117677
@@ -56,33 +54,20 @@ Skills used:
 0
 0
 0
-813707333
-952973496
-1024865892
-917321359
-956250327
-988560087
-1021721756
-860435181
-989084400
-892876005
-958413059
-1041907216
-1061568288
----------------
 0
 0
-993802996
-832385406
-962541884
-28672
-846082654
-939276212
-981547622
-1011235854
-924989142
-1028603199
-826749223
-1014512703
-865416070
+0
+991705812
+827601204
+941438813
+1066352482
+832516502
+955988169
+986593969
+1014250595
+911947282
+1009859615
+809447447
+995703624
+874263542
 ---------------
