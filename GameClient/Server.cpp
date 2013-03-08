@@ -77,6 +77,7 @@ void Server::goThroughSelector()
 					this->m_players[nextEmptyArrayPos]=p;
 					this->clients[nextEmptyArrayPos]=incSocket;
 					this->m_messageQueue->pushOutgoingMessage(new JoinedGameMessage(nextEmptyArrayPos));
+					this->broadcast(NetworkWelcomeMessage("levelone"));
 					this->nrOfPlayers++;
 					this->m_messageHandler->addQueue(p->getMessageQueue());
 				}
@@ -273,6 +274,21 @@ void Server::shutDown()
 }
 
 void Server::broadcast(NetworkUpdateEntityHealth networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+void Server::broadcast(NetworkWelcomeMessage networkMessage)
 {
 	sf::Packet packet;
 	packet<<networkMessage;

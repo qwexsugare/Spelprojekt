@@ -166,6 +166,7 @@
     <ClCompile Include="HealingFountain.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="NetworkEndGameMessage.cpp" />
+    <ClCompile Include="NetworkWelcomeMessage.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
     <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp" />
@@ -353,6 +354,7 @@
     <ClInclude Include="HealingFountain.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="NetworkEndGameMessage.h" />
+    <ClInclude Include="NetworkWelcomeMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />
     <ClInclude Include="StunningStrikeVictimClientSkillEffect.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h" />

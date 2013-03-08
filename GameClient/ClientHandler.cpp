@@ -163,7 +163,15 @@ void ClientHandler::update(float _dt)
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
-			this->m_state = new GameState(this->m_client);
+			if(tempState->getType() == State::LOBBY)
+			{
+				LobbyState *tempLobbyState = (LobbyState*)tempState;
+				this->m_state = new GameState(this->m_client, tempLobbyState->getMapName());
+			}
+			else
+			{
+				this->m_state = new GameState(this->m_client, "levelone.txt");
+			}
 			break;
 		case State::SETTINGS:
 			this->m_state = new SettingsState();

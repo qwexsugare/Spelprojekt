@@ -9,10 +9,10 @@
 #include "SpeechManager.h"
 #include "Enemy.h"
 
-GameState::GameState(Client *_network)
+GameState::GameState(Client *_network, string mapName)
 {
 	this->m_network = _network;
-	this->importMap("levelone");
+	this->importMap(mapName);
 	m_exitButton = NULL;
 	//Create particle system
 	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));

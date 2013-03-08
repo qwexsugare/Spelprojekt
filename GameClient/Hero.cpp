@@ -242,6 +242,8 @@ void Hero::updateSpecificUnitEntity(float dt)
 		this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 		this->m_messageQueue->pushOutgoingMessage(new HeroDiedMessage(this->m_id, this->m_playerId));
 		this->m_alive = false;
+		int id = Statistics::convertSimonsIdToRealId(this->m_id);
+		Statistics::getStatisticsPlayer(id).increaseDeathCount();
 	}
 }
 

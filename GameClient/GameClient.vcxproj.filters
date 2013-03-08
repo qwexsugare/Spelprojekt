@@ -1064,6 +1064,9 @@
     <ClInclude Include="StunningStrikeVictimClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkWelcomeMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
     <ClInclude Include="EndState.h">
       <Filter>Client</Filter>
     </ClInclude>

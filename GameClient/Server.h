@@ -20,7 +20,7 @@
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
 #include "NetworkUpdateEntityHealth.h"
-#include "NetworkEndGameMessage.h"
+#include "NetworkWelcomeMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -70,6 +70,7 @@ public:
 	void broadcast(NetworkSkillBoughtMessage networkMessage);
 	void broadcast(NetworkInitEntityMessage networkMessage);
 	void broadcast(NetworkHeroInitMessage networkMessage);
+	void broadcast(NetworkWelcomeMessage networkMessage);
 	void broadcast(NetworkEndGameMessage networkMessage);
 
 	bool isRunning();

@@ -142,7 +142,7 @@ void ServerThread::update(float dt)
 			if(start == true)
 			{
 				this->m_state = State::LOADING;
-				m_network->broadcast(NetworkStartGameMessage());
+				m_network->broadcast(NetworkStartGameMessage("levelone"));
 				
 				vector<unsigned int> ids;
 				vector<Hero::HERO_TYPE> heroTypes;

@@ -13,6 +13,7 @@ private:
 	Client* m_network;
 	int m_currentHeroSelected;
 	Hero::HERO_TYPE m_heroType;
+	string mapName;
 	ModelIdHolder m_modelIdHolder;
 	Model* officer;
 	Model* redKnight;
@@ -26,4 +27,5 @@ public:
 
 	void update(float _dt);
 	StateEnum nextState();
+	string getMapName();
 };

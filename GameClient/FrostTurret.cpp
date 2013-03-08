@@ -18,6 +18,8 @@ FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTAC
 	Model* temp = g_graphicsEngine->createModel("FrostGun", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
 	g_graphicsEngine->removeModel(temp);
+
+	this->m_base = NULL;
 }
 
 FrostTurret::~FrostTurret()
