@@ -20,6 +20,18 @@ LoadingState::LoadingState(Client* _network)
 			g_graphicsEngine->removeModel(temp);
 		}
 	}
+
+	//Sprite *tempSprite;
+	//SkillIdHolder skillIdHolder;
+
+	//for(int i = 0; i < skillIdHolder.getNrOfIds(); i++)
+	//{
+	//	if(skillIdHolder.getSkill(i) != "")
+	//	{
+	//		tempSprite = g_graphicsEngine->createSprite(skillIdHolder.getSkill(i), FLOAT2(0.0f, 0.0f), FLOAT2(1.0f, 1.0f), 0);
+	//		g_graphicsEngine->removeSprite(tempSprite);
+	//	}
+	//}
 }
 
 LoadingState::~LoadingState()

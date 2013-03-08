@@ -157,18 +157,21 @@
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="AmbientSoundsManager.cpp" />
     <ClCompile Include="ArrowClientSkillEffect.cpp" />
+    <ClCompile Include="BigBadBoss.cpp" />
     <ClCompile Include="BruteSteed.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ChurchPenetratedClientSkillEffect.cpp" />
     <ClCompile Include="EnhancedDevelopment.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="FrostTurretBase.cpp" />
-=======
     <ClCompile Include="HealingFountain.cpp" />
->>>>>>> 2e40d3ade361a1e80e207f85643e81e0e6e559c6
+<<<<<<< HEAD
+=======
+    <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="NetworkAttributeUpdateMessage.cpp" />
+>>>>>>> 4dddfeaab1a406575d3b03430d9e88d6e6659085
     <ClCompile Include="NetworkEndGameMessage.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
+    <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp" />
     <ClCompile Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.cpp" />
     <ClCompile Include="ChainStrike.cpp" />
     <ClCompile Include="ChainStrikeClientSkillEffect.cpp" />
@@ -331,6 +334,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallClientSkillEffect.cpp" />
     <ClCompile Include="WallEffect.cpp" />
+    <ClCompile Include="EndState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphicsEngine\GraphicsEngine.vcxproj">
@@ -344,18 +348,21 @@
     <ClInclude Include="Aim.h" />
     <ClInclude Include="AmbientSoundsManager.h" />
     <ClInclude Include="ArrowClientSkillEffect.h" />
+    <ClInclude Include="BigBadBoss.h" />
     <ClInclude Include="BruteSteed.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChurchPenetratedClientSkillEffect.h" />
     <ClInclude Include="EnhancedDevelopment.h" />
-<<<<<<< HEAD
     <ClInclude Include="FrostTurretBase.h" />
-=======
     <ClInclude Include="HealingFountain.h" />
->>>>>>> 2e40d3ade361a1e80e207f85643e81e0e6e559c6
+<<<<<<< HEAD
+=======
+    <ClInclude Include="LoadingState.h" />
     <ClInclude Include="NetworkAttributeUpdateMessage.h" />
+>>>>>>> 4dddfeaab1a406575d3b03430d9e88d6e6659085
     <ClInclude Include="NetworkEndGameMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />
+    <ClInclude Include="StunningStrikeVictimClientSkillEffect.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h" />
     <ClInclude Include="ChainStrike.h" />
     <ClInclude Include="ChainStrikeClientSkillEffect.h" />
@@ -527,6 +534,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallClientSkillEffect.h" />
     <ClInclude Include="WallEffect.h" />
+    <ClInclude Include="EndState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

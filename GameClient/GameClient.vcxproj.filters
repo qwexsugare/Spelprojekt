@@ -492,7 +492,7 @@
     </ClCompile>
     <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
-     </ClCompile> 
+    </ClCompile>
     <ClCompile Include="EndState.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -531,6 +531,9 @@
     </ClCompile>
     <ClCompile Include="LoadingState.cpp">
       <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkWelcomeMessage.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
