@@ -27,6 +27,11 @@ Minimap::~Minimap()
 		g_graphicsEngine->removeSprite(m_view);
 	for(int i = 0; i < m_enemyPositions.size(); i++)
 		g_graphicsEngine->removeSprite(m_enemyPositions[i]);
+
+	for(int i = 0; i < this->m_playerPositions.size(); i++)
+	{
+		g_graphicsEngine->removeSprite(this->m_playerPositions[i]);
+	}
 }
 
 bool Minimap::isMouseInMap(INT2 _mousePos)const

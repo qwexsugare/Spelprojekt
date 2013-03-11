@@ -14,6 +14,7 @@ Pathfinder *g_pathfinder;
 
 MapHandler::MapHandler()
 {
+	this->m_messageQueue = new MessageQueue();
 	this->m_currentWave = 0;
 	this->m_waveTimer = 30.0f;
 	this->m_enemySpawnTimer = 30.0f;
@@ -22,7 +23,7 @@ MapHandler::MapHandler()
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
-	this->m_lives = 100;
+	this->m_lives = 10;
 	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
@@ -300,6 +301,7 @@ void MapHandler::update(float _dt)
 		if(this->m_currentWave < m_waves.size())
 		{
 			m_waveTimer = 10.0f;
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::WAVE_UPDATE, this->m_currentWave + 1, FLOAT3()));
 		}
 		else
 		{
@@ -386,4 +388,9 @@ FLOAT3 MapHandler::getPlayerPosition(int p)
 int MapHandler::getLivesLeft()
 {
 	return this->m_lives;
+}
+
+MessageQueue* MapHandler::getMessageQueue()
+{
+	return this->m_messageQueue;
 }

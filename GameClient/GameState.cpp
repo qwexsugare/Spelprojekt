@@ -159,11 +159,11 @@ void GameState::update(float _dt)
 		m_exitButton->Init(FLOAT2(0.0f, 0.0f), FLOAT2(0.2f, 0.1f), "menu_textures/Button-MainMenu-ExitGame.png", "");
 		if(m_victory == true)
 		{
-			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 50);
+			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100);
 		}
 		else
 		{
-			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 50);
+			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100);
 		}
 	}
 
@@ -364,6 +364,12 @@ void GameState::update(float _dt)
 		case Skill::HEALING_FOUNTAIN:
 			this->m_ClientSkillEffects.push_back(new HealingFountainClientSkillEffect(e.getSenderId()));
 			break;
+		case Skill::WAVE_UPDATE:
+			this->m_hud->setWave(e.getSenderId());
+			break;
+		case Skill::LIVES_REMAINING:
+			this->m_hud->setLivesRemaining(e.getSenderId());
+			break;
 		}
 	}
 
@@ -503,7 +509,7 @@ void GameState::update(float _dt)
 		case Skill::CHURCH_PENETRATED:
 			playSound(m_churchSound);
 			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
-			this->m_hud->setLivesLeft(e.getTargetId());
+			this->m_hud->setLivesRemaining(e.getTargetId());
 			break;
 		}
 	}

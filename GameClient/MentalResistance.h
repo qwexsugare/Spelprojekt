@@ -14,5 +14,6 @@ public:
 	~MentalResistance();
 
 	void updateSpecificSkill(float dt);
+	int getCost();
 };
 

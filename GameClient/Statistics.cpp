@@ -101,3 +101,18 @@ void Statistics::saveToFile(string filename)
 	static int startLife;
 	static StatisticsPlayer sPlayers[MAXPLAYERS];
 }
+
+double Statistics::getTimePlayed()
+{
+	return Statistics::timePlayed;
+}
+
+int Statistics::getIsAtWave()
+{
+	return Statistics::isAtWave;
+}
+
+int Statistics::getStartLife()
+{
+	return Statistics::startLife;
+}

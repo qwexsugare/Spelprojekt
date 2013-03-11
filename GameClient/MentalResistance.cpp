@@ -27,3 +27,8 @@ void MentalResistance::updateSpecificSkill(float dt)
 {
 
 }
+
+int MentalResistance::getCost()
+{
+	return MentalResistance::COST;
+}

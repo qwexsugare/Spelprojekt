@@ -8,8 +8,8 @@ Doctor::Doctor(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::DOCTOR, _pla
 	this->increaseWits(5);
 	this->increaseFortitude(3);
 	
-	this->m_skills.push_back(new SimonsEvil());
 	this->m_skills.push_back(new LifeRegen());
+	this->m_skills.push_back(new SimonsEvil());
 
 	switch(_weaponType)
 	{

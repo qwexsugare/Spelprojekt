@@ -493,9 +493,6 @@
     <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="EndState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Client\States</Filter>
     </ClCompile>
@@ -535,7 +532,12 @@
     <ClCompile Include="NetworkWelcomeMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="HealingFountainClientSkillEffect.cpp" />
+    <ClCompile Include="HealingFountainClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="EndState.cpp">
+      <Filter>Client\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1071,9 +1073,6 @@
     <ClInclude Include="NetworkWelcomeMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="EndState.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Client\States</Filter>
     </ClInclude>
@@ -1107,7 +1106,12 @@
     <ClInclude Include="LoadingState.h">
       <Filter>Client\States</Filter>
     </ClInclude>
-    <ClInclude Include="HealingFountainClientSkillEffect.h" />
+    <ClInclude Include="HealingFountainClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="EndState.h">
+      <Filter>Client\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

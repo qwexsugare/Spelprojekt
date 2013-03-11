@@ -14,5 +14,6 @@ public:
 	~PhysicalResistance();
 
 	void updateSpecificSkill(float dt);
+	int getCost();
 };
 

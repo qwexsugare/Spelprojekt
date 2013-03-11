@@ -40,6 +40,8 @@ private:
 	FLOAT2 m_fullHealthPos;
 	vector<string> m_Attributes;
 	TextLabel*	m_AttributeText;
+	TextLabel* m_waveText;
+	TextLabel* m_livesRemaining;
 	bool m_canAfford[20];
 	bool m_shopVisible;
 	int m_nrOfAttributesBought;
@@ -83,12 +85,13 @@ public:
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);
-	void setLivesLeft(int livesLeft);
+	void setLivesRemaining(int livesRemaing);
 	void setTargetEnemy(Enemy::EnemyType _enemyType);
 	void setStrength(int _strength);
 	void setAgility(int _agility);
 	void setWits(int _wits);
 	void setFortitude(int _fortitude);
 	void setTowerConstruction(int _towerConstruction);
+	void setWave(int _wave);
 };
 
