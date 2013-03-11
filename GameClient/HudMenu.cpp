@@ -271,7 +271,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(m_towerModel)
 			g_graphicsEngine->removeModel(m_towerModel);
 		if(m_subTowerModel)
+		{
 			g_graphicsEngine->removeModel(m_subTowerModel);
+			m_subTowerModel = NULL;
+		}
 		
 		switchedTower = true;
 		this->m_placingTower = true;
@@ -285,7 +288,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(m_towerModel)
 			g_graphicsEngine->removeModel(m_towerModel);
 		if(m_subTowerModel)
+		{
 			g_graphicsEngine->removeModel(m_subTowerModel);
+			m_subTowerModel = NULL;
+		}
 		
 		switchedTower = true;
 		this->m_placingTower = true;
@@ -301,7 +307,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(m_towerModel)
 			g_graphicsEngine->removeModel(m_towerModel);
 		if(m_subTowerModel)
+		{
 			g_graphicsEngine->removeModel(m_subTowerModel);
+			m_subTowerModel = NULL;
+		}
 		
 		switchedTower = true;
 		this->m_placingTower = true;
@@ -315,7 +324,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(m_towerModel)
 			g_graphicsEngine->removeModel(m_towerModel);
 		if(m_subTowerModel)
+		{
 			g_graphicsEngine->removeModel(m_subTowerModel);
+			m_subTowerModel = NULL;
+		}
 		
 		switchedTower = true;
 		this->m_placingTower = true;

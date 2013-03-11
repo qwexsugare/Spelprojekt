@@ -37,7 +37,6 @@ FrostDemon::FrostDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::
 	Model *m = g_graphicsEngine->createModel("Imp", m_position);
 	this->m_obb = new BoundingOrientedBox(*m->getObb());
 	g_graphicsEngine->removeModel(m);
-
 }
 
 void FrostDemon::attackHero(int heroIndex)
