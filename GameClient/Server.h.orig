@@ -22,11 +22,11 @@
 #include "NetworkUpdateEntityHealth.h"
 #include "NetworkAttributeUpdateMessage.h"
 <<<<<<< HEAD
-#include "NetworkWelcomeMessage.h"
+#include "NetworkEndGameMessage.h"
 =======
 #include "NetworkAttributeUpdateMessage.h"
-#include "NetworkEndGameMessage.h"
->>>>>>> df8d7ad2794cc300db3c6bff87930fde307cf4e8
+#include "NetworkWelcomeMessage.h"
+>>>>>>> f950d77c91f3918c976b9b34aa341e97f1a4a85e
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -81,8 +81,9 @@ public:
 	void broadcast(NetworkWelcomeMessage networkMessage);
 =======
 	void broadcast(NetworkAttributeUpdateMessage networkMessage);
+	void broadcast(NetworkWelcomeMessage networkMessage);
+>>>>>>> f950d77c91f3918c976b9b34aa341e97f1a4a85e
 	void broadcast(NetworkEndGameMessage networkMessage);
->>>>>>> df8d7ad2794cc300db3c6bff87930fde307cf4e8
 
 	bool isRunning();
 

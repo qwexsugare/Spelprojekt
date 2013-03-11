@@ -10,7 +10,6 @@ NetworkWelcomeMessage::NetworkWelcomeMessage(string mapname):NetworkMessage(Netw
 	this->mapName=mapname;
 }
 
-
 NetworkWelcomeMessage::~NetworkWelcomeMessage(void)
 {
 }

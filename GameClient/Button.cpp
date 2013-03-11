@@ -244,3 +244,10 @@ string Button::getTextureName()
 {
 	return this->m_TextureName;
 }
+void  Button::setTexture(string _Image)
+{
+	g_graphicsEngine->removeSpriteSheet(m_Button);
+	this->m_Button = NULL;
+	this->m_TextureName = _Image;
+	m_Button =	g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
+}

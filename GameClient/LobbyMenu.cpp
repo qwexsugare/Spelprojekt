@@ -11,8 +11,8 @@ LobbyMenu::LobbyMenu(void)
 	m_Character4 = false;
 	m_String = "";
 	m_Combat = 2;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background2.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground.png", FLOAT2(0,0), FLOAT2(2,2),1));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background2.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground3.png", FLOAT2(0,0), FLOAT2(2,2),1));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LobbyMenu-Foreground.dds", FLOAT2(0,0), FLOAT2(2,2),4));
 	FLOAT2 m_size, m_side; 
 	m_size.x = 0;
@@ -59,9 +59,9 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
 
 	this->m_Buttons[6] = new Button();
-	this->m_Buttons[6]->Init(FLOAT2(-0.72f, -0.1f),FLOAT2(0.272916667f*0.8f,0.142592593f*0.8f),"menu_textures\\Button-MainMenu-CloseCombat.png","",0,0,2,5);
+	this->m_Buttons[6]->Init(FLOAT2(-0.8f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,5);
 	this->m_Buttons[7] = new Button();
-	this->m_Buttons[7]->Init(FLOAT2(-0.72f, -0.22f),FLOAT2(0.272916667f*0.8f,0.142592593f*0.8f),"menu_textures\\Button-MainMenu-RangeCombat.png","",0,0,2,5);
+	this->m_Buttons[7]->Init(FLOAT2(-0.65f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,5);
 	// Player buttons
 	this->m_Buttons[8] = new Button();
 	this->m_Buttons[8]->Init(FLOAT2(-0.30f,-0.27f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player1.dds","",0,0,1);
@@ -95,7 +95,9 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1100,860),60);
 	this->m_Chattext[4] = new TextLabel("","text2.png",INT2(1100,830),60);
 	this->m_Chattext[5] = new TextLabel("","text2.png",INT2(1100,800),60);
-
+	this->m_Label[3]->setText("Close combat_Selected");
+	this->m_Buttons[6]->SetTextBoxValue(true);
+	this->m_Buttons[7]->SetTextBoxValue(false);
 }
 
 
@@ -128,6 +130,13 @@ void LobbyMenu::Update(float _dt)
 		m_Character2 = false;
 		m_Character3 = false;
 		m_Character4 = false;
+		this->m_Buttons[6]->setTexture("menu_textures\\O0.png");
+		this->m_Buttons[7]->setTexture("menu_textures\\O1.png");
+		if (m_Combat == 1)
+		{
+			this->m_Label[3]->setText("Range combat_Selected");
+		}
+
 	}
 	if(Character1IsDown())
 	{
@@ -137,6 +146,13 @@ void LobbyMenu::Update(float _dt)
 		m_Character2 = false;
 		m_Character3 = false;
 		m_Character4 = false;
+		this->m_Buttons[6]->setTexture("menu_textures\\R0.png");
+		this->m_Buttons[7]->setTexture("menu_textures\\R1.png");
+		this->m_Label[3]->setText("Close combat_Selected");
+		if (m_Combat == 1)
+		{
+			this->m_Label[3]->setText("Close combat_Selected");
+		}
 	}
 	if(Character2IsDown())
 	{
@@ -146,7 +162,12 @@ void LobbyMenu::Update(float _dt)
 		m_Character2 = true;
 		m_Character3 = false;
 		m_Character4 = false;
-
+		this->m_Buttons[6]->setTexture("menu_textures\\E0.png");
+		this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
+		if (m_Combat == 1)
+		{
+			this->m_Label[3]->setText("Range combat_Selected");
+		}
 	}
 	if(Character3IsDown())
 	{
@@ -156,6 +177,12 @@ void LobbyMenu::Update(float _dt)
 		m_Character2 = false;
 		m_Character3 = true;
 		m_Character4 = false;
+		this->m_Buttons[6]->setTexture("menu_textures\\D0.png");
+		this->m_Buttons[7]->setTexture("menu_textures\\D1.png");
+		if (m_Combat == 1)
+		{
+			this->m_Label[3]->setText("Range combat_Selected");
+		}
 	}
 	if(Character4IsDown())
 	{
@@ -165,6 +192,12 @@ void LobbyMenu::Update(float _dt)
 		m_Character2 = false;
 		m_Character3 = false;
 		m_Character4 = true;
+		this->m_Buttons[6]->setTexture("menu_textures\\M0.png");
+		this->m_Buttons[7]->setTexture("menu_textures\\M1.png");
+		if (m_Combat == 1)
+		{
+			this->m_Label[3]->setText("Range combat_Selected");
+		}
 	}
 	this->m_LabelInput->update(_dt);
 	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
@@ -196,14 +229,25 @@ void LobbyMenu::Update(float _dt)
 			this->m_Label[3]->setText("Select Weapontype");
 		}
 	}
-	if(RangeCombatIsDown() || m_Combat == 1)
-	{
-		this->m_Label[3]->setText("Range combat_Selected");
-	}
-	if(CloseCombatIsDown() || m_Combat == 2)
+	if(CloseCombatIsDown() && m_Combat == 2)
 	{
 		this->m_Label[3]->setText("Close combat_Selected");
+		this->m_Buttons[6]->SetTextBoxValue(true);
+		this->m_Buttons[7]->SetTextBoxValue(false);
 	}
+	if(RangeCombatIsDown() && m_Combat == 1 && m_Character1 != true)
+	{
+		this->m_Label[3]->setText("Range combat_Selected");
+		this->m_Buttons[6]->SetTextBoxValue(false);
+		this->m_Buttons[7]->SetTextBoxValue(true);
+	}
+	if(RangeCombatIsDown() && m_Combat == 1 && m_Character1 == true)
+	{
+		this->m_Label[3]->setText("Close combat_Selected");
+		this->m_Buttons[6]->SetTextBoxValue(false);
+		this->m_Buttons[7]->SetTextBoxValue(true);
+	}
+
 
 	if(Change == 1)
 	{
@@ -286,6 +330,7 @@ bool LobbyMenu::StartGameIsDown()
 {
 	if(this->m_Buttons[5]->Clicked()== 1)
 	{
+		this->m_Buttons[5]->SetTextBoxValue(true);
 		return true;
 	}
 	return false;
@@ -400,15 +445,19 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type)
 	{
 	case 0:
 		buttonIndex = 8;
+		this->m_Buttons[8]->SetTextBoxValue(true);
 		break;
 	case 1:
 		buttonIndex = 9;
+		this->m_Buttons[9]->SetTextBoxValue(true);
 		break;
 	case 2:
 		buttonIndex = 10;
+		this->m_Buttons[10]->SetTextBoxValue(true);
 		break;
 	case 3:
 		buttonIndex = 11;
+		this->m_Buttons[11]->SetTextBoxValue(true);
 		break;
 	}
 	

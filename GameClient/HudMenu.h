@@ -22,21 +22,24 @@ private:
 	int	m_NumberOfSkills;
 	int m_Resources;
 
-	float	m_SkillHud;
+	vector<float>	m_SkillHud;
 
-	bool	m_DontChange,
-			m_Buy,
+	bool	m_Buy,
 			m_Menu,
 			m_Locked,
 			m_Chat;
+
+	vector<bool>	m_DontChange;
 
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Chattext;	
 	TextLabel* m_ResourceLabel;
 
 	SpriteSheet *m_healthBar;
+	vector<Sprite*> m_LabelSprite;
 	FLOAT2 m_fullHealthPos;
-
+	vector<string> m_Attributes;
+	TextLabel*	m_AttributeText;
 	bool m_canAfford[20];
 	bool m_shopVisible;
 	int m_nrOfAttributesBought;
