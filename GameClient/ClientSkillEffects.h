@@ -25,3 +25,4 @@
 #include "ChurchPenetratedClientSkillEffect.h"
 #include "TeleportClientSkillEffect.h"
 #include "StunningStrikeVictimClientSkillEffect.h"
+#include "HealingFountainClientSkillEffect.h"
