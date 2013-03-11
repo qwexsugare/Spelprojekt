@@ -320,3 +320,12 @@ bool Pathfinder::sameGridPosition(FLOAT2 pos1, FLOAT2 pos2)
 		return false;
 	}
 }
+
+int Pathfinder::getHeight()
+{
+	return this->map.getHeight();
+}
+int Pathfinder::getWidth()
+{
+	return this->map.getWidth();
+}

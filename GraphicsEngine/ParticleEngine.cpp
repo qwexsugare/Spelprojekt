@@ -21,7 +21,7 @@ ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHol
 	//this->particles = NULL;
 	//this->geoParticles = NULL;
 	this->shaderParticles = NULL;
-	this->behavior = ParticleBehavior::Beacon;
+	this->behavior = ParticleBehavior::CirclePuls;
 
 	this->texture = this->textureHolder->getTexture("./particles/textures/light.png");
 

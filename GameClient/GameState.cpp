@@ -500,9 +500,11 @@ void GameState::update(float _dt)
 		case Skill::AOE_MELEE_ATTACK:
 			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
 			break;
-		case Skill::CHURCH_PENETRATED:
+		case Skill::CHURCH_PENETRATED:			
+			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));		
+			break;
+		case Skill::CHURCH_REALLY_PENETRATED:
 			playSound(m_churchSound);
-			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
 			this->m_hud->setLivesLeft(e.getTargetId());
 			break;
 		}

@@ -35,5 +35,7 @@ public:
 	vector<Position> getPath(Position start, Position end);
 	Path getPath(FLOAT2 start, FLOAT2 end);
 	bool sameGridPosition(FLOAT2 pos1, FLOAT2 pos2);
+	int getWidth();
+	int getHeight();
 };
 #endif
