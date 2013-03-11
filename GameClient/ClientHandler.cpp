@@ -170,7 +170,7 @@ void ClientHandler::update(float _dt)
 			}
 			else
 			{
-				this->m_state = new GameState(this->m_client, "levelone.txt");
+				this->m_state = new GameState(this->m_client, "levelone");
 			}
 			break;
 		case State::SETTINGS:
