@@ -535,7 +535,9 @@
     <ClCompile Include="NetworkWelcomeMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="HealingFountainClientSkillEffect.cpp" />
+    <ClCompile Include="HealingFountainClientSkillEffect.cpp">
+      <Filter>Client\Skills</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1107,7 +1109,9 @@
     <ClInclude Include="LoadingState.h">
       <Filter>Client\States</Filter>
     </ClInclude>
-    <ClInclude Include="HealingFountainClientSkillEffect.h" />
+    <ClInclude Include="HealingFountainClientSkillEffect.h">
+      <Filter>Client\Skills</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

@@ -1,7 +1,7 @@
 #include "FrostDemon.h"
 #include "StunningStrike.h"
 #include "RangedAttack.h"
-
+#include "MyAlgorithms.h"
 
 FrostDemon::FrostDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::FROST_DEMON)
 {
@@ -44,11 +44,18 @@ void FrostDemon::attackHero(int heroIndex)
 {
 	this->attack(m_closestTargetId);
 	this->m_attackCooldown = m_attackSpeed;
-
-	m_skills[0]->activate(heroIndex, this->m_id);
+	
+	if(random(1, 100) <= 15)
+	{
+		ServerEntity* e = EntityHandler::getServerEntity(m_closestTargetId);
+		if(e)
+		{
+			((UnitEntity*)e)->stun(4.0f);
+		}
+	}
 }
 
-
-FrostDemon::~FrostDemon(void)
+FrostDemon::~FrostDemon()
 {
+
 }

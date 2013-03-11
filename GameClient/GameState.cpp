@@ -89,8 +89,9 @@ GameState::GameState(Client *_network, string mapName)
 		break;
 	}
 	m_churchSound = createSoundHandle("gameplay/churchBell1X.wav", false, false);
-
+	
 	m_attackSoundTimer = 0.0f;
+	m_moveSoundTimer = 0.0f;
 	m_idle = false;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
@@ -181,12 +182,12 @@ void GameState::update(float _dt)
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id);
 	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
-	//this->m_cursor.setPosition(g_mouse->getPos());
 	SpeechManager::update();
 
 	// Update sound timers
 	m_lowHealthSoundDelayTimer = max(m_lowHealthSoundDelayTimer-_dt, 0.0f);
 	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
+	m_moveSoundTimer = max(m_moveSoundTimer-_dt, 0.0f);
 	if(m_idle)
 	{
 		if(m_idleSoundTimer > 0.0f)
@@ -699,6 +700,11 @@ void GameState::update(float _dt)
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
 				m_hud->setTargetEnemy(Enemy::NONE);
+				if(m_moveSoundTimer == 0.0f)
+				{
+					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+					m_moveSoundTimer = MOVE_SOUND_DELAY;
+				}
 				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
 				m_idle = false;
 			}

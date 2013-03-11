@@ -220,12 +220,118 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 }
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
 {
+	for(int i = 0; i < this->m_towerButtons.size(); i++)
+	{
+		this->m_towerButtons[i]->Update();
+	}
+	
+	bool switchedTower = false;
+	for(int i = 0; i < this->m_towerButtons.size(); i++)
+	{
+		if(this->m_towerButtons[i]->isClicked())
+		{
+			if(m_towerModel)
+				g_graphicsEngine->removeModel(m_towerModel);
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
+
+			switchedTower = true;
+			this->m_placingTower = true;
+			this->m_towerId = this->m_towerButtons[i]->GetID();
+
+			ModelIdHolder m;
+
+			switch(this->m_towerId)
+			{
+			case Skill::DEATH_PULSE_TURRET:
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+				break;
+			case Skill::TESLA_CHAIN_TURRET:
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+				break;
+			case Skill::FROST_TURRET:
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+				m_subTowerModel->setAlpha(0.5f);
+				break;
+			case Skill::POISON_TURRET:
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+				break;
+			}
+
+			this->m_towerModel->setAlpha(0.5f);
+		}
+	}
+
+	if(g_keyboard->getKeyState('Z') == Keyboard::KEY_PRESSED)
+	{
+		if(m_towerModel)
+			g_graphicsEngine->removeModel(m_towerModel);
+		if(m_subTowerModel)
+			g_graphicsEngine->removeModel(m_subTowerModel);
+		
+		switchedTower = true;
+		this->m_placingTower = true;
+		this->m_towerId = this->m_towerButtons[0]->GetID();
+		ModelIdHolder m;
+		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+		this->m_towerModel->setAlpha(0.5f);
+	}
+	else if(g_keyboard->getKeyState('X') == Keyboard::KEY_PRESSED)
+	{
+		if(m_towerModel)
+			g_graphicsEngine->removeModel(m_towerModel);
+		if(m_subTowerModel)
+			g_graphicsEngine->removeModel(m_subTowerModel);
+		
+		switchedTower = true;
+		this->m_placingTower = true;
+		this->m_towerId = this->m_towerButtons[1]->GetID();
+		ModelIdHolder m;
+		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+		this->m_towerModel->setAlpha(0.5f);
+		m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+		m_subTowerModel->setAlpha(0.5f);
+	}
+	else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
+	{
+		if(m_towerModel)
+			g_graphicsEngine->removeModel(m_towerModel);
+		if(m_subTowerModel)
+			g_graphicsEngine->removeModel(m_subTowerModel);
+		
+		switchedTower = true;
+		this->m_placingTower = true;
+		this->m_towerId = this->m_towerButtons[2]->GetID();
+		ModelIdHolder m;
+		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+		this->m_towerModel->setAlpha(0.5f);
+	}
+	else if(g_keyboard->getKeyState('V') == Keyboard::KEY_PRESSED)
+	{
+		if(m_towerModel)
+			g_graphicsEngine->removeModel(m_towerModel);
+		if(m_subTowerModel)
+			g_graphicsEngine->removeModel(m_subTowerModel);
+		
+		switchedTower = true;
+		this->m_placingTower = true;
+		this->m_towerId = this->m_towerButtons[3]->GetID();
+		ModelIdHolder m;
+		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+		this->m_towerModel->setAlpha(0.5f);
+	}
+
 	this->m_AttributeText->setText(	m_Attributes[0] +"           "+ 
 									m_Attributes[1] +"           "+ 
 									m_Attributes[2] +"          "+ 
 									m_Attributes[3] +"          "+
 									m_Attributes[4]);
-	if(this->m_placingTower == true)
+
+	if(this->m_placingTower && !switchedTower)
 	{
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
@@ -238,7 +344,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(m_subTowerModel)
 			m_subTowerModel->setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
 
-		if(g_mouse->isLButtonPressed() == true)
+		if(g_mouse->isLButtonReleased())
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
 			if(m_subTowerModel)
@@ -461,78 +567,6 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					m_SkillButtons[0]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[0]->getSkillId() == Skill::TIME_IS_MONEY)
 			{
 				this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[0]->getSkillId(), 0));
-			}
-		}
-
-		for(int i = 0; i < this->m_towerButtons.size(); i++)
-		{
-			this->m_towerButtons[i]->Update();
-
-			if(this->m_towerButtons[i]->Clicked() == 1)
-			{
-				//Go into tower placing mode
-				this->m_placingTower = true;
-				this->m_towerId = this->m_towerButtons[i]->GetID();
-
-				ModelIdHolder m;
-
-				switch(this->m_towerId)
-				{
-				case Skill::DEATH_PULSE_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
-					break;
-				case Skill::TESLA_CHAIN_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
-					break;
-				case Skill::FROST_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-					m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
-					m_subTowerModel->setAlpha(0.5f);
-					break;
-				case Skill::POISON_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
-					break;
-				}
-
-				this->m_towerModel->setAlpha(0.5f);
-			}
-		}
-
-		if(!m_placingTower)
-		{
-			if(g_keyboard->getKeyState('Z') == Keyboard::KEY_PRESSED)
-			{
-				this->m_placingTower = true;
-				this->m_towerId = this->m_towerButtons[0]->GetID();
-				ModelIdHolder m;
-				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
-				this->m_towerModel->setAlpha(0.5f);
-			}
-			else if(g_keyboard->getKeyState('X') == Keyboard::KEY_PRESSED)
-			{
-				this->m_placingTower = true;
-				this->m_towerId = this->m_towerButtons[1]->GetID();
-				ModelIdHolder m;
-				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-				this->m_towerModel->setAlpha(0.5f);
-				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
-				m_subTowerModel->setAlpha(0.5f);
-			}
-			else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
-			{
-				this->m_placingTower = true;
-				this->m_towerId = this->m_towerButtons[2]->GetID();
-				ModelIdHolder m;
-				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
-				this->m_towerModel->setAlpha(0.5f);
-			}
-			else if(g_keyboard->getKeyState('V') == Keyboard::KEY_PRESSED)
-			{
-				this->m_placingTower = true;
-				this->m_towerId = this->m_towerButtons[3]->GetID();
-				ModelIdHolder m;
-				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
-				this->m_towerModel->setAlpha(0.5f);
 			}
 		}
 
