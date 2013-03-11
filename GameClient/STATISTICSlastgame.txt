@@ -1,85 +1,21 @@
 Game statistics: 
 ----------------
-Time played: 60.5196
-Life remaining: 0
+Time played: 87.3709
+Life remaining: 90
 Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Officer
-Deamons killed: 3
-Player deaths: 2
-Resources collected: 244
-Healed for: 0
-
-Damage statistics: 
-Total damage dealt: 578
-Physical damage taken: 69
-Mental damage taken: 700
-Physical damage dealt: 377
-Mental damage dealt: 201
-Physical skill damage dealt: 0
-Mental skill damage dealt: 0
-
-Skills used: 
-0
-0
-0
-0
-965451026
-0
-0
-0
-0
-0
-0
-0
-0
-381
-1936029041
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-827863299
-971258315
-1034632604
-937113545
-1038630332
-1054097102
-868955060
-971258257
-1030241549
-816591007
-980630017
-925185814
-929183580
-268
-90112
-856961471
-106496
-896021846
----------------
-Player name: Trolle-G
+Hero played: Red knight
 Deamons killed: 0
 Player deaths: 0
-Resources collected: 102
+Resources collected: 0
 Healed for: 0
 
 Damage statistics: 
 Total damage dealt: 0
-Physical damage taken: 0
+Physical damage taken: 53
 Mental damage taken: 0
 Physical damage dealt: 0
 Mental damage dealt: 0
@@ -118,86 +54,20 @@ Skills used:
 0
 827863299
 971258315
-1034632604
-937113545
-1038630332
-1054097102
-868955060
-971258257
-1030241549
-816591007
-980630017
-925185814
-929183580
-268
+1046232585
+853947030
+1011760200
+1048985195
+868823906
+958544156
+997669738
+204
+875967428
+1029651793
+918632112
+1070677926
 90112
-856961471
-106496
-896021846
----------------
-Player name: Trolle-G
-Hero played: Doctor
-Deamons killed: 5
-Player deaths: 0
-Resources collected: 244
-Healed for: 0
-
-Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
-Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
-Physical skill damage dealt: 0
-Mental skill damage dealt: 0
-
-Skills used: 
-0
-0
-0
-0
-3421722
-0
-3432086
-3376112
-3434196
-3387370
-3384024
-3388622
-3388402
-3375652
-1588514900
-1936029041
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-827863299
-971258315
-1034632604
-937113545
-1038630332
-1054097102
-868955060
-971258257
-1030241549
-816591007
-980630017
-925185814
-929183580
-268
-90112
-856961471
-106496
-896021846
+1019558993
+1036729787
+927151878
 ---------------
