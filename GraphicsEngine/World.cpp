@@ -731,16 +731,16 @@ void World::render()
 			{
 				if(m_models[i]->getMesh()->isAnimated)
 				{
-					//this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
-					//this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-					//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-					//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
-					//this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				this->m_forwardRendering->setBoneTexture(m_models[i]->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputAnimationLayout());
+				this->m_forwardRendering->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
 				}
 				else
 				{				
 					m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-					m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());				
+				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
 					m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
 					this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
 				}

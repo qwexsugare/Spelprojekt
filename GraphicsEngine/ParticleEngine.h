@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "ParticleEngineEffectFile.h"
 #include "TextureHolder.h"
+#include "ParticleEffect.h"
 
 using namespace std;
 
@@ -57,7 +58,7 @@ private:
 public:
 	enum EngineType{CPUAndModels, CPUAndGShader, GPUBased};
 
-	ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR2 _scale);
+	ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR2 _scale);
 	~ParticleEngine();
 
 	const D3DXMATRIX&	getWorldMatrix()const { return worldMatrix; }
