@@ -1,13 +1,13 @@
 Game statistics: 
 ----------------
-Time played: 34.7502
+Time played: 24.0765
 Life remaining: 100
 Reached wave: 0
 
 Player Statistics:
 ------------------
 Player name: 
-Hero played: Engineer
+Hero played: Officer
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
