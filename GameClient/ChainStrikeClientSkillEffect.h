@@ -11,7 +11,7 @@ private:
 	Model* m_graphicalEffects[3];
 	float m_lifetime;
 public:
-	ChainStrikeClientSkillEffect(unsigned int _masterId, FLOAT3 _position, bool _playAnimation);
+	ChainStrikeClientSkillEffect(unsigned int _lastTarget, unsigned int _target, FLOAT3 _position);
 	~ChainStrikeClientSkillEffect();
 
 	void update(float _dt);

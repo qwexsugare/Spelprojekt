@@ -12,6 +12,7 @@ private:
 	int m_maxJumps;
 	int m_baseDamage;
 	unsigned int m_masterId;
+	unsigned int m_lastTargetId;
 
 	static const int MAX_JUMP_DISTANCE = 5;
 public:

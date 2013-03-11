@@ -498,9 +498,36 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			}
 		}
 
+		if(!m_placingTower)
+		{
+			if(g_keyboard->getKeyState('Z') == Keyboard::KEY_PRESSED)
+			{
+				//Go into tower placing mode
+				this->m_placingTower = true;
+				this->m_towerId = this->m_towerButtons[0]->GetID();
+
+				ModelIdHolder m;
+
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+
+				/*case Skill::TESLA_CHAIN_TURRET:
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+					break;
+				case Skill::FROST_TURRET:
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+					m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+					m_subTowerModel->setAlpha(0.5f);
+					break;
+				case Skill::POISON_TURRET:
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+					break;
+				}*/
+
+				this->m_towerModel->setAlpha(0.5f);
+			}
+		}
+
 		for(int i = 0; i < m_Buttons.size(); i++)
-
-
 		{
 			this->m_Buttons[i]->Update();
 		}

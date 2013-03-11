@@ -340,12 +340,6 @@ void GameState::update(float _dt)
 		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
-		case Skill::CHAIN_STRIKE:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), false));
-			break;
-		case Skill::CHAIN_STRIKE_FIRST_EXCEPTION:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), true));
-			break;
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
@@ -462,6 +456,9 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::CHAIN_STRIKE:
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getTargetId(), e.getPosition()));
+			break;
 		case Skill::RANGED_ATTACK:
 			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;

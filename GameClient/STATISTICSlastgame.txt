@@ -1,8 +1,8 @@
 Game statistics: 
 ----------------
-Time played: 12.6358
-Life remaining: 100
-Reached wave: 0
+Time played: 70.9186
+Life remaining: 97
+Reached wave: 1
 
 Player Statistics:
 ------------------
@@ -10,7 +10,7 @@ Player name:
 Hero played: Officer
 Deamons killed: 0
 Player deaths: 0
-Resources collected: 0
+Resources collected: 30
 Healed for: 0
 
 Damage statistics: 
@@ -27,6 +27,7 @@ Skills used:
 0
 0
 0
+965451026
 0
 0
 0
@@ -36,14 +37,7 @@ Skills used:
 0
 0
 0
-1065353216
-1065353216
-1065353216
-1055622431
-0
-997905501
-1065353216
-1065353216
+538976288
 0
 0
 0
@@ -58,16 +52,21 @@ Skills used:
 0
 0
 0
-0
-0
-3422296
-3421722
-0
-3432086
-3429564
-3434196
-3433602
-3420862
-1497570883
-1497564903
+954415224
+1061044024
+890647793
+911619654
+32768
+924464917
+956315556
+1002781620
+842281510
+896808298
+986790591
+836186560
+1042300428
+837824963
+907294197
+1002912688
+184
 ---------------
