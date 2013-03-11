@@ -513,7 +513,7 @@ void GameState::update(float _dt)
 			break;
 		case Skill::CHURCH_REALLY_PENETRATED:
 			playSound(m_churchSound);
-			this->m_hud->setLivesLeft(e.getTargetId());
+			this->m_hud->setLivesRemaining(e.getTargetId());
 			break;
 		}
 	}
