@@ -249,7 +249,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
-	if(this->m_alive == true)
+	if(this->m_alive == true && m_stunTimer == 0.0f)
 	{
 		if(g_pathfinder->sameGridPosition(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z)) == false)
 		{

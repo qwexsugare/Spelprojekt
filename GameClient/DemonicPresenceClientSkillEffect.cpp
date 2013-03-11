@@ -11,7 +11,7 @@ DemonicPresenceClientSkillEffect::DemonicPresenceClientSkillEffect(unsigned int 
 	FLOAT3 pos = e->m_model->getPosition();
 	pos.y = 0.01f;
 	m_model = g_graphicsEngine->createModel("Pentagram", pos);
-	//m_model->getAnimation()->Play("attack");
+	m_model->neutralize();
 	m_model->setAlpha(0.75f);
 	m_model->setShadow(false);
 
