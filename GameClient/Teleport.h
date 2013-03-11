@@ -5,6 +5,9 @@
 class Teleport : public Skill
 {
 private:
+	XMFLOAT3 m_obbOffset;
+	BoundingOrientedBox m_obb;
+
 	static const float COOLDOWN;
 	static const int RANGE = 10;
 public:

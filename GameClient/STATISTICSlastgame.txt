@@ -1,6 +1,6 @@
 Game statistics: 
 ----------------
-Time played: 40.1614
+Time played: 34.7502
 Life remaining: 100
 Reached wave: 0
 
