@@ -2630,3 +2630,13 @@ GameClient/maps/levelone/levelonewaves.txt
 GameClient/menu_textures/MENU-CharacterMenu-Middleground2.png
 GameClient/menu_textures/MENU-CharacterMenu-Middleground3.png
 >>>>>>> 1de3a14c3a2111d5feb0bfce669daaa55986e4bc
+GameClient/models/FrostGun/FrostGun.BFish
+GameClient/models/FrostGun/Turret_Frost_DM.png
+GameClient/models/FrostGun/Turret_Frost_GM.png
+GameClient/models/FrostGun/Turret_Frost_NM.png
+GameClient/models/FrostGun/Turret_Frost_SM.png
+GameClient/models/Wrench/Wrench.BFish
+GameClient/models/Wrench/Wrench_UV_GM_GREEN.png
+GameClient/models/Wrench/Wrench_UV_GM_ORANGE.png
+GameClient/models/Wrench/Wrench_UV_GM_PURPLE.png
+>>>>>>> 3479abe437aadd53136c6e761e8693d9efac7650

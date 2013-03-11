@@ -20,6 +20,13 @@ ResourceHolder::~ResourceHolder()
 	{
 		delete (*m).second;
 		m++;
+	}	
+	map<string, ParticleEffect*>::iterator p = this->m_particleEffects.begin();
+
+	while(p != this->m_particleEffects.end())
+	{
+		delete (*p).second;
+		p++;
 	}
 	int lol = 0;
 	delete this->m_textureHolder;
@@ -42,6 +49,19 @@ Mesh* ResourceHolder::getMesh(string filename)
 	
 	Mesh* result = this->m_meshes[filename];
 	return result;
+}
+
+ParticleEffect* ResourceHolder::getParticleEffect(string _filename)
+{
+	map<string, ParticleEffect*>::iterator searchResult = this->m_particleEffects.find(_filename);
+
+	if(searchResult == this->m_particleEffects.end())
+	{
+		ParticleEffect* p = ParticleEffectImporter::loadParticleEffect(_filename);
+		this->m_particleEffects.insert(pair<string, ParticleEffect*>(_filename, p));
+	}
+	ParticleEffect* pe = this->m_particleEffects[_filename];
+	return pe;
 }
 
 TextureHolder *ResourceHolder::getTextureHolder()

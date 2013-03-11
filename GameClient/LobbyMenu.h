@@ -31,6 +31,13 @@ public:
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type);
 	int getCombat();
 private:
+	Hero::HERO_TYPE m_currentSelections[4];
+	Sprite* m_doctorPortrait;
+	Sprite* m_officerPortrait;
+	Sprite* m_engineerPortrait;
+	Sprite* m_redKnightPortrait;
+	Sprite* m_mentalistPortrait;
+
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Label;
 	vector<TextLabel*> m_Chattext;

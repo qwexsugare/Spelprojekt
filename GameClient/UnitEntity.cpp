@@ -503,7 +503,7 @@ void UnitEntity::update(float dt)
 	}
 	else
 	{
-		this->m_stunTimer -= dt;
+		this->m_stunTimer = max(m_stunTimer-dt, 0.0f);
 	}
 }
 

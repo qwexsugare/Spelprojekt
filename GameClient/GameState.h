@@ -35,6 +35,7 @@ private:
 	Button* m_exitButton;
 	bool m_idle;
 	float m_idleSoundTimer;
+	bool m_cameraFollowingHero;
 
 	// Sounds
 	AmbientSoundsManager m_ambientSoundsManager;
@@ -44,10 +45,12 @@ private:
 	int m_idleSound;
 	static const int NR_OF_ATTACK_SOUNDS = 3;
 	int m_attackSounds[NR_OF_ATTACK_SOUNDS];
-	static const int NR_OF_MOVE_SOUNDS = 4;
-	int m_moveSounds[NR_OF_MOVE_SOUNDS];
 	static const int ATTACK_SOUND_DELAY = 5;
 	float m_attackSoundTimer;
+	static const int NR_OF_MOVE_SOUNDS = 4;
+	int m_moveSounds[NR_OF_MOVE_SOUNDS];
+	static const int MOVE_SOUND_DELAY = 10;
+	float m_moveSoundTimer;
 	vector<int> m_timeIsMoneySounds;
 	int m_churchSound;
 	bool m_idling;
