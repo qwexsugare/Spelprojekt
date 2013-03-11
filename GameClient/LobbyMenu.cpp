@@ -12,7 +12,7 @@ LobbyMenu::LobbyMenu(void)
 	m_String = "";
 	m_Combat = 2;
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background2.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground3.png", FLOAT2(0,0), FLOAT2(2,2),1));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground.png", FLOAT2(0,0), FLOAT2(2,2),1));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LobbyMenu-Foreground.dds", FLOAT2(0,0), FLOAT2(2,2),4));
 	FLOAT2 m_size, m_side; 
 	m_size.x = 0;
@@ -44,7 +44,7 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[5] = new Button();
 	this->m_Buttons[5]->Init(FLOAT2(0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);*/
 	
-	this->m_Buttons.resize(17);
+	this->m_Buttons.resize(19);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
 	this->m_Buttons[1] = new Button();
@@ -82,6 +82,11 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[15]->Init(FLOAT2(0.22f,  0.73f),FLOAT2(0.178125f*0.5f,0.194444444f*0.5f),"menu_textures\\CharacterMenu-Button-Doctor.png","",0,0,1);
 	this->m_Buttons[16] = new Button();
 	this->m_Buttons[16]->Init(FLOAT2(0.445f,  0.73f),FLOAT2(0.178125f*0.5f,0.194444444f*0.5f),"menu_textures\\CharacterMenu-Button-Mentalist.png","",0,0,1);
+
+	this->m_Buttons[17] = new Button();
+	this->m_Buttons[17]->Init(FLOAT2(0.33f,-0.7f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Right.png","",0,0,6);
+	this->m_Buttons[18] = new Button();
+	this->m_Buttons[18]->Init(FLOAT2(-0.33f,-0.7f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Left.png","",0,0,6);
 	this->m_Label.resize(5);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
 	this->m_Label[1] = new TextLabel("","text2.png",INT2(130,830),60);

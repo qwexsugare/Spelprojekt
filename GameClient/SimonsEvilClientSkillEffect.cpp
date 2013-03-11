@@ -13,7 +13,7 @@ SimonsEvilClientSkillEffect::SimonsEvilClientSkillEffect(unsigned int _masterId)
 		m_timer = 0.0f;
 
 		D3DXVECTOR3 newPos = D3DXVECTOR3(master->m_startPos.x, master->m_startPos.y, master->m_startPos.z);
-		this->m_particleSystem = g_graphicsEngine->createParticleEngine(D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+		this->m_particleSystem = g_graphicsEngine->createParticleEngine("HealingAura", D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
 
 		// Play sound
 		int sound = createSoundHandle("skills/healing_aura.wav", false, true, master->m_startPos);
