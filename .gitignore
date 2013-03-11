@@ -2563,3 +2563,21 @@ GameClient/models/Wrench/Wrench_UV_GM_GREEN.png
 GameClient/models/Wrench/Wrench_UV_GM_ORANGE.png
 GameClient/models/Wrench/Wrench_UV_GM_PURPLE.png
 GameClient/menu_textures/skip.png
+GameClient/maps/levelone/levelonewaves.txt
+GameClient/maps/levelone/Map för/levelonegm.png
+GameClient/models/DoctorRevolver/DoctorRevolver.BFish
+GameClient/models/FountainAngel/AngelColor.png
+GameClient/models/FountainAngel/AngelNormal.png
+GameClient/models/FountainAngel/FountainAngel.BFish
+GameClient/models/HexaGun/HexaGun.BFish
+GameClient/models/HexaGun/Hexagun_UV_GM_GREEN.png
+GameClient/models/HexaGun/Hexagun_UV_GM_ORANGE.png
+GameClient/models/HexaGun/Hexagun_UV_GM_PURPLE.png
+GameClient/models/Mace/Mace_UV_GM_GREEN.png
+GameClient/models/Mace/Mace_UV_GM_ORANGE.png
+GameClient/models/Mace/Mace_UV_GM_PURPLE.png
+GameClient/models/Mace/Mace_UV_GM_RED.png
+GameClient/models/MeatClever/MeatCleaver_UV_GM_GREEN.png
+GameClient/models/MeatClever/MeatCleaver_UV_GM_ORANGE.png
+GameClient/models/MeatClever/MeatCleaver_UV_GM_PURPLE.png
+GameClient/models/MentalistRevolver/MentalistRevolver.BFish
