@@ -94,7 +94,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_LabelSprite.push_back(g_graphicsEngine->createSprite("menu_textures\\Label_3.png",FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
 	this->m_LabelSprite.push_back(g_graphicsEngine->createSprite("menu_textures\\Label_4.png",FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
 	
-	m_enemyIcons[Enemy::EnemyType::IMP] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::IMP] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::IMP]->setVisible(false);
 	m_enemyIcons[Enemy::EnemyType::SHADE] = g_graphicsEngine->createSprite("menu_textures/Imp-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::SHADE]->setVisible(false);
@@ -231,7 +231,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(this->m_towerButtons[i]->isClicked())
 		{
 			if(m_towerModel)
+			{
 				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+			}
 			if(m_subTowerModel)
 			{
 				g_graphicsEngine->removeModel(m_subTowerModel);
@@ -269,7 +272,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	if(g_keyboard->getKeyState('Z') == Keyboard::KEY_PRESSED)
 	{
 		if(m_towerModel)
+		{
 			g_graphicsEngine->removeModel(m_towerModel);
+			m_towerModel = NULL;
+		}
 		if(m_subTowerModel)
 		{
 			g_graphicsEngine->removeModel(m_subTowerModel);
@@ -286,7 +292,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	else if(g_keyboard->getKeyState('X') == Keyboard::KEY_PRESSED)
 	{
 		if(m_towerModel)
+		{
 			g_graphicsEngine->removeModel(m_towerModel);
+			m_towerModel = NULL;
+		}
 		if(m_subTowerModel)
 		{
 			g_graphicsEngine->removeModel(m_subTowerModel);
@@ -305,7 +314,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
 	{
 		if(m_towerModel)
+		{
 			g_graphicsEngine->removeModel(m_towerModel);
+			m_towerModel = NULL;
+		}
 		if(m_subTowerModel)
 		{
 			g_graphicsEngine->removeModel(m_subTowerModel);
@@ -322,7 +334,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	else if(g_keyboard->getKeyState('V') == Keyboard::KEY_PRESSED)
 	{
 		if(m_towerModel)
+		{
 			g_graphicsEngine->removeModel(m_towerModel);
+			m_towerModel = NULL;
+		}
 		if(m_subTowerModel)
 		{
 			g_graphicsEngine->removeModel(m_subTowerModel);
