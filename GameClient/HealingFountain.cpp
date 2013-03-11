@@ -30,6 +30,7 @@ void HealingFountain::update(float _dt)
 			if(heroes[i]->intersects(*this->m_bs) == true)
 			{
 				((UnitEntity*)heroes[i])->heal(5);
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::HEALING_FOUNTAIN, heroes[i]->getId(), heroes[i]->getPosition()));
 			}
 		}
 	}

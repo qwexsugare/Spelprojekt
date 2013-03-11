@@ -367,6 +367,9 @@ void GameState::update(float _dt)
 		case Skill::TURRET_CONSTRUCTION:
 			this->m_hud->setTowerConstruction(e.getSenderId());
 			break;
+		case Skill::HEALING_FOUNTAIN:
+			this->m_ClientSkillEffects.push_back(new HealingFountainClientSkillEffect(e.getSenderId()));
+			break;
 		}
 	}
 

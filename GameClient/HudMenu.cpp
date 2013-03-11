@@ -799,24 +799,39 @@ void HudMenu::setLivesLeft(int livesLeft)
 void HudMenu::setStrength(int _strength)
 {
 	this->m_strength = _strength;
+	stringstream ss;
+	ss<<this->m_strength;
+	this->m_Attributes[1] = ss.str();
 }
 
 void HudMenu::setAgility(int _agility)
 {
 	this->m_agility = _agility;
+	stringstream ss;
+	ss<<this->m_agility;
+	this->m_Attributes[2] = ss.str();
 }
 
 void HudMenu::setWits(int _wits)
 {
 	this->m_wits = _wits;
+	stringstream ss;
+	ss<<this->m_wits;
+	this->m_Attributes[3] = ss.str();
 }
 
 void HudMenu::setFortitude(int _fortitude)
 {
 	this->m_fortitude = _fortitude;
+	stringstream ss;
+	ss<<this->m_fortitude;
+	this->m_Attributes[4] = ss.str();
 }
 
 void HudMenu::setTowerConstruction(int _towerConstruction)
 {
 	this->m_towerConstruction = _towerConstruction;
+	stringstream ss;
+	ss<<this->m_towerConstruction;
+	this->m_Attributes[0] = ss.str();
 }

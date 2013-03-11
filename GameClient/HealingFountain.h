@@ -1,6 +1,7 @@
 #pragma once
 #include "ServerEntity.h"
 #include "EntityHandler.h"
+#include "Skill.h"
 
 class HealingFountain : public ServerEntity
 {
