@@ -723,24 +723,27 @@ void World::render()
 
 	for(int i = 0; i < m_models.size(); i++)
 	{
-		m_forwardRendering->setModelMatrix(m_models[i]->getModelMatrix());
-
-		for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
+		if(!m_models[i]->isNeutral())
 		{
-			if(m_models[i]->getMesh()->isAnimated)
+			m_forwardRendering->setModelMatrix(m_models[i]->getModelMatrix());
+
+			for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
 			{
-				//this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
-				//this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
-				//this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
-			}
-			else
-			{				
-				m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());				
-				m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				if(m_models[i]->getMesh()->isAnimated)
+				{
+					//this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
+					//this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+					//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+					//this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				}
+				else
+				{				
+					m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());				
+					m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				}
 			}
 		}
 	}

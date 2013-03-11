@@ -1,6 +1,6 @@
 Game statistics: 
 ----------------
-Time played: 41.8727
+Time played: 27.2911
 Life remaining: 100
 Reached wave: 0
 
@@ -65,7 +65,7 @@ Skills used:
 828780804
 1021721797
 168
-894973178
+888812740
 983972501
 1053638245
 920794845
