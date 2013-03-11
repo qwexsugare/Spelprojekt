@@ -15,7 +15,7 @@ private:
 	Hero::HERO_TYPE m_heroType;
 	string mapName;
 	ModelIdHolder m_modelIdHolder;
-	Model* cube;
+	Model* cube[5];
 	Model* officer;
 	Model* redKnight;
 	Model* engi;
