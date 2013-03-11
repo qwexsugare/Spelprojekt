@@ -198,6 +198,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_shopBackground.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Fortitude.png", FLOAT2(0.56f,0.3f),  FLOAT2(0.260416667f,1.451851852f),10));
 
 	this->m_shopVisible = false;
+	m_placingTower = false;
 	this->displayShop(false);
 
 	//Healthbar
@@ -207,7 +208,6 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 
 	//Towers
 	int nrOfTowers = 4;
-
 	for(int i = 0; i < nrOfTowers; i++)
 	{
 		this->m_towerButtons.push_back(new Button());
@@ -502,27 +502,36 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			if(g_keyboard->getKeyState('Z') == Keyboard::KEY_PRESSED)
 			{
-				//Go into tower placing mode
 				this->m_placingTower = true;
 				this->m_towerId = this->m_towerButtons[0]->GetID();
-
 				ModelIdHolder m;
-
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+				this->m_towerModel->setAlpha(0.5f);
+			}
+			else if(g_keyboard->getKeyState('X') == Keyboard::KEY_PRESSED)
+			{
+				this->m_placingTower = true;
+				this->m_towerId = this->m_towerButtons[1]->GetID();
+				ModelIdHolder m;
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+				this->m_towerModel->setAlpha(0.5f);
+				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+				m_subTowerModel->setAlpha(0.5f);
+			}
+			else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
+			{
+				this->m_placingTower = true;
+				this->m_towerId = this->m_towerButtons[2]->GetID();
+				ModelIdHolder m;
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+				this->m_towerModel->setAlpha(0.5f);
+			}
+			else if(g_keyboard->getKeyState('V') == Keyboard::KEY_PRESSED)
+			{
+				this->m_placingTower = true;
+				this->m_towerId = this->m_towerButtons[3]->GetID();
+				ModelIdHolder m;
 				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
-
-				/*case Skill::TESLA_CHAIN_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
-					break;
-				case Skill::FROST_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-					m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
-					m_subTowerModel->setAlpha(0.5f);
-					break;
-				case Skill::POISON_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
-					break;
-				}*/
-
 				this->m_towerModel->setAlpha(0.5f);
 			}
 		}
