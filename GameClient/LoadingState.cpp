@@ -2,8 +2,9 @@
 #include "Graphics.h"
 #include "SoundWrapper.h"
 
-LoadingState::LoadingState(Client* _network)
+LoadingState::LoadingState(Client* _network, string _mapName) : State(State::LOADING)
 {
+	m_mapName = _mapName;
 	m_network = _network;
 	m_skip = new Button();
 	m_skip->Init(FLOAT2(0.5f, -0.8f), FLOAT2(0.3f, 0.15f), "menu_textures/skip.png", "");
@@ -20,6 +21,18 @@ LoadingState::LoadingState(Client* _network)
 			g_graphicsEngine->removeModel(temp);
 		}
 	}
+
+	//Sprite *tempSprite;
+	//SkillIdHolder skillIdHolder;
+
+	//for(int i = 0; i < skillIdHolder.getNrOfIds(); i++)
+	//{
+	//	if(skillIdHolder.getSkill(i) != "")
+	//	{
+	//		tempSprite = g_graphicsEngine->createSprite(skillIdHolder.getSkill(i), FLOAT2(0.0f, 0.0f), FLOAT2(1.0f, 1.0f), 0);
+	//		g_graphicsEngine->removeSprite(tempSprite);
+	//	}
+	//}
 }
 
 LoadingState::~LoadingState()
@@ -43,4 +56,9 @@ void LoadingState::update(float _dt)
 		m_network->sendMessage(NetworkReadyMessage(true));
 		this->setDone(true);
 	}
+}
+
+string LoadingState::getMapName()
+{
+	return this->m_mapName;
 }

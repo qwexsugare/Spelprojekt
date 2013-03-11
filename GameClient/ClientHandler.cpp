@@ -163,14 +163,14 @@ void ClientHandler::update(float _dt)
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
-			if(tempState->getType() == State::LOBBY)
+			if(tempState->getType() == State::LOADING)
 			{
-				LobbyState *tempLobbyState = (LobbyState*)tempState;
-				this->m_state = new GameState(this->m_client, tempLobbyState->getMapName());
+				LoadingState *tempLoadingState = (LoadingState*)tempState;
+				this->m_state = new GameState(this->m_client, tempLoadingState->getMapName());
 			}
 			else
 			{
-				this->m_state = new GameState(this->m_client, "levelone.txt");
+				this->m_state = new GameState(this->m_client, "levelone");
 			}
 			break;
 		case State::SETTINGS:
@@ -183,7 +183,11 @@ void ClientHandler::update(float _dt)
 			this->m_state = new EndState(((GameState*)tempState)->isVictorious());
 			break;
 		case State::LOADING:
-			this->m_state = new LoadingState(m_client);
+			if(true)
+			{
+				LobbyState *tempLobbyState = (LobbyState*)tempState;
+				this->m_state = new LoadingState(m_client, tempLobbyState->getMapName());
+			}
 			break;
 		case State::EXIT:
 			this->m_state = NULL;

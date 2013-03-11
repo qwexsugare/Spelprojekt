@@ -196,3 +196,7 @@ void Skill_Buttons::setCooldown(float cooldown)
 	this->m_cooldown->playAnimation(INT2(0, 0), INT2(3, 2), false, 12.0f / cooldown);
 	this->m_cooldownTime = cooldown;
 }
+bool Skill_Buttons::getActiveorPassive()
+{
+	return this->m_Active;
+}
