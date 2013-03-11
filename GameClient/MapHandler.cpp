@@ -255,12 +255,15 @@ void MapHandler::loadMap(std::string filename)
 	ifstream file;
 	file.open(waveName.c_str());
 
-	while(!file.eof())
+	if(file.is_open())
 	{
-		int q,w,e,r,t,y,u,i;
-		q=w=e=r=t=y=u=i=0;
-		file >> q >> w >> e >> r >> t >> y >> u >> i;
-		createWave(q,w,e,r,t,y,u,i);
+		while(!file.eof())
+		{
+			int q,w,e,r,t,y,u,i;
+			q=w=e=r=t=y=u=i=0;
+			file >> q >> w >> e >> r >> t >> y >> u >> i;
+			createWave(q,w,e,r,t,y,u,i);
+		}
 	}
 	file.close();
 

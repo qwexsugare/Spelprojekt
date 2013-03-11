@@ -1,6 +1,6 @@
 #include "ParticleEngine.h"
 
-ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR2 _scale)
+ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR2 _scale)
 {
 	this->device = _device;
 	this->type = _type;
@@ -21,9 +21,13 @@ ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHol
 	//this->particles = NULL;
 	//this->geoParticles = NULL;
 	this->shaderParticles = NULL;
-	this->behavior = ParticleBehavior::CirclePuls;
 
-	this->texture = this->textureHolder->getTexture("./particles/textures/light.png");
+	if(_pe->startBehavior != -1)
+		this->behavior = (ParticleBehavior)_pe->startBehavior;
+	
+	string texturepath = "./particles/textures/";
+
+	this->texture = this->textureHolder->getTexture(texturepath + _pe->textures[0]);
 
 	CreateVertexBuffer();
 	CreateRandomTex();
@@ -71,7 +75,6 @@ void ParticleEngine::CreateVertexBuffer()
 	hr = device->CreateBuffer(&vbd, 0, &streamOutVB);
 	if(FAILED(hr))
 		MessageBox(NULL, "( ParticleEngine ) Failed to create StreamOut Vertex Buffer", NULL, NULL);
-
 }
 
 void ParticleEngine::CreateRandomTex()

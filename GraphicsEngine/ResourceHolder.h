@@ -4,6 +4,7 @@
 #include <map>
 #include "Mesh.h"
 #include "MeshImporter.h"
+#include "ParticleEffectImporter.h"
 #include "TextureHolder.h"
 #include "AnimationHolder.h"
 
@@ -11,6 +12,7 @@ class ResourceHolder
 {
 private:
 	map<string, Mesh*> m_meshes;
+	map<string, ParticleEffect*> m_particleEffects;
 	ID3D10Device* m_device;
 	TextureHolder* m_textureHolder;
 	AnimationHolder* m_animationHolder;
@@ -24,4 +26,5 @@ public:
 	AnimationHolder *getAnimationHolder();
 	Animation getAnimation(string name);
 	string getFilename(Mesh *_mesh);
+	ParticleEffect* getParticleEffect(string filename);
 };

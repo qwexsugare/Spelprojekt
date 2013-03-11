@@ -89,9 +89,11 @@ GameState::GameState(Client *_network, string mapName)
 		break;
 	}
 	m_churchSound = createSoundHandle("gameplay/churchBell1X.wav", false, false);
-
+	
 	m_attackSoundTimer = 0.0f;
+	m_moveSoundTimer = 0.0f;
 	m_idle = false;
+	m_cameraFollowingHero = false;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
@@ -181,12 +183,12 @@ void GameState::update(float _dt)
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id);
 	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
-	//this->m_cursor.setPosition(g_mouse->getPos());
 	SpeechManager::update();
 
 	// Update sound timers
 	m_lowHealthSoundDelayTimer = max(m_lowHealthSoundDelayTimer-_dt, 0.0f);
 	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
+	m_moveSoundTimer = max(m_moveSoundTimer-_dt, 0.0f);
 	if(m_idle)
 	{
 		if(m_idleSoundTimer > 0.0f)
@@ -340,12 +342,6 @@ void GameState::update(float _dt)
 		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
-		case Skill::CHAIN_STRIKE:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), false));
-			break;
-		case Skill::CHAIN_STRIKE_FIRST_EXCEPTION:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), true));
-			break;
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
@@ -366,6 +362,9 @@ void GameState::update(float _dt)
 			break;
 		case Skill::TURRET_CONSTRUCTION:
 			this->m_hud->setTowerConstruction(e.getSenderId());
+			break;
+		case Skill::HEALING_FOUNTAIN:
+			this->m_ClientSkillEffects.push_back(new HealingFountainClientSkillEffect(e.getSenderId()));
 			break;
 		}
 	}
@@ -462,6 +461,9 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::CHAIN_STRIKE:
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getTargetId(), e.getPosition()));
+			break;
 		case Skill::RANGED_ATTACK:
 			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;
@@ -701,6 +703,11 @@ void GameState::update(float _dt)
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
 				m_hud->setTargetEnemy(Enemy::NONE);
+				if(m_moveSoundTimer == 0.0f)
+				{
+					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+					m_moveSoundTimer = MOVE_SOUND_DELAY;
+				}
 				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
 				m_idle = false;
 			}
@@ -709,6 +716,38 @@ void GameState::update(float _dt)
 	else if(g_mouse->isRButtonReleased())
 	{
 
+	}
+	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED && g_keyboard->getKeyState(VK_SHIFT) != Keyboard::KEY_UP)
+	{
+		m_cameraFollowingHero = !m_cameraFollowingHero;
+	}
+	if(m_cameraFollowingHero)
+	{
+		g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().x);
+		g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
+	}
+	else if(m_playerInfos.size() > 0 && g_keyboard->getKeyState(VK_TAB) != Keyboard::KEY_UP)
+	{
+		// Find closest hero
+		float closestDistance = 9000.0f;
+		float closestIndex = -1;
+		for(int i = 0; i < m_playerInfos.size(); i++)
+		{
+			if(i != m_yourId)
+			{
+				float dist = (ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition() - ClientEntityHandler::getEntity(m_playerInfos[i].id)->m_model->getPosition()).length();
+				if(dist < closestDistance)
+				{
+					closestIndex = i;
+					closestDistance = dist;
+				}
+			}
+		}
+		if(closestIndex != -1)
+		{
+			g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().x);
+			g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
+		}
 	}
 }
 
