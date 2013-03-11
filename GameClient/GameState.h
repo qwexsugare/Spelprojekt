@@ -35,6 +35,7 @@ private:
 	Button* m_exitButton;
 	bool m_idle;
 	float m_idleSoundTimer;
+	bool m_cameraFollowingHero;
 
 	// Sounds
 	AmbientSoundsManager m_ambientSoundsManager;

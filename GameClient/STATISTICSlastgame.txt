@@ -1,8 +1,136 @@
 Game statistics: 
 ----------------
-Time played: 0
-Life remaining: 100
-Reached wave: 0
+Time played: 70.1114
+Life remaining: 97
+Reached wave: 1
 
 Player Statistics:
 ------------------
+Player name: 
+Hero played: Engineer
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 0
+
+Damage statistics: 
+Total damage dealt: 0
+Physical damage taken: 0
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+991410270
+0
+0
+0
+0
+0
+0
+0
+65536
+1935751789
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+929773334
+1036271040
+891172104
+915813960
+32768
+920663770
+931411840
+1000160140
+842805793
+874525724
+976632358
+818229410
+1008811032
+1069301654
+878195782
+931870540
+1001667496
+892810530
+---------------
+Player name: Trolle-G
+Hero played: Doctor
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 0
+
+Damage statistics: 
+Total damage dealt: 0
+Physical damage taken: 0
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+991410270
+0
+0
+0
+0
+0
+0
+0
+65536
+1935751789
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+929773334
+1036271040
+891172104
+915813960
+32768
+920663770
+931411840
+1000160140
+842805793
+874525724
+976632358
+818229410
+1008811032
+1069301654
+878195782
+931870540
+1001667496
+892810530
+---------------

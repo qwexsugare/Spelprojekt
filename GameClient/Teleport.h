@@ -9,7 +9,7 @@ private:
 	BoundingOrientedBox m_obb;
 
 	static const float COOLDOWN;
-	static const int RANGE = 10;
+	static const int RANGE = 40;
 public:
 	static const unsigned int COST = 500;
 

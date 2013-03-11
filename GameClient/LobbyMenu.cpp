@@ -59,11 +59,11 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[11] = new Button();
 	this->m_Buttons[11]->Init(FLOAT2(0.30f,-0.27f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player4.dds","",0,0,1);*/
 	this->m_Buttons[8] = new Button();
-	this->m_Buttons[8]->Init(FLOAT2(0.68f, 0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player1.dds","",0,0,1);
+	this->m_Buttons[8]->Init(FLOAT2(0.675f, 0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player1.dds","",0,0,1);
 	this->m_Buttons[9] = new Button();
 	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player2.dds","",0,0,1);
 	this->m_Buttons[10] = new Button();
-	this->m_Buttons[10]->Init(FLOAT2(0.68f, -0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player3.dds","",0,0,1);
+	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player3.dds","",0,0,1);
 	this->m_Buttons[11] = new Button();
 	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player4.dds","",0,0,1);
 	m_doctorPortrait = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);

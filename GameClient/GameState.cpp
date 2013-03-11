@@ -93,6 +93,7 @@ GameState::GameState(Client *_network, string mapName)
 	m_attackSoundTimer = 0.0f;
 	m_moveSoundTimer = 0.0f;
 	m_idle = false;
+	m_cameraFollowingHero = false;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
@@ -713,6 +714,38 @@ void GameState::update(float _dt)
 	else if(g_mouse->isRButtonReleased())
 	{
 
+	}
+	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED && g_keyboard->getKeyState(VK_SHIFT) != Keyboard::KEY_UP)
+	{
+		m_cameraFollowingHero = !m_cameraFollowingHero;
+	}
+	if(m_cameraFollowingHero)
+	{
+		g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().x);
+		g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
+	}
+	else if(m_playerInfos.size() > 0 && g_keyboard->getKeyState(VK_TAB) != Keyboard::KEY_UP)
+	{
+		// Find closest hero
+		float closestDistance = 9000.0f;
+		float closestIndex = -1;
+		for(int i = 0; i < m_playerInfos.size(); i++)
+		{
+			if(i != m_yourId)
+			{
+				float dist = (ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition() - ClientEntityHandler::getEntity(m_playerInfos[i].id)->m_model->getPosition()).length();
+				if(dist < closestDistance)
+				{
+					closestIndex = i;
+					closestDistance = dist;
+				}
+			}
+		}
+		if(closestIndex != -1)
+		{
+			g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().x);
+			g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
+		}
 	}
 }
 
