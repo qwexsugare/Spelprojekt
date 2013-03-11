@@ -23,7 +23,8 @@ ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, int _maxJumps, i
 	{
 		m_position = target->getPosition();
 		target->takeDamage(((Turret*)master)->getOwnerId(), 0, m_baseDamage/(++m_jumps));
-		this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::CHAIN_STRIKE_FIRST_EXCEPTION, m_masterId, m_position));
+		m_lastTargetId = m_masterId;
+		this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHAIN_STRIKE, m_lastTargetId, m_firstTarget, m_position));
 
 		// If max number of jumps is reached, delete me
 		if(m_jumps == m_maxJumps)
@@ -114,7 +115,8 @@ void ChainStrikeEffect::update(float _dt)
 			else
 				m_invalidTargets.push_back(closestValidTarget->getId());
 
-			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::CHAIN_STRIKE, m_masterId, m_position));
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHAIN_STRIKE, m_lastTargetId, closestValidTarget->getId(), m_position));
+			m_lastTargetId = closestValidTarget->getId();
 		}
 		// No target was found, delete me
 		else

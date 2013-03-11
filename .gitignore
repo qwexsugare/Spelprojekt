@@ -2581,6 +2581,24 @@ GameClient/menu_textures/1080HUD_Front.png
 GameClient/menu_textures/1080HUD_Lower.png
 GameClient/menu_textures/1080HUD_Minimap.png
 GameClient/menu_textures/1200HUD.psd
+GameClient/maps/levelone/levelonewaves.txt
+GameClient/maps/levelone/Map för/levelonegm.png
+GameClient/models/DoctorRevolver/DoctorRevolver.BFish
+GameClient/models/FountainAngel/AngelColor.png
+GameClient/models/FountainAngel/AngelNormal.png
+GameClient/models/FountainAngel/FountainAngel.BFish
+GameClient/models/HexaGun/HexaGun.BFish
+GameClient/models/HexaGun/Hexagun_UV_GM_GREEN.png
+GameClient/models/HexaGun/Hexagun_UV_GM_ORANGE.png
+GameClient/models/HexaGun/Hexagun_UV_GM_PURPLE.png
+GameClient/models/Mace/Mace_UV_GM_GREEN.png
+GameClient/models/Mace/Mace_UV_GM_ORANGE.png
+GameClient/models/Mace/Mace_UV_GM_PURPLE.png
+GameClient/models/Mace/Mace_UV_GM_RED.png
+GameClient/models/MeatClever/MeatCleaver_UV_GM_GREEN.png
+GameClient/models/MeatClever/MeatCleaver_UV_GM_ORANGE.png
+GameClient/models/MeatClever/MeatCleaver_UV_GM_PURPLE.png
+GameClient/models/MentalistRevolver/MentalistRevolver.BFish
 GameClient/menu_textures/1200HUD_Front.png
 GameClient/menu_textures/1200HUD_Lower.png
 GameClient/menu_textures/1200HUD_Minimap.png
@@ -2618,3 +2636,7 @@ GameClient/models/MeatClever/MeatCleaver_UV_GM_ORANGE.png
 GameClient/models/MeatClever/MeatCleaver_UV_GM_PURPLE.png
 GameClient/models/MentalistRevolver/MentalistRevolver.BFish
 GameClient/text/Shop.psd
+GameClient/maps/levelone/levelonewaves.txt
+GameClient/menu_textures/MENU-CharacterMenu-Middleground2.png
+GameClient/menu_textures/MENU-CharacterMenu-Middleground3.png
+GameClient/menu_textures/skip.png
