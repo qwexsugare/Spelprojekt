@@ -51,7 +51,7 @@ public:
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
 	DECLDIR bool removeText(Text *text);
 	
-	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size);
+	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size, bool _centered = false);
 	DECLDIR bool removeMyText(MyText *text);
 
 	DECLDIR Model* createModel(Model *_model, bool _static);

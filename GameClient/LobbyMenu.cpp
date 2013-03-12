@@ -30,7 +30,7 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
 	
-	this->m_Buttons.resize(14);
+	this->m_Buttons.resize(12);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
 	this->m_Buttons[1] = new Button();
@@ -45,9 +45,9 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
 
 	this->m_Buttons[6] = new Button();
-	this->m_Buttons[6]->Init(FLOAT2(-0.8f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,15);
+	this->m_Buttons[6]->Init(FLOAT2(-0.8f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,25);
 	this->m_Buttons[7] = new Button();
-	this->m_Buttons[7]->Init(FLOAT2(-0.65f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,15);
+	this->m_Buttons[7]->Init(FLOAT2(-0.65f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,25);
 
 	// Player stuff
 	/*this->m_Buttons[8] = new Button();
@@ -92,12 +92,9 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[16] = new Button();
 	this->m_Buttons[16]->Init(FLOAT2(0.445f,  0.73f),FLOAT2(0.178125f*0.5f,0.194444444f*0.5f),"menu_textures\\CharacterMenu-Button-Mentalist.png","",0,0,1);*/
 
-	this->m_Buttons[12] = new Button();
-	this->m_Buttons[12]->Init(FLOAT2(0.60f, 0.3f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Right.png","",0,0,6);
-	this->m_Buttons[13] = new Button();
-	this->m_Buttons[13]->Init(FLOAT2(-0.60f, 0.3f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Left.png","",0,0,6);
+
 	
-	this->m_slider.Init(FLOAT2(-0.5f, -0.45f), 0.0f, FLOAT2(0.05f,0.05f),"menu_textures\\Arrow-Up.png","", 0.0f, 1.0f, 1, 15);
+	this->m_slider.Init(FLOAT2(-0.5f, -0.30f), 0.0f, FLOAT2(0.05f,0.05f),"menu_textures\\Arrow-Up.png","", 0.0f, 1.0f, 1, 15);
 
 	this->m_Label.resize(5);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
@@ -136,6 +133,10 @@ LobbyMenu::~LobbyMenu(void)
 	g_graphicsEngine->removeSprite(m_officerPortrait);
 	g_graphicsEngine->removeSprite(m_redKnightPortrait);
 	g_graphicsEngine->removeSprite(m_engineerPortrait);
+	for(int i = 0; i < m_playerNames.size(); i++)
+	{
+		delete m_playerNames[i];
+	}
 }
 void LobbyMenu::Update(float _dt)
 {
@@ -555,4 +556,29 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type)
 	}
 	
 	m_currentSelections[_playerIndex] = _type;
+}
+
+void LobbyMenu::setPlayerName(int _playerIndex, string _name)
+{
+	INT2 pos;
+	switch(_playerIndex)
+	{
+	case 0:
+		//pos = INT2(0.675f, 0.2f);
+		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.2f);
+		break;
+	case 1:
+		//pos = INT2(0.8f, 0.2f);
+		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.2f);
+		break;
+	case 2:
+		//pos = INT2(0.675f, -0.2f);
+		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.2f));
+		break;
+	case 3:
+		//pos = INT2(0.8f, -0.2f);
+		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.2f));
+		break;
+	}
+	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
 }
