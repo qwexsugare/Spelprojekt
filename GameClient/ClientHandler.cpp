@@ -179,7 +179,7 @@ void ClientHandler::update(float _dt)
 			this->m_state = new CreditState();
 			break;
 		case State::END:
-			this->m_state = new EndState(((GameState*)tempState)->isVictorious());
+			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage());
 			break;
 		case State::LOADING:
 			if(true)

@@ -25,6 +25,21 @@ bool NetworkEndGameMessage::getVictory()
 	return this->m_victory;
 }
 
+double NetworkEndGameMessage::getTimePlayed()
+{
+	return this->m_timePlayed;
+}
+
+int NetworkEndGameMessage::getIsAtWave()
+{
+	return this->m_isAtWave;
+}
+
+int NetworkEndGameMessage::getStartLife()
+{
+	return this->m_startLife;
+}
+
 sf::Packet& operator<<(sf::Packet& packet,const NetworkEndGameMessage& e)
 {
 	return packet<<*((int*)&e.m_type)<<e.m_victory<<e.m_timePlayed<<e.m_isAtWave<<e.m_startLife;
