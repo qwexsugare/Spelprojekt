@@ -1,5 +1,5 @@
 #include "HudMenu.h"
-
+#include "ClientEntityHandler.h"
 
 HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 {
@@ -17,6 +17,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Buy = false;
 	m_Menu= false;
 	m_Locked = true;
+	m_hasTargetEnemy = false;
 
 	m_Resources = 0;
 	m_DontChange.push_back(false);
@@ -110,7 +111,6 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED]->setVisible(false);
 	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED]->setVisible(false);
-	m_currentTargetEnemy = Enemy::NONE;
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
@@ -223,6 +223,16 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 }
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
 {
+	if(m_hasTargetEnemy)
+	{
+		Entity* currentTarget = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+		if(!currentTarget)
+		{
+			m_hasTargetEnemy = false;
+			m_enemyIcons[Enemy::EnemyType(currentTarget->m_subtype)]->setVisible(false);
+		}
+	}
+
 	for(int i = 0; i < this->m_towerButtons.size(); i++)
 	{
 		this->m_towerButtons[i]->Update();
@@ -859,6 +869,16 @@ void HudMenu::addSkill(unsigned int _skillId)
 	}
 }
 
+void HudMenu::removeTargetEnemy()
+{
+	if(m_hasTargetEnemy)
+	{
+		Entity* currentUnit = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+		m_enemyIcons[Enemy::EnemyType(currentUnit->m_subtype)]->setVisible(false);
+		m_hasTargetEnemy = false;
+	}
+}
+
 void HudMenu::setResources(unsigned int _resources)
 {
 	stringstream ss;
@@ -901,15 +921,22 @@ void HudMenu::setHealth(float health)
 	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.495555556f));
 }
 
-void HudMenu::setTargetEnemy(Enemy::EnemyType _enemyType)
+void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
 {
-	if(m_currentTargetEnemy != Enemy::NONE)
-		m_enemyIcons[m_currentTargetEnemy]->setVisible(false);
+	if(m_hasTargetEnemy)
+	{
+		Entity* currentUnit = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+		m_enemyIcons[Enemy::EnemyType(currentUnit->m_subtype)]->setVisible(false);
+	}
+	else
+	{
+		m_hasTargetEnemy = true;
+	}
 
-	if(_enemyType != Enemy::NONE)
-		m_enemyIcons[_enemyType]->setVisible(true);
+	Entity* targetUnit = ClientEntityHandler::getEntity(_currentTargetEnemyId);
+	m_enemyIcons[Enemy::EnemyType(targetUnit->m_subtype)]->setVisible(true);
 
-	m_currentTargetEnemy = _enemyType;
+	m_currentTargetEnemyId = _currentTargetEnemyId;
 }
 
 void HudMenu::setLivesRemaining(int livesRemaing)
