@@ -83,6 +83,7 @@ public:
 	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId);
 
 	void addSkill(unsigned int _skillId);
+	void removeTargetEnemy();
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);

@@ -701,8 +701,8 @@ void GameState::update(float _dt)
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y), -1);
 			this->m_network->sendMessage(e);
-
-			m_hud->setTargetEnemy(Enemy::NONE);
+			
+			m_hud->removeTargetEnemy();
 			m_idle = false;
 		}
 		else
@@ -724,7 +724,7 @@ void GameState::update(float _dt)
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
-				m_hud->setTargetEnemy(Enemy::NONE);
+				m_hud->removeTargetEnemy();
 				if(m_moveSoundTimer == 0.0f)
 				{
 					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
