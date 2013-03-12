@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 14.7807
-Life remaining: 50
-Reached wave: 0
+Time played: 60.7196
+Life remaining: 49
+Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: WaddaPIgotABigCOck
 Hero played: Red knight
-Deamons killed: 0
+Deamons killed: 1
 Player deaths: 0
-Resources collected: 0
+Resources collected: 41
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
+Total damage dealt: 393
+Physical damage taken: 69
 Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
+Physical damage dealt: 14
+Mental damage dealt: 379
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -54,19 +54,19 @@ Skills used:
 888943786
 1050951318
 919615016
-980367872
-898643202
-1065762599
-808726530
-866268056
-971586010
-1023098013
-16359
-968899004
-889533641
-913389040
-1037254087
-1055211167
-1054359221
-1011563532
+973093253
+866333590
+1056259772
+49152
+853947062
+961362213
+1013464074
+69632
+976763398
+888681702
+884487334
+1039482297
+1023491286
+1021983809
+989280993
 ---------------
