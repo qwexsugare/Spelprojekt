@@ -71,7 +71,6 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	
 	this->m_basePhysicalResistance = 1.0f;
 	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
 	this->m_physicalResistanceChange = 0.0f;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
 	
@@ -257,6 +256,11 @@ void UnitEntity::increaseFortitude(int _fortitude)
 	m_baseMentalResistance -= _fortitude * 0.02f;
 	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 	m_fortitude += _fortitude;
+
+	if(this->m_mentalResistance < 0.0f)
+	{
+		this->m_mentalResistance = 0.0f;
+	}
 }
 
 void UnitEntity::increaseTurretConstruction(int _towerConstruction)
