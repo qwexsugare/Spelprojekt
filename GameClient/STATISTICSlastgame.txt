@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 12.6358
-Life remaining: 10
-Reached wave: 0
+Time played: 142.169
+Life remaining: 0
+Reached wave: 1
 
 Player Statistics:
 ------------------
-Player name: 
-Hero played: Red knight
-Deamons killed: 0
-Player deaths: 0
-Resources collected: 0
-Healed for: 0
+Player name: GDF
+Hero played: Officer
+Deamons killed: 3
+Player deaths: 1
+Resources collected: 72
+Healed for: 27
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
-Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
+Total damage dealt: 640
+Physical damage taken: 311
+Mental damage taken: 143
+Physical damage dealt: 311
+Mental damage dealt: 329
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -60,13 +60,13 @@ Skills used:
 0
 0
 0
-1036271040
-891172104
-915813960
-32768
+3572128
+3570816
+3568024
+3574894
 0
-931411840
+3580698
 0
--2147483638
-874525724
+-2147483533
+1537886748
 ---------------
