@@ -30,7 +30,7 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
 	
-	this->m_Buttons.resize(14);
+	this->m_Buttons.resize(12);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
 	this->m_Buttons[1] = new Button();
@@ -92,12 +92,9 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[16] = new Button();
 	this->m_Buttons[16]->Init(FLOAT2(0.445f,  0.73f),FLOAT2(0.178125f*0.5f,0.194444444f*0.5f),"menu_textures\\CharacterMenu-Button-Mentalist.png","",0,0,1);*/
 
-	this->m_Buttons[12] = new Button();
-	this->m_Buttons[12]->Init(FLOAT2(0.60f, 0.3f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Right.png","",0,0,6);
-	this->m_Buttons[13] = new Button();
-	this->m_Buttons[13]->Init(FLOAT2(-0.60f, 0.3f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Left.png","",0,0,6);
+
 	
-	this->m_slider.Init(FLOAT2(-0.5f, -0.45f), 0.0f, FLOAT2(0.05f,0.05f),"menu_textures\\Arrow-Up.png","", 0.0f, 1.0f, 1, 15);
+	this->m_slider.Init(FLOAT2(-0.5f, -0.30f), 0.0f, FLOAT2(0.05f,0.05f),"menu_textures\\Arrow-Up.png","", 0.0f, 1.0f, 1, 15);
 
 	this->m_Label.resize(5);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);

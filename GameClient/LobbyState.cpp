@@ -15,7 +15,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	m_currentHeroSelected = Hero::HERO_TYPE::NONE;
 
 	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(0.0f, 1.0f, 4.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	dl = g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.6f, 0.6f, 0.6f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
+	dl = g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 
 	speed = 2.5f;
 
@@ -28,80 +28,34 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	float inLightY = 1.6f;
 	float frontLightZ = -0.5f;
 	float frontLightY = 0.5f;
-	cube[0] = g_graphicsEngine->createModel("rum", FLOAT3(x, y, z), false, "color");
-	pl[0] = g_graphicsEngine->createPointLight(FLOAT3(x, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(x, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 2.0f, false, false);
 
-	cube[1] = g_graphicsEngine->createModel("rum", FLOAT3(x + step, y, z), false, "color");
-	pl[1] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	//pl[1] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
-
-	cube[2] = g_graphicsEngine->createModel("rum", FLOAT3(x + step*2, y, z), false, "color");
-	pl[2] = g_graphicsEngine->createPointLight(FLOAT3(x + step*2, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	//pl[2] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
-
-	cube[3] = g_graphicsEngine->createModel("rum", FLOAT3(x + step*3, y, z), false, "color");
-	pl[3] = g_graphicsEngine->createPointLight(FLOAT3(x + step*3, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	//pl[3] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
-
-	cube[4] = g_graphicsEngine->createModel("rum", FLOAT3(x + step*4, y, z), false, "color");
-	pl[4] = g_graphicsEngine->createPointLight(FLOAT3(x + step*4, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	//pl[4] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
-
-	cube[5] = g_graphicsEngine->createModel("rum", FLOAT3(x + step*5, y, z), false, "color");
-	pl[5] = g_graphicsEngine->createPointLight(FLOAT3(x + step*5, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	//pl[5] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
-
-	//boll = g_graphicsEngine->createModel("RolleBoll", FLOAT3(0, 0, 0), false, "color");
-
-	//Officer  
-	officer = g_graphicsEngine->createModel(m_modelIdHolder.getModel(95), FLOAT3(x, y, z), false, m_modelIdHolder.getTexture(95));
-	officer->getAnimation()->PlayLoop("idle");
-	officer->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(95)));
-
-	//RedKnight
-	redKnight = g_graphicsEngine->createModel(m_modelIdHolder.getModel(96), FLOAT3(x + step, y, z), false, m_modelIdHolder.getTexture(96));
-	redKnight->getAnimation()->PlayLoop("2Hidle");
-	redKnight->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(96)));
 	
-	//Engineer
-	engi = g_graphicsEngine->createModel(m_modelIdHolder.getModel(97), FLOAT3(x + step*2, y, z), false, m_modelIdHolder.getTexture(97));
-	engi->getAnimation()->PlayLoop("idle");
-	engi->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(97)));
+	this->m_officer		= new Room(0, 95, "color", "", FLOAT3(x, y, z), step);
+	this->m_redKnight	= new Room(1, 96, "color", "", FLOAT3(x, y, z), step);
+	this->m_engi		= new Room(2, 97, "color", "", FLOAT3(x, y, z), step);
+	this->m_doctor		= new Room(3, 98, "color", "", FLOAT3(x, y, z), step);
+	this->m_mentalist	= new Room(4, 99, "color", "", FLOAT3(x, y, z), step);
+	this->m_emtyRoom	= new Room(5, "color", FLOAT3(x, y, z), step);
+
+	this->m_officer->getCharacter()->getAnimation()->PlayLoop("idle");
+	this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("idle");
+	this->m_engi->getCharacter()->getAnimation()->PlayLoop("idle");
+	this->m_doctor->getCharacter()->getAnimation()->PlayLoop("idle");
+	this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("idle");
 	
-	//Doctor
-	doctor = g_graphicsEngine->createModel(m_modelIdHolder.getModel(98), FLOAT3(x + step*3, y, z), false, m_modelIdHolder.getTexture(98));
-	doctor->getAnimation()->PlayLoop("idle");
-	doctor->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(98)));
-	
-	//Mentalist
-	mentalist = g_graphicsEngine->createModel(m_modelIdHolder.getModel(99), FLOAT3(x + step*4, y, z), false, m_modelIdHolder.getTexture(99));
-	mentalist->getAnimation()->PlayLoop("idle");
-	mentalist->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(99)));
 }
 
 LobbyState::~LobbyState()
 {
 	delete this->m_menu;
 
-	g_graphicsEngine->removeModel(officer);
-	g_graphicsEngine->removeModel(redKnight);
-	g_graphicsEngine->removeModel(engi);
-	g_graphicsEngine->removeModel(doctor);
-	g_graphicsEngine->removeModel(mentalist);
-	//g_graphicsEngine->removeModel(boll);
-	g_graphicsEngine->removeModel(cube[0]);
-	g_graphicsEngine->removeModel(cube[1]);
-	g_graphicsEngine->removeModel(cube[2]);
-	g_graphicsEngine->removeModel(cube[3]);
-	g_graphicsEngine->removeModel(cube[4]);
-	g_graphicsEngine->removeModel(cube[5]);
-	g_graphicsEngine->removePointLight(pl[0]);
-	g_graphicsEngine->removePointLight(pl[1]);
-	g_graphicsEngine->removePointLight(pl[2]);
-	g_graphicsEngine->removePointLight(pl[3]);
-	g_graphicsEngine->removePointLight(pl[4]);
-	g_graphicsEngine->removePointLight(pl[5]);
+	delete m_officer;
+	delete m_redKnight;
+	delete m_engi;
+	delete m_doctor;
+	delete m_mentalist;
+	delete m_emtyRoom;
+
 	g_graphicsEngine->removeDirectionalLight(dl);
 }
 
@@ -147,27 +101,27 @@ void LobbyState::update(float _dt)
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 		float dist;
-		if(cube[0]->intersects(dist, pickOrig, pickDir))
+		if(m_officer->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::OFFICER;
 			m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
 		}
-		else if(cube[1]->intersects(dist, pickOrig, pickDir))
+		else if(m_redKnight->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::RED_KNIGHT;
 			m_network->sendMessage(NetworkSelectHeroMessage(1, this->m_menu->getCombat()));
 		}
-		else if(cube[2]->intersects(dist, pickOrig, pickDir))
+		else if(m_engi->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::ENGINEER;
 			m_network->sendMessage(NetworkSelectHeroMessage(2, this->m_menu->getCombat()));
 		}
-		else if(cube[3]->intersects(dist, pickOrig, pickDir))
+		else if(m_doctor->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::DOCTOR;
 			m_network->sendMessage(NetworkSelectHeroMessage(3, this->m_menu->getCombat()));
 		}
-		else if(cube[4]->intersects(dist, pickOrig, pickDir))
+		else if(m_mentalist->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::THE_MENTALIST;
 			m_network->sendMessage(NetworkSelectHeroMessage(4, this->m_menu->getCombat()));
