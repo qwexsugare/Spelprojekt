@@ -7,11 +7,11 @@ UnitEntity::UnitEntity() : ServerEntity()
 
 	this->m_health = 100;
 	this->m_maxHealth = 100;
-	this->m_strength = 1;
-	this->m_agility = 1;
-	this->m_wits = 1;
-	this->m_fortitude = 1;
-	this->m_turretConstruction = 1;
+	this->m_strength = 0;
+	this->m_agility = 0;
+	this->m_wits = 0;
+	this->m_fortitude = 0;
+	this->m_turretConstruction = 0;
 
 	this->m_baseAttackSpeed = 2.0f;
 	this->m_attackSpeedChange = 0.0f;

@@ -374,6 +374,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(g_mouse->isLButtonReleased())
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
+			m_towerModel = NULL;
 			if(m_subTowerModel)
 			{
 				g_graphicsEngine->removeModel(this->m_subTowerModel);

@@ -7,6 +7,7 @@ Doctor::Doctor(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::DOCTOR, _pla
 	this->increaseAgility(3);
 	this->increaseWits(5);
 	this->increaseFortitude(3);
+	m_turretConstruction = 1;
 	
 	this->m_skills.push_back(new SimonsEvil());
 	this->m_skills.push_back(new LifeRegen());
