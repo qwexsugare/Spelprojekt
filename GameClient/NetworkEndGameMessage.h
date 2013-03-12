@@ -13,6 +13,7 @@ private:
 	int m_startLife;
 
 	vector<StatisticsPlayer> m_players;
+	vector<int> lol;
 public:
 	NetworkEndGameMessage();
 	NetworkEndGameMessage(bool _victory, double _timePlayed, int _isAtWave, int _startLife, vector<StatisticsPlayer> _players);
@@ -22,6 +23,8 @@ public:
 	double getTimePlayed();
 	int getIsAtWave();
 	int getStartLife();
+
+	vector<StatisticsPlayer> getPlayers();
 
 	friend sf::Packet& operator<<(sf::Packet& packet,const NetworkEndGameMessage& e);
 	friend sf::Packet& operator>>(sf::Packet& packet, NetworkEndGameMessage& e);

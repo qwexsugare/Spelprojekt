@@ -40,12 +40,43 @@ int NetworkEndGameMessage::getStartLife()
 	return this->m_startLife;
 }
 
+vector<StatisticsPlayer> NetworkEndGameMessage::getPlayers()
+{
+	return this->m_players;
+}
+
 sf::Packet& operator<<(sf::Packet& packet,const NetworkEndGameMessage& e)
 {
-	return packet<<*((int*)&e.m_type)<<e.m_victory<<e.m_timePlayed<<e.m_isAtWave<<e.m_startLife;
+	packet<<*((int*)&e.m_type)<<e.m_victory<<e.m_timePlayed<<e.m_isAtWave<<e.m_startLife<<e.m_players.size();
+
+	for(int i = 0; i < e.m_players.size(); i++)
+	{
+		packet<<e.m_players[i].getPlayerId()<<e.m_players[i].getPlayerName()<<e.m_players[i].getPlayerHero();
+	}
+
+	return packet;
 }
 
 sf::Packet& operator>>(sf::Packet& packet, NetworkEndGameMessage& e)
 {
-	return packet>>e.m_victory>>e.m_timePlayed>>e.m_isAtWave>>e.m_startLife;
+	packet>>e.m_victory>>e.m_timePlayed>>e.m_isAtWave>>e.m_startLife;
+
+	int nrOfPlayers;
+	packet>>nrOfPlayers;
+
+	for(int i = 0; i < nrOfPlayers; i++)
+	{
+		int id;
+		string name;
+		int heroType;
+
+		packet>>id>>name>>heroType;
+
+		e.m_players.push_back(StatisticsPlayer());
+		e.m_players[i].setId(id);
+		e.m_players[i].setPlayerName(name);
+		e.m_players[i].setHeroType((StatisticsPlayer::HERO_TYPE)heroType);
+	}
+
+	return packet;
 }

@@ -87,6 +87,7 @@ D3DXMATRIX Camera::getProjectionMatrix()
 void Camera::updateViewMatrix()
 {
 	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_position+m_forward), &this->m_up);
+	D3DXMatrixMultiply(&this->m_viewProjectionMatrix, &this->m_viewMatrix, &this->m_projectionMatrix);
 }
 
 void Camera::moveRelative(float forward, float right, float up)
@@ -143,4 +144,9 @@ void Camera::setZ(float _z)
 {
 	this->m_position.z = _z;
 	this->updateViewMatrix();
+}
+
+D3DXMATRIX Camera::getViewProjectionMatrix()
+{
+	return this->m_viewProjectionMatrix;
 }

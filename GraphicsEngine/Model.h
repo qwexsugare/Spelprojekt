@@ -28,6 +28,7 @@ private:
 	bool m_static;
 	bool m_shadow;
 	bool m_neutral;
+	D3DXVECTOR3 m_screenPosition;
 public:
 	Model();
 	Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECTOR3 _position,
@@ -81,4 +82,5 @@ public:
 
 	DECLDIR FLOAT3 getLeftHandPosition();
 	DECLDIR void neutralize();
+	DECLDIR FLOAT2 getScreenPos(D3DXMATRIX viewProjectionMatrix);
 };

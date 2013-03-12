@@ -382,3 +382,11 @@ void Model::neutralize()
 {
 	m_neutral = true;
 }
+
+FLOAT2 Model::getScreenPos(D3DXMATRIX viewProjectionMatrix)
+{
+	D3DXVECTOR4 screenPos;
+	D3DXVec3Transform(&screenPos, &this->getPosition().toD3DXVector(), &viewProjectionMatrix);
+
+	return FLOAT2(screenPos.x / screenPos.w, screenPos.y / screenPos.w);
+}

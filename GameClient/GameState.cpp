@@ -270,6 +270,13 @@ void GameState::update(float _dt)
 			}
 			this->m_hud->setHealth(ueh.getHealth());
 		}
+
+		Entity *e = ClientEntityHandler::getEntity(ueh.getId());
+
+		if(e != NULL)
+		{
+			e->setHealth(ueh.getHealth());
+		}
 	}
 	while(this->m_network->initEntityMessageEmpty()==false)
 	{
