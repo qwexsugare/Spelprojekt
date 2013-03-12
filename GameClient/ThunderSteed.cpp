@@ -12,8 +12,8 @@ ThunderSteed::ThunderSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyTy
 	m_wits           = 2;
 	m_fortitude      = 5;
 
-	m_lowResource    = 80;
-	m_highRescource  = 90;
+	m_lowResource    = 80+20;
+	m_highRescource  = 90+20;
 	
 
 	m_health = 100*m_fortitude; 

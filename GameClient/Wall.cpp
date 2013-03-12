@@ -1,6 +1,6 @@
 #include "Wall.h"
 
-const float Wall::COOLDOWN = 90.0f;
+const float Wall::COOLDOWN = 30.0f;
 
 Wall::Wall() : Skill(Skill::WALL, Wall::COOLDOWN)
 {
