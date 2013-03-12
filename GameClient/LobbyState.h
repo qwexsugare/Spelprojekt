@@ -28,6 +28,8 @@ private:
 	Model* boll;
 	float step;
 	float speed;
+	float cameraRealPos;
+	float distToSlider;
 public:
 	LobbyState();
 	LobbyState(Client* _network);

@@ -13,8 +13,8 @@ BruteSteed::BruteSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::
 	this->increaseWits(1);
 	this->increaseFortitude(8);
 				    
-	m_lowResource    = 90;
-	m_highRescource  = 100;
+	m_lowResource    = 90+20;
+	m_highRescource  = 100+20;
 	
 
 	/*m_health = 100*m_fortitude; 

@@ -18,7 +18,7 @@ bool MeleeAttack::activate(unsigned int _targetId, unsigned int _senderId)
 
 	if(caster != NULL)
 	{
-		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, caster->getPhysicalDamage(), caster->getMentalDamage(), Skill::MELEE_ATTACK));
+		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, max((float)caster->getStrength(), caster->getPhysicalDamage()), max((float)caster->getWits(), caster->getMentalDamage()), Skill::MELEE_ATTACK));
 	}
 
 	return true;

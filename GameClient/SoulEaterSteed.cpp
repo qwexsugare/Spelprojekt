@@ -12,8 +12,8 @@ SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Ene
 	m_wits           = 0;
 	m_fortitude      = 3;
 				     
-	m_lowResource    = 60;
-	m_highRescource  = 70;
+	m_lowResource    = 60+20;
+	m_highRescource  = 70+20;
 	
 
 	m_health = 100*m_fortitude; 

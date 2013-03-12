@@ -12,8 +12,8 @@ HellfireSteed::HellfireSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Enemy
 	this->increaseWits(1);
 	this->increaseFortitude(3);
 
-	m_lowResource    = 70;
-	m_highRescource  = 80;
+	m_lowResource    = 70+20;
+	m_highRescource  = 80+20;
 	
 
 	/*m_health = 100*m_fortitude; 
