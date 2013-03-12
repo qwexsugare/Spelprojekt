@@ -2,7 +2,7 @@
 #include "EntityHandler.h"
 #include "Hero.h"
 
-const float HealingTouch::COOLDOWN = 30.0f;
+const float HealingTouch::COOLDOWN = 15.0f;
 
 HealingTouch::HealingTouch() : Skill(Skill::HEALING_TOUCH, COOLDOWN)
 {
@@ -14,7 +14,7 @@ HealingTouch::~HealingTouch()
 
 }
 
-bool HealingTouch::activate(unsigned int _senderId, unsigned int _targetId)
+bool HealingTouch::activate(unsigned int _targetId, unsigned int _senderId)
 {
 	ServerEntity* caster = EntityHandler::getServerEntity(_senderId);
 	ServerEntity* target = EntityHandler::getServerEntity(_targetId);
@@ -23,7 +23,7 @@ bool HealingTouch::activate(unsigned int _senderId, unsigned int _targetId)
 	{
 		if(this->getCurrentCooldown() == 0 && (caster->getPosition() - target->getPosition()).length() <= RANGE)
 		{
-			((Hero*)target)->heal(((Hero*)caster)->getWits()*10);
+			((Hero*)target)->heal(((((Hero*)caster)->getWits()*5)+50)*2);
 			caster->getMessageQueue()->pushOutgoingMessage(new CreateActionTargetMessage(Skill::HEALING_TOUCH, _senderId, _targetId, caster->getPosition()));
 			this->resetCooldown();
 			return true;

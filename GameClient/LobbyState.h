@@ -4,6 +4,9 @@
 #include "LobbyMenu.h"
 #include "client.h"
 #include "ModelIdHolder.h"
+#include "Room.h"
+
+#define numCharacters 5
 
 class LobbyState : public State
 {
@@ -15,14 +18,18 @@ private:
 	Hero::HERO_TYPE m_heroType;
 	string mapName;
 	ModelIdHolder m_modelIdHolder;
-	Model* cube[5];
-	Model* officer;
-	Model* redKnight;
-	Model* engi;
-	Model* doctor;
-	Model* mentalist;
-	PointLight* pl;
+	Room* m_officer;
+	Room* m_redKnight;
+	Room* m_engi;
+	Room* m_doctor;
+	Room* m_mentalist;
+	Room* m_emtyRoom;
+	DirectionalLight* dl;
 	Model* boll;
+	float step;
+	float speed;
+	float cameraRealPos;
+	float distToSlider;
 public:
 	LobbyState();
 	LobbyState(Client* _network);

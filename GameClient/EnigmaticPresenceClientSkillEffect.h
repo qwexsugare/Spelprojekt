@@ -8,7 +8,7 @@ class EnigmaticPresenceClientSkillEffect : public ClientSkillEffect
 private:
 	unsigned int m_masterId;
 	Model* m_model;
-	int m_sound;
+	bool m_active;
 public:
 	EnigmaticPresenceClientSkillEffect(unsigned int _masterId);
 	~EnigmaticPresenceClientSkillEffect();

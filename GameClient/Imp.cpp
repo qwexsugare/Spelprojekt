@@ -14,8 +14,8 @@ Imp::Imp(FLOAT3 _pos, Path _path) : Enemy(_pos,_path, EnemyType::IMP)
 	this->increaseFortitude(1);
 
 
-	m_lowResource = 20;
-	m_highRescource = 30;
+	m_lowResource = 20+20;
+	m_highRescource = 30+20;
 	
 
 	/*m_health = 100*m_fortitude; 

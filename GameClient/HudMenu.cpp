@@ -810,7 +810,7 @@ void HudMenu::addSkill(unsigned int _skillId)
 		if(_skillId == Skill::STRENGTH || _skillId == Skill::AGILITY || _skillId == Skill::WITS || _skillId == Skill::FORTITUDE || _skillId == Skill::TURRET_CONSTRUCTION)
 		{
 			this->m_nrOfAttributesBought++;
-			int cost = 100 * (pow(1.5f, this->m_nrOfAttributesBought));
+			int cost = 75 * (pow(1.2f, this->m_nrOfAttributesBought));
 
 			stringstream ss;
 			ss << cost;

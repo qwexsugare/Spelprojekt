@@ -16,8 +16,8 @@ Shade::Shade(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::SHADE)
 	this->increaseFortitude(1);
 
 
-	m_lowResource = 30;
-	m_highRescource = 40;
+	m_lowResource = 30+20;
+	m_highRescource = 40+20;
 	
 	/*m_health = 100*m_fortitude; 
 	m_physicalDamage = m_strength*5;

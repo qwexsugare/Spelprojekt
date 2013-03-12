@@ -16,6 +16,8 @@ private:
 	ID3D10EffectTechnique* m_drawCirclePulsTechnique;
 	ID3D10EffectTechnique* m_sphereSOTechnique;
 	ID3D10EffectTechnique* m_drawSphereTechnique;
+	ID3D10EffectTechnique* m_fireSOTechnique;
+	ID3D10EffectTechnique* m_drawFireTechnique;
 	
 
 	ID3D10EffectVectorVariable* camPosW;
@@ -39,6 +41,8 @@ public:
 	ID3D10EffectTechnique* getDrawCirclePulsTechnique();
 	ID3D10EffectTechnique* getSphereSOTechnique();
 	ID3D10EffectTechnique* getDrawSphereTechnique();
+	ID3D10EffectTechnique* getFireSOTechnique();
+	ID3D10EffectTechnique* getDrawFireTechnique();
 
 
 	ID3D10InputLayout* getInputLayout() {return this->m_vertexLayout;}

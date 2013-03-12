@@ -43,9 +43,6 @@
     <ClCompile Include="SettingsMenu.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="TextInput.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="ServerEntity.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -66,9 +63,6 @@
     </ClCompile>
     <ClCompile Include="Minimap.cpp">
       <Filter>Minimap</Filter>
-    </ClCompile>
-    <ClCompile Include="TextLabel.cpp">
-      <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="Skill.cpp">
       <Filter>Server\Skills</Filter>
@@ -493,6 +487,9 @@
     <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="EndState.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Client\States</Filter>
     </ClCompile>
@@ -535,8 +532,20 @@
     <ClCompile Include="HealingFountainClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkPlayerJoinedMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
     <ClCompile Include="EndState.cpp">
       <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="TextInput.cpp">
+      <Filter>Client\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="TextLabel.cpp">
+      <Filter>Client\Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -588,9 +597,6 @@
     <ClInclude Include="SettingsMenu.h">
       <Filter>Client</Filter>
     </ClInclude>
-    <ClInclude Include="TextInput.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="ServerThread.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -614,9 +620,6 @@
     </ClInclude>
     <ClInclude Include="Minimap.h">
       <Filter>Minimap</Filter>
-    </ClInclude>
-    <ClInclude Include="TextLabel.h">
-      <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="Skill.h">
       <Filter>Server\Skills</Filter>
@@ -1073,6 +1076,9 @@
     <ClInclude Include="NetworkWelcomeMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="EndState.h">
+      <Filter>Client</Filter>
+    </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Client\States</Filter>
     </ClInclude>
@@ -1109,8 +1115,20 @@
     <ClInclude Include="HealingFountainClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkPlayerJoinedMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Client</Filter>
+    </ClInclude>
     <ClInclude Include="EndState.h">
       <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLabel.h">
+      <Filter>Client\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="TextInput.h">
+      <Filter>Client\Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1167,6 +1185,9 @@
     </Filter>
     <Filter Include="Client\States">
       <UniqueIdentifier>{1c8bcbfa-fdec-4525-a90b-93e335c1f456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Text">
+      <UniqueIdentifier>{c974c764-1ddd-4c83-8702-17ef1d7a54fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -5,8 +5,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 {
 	this->m_regularAttack = NULL;
 
-	this->m_health = 100;
-	this->m_maxHealth = 100;
+	this->m_health = this->m_maxHealth = 0.0f;
 	this->m_strength = 0;
 	this->m_agility = 0;
 	this->m_wits = 0;
@@ -17,7 +16,10 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
 	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
+
+	this->m_baseMentalDamage = 1.0f;
+	this->m_mentalDamageChange = 0.0f;
+	this->m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
 
 	this->m_baseMovementSpeed = 2.0f;
 	this->m_movementSpeedChange = 0.0f;
@@ -68,7 +70,6 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	
 	this->m_basePhysicalResistance = 1.0f;
 	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
 	this->m_physicalResistanceChange = 0.0f;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
 	
@@ -254,6 +255,11 @@ void UnitEntity::increaseFortitude(int _fortitude)
 	m_baseMentalResistance -= _fortitude * 0.02f;
 	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 	m_fortitude += _fortitude;
+
+	if(this->m_mentalResistance < 0.0f)
+	{
+		this->m_mentalResistance = 0.0f;
+	}
 }
 
 void UnitEntity::increaseTurretConstruction(int _towerConstruction)
