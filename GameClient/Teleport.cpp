@@ -6,7 +6,7 @@
 
 extern Pathfinder* g_pathfinder;
 
-const float Teleport::COOLDOWN = 30.0f;
+const float Teleport::COOLDOWN = 15.0f;
 
 Teleport::Teleport() : Skill(Skill::TELEPORT, COOLDOWN)
 {

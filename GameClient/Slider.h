@@ -76,7 +76,7 @@ public:
 	void Update();
 	int GetSliderReaction();
 	float ReturnSliderValue();
-	void setPosition(FLOAT2 _pos);
+	void setPosition(float _pos);
 	void SetID(int _id);
 	int GetID();
 	int LoseAmountOfResources(int _resources);
