@@ -46,11 +46,13 @@ private:
 	void DrawGPUCirclePuls(ParticleEngineEffectFile* _particleRendering);
 	void DrawGPUSphere(ParticleEngineEffectFile* _particleRendering);
 	void DrawGPUUpSideDownTwist(ParticleEngineEffectFile* _particleRendering);
+	void DrawGPUFire(ParticleEngineEffectFile* _particleRendering);
 	
 	enum ParticleBehavior{	Beacon,
 							CirclePuls, 
 							Sphere, 
-							UpSideDownTwist};
+							UpSideDownTwist,
+							Fire};
 
 	ParticleBehavior behavior;
 

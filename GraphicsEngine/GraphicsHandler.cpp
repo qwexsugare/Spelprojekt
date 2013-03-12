@@ -71,6 +71,19 @@ bool GraphicsHandler::removeParticleEngine(ParticleEngine* _particleEngine)
 	return m_world->removeParticleEngine(_particleEngine);
 }
 
+ChainEffect* GraphicsHandler::createChainEffect()
+{
+	ChainEffect* ce = new ChainEffect();
+	m_world->addChainEffect(ce);
+	return ce;
+}
+
+bool GraphicsHandler::removeChainEffect(ChainEffect* _chainEffect)
+{
+	return m_world->removeChainEffect(_chainEffect);
+}
+
+
 Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps, vector<string> _specularMaps)
 {
 	// Pre-define a shitload of vars

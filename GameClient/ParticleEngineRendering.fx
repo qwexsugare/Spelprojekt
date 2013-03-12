@@ -6,6 +6,7 @@
 #include "Beacon.fx"
 #include "CirclePuls.fx"
 #include "Sphere.fx"
+#include "Fire.fx"
 
 Particle StreamOutVS(Particle input)
 {
@@ -152,6 +153,31 @@ technique10 DrawSphere
 	pass P0
 	{
 		SetVertexShader(	CompileShader( vs_4_0, SphereVS() ) );
+		SetGeometryShader(	CompileShader( gs_4_0, DrawGS() ) );
+		SetPixelShader (	CompileShader( ps_4_0, DrawPS() ) );
+		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );
+		SetDepthStencilState( NoDepthWrites, 0 );
+	}
+}
+
+//Fire
+//
+technique10 FireSOTech
+{
+	pass P0
+	{
+		SetVertexShader( CompileShader( vs_4_0, StreamOutVS() ) );
+		SetGeometryShader( gsFireSO );
+		SetPixelShader ( NULL );
+		SetDepthStencilState( DisableDepth, 0 );
+	}
+}
+
+technique10 DrawFire
+{
+	pass P0
+	{
+		SetVertexShader(	CompileShader( vs_4_0, FireVS() ) );
 		SetGeometryShader(	CompileShader( gs_4_0, DrawGS() ) );
 		SetPixelShader (	CompileShader( ps_4_0, DrawPS() ) );
 		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );

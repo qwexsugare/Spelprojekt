@@ -14,60 +14,95 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	this->m_menu = new LobbyMenu();
 	m_currentHeroSelected = Hero::HERO_TYPE::NONE;
 
-	pl = g_graphicsEngine->createPointLight(FLOAT3(-1.3f, 0.0f, 4.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	//g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
+	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(0.0f, 1.0f, 4.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
+	dl = g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.6f, 0.6f, 0.6f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 
-	// 2.063
+	speed = 2.5f;
+
+	// 1.899036
+	step = 1.899036f;
+	float x = -1.4f;
 	float y =  -0.5f;
-	cube[0] = g_graphicsEngine->createModel("rum", FLOAT3(-1.55f, y, 6), false, "color");
-	cube[1] = g_graphicsEngine->createModel("rum", FLOAT3(0.543f, y, 6), false, "color");
-	cube[2] = g_graphicsEngine->createModel("rum", FLOAT3(2.636f, y, 6), false, "color");
-	cube[3] = g_graphicsEngine->createModel("rum", FLOAT3(2555.636f, y, 6), false, "color");
-	cube[4] = g_graphicsEngine->createModel("rum", FLOAT3(2555.636f, y, 6), false, "color");
+	float z = 6;
+	float inLightZ = -0.5;
+	float inLightY = 1.6f;
+	float frontLightZ = -0.5f;
+	float frontLightY = 0.5f;
+	cube[0] = g_graphicsEngine->createModel("rum", FLOAT3(x, y, z), false, "color");
+	pl[0] = g_graphicsEngine->createPointLight(FLOAT3(x, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
+	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(x, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 2.0f, false, false);
 
-	boll = g_graphicsEngine->createModel("RolleBoll", FLOAT3(0, 0, 0), false, "color");
+	cube[1] = g_graphicsEngine->createModel("rum", FLOAT3(x + step, y, z), false, "color");
+	pl[1] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
+	//pl[1] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
 
-	////Officer  
-	//officer = g_graphicsEngine->createModel(m_modelIdHolder.getModel(95), FLOAT3(-1.3f, y, 4), false, m_modelIdHolder.getTexture(95));
-	//officer->getAnimation()->PlayLoop("idle");
-	//officer->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(95)));
+	cube[2] = g_graphicsEngine->createModel("rum", FLOAT3(x + step*2, y, z), false, "color");
+	pl[2] = g_graphicsEngine->createPointLight(FLOAT3(x + step*2, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
+	//pl[2] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
 
-	////RedKnight
-	//redKnight = g_graphicsEngine->createModel(m_modelIdHolder.getModel(96), FLOAT3(-0.4f, y, 4), false, m_modelIdHolder.getTexture(96));
-	//redKnight->getAnimation()->PlayLoop("2Hidle");
-	//redKnight->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(96)));
-	//
-	////Engineer
-	//engi = g_graphicsEngine->createModel(m_modelIdHolder.getModel(97), FLOAT3(0.5, y, 4), false, m_modelIdHolder.getTexture(97));
-	//engi->getAnimation()->PlayLoop("RangeAttack");
-	//engi->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(97)));
-	//
-	////Doctor
-	//doctor = g_graphicsEngine->createModel(m_modelIdHolder.getModel(98), FLOAT3(1.4f, y, 4), false, m_modelIdHolder.getTexture(98));
-	//doctor->getAnimation()->PlayLoop("ChainLight");
-	//doctor->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(98)));
+	cube[3] = g_graphicsEngine->createModel("rum", FLOAT3(x + step*3, y, z), false, "color");
+	pl[3] = g_graphicsEngine->createPointLight(FLOAT3(x + step*3, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
+	//pl[3] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
+
+	cube[4] = g_graphicsEngine->createModel("rum", FLOAT3(x + step*4, y, z), false, "color");
+	pl[4] = g_graphicsEngine->createPointLight(FLOAT3(x + step*4, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
+	//pl[4] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
+
+	cube[5] = g_graphicsEngine->createModel("rum", FLOAT3(x + step*5, y, z), false, "color");
+	pl[5] = g_graphicsEngine->createPointLight(FLOAT3(x + step*5, y + inLightY, z), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
+	//pl[5] = g_graphicsEngine->createPointLight(FLOAT3(x + step, y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
+
+	//boll = g_graphicsEngine->createModel("RolleBoll", FLOAT3(0, 0, 0), false, "color");
+
+	//Officer  
+	officer = g_graphicsEngine->createModel(m_modelIdHolder.getModel(95), FLOAT3(x, y, z), false, m_modelIdHolder.getTexture(95));
+	officer->getAnimation()->PlayLoop("idle");
+	officer->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(95)));
+
+	//RedKnight
+	redKnight = g_graphicsEngine->createModel(m_modelIdHolder.getModel(96), FLOAT3(x + step, y, z), false, m_modelIdHolder.getTexture(96));
+	redKnight->getAnimation()->PlayLoop("2Hidle");
+	redKnight->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(96)));
 	
-	////Mentalist
-	//mentalist = g_graphicsEngine->createModel(m_modelIdHolder.getModel(99), FLOAT3(1.25f, y, 4), false, m_modelIdHolder.getTexture(99));
-	//mentalist->getAnimation()->PlayLoop("idle");
-	//mentalist->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(99)));
+	//Engineer
+	engi = g_graphicsEngine->createModel(m_modelIdHolder.getModel(97), FLOAT3(x + step*2, y, z), false, m_modelIdHolder.getTexture(97));
+	engi->getAnimation()->PlayLoop("idle");
+	engi->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(97)));
+	
+	//Doctor
+	doctor = g_graphicsEngine->createModel(m_modelIdHolder.getModel(98), FLOAT3(x + step*3, y, z), false, m_modelIdHolder.getTexture(98));
+	doctor->getAnimation()->PlayLoop("idle");
+	doctor->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(98)));
+	
+	//Mentalist
+	mentalist = g_graphicsEngine->createModel(m_modelIdHolder.getModel(99), FLOAT3(x + step*4, y, z), false, m_modelIdHolder.getTexture(99));
+	mentalist->getAnimation()->PlayLoop("idle");
+	mentalist->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(99)));
 }
 
 LobbyState::~LobbyState()
 {
 	delete this->m_menu;
 
-	//g_graphicsEngine->removeModel(officer);
-	//g_graphicsEngine->removeModel(redKnight);
-	//g_graphicsEngine->removeModel(engi);
-	//g_graphicsEngine->removeModel(doctor);
-	//g_graphicsEngine->removeModel(mentalist);
-	g_graphicsEngine->removeModel(boll);
+	g_graphicsEngine->removeModel(officer);
+	g_graphicsEngine->removeModel(redKnight);
+	g_graphicsEngine->removeModel(engi);
+	g_graphicsEngine->removeModel(doctor);
+	g_graphicsEngine->removeModel(mentalist);
+	//g_graphicsEngine->removeModel(boll);
 	g_graphicsEngine->removeModel(cube[0]);
 	g_graphicsEngine->removeModel(cube[1]);
 	g_graphicsEngine->removeModel(cube[2]);
 	g_graphicsEngine->removeModel(cube[3]);
 	g_graphicsEngine->removeModel(cube[4]);
+	g_graphicsEngine->removeModel(cube[5]);
+	g_graphicsEngine->removePointLight(pl[0]);
+	g_graphicsEngine->removePointLight(pl[1]);
+	g_graphicsEngine->removePointLight(pl[2]);
+	g_graphicsEngine->removePointLight(pl[3]);
+	g_graphicsEngine->removePointLight(pl[4]);
+	g_graphicsEngine->removePointLight(pl[5]);
+	g_graphicsEngine->removeDirectionalLight(dl);
 }
 
 void LobbyState::update(float _dt)
@@ -75,20 +110,36 @@ void LobbyState::update(float _dt)
 	this->m_menu->Update(_dt);
 
 	if(GetKeyState(VK_LEFT) < 0)
-		pl->setPosition(pl->getPosition() + FLOAT3(-0.05f, 0, 0));
+	{
+		if(g_graphicsEngine->getCamera()->getPos().x >= 0)
+		{
+			FLOAT2 newPos = FLOAT2(g_graphicsEngine->getCamera()->getPos().x, g_graphicsEngine->getCamera()->getPos().y);
+			g_graphicsEngine->getCamera()->set( newPos + FLOAT2(-speed * _dt, 0));
+			//pl[0]->setPosition(pl[0]->getPosition() + FLOAT3(-0.05f, 0, 0));
+		}
+	}
 	if(GetKeyState(VK_RIGHT) < 0)
-		pl->setPosition(pl->getPosition() + FLOAT3(0.05f, 0, 0));
-	if(GetKeyState(VK_UP) < 0)
-		pl->setPosition(pl->getPosition() + FLOAT3(0, 0.05f, 0));
-	if(GetKeyState(VK_DOWN) < 0)
-		pl->setPosition(pl->getPosition() + FLOAT3(0, -0.05f, 0));
-	if(GetKeyState(VK_F1) < 0)
-		pl->setPosition(pl->getPosition() + FLOAT3(0, 0, 0.05f));
-	if(GetKeyState(VK_F2) < 0)
-		pl->setPosition(pl->getPosition() + FLOAT3(0, 0, -0.05f));
+	{
+		if(g_graphicsEngine->getCamera()->getPos().x <= step*3)
+		{
+			FLOAT2 newPos = FLOAT2(g_graphicsEngine->getCamera()->getPos().x, g_graphicsEngine->getCamera()->getPos().y);
+			g_graphicsEngine->getCamera()->set( newPos + FLOAT2(speed * _dt, 0));
+			//pl[0]->setPosition(pl[0]->getPosition() + FLOAT3(0.05f, 0, 0));
+		}
+	}
+	//if(GetKeyState(VK_UP) < 0)
+	//	pl->setPosition(pl->getPosition() + FLOAT3(0, 0.05f, 0));
+	//if(GetKeyState(VK_DOWN) < 0)
+	//	pl->setPosition(pl->getPosition() + FLOAT3(0, -0.05f, 0));
+	//if(GetKeyState(VK_F1) < 0)
+	//	pl->setPosition(pl->getPosition() + FLOAT3(0, 0, 0.05f));
+	//if(GetKeyState(VK_F2) < 0)
+	//	pl->setPosition(pl->getPosition() + FLOAT3(0, 0, -0.05f));
 
-	boll->setShadow(false);
-	boll->setPosition(pl->getPosition());
+	//boll->setShadow(false);
+	//boll->setPosition(pl->getPosition());
+
+	
 
 	if(g_mouse->isLButtonReleased())
 	{
