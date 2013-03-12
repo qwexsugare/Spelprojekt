@@ -34,3 +34,8 @@ void Wall::updateSpecificSkill(float _dt)
 {
 
 }
+
+int Wall::getCost()
+{
+	return Wall::COST;
+}

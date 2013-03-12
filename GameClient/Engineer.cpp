@@ -9,8 +9,8 @@ Engineer::Engineer(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::ENGINEER
 	this->increaseFortitude(1);
 	m_turretConstruction = 1;
 
-	this->m_skills.push_back(new TimeIsMoney());
 	this->m_skills.push_back(new EnhancedDevelopment());
+	this->m_skills.push_back(new TimeIsMoney());
 
 	switch(_weaponType)
 	{

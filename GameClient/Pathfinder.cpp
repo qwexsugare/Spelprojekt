@@ -331,3 +331,13 @@ bool Pathfinder::isValidPos(FLOAT2 _pos)
 		return map.isValidPosition(possy);
 	}
 }
+
+int Pathfinder::getHeight()
+{
+	return this->map.getHeight();
+}
+
+int Pathfinder::getWidth()
+{
+	return this->map.getWidth();
+}

@@ -153,6 +153,9 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 
 	}
 
+	this->m_waveText = new TextLabel("1","text5.png", INT2(g_graphicsEngine->getScreenSize().x - 45, 60), 70);
+	this->m_livesRemaining = new TextLabel("", "text5.png", INT2(g_graphicsEngine->getScreenSize().x - 210, 330), 55);
+
 	//Shop buttons
 	for(int i = 0; i < 20; i++)
 	{
@@ -556,15 +559,15 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 
 		// Do the E skill
-		this->m_SkillButtons[0]->Update(_dt);
+		this->m_SkillButtons[1]->Update(_dt);
 
-		if(this->m_SkillButtons.size() > 0 && (g_keyboard->getKeyState('E') == Keyboard::KEY_PRESSED || this->m_SkillButtons[0]->Clicked() > 0))
+		if(this->m_SkillButtons.size() > 0 && (g_keyboard->getKeyState('E') == Keyboard::KEY_PRESSED || this->m_SkillButtons[1]->Clicked() > 0))
 		{
-			if(m_SkillButtons[0]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[0]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[0]->getSkillId() == Skill::TELEPORT || m_SkillButtons[0]->getSkillId() == Skill::HYPNOTIC_STARE
-					|| m_SkillButtons[0]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[0]->getSkillId() == Skill::WALL || m_SkillButtons[0]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
+			if(m_SkillButtons[1]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[1]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[1]->getSkillId() == Skill::TELEPORT || m_SkillButtons[1]->getSkillId() == Skill::HYPNOTIC_STARE
+					|| m_SkillButtons[1]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[1]->getSkillId() == Skill::WALL || m_SkillButtons[1]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
 			{
-				this->m_skillWaitingForTarget = this->m_SkillButtons[0]->getSkillId();
-				this->m_buttonIndex = 0;
+				this->m_skillWaitingForTarget = this->m_SkillButtons[1]->getSkillId();
+				this->m_buttonIndex = 1;
 
 				switch(this->m_skillWaitingForTarget)
 				{
@@ -591,10 +594,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					break;
 				}
 			}
-			else if(m_SkillButtons[0]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[0]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[0]->getSkillId() == Skill::SIMONS_EVIL ||
-					m_SkillButtons[0]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[0]->getSkillId() == Skill::TIME_IS_MONEY)
+			else if(m_SkillButtons[1]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[1]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[1]->getSkillId() == Skill::SIMONS_EVIL ||
+					m_SkillButtons[1]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[1]->getSkillId() == Skill::TIME_IS_MONEY)
 			{
-				this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[0]->getSkillId(), 0));
+				this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[1]->getSkillId(), 1));
 			}
 		}
 
@@ -657,6 +660,7 @@ bool HudMenu::LockIsDown()
 {
 	if(this->m_Buttons[0]->Clicked() == 1)
 	{
+		this->m_network->sendMessage(NetworkBuySkillMessage(Skill::SELL));
 		m_NumberOfSkills = 2;
 		m_SkillHud[0] = -1.5f;
 		m_SkillHud[1] = -1.5f;
@@ -674,6 +678,9 @@ bool HudMenu::LockIsDown()
 		{
 			m_DontChange[i] = false;
 		}
+
+		this->m_NumberOfSkills = 2;
+
 		return true;
 	}
 	else
@@ -748,6 +755,9 @@ HudMenu::~HudMenu(void)
 		g_graphicsEngine->removeModel(m_towerModel);
 	if(m_subTowerModel)
 		g_graphicsEngine->removeModel(m_subTowerModel);
+
+	delete this->m_livesRemaining;
+	delete this->m_waveText;
 }
 
 void  HudMenu::UpdateShop()
@@ -819,18 +829,31 @@ void HudMenu::addSkill(unsigned int _skillId)
 		else
 		{
 			this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
-			this->m_DontChange[m_NumberOfSkills] = false;
-			m_SkillHud[m_NumberOfSkills] = -1.5f;
-			bool checkActive = true;
-			checkActive = this->m_SkillButtons[this->m_NumberOfSkills]->getActiveorPassive();
-			if (checkActive == false && m_NumberOfSkills >=2)
+
+			if(this->m_NumberOfSkills >= 2)
 			{
-				//int numbers = this->m_NumberOfSkills-1;
-				//stringstream ss;
-				//ss << numbers;
-				g_graphicsEngine->removeSprite(m_LabelSprite[m_NumberOfSkills-2]);
-				this->m_LabelSprite[m_NumberOfSkills-2] = (g_graphicsEngine->createSprite("menu_textures\\Label_P.png",FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*(m_NumberOfSkills-2))+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
+				this->m_DontChange[m_NumberOfSkills - 2] = false;
+				m_SkillHud[m_NumberOfSkills - 2] = -1.5f;
+				bool checkActive = true;
+				checkActive = this->m_SkillButtons[this->m_NumberOfSkills]->getActiveorPassive();
+
+				if (checkActive == false)
+				{
+					//int numbers = this->m_NumberOfSkills-1;
+					//stringstream ss;
+					//ss << numbers;
+					g_graphicsEngine->removeSprite(m_LabelSprite[m_NumberOfSkills-2]);
+					this->m_LabelSprite[m_NumberOfSkills-2] = (g_graphicsEngine->createSprite("menu_textures\\Label_P.png",FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*(m_NumberOfSkills-2))+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
+				}
+				else
+				{
+					stringstream ss;
+					ss<<"menu_textures\\Label_"<<m_NumberOfSkills-1<<".png";
+					g_graphicsEngine->removeSprite(m_LabelSprite[m_NumberOfSkills-2]);
+					this->m_LabelSprite[m_NumberOfSkills-2] = (g_graphicsEngine->createSprite(ss.str(),FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*(m_NumberOfSkills-2))+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
+				}
 			}
+
 			this->m_NumberOfSkills++;
 		}
 	}
@@ -889,9 +912,11 @@ void HudMenu::setTargetEnemy(Enemy::EnemyType _enemyType)
 	m_currentTargetEnemy = _enemyType;
 }
 
-void HudMenu::setLivesLeft(int livesLeft)
+void HudMenu::setLivesRemaining(int livesRemaing)
 {
-	//Update some text
+	stringstream ss;
+	ss<<livesRemaing;
+	this->m_livesRemaining->setText(ss.str());
 }
 
 void HudMenu::setStrength(int _strength)
@@ -932,4 +957,11 @@ void HudMenu::setTowerConstruction(int _towerConstruction)
 	stringstream ss;
 	ss<<this->m_towerConstruction;
 	this->m_Attributes[0] = ss.str();
+}
+
+void HudMenu::setWave(int _wave)
+{
+	stringstream ss;
+	ss<<_wave;
+	this->m_waveText->setText(ss.str());
 }

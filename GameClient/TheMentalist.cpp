@@ -9,8 +9,8 @@ TheMentalist::TheMentalist(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::
 	this->increaseFortitude(2);
 	m_turretConstruction = 1;
 	
-	m_skills.push_back(new HypnoticStare());
 	m_skills.push_back(new EnigmaticPresence());
+	m_skills.push_back(new HypnoticStare());
 
 	switch(_weaponType)
 	{

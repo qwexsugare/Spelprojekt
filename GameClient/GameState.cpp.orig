@@ -513,7 +513,12 @@ void GameState::update(float _dt)
 			break;
 		case Skill::CHURCH_REALLY_PENETRATED:
 			playSound(m_churchSound);
+<<<<<<< HEAD
+			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
 			this->m_hud->setLivesRemaining(e.getTargetId());
+=======
+			this->m_hud->setLivesLeft(e.getTargetId());
+>>>>>>> ecaeb80a583edeaf6fb170dad6e95ad6d9f076f9
 			break;
 		}
 	}
@@ -630,25 +635,21 @@ void GameState::update(float _dt)
 	}
 
 	static float CAMERA_SPEED = 12.0f;
-	if(g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState('D') != Keyboard::KEY_UP)
+	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState('D') != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt,
-			m_terrain->getWidth()-g_graphicsEngine->getCamera()->getXOffset()));
+		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt);
 	}
-	else if(g_mouse->getPos().x <= 10 || g_keyboard->getKeyState('A') != Keyboard::KEY_UP)
+	else if((g_mouse->getPos().x <= 10 || g_keyboard->getKeyState('A') != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->setX(max(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt,
-			g_graphicsEngine->getCamera()->getXOffset()));
+		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt);
 	}
-	if(g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState('S') != Keyboard::KEY_UP)
+	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState('S') != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt,
-			0.0f));
+		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt);
 	}
-	else if(g_mouse->getPos().y <= 10 || g_keyboard->getKeyState('W') != Keyboard::KEY_UP)
+	else if((g_mouse->getPos().y <= 10 || g_keyboard->getKeyState('W') != Keyboard::KEY_UP))
 	{
-		g_graphicsEngine->getCamera()->setZ(min(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt,
-			m_terrain->getHeight()-g_graphicsEngine->getCamera()->getZOffset()*2.0f));
+		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
 	}
 
 	D3DXVECTOR3 pickDir;

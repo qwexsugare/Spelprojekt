@@ -199,6 +199,12 @@ int UnitEntity::getSkillIndex(Skill* _skill)
 	return index;
 }
 
+void UnitEntity::removeSkill(int index)
+{
+	delete this->m_skills[index];
+	this->m_skills.erase(this->m_skills.begin() + index);
+}
+
 void UnitEntity::increaseStrength(int _strength)
 {
 	// Prevents the attribute gain to exceed max and minimizes the gain.

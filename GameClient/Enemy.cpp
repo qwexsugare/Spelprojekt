@@ -3,6 +3,8 @@
 #include "MeleeAttack.h"
 #include "Hero.h"
 
+extern Pathfinder* g_pathfinder;
+
 Enemy::Enemy() : UnitEntity()
 {
 	m_type = Type::EnemyType;
@@ -31,6 +33,8 @@ Enemy::Enemy() : UnitEntity()
 	FLOAT3 hoxit = FLOAT3(0.0f,0.0f,0.0f);
 	this->m_isAttacking = false;
 	this->m_oldIsAttacking = false;
+	this->vanishTimer=0.0f;
+	isGoingToVanish=false;
 }
 
 Enemy::Enemy(FLOAT3 _pos, Path _path, EnemyType _type) : UnitEntity(_pos)
@@ -77,6 +81,8 @@ Enemy::Enemy(FLOAT3 _pos, Path _path, EnemyType _type) : UnitEntity(_pos)
 	lastDT=0;
 	m_nextPosition = m_goalPosition;
 	m_dir = m_nextPosition - m_position;
+	this->vanishTimer=0.0f;
+	isGoingToVanish=false;
 }
 
 Enemy::~Enemy()
@@ -101,7 +107,24 @@ void Enemy::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
 	
-	if(this->lastDT>0.1)
+	//if the ai has reached the church, it will tell the server
+	//and starts a timer which makes the ai stand still for x sec
+	if(isGoingToVanish)
+	{
+		vanishTimer+=dt;
+		if(vanishTimer>2)
+		{
+			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+			this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id, this->m_position));
+		}
+		else if(this->m_health <= 0) //The enemy has died
+		{
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
+			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+			this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource, m_highRescource)));
+		}
+	}//else, just run the ai
+	else if(this->lastDT>0.05)
 	{
 		//Handle incoming messages
 		Message *m;
@@ -247,7 +270,9 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 						
 						d =crossProduct(m_position - stat->getPosition(), FLOAT3(0,1,0));
-						d = d/d.length();
+						if(d.length()>0)
+							d = d/d.length();
+
 						m_position = m_position + (v)*m_movementSpeed*lastDT;
 
 						if((m_position+d -stat->getPosition()).length() > (m_position-d -stat->getPosition()).length())
@@ -258,7 +283,8 @@ void Enemy::updateSpecificUnitEntity(float dt)
 						   
 
 						m_dir = v;//m_dir*-1;// + v+d;
-						m_dir = m_dir/m_dir.length();
+						if(m_dir.length()>0)
+							m_dir = m_dir/m_dir.length();
 
 						//m_position = m_position + (m_dir)*m_movementSpeed*lastDT;
 
@@ -272,6 +298,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 					{
 						m_position = m_position -m_dir*m_movementSpeed*lastDT*2;
 						m_dir = FLOAT3(32,0,32) - m_position;
+						if(m_dir.length()>0)
 						m_dir = m_dir/m_dir.length();
 					}
 				
@@ -310,8 +337,10 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 		else if((m_goalPosition-m_position).length() < (this->m_movementSpeed * lastDT)+1 || (m_position - m_destination).length() < m_destinationRadius + 0.1f)
 		{
-			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
-			this->m_messageQueue->pushOutgoingMessage(new EnemyReachedGoalMessage(this->m_id, this->m_position));
+			isGoingToVanish=true;
+			this->m_movementSpeed=0.0f;
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHURCH_PENETRATED, this->m_id, 0, this->m_position));
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 		}
 		
 
@@ -337,6 +366,12 @@ void Enemy::updateSpecificUnitEntity(float dt)
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
 			this->m_oldIsAttacking = this->m_isAttacking;
 		}
+		//if the ai for some reason walks outside the map, it is replaced at its next target position
+		if(m_position.x<0||m_position.x>g_pathfinder->getWidth() ||m_position.z <0 || m_position.z > g_pathfinder->getHeight())
+		{
+			m_position= m_nextPosition;
+		}
+		
 	}
 
 	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
@@ -386,8 +421,8 @@ void Enemy::checkCloseEnemies(float dt)
 					this->updateEnemyAvDir(crossProduct(m_position - closestEnemy->getPosition(), FLOAT3(0,1,0)));
 					closestEnemy->updateEnemyAvDir(m_enemyAvDir*-1);
 			}
-			
-			m_dir = m_dir/m_dir.length();
+			if(m_dir.length()>0)
+				m_dir = m_dir/m_dir.length();
 		}
 		
 	}
@@ -540,7 +575,8 @@ FLOAT3 Enemy::checkStatic(float dt)
 						m_movementSpeed = m_baseMovementSpeed;*/
 
 					m_distanceToStatic = i;
-					avoidDir = avoidDir/avoidDir.length();
+					if(avoidDir.length()>0)
+						avoidDir = avoidDir/avoidDir.length();
 					avoidDir = avoidDir/min(avoidBuffer,1.0f);
 					avoidDir = avoidDir*t;//, 0.4f);
 					avoidDir = avoidDir;
@@ -578,7 +614,7 @@ bool Enemy::outOfBounds(FLOAT3 _pt, int _offset)
 {
 	bool t = false;
 
-	if(_pt.x > 64+_offset || _pt.z > 64+_offset || _pt.x < 0-_offset || _pt.z < 0-_offset)
+	if(_pt.x > g_pathfinder->getWidth()+_offset || _pt.z > g_pathfinder->getHeight()+_offset || _pt.x < 0-_offset || _pt.z < 0-_offset)
 		t = true;
 
 	return t;
