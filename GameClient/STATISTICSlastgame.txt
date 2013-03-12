@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 142.169
-Life remaining: 0
-Reached wave: 1
+Time played: 27.2439
+Life remaining: 10
+Reached wave: 0
 
 Player Statistics:
 ------------------
-Player name: GDF
-Hero played: Officer
-Deamons killed: 3
-Player deaths: 1
-Resources collected: 72
-Healed for: 27
+Player name: WaddaPIgotABigCOck
+Hero played: Red knight
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 640
-Physical damage taken: 311
-Mental damage taken: 143
-Physical damage dealt: 311
-Mental damage dealt: 329
+Total damage dealt: 0
+Physical damage taken: 0
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -27,6 +27,7 @@ Skills used:
 0
 0
 0
+1052173727
 0
 0
 0
@@ -34,19 +35,8 @@ Skills used:
 0
 0
 0
-0
-0
-1065353216
-1065353216
-1053273620
-0
-1055622431
-0
-0
-1055622431
-1065353216
-0
-0
+1768841581
+1935748924
 0
 0
 0
@@ -60,13 +50,23 @@ Skills used:
 0
 0
 0
-3572128
-3570816
-3568024
-3574894
-0
-3580698
-0
--2147483533
-1537886748
+807743516
+888943786
+1048854134
+909588007
+1023818934
+939865955
+1016740994
+1046691417
+1071136708
+914110032
+998128348
+1064976015
+929052500
+829960478
+965163393
+983906951
+814231665
+891893008
+1063141170
 ---------------

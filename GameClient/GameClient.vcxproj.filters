@@ -534,7 +534,10 @@
     </ClCompile>
     <ClCompile Include="NetworkPlayerJoinedMessage.cpp">
       <Filter>Network</Filter>
-    <ClCompile Include="Room.cpp" />
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
     <ClCompile Include="EndState.cpp">
       <Filter>Client\States</Filter>
     </ClCompile>
@@ -543,6 +546,7 @@
     </ClCompile>
     <ClCompile Include="TextLabel.cpp">
       <Filter>Client\Text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1113,7 +1117,10 @@
     </ClInclude>
     <ClInclude Include="NetworkPlayerJoinedMessage.h">
       <Filter>Network</Filter>
-    <ClInclude Include="Room.h" />
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Client</Filter>
+    </ClInclude>
     <ClInclude Include="EndState.h">
       <Filter>Client\States</Filter>
     </ClInclude>
@@ -1122,6 +1129,7 @@
     </ClInclude>
     <ClInclude Include="TextInput.h">
       <Filter>Client\Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

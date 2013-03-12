@@ -12,14 +12,11 @@ EnigmaticPresenceClientSkillEffect::EnigmaticPresenceClientSkillEffect(unsigned 
 	m_model->neutralize();
 	m_model->setAlpha(0.75f);
 	m_model->setShadow(false);
-	m_sound = createSoundHandle("collision.wav", false, true, pos);
-	playSound(m_sound);
 }
 
 EnigmaticPresenceClientSkillEffect::~EnigmaticPresenceClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_model);
-	deactivateSound(m_sound);
 }
 
 void EnigmaticPresenceClientSkillEffect::update(float _dt)
