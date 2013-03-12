@@ -35,6 +35,7 @@ Room::Room(int _index, string _roomDiffuse, FLOAT3 _pos, float _roomWidth)
 	this->m_width = _roomWidth;
 
 	this->m_backLight = NULL;
+	this->m_character = NULL;
 
 	this->m_room = g_graphicsEngine->createModel("rum", FLOAT3(_pos.x + (_roomWidth*_index), _pos.y, _pos.z), false, _roomDiffuse);
 
