@@ -14,7 +14,7 @@ HealingTouch::~HealingTouch()
 
 }
 
-bool HealingTouch::activate(unsigned int _senderId, unsigned int _targetId)
+bool HealingTouch::activate(unsigned int _targetId, unsigned int _senderId)
 {
 	ServerEntity* caster = EntityHandler::getServerEntity(_senderId);
 	ServerEntity* target = EntityHandler::getServerEntity(_targetId);

@@ -133,6 +133,10 @@ LobbyMenu::~LobbyMenu(void)
 	g_graphicsEngine->removeSprite(m_officerPortrait);
 	g_graphicsEngine->removeSprite(m_redKnightPortrait);
 	g_graphicsEngine->removeSprite(m_engineerPortrait);
+	for(int i = 0; i < m_playerNames.size(); i++)
+	{
+		delete m_playerNames[i];
+	}
 }
 void LobbyMenu::Update(float _dt)
 {
