@@ -32,3 +32,8 @@ void CloudOfDarkness::updateSpecificSkill(float _dt)
 {
 
 }
+
+int CloudOfDarkness::getCost()
+{
+	return CloudOfDarkness::COST;
+}

@@ -30,3 +30,8 @@ void StunningStrike::updateSpecificSkill(float _dt)
 {
 
 }
+
+int StunningStrike::getCost()
+{
+	return StunningStrike::COST;
+}

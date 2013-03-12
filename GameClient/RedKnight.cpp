@@ -7,9 +7,10 @@ RedKnight::RedKnight(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::RED_KN
 	this->increaseAgility(2);
 	this->increaseWits(1);
 	this->increaseFortitude(4);
+	m_turretConstruction = 1;
 	
-	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
 	this->m_skills.push_back(new CourageHonorValor());
+	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
 
 	switch(_weaponType)
 	{

@@ -14,5 +14,6 @@ public:
 	~Aim();
 
 	void updateSpecificSkill(float dt);
+	int getCost();
 };
 

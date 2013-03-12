@@ -30,3 +30,8 @@ void DemonicPresence::updateSpecificSkill(float _dt)
 {
 
 }
+
+int DemonicPresence::getCost()
+{
+	return DemonicPresence::COST;
+}

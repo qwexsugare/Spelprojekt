@@ -2645,3 +2645,7 @@ GameClient/models/RolleBoll/RolleBoll.BFish
 GameClient/models/rum/RoomWhole_normals.TIF
 GameClient/models/rum/RoomWhole_occlusion.TIF
 GameClient/models/rum/rum.BFish
+GameClient/particles/effects/DeamonSpit.gzp
+GameClient/particles/textures/blueParticle.png
+GameClient/particles/textures/blueParticle2.png
+GameClient/STATISTICSlastgame.txt

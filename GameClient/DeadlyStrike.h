@@ -16,5 +16,6 @@ public:
 
 	bool activate(unsigned int _targetId, unsigned int _senderId);
 	void updateSpecificSkill(float dt);
+	int getCost();
 };
 

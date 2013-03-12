@@ -36,3 +36,8 @@ void PoisonStrike::updateSpecificSkill(float dt)
 {
 
 }
+
+int PoisonStrike::getCost()
+{
+	return PoisonStrike::COST;
+}

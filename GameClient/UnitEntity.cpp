@@ -7,17 +7,20 @@ UnitEntity::UnitEntity() : ServerEntity()
 
 	this->m_health = 100;
 	this->m_maxHealth = 100;
-	this->m_strength = 1;
-	this->m_agility = 1;
-	this->m_wits = 1;
-	this->m_fortitude = 1;
-	this->m_turretConstruction = 1;
+	this->m_strength = 0;
+	this->m_agility = 0;
+	this->m_wits = 0;
+	this->m_fortitude = 0;
+	this->m_turretConstruction = 0;
 
 	this->m_baseAttackSpeed = 2.0f;
 	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
 	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
+
+	this->m_baseMentalDamage = 1.0f;
+	this->m_mentalDamageChange = 0.0f;
+	this->m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
 
 	this->m_baseMovementSpeed = 2.0f;
 	this->m_movementSpeedChange = 0.0f;
@@ -39,6 +42,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 1;
 	this->m_attackCooldown = 0.0f;
+	this->m_stunTimer = 0.0f;
 	
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
@@ -197,6 +201,12 @@ int UnitEntity::getSkillIndex(Skill* _skill)
 	}
 
 	return index;
+}
+
+void UnitEntity::removeSkill(int index)
+{
+	delete this->m_skills[index];
+	this->m_skills.erase(this->m_skills.begin() + index);
 }
 
 void UnitEntity::increaseStrength(int _strength)

@@ -52,3 +52,8 @@ void Teleport::updateSpecificSkill(float _dt)
 {
 
 }
+
+int Teleport::getCost()
+{
+	return Teleport::COST;
+}

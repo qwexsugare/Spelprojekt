@@ -238,8 +238,12 @@ void ServerThread::update(float dt)
 			{
 				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
 				ServerEntity *e = EntityHandler::getServerEntity((edm->enemyId));
-				this->m_mapHandler->enemyDied();
+<<<<<<< HEAD
+=======
 				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHURCH_REALLY_PENETRATED, edm->enemyId, this->m_mapHandler->getLivesLeft(), edm->position));
+>>>>>>> ecaeb80a583edeaf6fb170dad6e95ad6d9f076f9
+				this->m_mapHandler->enemyDied();
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHURCH_PENETRATED, edm->enemyId, this->m_mapHandler->getLivesLeft(), edm->position));
 			}
 
 			delete m;

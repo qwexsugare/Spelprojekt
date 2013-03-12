@@ -34,3 +34,8 @@ void Greed::updateSpecificSkill(float dt)
 {
 
 }
+
+int Greed::getCost()
+{
+	return Greed::COST;
+}

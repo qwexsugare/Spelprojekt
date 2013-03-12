@@ -30,3 +30,8 @@ void LifestealingStrike::updateSpecificSkill(float dt)
 {
 
 }
+
+int LifestealingStrike::getCost()
+{
+	return LifestealingStrike::COST;
+}
