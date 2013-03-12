@@ -8,26 +8,26 @@ EndState::EndState(NetworkEndGameMessage endMessage)
 	if(endMessage.getVictory() == true)
 	{
 		this->m_background = g_graphicsEngine->createSprite("menu_textures\\MENU-END-1.png", FLOAT2(0.0f, 0.0f), FLOAT2(2.0f, 2.0f), 0);
-		this->m_resultText = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", "VICTORY", INT2(120,100), 100);
+		this->m_resultText = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", "VICTORY", INT2(120,100), 150);
 
 		ss<<"Lives remaining: "<<endMessage.getStartLife();
-		this->m_resultMoreInfo = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", ss.str(), INT2(120,150), 60);
+		this->m_resultMoreInfo = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", ss.str(), INT2(120,250), 50);
 		ss.clear();
 		ss.str("");
 	}
 	else
 	{
 		this->m_background = g_graphicsEngine->createSprite("menu_textures\\MENU-END-0.png", FLOAT2(0.0f, 0.0f), FLOAT2(2.0f, 2.0f), 0);
-		this->m_resultText = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", "DEFEAT", INT2(120,100), 100);
+		this->m_resultText = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", "DEFEAT", INT2(120,100), 150);
 
 		ss<<"Wave: "<<endMessage.getIsAtWave();
-		this->m_resultMoreInfo = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", ss.str(), INT2(120,150), 60);
+		this->m_resultMoreInfo = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", ss.str(), INT2(120,250), 50);
 		ss.clear();
 		ss.str("");
 	}
 
 	ss<<"Time played: "<<endMessage.getTimePlayed()<<" seconds";
-	this->m_timeplayed = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", ss.str(), INT2(120,200), 60);
+	this->m_timeplayed = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", ss.str(), INT2(120,300), 50);
 	ss.clear();
 	ss.str("");
 
@@ -35,8 +35,28 @@ EndState::EndState(NetworkEndGameMessage endMessage)
 
 	for(int i = 0; i < this->m_nrOfPlayers && i < 4; i++)
 	{
-		ss<<endMessage.getPlayers()[i].getPlayerId()<<" "<<endMessage.getPlayers()[i].getPlayerName();
-		this->m_playerInfo[i] = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", ss.str(), INT2(120,250 + i * 50), 60);
+		ss<<endMessage.getPlayers()[i].getPlayerId()<<" "<<endMessage.getPlayers()[i].getPlayerName()<<", ";
+
+		switch(endMessage.getPlayers()[i].getPlayerHero())
+		{
+		case StatisticsPlayer::OFFICER:
+			ss<<"Officer";
+			break;
+		case StatisticsPlayer::RED_KNIGHT:
+			ss<<"Red Knight";
+			break;
+		case StatisticsPlayer::ENGINEER:
+			ss<<"Engineer";
+			break;
+		case StatisticsPlayer::DOCTOR:
+			ss<<"Doctor";
+			break;
+		case StatisticsPlayer::THE_MENTALIST:
+			ss<<"The Mentalist";
+			break;
+		}
+
+		this->m_playerInfo[i] = g_graphicsEngine->createMyText("text5.png", "text/", "offsets.txt", ss.str(), INT2(120,350 + i * 50), 75);
 		ss.clear();
 		ss.str("");
 	}

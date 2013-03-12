@@ -141,8 +141,11 @@ struct Entity
 	void setHealth(float health)
 	{
 		this->m_health = health;
-		float width = ((float)this->m_health / 1000.0f) * this->m_healthBack->getSize().x;
-		this->m_healthFront->setSize(FLOAT2(width, this->m_healthBack->getSize().y));
+		if(health > 0.0f)
+		{
+			float width = ((float)this->m_health / 1000.0f) * this->m_healthBack->getSize().x;
+			this->m_healthFront->setSize(FLOAT2(width, this->m_healthBack->getSize().y));
+		}
 	}
 
 	void healthVisible(bool _visible)
