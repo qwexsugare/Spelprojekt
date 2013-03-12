@@ -94,6 +94,7 @@ GameState::GameState(Client *_network, string mapName)
 	m_moveSoundTimer = 0.0f;
 	m_idle = false;
 	m_cameraFollowingHero = false;
+	this->m_endText = NULL;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
@@ -121,6 +122,10 @@ GameState::~GameState()
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 	if(m_exitButton)
 		delete m_exitButton;
+	if(this->m_endText != NULL)
+	{
+		g_graphicsEngine->removeMyText(this->m_endText);
+	}
 
 	// Release all sounds
 	for(int i = 0; i < GameState::NR_OF_ATTACK_SOUNDS; i++)
@@ -155,17 +160,17 @@ void GameState::update(float _dt)
 {
 	while(m_network->endGameQueueEmpty() == false)
 	{
-		NetworkEndGameMessage e = m_network->endGameQueueFront();
-		m_victory = e.getVictory();
+		this->m_endMessage = m_network->endGameQueueFront();
+		m_victory = this->m_endMessage.getVictory();
 		m_exitButton = new Button();
 		m_exitButton->Init(FLOAT2(0.0f, 0.0f), FLOAT2(0.2f, 0.1f), "menu_textures/Button-MainMenu-ExitGame.png", "");
 		if(m_victory == true)
 		{
-			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100);
+			this->m_endText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100);
 		}
 		else
 		{
-			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100);
+			this->m_endText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100);
 		}
 	}
 
@@ -1018,11 +1023,6 @@ void GameState::importMap(string _map)
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }
 
-bool GameState::isVictorious()const
-{
-	return m_victory;
-}
-
 void GameState::playPursueSound(unsigned int _speakerId)
 {
 	Entity* speaker = ClientEntityHandler::getEntity(_speakerId);
@@ -1155,4 +1155,9 @@ void GameState::playWallDeathSound(FLOAT3 _position)
 	int sound = createSoundHandle("skills/wallEnd.wav", false, true, _position);
 	playSound(sound);
 	deactivateSound(sound);
+}
+
+NetworkEndGameMessage GameState::getEndGameMessage()
+{
+	return this->m_endMessage;
 }

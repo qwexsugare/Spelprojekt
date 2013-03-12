@@ -19,6 +19,9 @@ public:
 	~NetworkEndGameMessage();
 
 	bool getVictory();
+	double getTimePlayed();
+	int getIsAtWave();
+	int getStartLife();
 
 	friend sf::Packet& operator<<(sf::Packet& packet,const NetworkEndGameMessage& e);
 	friend sf::Packet& operator>>(sf::Packet& packet, NetworkEndGameMessage& e);
