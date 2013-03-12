@@ -82,35 +82,35 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 		{
 			FLOAT2 pos = this->getTerrainPos(g_mouse->getPos());
 
-			/*if(pos.x > _terrainWidth-27.0f)
+			if(pos.x > _terrainWidth-g_graphicsEngine->getCamera()->getXOffset())
 			{
-				g_graphicsEngine->getCamera()->setX(_terrainWidth-27.0f);
+				g_graphicsEngine->getCamera()->setX(_terrainWidth-g_graphicsEngine->getCamera()->getXOffset());
 			}
-			else if(pos.x < 27.0f)
+			else if(pos.x < g_graphicsEngine->getCamera()->getXOffset())
 			{
-				g_graphicsEngine->getCamera()->setX(27.0f);
+				g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getXOffset());
 			}
 			else
 			{
 				g_graphicsEngine->getCamera()->setX(pos.x);
 			}
 			
-			if(pos.y < 25.0f)
+			if(pos.y < 0.0f)
 			{
-				g_graphicsEngine->getCamera()->setZ(25.0f);
+				g_graphicsEngine->getCamera()->setZ(0.0f);
 			}
-			else if(pos.y > _terrainHeight-4.0f)
+			else if(pos.y > _terrainHeight-g_graphicsEngine->getCamera()->getZOffset()*2.0f)
 			{
-				g_graphicsEngine->getCamera()->setZ(_terrainHeight-4.0f);
+				g_graphicsEngine->getCamera()->setZ(_terrainHeight-g_graphicsEngine->getCamera()->getZOffset()*2.0f);
 			}
 			else
 			{
 				g_graphicsEngine->getCamera()->setZ(pos.y);
-			}*/
+			}
 
-				g_graphicsEngine->getCamera()->setX(pos.x);
+			/*	g_graphicsEngine->getCamera()->setX(pos.x);
 			
-				g_graphicsEngine->getCamera()->setZ(pos.y);
+				g_graphicsEngine->getCamera()->setZ(pos.y);*/
 		}
 	}
 
