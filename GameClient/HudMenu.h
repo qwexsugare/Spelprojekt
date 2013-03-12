@@ -17,6 +17,7 @@ class HudMenu : public Menu
 private:
 	unsigned int m_currentTargetEnemyId;
 	bool m_hasTargetEnemy;
+	Enemy::EnemyType m_currentTargetType;
 	map<Enemy::EnemyType, Sprite*> m_enemyIcons;
 	SkillIdHolder m_skillHolder;
 	Client *m_network;

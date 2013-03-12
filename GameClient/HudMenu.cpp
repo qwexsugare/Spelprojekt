@@ -229,7 +229,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(!currentTarget)
 		{
 			m_hasTargetEnemy = false;
-			m_enemyIcons[Enemy::EnemyType(currentTarget->m_subtype)]->setVisible(false);
+			m_enemyIcons[m_currentTargetType]->setVisible(false);
 		}
 	}
 
@@ -934,7 +934,8 @@ void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
 	}
 
 	Entity* targetUnit = ClientEntityHandler::getEntity(_currentTargetEnemyId);
-	m_enemyIcons[Enemy::EnemyType(targetUnit->m_subtype)]->setVisible(true);
+	m_currentTargetType = Enemy::EnemyType(targetUnit->m_subtype);
+	m_enemyIcons[m_currentTargetType]->setVisible(true);
 
 	m_currentTargetEnemyId = _currentTargetEnemyId;
 }
