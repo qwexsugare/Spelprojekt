@@ -4,7 +4,7 @@
 #include "Hero.h"
 
 const float HypnoticStare::TIME_FACTOR = 2.0f;
-const float HypnoticStare::COOLDOWN = 60.0f;
+const float HypnoticStare::COOLDOWN = 30.0f;
 
 HypnoticStare::HypnoticStare() : Skill(Skill::HYPNOTIC_STARE, COOLDOWN)
 {

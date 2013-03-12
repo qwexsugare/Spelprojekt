@@ -2,7 +2,7 @@
 #include "EntityHandler.h"
 #include "SimonsEvilEffect.h"
 
-const float SimonsEvil::COOLDOWN = 180.0f;
+const float SimonsEvil::COOLDOWN = 90.0f;
 
 SimonsEvil::SimonsEvil() : Skill(Skill::SIMONS_EVIL, COOLDOWN)
 {

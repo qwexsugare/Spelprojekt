@@ -78,6 +78,8 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	mentalist = g_graphicsEngine->createModel(m_modelIdHolder.getModel(99), FLOAT3(x + step*4, y, z), false, m_modelIdHolder.getTexture(99));
 	mentalist->getAnimation()->PlayLoop("idle");
 	mentalist->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(99)));
+	this->cameraRealPos = 0;
+	distToSlider=0.0f;
 }
 
 LobbyState::~LobbyState()
@@ -103,11 +105,13 @@ LobbyState::~LobbyState()
 	g_graphicsEngine->removePointLight(pl[4]);
 	g_graphicsEngine->removePointLight(pl[5]);
 	g_graphicsEngine->removeDirectionalLight(dl);
+	
 }
 
 void LobbyState::update(float _dt)
 {
 	this->m_menu->Update(_dt);
+
 
 	if(GetKeyState(VK_LEFT) < 0)
 	{
@@ -135,7 +139,27 @@ void LobbyState::update(float _dt)
 
 	float value = this->m_menu->getSlider()->GetValue();
 
-	g_graphicsEngine->getCamera()->set(FLOAT2(this->m_menu->getSlider()->GetValue() * max, 0));
+	//camera linear velocity
+	float camVel=0.8;
+	//distance from the real camera pos to the slider pos
+	distToSlider=abs(cameraRealPos-this->m_menu->getSlider()->GetValue() * max)*3;
+	//if you are close enough, it will keep a constant speed before it stops
+	if(distToSlider<1.0)
+		distToSlider=1.0;
+
+	//camera real pos is the camera position, which tries to reach the position from the slider
+	//if the real pos is inside a certain value, it wont move
+	if(cameraRealPos > this->m_menu->getSlider()->GetValue() * max-0.2&&cameraRealPos < this->m_menu->getSlider()->GetValue() * max+0.2)
+	{
+	}
+	else
+	{	//otherwise, move the cameras pos toward the slider
+		if(cameraRealPos<this->m_menu->getSlider()->GetValue() * max)
+			cameraRealPos+=_dt*camVel*distToSlider;
+		else if(cameraRealPos>this->m_menu->getSlider()->GetValue() * max)
+			cameraRealPos-=_dt*camVel*distToSlider;
+		g_graphicsEngine->getCamera()->set(FLOAT2(cameraRealPos, 0));
+	}
 
 
 	
