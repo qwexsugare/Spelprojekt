@@ -5,6 +5,8 @@
 #include "client.h"
 #include "ModelIdHolder.h"
 
+#define numCharacters 5
+
 class LobbyState : public State
 {
 private:

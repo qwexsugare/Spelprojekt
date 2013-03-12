@@ -127,21 +127,21 @@ void LobbyState::update(float _dt)
 			//pl[0]->setPosition(pl[0]->getPosition() + FLOAT3(0.05f, 0, 0));
 		}
 	}
-	//if(GetKeyState(VK_UP) < 0)
-	//	pl->setPosition(pl->getPosition() + FLOAT3(0, 0.05f, 0));
-	//if(GetKeyState(VK_DOWN) < 0)
-	//	pl->setPosition(pl->getPosition() + FLOAT3(0, -0.05f, 0));
-	//if(GetKeyState(VK_F1) < 0)
-	//	pl->setPosition(pl->getPosition() + FLOAT3(0, 0, 0.05f));
-	//if(GetKeyState(VK_F2) < 0)
-	//	pl->setPosition(pl->getPosition() + FLOAT3(0, 0, -0.05f));
 
-	//boll->setShadow(false);
-	//boll->setPosition(pl->getPosition());
+	float max = step*3;
+	float min = 0;
+
+	float slice = 1/(max-min);
+
+	float value = this->m_menu->getSlider()->GetValue();
+
+	g_graphicsEngine->getCamera()->set(FLOAT2(this->m_menu->getSlider()->GetValue() * max, 0));
+
 
 	
+	float mouseX = (g_mouse->getPos().x / float(g_graphicsEngine->getScreenSize().x))*2-1;
 
-	if(g_mouse->isLButtonReleased())
+	if(g_mouse->isLButtonReleased() && mouseX >= -0.45f && mouseX <= 0.45f)
 	{
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;

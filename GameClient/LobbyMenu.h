@@ -3,6 +3,7 @@
 #include "TextLabel.h"
 #include "TextInput.h"
 #include "Hero.h"
+#include "Slider.h"
 
 class LobbyMenu :
 	public Menu
@@ -27,6 +28,7 @@ public:
 	bool Character2IsDown();
 	bool Character3IsDown();
 	bool Character4IsDown();
+	Slider* getSlider(){return &this->m_slider;}
 
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type);
 	int getCombat();
@@ -37,6 +39,7 @@ private:
 	Sprite* m_engineerPortrait;
 	Sprite* m_redKnightPortrait;
 	Sprite* m_mentalistPortrait;
+	Slider m_slider;
 
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Label;

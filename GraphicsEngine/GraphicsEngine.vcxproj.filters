@@ -174,6 +174,12 @@
     <ClInclude Include="ParticleEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ChainEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainFXEffectFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsHandler.cpp">
@@ -284,6 +290,12 @@
     <ClCompile Include="ParticleEffectImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ChainEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChainFXEffectFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\GameClient\ForwardRendering.fx">
@@ -325,5 +337,11 @@
     <FxCompile Include="..\GameClient\Beacon.fx" />
     <FxCompile Include="..\GameClient\ParticleSystemStructs.fx" />
     <FxCompile Include="..\GameClient\UpSideDownTwist.fx" />
+    <FxCompile Include="..\GameClient\Fire.fx">
+      <Filter>Shader files\ParticleBehavior</Filter>
+    </FxCompile>
+    <FxCompile Include="..\GameClient\ChainEffectRendering.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
