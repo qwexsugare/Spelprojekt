@@ -62,7 +62,7 @@ LobbyState::~LobbyState()
 void LobbyState::update(float _dt)
 {
 	this->m_menu->Update(_dt);
-
+	// waddapigotabigcock
 	if(GetKeyState(VK_LEFT) < 0)
 	{
 		if(g_graphicsEngine->getCamera()->getPos().x >= 0)
@@ -173,6 +173,12 @@ void LobbyState::update(float _dt)
 	{
 		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
 		this->mapName = nwm.getMapName();
+	}
+
+	while(!m_network->playerJoinedMessageQueueEmpty())
+	{
+		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
+		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
 	}
 }
 
