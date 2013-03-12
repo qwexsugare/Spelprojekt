@@ -1,8 +1,29 @@
 Game statistics: 
 ----------------
-Time played: 0
-Life remaining: 50
-Reached wave: 0
+Time played: 60.7196
+Life remaining: 49
+Reached wave: 1
 
 Player Statistics:
 ------------------
+Deamons killed: 1
+Resources collected: 41
+Total damage dealt: 393
+Physical damage taken: 69
+Physical damage dealt: 14
+Mental damage dealt: 379
+973093253
+866333590
+1056259772
+49152
+853947062
+961362213
+1013464074
+69632
+976763398
+888681702
+884487334
+1039482297
+1023491286
+1021983809
+989280993

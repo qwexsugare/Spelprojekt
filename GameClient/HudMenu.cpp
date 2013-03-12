@@ -97,19 +97,19 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	
 	m_enemyIcons[Enemy::EnemyType::IMP] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::IMP]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::SHADE] = g_graphicsEngine->createSprite("menu_textures/Imp-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SHADE] = g_graphicsEngine->createSprite("menu_textures/Imp-3.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::SHADE]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::FROST_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-0.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::FROST_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-0.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::FROST_DEMON]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-1.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-2.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-2.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-3.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-0.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-0.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED]->setVisible(false);
 	
 	this->m_Buttons.resize(2);
@@ -229,7 +229,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(!currentTarget)
 		{
 			m_hasTargetEnemy = false;
-			m_enemyIcons[Enemy::EnemyType(currentTarget->m_subtype)]->setVisible(false);
+			m_enemyIcons[m_currentTargetType]->setVisible(false);
 		}
 	}
 
@@ -471,17 +471,28 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			}
 			else if(m_skillWaitingForTarget == Skill::HYPNOTIC_STARE || m_skillWaitingForTarget == Skill::CHAIN_STRIKE)
 			{
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-						
-				float dist;
-				for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
+				// Check if the target is the pic of the target down in the corner
+				if(m_hasTargetEnemy && m_Images[m_currentTargetType]->intersects(FLOAT2(
+					g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
 				{
-					if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+					Entity* currentTarget = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+					this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, currentTarget->m_id, this->m_buttonIndex));
+				}
+				// Else the pick ray is out on the battlefield
+				else
+				{
+					D3DXVECTOR3 pickDir;
+					D3DXVECTOR3 pickOrig;
+					g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+						
+					float dist;
+					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
 					{
-						this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
-						entityIndex = _entities.size();
+						if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+						{
+							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+							entityIndex = _entities.size();
+						}
 					}
 				}
 			}
@@ -934,7 +945,8 @@ void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
 	}
 
 	Entity* targetUnit = ClientEntityHandler::getEntity(_currentTargetEnemyId);
-	m_enemyIcons[Enemy::EnemyType(targetUnit->m_subtype)]->setVisible(true);
+	m_currentTargetType = Enemy::EnemyType(targetUnit->m_subtype);
+	m_enemyIcons[m_currentTargetType]->setVisible(true);
 
 	m_currentTargetEnemyId = _currentTargetEnemyId;
 }
