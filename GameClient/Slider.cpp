@@ -56,6 +56,7 @@ void Slider::Init(FLOAT2 _ScreenPos,
 
 	// Now for the crazy offset calculation, prepare for the ride of a lifetime!
 	m_Pos.x += _offset;
+	// Here we copy
 	float interval = m_Max-m_Min;
 	float pos = m_Pos.x-m_Min;
 	this->m_Value = pos/interval;
