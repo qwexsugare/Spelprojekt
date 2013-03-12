@@ -73,7 +73,7 @@ LobbyState::~LobbyState()
 void LobbyState::update(float _dt)
 {
 	this->m_menu->Update(_dt);
-
+	// waddapigotabigcock
 	if(GetKeyState(VK_LEFT) < 0)
 		pl->setPosition(pl->getPosition() + FLOAT3(-0.05f, 0, 0));
 	if(GetKeyState(VK_RIGHT) < 0)
