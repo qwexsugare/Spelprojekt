@@ -610,6 +610,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		string pname;
 		packet >> pname;
 		Statistics::getStatisticsPlayer(socketIndex).setPlayerName(pname);
+		//this->broadcast(
 		break;
 	}
 
