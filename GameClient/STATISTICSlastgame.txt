@@ -1,73 +1,13 @@
 Game statistics: 
 ----------------
-Time played: 12.6358
+Time played: 15.8741
 Life remaining: 100
-Reached wave: 1
+Reached wave: 0
 
 Player Statistics:
 ------------------
 Player name: 
 Hero played: Officer
-Deamons killed: 0
-Player deaths: 0
-Resources collected: 0
-Healed for: 0
-
-Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 53
-Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
-Physical skill damage dealt: 0
-Mental skill damage dealt: 0
-
-Skills used: 
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-65536
-1935751789
-0
-381
-1065353216
-0
-0
-0
-0
-0
-0
-0
-0
-929773334
-1036271040
-891172104
-915813960
-32768
-920663770
-931411840
-1000160140
-842805793
-874525724
-976632358
-818229410
-1008811032
-1069301654
-878195782
-931870540
-1001667496
-892810530
----------------
-Player name: Trolle-G
-Hero played: Doctor
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
@@ -87,35 +27,46 @@ Skills used:
 0
 0
 0
-991410270
-0
-0
-3432086
-3429564
-3434196
-3433602
-3420862
-1497570883
-1497564903
 0
 0
 0
-929773334
-1036271040
-891172104
-915813960
-32768
-920663770
-931411840
-1000160140
-842805793
-874525724
-976632358
-818229410
-1008811032
-1069301654
-878195782
-931870540
-1001667496
-892810530
+0
+0
+0
+0
+0
+0
+1065353216
+1065353216
+1053273620
+0
+1055622431
+0
+0
+1055622431
+1065353216
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+3522938
+3521656
+3518842
+3525732
+0
+3531518
+0
+-2147483638
+1646228921
 ---------------
