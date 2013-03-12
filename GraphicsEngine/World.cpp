@@ -716,6 +716,11 @@ void World::render()
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
 	}
+	
+	for(int c = 0; c < m_chainEffects.size(); c++)
+	{
+		//DrawChainEffect
+	}
 
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
@@ -1076,6 +1081,11 @@ void World::update(float dt)
 		pes.top()->Update(dt);
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
+	}	
+	
+	for(int c = 0; c < m_chainEffects.size(); c++)
+	{
+		m_chainEffects[c]->update(dt);
 	}
 
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
@@ -1319,6 +1329,28 @@ bool World::removeSpotLight(SpotLight* _spotLight)
 		{
 			delete this->m_spotLights[i];
 			this->m_spotLights.erase(this->m_spotLights.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
+void World::addChainEffect(ChainEffect* _ce)
+{
+	this->m_chainEffects.push_back(_ce);
+}
+
+bool World::removeChainEffect(ChainEffect* _ce)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_chainEffects.size() && !found; i++)
+	{
+		if(this->m_chainEffects[i] == _ce)
+		{
+			delete this->m_chainEffects[i];
+			this->m_chainEffects.erase(this->m_chainEffects.begin()+i);
 			found = true;
 		}
 	}

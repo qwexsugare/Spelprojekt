@@ -5,6 +5,8 @@
 #include "client.h"
 #include "ModelIdHolder.h"
 
+#define numCharacters 5
+
 class LobbyState : public State
 {
 private:
@@ -15,14 +17,17 @@ private:
 	Hero::HERO_TYPE m_heroType;
 	string mapName;
 	ModelIdHolder m_modelIdHolder;
-	Model* cube[5];
+	Model* cube[6];
 	Model* officer;
 	Model* redKnight;
 	Model* engi;
 	Model* doctor;
 	Model* mentalist;
-	PointLight* pl;
+	PointLight* pl[6];
+	DirectionalLight* dl;
 	Model* boll;
+	float step;
+	float speed;
 public:
 	LobbyState();
 	LobbyState(Client* _network);

@@ -26,6 +26,8 @@
 #include "DirectionalLight.h"
 #include "SpotLight.h"
 #include "Road.h"
+#include "ChainEffect.h"
+#include "ChainFXEffectFile.h"
 
 class World
 {
@@ -69,6 +71,9 @@ private:
 	//SSAO
 	SSAOEffectFile* m_SSAORendering;
 
+	//ChainEffectRendering
+	ChainFXEffectFile* m_chainEffect;
+
 	//2D rendering
 	SpriteEffectFile *m_spriteRendering;
 
@@ -85,6 +90,7 @@ private:
 	vector<DirectionalLight*> m_directionalLights;
 	vector<SpotLight*> m_spotLights;
 	vector<Model*> m_models;
+	vector<ChainEffect*> m_chainEffects;
 
 	// Shadow mapping
 	D3D10_VIEWPORT m_shadowMapViewport;
@@ -106,6 +112,9 @@ public:
 	
 	bool addParticleEngine(ParticleEngine* _pe);
 	bool removeParticleEngine(ParticleEngine* _pe);
+	
+	void addChainEffect(ChainEffect* _ce);
+	bool removeChainEffect(ChainEffect* _ce);
 	
 	void addTerrain(Terrain* _terrain);
 	bool removeTerrain(Terrain* _terrain);
