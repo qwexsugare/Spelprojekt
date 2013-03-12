@@ -5,8 +5,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 {
 	this->m_regularAttack = NULL;
 
-	this->m_health = 100;
-	this->m_maxHealth = 100;
+	this->m_health = this->m_maxHealth = 0.0f;
 	this->m_strength = 0;
 	this->m_agility = 0;
 	this->m_wits = 0;

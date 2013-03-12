@@ -30,6 +30,7 @@ public:
 
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type);
 	int getCombat();
+	void setPlayerName(int _playerIndex, string _name);
 private:
 	Hero::HERO_TYPE m_currentSelections[4];
 	Sprite* m_doctorPortrait;
@@ -37,6 +38,7 @@ private:
 	Sprite* m_engineerPortrait;
 	Sprite* m_redKnightPortrait;
 	Sprite* m_mentalistPortrait;
+	vector<TextLabel*> m_playerNames;
 
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Label;

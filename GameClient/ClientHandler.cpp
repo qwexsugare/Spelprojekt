@@ -144,8 +144,6 @@ void ClientHandler::update(float _dt)
 				sf::Packet playerName;
 				playerName << (int)NetworkMessage::setPlayerName << tempCreateState->getPlayerName();
 				this->m_client->sendPacket(playerName);
-
-				//m_state->set
 			}
 			else
 			{

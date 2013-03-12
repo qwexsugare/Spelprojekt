@@ -169,6 +169,12 @@ void LobbyState::update(float _dt)
 		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
 		this->mapName = nwm.getMapName();
 	}
+
+	while(!m_network->playerJoinedMessageQueueEmpty())
+	{
+		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
+		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
+	}
 }
 
 State::StateEnum LobbyState::nextState()

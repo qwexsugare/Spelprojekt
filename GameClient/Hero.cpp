@@ -22,6 +22,7 @@ Hero::Hero() : UnitEntity()
 	this->m_startPos=FLOAT3(0.0,0.0,0.0);
 	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 	this->m_alive = true;
+	this->m_health = this->m_maxHealth = 400.0f;
 }
 
 Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
@@ -39,6 +40,7 @@ Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 	this->m_startPos=FLOAT3(0.0,0.0,0.0);
 	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 	this->m_alive = true;
+	this->m_health = this->m_maxHealth = 400.0f;
 }
 
 Hero::~Hero()
