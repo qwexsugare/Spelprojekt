@@ -93,9 +93,12 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[16]->Init(FLOAT2(0.445f,  0.73f),FLOAT2(0.178125f*0.5f,0.194444444f*0.5f),"menu_textures\\CharacterMenu-Button-Mentalist.png","",0,0,1);*/
 
 	this->m_Buttons[12] = new Button();
-	this->m_Buttons[12]->Init(FLOAT2(0.33f,-0.7f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Right.png","",0,0,6);
+	this->m_Buttons[12]->Init(FLOAT2(0.60f, 0.3f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Right.png","",0,0,6);
 	this->m_Buttons[13] = new Button();
-	this->m_Buttons[13]->Init(FLOAT2(-0.33f,-0.7f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Left.png","",0,0,6);
+	this->m_Buttons[13]->Init(FLOAT2(-0.60f, 0.3f),FLOAT2(0.053125f,0.103703704f),"menu_textures\\Arrow-Left.png","",0,0,6);
+	
+	this->m_slider.Init(FLOAT2(-0.5f, -0.45f), 0.0f, FLOAT2(0.05f,0.05f),"menu_textures\\Arrow-Up.png","", 0.0f, 1.0f, 1, 15);
+
 	this->m_Label.resize(5);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
 	this->m_Label[1] = new TextLabel("","text2.png",INT2(130,830),60);
@@ -301,8 +304,7 @@ void LobbyMenu::Update(float _dt)
 			this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know more about you than_you do yourself. Some say he is a charlatan, other think it is real magic. Whichever is true,_it is clear that The Mentalist can do incredible things to your mind, often without you even noticing._Be glad he is on your side.___Active: Hypnotic stare_Passive: Enigmatic Presence");
 		}
 	}
-
-
+	m_slider.Update();
 }
 
 bool LobbyMenu::ChatIsDown()

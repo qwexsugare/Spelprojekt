@@ -534,13 +534,15 @@
     </ClCompile>
     <ClCompile Include="NetworkPlayerJoinedMessage.cpp">
       <Filter>Network</Filter>
+    <ClCompile Include="Room.cpp" />
+    <ClCompile Include="EndState.cpp">
+      <Filter>Client\States</Filter>
     </ClCompile>
     <ClCompile Include="TextInput.cpp">
       <Filter>Client\Text</Filter>
     </ClCompile>
     <ClCompile Include="TextLabel.cpp">
       <Filter>Client\Text</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1111,13 +1113,15 @@
     </ClInclude>
     <ClInclude Include="NetworkPlayerJoinedMessage.h">
       <Filter>Network</Filter>
+    <ClInclude Include="Room.h" />
+    <ClInclude Include="EndState.h">
+      <Filter>Client\States</Filter>
     </ClInclude>
     <ClInclude Include="TextLabel.h">
       <Filter>Client\Text</Filter>
     </ClInclude>
     <ClInclude Include="TextInput.h">
       <Filter>Client\Text</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">

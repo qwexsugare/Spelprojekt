@@ -16,7 +16,10 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
 	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
+
+	this->m_baseMentalDamage = 1.0f;
+	this->m_mentalDamageChange = 0.0f;
+	this->m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
 
 	this->m_baseMovementSpeed = 2.0f;
 	this->m_movementSpeedChange = 0.0f;

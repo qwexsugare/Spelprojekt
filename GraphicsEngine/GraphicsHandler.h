@@ -12,6 +12,7 @@
 #include "Animation.h"
 #include "DirectionalLight.h"
 #include "SpotLight.h"
+#include "ChainEffect.h"
 
 class GraphicsHandler : public sf::Thread
 {
@@ -40,6 +41,9 @@ public:
 	
 	DECLDIR ParticleEngine* createParticleEngine(string _filename, D3DXVECTOR4 _pos, D3DXQUATERNION _rot, D3DXVECTOR2 _scale);
 	DECLDIR bool removeParticleEngine(ParticleEngine* _particleEngine);
+
+	DECLDIR ChainEffect* createChainEffect();
+	DECLDIR bool removeChainEffect(ChainEffect* _chainEffect);
 	
 	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps, vector<string> _specularMaps);
 	DECLDIR bool removeTerrain(Terrain* _terrain);
