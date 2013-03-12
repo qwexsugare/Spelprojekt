@@ -15,4 +15,5 @@ public:
 
 	virtual bool activate(unsigned int _senderId, unsigned int _targetId);
 	void updateSpecificSkill(float _dt);
+	int getCost();
 };

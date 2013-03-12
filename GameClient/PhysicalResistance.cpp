@@ -27,3 +27,8 @@ void PhysicalResistance::updateSpecificSkill(float dt)
 {
 
 }
+
+int PhysicalResistance::getCost()
+{
+	return PhysicalResistance::COST;
+}

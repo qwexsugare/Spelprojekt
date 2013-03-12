@@ -63,10 +63,14 @@ public:
 		RESPAWN,
 		STUNNING_STRIKE_VICTIM,
 <<<<<<< HEAD
-		CHURCH_REALLY_PENETRATED
+		HEALING_FOUNTAIN,
+		WAVE_UPDATE,
+		SELL,
+		LIVES_REMAINING
 =======
 		HEALING_FOUNTAIN
->>>>>>> e2e99661fa009f37c96afa6bbe7e46dfe20fe22b
+		CHURCH_REALLY_PENETRATED
+>>>>>>> ecaeb80a583edeaf6fb170dad6e95ad6d9f076f9
 		};
 
 	Skill();
@@ -84,4 +88,5 @@ public:
 	void resetCooldown();
 	void update(float _dt);
 	virtual void updateSpecificSkill(float _dt) = 0;
+	virtual int getCost();
 };

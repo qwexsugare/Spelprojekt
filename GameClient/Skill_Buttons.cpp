@@ -8,6 +8,7 @@ Skill_Buttons::~Skill_Buttons()
 {
 	this->m_ButtonReaction = 0;
 	g_graphicsEngine->removeSpriteSheet(m_SkillButton);
+	g_graphicsEngine->removeSpriteSheet(this->m_cooldown);
 	m_SkillButton = NULL;
 }
 void Skill_Buttons::Init(FLOAT2 _ScreenPos,

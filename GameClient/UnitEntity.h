@@ -75,6 +75,7 @@ public:
 	vector<Skill*> getSkills();
 	int getNrOfSkills();
 	int getSkillIndex(Skill* _skill);
+	void removeSkill(int index);
 
 	virtual NetworkEntityMessage getUpdate();
 

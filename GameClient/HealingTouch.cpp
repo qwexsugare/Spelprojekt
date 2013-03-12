@@ -39,3 +39,8 @@ void HealingTouch::updateSpecificSkill(float _dt)
 {
 
 }
+
+int HealingTouch::getCost()
+{
+	return HealingTouch::COST;
+}

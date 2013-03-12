@@ -5,7 +5,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_resources = 50000;
+	this->m_resources = 500000;
 	this->m_messageQueue = new MessageQueue();
 	m_hero = NULL;
 	this->m_ready = false;
@@ -88,7 +88,7 @@ int Player::getId()const
 
 void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 {
-	if(this->m_hero->getNrOfSkills() < 6 || bsm.getActionId() == Skill::STRENGTH || bsm.getActionId() == Skill::AGILITY || bsm.getActionId() == Skill::WITS || bsm.getActionId() == Skill::FORTITUDE || bsm.getActionId() == Skill::TURRET_CONSTRUCTION)
+	if(this->m_hero->getNrOfSkills() < 6 || bsm.getActionId() == Skill::STRENGTH || bsm.getActionId() == Skill::AGILITY || bsm.getActionId() == Skill::WITS || bsm.getActionId() == Skill::FORTITUDE || bsm.getActionId() == Skill::TURRET_CONSTRUCTION || bsm.getActionId() == Skill::SELL)
 	{
 		bool skillBought = false;
 		Skill* a = NULL;
@@ -151,163 +151,92 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			}	
 			break;
 
-		case Skill::AIM:
-			if(this->m_resources >= Aim::COST)
+		case Skill::SELL:
+			while(this->m_hero->getNrOfSkills() > 2)
 			{
-				a = new Aim(this->m_hero->getId());
-				this->m_resources = this->m_resources - Aim::COST;
-				skillBought = true;
+				this->m_resources += this->m_hero->getSkills()[2]->getCost() / 2;
+				this->m_hero->removeSkill(2);
 			}
 
+			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(bsm.getActionId(), this->m_id, this->m_resources));
+
+			break;
+
+		case Skill::AIM:
+			a = new Aim(this->m_hero->getId());
 			break;
 
 		case Skill::DEADLY_STRIKE:
-			if(this->m_resources >= DeadlyStrike::COST)
-			{
-				a = new DeadlyStrike();
-				this->m_resources = this->m_resources - DeadlyStrike::COST;
-				skillBought = true;
-			}
-
+			a = new DeadlyStrike();
 			break;
 
 		case Skill::TURRET_LIFE:
-			if(this->m_resources >= TurretLifetime::COST)
-			{
-				a = new TurretLifetime();
-				a->activate(this->m_hero->getId());
-				this->m_resources = this->m_resources - TurretLifetime::COST;
-				skillBought = true;
-			}
-
+			a = new TurretLifetime();
+			a->activate(this->m_hero->getId());
 			break;
 
 		case Skill::GREED:
-			if(this->m_resources >= Greed::COST)
-			{
-				a = new Greed();
-				a->activate(this->m_hero->getId());
-				this->m_resources = this->m_resources - Greed::COST;
-				skillBought = true;
-			}
-
+			a = new Greed();
+			a->activate(this->m_hero->getId());
 			break;
 
 		case Skill::LIFESTEALING_STRIKE:
-			if(this->m_resources >= LifestealingStrike::COST)
-			{
-				a = new LifestealingStrike();
-				this->m_resources = this->m_resources - LifestealingStrike::COST;
-				skillBought = true;
-			}
-
+			a = new LifestealingStrike();
 			break;
 
 		case Skill::PHYSICAL_RESISTANCE:
-			if(this->m_resources >= Greed::COST)
-			{
-				a = new PhysicalResistance(this->m_hero->getId());
-				this->m_resources = this->m_resources - PhysicalResistance::COST;
-				skillBought = true;
-			}
-
+			a = new PhysicalResistance(this->m_hero->getId());
 			break;
 
 		case Skill::MENTAL_RESISTANCE:
-			if(this->m_resources >= MentalResistance::COST)
-			{
-				a = new MentalResistance(this->m_hero->getId());
-				this->m_resources = this->m_resources - MentalResistance::COST;
-				skillBought = true;
-			}
-
+			a = new MentalResistance(this->m_hero->getId());
 			break;
 
 		case Skill::POISON_STRIKE:
-			if(this->m_resources >= PoisonStrike::COST)
-			{
-				a = new PoisonStrike();
-				this->m_resources = this->m_resources - PoisonStrike::COST;
-				skillBought = true;
-			}
-
+			a = new PoisonStrike();
 			break;
 
 		case Skill::CHAIN_STRIKE:
-			if(this->m_resources >= ChainStrike::COST)
-			{
-				a = new ChainStrike();
-				this->m_resources = this->m_resources - ChainStrike::COST;
-				skillBought = true;
-			}
-
+			a = new ChainStrike();
 			break;
 
 		case Skill::STUNNING_STRIKE:
-			if(this->m_resources >= StunningStrike::COST)
-			{
-				a = new StunningStrike();
-				this->m_resources = this->m_resources - StunningStrike::COST;
-				skillBought = true;
-			}
-
+			a = new StunningStrike();
 			break;
 
 		case Skill::CLOUD_OF_DARKNESS:
-			if(this->m_resources >= CloudOfDarkness::COST)
-			{
-				a = new CloudOfDarkness();
-				this->m_resources = this->m_resources - CloudOfDarkness::COST;
-				skillBought = true;
-			}
-
+			a = new CloudOfDarkness();
 			break;
 
 		case Skill::HEALING_TOUCH:
-			if(this->m_resources >= HealingTouch::COST)
-			{
-				a = new HealingTouch();
-				this->m_resources = this->m_resources - HealingTouch::COST;
-				skillBought = true;
-			}
-
+			a = new HealingTouch();
 			break;
 
 		case Skill::DEMONIC_PRESENCE:
-			if(this->m_resources >= DemonicPresence::COST)
-			{
-				a = new DemonicPresence();
-				this->m_resources = this->m_resources - DemonicPresence::COST;
-				skillBought = true;
-			}
-
+			a = new DemonicPresence();
 			break;
 
 		case Skill::TELEPORT:
-			if(this->m_resources >= Teleport::COST)
-			{
-				a = new Teleport();
-				this->m_resources = this->m_resources - Teleport::COST;
-				skillBought = true;
-			}
-
+			a = new Teleport();
 			break;
 
 		case Skill::WALL:
-			if(this->m_resources >= Wall::COST)
-			{
-				a = new Wall();
-				this->m_resources = this->m_resources - Wall::COST;
-				skillBought = true;
-			}
-
+			a = new Wall();
 			break;
 		}
 
-		if(skillBought == true)
+		if(a != NULL)
 		{
-			this->m_hero->addSkill(a);
-			this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(bsm.getActionId(), this->m_id, this->m_resources));
+			if(this->m_resources >= a->getCost())
+			{
+				this->m_resources = this->m_resources - a->getCost();
+				this->m_hero->addSkill(a);
+				this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(bsm.getActionId(), this->m_id, this->m_resources));
+			}
+			else
+			{
+				delete a;
+			}
 		}
 	}
 }

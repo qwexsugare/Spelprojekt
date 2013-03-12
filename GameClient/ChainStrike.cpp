@@ -47,3 +47,8 @@ void ChainStrike::updateSpecificSkill(float _dt)
 {
 
 }
+
+int ChainStrike::getCost()
+{
+	return ChainStrike::COST;
+}

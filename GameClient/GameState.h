@@ -36,6 +36,8 @@ private:
 	bool m_idle;
 	float m_idleSoundTimer;
 	bool m_cameraFollowingHero;
+	MyText *m_endText;
+	NetworkEndGameMessage m_endMessage;
 
 	// Sounds
 	AmbientSoundsManager m_ambientSoundsManager;
@@ -64,7 +66,8 @@ public:
 	GameState(Client *_network, string mapName);
 	~GameState();
 
-	bool isVictorious()const;
 	StateEnum nextState();
 	void update(float _dt);
+
+	NetworkEndGameMessage getEndGameMessage();
 };

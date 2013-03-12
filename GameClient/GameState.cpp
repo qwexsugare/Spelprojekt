@@ -94,6 +94,7 @@ GameState::GameState(Client *_network, string mapName)
 	m_moveSoundTimer = 0.0f;
 	m_idle = false;
 	m_cameraFollowingHero = false;
+	this->m_endText = NULL;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
@@ -121,6 +122,10 @@ GameState::~GameState()
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 	if(m_exitButton)
 		delete m_exitButton;
+	if(this->m_endText != NULL)
+	{
+		g_graphicsEngine->removeMyText(this->m_endText);
+	}
 
 	// Release all sounds
 	for(int i = 0; i < GameState::NR_OF_ATTACK_SOUNDS; i++)
@@ -155,17 +160,17 @@ void GameState::update(float _dt)
 {
 	while(m_network->endGameQueueEmpty() == false)
 	{
-		NetworkEndGameMessage e = m_network->endGameQueueFront();
-		m_victory = e.getVictory();
+		this->m_endMessage = m_network->endGameQueueFront();
+		m_victory = this->m_endMessage.getVictory();
 		m_exitButton = new Button();
 		m_exitButton->Init(FLOAT2(0.0f, 0.0f), FLOAT2(0.2f, 0.1f), "menu_textures/Button-MainMenu-ExitGame.png", "");
 		if(m_victory == true)
 		{
-			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 50);
+			this->m_endText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100);
 		}
 		else
 		{
-			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 50);
+			this->m_endText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100);
 		}
 	}
 
@@ -366,6 +371,12 @@ void GameState::update(float _dt)
 		case Skill::HEALING_FOUNTAIN:
 			this->m_ClientSkillEffects.push_back(new HealingFountainClientSkillEffect(e.getSenderId()));
 			break;
+		case Skill::WAVE_UPDATE:
+			this->m_hud->setWave(e.getSenderId());
+			break;
+		case Skill::LIVES_REMAINING:
+			this->m_hud->setLivesRemaining(e.getSenderId());
+			break;
 		}
 	}
 
@@ -507,7 +518,7 @@ void GameState::update(float _dt)
 			break;
 		case Skill::CHURCH_REALLY_PENETRATED:
 			playSound(m_churchSound);
-			this->m_hud->setLivesLeft(e.getTargetId());
+			this->m_hud->setLivesRemaining(e.getTargetId());
 			break;
 		}
 	}
@@ -624,21 +635,25 @@ void GameState::update(float _dt)
 	}
 
 	static float CAMERA_SPEED = 12.0f;
-	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState('D') != Keyboard::KEY_UP))
+	if(g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState('D') != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt,
+			m_terrain->getWidth()-g_graphicsEngine->getCamera()->getXOffset()));
 	}
-	else if((g_mouse->getPos().x <= 10 || g_keyboard->getKeyState('A') != Keyboard::KEY_UP))
+	else if(g_mouse->getPos().x <= 10 || g_keyboard->getKeyState('A') != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->setX(max(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt,
+			g_graphicsEngine->getCamera()->getXOffset()));
 	}
-	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState('S') != Keyboard::KEY_UP))
+	if(g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState('S') != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt,
+			0.0f));
 	}
-	else if((g_mouse->getPos().y <= 10 || g_keyboard->getKeyState('W') != Keyboard::KEY_UP))
+	else if(g_mouse->getPos().y <= 10 || g_keyboard->getKeyState('W') != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->setZ(min(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt,
+			m_terrain->getHeight()-g_graphicsEngine->getCamera()->getZOffset()*2.0f));
 	}
 
 	D3DXVECTOR3 pickDir;
@@ -1012,11 +1027,6 @@ void GameState::importMap(string _map)
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }
 
-bool GameState::isVictorious()const
-{
-	return m_victory;
-}
-
 void GameState::playPursueSound(unsigned int _speakerId)
 {
 	Entity* speaker = ClientEntityHandler::getEntity(_speakerId);
@@ -1149,4 +1159,9 @@ void GameState::playWallDeathSound(FLOAT3 _position)
 	int sound = createSoundHandle("skills/wallEnd.wav", false, true, _position);
 	playSound(sound);
 	deactivateSound(sound);
+}
+
+NetworkEndGameMessage GameState::getEndGameMessage()
+{
+	return this->m_endMessage;
 }

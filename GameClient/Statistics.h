@@ -22,5 +22,8 @@ public:
 	static StatisticsPlayer& getStatisticsPlayer(int id);
 	static void saveToFile(string filename);
 	static int convertSimonsIdToRealId(int id);
+	static double getTimePlayed();
+	static int getIsAtWave();
+	static int getStartLife();
 };
 
