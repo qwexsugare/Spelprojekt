@@ -224,7 +224,10 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool _st
 
 bool GraphicsHandler::removeModel(Model* _model)
 {
-	return this->m_world->removeModel(_model);
+	if(_model)
+		return this->m_world->removeModel(_model);
+	else
+		return false;
 }
 
 Sprite *GraphicsHandler::createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer)

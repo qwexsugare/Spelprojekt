@@ -15,7 +15,8 @@
 class HudMenu : public Menu
 {
 private:
-	Enemy::EnemyType m_currentTargetEnemy;
+	unsigned int m_currentTargetEnemyId;
+	bool m_hasTargetEnemy;
 	map<Enemy::EnemyType, Sprite*> m_enemyIcons;
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
@@ -86,7 +87,7 @@ public:
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);
 	void setLivesRemaining(int livesRemaing);
-	void setTargetEnemy(Enemy::EnemyType _enemyType);
+	void setTargetEnemy(unsigned int _currentTargetEnemyId);
 	void setStrength(int _strength);
 	void setAgility(int _agility);
 	void setWits(int _wits);
