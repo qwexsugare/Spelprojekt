@@ -29,10 +29,11 @@ void EntityHandler::removeAllEntities()
 {
 	EntityHandler::m_mutex.Lock();
 
-	for(int i = 0; i < this->m_entities.size(); i++)
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
-		delete this->m_entities[i];
+		delete EntityHandler::m_entities[i];
 	}
+	EntityHandler::m_entities.clear();
 
 	EntityHandler::m_mutex.Unlock();
 }

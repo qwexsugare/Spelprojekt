@@ -7,7 +7,7 @@
 class DeathPulseTurret : public Turret
 {
 private:
-
+	int m_turretUpgrade;
 public:
 	static const int COST = 120;
 	static const float ATTACK_COOLDOWN;
