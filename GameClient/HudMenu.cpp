@@ -885,8 +885,11 @@ void HudMenu::removeTargetEnemy()
 	if(m_hasTargetEnemy)
 	{
 		Entity* currentUnit = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
-		m_enemyIcons[Enemy::EnemyType(currentUnit->m_subtype)]->setVisible(false);
-		m_hasTargetEnemy = false;
+		if(currentUnit)
+		{
+			m_enemyIcons[Enemy::EnemyType(currentUnit->m_subtype)]->setVisible(false);
+			m_hasTargetEnemy = false;
+		}
 	}
 }
 
