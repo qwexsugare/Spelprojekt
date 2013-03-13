@@ -37,7 +37,7 @@ public:
 	static ServerEntity* getClosestEntity(ServerEntity *entity);
 	static ServerEntity* getClosestEntityByType(ServerEntity* _entity, UnitEntity::Type _type);
 	static ServerEntity* getClosestStatic(ServerEntity *entity);
-	static ServerEntity* getClosestStaticWithExtents(ServerEntity *entity);
+	static ServerEntity* getClosestStaticWithExtents(FLOAT3 _pos);
 	
 	static ServerEntity* getClosestSuperStatic(FLOAT3 _pos);
 	static ServerEntity* getServerEntity(unsigned int id);

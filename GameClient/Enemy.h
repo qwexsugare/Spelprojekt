@@ -59,6 +59,7 @@ public:
 	FLOAT3 getDirection();
 	void checkPursue();
 	FLOAT3 checkStatic(float dt);
+	FLOAT3 checkStatic2(float dt);
 	void checkCloseEnemies(float dt);
 	bool checkDistanceToStatic(float firstFactor, float secondFactor);
 	void attackHero();
