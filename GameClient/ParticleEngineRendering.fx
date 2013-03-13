@@ -47,6 +47,7 @@ void DrawGS(point VS_OUT input[1], inout TriangleStream<GS_OUT> triStream)
 			output.pos = mul(v[i], WVP);
 			output.texC = quadTexC[i];
 			output.color = input[0].color;
+			output.color.g = 1;
 			triStream.Append(output);
 		}
 	}
@@ -54,7 +55,15 @@ void DrawGS(point VS_OUT input[1], inout TriangleStream<GS_OUT> triStream)
 
 float4 DrawPS(GS_OUT input) : SV_TARGET
 {
-	return tex.Sample(triLinearSam, input.texC)*input.color;
+	//[branch] switch(input.color.g)
+	//{
+		//case 1:
+			return float4(0, 1, 0, 1);
+		/*case 2:
+			return tex.Sample(triLinearSam, input.texC)*float4(1, 0, 0, 1);
+		default:
+			return tex.Sample(triLinearSam, input.texC)*float4(1, 1, 1, 1);*/
+	//}
 }
 
 //Beacon

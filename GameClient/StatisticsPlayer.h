@@ -51,5 +51,12 @@ public:
 	int getGoldCollected() const;
 	void increaseHealdAmount(int h);
 	int getHealedAmount() const;
+
+	void setDemonsKilled(int demonsKilled);
+	void setGoldCollected(int goldCollected);
+	void setMentalDamageDone(int damage);
+	void setMentalDamageRecieved(int damage);
+	void setPhysicalDamageDone(int damage);
+	void setPhysicalDamageRecieved(int damage);
 };
 

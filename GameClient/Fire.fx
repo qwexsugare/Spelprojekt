@@ -10,7 +10,7 @@ void FireSO(point Particle input[1], inout PointStream<Particle> pStream)
 
 	if(input[0].type == EMITTER)
 	{
-		if(input[0].age > 0.01f)
+		if(input[0].age > 0.07f)
 		{
 			float3 randVe = RandUnitVec3(0.0f);
 			randVe.x *= 0.5f;
@@ -24,12 +24,20 @@ void FireSO(point Particle input[1], inout PointStream<Particle> pStream)
 			p.age = 0.0f;
 			p.type = PARTICLE;
 
-			float angle = 1.0f;
+			float angle = 0;//0.252f;
+
+			//randVe.x = 0;
+			randVe.z = 1;
+			//randVe.y = 1;
 
 			// use local variables to find transformed components
-			float Vx1 = cos(angle*2.5)*randVe.x - sin(angle*2.5)*randVe.z;
-			float Vz1 = sin(angle*0.75)*randVe.x + cos(angle*0.75)*randVe.z;
-			float cone = 0.1f;
+			float Vx1 = cos(angle)*randVe.x - sin(angle)*abs(randVe.z);
+			float Vz1 = sin(angle)*randVe.x + cos(angle)*abs(randVe.z);
+
+			float Vx2 = cos(angle)*Vx1 - sin(angle)*abs(Vz1);
+			float Vz2 = sin(angle)*Vx1 + cos(angle)*abs(Vz1);
+
+			
 			p.vel = (float3(Vx1, abs(Vz1), 0));
 
 			pStream.Append(p);
@@ -47,7 +55,7 @@ void FireSO(point Particle input[1], inout PointStream<Particle> pStream)
 
 GeometryShader gsFireSO = ConstructGSWithSO(
 	CompileShader( gs_4_0, FireSO() ),
-	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x");
+	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x;");
 
 //*********
 // DrawTech
@@ -55,11 +63,11 @@ GeometryShader gsFireSO = ConstructGSWithSO(
 
 VS_OUT FireVS(Particle input)
 {
-	VS_OUT output;
+	VS_OUT output = (VS_OUT)0;
 
 	float t = input.age;
 
-	output.pos = input.pos + input.vel*t;
+	output.pos = input.pos + input.vel*(t/2);
 
 	float opacity = 1;//t*2 - t*t;
 	output.color = float4(1.0f, 1.0f, 1.0f, opacity);

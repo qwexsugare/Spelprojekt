@@ -3,11 +3,13 @@
 MainMenuState::MainMenuState()
 {
 	this->m_menu = new MainMenu();
+	troll = g_graphicsEngine->createParticleEngine("fire", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 }
 
 MainMenuState::~MainMenuState()
 {
 	delete this->m_menu;
+	g_graphicsEngine->removeParticleEngine(troll);
 }
 
 void MainMenuState::update(float dt)

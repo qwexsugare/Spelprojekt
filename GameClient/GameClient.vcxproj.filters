@@ -487,9 +487,6 @@
     <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
-    <ClCompile Include="EndState.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Client\States</Filter>
     </ClCompile>
@@ -546,6 +543,9 @@
     </ClCompile>
     <ClCompile Include="TextLabel.cpp">
       <Filter>Client\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="EndState.cpp">
+      <Filter>Client\States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1076,9 +1076,6 @@
     <ClInclude Include="NetworkWelcomeMessage.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="EndState.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Client\States</Filter>
     </ClInclude>
@@ -1129,6 +1126,9 @@
     </ClInclude>
     <ClInclude Include="TextInput.h">
       <Filter>Client\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="EndState.h">
+      <Filter>Client\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

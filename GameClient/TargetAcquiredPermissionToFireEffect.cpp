@@ -21,6 +21,13 @@ TargetAcquiredPermissionToFireEffect::TargetAcquiredPermissionToFireEffect(unsig
 	}
 
 	this->m_damage = turrets.size() * TargetAcquiredPermissionToFireEffect::DAMAGE_PER_TOWER;
+
+	ServerEntity *e = EntityHandler::getServerEntity(_casterId);
+
+	if(e != NULL)
+	{
+		this->m_lifetime += ((UnitEntity*)e)->getTurretConstruction() / 2;
+	}
 }
 
 TargetAcquiredPermissionToFireEffect::~TargetAcquiredPermissionToFireEffect()

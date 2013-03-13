@@ -8,6 +8,7 @@ class Room
 private:
 	Model* m_room;
 	Model* m_character;
+	Model* m_window;
 	PointLight* m_frontLight;
 	PointLight* m_inLight;
 	PointLight* m_backLight;
