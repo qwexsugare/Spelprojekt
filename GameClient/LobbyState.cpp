@@ -208,21 +208,23 @@ void LobbyState::update(float _dt)
 
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
-
-		switch(nhsm.getHeroId())
+		
 		if(nhsm.getPlayerId() == this->m_playerId)
 		{
-		case Hero::HERO_TYPE::OFFICER:
-			this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
-			this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
-			break;
-		}
 
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
 		}
 		else
 		{
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, false);
+		}
+
+		switch(nhsm.getHeroId())
+		{
+			case Hero::HERO_TYPE::OFFICER:
+				this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
+				this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
+				break;
 		}
 		bool heroesNotSelected[] = {false, false, false, false, false};
 		for(int i = 0; i < 4; i++)
