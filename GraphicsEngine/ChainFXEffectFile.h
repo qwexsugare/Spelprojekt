@@ -16,6 +16,7 @@ public:
 	~ChainFXEffectFile();
 
 	ID3D10EffectTechnique *getTechnique();
+	ID3D10InputLayout* getInputLayout(){return this->m_vertexLayout;}
 
 	void setTexture(ID3D10ShaderResourceView* _texture);
 	void setOrig(D3DXVECTOR3 _vec);

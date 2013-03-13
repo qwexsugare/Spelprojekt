@@ -33,6 +33,7 @@ public:
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type);
 	int getCombat();
 	void setPlayerName(int _playerIndex, string _name);
+	Hero::HERO_TYPE* getHeroesSelected(){return this->m_currentSelections;};
 private:
 	Hero::HERO_TYPE m_currentSelections[4];
 	Sprite* m_doctorPortrait;
@@ -54,5 +55,6 @@ private:
 	int m_Counter,
 		m_Combat;
 	string m_String;
+	
 };
 

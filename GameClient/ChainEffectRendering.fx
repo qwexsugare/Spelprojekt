@@ -73,8 +73,8 @@ void GS(point GSIn input[1], inout TriangleStream<GS_OUT> triStream)
 	W[3] = float4(input[0].Pos.xyz,	1.0f);
 
 	// Creating Quad
-	float halfWidth = 0.5f;
-	float halfHeight = 0.5f;
+	float halfWidth = 1.5f;
+	float halfHeight = 1.5f;
 
 	float4 v[4];
 	v[0] = float4(-halfWidth, -halfHeight, 0.0f, 1.0f);
