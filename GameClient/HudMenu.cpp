@@ -125,13 +125,13 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_SkillButtons[1] = new Skill_Buttons();
 	this->m_SkillButtons[1]->Init(FLOAT2(-0.945f+(0.102083333f*2), -0.825f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
 	this->m_SkillButtons[2] = new Skill_Buttons();
-	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
+	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*0)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
 	this->m_SkillButtons[3] = new Skill_Buttons();
-	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE, 0,0,1,9,100,false);
+	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE, 0,0,1,9,100,false);
 	this->m_SkillButtons[4] = new Skill_Buttons();
-	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
+	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
 	this->m_SkillButtons[5] = new Skill_Buttons();
-	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
+	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
 
@@ -174,13 +174,13 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_shopButtons[10]->Init(FLOAT2(-0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::DEADLY_STRIKE),"2000",0,0,1,12,100,2000,INT2(1920/2,440), false, Skill::DEADLY_STRIKE,"menu_textures\\Skill_10.png");
 	this->m_shopButtons[11]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WITS),"100",0,0,1,12,100,0,INT2(1228,80), false, Skill::WITS,"menu_textures\\Skill_11.png");
 	this->m_shopButtons[12]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::POISON_STRIKE),"1700",0,0,1,12,100,1700,INT2(1228,200), false, Skill::POISON_STRIKE,"menu_textures\\Skill_12.png");
-	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HEALING_TOUCH),"1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH,"menu_textures\\Skill_15.png");
+	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HEALING_TOUCH),"1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH,"menu_textures\\Skill_19.png");
 	this->m_shopButtons[13]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CHAIN_STRIKE),"2500",0,0,1,12,100,2500,INT2(1228,440), false, Skill::CHAIN_STRIKE,"menu_textures\\Skill_13.png");
 	this->m_shopButtons[14]->Init(FLOAT2(0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CLOUD_OF_DARKNESS),"3500",0,0,1,12,100,3500,INT2(1228,560), false, Skill::CLOUD_OF_DARKNESS,"menu_textures\\Skill_14.png");
 	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::FORTITUDE),"100",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE,"menu_textures\\Skill_16.png");
 	this->m_shopButtons[17]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::GREED),"700",0,0,1,12,100,700,INT2(1498,200), false, Skill::GREED,"menu_textures\\Skill_17.png");
 	this->m_shopButtons[18]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::MENTAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(1498,324), false, Skill::MENTAL_RESISTANCE,"menu_textures\\Skill_18.png");
-	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WALL),"3000",0,0,1,12,100,3000,INT2(1498,440), false, Skill::WALL,"menu_textures\\Skill_19.png");
+	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WALL),"3000",0,0,1,12,100,3000,INT2(1498,440), false, Skill::WALL,"menu_textures\\Skill_20.png");
 
 	for(int i = 0; i < this->m_shopButtons.size(); i++)
 	{
@@ -830,7 +830,7 @@ void HudMenu::addSkill(unsigned int _skillId)
 		if(_skillId == Skill::STRENGTH || _skillId == Skill::AGILITY || _skillId == Skill::WITS || _skillId == Skill::FORTITUDE || _skillId == Skill::TURRET_CONSTRUCTION)
 		{
 			this->m_nrOfAttributesBought++;
-			int cost = 75 * (pow(1.2f, this->m_nrOfAttributesBought));
+			int cost = 100 * (pow(1.12f, this->m_nrOfAttributesBought));
 
 			stringstream ss;
 			ss << cost;
@@ -848,7 +848,7 @@ void HudMenu::addSkill(unsigned int _skillId)
 		}
 		else
 		{
-			this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
+			this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId,this->m_skillHolder.getDescription(_skillId));
 
 			if(this->m_NumberOfSkills >= 2)
 			{

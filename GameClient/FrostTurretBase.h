@@ -9,7 +9,8 @@ private:
 public:
 	FrostTurretBase(FLOAT3 _pos, float _lifetime);
 	~FrostTurretBase();
-
+	
+	void addLifetime(float _dt);
 	void update(float _dt);
 };
 

@@ -204,7 +204,7 @@ void Animation::RandomAnimationFunc(float dt)
 							itr->second.currentKey = 0;
 							itr->second.time = 0;
 							itr->second.numLoops--;
-							if(itr->second.numLoops == 0 && itr->second.numLoops != -1)
+							if(itr->second.numLoops == 0)
 							{
 								itr->second.isAnimating = false;
 								this->prioAnimation = "";
@@ -226,9 +226,9 @@ void Animation::RandomAnimationFunc(float dt)
 							}
 						}
 					}
-		
 					currKeyTime = itr->second.skeletons[0].keys[itr->second.currentKey].time;
 					nextKeyTime = itr->second.skeletons[0].keys[itr->second.currentKey + 1].time;
+					
 
 					float timeInterval = ((nextKeyTime-offset)/fps) - ((currKeyTime-offset)/fps);
 					float timePass = itr->second.time - (currKeyTime-offset)/fps;

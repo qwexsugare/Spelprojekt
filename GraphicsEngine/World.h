@@ -72,7 +72,7 @@ private:
 	SSAOEffectFile* m_SSAORendering;
 
 	//ChainEffectRendering
-	ChainFXEffectFile* m_chainEffect;
+	ChainFXEffectFile* m_chainEffectRendering;
 
 	//2D rendering
 	SpriteEffectFile *m_spriteRendering;

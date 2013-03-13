@@ -1,13 +1,13 @@
 Game statistics: 
 ----------------
-Time played: 22.981
+Time played: 60.7196
 Life remaining: 50
 Reached wave: 0
 
 Player Statistics:
 ------------------
 Player name: WaddaPIgotABigCOck
-Hero played: Engineer
+Resources collected: 41
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
@@ -57,16 +57,16 @@ Skills used:
 1018444973
 36864
 45056
-49152
-906966489
-979909218
-1012022340
-822817018
-873935853
-1020542153
-932001641
+204
+853947062
+961362213
+1013464074
+69632
+976763398
+888681702
+884487334
 264
 98304
-964835704
-1048133208
+1021983809
+989280993
 ---------------

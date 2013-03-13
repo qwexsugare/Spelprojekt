@@ -73,7 +73,7 @@ bool GraphicsHandler::removeParticleEngine(ParticleEngine* _particleEngine)
 
 ChainEffect* GraphicsHandler::createChainEffect()
 {
-	ChainEffect* ce = new ChainEffect();
+	ChainEffect* ce = NULL;//new ChainEffect(this->m_deviceHandler->getDevice());
 	m_world->addChainEffect(ce);
 	return ce;
 }

@@ -1,9 +1,12 @@
 #include "CourageHonorValorEffect.h"
 #include "EntityHandler.h"
 
-const float CourageHonorValorEffect::MOVEMENT_SPEED = 0.2f;
-const float CourageHonorValorEffect::PHYSICAL_RESISTANCE = -0.15f;
-const float CourageHonorValorEffect::MENTAL_DAMAGE = 100.0f;
+const float CourageHonorValorEffect::MOVEMENT_SPEED_BASE = 0.05f;
+const float CourageHonorValorEffect::MOVEMENT_SPEED_FACTOR = 0.01f;
+const float CourageHonorValorEffect::MENTAL_RESISTANCE_FACTOR = -0.05f;
+const float CourageHonorValorEffect::MENTAL_RESISTANCE_BASE = -0.04f;
+const float CourageHonorValorEffect::MENTAL_DAMAGE_FACTOR = 1.5f;
+const float CourageHonorValorEffect::MENTAL_DAMAGE_BASE = 4.0f;
 vector<unsigned int> CourageHonorValorEffect::m_affectedGuys;
 
 CourageHonorValorEffect::CourageHonorValorEffect(unsigned int _caster)
@@ -38,9 +41,9 @@ CourageHonorValorEffect::CourageHonorValorEffect(unsigned int _caster)
 				if((caster->getPosition()-heroes[i]->getPosition()).length() <= AOE)
 				{
 					m_affectedGuys.push_back(heroes[i]->getId());
-					((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED);
-					((UnitEntity*)heroes.at(i))->alterPhysicalResistance(PHYSICAL_RESISTANCE);
-					((UnitEntity*)heroes.at(i))->alterMentalDamage(MENTAL_DAMAGE);
+					((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED_BASE+((UnitEntity*)heroes.at(i))->getWits()*MOVEMENT_SPEED_FACTOR);
+					((UnitEntity*)heroes.at(i))->alterMentalResistance(MENTAL_RESISTANCE_BASE+((UnitEntity*)heroes.at(i))->getWits()*MENTAL_RESISTANCE_FACTOR);
+					((UnitEntity*)heroes.at(i))->alterMentalDamage(MENTAL_DAMAGE_BASE+((UnitEntity*)heroes.at(i))->getWits()*MENTAL_DAMAGE_FACTOR);
 					this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::COURAGE_HONOR_VALOR, 0, heroes[i]->getId(), heroes[i]->getPosition()));
 				}
 			}
@@ -76,9 +79,9 @@ void CourageHonorValorEffect::update(float _dt)
 				// Else the affected guys is still alive and might have escaped the aura area and needs to be taken down!
 				else if((caster->getPosition()-se->getPosition()).length() > AOE)
 				{
-					((UnitEntity*)se)->alterMovementSpeed(-MOVEMENT_SPEED);
-					((UnitEntity*)se)->alterPhysicalResistance(-PHYSICAL_RESISTANCE);
-					((UnitEntity*)se)->alterMentalDamage(-MENTAL_DAMAGE);
+					((UnitEntity*)se)->alterMovementSpeed(-(MOVEMENT_SPEED_BASE+((UnitEntity*)se)->getWits()*MOVEMENT_SPEED_FACTOR));
+					((UnitEntity*)se)->alterMentalResistance(-(MENTAL_RESISTANCE_BASE+((UnitEntity*)se)->getWits()*MENTAL_RESISTANCE_FACTOR));
+					((UnitEntity*)se)->alterMentalDamage(-(MENTAL_DAMAGE_BASE+((UnitEntity*)se)->getWits()*MENTAL_DAMAGE_FACTOR));
 					m_affectedGuys.erase(m_affectedGuys.begin()+i);
 					i--;
 					this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::COURAGE_HONOR_VALOR, 0, se->getId()));
@@ -107,9 +110,9 @@ void CourageHonorValorEffect::update(float _dt)
 					if((caster->getPosition()-heroes[i]->getPosition()).length() <= AOE)
 					{
 						m_affectedGuys.push_back(heroes[i]->getId());
-						((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED);
-						((UnitEntity*)heroes.at(i))->alterPhysicalResistance(PHYSICAL_RESISTANCE);
-						((UnitEntity*)heroes.at(i))->alterMentalDamage(MENTAL_DAMAGE);
+						((UnitEntity*)heroes.at(i))->alterMovementSpeed(MOVEMENT_SPEED_BASE+((UnitEntity*)heroes.at(i))->getWits()*MOVEMENT_SPEED_FACTOR);
+						((UnitEntity*)heroes.at(i))->alterMentalResistance(MENTAL_RESISTANCE_BASE+((UnitEntity*)heroes.at(i))->getWits()*MENTAL_RESISTANCE_FACTOR);
+						((UnitEntity*)heroes.at(i))->alterMentalDamage(MENTAL_DAMAGE_BASE+((UnitEntity*)heroes.at(i))->getWits()*MENTAL_DAMAGE_FACTOR);
 						this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::COURAGE_HONOR_VALOR, 0, heroes[i]->getId(), heroes[i]->getPosition()));
 					}
 				}

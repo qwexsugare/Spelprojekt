@@ -131,8 +131,6 @@ void LobbyState::update(float _dt)
 		{
 			this->m_currentHeroSelected = Hero::OFFICER;
 			m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
-			this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
-			this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
 			//this->m_menu->getSlider()->setValue(alve*0);
 			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.2)/max);
 			//this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x));
@@ -207,16 +205,53 @@ void LobbyState::update(float _dt)
 
 	while(!m_network->heroSelectedQueueEmpty())
 	{
+
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
-
+		
 		if(nhsm.getPlayerId() == this->m_playerId)
 		{
+
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
 		}
 		else
 		{
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, false);
+		}
+
+		switch(nhsm.getHeroId())
+		{
+			case Hero::HERO_TYPE::OFFICER:
+				if(this->m_officer->getCharacter()->getAnimation()->getCurrentAnimation() == "OfficerIdle")
+				{
+					this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
+					this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
+				}
+				break;
+		}
+		bool heroesNotSelected[] = {false, false, false, false, false};
+		for(int i = 0; i < 4; i++)
+		{
+			if(m_menu->getHeroesSelected()[i] != Hero::HERO_TYPE::NONE)
+			{
+				heroesNotSelected[m_menu->getHeroesSelected()[i]] = true;
+			}
+		}
+		for(int i = 0; i < 4; i++)
+		{
+			if(heroesNotSelected[i] == false)
+			{
+				switch(i)
+				{
+				case Hero::HERO_TYPE::OFFICER:
+					if(this->m_officer->getCharacter()->getAnimation()->getCurrentAnimation() == "OfficerSelectIdle")
+					{
+						this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerIdle");
+						this->m_officer->getCharacter()->getAnimation()->Play("OfficerDeselect");
+					}
+					break;
+				}
+			}
 		}
 	}
 

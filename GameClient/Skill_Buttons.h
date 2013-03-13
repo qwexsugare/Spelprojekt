@@ -21,6 +21,7 @@ private:
 		int m_ButtonReaction ;
 		SpriteSheet* m_SkillButton;
 		SpriteSheet* m_cooldown;
+		Sprite* m_SpriteSkill;
 		unsigned int m_skillId;
 		
 		float m_cooldownTime;
@@ -51,6 +52,7 @@ private:
 		string			m_TextType;
 		string			m_FullName;
 		string			m_Number;
+		string			m_Skill;
 		bool			m_Lock;
 		bool			m_Active;
 		bool			m_ChangeAble;
@@ -72,7 +74,8 @@ public:
 				float _textSize = 1,
 				int _layer = 2,
 				int _DelayTime = 100,
-				bool _Active = false);
+				bool _Active = false,
+				string _Skill = "");
 
 	int Clicked();
 	void Update(float dt);
@@ -82,7 +85,7 @@ public:
 	float ReturnSliderValue();
 	void setPosition(FLOAT2 _pos);
 	int StringtoINT(string stringInput);
-	void ChangeButton(string _Number, bool _Active, int id);
+	void ChangeButton(string _Number, bool _Active, int id, string _Skill="");
 	void ChangAbleBind(bool _Change);
 	int Skill_Buttons::ReturnClicked();
 	string setID(string _ID);

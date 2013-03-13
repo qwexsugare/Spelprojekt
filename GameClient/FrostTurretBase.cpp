@@ -10,12 +10,17 @@ FrostTurretBase::FrostTurretBase(FLOAT3 _pos, float _lifetime) : ServerEntity(_p
 	m_lifeTime = _lifetime;
 	m_modelId = 6;
 	m_visible = true;
-	m_type = ServerEntity::TowerType;
+	m_type = ServerEntity::TowerBaseType;
 }
 
 FrostTurretBase::~FrostTurretBase()
 {
 
+}
+
+void FrostTurretBase::addLifetime(float _dt)
+{
+	this->m_lifeTime = this->m_lifeTime + _dt;
 }
 
 void FrostTurretBase::update(float _dt)
