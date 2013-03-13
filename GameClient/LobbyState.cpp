@@ -103,7 +103,7 @@ void LobbyState::update(float _dt)
 
 	//camera real pos is the camera position, which tries to reach the position from the slider
 	//if the real pos is inside a certain value, it wont move
-	if(cameraRealPos > this->m_menu->getSlider()->GetValue() * max-0.2&&cameraRealPos < this->m_menu->getSlider()->GetValue() * max+0.2)
+	if(cameraRealPos > this->m_menu->getSlider()->GetValue() * max-0.1&&cameraRealPos < this->m_menu->getSlider()->GetValue() * max+0.1)
 	{
 	}
 	else
@@ -118,7 +118,7 @@ void LobbyState::update(float _dt)
 
 	
 	float mouseX = (g_mouse->getPos().x / float(g_graphicsEngine->getScreenSize().x))*2-1;
-
+	 max = step*5;
 	if(g_mouse->isLButtonReleased() && mouseX >= -0.45f && mouseX <= 0.45f)
 	{
 		D3DXVECTOR3 pickDir;
@@ -129,26 +129,31 @@ void LobbyState::update(float _dt)
 		{
 			this->m_currentHeroSelected = Hero::OFFICER;
 			m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
+			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.2)/max);
 		}
 		else if(m_redKnight->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::RED_KNIGHT;
 			m_network->sendMessage(NetworkSelectHeroMessage(1, this->m_menu->getCombat()));
+			this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x-step*2)/max);
 		}
 		else if(m_engi->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::ENGINEER;
 			m_network->sendMessage(NetworkSelectHeroMessage(2, this->m_menu->getCombat()));
+			this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x-step)/max);
 		}
 		else if(m_doctor->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::DOCTOR;
 			m_network->sendMessage(NetworkSelectHeroMessage(3, this->m_menu->getCombat()));
+			this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x-step)/max);
 		}
 		else if(m_mentalist->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::THE_MENTALIST;
 			m_network->sendMessage(NetworkSelectHeroMessage(4, this->m_menu->getCombat()));
+			this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x-step)/max);
 		}
 	}
 	
