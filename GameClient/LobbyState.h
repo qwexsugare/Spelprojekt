@@ -29,6 +29,7 @@ private:
 	float speed;
 	float cameraRealPos;
 	float distToSlider;
+	int m_playerId;
 public:
 	LobbyState();
 	LobbyState(Client* _network);

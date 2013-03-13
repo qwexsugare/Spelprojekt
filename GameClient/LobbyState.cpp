@@ -16,6 +16,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 
 	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(0.0f, 1.0f, 4.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
 	dl = g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
+	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.0f, 0.0f, 0.0f));
 
 	speed = 2.5f;
 
@@ -45,6 +46,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	
 	this->cameraRealPos = 0;
 	distToSlider = 0.0f;
+	this->m_playerId = -1;
 }
 
 LobbyState::~LobbyState()
@@ -206,8 +208,9 @@ void LobbyState::update(float _dt)
 
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
-		m_menu->selectHero(nhsm.getPlayerId(), m_heroType);
+
 		switch(nhsm.getHeroId())
+		if(nhsm.getPlayerId() == this->m_playerId)
 		{
 		case Hero::HERO_TYPE::OFFICER:
 			this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
@@ -215,6 +218,12 @@ void LobbyState::update(float _dt)
 			break;
 		}
 
+			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
+		}
+		else
+		{
+			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, false);
+		}
 		bool heroesNotSelected[] = {false, false, false, false, false};
 		for(int i = 0; i < 4; i++)
 		{
@@ -245,6 +254,7 @@ void LobbyState::update(float _dt)
 	{
 		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
 		this->mapName = nwm.getMapName();
+		this->m_playerId = nwm.getPlayerId();
 	}
 
 	while(!m_network->playerJoinedMessageQueueEmpty())

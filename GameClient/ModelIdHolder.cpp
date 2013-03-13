@@ -25,6 +25,19 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[21] = ModelId("gravestone");
 	this->m_modelIds[22] = ModelId("lampPost");
 	this->m_modelIds[23] = ModelId("CloudOfDarkness");
+	this->m_modelIds[24] = ModelId("demonblade");
+	this->m_modelIds[25] = ModelId("colum");
+	this->m_modelIds[26] = ModelId("columSign");
+	this->m_modelIds[27] = ModelId("treeMedium");
+	this->m_modelIds[28] = ModelId("treeSmall");
+	this->m_modelIds[29] = ModelId("gateBigHigh");
+	this->m_modelIds[30] = ModelId("gateBigLow");
+	this->m_modelIds[31] = ModelId("gateSmallHigh");
+	this->m_modelIds[32] = ModelId("gateSmallLow");
+	this->m_modelIds[33] = ModelId("cityHall");
+	this->m_modelIds[34] = ModelId("asylum");
+	this->m_modelIds[35] = ModelId("FountainAngel");
+
 	
 	this->m_modelIds[74] = ModelId("House05");
 	this->m_modelIds[75] = ModelId("House00");

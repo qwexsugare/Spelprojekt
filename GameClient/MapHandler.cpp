@@ -63,7 +63,7 @@ MapHandler::State MapHandler::getState()
 	{
 		return MapHandler::State::DEFEAT;
 	}
-	else if(this->m_currentWave >= this->m_waves.size())
+	else if(this->m_currentWave > this->m_waves.size())
 	{
 		return MapHandler::State::VICTORY;
 	}
@@ -157,6 +157,10 @@ void MapHandler::loadMap(std::string filename)
 						this->nrOfSpawnPoints++;
 					}
 					else if(strcmp(key, "Fountain") == 0)
+					{
+						EntityHandler::addEntity(new HealingFountain(position));
+					}
+					else if(strcmp(key, "FountainAngel") == 0)
 					{
 						EntityHandler::addEntity(new HealingFountain(position));
 					}
@@ -267,9 +271,6 @@ void MapHandler::loadMap(std::string filename)
 		}
 	}
 	file.close();
-
-	
-	createWave(25,5,0,0,0,0,0,0);  
 }
 
 void MapHandler::update(float _dt)

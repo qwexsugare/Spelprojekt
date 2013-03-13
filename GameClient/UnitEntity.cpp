@@ -139,7 +139,7 @@ void UnitEntity::alterMentalDamage(float _value)
 void UnitEntity::alterAttackSpeed(float _value)
 {
 	m_attackSpeedChange += _value;
-	m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+	m_attackSpeed = m_baseAttackSpeed - m_attackSpeedChange;
 
 	if(this->m_attackCooldown > this->m_attackSpeed)
 	{
@@ -227,8 +227,8 @@ void UnitEntity::increaseAgility(int _agility)
 	
 	this->m_baseMovementSpeed += _agility * 0.1f;
 	this->m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
-	this->m_baseAttackSpeed += _agility * 0.05f;
-	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+	this->m_baseAttackSpeed -= _agility * 0.05f;
+	this->m_attackSpeed = m_baseAttackSpeed - m_attackSpeedChange;
 	this->m_agility += _agility;
 }
 

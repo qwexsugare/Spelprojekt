@@ -30,7 +30,7 @@ public:
 	bool Character4IsDown();
 	Slider* getSlider(){return &this->m_slider;}
 
-	void selectHero(int _playerIndex, Hero::HERO_TYPE _type);
+	void selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeText);
 	int getCombat();
 	void setPlayerName(int _playerIndex, string _name);
 	Hero::HERO_TYPE* getHeroesSelected(){return this->m_currentSelections;};

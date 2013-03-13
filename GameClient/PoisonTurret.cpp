@@ -4,7 +4,7 @@
 #include "PoisonTurretProjectile.h"
 #include "EntityHandler.h"
 
-const float PoisonTurret::ATTACK_COOLDOWN = 1.0f;
+const float PoisonTurret::ATTACK_COOLDOWN = 1.5f;
 
 PoisonTurret::PoisonTurret()
 {
