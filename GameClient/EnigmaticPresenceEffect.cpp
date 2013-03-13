@@ -15,7 +15,7 @@ EnigmaticPresenceEffect::EnigmaticPresenceEffect(unsigned int _caster)
 	m_type = OtherType;
 	
 	ServerEntity* caster = EntityHandler::getServerEntity(m_caster);
-	vector<ServerEntity*> enemies = EntityHandler::getAllEnemies();
+	vector<ServerEntity*> enemies = EntityHandler::getEntitiesByType(ServerEntity::EnemyType);
 	for(int i = 0; i < enemies.size(); i++)
 	{
 		bool alreadyAffected = false;
@@ -80,7 +80,7 @@ void EnigmaticPresenceEffect::update(float _dt)
 		}
 
 		// Check if any newcomers want to join in on the oral (aural) fun.
-		vector<ServerEntity*> enemies = EntityHandler::getAllEnemies();
+		vector<ServerEntity*> enemies = EntityHandler::getEntitiesByType(ServerEntity::EnemyType);
 		for(int i = 0; i < enemies.size(); i++)
 		{
 			bool alreadyAffected = false;
