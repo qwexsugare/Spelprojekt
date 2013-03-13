@@ -1,25 +1,7 @@
 #include "Turret.h"
 #include "EntityHandler.h"
 
-Turret::Turret() : ServerEntity()
-{
-	this->m_attackCooldown = 0.0f;
-	this->m_attackRangeProt = 10.0f;
-	this->m_type = ServerEntity::TowerType;
-	this->m_active = true;
-}
-
-Turret::Turret(FLOAT3 position)
-{
-	this->m_lifeTime = 1000.0f;
-	this->m_attackCooldown = 0.0f;
-	this->m_attackRangeProt = 10.0f;
-	this->m_type = ServerEntity::TowerType;
-	this->m_position = position;
-	this->m_active = true;
-}
-
-Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime, unsigned int _ownerId)
+Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime, unsigned int _ownerId, int _turretUpgrade)
 {
 	this->m_originalRange =_range; 
 	this->m_range = BoundingSphere(XMFLOAT3(_position.x, _position.y, _position.z), _range);
@@ -29,6 +11,7 @@ Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lif
 	this->m_active = true;
 	this->m_type = ServerEntity::TowerType;
 	this->m_ownerId = _ownerId;
+	m_turretUpgrade = _turretUpgrade;
 }
 
 Turret::~Turret()
@@ -39,6 +22,11 @@ Turret::~Turret()
 const BoundingSphere& Turret::getRange()const
 {
 	return m_range;
+}
+
+int Turret::getTurretUpgrade()const
+{
+	return m_turretUpgrade;
 }
 
 void Turret::update(float _dt)

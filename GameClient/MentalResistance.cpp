@@ -8,7 +8,7 @@ MentalResistance::MentalResistance(unsigned int _senderId) : Skill(Skill::MENTAL
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setMentalResistance(ue->getMentalResistance() - 0.15f);
+		ue->alterMentalResistance(-0.15f);
 	}	
 }
 
@@ -19,7 +19,7 @@ MentalResistance::~MentalResistance()
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setMentalResistance(ue->getMentalResistance() + 0.15f);
+		ue->alterMentalResistance(0.15f);
 	}	
 }
 

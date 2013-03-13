@@ -29,9 +29,9 @@ void LifeRegenEffect::update(float _dt)
 		m_tickTimer += _dt;
 		if(m_tickTimer >= 1.0f)
 		{
-			int healAmount = ((UnitEntity*)caster)->getWits()*HEAL_FACTOR;
+			int healAmount = ((UnitEntity*)caster)->getFortitude()*HEAL_FACTOR;
 			((UnitEntity*)caster)->heal(healAmount + m_excessHeal);
-			m_excessHeal = ((UnitEntity*)caster)->getWits()*HEAL_FACTOR - healAmount;
+			m_excessHeal = ((UnitEntity*)caster)->getFortitude()*HEAL_FACTOR - healAmount;
 
 			m_tickTimer -= 1.0f;
 		}

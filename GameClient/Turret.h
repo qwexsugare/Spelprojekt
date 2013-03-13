@@ -14,13 +14,13 @@ protected:
 	float m_originalRange;
 	bool m_active;
 	unsigned int m_ownerId;
+	int m_turretUpgrade;
 public:
-	Turret();
-	Turret(FLOAT3 position);
-	Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime, unsigned int _ownerId);
+	Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime, unsigned int _ownerId, int _turretUpgrade);
 	virtual ~Turret();
 	
 	const BoundingSphere& getRange()const;
+	int getTurretUpgrade()const;
 	virtual void target(ServerEntity* _target) = 0;
 	void update(float _dt);
 	virtual void updateSpecificTurret(float _dt);
