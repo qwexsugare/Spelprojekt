@@ -13,13 +13,14 @@ private:
 	float m_animationSpeed;
 public:
 	NetworkCreateActionTargetMessage();
-	NetworkCreateActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId, FLOAT3 _position);
+	NetworkCreateActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId, FLOAT3 _position, float _animationSpeed = 1.0f);
 	~NetworkCreateActionTargetMessage();
 
 	unsigned int getActionId();
 	unsigned int getSenderId();
 	unsigned int getTargetId();
 	FLOAT3 getPosition();
+	float getAnimationSpeed();
 
 	friend sf::Packet& operator<<(sf::Packet& packet,const NetworkCreateActionTargetMessage& e);
 	friend sf::Packet& operator>>(sf::Packet& packet, NetworkCreateActionTargetMessage& e);

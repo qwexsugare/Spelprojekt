@@ -579,6 +579,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 
 		// Do the E skill
+		this->m_SkillButtons[0]->Update(_dt);
 		this->m_SkillButtons[1]->Update(_dt);
 
 		if(this->m_SkillButtons.size() > 0 && (g_keyboard->getKeyState('E') == Keyboard::KEY_PRESSED || this->m_SkillButtons[1]->Clicked() > 0))
