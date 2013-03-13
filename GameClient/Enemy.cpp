@@ -570,9 +570,11 @@ FLOAT3 Enemy::checkStatic(float dt)
 		if(distance < allowedDistance)
 		{
 			avDir = (m_position+m_dir*m_movementSpeed*lastDT*i - stat->getPosition())*(1.0f - distance/allowedDistance);
-			//avDir = crossProduct(m_position+m_dir*m_movementSpeed*lastDT*i-m_position, FLOAT3(0,1,0));
-			if((m_position+m_dir*m_movementSpeed*lastDT*i+avDir - stat->getPosition()).length() < (m_position+m_dir*m_movementSpeed*lastDT*i-avDir - stat->getPosition()).length())
-				avDir = avDir*-1;
+			FLOAT3 temp = crossProduct(m_position+m_dir*m_movementSpeed*lastDT*i-m_position, FLOAT3(0,1,0));
+			temp = temp/temp.length();
+			if((m_position+m_dir*m_movementSpeed*lastDT*i+temp - stat->getPosition()).length() < (m_position+m_dir*m_movementSpeed*lastDT*i-temp - stat->getPosition()).length())
+				temp = temp*-1;
+
 
 			//avDir = avDir*(1.0f - distance/allowedDistance);
 			return avDir;
