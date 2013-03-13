@@ -1,8 +1,72 @@
 Game statistics: 
 ----------------
-Time played: 0
-Life remaining: 50
-Reached wave: 0
+Time played: 648.699
+Life remaining: 0
+Reached wave: 5
 
 Player Statistics:
 ------------------
+Player name: WaddaPIgotABigCOck
+Hero played: Doctor
+Deamons killed: 67
+Player deaths: 2
+Resources collected: 3811
+Healed for: 2745
+
+Damage statistics: 
+Total damage dealt: 16989
+Physical damage taken: 1128
+Mental damage taken: 3077
+Physical damage dealt: 2540
+Mental damage dealt: 14449
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+1052173727
+0
+0
+0
+0
+0
+0
+0
+1768841581
+1935748924
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+807743516
+888943786
+1045839411
+919484104
+1032207666
+1017920680
+828780877
+841429524
+919287427
+1020738647
+1047871046
+864236402
+909587962
+1056128648
+961558805
+841691672
+835727819
+973617664
+16313
+---------------

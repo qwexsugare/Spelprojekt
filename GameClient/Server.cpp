@@ -529,6 +529,18 @@ void Server::broadcast(NetworkPlayerJoinedMessage networkMessage)
 			this->clients[i].Send(packet);
 	}
 
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(i != networkMessage.getPlayerIndex() && this->clients[i].IsValid())
+		{
+			NetworkPlayerJoinedMessage message = NetworkPlayerJoinedMessage(i, Statistics::getStatisticsPlayer(i).getPlayerName());
+			sf::Packet packet;
+			packet<<message;
+
+			this->clients[networkMessage.getPlayerIndex()].Send(packet);
+		}
+	}	
+
 	this->m_mutex.Unlock();
 }
 

@@ -3,7 +3,7 @@
 #include "FrostTurretProjectile.h"
 #include "EntityHandler.h"
 
-const float FrostTurret::ATTACK_COOLDOWN = 1.0f;
+const float FrostTurret::ATTACK_COOLDOWN = 1.5f;
 
 FrostTurret::FrostTurret()
 {

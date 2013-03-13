@@ -9,13 +9,13 @@ RunClientSkillEffect::RunClientSkillEffect(unsigned int masterId)
 		if(master->m_weapon == ModelIdHolder::AOE)
 		{
 			master->m_model->getAnimation()->Stop("2Hidle");
-			master->m_model->getAnimation()->PlayLoop("2Hrun");
+			master->m_model->getAnimation()->PlayLoop("2Hrun", -1, master->movementSpeed / 2);
 
 		}
 		else
 		{
 			master->m_model->getAnimation()->Stop("idle");
-			master->m_model->getAnimation()->PlayLoop("run");
+			master->m_model->getAnimation()->PlayLoop("run", -1, master->movementSpeed / 2);
 		}
 	}
 }
