@@ -8,6 +8,7 @@ private:
 	unsigned int m_actionId;
 	unsigned int m_senderId;
 	FLOAT3 m_position;
+	float m_animationSpeed;
 public:
 	NetworkCreateActionMessage();
 	NetworkCreateActionMessage(unsigned int _actionId, unsigned int _senderId, FLOAT3 _position);

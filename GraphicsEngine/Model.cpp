@@ -368,6 +368,24 @@ FLOAT3 Model::getLeftHandPosition()
 	}
 }
 
+FLOAT3 Model::getRightHandPosition()
+{
+	if(this->m_rightHand != NULL)
+	{
+		D3DXVECTOR4 result;
+		D3DXMATRIX rightHandModelMatrix;
+
+		D3DXMatrixMultiply(&rightHandModelMatrix, this->animation->getRightHandMatrix(), &this->m_modelMatrix);
+
+		D3DXVec3Transform(&result, &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &rightHandModelMatrix);
+		return FLOAT3(result.x, result.y, result.z);
+	}
+	else
+	{
+		return FLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
+	}
+}
+
 void Model::setShadow(bool _shadow)
 {
 	this->m_shadow = _shadow;
