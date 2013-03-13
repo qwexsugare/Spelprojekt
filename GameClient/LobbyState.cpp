@@ -133,40 +133,40 @@ void LobbyState::update(float _dt)
 			this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
 			this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
 			//this->m_menu->getSlider()->setValue(alve*0);
-			//this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.2)/max);
-			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x));
+			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.2)/max);
+			//this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x));
 		}
 		else if(m_redKnight->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::RED_KNIGHT;
 			m_network->sendMessage(NetworkSelectHeroMessage(1, this->m_menu->getCombat()));
 			//this->m_menu->getSlider()->setValue(alve*0);
-			//this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x-step*2)/max);
-			this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x));
+			this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x-step*2)/max);
+			//this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x));
 		}
 		else if(m_engi->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::ENGINEER;
 			m_network->sendMessage(NetworkSelectHeroMessage(2, this->m_menu->getCombat()));
 			//this->m_menu->getSlider()->setValue(alve*2);
-			//this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x-step)/max);
-			this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x));
+			this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x-step)/max);
+			//this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x));
 		}
 		else if(m_doctor->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::DOCTOR;
 			m_network->sendMessage(NetworkSelectHeroMessage(3, this->m_menu->getCombat()));
 			//this->m_menu->getSlider()->setValue(alve*3);
-			//this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x-step)/max);
-			this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x));
+			this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x-step)/max);
+			//this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x));
 		}
 		else if(m_mentalist->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::THE_MENTALIST;
 			m_network->sendMessage(NetworkSelectHeroMessage(4, this->m_menu->getCombat()));
-			//this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x-step)/max);
+			this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x-step)/max);
 			//this->m_menu->getSlider()->setValue(alve*4);
-			this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x));
+			//this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x));
 		}
 	}
 	
