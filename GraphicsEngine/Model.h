@@ -81,6 +81,7 @@ public:
 	bool getShadow();
 
 	DECLDIR FLOAT3 getLeftHandPosition();
+	DECLDIR FLOAT3 getRightHandPosition();
 	DECLDIR void neutralize();
 	DECLDIR FLOAT2 getScreenPos(D3DXMATRIX viewProjectionMatrix);
 };

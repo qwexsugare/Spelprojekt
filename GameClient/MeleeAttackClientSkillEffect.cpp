@@ -7,13 +7,13 @@
 
 float MeleeAttackClientSkillEffect::timeToNextDamageSound = 0.0f;
 
-MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterId, unsigned int _targetId, PLAYER_INFO _playerInfo)
+MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterId, unsigned int _targetId, PLAYER_INFO _playerInfo, float _animationSpeed)
 {
 	this->m_lifetime = 1.0f;
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
 	if(master)
 	{
-		master->m_model->getAnimation()->PlayLoop("attack");
+		master->m_model->getAnimation()->PlayLoop("attack", -1, _animationSpeed);
 
 		Entity* target = ClientEntityHandler::getEntity(_targetId);
 		if(target)
