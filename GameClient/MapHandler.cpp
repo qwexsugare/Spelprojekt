@@ -160,6 +160,10 @@ void MapHandler::loadMap(std::string filename)
 					{
 						EntityHandler::addEntity(new HealingFountain(position));
 					}
+					else if(strcmp(key, "FountainAngel") == 0)
+					{
+						EntityHandler::addEntity(new HealingFountain(position));
+					}
 					else
 					{
 						Model *m = g_graphicsEngine->createModel(key, FLOAT3(0.0f, 0.0f, 0.0f), false); //must be nonstatic (false)
@@ -267,6 +271,7 @@ void MapHandler::loadMap(std::string filename)
 		}
 	}
 	file.close();
+
 }
 
 void MapHandler::update(float _dt)

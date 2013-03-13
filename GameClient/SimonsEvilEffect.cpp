@@ -9,6 +9,7 @@ SimonsEvilEffect::SimonsEvilEffect(unsigned int _caster)
 	m_heal = ((Hero*)EntityHandler::getServerEntity(_caster))->getWits()*3;
 	m_ticks = 0;
 	m_caster = _caster;
+	m_damage = ((Hero*)EntityHandler::getServerEntity(_caster))->getWits()*DPS;
 	
 	this->m_obb = NULL;
 	Model *m = g_graphicsEngine->createModel("CloudOfDarkness", this->m_position);
@@ -34,7 +35,7 @@ void SimonsEvilEffect::tick()
 	{
 		if(enemies[i]->contains(*m_bs))
 		{
-			((UnitEntity*)enemies[i])->takeDamage(this->m_caster, 0, SimonsEvilEffect::DPS);
+			((UnitEntity*)enemies[i])->takeDamage(this->m_caster, 0, m_damage);
 		}
 	}
 	

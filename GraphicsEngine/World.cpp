@@ -43,6 +43,9 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	//ParticleStuff
 	this->m_particleRendering =  new ParticleEngineEffectFile(this->m_deviceHandler->getDevice());
 
+	//ChainEffect
+	this->m_chainEffectRendering = new ChainFXEffectFile(this->m_deviceHandler->getDevice());
+
 	//SSAO
 	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
 

@@ -201,7 +201,7 @@ int ServerEntity::getSubType()const
 	return -1;
 }
 
-void ServerEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
+void ServerEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage, int _extraDivinePower)
 {
 
 }

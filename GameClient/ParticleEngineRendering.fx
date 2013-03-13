@@ -55,15 +55,7 @@ void DrawGS(point VS_OUT input[1], inout TriangleStream<GS_OUT> triStream)
 
 float4 DrawPS(GS_OUT input) : SV_TARGET
 {
-	//[branch] switch(input.color.g)
-	//{
-		//case 1:
-			return float4(0, 1, 0, 1);
-		/*case 2:
-			return tex.Sample(triLinearSam, input.texC)*float4(1, 0, 0, 1);
-		default:
-			return tex.Sample(triLinearSam, input.texC)*float4(1, 1, 1, 1);*/
-	//}
+	return tex.Sample(triLinearSam, input.texC);
 }
 
 //Beacon

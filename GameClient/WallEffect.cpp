@@ -4,7 +4,7 @@ WallEffect::WallEffect(unsigned int _senderId, FLOAT3 _position, float rotation,
 {
 	this->m_rotation = FLOAT3(0.0f, rotation, 0.0f);
 	this->m_duration = _duration;
-	this->m_modelId = 9;
+	this->m_modelId = 10;
 	this->m_type = ServerEntity::StaticType;
 
 	Model *temp = g_graphicsEngine->createModel("wall", _position);

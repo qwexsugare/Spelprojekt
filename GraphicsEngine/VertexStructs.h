@@ -63,4 +63,10 @@ struct AnimationVertex
 		this->bone = _bone;
 	}
 };
+
+struct ChainVertex
+{	
+	D3DXVECTOR3 pos;
+	D3DXVECTOR2 texCoord;
+};
 #endif

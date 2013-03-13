@@ -47,6 +47,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
 	m_poisonStacks = 0;
+	m_extraDivinePower = 0;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -93,6 +94,7 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
 	m_poisonStacks = 0;
+	m_extraDivinePower = 0;
 }
 
 UnitEntity::~UnitEntity()
@@ -116,11 +118,13 @@ void UnitEntity::applyFrostTurretSlowEffect(float _value)
 	if(m_frostTurretSlowEffectTimer > 0.0f)
 	{
 		this->alterMovementSpeed(-m_frostTurretSlowEffectValue);
+		this->alterAttackSpeed(m_frostTurretSlowEffectValue);
 	}
 
 	m_frostTurretSlowEffectTimer = 10.0f;
 	m_frostTurretSlowEffectValue = _value;
 	this->alterMovementSpeed(m_frostTurretSlowEffectValue);
+	this->alterAttackSpeed(-m_frostTurretSlowEffectValue);
 }
 
 void UnitEntity::addSkill(Skill *_skill)
@@ -145,6 +149,12 @@ void UnitEntity::alterAttackSpeed(float _value)
 	{
 		this->m_attackCooldown = this->m_attackSpeed;
 	}
+}
+
+void UnitEntity::alterMentalResistance(float _value)
+{
+	m_mentalResistanceChange += _value;
+	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 }
 
 void UnitEntity::alterMovementSpeed(float _value)
@@ -227,8 +237,8 @@ void UnitEntity::increaseAgility(int _agility)
 	
 	this->m_baseMovementSpeed += _agility * 0.1f;
 	this->m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
-	this->m_baseAttackSpeed += _agility * 0.05f;
-	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+	this->m_baseAttackSpeed -= _agility * 0.05f;
+	this->m_attackSpeed = m_baseAttackSpeed - m_attackSpeedChange;
 	this->m_agility += _agility;
 }
 
@@ -280,37 +290,6 @@ bool UnitEntity::isSlowedByFrostTurret()
 void UnitEntity::setMaxHealth(int _maxHealth)
 {
 	this->m_maxHealth = _maxHealth;
-}
-
-void UnitEntity::setMovementSpeed(float _movementSpeed)
-{
-	this->m_movementSpeed = _movementSpeed;
-}
-
-void UnitEntity::setAttackSpeed(float _attackSpeed)
-{
-	this->m_attackSpeed = _attackSpeed;
-}
-
-void UnitEntity::setPhysicalDamage(float _physicalDamage)
-{
-	this->m_physicalDamage = _physicalDamage;
-}
-
-void UnitEntity::setMentalDamage(float _mentalDamage)
-{
-	this->m_mentalDamage = _mentalDamage;
-
-}
-
-void UnitEntity::setPhysicalResistance(float _physicalResistance)
-{
-	this->m_physicalResistance = _physicalResistance;
-}
-
-void UnitEntity::setMentalResistance(float _mentalResistance)
-{
-	this->m_mentalResistance = _mentalResistance;
 }
 
 void UnitEntity::setPoisonCounter(int _poisonCounter)
@@ -419,8 +398,10 @@ int UnitEntity::getPoisonCounter()
 }
 
 #include <sstream>
-void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
+void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage, int _extraDivinePower)
 {
+	m_extraDivinePower = _extraDivinePower;
+
 	int networkId=Statistics::convertSimonsIdToRealId(damageDealerId);
 	if(networkId>=0)
 	{
