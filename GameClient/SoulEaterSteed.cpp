@@ -34,7 +34,7 @@ SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Ene
 
 	m_baseMentalResistance = 1.00f - m_fortitude*2*0.01f;
 	m_mentalResistance = m_baseMentalResistance;*/
-	*/
+	
 	m_skills.push_back(new LifestealingStrike());
 	m_regularAttack = new MeleeAttack();
 	m_aggroRange = m_regularAttack->getRange() *2.0f;
