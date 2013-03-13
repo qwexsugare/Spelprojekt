@@ -14,6 +14,7 @@ Room::Room(int _index, int _charId, string _roomDiffuse, string _roomGlow, FLOAT
 
 
 	this->m_character = g_graphicsEngine->createModel(m_modelIdHolder.getModel(_charId), FLOAT3(_pos.x + (_roomWidth*_index), _pos.y, _pos.z), false, m_modelIdHolder.getTexture(_charId));
+	this->m_character->setGlowIndex("");
 	this->m_character->SetHat(g_graphicsEngine->getMesh(m_modelIdHolder.getHat(_charId)));
 	this->m_window = g_graphicsEngine->createModel("windowGlow", FLOAT3(_pos.x + (_roomWidth*_index), _pos.y, _pos.z), false, "color");
 
