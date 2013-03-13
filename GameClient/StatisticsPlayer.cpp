@@ -145,3 +145,33 @@ int StatisticsPlayer::getDeathCount() const
 {
 	return this->deathCounter;
 }
+
+void StatisticsPlayer::setDemonsKilled(int demonsKilled)
+{
+	this->deamonsKilled = demonsKilled;
+}
+
+void StatisticsPlayer::setGoldCollected(int goldCollected)
+{
+	this->goldCollected = goldCollected;
+}
+
+void StatisticsPlayer::setMentalDamageDone(int damage)
+{
+	this->mentalDamageDealth = damage;
+}
+
+void StatisticsPlayer::setMentalDamageRecieved(int damage)
+{
+	this->mentalDamageRecived = damage;
+}
+
+void StatisticsPlayer::setPhysicalDamageDone(int damage)
+{
+	this->physicalDamageDealth = damage;
+}
+
+void StatisticsPlayer::setPhysicalDamageRecieved(int damage)
+{
+	this->physicalDamageRecived = damage;
+}
