@@ -1,8 +1,8 @@
 Game statistics: 
 ----------------
-Time played: 67.3192
-Life remaining: 46
-Reached wave: 1
+Time played: 11.8279
+Life remaining: 50
+Reached wave: 0
 
 Player Statistics:
 ------------------
@@ -14,11 +14,11 @@ Resources collected: 0
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 107
-Physical damage taken: 62
+Total damage dealt: 0
+Physical damage taken: 0
 Mental damage taken: 0
-Physical damage dealt: 52
-Mental damage dealt: 55
+Physical damage dealt: 0
+Mental damage dealt: 0
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -67,6 +67,6 @@ Skills used:
 3688660
 0
 0
-1665696070
-1665691365
+1665237318
+1665232613
 ---------------
