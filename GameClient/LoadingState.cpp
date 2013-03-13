@@ -7,7 +7,7 @@ LoadingState::LoadingState(Client* _network, string _mapName) : State(State::LOA
 	m_mapName = _mapName;
 	m_network = _network;
 	m_skip = new Button();
-	m_skip->Init(FLOAT2(0.5f, -0.8f), FLOAT2(0.3f, 0.15f), "menu_textures/skip.png", "");
+	m_skip->Init(FLOAT2(0.5f, -0.8f), FLOAT2(0.3f, 0.15f), "menu_textures/Button-LoadingMenu-Skip.png", "");
 	m_speech = createSoundHandle("lorebook/Level1.wav", false, false);
 	playSound(m_speech);
 	m_img = g_graphicsEngine->createSprite("menu_textures/MENU-LEVEL-0.png", FLOAT2(0.0f, 0.0f), FLOAT2(2.0f, 2.0f), 0);

@@ -118,11 +118,13 @@ void UnitEntity::applyFrostTurretSlowEffect(float _value)
 	if(m_frostTurretSlowEffectTimer > 0.0f)
 	{
 		this->alterMovementSpeed(-m_frostTurretSlowEffectValue);
+		this->alterAttackSpeed(m_frostTurretSlowEffectValue);
 	}
 
 	m_frostTurretSlowEffectTimer = 10.0f;
 	m_frostTurretSlowEffectValue = _value;
 	this->alterMovementSpeed(m_frostTurretSlowEffectValue);
+	this->alterAttackSpeed(-m_frostTurretSlowEffectValue);
 }
 
 void UnitEntity::addSkill(Skill *_skill)

@@ -7,6 +7,7 @@ class Turret : public ServerEntity
 private:
 	float m_currentAttackCooldown;
 	BoundingSphere m_range;
+	int m_turretUpgrade;
 protected:
 	float m_attackRangeProt;
 	float m_attackCooldown;
@@ -14,7 +15,6 @@ protected:
 	float m_originalRange;
 	bool m_active;
 	unsigned int m_ownerId;
-	int m_turretUpgrade;
 public:
 	Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime, unsigned int _ownerId, int _turretUpgrade);
 	virtual ~Turret();

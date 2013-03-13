@@ -16,16 +16,12 @@ SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Ene
 	m_highRescource  = 70+20;
 
 	/*
-	m_strength       = 6;
-	m_agility        = 1;
-	m_wits           = 0;
-	m_fortitude      = 3;
 				     
 	m_lowResource    = 60+20;
 	m_highRescource  = 70+20;
 	
 
-	m_health = 100*m_fortitude; 
+	/*m_health = 100*m_fortitude; 
 	m_physicalDamage = m_strength*5;
 	m_mentalDamage = m_wits*5;
 	m_baseMovementSpeed = 2.0 + m_agility*0.1f;
@@ -37,8 +33,8 @@ SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Ene
 	m_physicalResistance = m_basePhysicalResistance ; 
 
 	m_baseMentalResistance = 1.00f - m_fortitude*2*0.01f;
-	m_mentalResistance = m_baseMentalResistance;
-	*/
+	m_mentalResistance = m_baseMentalResistance;*/
+
 	m_skills.push_back(new LifestealingStrike());
 	m_regularAttack = new MeleeAttack();
 	m_aggroRange = m_regularAttack->getRange() *2.0f;

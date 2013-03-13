@@ -271,6 +271,7 @@ void MapHandler::loadMap(std::string filename)
 		}
 	}
 	file.close();
+
 }
 
 void MapHandler::update(float _dt)

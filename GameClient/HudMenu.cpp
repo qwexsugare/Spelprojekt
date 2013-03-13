@@ -19,7 +19,6 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Locked = true;
 	m_hasTargetEnemy = false;
 
-	m_Resources = 0;
 	m_DontChange.push_back(false);
 	m_DontChange.push_back(false);
 	m_DontChange.push_back(false);
