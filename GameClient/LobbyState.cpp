@@ -45,6 +45,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	
 	this->cameraRealPos = 0;
 	distToSlider=0.0f;
+	this->m_playerId = -1;
 }
 
 LobbyState::~LobbyState()
@@ -196,13 +197,22 @@ void LobbyState::update(float _dt)
 	{
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
-		m_menu->selectHero(nhsm.getPlayerId(), m_heroType);
+
+		if(nhsm.getPlayerId() == this->m_playerId)
+		{
+			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
+		}
+		else
+		{
+			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, false);
+		}
 	}
 
 	while(!m_network->networkWelcomeMessageEmpty())
 	{
 		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
 		this->mapName = nwm.getMapName();
+		this->m_playerId = nwm.getPlayerId();
 	}
 
 	while(!m_network->playerJoinedMessageQueueEmpty())

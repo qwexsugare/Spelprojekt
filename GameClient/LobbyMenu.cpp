@@ -279,30 +279,61 @@ void LobbyMenu::Update(float _dt)
 			this->m_Label[2]->setText("Officer");
 			this->m_Label[0]->setText("Strength: 3_Agility: 5_Wits: 1_Fortitude: 3__Weapon:_Rapier_Hexagun_________Story:_____Skills:");
 			this->m_Label[1]->setText("A captain of the Royal Airship Brigade, the officer is now commissioned to take charge against the siege_that has befallen Chevington. His leadership skills are a true assets to the brave men and women_stationed in the towers and siege weapons and his skill with blade and rifle makes him a true plague_upon anyone standing in his way.___Active: Target acquired, permission to fire!_Passive: Ready, aim, fire!");
+			this->m_Buttons[6]->setTexture("menu_textures\\O0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\O1.png");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Range combat_Selected");
+			}
 		}
 		if (m_Character1 == true)
 		{
 			this->m_Label[2]->setText("Red Knight");
 			this->m_Label[0]->setText("Strength: 5_Agility: 2_Wits: 1_Fortitude: 4__Weapon:_Bastardsword_Twohanded Warhammer_________Story:_____Skills:");
 			this->m_Label[1]->setText("In a city where steam and cogs are the pinnacle of modern civilization, the ancient order of Sword and_Shield wielding knights seem a bit superfluous, but they are fierce warriors and good men. Whenever Dark_Powers show their ugly face, the Red Knights descend upon them without mercy. This particular_Knight is a paragon of his order and instills courage in his comrades as he strikes down enemy after enemy.___Active: Swift as a cat, powerful as a bear_Passive: Courage,Honor,Valor");
+			this->m_Buttons[6]->setTexture("menu_textures\\R0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\R1.png");
+			this->m_Label[3]->setText("Close combat_Selected");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Close combat_Selected");
+			}
 		}
 		if (m_Character2 == true)
 		{
 			this->m_Label[2]->setText("Engineer");
 			this->m_Label[0]->setText("Strength: 3_Agility: 3_Wits: 5_Fortitude: 1__Weapon:_Gigantic Wrench_Steampowered Crossbow_________Story:_____Skills:");
 			this->m_Label[1]->setText("HEJ JAG R MAD!");
+			this->m_Buttons[6]->setTexture("menu_textures\\E0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Range combat_Selected");
+			}
 		}
 		if (m_Character3 == true)
 		{
 			this->m_Label[2]->setText("Doctor");
 			this->m_Label[0]->setText("Strength: 1_Agility: 3_Wits: 5_Fortitude: 3__Weapon:_Cleaver_Pistol_________Story:_____Skills:");
 			this->m_Label[1]->setText("A master of surgery, medicine and the art of healing, the Doctor is not only wanted, but needed on the field_of battle. Not only skilled in healing his allies and bringing their spirits back, but also gifted with the_ability to poison his enemies, making them weaker and easier to kill, he is a force to be reckoned with_and not a man you would want to cross.___Active: Healing aura_Passive: Life regain");
+			this->m_Buttons[6]->setTexture("menu_textures\\D0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\D1.png");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Range combat_Selected");
+			}
 		}
 		if (m_Character4 == true)
 		{
 			this->m_Label[2]->setText("Mentalist");
 			this->m_Label[0]->setText("Strength: 1_Agility: 4_Wits: 5_Fortitude: 2__Weapon:_Rapier_Pistol_________Story:_____Skills:");
 			this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know more about you than_you do yourself. Some say he is a charlatan, other think it is real magic. Whichever is true,_it is clear that The Mentalist can do incredible things to your mind, often without you even noticing._Be glad he is on your side.___Active: Hypnotic stare_Passive: Enigmatic Presence");
+			this->m_Buttons[6]->setTexture("menu_textures\\M0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\M1.png");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Range combat_Selected");
+			}
 		}
 	}
 	m_slider.Update();
@@ -468,7 +499,7 @@ bool LobbyMenu::Character4IsDown()
 	return false;
 }
 
-void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type)
+void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeText)
 {
 	FLOAT2 pos;
 	int buttonIndex;
@@ -519,39 +550,85 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type)
 	switch(_type)
 	{
 	case Hero::OFFICER:
-		this->m_Label[2]->setText("Officer");
-		this->m_Label[0]->setText("Strength: 3_Agility: 5_Wits: 1_Fortitude: 3__Weapon:_Rapier_Hexagun_________Story:_____Skills:");
-		this->m_Label[1]->setText("A captain of the Royal Airship Brigade, the officer is now commissioned to take charge against the siege_that has befallen Chevington. His leadership skills are a true assets to the brave men and women_stationed in the towers and siege weapons and his skill with blade and rifle makes him a true plague_upon anyone standing in his way.___Active: Target acquired, permission to fire!_Passive: Ready, aim, fire!");
-		m_officerPortrait->setPosition(pos);
-		m_officerPortrait->setVisible(true);
+		this->m_officerPortrait->setPosition(pos);
+		this->m_officerPortrait->setVisible(true);
+		if(changeText == true)
+		{
+			this->m_Label[2]->setText("Officer");
+			this->m_Label[0]->setText("Strength: 3_Agility: 5_Wits: 1_Fortitude: 3__Weapon:_Rapier_Hexagun_________Story:_____Skills:");
+			this->m_Label[1]->setText("A captain of the Royal Airship Brigade, the officer is now commissioned to take charge against the siege_that has befallen Chevington. His leadership skills are a true assets to the brave men and women_stationed in the towers and siege weapons and his skill with blade and rifle makes him a true plague_upon anyone standing in his way.___Active: Target acquired, permission to fire!_Passive: Ready, aim, fire!");
+			this->m_Buttons[6]->setTexture("menu_textures\\O0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\O1.png");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Range combat_Selected");
+			}
+		}
 		break;
 	case Hero::RED_KNIGHT:
-		this->m_Label[2]->setText("Red Knight");
-		this->m_Label[0]->setText("Strength: 5_Agility: 2_Wits: 1_Fortitude: 4__Weapon:_Bastardsword_Twohanded Warhammer_________Story:_____Skills:");
-		this->m_Label[1]->setText("In a city where steam and cogs are the pinnacle of modern civilization, the ancient order of Sword and_Shield wielding knights seem a bit superfluous, but they are fierce warriors and good men. Whenever Dark_Powers show their ugly face, the Red Knights descend upon them without mercy. This particular_Knight is a paragon of his order and instills courage in his comrades as he strikes down enemy after enemy.___Active: Swift as a cat, powerful as a bear_Passive: Courage,Honor,Valor");
-		m_redKnightPortrait->setPosition(pos);
-		m_redKnightPortrait->setVisible(true);
+		this->m_redKnightPortrait->setPosition(pos);
+		this->m_redKnightPortrait->setVisible(true);
+		if(changeText == true)
+		{
+			this->m_Label[2]->setText("Red Knight");
+			this->m_Label[0]->setText("Strength: 5_Agility: 2_Wits: 1_Fortitude: 4__Weapon:_Bastardsword_Twohanded Warhammer_________Story:_____Skills:");
+			this->m_Label[1]->setText("In a city where steam and cogs are the pinnacle of modern civilization, the ancient order of Sword and_Shield wielding knights seem a bit superfluous, but they are fierce warriors and good men. Whenever Dark_Powers show their ugly face, the Red Knights descend upon them without mercy. This particular_Knight is a paragon of his order and instills courage in his comrades as he strikes down enemy after enemy.___Active: Swift as a cat, powerful as a bear_Passive: Courage,Honor,Valor");
+			this->m_Buttons[6]->setTexture("menu_textures\\R0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\R1.png");
+			this->m_Label[3]->setText("Close combat_Selected");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Close combat_Selected");
+			}
+		}
 		break;
 	case Hero::ENGINEER:
-		this->m_Label[2]->setText("Engineer");
-		this->m_Label[0]->setText("Strength: 3_Agility: 3_Wits: 5_Fortitude: 1__Weapon:_Gigantic Wrench_Steampowered Crossbow_________Story:_____Skills:");
-		this->m_Label[1]->setText("Roland is Gay!");
-		m_engineerPortrait->setPosition(pos);
-		m_engineerPortrait->setVisible(true);
+		this->m_engineerPortrait->setPosition(pos);
+		this->m_engineerPortrait->setVisible(true);
+		if(changeText == true)
+		{
+			this->m_Label[2]->setText("Engineer");
+			this->m_Label[0]->setText("Strength: 3_Agility: 3_Wits: 5_Fortitude: 1__Weapon:_Gigantic Wrench_Steampowered Crossbow_________Story:_____Skills:");
+			this->m_Label[1]->setText("Roland is Gay!");
+			this->m_Buttons[6]->setTexture("menu_textures\\E0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Range combat_Selected");
+			}
+		}
 		break;
 	case Hero::DOCTOR:
-		this->m_Label[2]->setText("Doctor");
-		this->m_Label[0]->setText("Strength: 1_Agility: 3_Wits: 5_Fortitude: 3__Weapon:_Cleaver_Pistol_________Story:_____Skills:");
-		this->m_Label[1]->setText("A master of surgery, medicine and the art of healing, the Doctor is not only wanted, but needed on the field_of battle. Not only skilled in healing his allies and bringing their spirits back, but also gifted with the_ability to poison his enemies, making them weaker and easier to kill, he is a force to be reckoned with_and not a man you would want to cross.___Active: Healing aura_Passive: Life regain");
-		m_doctorPortrait->setPosition(pos);
-		m_doctorPortrait->setVisible(true);
+		this->m_doctorPortrait->setPosition(pos);
+		this->m_doctorPortrait->setVisible(true);
+		if(changeText == true)
+		{
+			this->m_Label[2]->setText("Doctor");
+			this->m_Label[0]->setText("Strength: 1_Agility: 3_Wits: 5_Fortitude: 3__Weapon:_Cleaver_Pistol_________Story:_____Skills:");
+			this->m_Label[1]->setText("A master of surgery, medicine and the art of healing, the Doctor is not only wanted, but needed on the field_of battle. Not only skilled in healing his allies and bringing their spirits back, but also gifted with the_ability to poison his enemies, making them weaker and easier to kill, he is a force to be reckoned with_and not a man you would want to cross.___Active: Healing aura_Passive: Life regain");
+			this->m_Buttons[6]->setTexture("menu_textures\\D0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\D1.png");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Range combat_Selected");
+			}
+		}
 		break;
 	case Hero::THE_MENTALIST:
-		this->m_Label[2]->setText("Mentalist");
-		this->m_Label[0]->setText("Strength: 1_Agility: 4_Wits: 5_Fortitude: 2__Weapon:_Rapier_Pistol_________Story:_____Skills:");
-		this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know more about you than_you do yourself. Some say he is a charlatan, other think it is real magic. Whichever is true,_it is clear that The Mentalist can do incredible things to your mind, often without you even noticing._Be glad he is on your side.___Active: Hypnotic stare_Passive: Enigmatic Presence");
-		m_mentalistPortrait->setPosition(pos);
-		m_mentalistPortrait->setVisible(true);
+		this->m_mentalistPortrait->setPosition(pos);
+		this->m_mentalistPortrait->setVisible(true);
+		if(changeText == true)
+		{
+			this->m_Label[2]->setText("Mentalist");
+			this->m_Label[0]->setText("Strength: 1_Agility: 4_Wits: 5_Fortitude: 2__Weapon:_Rapier_Pistol_________Story:_____Skills:");
+			this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know more about you than_you do yourself. Some say he is a charlatan, other think it is real magic. Whichever is true,_it is clear that The Mentalist can do incredible things to your mind, often without you even noticing._Be glad he is on your side.___Active: Hypnotic stare_Passive: Enigmatic Presence");
+			this->m_Buttons[6]->setTexture("menu_textures\\M0.png");
+			this->m_Buttons[7]->setTexture("menu_textures\\M1.png");
+			if (m_Combat == 1)
+			{
+				this->m_Label[3]->setText("Range combat_Selected");
+			}
+		}
 		break;
 	}
 	

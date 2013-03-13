@@ -290,15 +290,19 @@ void Server::broadcast(NetworkUpdateEntityHealth networkMessage)
 }
 void Server::broadcast(NetworkWelcomeMessage networkMessage)
 {
-	sf::Packet packet;
-	packet<<networkMessage;
-
 	this->m_mutex.Lock();
 
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
 		if(this->clients[i].IsValid())
+		{
+			networkMessage.setPlayerId(this->m_players[i]->getId());
+
+			sf::Packet packet;
+			packet<<networkMessage;
+
 			this->clients[i].Send(packet);
+		}
 	}
 
 	this->m_mutex.Unlock();
