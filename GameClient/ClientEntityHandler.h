@@ -14,7 +14,7 @@ public:
 	ClientEntityHandler();
 	~ClientEntityHandler();
 
-	void removeAllEntities();
+	static void removeAllEntities();
 
 	static void addEntity(Entity *_entity);
 	static bool removeEntity(Entity *_entity);
