@@ -11,10 +11,12 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 	this->m_viewMatrix = this->m_effect->GetVariableByName("viewMatrix")->AsMatrix();
 	this->m_projectionMatrix = this->m_effect->GetVariableByName("projectionMatrix")->AsMatrix();
 	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
+	this->m_boneTexture = this->m_effect->GetVariableByName("boneTex")->AsShaderResource();
 
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
 	
 	this->m_renderModelForward = this->m_effect->GetTechniqueByName("RenderModelForward");
+	this->m_animationTechnique = this->m_effect->GetTechniqueByName("ForwardAnimation");
 	
 	m_forwardGubb = m_effect->GetTechniqueByName("ForwardGubb");
 
@@ -34,6 +36,23 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 		passDescription.pIAInputSignature,
 		passDescription.IAInputSignatureSize,
 		&this->m_vertexLayout);
+
+	//Animation
+	D3D10_PASS_DESC animationPassDescription;
+	this->m_animationTechnique->GetPassByIndex(0)->GetDesc(&animationPassDescription);
+	const D3D10_INPUT_ELEMENT_DESC vertexAnimationLayout[] =
+	{
+		{ "POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "UVCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D10_APPEND_ALIGNED_ELEMENT, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D10_APPEND_ALIGNED_ELEMENT, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "WEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D10_APPEND_ALIGNED_ELEMENT, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+		{ "BONE", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D10_APPEND_ALIGNED_ELEMENT, D3D10_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	 _device->CreateInputLayout(vertexAnimationLayout,
+		sizeof(vertexAnimationLayout) / sizeof(D3D10_INPUT_ELEMENT_DESC),
+		animationPassDescription.pIAInputSignature,
+		animationPassDescription.IAInputSignatureSize,
+		&this->m_vertexAnimationLayout);
 }
 
 
@@ -41,6 +60,22 @@ ForwardRenderingEffectFile::~ForwardRenderingEffectFile(void)
 {
 
 }
+
+void ForwardRenderingEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture)
+{
+	this->m_boneTexture->SetResource(_texture);
+}
+
+ID3D10InputLayout *ForwardRenderingEffectFile::getInputAnimationLayout() const
+{
+	return this->m_vertexAnimationLayout;
+}
+
+ID3D10EffectTechnique *ForwardRenderingEffectFile::getAnimationTechnique()
+{
+	return this->m_animationTechnique;
+}
+
 
 void ForwardRenderingEffectFile::setModelAlpha(float _modelAlpha)
 {

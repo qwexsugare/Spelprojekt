@@ -74,3 +74,8 @@ void Skill::setRange(float _range)
 {
 	this->m_range = _range;
 }
+
+int Skill::getCost()
+{
+	return 0;
+}

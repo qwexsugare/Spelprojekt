@@ -67,6 +67,7 @@ void Client::Run()
 			NetworkStartGameMessage nstm;
 			NetworkEndGameMessage negm;
 			NetworkWelcomeMessage nwm;
+			NetworkPlayerJoinedMessage npjm;
 			
 			int type;
 			packet >> type;
@@ -252,6 +253,13 @@ void Client::Run()
 				packet >> negm;
 				this->m_mutex.Lock();
 				m_endGameMessageQueue.push(negm);
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::PLAYER_JOINED:
+				packet >> npjm;
+				this->m_mutex.Lock();
+				m_playerJoinedMessageQueue.push(npjm);
 				this->m_mutex.Unlock();
 				break;
 			}
@@ -484,6 +492,18 @@ NetworkEndGameMessage Client::endGameQueueFront()
 	return ret;
 }
 
+NetworkPlayerJoinedMessage Client::playerJoinedMessageQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkPlayerJoinedMessage ret = m_playerJoinedMessageQueue.front();
+	this->m_playerJoinedMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
@@ -571,6 +591,16 @@ void Client::sendMessage(NetworkEndGameMessage _negm)
 	}
 }
 
+void Client::sendMessage(NetworkPlayerJoinedMessage _msg)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _msg;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
 bool Client::startGameQueueEmpty()
 {
 	return m_startGameQueue.empty();
@@ -598,4 +628,9 @@ bool Client::updateEntityHealthEmpty()
 bool Client::endGameQueueEmpty()
 {
 	return m_endGameMessageQueue.empty();
+}
+
+bool Client::playerJoinedMessageQueueEmpty()
+{
+	return m_playerJoinedMessageQueue.empty();
 }

@@ -14,6 +14,7 @@ Pathfinder *g_pathfinder;
 
 MapHandler::MapHandler()
 {
+	this->m_messageQueue = new MessageQueue();
 	this->m_currentWave = 0;
 	this->m_waveTimer = 30.0f;
 	this->m_enemySpawnTimer = 30.0f;
@@ -22,7 +23,7 @@ MapHandler::MapHandler()
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
-	this->m_lives = 100;
+	this->m_lives = 50;
 	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
@@ -62,7 +63,7 @@ MapHandler::State MapHandler::getState()
 	{
 		return MapHandler::State::DEFEAT;
 	}
-	else if(this->m_currentWave >= this->m_waves.size())
+	else if(this->m_currentWave > this->m_waves.size())
 	{
 		return MapHandler::State::VICTORY;
 	}
@@ -156,6 +157,10 @@ void MapHandler::loadMap(std::string filename)
 						this->nrOfSpawnPoints++;
 					}
 					else if(strcmp(key, "Fountain") == 0)
+					{
+						EntityHandler::addEntity(new HealingFountain(position));
+					}
+					else if(strcmp(key, "FountainAngel") == 0)
 					{
 						EntityHandler::addEntity(new HealingFountain(position));
 					}
@@ -255,17 +260,18 @@ void MapHandler::loadMap(std::string filename)
 	ifstream file;
 	file.open(waveName.c_str());
 
-	while(!file.eof())
+	if(file.is_open())
 	{
-		int q,w,e,r,t,y,u,i;
-		q=w=e=r=t=y=u=i=0;
-		file >> q >> w >> e >> r >> t >> y >> u >> i;
-		createWave(q,w,e,r,t,y,u,i);
+		while(!file.eof())
+		{
+			int q,w,e,r,t,y,u,i;
+			q=w=e=r=t=y=u=i=0;
+			file >> q >> w >> e >> r >> t >> y >> u >> i;
+			createWave(q,w,e,r,t,y,u,i);
+		}
 	}
 	file.close();
 
-	
-	createWave(25,5,0,0,0,0,0,0);  
 }
 
 void MapHandler::update(float _dt)
@@ -300,6 +306,7 @@ void MapHandler::update(float _dt)
 		if(this->m_currentWave < m_waves.size())
 		{
 			m_waveTimer = 10.0f;
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::WAVE_UPDATE, this->m_currentWave + 1, FLOAT3()));
 		}
 		else
 		{
@@ -386,4 +393,9 @@ FLOAT3 MapHandler::getPlayerPosition(int p)
 int MapHandler::getLivesLeft()
 {
 	return this->m_lives;
+}
+
+MessageQueue* MapHandler::getMessageQueue()
+{
+	return this->m_messageQueue;
 }

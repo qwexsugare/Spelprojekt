@@ -6,15 +6,10 @@
 
 const float DeathPulseTurret::ATTACK_COOLDOWN = 2.0f;
 
-DeathPulseTurret::DeathPulseTurret()
-{
-
-}
-
-DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId())
+DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) :
+	Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId(), _creator->getTurretConstruction())
 {
 	this->m_modelId = 4;
-	
 	Model* temp = g_graphicsEngine->createModel("DeathTurret", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
 	g_graphicsEngine->removeModel(temp);
@@ -31,10 +26,14 @@ void DeathPulseTurret::target(ServerEntity* _target)
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::DEATH_PULSE_TURRET_PROJECTILE, this->getId(), _target->getId(), FLOAT3()));
 
 	unsigned int targetId = _target->getId();
-
-	int damage = random(2, 20);
+	
 	int healthBefore = _target->getHealth();
-	_target->takeDamage(this->m_ownerId, 0, damage);
+	int damage;
+	if(random(1, 100) <= (1+this->getTurretUpgrade()/4))
+		damage = 9000000;
+	else
+		damage = random(2, 20);
+	_target->takeDamage(this->m_ownerId, 0, damage, (1+this->getTurretUpgrade()/4));
 
 	// dbg
 	stringstream ss;

@@ -2,7 +2,7 @@
 #include "EntityHandler.h"
 #include "StunningStrikeEffect.h"
 
-const float StunningStrike::COOLDOWN = 120.0f;
+const float StunningStrike::COOLDOWN = 60.0f;
 
 StunningStrike::StunningStrike() : Skill(Skill::STUNNING_STRIKE, COOLDOWN)
 {
@@ -29,4 +29,9 @@ bool StunningStrike::activate(unsigned int _senderId)
 void StunningStrike::updateSpecificSkill(float _dt)
 {
 
+}
+
+int StunningStrike::getCost()
+{
+	return StunningStrike::COST;
 }

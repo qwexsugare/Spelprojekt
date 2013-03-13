@@ -39,7 +39,7 @@ void StatisticsPlayer::increaseHealdAmount(int h)
 {
 	this->healedAmount+=h;
 }
-int StatisticsPlayer::getHealedAmount()
+int StatisticsPlayer::getHealedAmount() const
 {
 	return this->healedAmount;
 }
@@ -47,12 +47,12 @@ void StatisticsPlayer::increaseGoldCollected(int p)
 {
 	this->goldCollected+=p;
 }
-int StatisticsPlayer::getGoldCollected()
+int StatisticsPlayer::getGoldCollected() const
 {
 	return this->goldCollected;
 }
 
-int StatisticsPlayer::getDeamonsKilled()
+int StatisticsPlayer::getDeamonsKilled() const
 {
 	return this->deamonsKilled;
 }
@@ -65,7 +65,7 @@ void StatisticsPlayer::setPlayerName(string n)
 {
 	this->playerName=n;
 }
-string StatisticsPlayer::getPlayerName()
+string StatisticsPlayer::getPlayerName() const
 {
 	return this->playerName;
 }
@@ -89,31 +89,31 @@ void StatisticsPlayer::addPhysicalDamageRecived(int d)
 {
 	this->physicalDamageRecived+=d;
 }
-int StatisticsPlayer::getMentalDamageDealth()
+int StatisticsPlayer::getMentalDamageDealth() const
 {
 	return this->mentalDamageDealth;
 }
-int StatisticsPlayer::getMentalDamageRecived()
+int StatisticsPlayer::getMentalDamageRecived() const
 {
 	return this->mentalDamageRecived;
 }
-int StatisticsPlayer::getPhysicalDamageDealth()
+int StatisticsPlayer::getPhysicalDamageDealth() const
 {
 	return this->physicalDamageDealth;
 }
-int StatisticsPlayer::getPhysicalDamageRecived()
+int StatisticsPlayer::getPhysicalDamageRecived() const
 {
 	return this->physicalDamageRecived;
 }
-StatisticsPlayer::HERO_TYPE StatisticsPlayer::getPlayerHero()
+StatisticsPlayer::HERO_TYPE StatisticsPlayer::getPlayerHero() const
 {
 	return this->hero;
 }
-int StatisticsPlayer::getPlayerId()
+int StatisticsPlayer::getPlayerId() const
 {
 	return this->m_id;
 }
-int StatisticsPlayer::getTotalDamageDealth()
+int StatisticsPlayer::getTotalDamageDealth() const
 {
 	return this->mentalDamageDealth+this->physicalDamageDealth;
 }
@@ -121,7 +121,7 @@ void StatisticsPlayer::useSkill(Skill::SKILLS skill)
 {
 	this->skillsUsed[skill]++;
 }
-int StatisticsPlayer::getNrOfTimesSkillUsed(int i)
+int StatisticsPlayer::getNrOfTimesSkillUsed(int i) const
 {
 	return this->skillsUsed[i];
 }
@@ -133,15 +133,45 @@ void StatisticsPlayer::addSkillMentalPhysicalDamageDealth(int d)
 {
 	this->skillPhysicalDamageDealth+=d;
 }
-int StatisticsPlayer::getSkillMentalDamageDealth()
+int StatisticsPlayer::getSkillMentalDamageDealth() const
 {
 	return this->skillMentalDamageDealth;
 }
-int StatisticsPlayer::getSkillPhysicalDamageDealth()
+int StatisticsPlayer::getSkillPhysicalDamageDealth() const
 {
 	return this->skillPhysicalDamageDealth;
 }
-int StatisticsPlayer::getDeathCount()
+int StatisticsPlayer::getDeathCount() const
 {
 	return this->deathCounter;
+}
+
+void StatisticsPlayer::setDemonsKilled(int demonsKilled)
+{
+	this->deamonsKilled = demonsKilled;
+}
+
+void StatisticsPlayer::setGoldCollected(int goldCollected)
+{
+	this->goldCollected = goldCollected;
+}
+
+void StatisticsPlayer::setMentalDamageDone(int damage)
+{
+	this->mentalDamageDealth = damage;
+}
+
+void StatisticsPlayer::setMentalDamageRecieved(int damage)
+{
+	this->mentalDamageRecived = damage;
+}
+
+void StatisticsPlayer::setPhysicalDamageDone(int damage)
+{
+	this->physicalDamageDealth = damage;
+}
+
+void StatisticsPlayer::setPhysicalDamageRecieved(int damage)
+{
+	this->physicalDamageRecived = damage;
 }

@@ -8,7 +8,7 @@ PhysicalResistance::PhysicalResistance(unsigned int _senderId) : Skill(Skill::PH
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setPhysicalResistance(ue->getPhysicalResistance() - 0.15f);
+		ue->alterPhysicalResistance(-0.15f);
 	}	
 }
 
@@ -19,11 +19,16 @@ PhysicalResistance::~PhysicalResistance()
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setPhysicalResistance(ue->getPhysicalResistance() + 0.15f);
+		ue->alterPhysicalResistance(0.15f);
 	}	
 }
 
 void PhysicalResistance::updateSpecificSkill(float dt)
 {
 
+}
+
+int PhysicalResistance::getCost()
+{
+	return PhysicalResistance::COST;
 }

@@ -53,6 +53,7 @@ protected:
 	float m_frostTurretSlowEffectTimer;
 	float m_frostTurretSlowEffectValue;
 	int m_poisonStacks;
+	int m_extraDivinePower;
 public:
 	static const int MAX_STRENGTH = 20;
 	static const int MAX_AGILITY = 20;
@@ -75,6 +76,7 @@ public:
 	vector<Skill*> getSkills();
 	int getNrOfSkills();
 	int getSkillIndex(Skill* _skill);
+	void removeSkill(int index);
 
 	virtual NetworkEntityMessage getUpdate();
 
@@ -87,17 +89,12 @@ public:
 	
 	void alterAttackSpeed(float _value);
 	void alterMentalDamage(float _value);
+	void alterMentalResistance(float _value);
 	void alterMovementSpeed(float _value);
 	void alterPhysicalResistance(float _value);
 	void alterTurretDuration(int _turretDuration);
 	void setGreed(float _greed);
 	void setMaxHealth(int _maxHealth);
-	void setMovementSpeed(float _movementSpeed);
-	void setAttackSpeed(float _attackSpeed);
-	void setPhysicalDamage(float _physicalDamage);
-	void setMentalDamage(float _mentalDamage);
-	void setPhysicalResistance(float _physicalResistance);
-	void setMentalResistance(float _mentalResistance);
 	void setSwiftAsACatPowerfulAsABear(bool _val) { m_swiftAsACatPowerfulAsABear = _val; }
 	void setPoisonCounter(int _poisonCounter);
 	void stun(float _time);
@@ -122,7 +119,7 @@ public:
 
 	unsigned int getLastDamageDealer();
 
-	void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
+	void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage, int _extraDivinePower = 0);
 	void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	void heal(int health);
 	void attack(unsigned int target);

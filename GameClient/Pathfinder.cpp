@@ -320,3 +320,24 @@ bool Pathfinder::sameGridPosition(FLOAT2 pos1, FLOAT2 pos2)
 		return false;
 	}
 }
+
+bool Pathfinder::isValidPos(FLOAT2 _pos)
+{
+	if(_pos.x < 0.0f || _pos.x > mapSize.x ||_pos.y < 0.0f || _pos.y > mapSize.y)
+		return false;
+	else
+	{
+		Position possy = Position(_pos.x * this->map.getWidth() / this->mapSize.x, _pos.y * this->map.getHeight() / this->mapSize.y);
+		return map.isValidPosition(possy);
+	}
+}
+
+int Pathfinder::getHeight()
+{
+	return this->map.getHeight();
+}
+
+int Pathfinder::getWidth()
+{
+	return this->map.getWidth();
+}

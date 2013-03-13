@@ -1,4 +1,5 @@
 #include "EnhancedDevelopment.h"
+#include "FrostTurretBase.h"
 
 float EnhancedDevelopment::RANGE = 2.0f;
 
@@ -28,12 +29,20 @@ void EnhancedDevelopment::updateSpecificSkill(float _dt)
 		FLOAT3 position = caster->getPosition();
 
 		vector<ServerEntity*> turrets = EntityHandler::getEntitiesByType(ServerEntity::TowerType);
-
 		for(int i = 0; i < turrets.size(); i++)
 		{
 			if((turrets[i]->getPosition() - position).length() <= EnhancedDevelopment::RANGE)
 			{
-				((Turret*)turrets[i])->addLifetime(_dt * 0.75f);
+				((Turret*)turrets[i])->addLifetime(_dt * (0.5f + (((UnitEntity*)caster)->getWits() / 20 * 0.25f)));
+			}
+		}
+
+		vector<ServerEntity*> turretBases = EntityHandler::getEntitiesByType(ServerEntity::TowerBaseType);
+		for(int i = 0; i < turretBases.size(); i++)
+		{
+			if((turretBases[i]->getPosition() - position).length() <= EnhancedDevelopment::RANGE)
+			{
+				((FrostTurretBase*)turretBases[i])->addLifetime(_dt * (0.5f + (((UnitEntity*)caster)->getWits() / 20 * 0.25f)));
 			}
 		}
 	}

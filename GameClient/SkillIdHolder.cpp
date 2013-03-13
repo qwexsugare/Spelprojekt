@@ -77,35 +77,36 @@ SkillIdHolder::SkillIdHolder()
 	this->m_skillActive[Skill::FROST_TURRET] = true;
 
 	//Description
-	this->m_skillDescription[Skill::TURRET_CONSTRUCTION] = "";
-	this->m_skillDescription[Skill::TURRET_LIFE] = "";
-	this->m_skillDescription[Skill::STRENGTH] = "";
-	this->m_skillDescription[Skill::PHYSICAL_RESISTANCE] = "";
-	this->m_skillDescription[Skill::LIFESTEALING_STRIKE] = "";
-	this->m_skillDescription[Skill::STUNNING_STRIKE] = "";
-	this->m_skillDescription[Skill::DEMONIC_PRESENCE] = "";
-	this->m_skillDescription[Skill::AGILITY] = "";
-	this->m_skillDescription[Skill::TELEPORT] ="";
-	this->m_skillDescription[Skill::AIM] ="";
-	this->m_skillDescription[Skill::DEADLY_STRIKE] ="";
-	this->m_skillDescription[Skill::WITS] = "";
-	this->m_skillDescription[Skill::POISON_STRIKE] = "";
-	this->m_skillDescription[Skill::HEALING_TOUCH] = "";
-	this->m_skillDescription[Skill::CHAIN_STRIKE] = "";
-	this->m_skillDescription[Skill::CLOUD_OF_DARKNESS] = "";
-	this->m_skillDescription[Skill::FORTITUDE] = "";
-	this->m_skillDescription[Skill::GREED] = "";
-	this->m_skillDescription[Skill::MENTAL_RESISTANCE] = "";
-	this->m_skillDescription[Skill::WALL] = "";
-	this->m_skillDescription[Skill::SIMONS_EVIL] = "";
-	this->m_skillDescription[Skill::ENIGMATIC_PRESENCE] = "";
-	this->m_skillDescription[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = "";
-	this->m_skillDescription[Skill::COURAGE_HONOR_VALOR] = "";
-	this->m_skillDescription[Skill::READY_AIM_FIRE] = "";
-	this->m_skillDescription[Skill::TIME_IS_MONEY] = "";
-	this->m_skillDescription[Skill::ENHANCED_DEVELOPMENT] = "";
-	this->m_skillDescription[Skill::LIFE_REGEN] = "";
-	this->m_skillDescription[Skill::HYPNOTIC_STARE] = "";
+	this->m_skillDescription[Skill::TURRET_CONSTRUCTION] = "menu_textures\\Skill_0.png";
+	this->m_skillDescription[Skill::TURRET_LIFE] = "menu_textures\\Skill_1.png";
+	this->m_skillDescription[Skill::STRENGTH] = "menu_textures\\Skill_2.png";
+	this->m_skillDescription[Skill::PHYSICAL_RESISTANCE] = "menu_textures\\Skill_3.png";
+	this->m_skillDescription[Skill::LIFESTEALING_STRIKE] = "menu_textures\\Skill_4.png";
+	this->m_skillDescription[Skill::STUNNING_STRIKE] = "menu_textures\\Skill_5.png";
+	this->m_skillDescription[Skill::DEMONIC_PRESENCE] = "menu_textures\\Skill_6.png";
+	this->m_skillDescription[Skill::AGILITY] = "menu_textures\\Skill_7.png";
+	this->m_skillDescription[Skill::TELEPORT] ="menu_textures\\Skill_8.png";
+	this->m_skillDescription[Skill::AIM] ="menu_textures\\Skill_9.png";
+	this->m_skillDescription[Skill::DEADLY_STRIKE] ="menu_textures\\Skill_10.png";
+	this->m_skillDescription[Skill::WITS] = "menu_textures\\Skill_11.png";
+	this->m_skillDescription[Skill::POISON_STRIKE] = "menu_textures\\Skill_12.png";
+	this->m_skillDescription[Skill::HEALING_TOUCH] = "menu_textures\\Skill_19.png";
+	this->m_skillDescription[Skill::CHAIN_STRIKE] = "menu_textures\\Skill_13.png";
+	this->m_skillDescription[Skill::CLOUD_OF_DARKNESS] = "menu_textures\\Skill_14.png";
+	this->m_skillDescription[Skill::FORTITUDE] = "menu_textures\\Skill_16.png";
+	this->m_skillDescription[Skill::GREED] = "menu_textures\\Skill_17.png";
+	this->m_skillDescription[Skill::MENTAL_RESISTANCE] = "menu_textures\\Skill_18.png";
+	this->m_skillDescription[Skill::WALL] ="menu_textures\\Skill_20.png"; 
+	this->m_skillDescription[Skill::SIMONS_EVIL] = "menu_textures\\Skill_15.png";
+	this->m_skillDescription[Skill::ENIGMATIC_PRESENCE] = "menu_textures\\Skill_22.png";
+	this->m_skillDescription[Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR] = "menu_textures\\Skill_23.png";
+	this->m_skillDescription[Skill::COURAGE_HONOR_VALOR] = "menu_textures\\Skill_24.png";
+	this->m_skillDescription[Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE] = "menu_textures\\Skill_25.png";
+	this->m_skillDescription[Skill::READY_AIM_FIRE] = "menu_textures\\Skill_26.png";
+	this->m_skillDescription[Skill::TIME_IS_MONEY] = "menu_textures\\Skill_27.png";
+	this->m_skillDescription[Skill::ENHANCED_DEVELOPMENT] = "menu_textures\\Skill_28.png";
+	this->m_skillDescription[Skill::LIFE_REGEN] = "menu_textures\\Skill_29.png";
+	this->m_skillDescription[Skill::HYPNOTIC_STARE] = "menu_textures\\Skill_21.png";
 }
 
 std::string SkillIdHolder::getSkill(unsigned int id)

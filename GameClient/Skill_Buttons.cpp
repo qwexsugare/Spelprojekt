@@ -8,7 +8,13 @@ Skill_Buttons::~Skill_Buttons()
 {
 	this->m_ButtonReaction = 0;
 	g_graphicsEngine->removeSpriteSheet(m_SkillButton);
+	g_graphicsEngine->removeSpriteSheet(this->m_cooldown);
 	m_SkillButton = NULL;
+	if(m_Skill != "")
+	{
+		g_graphicsEngine->removeSprite(m_SpriteSkill);
+		this->m_SpriteSkill = NULL;
+	}
 }
 void Skill_Buttons::Init(FLOAT2 _ScreenPos,
 			 FLOAT2 _Size, 
@@ -21,7 +27,8 @@ void Skill_Buttons::Init(FLOAT2 _ScreenPos,
 			 float _textSize,
 			 int _layer,
 			 int _DelayTime,
-			 bool _Active)
+			 bool _Active, 
+			 string _Skill)
 {
 	this->m_skillId = _skillId;
 	this->m_ButtonReaction	=	0;
@@ -55,9 +62,15 @@ void Skill_Buttons::Init(FLOAT2 _ScreenPos,
 	this->m_Active			=	_Active;
 	this->m_ChangeAble		=	true;
 	this->m_Lock			=	false;
+	this->m_Skill			= _Skill;
 	this->m_SkillButton = g_graphicsEngine->createSpriteSheet(this->m_FullName,m_Pos,m_Size,INT2(3,1),m_Layer);
 	this->m_cooldown = g_graphicsEngine->createSpriteSheet("menu_textures\\Clock.png", this->m_Pos, this->m_Size, INT2(4, 3), this->m_Layer + 1);
 	this->m_cooldown->setVisible(false);
+	if(m_Skill != "")
+	{
+		m_SpriteSkill = g_graphicsEngine->createSprite(m_Skill, FLOAT2(m_Pos.x+0.1f,m_Pos.y+0.1f),FLOAT2(0.260416667f,0.185185185f),20);
+		m_SpriteSkill->setVisible(false);
+	}
 }
 void Skill_Buttons::Update(float dt)
 {
@@ -99,6 +112,21 @@ void Skill_Buttons::Update(float dt)
 		}
 		this->m_Delay += 1;
 	}
+	if(tmpPos.x >= this->m_Pos.x - halfSize.x && tmpPos.y >= this->m_Pos.y - halfSize.y &&
+		tmpPos.x <= this->m_Pos.x + halfSize.x && tmpPos.y <= this->m_Pos.y + halfSize.y) 
+		{
+			if(m_Skill != "")
+			{
+				m_SpriteSkill->setVisible(true);
+			}
+		}
+	else
+	{
+			if(m_Skill != "")
+			{
+				m_SpriteSkill->setVisible(false);
+			}
+	}
 
 	if(this->m_cooldown->getVisible() == true)
 	{
@@ -120,13 +148,24 @@ int Skill_Buttons::GetButtonReaction()
 {
 	return this->m_ButtonReaction;
 }
-void Skill_Buttons::ChangeButton(string _Number, bool _Active, int id)
+void Skill_Buttons::ChangeButton(string _Number, bool _Active, int id, string _Skill)
 {
 	this->m_skillId				=	id;	
 	this->m_Number			=	_Number;
 	//this->m_FullName		=	m_TextureName + m_Number + m_TextType;
 	this->m_FullName = _Number;
 	this->m_Active			=	_Active;
+	if(m_Skill != "")
+	{
+		g_graphicsEngine->removeSprite(m_SpriteSkill);
+		this->m_SpriteSkill = NULL;
+	}
+	this->m_Skill = _Skill;
+	if(m_Skill != "")
+	{
+		m_SpriteSkill = g_graphicsEngine->createSprite(m_Skill, FLOAT2(m_Pos.x,-0.804f+0.1f),FLOAT2(0.260416667f,0.185185185f),20);
+		m_SpriteSkill->setVisible(false);
+	}
 
 	g_graphicsEngine->removeSpriteSheet(m_SkillButton);
 	m_SkillButton = g_graphicsEngine->createSpriteSheet(this->m_FullName,m_Pos,m_Size,INT2(3,1),m_Layer);

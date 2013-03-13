@@ -1,6 +1,6 @@
 #include "ParticleEngine.h"
 
-ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR2 _scale)
+ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, TextureHolder* _textureHolder, EngineType _type, D3DXVECTOR4 _position, D3DXQUATERNION _rotation, D3DXVECTOR2 _scale)
 {
 	this->device = _device;
 	this->type = _type;
@@ -21,9 +21,13 @@ ParticleEngine::ParticleEngine(ID3D10Device* _device, TextureHolder* _textureHol
 	//this->particles = NULL;
 	//this->geoParticles = NULL;
 	this->shaderParticles = NULL;
-	this->behavior = ParticleBehavior::Beacon;
 
-	this->texture = this->textureHolder->getTexture("./particles/textures/light.png");
+	if(_pe->startBehavior != -1)
+		this->behavior = (ParticleBehavior)_pe->startBehavior;
+	
+	string texturepath = "./particles/textures/";
+
+	this->texture = this->textureHolder->getTexture(texturepath + _pe->textures[0]);
 
 	CreateVertexBuffer();
 	CreateRandomTex();
@@ -71,7 +75,6 @@ void ParticleEngine::CreateVertexBuffer()
 	hr = device->CreateBuffer(&vbd, 0, &streamOutVB);
 	if(FAILED(hr))
 		MessageBox(NULL, "( ParticleEngine ) Failed to create StreamOut Vertex Buffer", NULL, NULL);
-
 }
 
 void ParticleEngine::CreateRandomTex()
@@ -184,6 +187,9 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 			break;
 		case ParticleBehavior::UpSideDownTwist:
 			DrawGPUUpSideDownTwist(_particleRendering);
+			break;
+		case ParticleBehavior::Fire:
+			DrawGPUFire(_particleRendering);
 			break;
 	}
 
@@ -349,6 +355,47 @@ void ParticleEngine::DrawGPUUpSideDownTwist(ParticleEngineEffectFile* _particleR
 		device->DrawAuto();
 	}
 }
+
+void ParticleEngine::DrawGPUFire(ParticleEngineEffectFile* _particleRendering)
+{
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
+
+	//StreamOut
+	device->SOSetTargets(1, &streamOutVB, &offset);
+	
+	D3D10_TECHNIQUE_DESC techDesc;
+	_particleRendering->getFireSOTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getFireSOTechnique()->GetPassByIndex(p)->Apply(0);
+		if(firstTime)
+		{
+			device->Draw(1, 0);
+			firstTime = false;
+		}
+		else
+		{
+			device->DrawAuto();
+		}
+	}
+	
+	ID3D10Buffer* bufferArray[1] = {0};
+	device->SOSetTargets(1, bufferArray, &offset);
+
+	swap(drawVB, streamOutVB);
+
+	//Draw
+	device->IASetVertexBuffers(0, 1, &drawVB, &stride, &offset);
+
+	_particleRendering->getDrawFireTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getDrawFireTechnique()->GetPassByIndex(p)->Apply(0);
+		device->DrawAuto();
+	}
+}
+
 
 void ParticleEngine::setPosition(D3DXVECTOR3& _pos)
 {

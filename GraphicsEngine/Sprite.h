@@ -31,6 +31,9 @@ public:
 	DECLDIR void setRotation(float rotation);
 	DECLDIR void setVisible(bool _visible);
 
+	DECLDIR FLOAT2 getPosition();
+	DECLDIR FLOAT2 getSize();
+
 	ID3D10Buffer *getBuffer();
 	int getNrOfVertices();
 	int getStartIndex();

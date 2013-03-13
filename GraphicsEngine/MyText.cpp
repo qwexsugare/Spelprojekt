@@ -12,7 +12,7 @@ MyText::MyText()
 	this->m_VertexBuffer = NULL;
 }
 
-MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string _offsetPath, string _offsetFilename, float _height, float _width, D3DXVECTOR3 _pos, float _size)
+MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string _offsetPath, string _offsetFilename, float _height, float _width, D3DXVECTOR3 _pos, float _size, bool _centered)
 {
 	int maxNrOfPoints = 100000;
 	this->m_height = _height;
@@ -23,6 +23,7 @@ MyText::MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string
 	this->m_pos.y = _pos.y/1200.0f*m_height;
 	this->m_pos.z = _pos.z;
 	this->m_visible= true;
+	m_centered = _centered;
 
 	//Create the buffer
 	D3D10_BUFFER_DESC tbd;
@@ -398,10 +399,21 @@ void MyText::DrawString(string str, float _size)
 	writeText *vertexData = NULL;
 	this->m_VertexBuffer->Map( D3D10_MAP_WRITE_DISCARD, 0, reinterpret_cast< void** >((void**)&vertexData));
 
-	for(int i = 0; i < m_numberOfPoints; i++)
+	if(m_centered)
 	{
-		vertexData[i].POS = m_textS[i].POS;
-		vertexData[i].UV = m_textS[i].UV;
+		for(int i = 0; i < m_numberOfPoints; i++)
+		{
+			vertexData[i].POS = D3DXVECTOR3(m_textS[i].POS.x - (Tmppos.x - m_textS[0].POS.x)/2.0f, m_textS[i].POS.y, m_textS[i].POS.z);
+			vertexData[i].UV = m_textS[i].UV;
+		}
+	}
+	else
+	{
+		for(int i = 0; i < m_numberOfPoints; i++)
+		{
+			vertexData[i].POS = m_textS[i].POS;
+			vertexData[i].UV = m_textS[i].UV;
+		}
 	}
 
 	this->m_VertexBuffer->Unmap();

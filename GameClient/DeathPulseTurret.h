@@ -6,14 +6,11 @@
 
 class DeathPulseTurret : public Turret
 {
-private:
-
 public:
 	static const int COST = 120;
 	static const float ATTACK_COOLDOWN;
 	static const int RANGE = 10;
 
-	DeathPulseTurret();
 	DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator);
 	~DeathPulseTurret();
 

@@ -1,6 +1,6 @@
 #include "Wall.h"
 
-const float Wall::COOLDOWN = 90.0f;
+const float Wall::COOLDOWN = 30.0f;
 
 Wall::Wall() : Skill(Skill::WALL, Wall::COOLDOWN)
 {
@@ -33,4 +33,9 @@ bool Wall::activate(FLOAT3 _position, unsigned int _senderId)
 void Wall::updateSpecificSkill(float _dt)
 {
 
+}
+
+int Wall::getCost()
+{
+	return Wall::COST;
 }

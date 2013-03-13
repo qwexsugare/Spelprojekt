@@ -54,11 +54,15 @@ bool GraphicsHandler::removeRoad(Road* _road)
 	return this->m_world->removeRoad(_road);
 }
 
-ParticleEngine* GraphicsHandler::createParticleEngine(D3DXVECTOR4 _pos, D3DXQUATERNION _rot, D3DXVECTOR2 _scale)
+ParticleEngine* GraphicsHandler::createParticleEngine(string _filename, D3DXVECTOR4 _pos, D3DXQUATERNION _rot, D3DXVECTOR2 _scale)
 {
-	ParticleEngine* pe = new ParticleEngine(this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder(), ParticleEngine::EngineType::GPUBased, _pos, _rot, _scale);
-
-	m_world->addParticleEngine(pe);
+	ParticleEffect* pfx = m_resourceHolder->getParticleEffect(_filename);
+	ParticleEngine* pe = NULL;
+	if(pfx)
+	{
+		pe = new ParticleEngine(pfx, this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder(), ParticleEngine::EngineType::GPUBased, _pos, _rot, _scale);
+		m_world->addParticleEngine(pe);
+	}
 	return pe;
 }
 
@@ -66,6 +70,19 @@ bool GraphicsHandler::removeParticleEngine(ParticleEngine* _particleEngine)
 {
 	return m_world->removeParticleEngine(_particleEngine);
 }
+
+ChainEffect* GraphicsHandler::createChainEffect()
+{
+	ChainEffect* ce = NULL;//new ChainEffect(this->m_deviceHandler->getDevice());
+	m_world->addChainEffect(ce);
+	return ce;
+}
+
+bool GraphicsHandler::removeChainEffect(ChainEffect* _chainEffect)
+{
+	return m_world->removeChainEffect(_chainEffect);
+}
+
 
 Terrain* GraphicsHandler::createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps, vector<string> _specularMaps)
 {
@@ -115,10 +132,10 @@ bool GraphicsHandler::removeText(Text* _text)
 	return this->m_world->removeText(_text);
 }
 
-MyText* GraphicsHandler::createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size)
+MyText* GraphicsHandler::createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size, bool _centered)
 {
 	MyText* text = new MyText(this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder()->getTexture("text/" + _texture),
-		_offsetPath, _offsetFilename, this->m_configScreenSize.y, this->m_configScreenSize.x, D3DXVECTOR3(_pos.x, _pos.y, 0.0f), _size);
+		_offsetPath, _offsetFilename, this->m_configScreenSize.y, this->m_configScreenSize.x, D3DXVECTOR3(_pos.x, _pos.y, 0.0f), _size, _centered);
 	text->DrawString(_text);
 	this->m_world->addMyText(text);
 
@@ -207,7 +224,10 @@ Model* GraphicsHandler::createModel(string _filename, FLOAT3 _position, bool _st
 
 bool GraphicsHandler::removeModel(Model* _model)
 {
-	return this->m_world->removeModel(_model);
+	if(_model)
+		return this->m_world->removeModel(_model);
+	else
+		return false;
 }
 
 Sprite *GraphicsHandler::createSprite(string filename, FLOAT2 position, FLOAT2 size, int layer)

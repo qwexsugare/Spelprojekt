@@ -130,6 +130,7 @@ void ClientHandler::update(float _dt)
 			this->m_state = new JoinGameState();
 			break;
 		case State::LOBBY:
+			this->m_state = new LobbyState(this->m_client);
 			if(tempState->getType() == State::CREATE_GAME)
 			{
 				CreateGameState *tempCreateState = (CreateGameState*)tempState;
@@ -142,9 +143,7 @@ void ClientHandler::update(float _dt)
 				//sends le player name, code 1337, hardcoded
 				sf::Packet playerName;
 				playerName << (int)NetworkMessage::setPlayerName << tempCreateState->getPlayerName();
-
 				this->m_client->sendPacket(playerName);
-
 			}
 			else
 			{
@@ -156,8 +155,6 @@ void ClientHandler::update(float _dt)
 				playerName << (int)NetworkMessage::setPlayerName << tempJoinState->getPlayerName();
 				this->m_client->sendPacket(playerName);
 			}
-
-			this->m_state = new LobbyState(this->m_client);
 			break;
 		case State::LORE:
 			this->m_state = new LoreState();
@@ -180,7 +177,11 @@ void ClientHandler::update(float _dt)
 			this->m_state = new CreditState();
 			break;
 		case State::END:
-			this->m_state = new EndState(((GameState*)tempState)->isVictorious());
+			ClientEntityHandler::removeAllEntities();
+			this->m_client->disconnect();
+			delete this->m_serverThread;
+			this->m_serverThread = NULL;
+			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage());
 			break;
 		case State::LOADING:
 			if(true)

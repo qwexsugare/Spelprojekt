@@ -20,6 +20,7 @@
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
 #include "NetworkUpdateEntityHealth.h"
+#include "NetworkAttributeUpdateMessage.h"
 <<<<<<< HEAD
 #include "NetworkEndGameMessage.h"
 =======
@@ -75,7 +76,9 @@ public:
 	void broadcast(NetworkSkillBoughtMessage networkMessage);
 	void broadcast(NetworkInitEntityMessage networkMessage);
 	void broadcast(NetworkHeroInitMessage networkMessage);
+	void broadcast(NetworkAttributeUpdateMessage networkMessage);
 <<<<<<< HEAD
+	void broadcast(NetworkWelcomeMessage networkMessage);
 =======
 	void broadcast(NetworkAttributeUpdateMessage networkMessage);
 	void broadcast(NetworkWelcomeMessage networkMessage);

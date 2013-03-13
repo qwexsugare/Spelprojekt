@@ -11,8 +11,8 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::
 	this->increaseWits(8);    
 	this->increaseFortitude(12);
 
-	m_lowResource = 50;
-	m_highRescource = 60;
+	m_lowResource = 2000;
+	m_highRescource = 3000;
 	
 
 	/*m_health = 100*m_fortitude; 

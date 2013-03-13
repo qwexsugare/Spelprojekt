@@ -5,6 +5,7 @@
 #include "EntityHandler.h"
 #include "Path.h"
 #include "Graphics.h"
+#include "Pathfinder.h"
 
 class Enemy : public UnitEntity
 {
@@ -45,6 +46,8 @@ protected:
 	float m_distanceToPoint; 
 	bool m_isAttacking;
 	bool m_oldIsAttacking;
+	float vanishTimer;
+	bool isGoingToVanish;
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path, EnemyType _type);
@@ -56,6 +59,7 @@ public:
 	FLOAT3 getDirection();
 	void checkPursue();
 	FLOAT3 checkStatic(float dt);
+	FLOAT3 checkStatic2(float dt);
 	void checkCloseEnemies(float dt);
 	bool checkDistanceToStatic(float firstFactor, float secondFactor);
 	void attackHero();

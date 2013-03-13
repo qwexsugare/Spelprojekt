@@ -2,7 +2,7 @@
 #include "EntityHandler.h"
 #include "DemonicPresenceEffect.h"
 
-const float DemonicPresence::COOLDOWN = 120.0f;
+const float DemonicPresence::COOLDOWN = 60.0f;
 
 DemonicPresence::DemonicPresence() : Skill(Skill::DEMONIC_PRESENCE, COOLDOWN)
 {
@@ -29,4 +29,9 @@ bool DemonicPresence::activate(unsigned int _senderId)
 void DemonicPresence::updateSpecificSkill(float _dt)
 {
 
+}
+
+int DemonicPresence::getCost()
+{
+	return DemonicPresence::COST;
 }

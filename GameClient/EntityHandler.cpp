@@ -29,10 +29,11 @@ void EntityHandler::removeAllEntities()
 {
 	EntityHandler::m_mutex.Lock();
 
-	for(int i = 0; i < this->m_entities.size(); i++)
+	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{
-		delete this->m_entities[i];
+		delete EntityHandler::m_entities[i];
 	}
+	EntityHandler::m_entities.clear();
 
 	EntityHandler::m_mutex.Unlock();
 }
@@ -300,7 +301,7 @@ ServerEntity* EntityHandler::getClosestStatic(ServerEntity *entity)
 	}
 }
 
-ServerEntity* EntityHandler::getClosestStaticWithExtents(ServerEntity *entity)
+ServerEntity* EntityHandler::getClosestStaticWithExtents(FLOAT3 _pos)
 {
 	float shortestDistance = 9999999999.3f;
 	int shortestIndex = -1;
@@ -310,10 +311,10 @@ ServerEntity* EntityHandler::getClosestStaticWithExtents(ServerEntity *entity)
 
 	for(int i = 0; i < entities.size(); i++)
 	{
-		if(entities[i] != entity && (entity->getPosition() - entities[i]->getPosition()).length()-sqrt(entities[i]->getObb()->Extents.x*entities[i]->getObb()->Extents.x + entities[i]->getObb()->Extents.z*entities[i]->getObb()->Extents.z)
+		if( (_pos - entities[i]->getPosition()).length()-sqrt(entities[i]->getObb()->Extents.x*entities[i]->getObb()->Extents.x + entities[i]->getObb()->Extents.z*entities[i]->getObb()->Extents.z)
 			< shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
 		{
-			shortestDistance = abs((entity->getPosition() - entities[i]->getPosition()).length());
+			shortestDistance = abs((_pos - entities[i]->getPosition()).length());
 			shortestIndex = i;
 		}
 	}

@@ -5,19 +5,21 @@ UnitEntity::UnitEntity() : ServerEntity()
 {
 	this->m_regularAttack = NULL;
 
-	this->m_health = 100;
-	this->m_maxHealth = 100;
-	this->m_strength = 1;
-	this->m_agility = 1;
-	this->m_wits = 1;
-	this->m_fortitude = 1;
-	this->m_turretConstruction = 1;
+	this->m_health = this->m_maxHealth = 0.0f;
+	this->m_strength = 0;
+	this->m_agility = 0;
+	this->m_wits = 0;
+	this->m_fortitude = 0;
+	this->m_turretConstruction = 0;
 
 	this->m_baseAttackSpeed = 2.0f;
 	this->m_attackSpeedChange = 0.0f;
 	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
 	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
+
+	this->m_baseMentalDamage = 1.0f;
+	this->m_mentalDamageChange = 0.0f;
+	this->m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
 
 	this->m_baseMovementSpeed = 2.0f;
 	this->m_movementSpeedChange = 0.0f;
@@ -39,11 +41,13 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_greed = 1.0f;
 	this->m_turretDuration = 1;
 	this->m_attackCooldown = 0.0f;
+	this->m_stunTimer = 0.0f;
 	
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
 	m_poisonStacks = 0;
+	m_extraDivinePower = 0;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -67,7 +71,6 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	
 	this->m_basePhysicalResistance = 1.0f;
 	this->m_physicalDamage = 1.0f;
-	this->m_mentalDamage = 1.0f;
 	this->m_physicalResistanceChange = 0.0f;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
 	
@@ -91,6 +94,7 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
 	m_poisonStacks = 0;
+	m_extraDivinePower = 0;
 }
 
 UnitEntity::~UnitEntity()
@@ -114,11 +118,13 @@ void UnitEntity::applyFrostTurretSlowEffect(float _value)
 	if(m_frostTurretSlowEffectTimer > 0.0f)
 	{
 		this->alterMovementSpeed(-m_frostTurretSlowEffectValue);
+		this->alterAttackSpeed(m_frostTurretSlowEffectValue);
 	}
 
 	m_frostTurretSlowEffectTimer = 10.0f;
 	m_frostTurretSlowEffectValue = _value;
 	this->alterMovementSpeed(m_frostTurretSlowEffectValue);
+	this->alterAttackSpeed(-m_frostTurretSlowEffectValue);
 }
 
 void UnitEntity::addSkill(Skill *_skill)
@@ -137,12 +143,18 @@ void UnitEntity::alterMentalDamage(float _value)
 void UnitEntity::alterAttackSpeed(float _value)
 {
 	m_attackSpeedChange += _value;
-	m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+	m_attackSpeed = m_baseAttackSpeed - m_attackSpeedChange;
 
 	if(this->m_attackCooldown > this->m_attackSpeed)
 	{
 		this->m_attackCooldown = this->m_attackSpeed;
 	}
+}
+
+void UnitEntity::alterMentalResistance(float _value)
+{
+	m_mentalResistanceChange += _value;
+	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 }
 
 void UnitEntity::alterMovementSpeed(float _value)
@@ -199,6 +211,12 @@ int UnitEntity::getSkillIndex(Skill* _skill)
 	return index;
 }
 
+void UnitEntity::removeSkill(int index)
+{
+	delete this->m_skills[index];
+	this->m_skills.erase(this->m_skills.begin() + index);
+}
+
 void UnitEntity::increaseStrength(int _strength)
 {
 	// Prevents the attribute gain to exceed max and minimizes the gain.
@@ -219,8 +237,8 @@ void UnitEntity::increaseAgility(int _agility)
 	
 	this->m_baseMovementSpeed += _agility * 0.1f;
 	this->m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
-	this->m_baseAttackSpeed += _agility * 0.05f;
-	this->m_attackSpeed = m_baseAttackSpeed + m_attackSpeedChange;
+	this->m_baseAttackSpeed -= _agility * 0.05f;
+	this->m_attackSpeed = m_baseAttackSpeed - m_attackSpeedChange;
 	this->m_agility += _agility;
 }
 
@@ -247,6 +265,11 @@ void UnitEntity::increaseFortitude(int _fortitude)
 	m_baseMentalResistance -= _fortitude * 0.02f;
 	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 	m_fortitude += _fortitude;
+
+	if(this->m_mentalResistance < 0.0f)
+	{
+		this->m_mentalResistance = 0.0f;
+	}
 }
 
 void UnitEntity::increaseTurretConstruction(int _towerConstruction)
@@ -267,37 +290,6 @@ bool UnitEntity::isSlowedByFrostTurret()
 void UnitEntity::setMaxHealth(int _maxHealth)
 {
 	this->m_maxHealth = _maxHealth;
-}
-
-void UnitEntity::setMovementSpeed(float _movementSpeed)
-{
-	this->m_movementSpeed = _movementSpeed;
-}
-
-void UnitEntity::setAttackSpeed(float _attackSpeed)
-{
-	this->m_attackSpeed = _attackSpeed;
-}
-
-void UnitEntity::setPhysicalDamage(float _physicalDamage)
-{
-	this->m_physicalDamage = _physicalDamage;
-}
-
-void UnitEntity::setMentalDamage(float _mentalDamage)
-{
-	this->m_mentalDamage = _mentalDamage;
-
-}
-
-void UnitEntity::setPhysicalResistance(float _physicalResistance)
-{
-	this->m_physicalResistance = _physicalResistance;
-}
-
-void UnitEntity::setMentalResistance(float _mentalResistance)
-{
-	this->m_mentalResistance = _mentalResistance;
 }
 
 void UnitEntity::setPoisonCounter(int _poisonCounter)
@@ -406,8 +398,10 @@ int UnitEntity::getPoisonCounter()
 }
 
 #include <sstream>
-void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage)
+void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage, int _extraDivinePower)
 {
+	m_extraDivinePower = _extraDivinePower;
+
 	int networkId=Statistics::convertSimonsIdToRealId(damageDealerId);
 	if(networkId>=0)
 	{
@@ -497,7 +491,7 @@ void UnitEntity::update(float dt)
 	}
 	else
 	{
-		this->m_stunTimer -= dt;
+		this->m_stunTimer = max(m_stunTimer-dt, 0.0f);
 	}
 }
 

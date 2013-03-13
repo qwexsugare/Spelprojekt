@@ -1,6 +1,6 @@
 #include "TimeIsMoney.h"
 
-const float TimeIsMoney::COOLDOWN = 60.0f;
+const float TimeIsMoney::COOLDOWN = 20.0f;
 
 TimeIsMoney::TimeIsMoney() : Skill(Skill::TIME_IS_MONEY, TimeIsMoney::COOLDOWN)
 {

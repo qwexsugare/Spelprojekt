@@ -15,7 +15,9 @@
 class HudMenu : public Menu
 {
 private:
-	Enemy::EnemyType m_currentTargetEnemy;
+	unsigned int m_currentTargetEnemyId;
+	bool m_hasTargetEnemy;
+	Enemy::EnemyType m_currentTargetType;
 	map<Enemy::EnemyType, Sprite*> m_enemyIcons;
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
@@ -40,6 +42,8 @@ private:
 	FLOAT2 m_fullHealthPos;
 	vector<string> m_Attributes;
 	TextLabel*	m_AttributeText;
+	TextLabel* m_waveText;
+	TextLabel* m_livesRemaining;
 	bool m_canAfford[20];
 	bool m_shopVisible;
 	int m_nrOfAttributesBought;
@@ -80,15 +84,17 @@ public:
 	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId);
 
 	void addSkill(unsigned int _skillId);
+	void removeTargetEnemy();
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);
-	void setLivesLeft(int livesLeft);
-	void setTargetEnemy(Enemy::EnemyType _enemyType);
+	void setLivesRemaining(int livesRemaing);
+	void setTargetEnemy(unsigned int _currentTargetEnemyId);
 	void setStrength(int _strength);
 	void setAgility(int _agility);
 	void setWits(int _wits);
 	void setFortitude(int _fortitude);
 	void setTowerConstruction(int _towerConstruction);
+	void setWave(int _wave);
 };
 

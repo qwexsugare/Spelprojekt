@@ -76,13 +76,14 @@ public:
 	void Update();
 	int GetSliderReaction();
 	float ReturnSliderValue();
-	void setPosition(FLOAT2 _pos);
+	void setPosition(float _pos);
 	void SetID(int _id);
 	int GetID();
 	int LoseAmountOfResources(int _resources);
 	float GetValue();
 	void SetTextBoxValue(bool _change);
 	void setVisible(bool _visible);
+	void setValue(float _value);
 	FLOAT2 getPos();
 	int getCost();
 	string getText();

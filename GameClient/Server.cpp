@@ -290,15 +290,19 @@ void Server::broadcast(NetworkUpdateEntityHealth networkMessage)
 }
 void Server::broadcast(NetworkWelcomeMessage networkMessage)
 {
-	sf::Packet packet;
-	packet<<networkMessage;
-
 	this->m_mutex.Lock();
 
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
 		if(this->clients[i].IsValid())
+		{
+			networkMessage.setPlayerId(this->m_players[i]->getId());
+
+			sf::Packet packet;
+			packet<<networkMessage;
+
 			this->clients[i].Send(packet);
+		}
 	}
 
 	this->m_mutex.Unlock();
@@ -512,6 +516,34 @@ void Server::broadcast(NetworkEndGameMessage networkMessage)
 	this->m_mutex.Unlock();
 }
 
+void Server::broadcast(NetworkPlayerJoinedMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
+	}
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(i != networkMessage.getPlayerIndex() && this->clients[i].IsValid())
+		{
+			NetworkPlayerJoinedMessage message = NetworkPlayerJoinedMessage(i, Statistics::getStatisticsPlayer(i).getPlayerName());
+			sf::Packet packet;
+			packet<<message;
+
+			this->clients[networkMessage.getPlayerIndex()].Send(packet);
+		}
+	}	
+
+	this->m_mutex.Unlock();
+}
+
 void Server::Run()
 {
 	__int64 cntsPerSec = 0;
@@ -610,6 +642,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		string pname;
 		packet >> pname;
 		Statistics::getStatisticsPlayer(socketIndex).setPlayerName(pname);
+		this->broadcast(NetworkPlayerJoinedMessage(socketIndex, pname));
 		break;
 	}
 

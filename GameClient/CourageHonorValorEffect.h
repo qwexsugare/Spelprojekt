@@ -10,9 +10,12 @@ private:
 	float m_timer;
 	unsigned int m_caster;
 public:
-	static const float MOVEMENT_SPEED;
-	static const float PHYSICAL_RESISTANCE;
-	static const float MENTAL_DAMAGE;
+	static const float MOVEMENT_SPEED_BASE;
+	static const float MOVEMENT_SPEED_FACTOR;
+	static const float MENTAL_RESISTANCE_FACTOR;
+	static const float MENTAL_RESISTANCE_BASE;
+	static const float MENTAL_DAMAGE_FACTOR;
+	static const float MENTAL_DAMAGE_BASE;
 	static const int AOE = 10;
 
 	CourageHonorValorEffect(unsigned int _caster);

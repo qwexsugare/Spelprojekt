@@ -1,5 +1,5 @@
 #include "HudMenu.h"
-
+#include "ClientEntityHandler.h"
 
 HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 {
@@ -17,8 +17,8 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Buy = false;
 	m_Menu= false;
 	m_Locked = true;
+	m_hasTargetEnemy = false;
 
-	m_Resources = 0;
 	m_DontChange.push_back(false);
 	m_DontChange.push_back(false);
 	m_DontChange.push_back(false);
@@ -94,23 +94,22 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_LabelSprite.push_back(g_graphicsEngine->createSprite("menu_textures\\Label_3.png",FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
 	this->m_LabelSprite.push_back(g_graphicsEngine->createSprite("menu_textures\\Label_4.png",FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
 	
-	m_enemyIcons[Enemy::EnemyType::IMP] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::IMP] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::IMP]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::SHADE] = g_graphicsEngine->createSprite("menu_textures/Imp-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SHADE] = g_graphicsEngine->createSprite("menu_textures/Imp-3.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::SHADE]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::FROST_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-0.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::FROST_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-0.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::FROST_DEMON]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON] = g_graphicsEngine->createSprite("menu_textures/Imp-1.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::SPITTING_DEMON]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-2.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-2.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::BRUTE_STEED]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-3.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-3.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::HELLFIRE_STEED]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-0.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED] = g_graphicsEngine->createSprite("menu_textures/Beast-0.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED]->setVisible(false);
-	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.95f,  -0.65f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED]->setVisible(false);
-	m_currentTargetEnemy = Enemy::NONE;
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
@@ -126,13 +125,13 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_SkillButtons[1] = new Skill_Buttons();
 	this->m_SkillButtons[1]->Init(FLOAT2(-0.945f+(0.102083333f*2), -0.825f-0.004f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
 	this->m_SkillButtons[2] = new Skill_Buttons();
-	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
+	this->m_SkillButtons[2]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*0)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
 	this->m_SkillButtons[3] = new Skill_Buttons();
-	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*4)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE, 0,0,1,9,100,false);
+	this->m_SkillButtons[3]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*1)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE, 0,0,1,9,100,false);
 	this->m_SkillButtons[4] = new Skill_Buttons();
-	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*5)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
+	this->m_SkillButtons[4]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*2)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
 	this->m_SkillButtons[5] = new Skill_Buttons();
-	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*6)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
+	this->m_SkillButtons[5]->Init(FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*3)+0.40f, -1.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-","30",".png",Skill::MOVE,0,0,1,9,100,false);
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
 
@@ -153,6 +152,9 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 
 	}
 
+	this->m_waveText = new TextLabel("1","text5.png", INT2(g_graphicsEngine->getScreenSize().x - 45, 60), 70);
+	this->m_livesRemaining = new TextLabel("", "text5.png", INT2(g_graphicsEngine->getScreenSize().x - 210, 330), 55);
+
 	//Shop buttons
 	for(int i = 0; i < 20; i++)
 	{
@@ -172,13 +174,13 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_shopButtons[10]->Init(FLOAT2(-0.06f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::DEADLY_STRIKE),"2000",0,0,1,12,100,2000,INT2(1920/2,440), false, Skill::DEADLY_STRIKE,"menu_textures\\Skill_10.png");
 	this->m_shopButtons[11]->Init(FLOAT2(0.22f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WITS),"100",0,0,1,12,100,0,INT2(1228,80), false, Skill::WITS,"menu_textures\\Skill_11.png");
 	this->m_shopButtons[12]->Init(FLOAT2(0.22f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::POISON_STRIKE),"1700",0,0,1,12,100,1700,INT2(1228,200), false, Skill::POISON_STRIKE,"menu_textures\\Skill_12.png");
-	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HEALING_TOUCH),"1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH,"menu_textures\\Skill_15.png");
+	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HEALING_TOUCH),"1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH,"menu_textures\\Skill_19.png");
 	this->m_shopButtons[13]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CHAIN_STRIKE),"2500",0,0,1,12,100,2500,INT2(1228,440), false, Skill::CHAIN_STRIKE,"menu_textures\\Skill_13.png");
 	this->m_shopButtons[14]->Init(FLOAT2(0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CLOUD_OF_DARKNESS),"3500",0,0,1,12,100,3500,INT2(1228,560), false, Skill::CLOUD_OF_DARKNESS,"menu_textures\\Skill_14.png");
 	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::FORTITUDE),"100",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE,"menu_textures\\Skill_16.png");
 	this->m_shopButtons[17]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::GREED),"700",0,0,1,12,100,700,INT2(1498,200), false, Skill::GREED,"menu_textures\\Skill_17.png");
 	this->m_shopButtons[18]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::MENTAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(1498,324), false, Skill::MENTAL_RESISTANCE,"menu_textures\\Skill_18.png");
-	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WALL),"3000",0,0,1,12,100,3000,INT2(1498,440), false, Skill::WALL,"menu_textures\\Skill_19.png");
+	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WALL),"3000",0,0,1,12,100,3000,INT2(1498,440), false, Skill::WALL,"menu_textures\\Skill_20.png");
 
 	for(int i = 0; i < this->m_shopButtons.size(); i++)
 	{
@@ -198,6 +200,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_shopBackground.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Fortitude.png", FLOAT2(0.56f,0.3f),  FLOAT2(0.260416667f,1.451851852f),10));
 
 	this->m_shopVisible = false;
+	m_placingTower = false;
 	this->displayShop(false);
 
 	//Healthbar
@@ -207,7 +210,6 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 
 	//Towers
 	int nrOfTowers = 4;
-
 	for(int i = 0; i < nrOfTowers; i++)
 	{
 		this->m_towerButtons.push_back(new Button());
@@ -220,12 +222,155 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 }
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
 {
+	if(m_hasTargetEnemy)
+	{
+		Entity* currentTarget = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+		if(!currentTarget)
+		{
+			m_hasTargetEnemy = false;
+			m_enemyIcons[m_currentTargetType]->setVisible(false);
+		}
+	}
+
+	for(int i = 0; i < this->m_towerButtons.size(); i++)
+	{
+		this->m_towerButtons[i]->Update();
+	}
+	
+	bool switchedTower = false;
+	for(int i = 0; i < this->m_towerButtons.size(); i++)
+	{
+		if(this->m_towerButtons[i]->isClicked())
+		{
+			if(m_towerModel)
+			{
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+			}
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
+
+			switchedTower = true;
+			this->m_placingTower = true;
+			this->m_towerId = this->m_towerButtons[i]->GetID();
+
+			ModelIdHolder m;
+
+			switch(this->m_towerId)
+			{
+			case Skill::DEATH_PULSE_TURRET:
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+				break;
+			case Skill::TESLA_CHAIN_TURRET:
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+				break;
+			case Skill::FROST_TURRET:
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+				m_subTowerModel->setAlpha(0.5f);
+				break;
+			case Skill::POISON_TURRET:
+				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+				break;
+			}
+
+			this->m_towerModel->setAlpha(0.5f);
+		}
+	}
+
+	if(g_keyboard->getKeyState('Z') == Keyboard::KEY_PRESSED)
+	{
+		if(m_towerModel)
+		{
+			g_graphicsEngine->removeModel(m_towerModel);
+			m_towerModel = NULL;
+		}
+		if(m_subTowerModel)
+		{
+			g_graphicsEngine->removeModel(m_subTowerModel);
+			m_subTowerModel = NULL;
+		}
+		
+		switchedTower = true;
+		this->m_placingTower = true;
+		this->m_towerId = this->m_towerButtons[0]->GetID();
+		ModelIdHolder m;
+		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+		this->m_towerModel->setAlpha(0.5f);
+	}
+	else if(g_keyboard->getKeyState('X') == Keyboard::KEY_PRESSED)
+	{
+		if(m_towerModel)
+		{
+			g_graphicsEngine->removeModel(m_towerModel);
+			m_towerModel = NULL;
+		}
+		if(m_subTowerModel)
+		{
+			g_graphicsEngine->removeModel(m_subTowerModel);
+			m_subTowerModel = NULL;
+		}
+		
+		switchedTower = true;
+		this->m_placingTower = true;
+		this->m_towerId = this->m_towerButtons[1]->GetID();
+		ModelIdHolder m;
+		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+		this->m_towerModel->setAlpha(0.5f);
+		m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+		m_subTowerModel->setAlpha(0.5f);
+	}
+	else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
+	{
+		if(m_towerModel)
+		{
+			g_graphicsEngine->removeModel(m_towerModel);
+			m_towerModel = NULL;
+		}
+		if(m_subTowerModel)
+		{
+			g_graphicsEngine->removeModel(m_subTowerModel);
+			m_subTowerModel = NULL;
+		}
+		
+		switchedTower = true;
+		this->m_placingTower = true;
+		this->m_towerId = this->m_towerButtons[2]->GetID();
+		ModelIdHolder m;
+		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+		this->m_towerModel->setAlpha(0.5f);
+	}
+	else if(g_keyboard->getKeyState('V') == Keyboard::KEY_PRESSED)
+	{
+		if(m_towerModel)
+		{
+			g_graphicsEngine->removeModel(m_towerModel);
+			m_towerModel = NULL;
+		}
+		if(m_subTowerModel)
+		{
+			g_graphicsEngine->removeModel(m_subTowerModel);
+			m_subTowerModel = NULL;
+		}
+		
+		switchedTower = true;
+		this->m_placingTower = true;
+		this->m_towerId = this->m_towerButtons[3]->GetID();
+		ModelIdHolder m;
+		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+		this->m_towerModel->setAlpha(0.5f);
+	}
+
 	this->m_AttributeText->setText(	m_Attributes[0] +"           "+ 
 									m_Attributes[1] +"           "+ 
 									m_Attributes[2] +"          "+ 
 									m_Attributes[3] +"          "+
 									m_Attributes[4]);
-	if(this->m_placingTower == true)
+
+	if(this->m_placingTower && !switchedTower)
 	{
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
@@ -238,9 +383,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		if(m_subTowerModel)
 			m_subTowerModel->setPosition(FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z));
 
-		if(g_mouse->isLButtonPressed() == true)
+		if(g_mouse->isLButtonReleased())
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
+			m_towerModel = NULL;
 			if(m_subTowerModel)
 			{
 				g_graphicsEngine->removeModel(this->m_subTowerModel);
@@ -324,17 +470,28 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			}
 			else if(m_skillWaitingForTarget == Skill::HYPNOTIC_STARE || m_skillWaitingForTarget == Skill::CHAIN_STRIKE)
 			{
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-						
-				float dist;
-				for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
+				// Check if the target is the pic of the target down in the corner
+				if(m_hasTargetEnemy && m_Images[m_currentTargetType]->intersects(FLOAT2(
+					g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
 				{
-					if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+					Entity* currentTarget = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+					this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, currentTarget->m_id, this->m_buttonIndex));
+				}
+				// Else the pick ray is out on the battlefield
+				else
+				{
+					D3DXVECTOR3 pickDir;
+					D3DXVECTOR3 pickOrig;
+					g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+						
+					float dist;
+					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
 					{
-						this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
-						entityIndex = _entities.size();
+						if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+						{
+							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+							entityIndex = _entities.size();
+						}
 					}
 				}
 			}
@@ -422,15 +579,15 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 
 		// Do the E skill
-		this->m_SkillButtons[0]->Update(_dt);
+		this->m_SkillButtons[1]->Update(_dt);
 
-		if(this->m_SkillButtons.size() > 0 && (g_keyboard->getKeyState('E') == Keyboard::KEY_PRESSED || this->m_SkillButtons[0]->Clicked() > 0))
+		if(this->m_SkillButtons.size() > 0 && (g_keyboard->getKeyState('E') == Keyboard::KEY_PRESSED || this->m_SkillButtons[1]->Clicked() > 0))
 		{
-			if(m_SkillButtons[0]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[0]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[0]->getSkillId() == Skill::TELEPORT || m_SkillButtons[0]->getSkillId() == Skill::HYPNOTIC_STARE
-					|| m_SkillButtons[0]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[0]->getSkillId() == Skill::WALL || m_SkillButtons[0]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
+			if(m_SkillButtons[1]->getSkillId() == Skill::CLOUD_OF_DARKNESS || m_SkillButtons[1]->getSkillId() == Skill::HEALING_TOUCH || m_SkillButtons[1]->getSkillId() == Skill::TELEPORT || m_SkillButtons[1]->getSkillId() == Skill::HYPNOTIC_STARE
+					|| m_SkillButtons[1]->getSkillId() == Skill::CHAIN_STRIKE || m_SkillButtons[1]->getSkillId() == Skill::WALL || m_SkillButtons[1]->getSkillId() == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
 			{
-				this->m_skillWaitingForTarget = this->m_SkillButtons[0]->getSkillId();
-				this->m_buttonIndex = 0;
+				this->m_skillWaitingForTarget = this->m_SkillButtons[1]->getSkillId();
+				this->m_buttonIndex = 1;
 
 				switch(this->m_skillWaitingForTarget)
 				{
@@ -457,50 +614,14 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					break;
 				}
 			}
-			else if(m_SkillButtons[0]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[0]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[0]->getSkillId() == Skill::SIMONS_EVIL ||
-					m_SkillButtons[0]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[0]->getSkillId() == Skill::TIME_IS_MONEY)
+			else if(m_SkillButtons[1]->getSkillId() == Skill::STUNNING_STRIKE || m_SkillButtons[1]->getSkillId() == Skill::DEMONIC_PRESENCE || m_SkillButtons[1]->getSkillId() == Skill::SIMONS_EVIL ||
+					m_SkillButtons[1]->getSkillId() == Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR || m_SkillButtons[1]->getSkillId() == Skill::TIME_IS_MONEY)
 			{
-				this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[0]->getSkillId(), 0));
-			}
-		}
-
-		for(int i = 0; i < this->m_towerButtons.size(); i++)
-		{
-			this->m_towerButtons[i]->Update();
-
-			if(this->m_towerButtons[i]->Clicked() == 1)
-			{
-				//Go into tower placing mode
-				this->m_placingTower = true;
-				this->m_towerId = this->m_towerButtons[i]->GetID();
-
-				ModelIdHolder m;
-
-				switch(this->m_towerId)
-				{
-				case Skill::DEATH_PULSE_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
-					break;
-				case Skill::TESLA_CHAIN_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
-					break;
-				case Skill::FROST_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-					m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
-					m_subTowerModel->setAlpha(0.5f);
-					break;
-				case Skill::POISON_TURRET:
-					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
-					break;
-				}
-
-				this->m_towerModel->setAlpha(0.5f);
+				this->m_network->sendMessage(NetworkUseActionMessage(m_SkillButtons[1]->getSkillId(), 1));
 			}
 		}
 
 		for(int i = 0; i < m_Buttons.size(); i++)
-
-
 		{
 			this->m_Buttons[i]->Update();
 		}
@@ -559,6 +680,7 @@ bool HudMenu::LockIsDown()
 {
 	if(this->m_Buttons[0]->Clicked() == 1)
 	{
+		this->m_network->sendMessage(NetworkBuySkillMessage(Skill::SELL));
 		m_NumberOfSkills = 2;
 		m_SkillHud[0] = -1.5f;
 		m_SkillHud[1] = -1.5f;
@@ -576,6 +698,9 @@ bool HudMenu::LockIsDown()
 		{
 			m_DontChange[i] = false;
 		}
+
+		this->m_NumberOfSkills = 2;
+
 		return true;
 	}
 	else
@@ -650,6 +775,9 @@ HudMenu::~HudMenu(void)
 		g_graphicsEngine->removeModel(m_towerModel);
 	if(m_subTowerModel)
 		g_graphicsEngine->removeModel(m_subTowerModel);
+
+	delete this->m_livesRemaining;
+	delete this->m_waveText;
 }
 
 void  HudMenu::UpdateShop()
@@ -702,7 +830,7 @@ void HudMenu::addSkill(unsigned int _skillId)
 		if(_skillId == Skill::STRENGTH || _skillId == Skill::AGILITY || _skillId == Skill::WITS || _skillId == Skill::FORTITUDE || _skillId == Skill::TURRET_CONSTRUCTION)
 		{
 			this->m_nrOfAttributesBought++;
-			int cost = 100 * (pow(1.5f, this->m_nrOfAttributesBought));
+			int cost = 100 * (pow(1.12f, this->m_nrOfAttributesBought));
 
 			stringstream ss;
 			ss << cost;
@@ -720,21 +848,44 @@ void HudMenu::addSkill(unsigned int _skillId)
 		}
 		else
 		{
-			this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId);
-			this->m_DontChange[m_NumberOfSkills] = false;
-			m_SkillHud[m_NumberOfSkills] = -1.5f;
-			bool checkActive = true;
-			checkActive = this->m_SkillButtons[this->m_NumberOfSkills]->getActiveorPassive();
-			if (checkActive == false && m_NumberOfSkills >=2)
+			this->m_SkillButtons[this->m_NumberOfSkills]->ChangeButton(this->m_skillHolder.getSkill(_skillId), this->m_skillHolder.getActive(_skillId), _skillId,this->m_skillHolder.getDescription(_skillId));
+
+			if(this->m_NumberOfSkills >= 2)
 			{
-				//int numbers = this->m_NumberOfSkills-1;
-				//stringstream ss;
-				//ss << numbers;
-				g_graphicsEngine->removeSprite(m_LabelSprite[m_NumberOfSkills-2]);
-				this->m_LabelSprite[m_NumberOfSkills-2] = (g_graphicsEngine->createSprite("menu_textures\\Label_P.png",FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*(m_NumberOfSkills-2))+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
+				this->m_DontChange[m_NumberOfSkills - 2] = false;
+				m_SkillHud[m_NumberOfSkills - 2] = -1.5f;
+				bool checkActive = true;
+				checkActive = this->m_SkillButtons[this->m_NumberOfSkills]->getActiveorPassive();
+
+				if (checkActive == false)
+				{
+					//int numbers = this->m_NumberOfSkills-1;
+					//stringstream ss;
+					//ss << numbers;
+					g_graphicsEngine->removeSprite(m_LabelSprite[m_NumberOfSkills-2]);
+					this->m_LabelSprite[m_NumberOfSkills-2] = (g_graphicsEngine->createSprite("menu_textures\\Label_P.png",FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*(m_NumberOfSkills-2))+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
+				}
+				else
+				{
+					stringstream ss;
+					ss<<"menu_textures\\Label_"<<m_NumberOfSkills-1<<".png";
+					g_graphicsEngine->removeSprite(m_LabelSprite[m_NumberOfSkills-2]);
+					this->m_LabelSprite[m_NumberOfSkills-2] = (g_graphicsEngine->createSprite(ss.str(),FLOAT2(-0.897916667f+0.001041667f+(0.102083333f*(m_NumberOfSkills-2))+0.46f, -1.5f),FLOAT2(0.103125f, 0.285185185f),8));	
+				}
 			}
+
 			this->m_NumberOfSkills++;
 		}
+	}
+}
+
+void HudMenu::removeTargetEnemy()
+{
+	if(m_hasTargetEnemy)
+	{
+		Entity* currentUnit = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+		m_enemyIcons[Enemy::EnemyType(currentUnit->m_subtype)]->setVisible(false);
+		m_hasTargetEnemy = false;
 	}
 }
 
@@ -780,43 +931,75 @@ void HudMenu::setHealth(float health)
 	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.495555556f));
 }
 
-void HudMenu::setTargetEnemy(Enemy::EnemyType _enemyType)
+void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
 {
-	if(m_currentTargetEnemy != Enemy::NONE)
-		m_enemyIcons[m_currentTargetEnemy]->setVisible(false);
+	if(m_hasTargetEnemy)
+	{
+		Entity* currentUnit = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+		m_enemyIcons[Enemy::EnemyType(currentUnit->m_subtype)]->setVisible(false);
+	}
+	else
+	{
+		m_hasTargetEnemy = true;
+	}
 
-	if(_enemyType != Enemy::NONE)
-		m_enemyIcons[_enemyType]->setVisible(true);
+	Entity* targetUnit = ClientEntityHandler::getEntity(_currentTargetEnemyId);
+	m_currentTargetType = Enemy::EnemyType(targetUnit->m_subtype);
+	m_enemyIcons[m_currentTargetType]->setVisible(true);
 
-	m_currentTargetEnemy = _enemyType;
+	m_currentTargetEnemyId = _currentTargetEnemyId;
 }
 
-void HudMenu::setLivesLeft(int livesLeft)
+void HudMenu::setLivesRemaining(int livesRemaing)
 {
-	//Update some text
+	stringstream ss;
+	ss<<livesRemaing;
+	this->m_livesRemaining->setText(ss.str());
 }
 
 void HudMenu::setStrength(int _strength)
 {
 	this->m_strength = _strength;
+	stringstream ss;
+	ss<<this->m_strength;
+	this->m_Attributes[1] = ss.str();
 }
 
 void HudMenu::setAgility(int _agility)
 {
 	this->m_agility = _agility;
+	stringstream ss;
+	ss<<this->m_agility;
+	this->m_Attributes[2] = ss.str();
 }
 
 void HudMenu::setWits(int _wits)
 {
 	this->m_wits = _wits;
+	stringstream ss;
+	ss<<this->m_wits;
+	this->m_Attributes[3] = ss.str();
 }
 
 void HudMenu::setFortitude(int _fortitude)
 {
 	this->m_fortitude = _fortitude;
+	stringstream ss;
+	ss<<this->m_fortitude;
+	this->m_Attributes[4] = ss.str();
 }
 
 void HudMenu::setTowerConstruction(int _towerConstruction)
 {
 	this->m_towerConstruction = _towerConstruction;
+	stringstream ss;
+	ss<<this->m_towerConstruction;
+	this->m_Attributes[0] = ss.str();
+}
+
+void HudMenu::setWave(int _wave)
+{
+	stringstream ss;
+	ss<<_wave;
+	this->m_waveText->setText(ss.str());
 }
