@@ -25,7 +25,9 @@
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
 #include "NetworkUpdateEntityHealth.h"
+#include "NetworkWelcomeMessage.h"
 #include "NetworkEndGameMessage.h"
+#include "NetworkPlayerJoinedMessage.h"
 
 using namespace std;
 
@@ -57,7 +59,9 @@ private:
 	queue<NetworkInitEntityMessage> m_initEntityMessage;
 	queue<NetworkHeroInitMessage> m_heroInitQueue;
 	queue<NetworkUpdateEntityHealth> m_updateHealthMessage;
+	queue<NetworkWelcomeMessage> m_welcomeMessage;
 	queue<NetworkEndGameMessage> m_endGameMessageQueue;
+	queue<NetworkPlayerJoinedMessage> m_playerJoinedMessageQueue;
 public:
 	Client();
 	~Client();
@@ -74,6 +78,7 @@ public:
 	void sendMessage(NetworkReadyMessage _usm);
 	void sendMessage(NetworkHeroInitMessage _usm);
 	void sendMessage(NetworkEndGameMessage _negm);
+	void sendMessage(NetworkPlayerJoinedMessage _msg);
 	void sendPacket(sf::Packet p);
 
 	NetworkEntityMessage entityQueueFront();
@@ -89,7 +94,9 @@ public:
 	NetworkInitEntityMessage initEntityMessageFront();
 	NetworkHeroInitMessage heroInitQueueFront();
 	NetworkUpdateEntityHealth updateEntityHealthFront();
+	NetworkWelcomeMessage networkWelcomeMessageFront();
 	NetworkEndGameMessage endGameQueueFront();
+	NetworkPlayerJoinedMessage playerJoinedMessageQueueFront();
 
 	bool updateEntityHealthEmpty();
 	bool entityQueueEmpty();
@@ -104,7 +111,9 @@ public:
 	bool heroSelectedQueueEmpty();
 	bool initEntityMessageEmpty();
 	bool heroInitQueueEmpty();
+	bool networkWelcomeMessageEmpty();
 	bool endGameQueueEmpty();
+	bool playerJoinedMessageQueueEmpty();
 };
 
 #endif // CLIENT_H

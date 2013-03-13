@@ -6,15 +6,17 @@ SpittingDemon::SpittingDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Enemy
 {
 	m_modelId        = 83;
 	
-	
 	this->increaseStrength(0);
 	this->increaseAgility(7);
-	this->increaseWits(5);
+	this->increaseWits(4);
 	this->increaseFortitude(1);
 
+	m_lowResource    = 40+20;
+	m_highRescource  = 50+20;
+	/*
 
-	m_lowResource    = 40;
-	m_highRescource  = 50;
+	m_lowResource    = 40+20;
+	m_highRescource  = 50+20;
 	
 
 	//m_health = 100*m_fortitude; 
@@ -30,7 +32,7 @@ SpittingDemon::SpittingDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Enemy
 
 	//m_baseMentalResistance =1.00f - m_fortitude*2*0.01f;
 	//m_mentalResistance = m_baseMentalResistance;
-
+	*/
 	m_skills.push_back(new PoisonStrike());
 
 	m_regularAttack = new RangedAttack();

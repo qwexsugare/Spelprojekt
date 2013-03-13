@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "SoundWrapper.h"
 #include "EndState.h"
+#include "LoadingState.h"
 
 ClientHandler::ClientHandler(HWND _hWnd)
 {
@@ -129,6 +130,7 @@ void ClientHandler::update(float _dt)
 			this->m_state = new JoinGameState();
 			break;
 		case State::LOBBY:
+			this->m_state = new LobbyState(this->m_client);
 			if(tempState->getType() == State::CREATE_GAME)
 			{
 				CreateGameState *tempCreateState = (CreateGameState*)tempState;
@@ -141,28 +143,32 @@ void ClientHandler::update(float _dt)
 				//sends le player name, code 1337, hardcoded
 				sf::Packet playerName;
 				playerName << (int)NetworkMessage::setPlayerName << tempCreateState->getPlayerName();
-
 				this->m_client->sendPacket(playerName);
-
 			}
 			else
 			{
 				JoinGameState *tempJoinState = (JoinGameState*)tempState;
 				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
 
-				//sends le player name, code 1337, hardcoded
+				//sends le player name, code 1337, hardcoreporn
 				sf::Packet playerName;
 				playerName << (int)NetworkMessage::setPlayerName << tempJoinState->getPlayerName();
 				this->m_client->sendPacket(playerName);
 			}
-
-			this->m_state = new LobbyState(this->m_client);
 			break;
 		case State::LORE:
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
-			this->m_state = new GameState(this->m_client);
+			if(tempState->getType() == State::LOADING)
+			{
+				LoadingState *tempLoadingState = (LoadingState*)tempState;
+				this->m_state = new GameState(this->m_client, tempLoadingState->getMapName());
+			}
+			else
+			{
+				this->m_state = new GameState(this->m_client, "levelone");
+			}
 			break;
 		case State::SETTINGS:
 			this->m_state = new SettingsState();
@@ -171,7 +177,17 @@ void ClientHandler::update(float _dt)
 			this->m_state = new CreditState();
 			break;
 		case State::END:
-			this->m_state = new EndState(((GameState*)tempState)->isVictorious());
+			delete this->m_serverThread;
+			this->m_serverThread = NULL;
+			this->m_client->disconnect();
+			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage());
+			break;
+		case State::LOADING:
+			if(true)
+			{
+				LobbyState *tempLobbyState = (LobbyState*)tempState;
+				this->m_state = new LoadingState(m_client, tempLobbyState->getMapName());
+			}
 			break;
 		case State::EXIT:
 			this->m_state = NULL;
@@ -185,6 +201,6 @@ void ClientHandler::update(float _dt)
 	D3DXVECTOR3 camPos = g_graphicsEngine->getCamera()->getPos();
 	updateSoundEngine(FLOAT3(camPos.x, camPos.y, camPos.z));
 
-	g_mouse->update(); // Must be last! WHY?!
+	g_mouse->update(); // Must be last! WHY?! - Because otherwise the mouse buttons will NEVER be "pressed"
 	g_keyboard->update();
 }

@@ -27,3 +27,8 @@ void Aim::updateSpecificSkill(float dt)
 {
 
 }
+
+int Aim::getCost()
+{
+	return Aim::COST;
+}

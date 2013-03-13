@@ -15,28 +15,35 @@
 class HudMenu : public Menu
 {
 private:
-	Enemy::EnemyType m_currentTargetEnemy;
+	unsigned int m_currentTargetEnemyId;
+	bool m_hasTargetEnemy;
+	Enemy::EnemyType m_currentTargetType;
 	map<Enemy::EnemyType, Sprite*> m_enemyIcons;
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
 	int	m_NumberOfSkills;
 	int m_Resources;
 
-	float	m_SkillHud;
+	vector<float>	m_SkillHud;
 
-	bool	m_DontChange,
-			m_Buy,
+	bool	m_Buy,
 			m_Menu,
 			m_Locked,
 			m_Chat;
+
+	vector<bool>	m_DontChange;
 
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Chattext;	
 	TextLabel* m_ResourceLabel;
 
 	SpriteSheet *m_healthBar;
+	vector<Sprite*> m_LabelSprite;
 	FLOAT2 m_fullHealthPos;
-
+	vector<string> m_Attributes;
+	TextLabel*	m_AttributeText;
+	TextLabel* m_waveText;
+	TextLabel* m_livesRemaining;
 	bool m_canAfford[20];
 	bool m_shopVisible;
 	int m_nrOfAttributesBought;
@@ -53,6 +60,12 @@ private:
 	int m_towerId;
 	Model* m_towerModel;
 	Model* m_subTowerModel; // for frost turret base.
+
+	int m_strength;
+	int m_agility;
+	int m_wits;
+	int m_fortitude;
+	int m_towerConstruction;
 
 	bool LockIsDown();
 	bool MenuIsDown();
@@ -71,10 +84,17 @@ public:
 	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId);
 
 	void addSkill(unsigned int _skillId);
+	void removeTargetEnemy();
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
 	void setHealth(float health);
-	void setLivesLeft(int livesLeft);
-	void setTargetEnemy(Enemy::EnemyType _enemyType);
+	void setLivesRemaining(int livesRemaing);
+	void setTargetEnemy(unsigned int _currentTargetEnemyId);
+	void setStrength(int _strength);
+	void setAgility(int _agility);
+	void setWits(int _wits);
+	void setFortitude(int _fortitude);
+	void setTowerConstruction(int _towerConstruction);
+	void setWave(int _wave);
 };
 

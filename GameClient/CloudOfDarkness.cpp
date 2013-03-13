@@ -3,7 +3,7 @@
 #include "CloudOfDarknessEffect.h"
 #include "Hero.h"
 
-const float CloudOfDarkness::COOLDOWN = 180.0f;
+const float CloudOfDarkness::COOLDOWN = 90.0f;
 
 CloudOfDarkness::CloudOfDarkness() : Skill(Skill::CLOUD_OF_DARKNESS, COOLDOWN)
 {
@@ -31,4 +31,9 @@ bool CloudOfDarkness::activate(FLOAT3 _position, unsigned int _senderId)
 void CloudOfDarkness::updateSpecificSkill(float _dt)
 {
 
+}
+
+int CloudOfDarkness::getCost()
+{
+	return CloudOfDarkness::COST;
 }

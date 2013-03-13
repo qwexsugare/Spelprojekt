@@ -56,6 +56,7 @@ void Slider::Init(FLOAT2 _ScreenPos,
 
 	// Now for the crazy offset calculation, prepare for the ride of a lifetime!
 	m_Pos.x += _offset;
+	// Here we copy
 	float interval = m_Max-m_Min;
 	float pos = m_Pos.x-m_Min;
 	this->m_Value = pos/interval;
@@ -165,10 +166,15 @@ void Slider::RemoveSprite()
 	g_graphicsEngine->removeSpriteSheet(m_Slider);
 	this->m_Slider = NULL;
 }
-void Slider::setPosition(FLOAT2 _pos)
+void Slider::setPosition(float _pos)
 {
-	this->m_Pos = _pos;
+	this->m_Pos.x = _pos;
 	this->m_Slider->setPosition(m_Pos);
+
+	float pos = m_Pos.x-m_Min;
+	
+	float interval = m_Max-m_Min;
+	this->m_Value = pos/interval;
 }
 int  Slider::LoseAmountOfResources(int _resources)
 {

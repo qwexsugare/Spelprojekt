@@ -64,7 +64,10 @@ void Client::Run()
 			NetworkInitEntityMessage iem;
 			NetworkHeroInitMessage nhim;
 			NetworkUpdateEntityHealth nueh;
+			NetworkStartGameMessage nstm;
 			NetworkEndGameMessage negm;
+			NetworkWelcomeMessage nwm;
+			NetworkPlayerJoinedMessage npjm;
 			
 			int type;
 			packet >> type;
@@ -189,7 +192,8 @@ void Client::Run()
 
 			case NetworkMessage::Start:
 				this->m_mutex.Lock();
-				this->m_startGameQueue.push(NetworkStartGameMessage());
+				packet >> nstm;
+				this->m_startGameQueue.push(nstm);
 
 				if(this->m_startGameQueue.size() > 50)
 				{
@@ -238,11 +242,24 @@ void Client::Run()
 					this->m_updateHealthMessage.pop();
 				this->m_mutex.Unlock();
 				break;
+			case NetworkMessage::welcomeMessage:
+				packet >>nwm;
+				this->m_mutex.Lock();
+				this->m_welcomeMessage.push(nwm);
+				this->m_mutex.Unlock();
+				break;
 
 			case NetworkMessage::EndGame:
 				packet >> negm;
 				this->m_mutex.Lock();
 				m_endGameMessageQueue.push(negm);
+				this->m_mutex.Unlock();
+				break;
+
+			case NetworkMessage::PLAYER_JOINED:
+				packet >> npjm;
+				this->m_mutex.Lock();
+				m_playerJoinedMessageQueue.push(npjm);
 				this->m_mutex.Unlock();
 				break;
 			}
@@ -293,6 +310,21 @@ bool Client::removeActionTargetQueueEmpty()
 bool Client::skillUsedQueueEmpty()
 {
 	return this->m_skillUsedQueue.empty();
+}
+
+bool Client::networkWelcomeMessageEmpty()
+{
+	return this->m_welcomeMessage.empty();
+}
+
+NetworkWelcomeMessage Client::networkWelcomeMessageFront()
+{
+	this->m_mutex.Lock();
+	NetworkWelcomeMessage ret;
+	ret = m_welcomeMessage.front();
+	this->m_welcomeMessage.pop();
+	this->m_mutex.Unlock();
+	return ret;
 }
 
 NetworkEntityMessage Client::entityQueueFront()
@@ -460,6 +492,18 @@ NetworkEndGameMessage Client::endGameQueueFront()
 	return ret;
 }
 
+NetworkPlayerJoinedMessage Client::playerJoinedMessageQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkPlayerJoinedMessage ret = m_playerJoinedMessageQueue.front();
+	this->m_playerJoinedMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
@@ -547,6 +591,16 @@ void Client::sendMessage(NetworkEndGameMessage _negm)
 	}
 }
 
+void Client::sendMessage(NetworkPlayerJoinedMessage _msg)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _msg;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
 bool Client::startGameQueueEmpty()
 {
 	return m_startGameQueue.empty();
@@ -574,4 +628,9 @@ bool Client::updateEntityHealthEmpty()
 bool Client::endGameQueueEmpty()
 {
 	return m_endGameMessageQueue.empty();
+}
+
+bool Client::playerJoinedMessageQueueEmpty()
+{
+	return m_playerJoinedMessageQueue.empty();
 }

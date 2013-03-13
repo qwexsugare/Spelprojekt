@@ -14,6 +14,7 @@ Pathfinder *g_pathfinder;
 
 MapHandler::MapHandler()
 {
+	this->m_messageQueue = new MessageQueue();
 	this->m_currentWave = 0;
 	this->m_waveTimer = 30.0f;
 	this->m_enemySpawnTimer = 30.0f;
@@ -22,7 +23,7 @@ MapHandler::MapHandler()
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
-	this->m_lives = 100;
+	this->m_lives = 50;
 	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
@@ -245,29 +246,30 @@ void MapHandler::loadMap(std::string filename)
 	/// createWave(imps, shades, spitting, Frost, SoulEater, Hellfire, Thunder, Brute)
 	///
 	///
-	
-	createWave(5,5,0,0,0,0,0,0);
+	string waveName="";
+	for(int i=0;i<filename.length()-4;i++)
+	{
+		waveName+=filename[i];
+	}
+
+	waveName+="waves.txt";
+	ifstream file;
+	file.open(waveName.c_str());
+
+	if(file.is_open())
+	{
+		while(!file.eof())
+		{
+			int q,w,e,r,t,y,u,i;
+			q=w=e=r=t=y=u=i=0;
+			file >> q >> w >> e >> r >> t >> y >> u >> i;
+			createWave(q,w,e,r,t,y,u,i);
+		}
+	}
+	file.close();
+
 	
 	createWave(25,5,0,0,0,0,0,0);  
-	createWave(18,8,4,0,0,0,0,0);  
-	createWave(12,10,8,0,0,0,0,0); 
-	createWave(8,10,9,3,0,0,0,0);  
-	createWave(5,8,12,5,0,0,0,0); 
-	createWave(3,8,9,8,2,0,0,0);
-	createWave(2,6,8,10,4,0,0,0);
-	createWave(0,6,7,11,6,2,0,0);
-	createWave(0,4,6,11,5,4,0,0);
-	createWave(0,3,4,9,8,6,0,0);
-	createWave(0,0,6,8,9,4,3,0);
-	createWave(0,0,4,5,11,6,4,0);
-	createWave(0,0,2,4,11,7,6,0);
-	createWave(0,0,0,4,10,8,6,2);
-	createWave(0,0,0,2,8,9,8,3);
-	createWave(0,0,0,0,5,11,10,4);
-	createWave(0,0,0,0,3,9,10,8);
-	createWave(0,0,0,0,0,8,10,12);
-	createWave(0,0,0,0,0,4,8,18);
-	createWave(0,0,0,0,0,0,5,25);
 }
 
 void MapHandler::update(float _dt)
@@ -302,6 +304,7 @@ void MapHandler::update(float _dt)
 		if(this->m_currentWave < m_waves.size())
 		{
 			m_waveTimer = 10.0f;
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::WAVE_UPDATE, this->m_currentWave + 1, FLOAT3()));
 		}
 		else
 		{
@@ -388,4 +391,9 @@ FLOAT3 MapHandler::getPlayerPosition(int p)
 int MapHandler::getLivesLeft()
 {
 	return this->m_lives;
+}
+
+MessageQueue* MapHandler::getMessageQueue()
+{
+	return this->m_messageQueue;
 }

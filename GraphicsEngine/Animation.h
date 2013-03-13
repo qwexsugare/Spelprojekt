@@ -49,6 +49,7 @@ public:
 	
 	DECLDIR void PlayLoop(string name, int numberOfLoops = _INF_Fisk_, float speedMultiplier = 1.0f, Motion body = Motion::FullBody, float overlapTime = 0.5f);
 	DECLDIR void Stop(string name, Motion body = Motion::FullBody);
+	DECLDIR void Stop();
 	DECLDIR void Play(string name, bool waitAtEnd = false, int priority = 0, float speedMultiplier = 1.0f, Motion body = Motion::FullBody);
 	DECLDIR string getPrioAnimation();
 	DECLDIR string getCurrentAnimation();

@@ -31,9 +31,10 @@ private:
 	float m_FontSize;
 	MyTextOffsets m_myTextOffsets;
 	bool m_visible;
+	bool m_centered;
 public:
 	MyText();
-	MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string _offsetPath, string _offsetFilename, float _height, float _width, D3DXVECTOR3 _pos, float _size);
+	MyText(ID3D10Device* _device, ID3D10ShaderResourceView* _texture, string _offsetPath, string _offsetFilename, float _height, float _width, D3DXVECTOR3 _pos, float _size, bool _centered = false);
 	~MyText();
 	
 	ID3D10Buffer* getBuffer()const { return this->m_VertexBuffer; }

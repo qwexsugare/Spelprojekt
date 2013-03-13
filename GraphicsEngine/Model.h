@@ -27,9 +27,12 @@ private:
 	string m_glowIndex;
 	bool m_static;
 	bool m_shadow;
+	bool m_neutral;
+	D3DXVECTOR3 m_screenPosition;
 public:
 	Model();
-	Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f),
+	Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECTOR3 _position,
+		D3DXVECTOR3 _scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f), D3DXVECTOR3 _rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f),
 		float _alpha = 1.0f, string _textureIndex = "color", string _glowIndex = "");
 	~Model();
 	
@@ -47,6 +50,7 @@ public:
 	DECLDIR Mesh* getRightHand()const;
 	string getTextureIndex()const { return m_textureIndex; }
 	string getGlowIndex()const { return m_glowIndex; }
+	bool isNeutral()const;
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
 	DECLDIR void SetHat(Mesh* _hat);
 	DECLDIR void SetLeftHand(Mesh* _lHand);
@@ -77,4 +81,6 @@ public:
 	bool getShadow();
 
 	DECLDIR FLOAT3 getLeftHandPosition();
+	DECLDIR void neutralize();
+	DECLDIR FLOAT2 getScreenPos(D3DXMATRIX viewProjectionMatrix);
 };

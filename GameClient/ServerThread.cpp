@@ -12,6 +12,7 @@ ServerThread::ServerThread(int _port) : sf::Thread()
 	this->m_network = new Server(this->m_messageHandler);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
+	this->m_messageHandler->addQueue(this->m_mapHandler->getMessageQueue());
 	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
 	// I crapped in ass
 	this->m_network->broadcast(NetworkEntityMessage());
@@ -141,8 +142,8 @@ void ServerThread::update(float dt)
 
 			if(start == true)
 			{
-				this->m_state = State::GAME;
-				m_network->broadcast(NetworkStartGameMessage());
+				this->m_state = State::LOADING;
+				m_network->broadcast(NetworkStartGameMessage("levelone"));
 				
 				vector<unsigned int> ids;
 				vector<Hero::HERO_TYPE> heroTypes;
@@ -151,6 +152,7 @@ void ServerThread::update(float dt)
 					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
+					players[i]->setReady(false);
 				}
 
 				for(int i = 0; i < heroTypes.size(); i++)
@@ -162,6 +164,26 @@ void ServerThread::update(float dt)
 				m_network->broadcast(NetworkHeroInitMessage(ids, heroTypes));
 			}
 		}
+	}
+	else if(this->m_state == State::LOADING)
+	{
+		vector<Player*> players = this->m_network->getPlayers();
+		bool ready = true;
+
+		for(int i = 0; i < players.size(); i++)
+		{
+			if(players[i]->getReady() == false)
+			{
+				ready = false;
+			}
+		}
+
+		if(ready == true)
+		{
+			this->m_network->broadcast(NetworkCreateActionMessage(Skill::LIVES_REMAINING, this->m_mapHandler->getLivesLeft(), FLOAT3()));
+			this->m_state = State::GAME;
+		}
+
 	}
 	else if(this->m_state == State::GAME)
 	{
@@ -216,8 +238,8 @@ void ServerThread::update(float dt)
 			{
 				EnemyReachedGoalMessage *edm = (EnemyReachedGoalMessage*)m;
 				ServerEntity *e = EntityHandler::getServerEntity((edm->enemyId));
-				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHURCH_PENETRATED, edm->enemyId, this->m_mapHandler->getLivesLeft(), edm->position));
 				this->m_mapHandler->enemyDied();
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::CHURCH_REALLY_PENETRATED, edm->enemyId, this->m_mapHandler->getLivesLeft(), edm->position));
 			}
 
 			delete m;
@@ -225,14 +247,27 @@ void ServerThread::update(float dt)
 	}
 	if(this->m_state == State::VICTORY)
 	{
-		m_network->broadcast(NetworkEndGameMessage(true));
-		m_entityHandler->removeAllEntities();
+		vector<StatisticsPlayer> playerStatistics;
+
+		for(int i = 0; i < EntityHandler::getEntitiesByType(ServerEntity::HeroType).size(); i++)
+		{
+			playerStatistics.push_back(Statistics::getStatisticsPlayer(i));
+		}
+
+		m_network->broadcast(NetworkEndGameMessage(true, Statistics::getTimePlayed(), Statistics::getIsAtWave(), Statistics::getStartLife(), playerStatistics));
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)
 	{
-		m_network->broadcast(NetworkEndGameMessage(false));
-		m_entityHandler->removeAllEntities();
+		vector<StatisticsPlayer> playerStatistics;
+
+		for(int i = 0; i < EntityHandler::getEntitiesByType(ServerEntity::HeroType).size(); i++)
+		{
+			playerStatistics.push_back(Statistics::getStatisticsPlayer(i));
+		}
+
+		m_network->broadcast(NetworkEndGameMessage(false, Statistics::getTimePlayed(), Statistics::getIsAtWave(), Statistics::getStartLife(), playerStatistics));
+
 		this->m_state = ServerThread::EXIT;
 	}
 }

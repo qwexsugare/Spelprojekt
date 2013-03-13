@@ -13,6 +13,7 @@ private:
 	D3DXVECTOR3 m_right;
 	D3DXMATRIX m_viewMatrix;
 	D3DXMATRIX m_projectionMatrix;
+	D3DXMATRIX m_viewProjectionMatrix;
 	INT2 m_configScreenSize;
 	INT2 m_actualScreenSize;
 public:
@@ -43,6 +44,7 @@ public:
 	DECLDIR void set(FLOAT2 _position);
 	DECLDIR void setX(float _x);
 	DECLDIR void setZ(float _z);
+	DECLDIR D3DXMATRIX getViewProjectionMatrix();
 };
 
 #endif

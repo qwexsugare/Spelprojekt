@@ -32,3 +32,8 @@ void DeadlyStrike::updateSpecificSkill(float dt)
 {
 
 }
+
+int DeadlyStrike::getCost()
+{
+	return DeadlyStrike::COST;
+}

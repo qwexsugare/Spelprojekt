@@ -12,6 +12,7 @@
 #include "Animation.h"
 #include "DirectionalLight.h"
 #include "SpotLight.h"
+#include "ChainEffect.h"
 
 class GraphicsHandler : public sf::Thread
 {
@@ -38,8 +39,11 @@ public:
 	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot, float _scale);
 	DECLDIR bool removeRoad(Road* _road);
 	
-	DECLDIR ParticleEngine* createParticleEngine(D3DXVECTOR4 _pos, D3DXQUATERNION _rot, D3DXVECTOR2 _scale);
+	DECLDIR ParticleEngine* createParticleEngine(string _filename, D3DXVECTOR4 _pos, D3DXQUATERNION _rot, D3DXVECTOR2 _scale);
 	DECLDIR bool removeParticleEngine(ParticleEngine* _particleEngine);
+
+	DECLDIR ChainEffect* createChainEffect();
+	DECLDIR bool removeChainEffect(ChainEffect* _chainEffect);
 	
 	DECLDIR Terrain* createTerrain(FLOAT3 _v1, FLOAT3 _v2, vector<string> _textures, vector<string> _blendMaps, vector<string> _normalMaps, vector<string> _specularMaps);
 	DECLDIR bool removeTerrain(Terrain* _terrain);
@@ -47,7 +51,7 @@ public:
 	DECLDIR Text* createText(string _text, INT2 _pos, int _size, D3DXCOLOR _color);
 	DECLDIR bool removeText(Text *text);
 	
-	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size);
+	DECLDIR MyText* createMyText(string _texture, string _offsetPath, string _offsetFilename, string _text, INT2 _pos, int _size, bool _centered = false);
 	DECLDIR bool removeMyText(MyText *text);
 
 	DECLDIR Model* createModel(Model *_model, bool _static);
@@ -75,6 +79,7 @@ public:
 	DECLDIR void render();
 	DECLDIR void update(float dt);
 	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
+	DECLDIR void clear();
 };
 
 #endif

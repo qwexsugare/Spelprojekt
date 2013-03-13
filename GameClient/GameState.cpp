@@ -9,10 +9,10 @@
 #include "SpeechManager.h"
 #include "Enemy.h"
 
-GameState::GameState(Client *_network)
+GameState::GameState(Client *_network, string mapName)
 {
 	this->m_network = _network;
-	this->importMap("levelone");
+	this->importMap(mapName);
 	m_exitButton = NULL;
 	//Create particle system
 	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
@@ -89,9 +89,12 @@ GameState::GameState(Client *_network)
 		break;
 	}
 	m_churchSound = createSoundHandle("gameplay/churchBell1X.wav", false, false);
-
+	
 	m_attackSoundTimer = 0.0f;
+	m_moveSoundTimer = 0.0f;
 	m_idle = false;
+	m_cameraFollowingHero = false;
+	this->m_endText = NULL;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
@@ -119,6 +122,10 @@ GameState::~GameState()
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 	if(m_exitButton)
 		delete m_exitButton;
+	if(this->m_endText != NULL)
+	{
+		g_graphicsEngine->removeMyText(this->m_endText);
+	}
 
 	// Release all sounds
 	for(int i = 0; i < GameState::NR_OF_ATTACK_SOUNDS; i++)
@@ -140,6 +147,8 @@ GameState::~GameState()
 	deactivateSound(m_lowHealthSound);
 	stopSound(m_churchSound);
 	deactivateSound(m_churchSound);
+
+	g_graphicsEngine->clear();
 }
 
 State::StateEnum GameState::nextState()
@@ -151,17 +160,17 @@ void GameState::update(float _dt)
 {
 	while(m_network->endGameQueueEmpty() == false)
 	{
-		NetworkEndGameMessage e = m_network->endGameQueueFront();
-		m_victory = e.getVictory();
+		this->m_endMessage = m_network->endGameQueueFront();
+		m_victory = this->m_endMessage.getVictory();
 		m_exitButton = new Button();
 		m_exitButton->Init(FLOAT2(0.0f, 0.0f), FLOAT2(0.2f, 0.1f), "menu_textures/Button-MainMenu-ExitGame.png", "");
 		if(m_victory == true)
 		{
-			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 50);
+			this->m_endText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100, true);
 		}
 		else
 		{
-			g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 50);
+			this->m_endText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2 - 75), 100, true);
 		}
 	}
 
@@ -179,12 +188,12 @@ void GameState::update(float _dt)
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
 	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id);
 	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
-	//this->m_cursor.setPosition(g_mouse->getPos());
 	SpeechManager::update();
 
 	// Update sound timers
 	m_lowHealthSoundDelayTimer = max(m_lowHealthSoundDelayTimer-_dt, 0.0f);
 	m_attackSoundTimer = max(m_attackSoundTimer-_dt, 0.0f);
+	m_moveSoundTimer = max(m_moveSoundTimer-_dt, 0.0f);
 	if(m_idle)
 	{
 		if(m_idleSoundTimer > 0.0f)
@@ -260,6 +269,13 @@ void GameState::update(float _dt)
 				m_lowHealthSoundDelayTimer = LOW_HEALTH_SOUND_DELAY;
 			}
 			this->m_hud->setHealth(ueh.getHealth());
+		}
+
+		Entity *e = ClientEntityHandler::getEntity(ueh.getId());
+
+		if(e != NULL)
+		{
+			e->setHealth(ueh.getHealth());
 		}
 	}
 	while(this->m_network->initEntityMessageEmpty()==false)
@@ -338,15 +354,35 @@ void GameState::update(float _dt)
 		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
-		case Skill::CHAIN_STRIKE:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), false));
-			break;
-		case Skill::CHAIN_STRIKE_FIRST_EXCEPTION:
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getPosition(), true));
-			break;
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+		case Skill::STUNNING_STRIKE_VICTIM:
+			m_ClientSkillEffects.push_back(new StunningStrikeVictimClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::STRENGTH:
+			this->m_hud->setStrength(e.getSenderId());
+			break;
+		case Skill::AGILITY:
+			this->m_hud->setAgility(e.getSenderId());
+			break;
+		case Skill::WITS:
+			this->m_hud->setWits(e.getSenderId());
+			break;
+		case Skill::FORTITUDE:
+			this->m_hud->setFortitude(e.getSenderId());
+			break;
+		case Skill::TURRET_CONSTRUCTION:
+			this->m_hud->setTowerConstruction(e.getSenderId());
+			break;
+		case Skill::HEALING_FOUNTAIN:
+			this->m_ClientSkillEffects.push_back(new HealingFountainClientSkillEffect(e.getSenderId()));
+			break;
+		case Skill::WAVE_UPDATE:
+			this->m_hud->setWave(e.getSenderId());
+			break;
+		case Skill::LIVES_REMAINING:
+			this->m_hud->setLivesRemaining(e.getSenderId());
 			break;
 		}
 	}
@@ -443,6 +479,9 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::CHAIN_STRIKE:
+			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getTargetId(), e.getPosition()));
+			break;
 		case Skill::RANGED_ATTACK:
 			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
 			break;
@@ -456,7 +495,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
 			break;
 		case Skill::HEALING_TOUCH:
-			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition(), e.getSenderId()));
 			break;
 		case Skill::HYPNOTIC_STARE:
 			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getSenderId(), e.getPosition().x));
@@ -481,10 +520,12 @@ void GameState::update(float _dt)
 		case Skill::AOE_MELEE_ATTACK:
 			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
 			break;
-		case Skill::CHURCH_PENETRATED:
+		case Skill::CHURCH_PENETRATED:			
+			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));		
+			break;
+		case Skill::CHURCH_REALLY_PENETRATED:
 			playSound(m_churchSound);
-			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));
-			this->m_hud->setLivesLeft(e.getTargetId());
+			this->m_hud->setLivesRemaining(e.getTargetId());
 			break;
 		}
 	}
@@ -601,21 +642,25 @@ void GameState::update(float _dt)
 	}
 
 	static float CAMERA_SPEED = 12.0f;
-	if((g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState('D') != Keyboard::KEY_UP))
+	if(g_mouse->getPos().x >= g_graphicsEngine->getScreenSize().x-10 || g_keyboard->getKeyState('D') != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->setX(min(g_graphicsEngine->getCamera()->getPos().x+CAMERA_SPEED*_dt,
+			m_terrain->getWidth()-g_graphicsEngine->getCamera()->getXOffset()));
 	}
-	else if((g_mouse->getPos().x <= 10 || g_keyboard->getKeyState('A') != Keyboard::KEY_UP))
+	else if(g_mouse->getPos().x <= 10 || g_keyboard->getKeyState('A') != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->setX(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->setX(max(g_graphicsEngine->getCamera()->getPos().x-CAMERA_SPEED*_dt,
+			g_graphicsEngine->getCamera()->getXOffset()));
 	}
-	if((g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState('S') != Keyboard::KEY_UP))
+	if(g_mouse->getPos().y >= g_graphicsEngine->getScreenSize().y-10 || g_keyboard->getKeyState('S') != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->setZ(max(g_graphicsEngine->getCamera()->getPos().z-CAMERA_SPEED*_dt,
+			0.0f));
 	}
-	else if((g_mouse->getPos().y <= 10 || g_keyboard->getKeyState('W') != Keyboard::KEY_UP))
+	else if(g_mouse->getPos().y <= 10 || g_keyboard->getKeyState('W') != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->setZ(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt);
+		g_graphicsEngine->getCamera()->setZ(min(g_graphicsEngine->getCamera()->getPos().z+CAMERA_SPEED*_dt,
+			m_terrain->getHeight()-g_graphicsEngine->getCamera()->getZOffset()*2.0f));
 	}
 
 	D3DXVECTOR3 pickDir;
@@ -656,8 +701,8 @@ void GameState::update(float _dt)
 			FLOAT2 pos = m_minimap->getTerrainPos(g_mouse->getPos());
 			NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(pos.x, 0.0f, pos.y), -1);
 			this->m_network->sendMessage(e);
-
-			m_hud->setTargetEnemy(Enemy::NONE);
+			
+			m_hud->removeTargetEnemy();
 			m_idle = false;
 		}
 		else
@@ -665,7 +710,7 @@ void GameState::update(float _dt)
 			if(mouseOverEnemy >= 0)
 			{
 				this->m_network->sendMessage(NetworkUseActionTargetMessage(Skill::ATTACK, m_entities[mouseOverEnemy]->m_id, -1));
-				m_hud->setTargetEnemy(Enemy::EnemyType(m_entities[mouseOverEnemy]->m_subtype));
+				m_hud->setTargetEnemy(m_entities[mouseOverEnemy]->m_id);
 				if(m_attackSoundTimer == 0.0f)
 				{
 					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
@@ -679,7 +724,12 @@ void GameState::update(float _dt)
 				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
 				NetworkUseActionPositionMessage e = NetworkUseActionPositionMessage(Skill::MOVE, FLOAT3(terrainPos.x, 0.0f, terrainPos.z), -1);
 				this->m_network->sendMessage(e);
-				m_hud->setTargetEnemy(Enemy::NONE);
+				m_hud->removeTargetEnemy();
+				if(m_moveSoundTimer == 0.0f)
+				{
+					SpeechManager::speak(m_playerInfos[m_yourId].id, m_attackSounds[random(0, NR_OF_ATTACK_SOUNDS-1)]);
+					m_moveSoundTimer = MOVE_SOUND_DELAY;
+				}
 				SpeechManager::speak(m_playerInfos[m_yourId].id, m_moveSounds[random(0, NR_OF_MOVE_SOUNDS-1)]);
 				m_idle = false;
 			}
@@ -688,6 +738,38 @@ void GameState::update(float _dt)
 	else if(g_mouse->isRButtonReleased())
 	{
 
+	}
+	if(g_keyboard->getKeyState('Q') == Keyboard::KEY_PRESSED && g_keyboard->getKeyState(VK_SHIFT) != Keyboard::KEY_UP)
+	{
+		m_cameraFollowingHero = !m_cameraFollowingHero;
+	}
+	if(m_cameraFollowingHero)
+	{
+		g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().x);
+		g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
+	}
+	else if(m_playerInfos.size() > 0 && g_keyboard->getKeyState(VK_TAB) != Keyboard::KEY_UP)
+	{
+		// Find closest hero
+		float closestDistance = 9000.0f;
+		float closestIndex = -1;
+		for(int i = 0; i < m_playerInfos.size(); i++)
+		{
+			if(i != m_yourId)
+			{
+				float dist = (ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition() - ClientEntityHandler::getEntity(m_playerInfos[i].id)->m_model->getPosition()).length();
+				if(dist < closestDistance)
+				{
+					closestIndex = i;
+					closestDistance = dist;
+				}
+			}
+		}
+		if(closestIndex != -1)
+		{
+			g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().x);
+			g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
+		}
 	}
 }
 
@@ -952,11 +1034,6 @@ void GameState::importMap(string _map)
 	m_minimap = new Minimap(path + minimap, m_terrain->getTopLeftCorner(), m_terrain->getBottomRightCorner(), g_graphicsEngine->getCamera()->getPos2D());
 }
 
-bool GameState::isVictorious()const
-{
-	return m_victory;
-}
-
 void GameState::playPursueSound(unsigned int _speakerId)
 {
 	Entity* speaker = ClientEntityHandler::getEntity(_speakerId);
@@ -1089,4 +1166,9 @@ void GameState::playWallDeathSound(FLOAT3 _position)
 	int sound = createSoundHandle("skills/wallEnd.wav", false, true, _position);
 	playSound(sound);
 	deactivateSound(sound);
+}
+
+NetworkEndGameMessage GameState::getEndGameMessage()
+{
+	return this->m_endMessage;
 }

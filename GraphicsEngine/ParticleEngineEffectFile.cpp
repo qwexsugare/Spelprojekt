@@ -38,6 +38,9 @@ ParticleEngineEffectFile::ParticleEngineEffectFile(ID3D10Device* _device) : Effe
 	this->m_drawCirclePulsTechnique = this->m_effect->GetTechniqueByName("DrawCirclePuls");
 	this->m_sphereSOTechnique = this->m_effect->GetTechniqueByName("SphereSOTech");
 	this->m_drawSphereTechnique = this->m_effect->GetTechniqueByName("DrawSphere");
+	this->m_fireSOTechnique = this->m_effect->GetTechniqueByName("FireSOTech");
+	this->m_drawFireTechnique = this->m_effect->GetTechniqueByName("DrawFire");
+
 
 	this->m_beaconSOTechnique->GetPassByIndex(0)->GetDesc(&passDescription);
 
@@ -141,4 +144,14 @@ ID3D10EffectTechnique *ParticleEngineEffectFile::getSphereSOTechnique()
 ID3D10EffectTechnique *ParticleEngineEffectFile::getDrawSphereTechnique()
 {
 	return this->m_drawSphereTechnique;
+}
+
+ID3D10EffectTechnique *ParticleEngineEffectFile::getFireSOTechnique()
+{
+	return this->m_fireSOTechnique;
+}
+
+ID3D10EffectTechnique *ParticleEngineEffectFile::getDrawFireTechnique()
+{
+	return this->m_drawFireTechnique;
 }

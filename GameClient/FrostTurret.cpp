@@ -46,13 +46,13 @@ void FrostTurret::updateSpecificTurret(float _dt)
 			else
 				m_rotation.x = max(m_rotation.x-_dt, desiredRotation);
 
-			static float updateRotLimiter = 0.02f;
+			static float updateRotLimiter = 0.0f;
 			updateRotLimiter = max(updateRotLimiter-_dt, 0.0f);
 			if(updateRotLimiter == 0.0f)
 			{
 				this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(
 					this->m_id, this->m_position.x, this->m_position.z, this->m_rotation.x, this->m_position.x, this->m_position.z, this->m_position.x, this->m_position.z, 0.0f));
-				updateRotLimiter = 1.0f;
+				updateRotLimiter = 0.02f;
 			}
 		}
 	}

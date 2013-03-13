@@ -3,7 +3,7 @@
 #include "ChainStrikeEffect.h"
 #include "Hero.h"
 
-const float ChainStrike::COOLDOWN = 12.0f;
+const float ChainStrike::COOLDOWN = 6.0f;
 
 ChainStrike::ChainStrike() : Skill(Skill::CHAIN_STRIKE, COOLDOWN)
 {
@@ -46,4 +46,9 @@ bool ChainStrike::activate(unsigned int _targetId, unsigned int _senderId)
 void ChainStrike::updateSpecificSkill(float _dt)
 {
 
+}
+
+int ChainStrike::getCost()
+{
+	return ChainStrike::COST;
 }

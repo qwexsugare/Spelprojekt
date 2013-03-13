@@ -94,8 +94,8 @@ void Sprite::setPosition(FLOAT2 position)
 void Sprite::setSize(FLOAT2 size)
 {
 	//Convert the size to projection space
-	size.x = (size.x / this->m_deviceHandler->getScreenSize().x) * 2;
-	size.y = (size.y / this->m_deviceHandler->getScreenSize().y) * 2;
+	//size.x = (size.x / this->m_deviceHandler->getScreenSize().x) * 2;
+	//size.y = (size.y / this->m_deviceHandler->getScreenSize().y) * 2;
 
 	//Load vertices
 	D3DXVECTOR2 pos = D3DXVECTOR2(-size.x / 2, -size.y / 2);
@@ -142,6 +142,16 @@ void Sprite::setRotation(float rotation)
 void Sprite::setVisible(bool _visible)
 {
 	this->m_visible = _visible;
+}
+
+FLOAT2 Sprite::getPosition()
+{
+	return this->m_position;
+}
+
+FLOAT2 Sprite::getSize()
+{
+	return this->m_size;
 }
 
 bool Sprite::getVisible()

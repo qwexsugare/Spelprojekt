@@ -9,6 +9,7 @@ Model::Model()
 	this->m_leftHand = NULL;
 	this->m_hat = NULL;
 	m_static = false;
+	m_neutral = false;
 }
 
 Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha, string _textureIndex, string _glowIndex)
@@ -51,6 +52,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECT
 	this->updateModelMatrix();
 	this->animation =  _animation;
 	m_static = false;
+	m_neutral = false;
 }
 
 Model::~Model()
@@ -116,6 +118,11 @@ D3DXVECTOR2 Model::getPosition2D()const
 FLOAT2 Model::getPosition2DAsFloat2()const
 {
 	return FLOAT2(m_position.x, m_position.z);
+}
+
+bool Model::isNeutral()const
+{
+	return m_neutral;
 }
 
 void Model::SetHat(Mesh* _hat)
@@ -369,4 +376,17 @@ void Model::setShadow(bool _shadow)
 bool Model::getShadow()
 {
 	return this->m_shadow;
+}
+
+void Model::neutralize()
+{
+	m_neutral = true;
+}
+
+FLOAT2 Model::getScreenPos(D3DXMATRIX viewProjectionMatrix)
+{
+	D3DXVECTOR4 screenPos;
+	D3DXVec3Transform(&screenPos, &this->getPosition().toD3DXVector(), &viewProjectionMatrix);
+
+	return FLOAT2(screenPos.x / screenPos.w, screenPos.y / screenPos.w);
 }

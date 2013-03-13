@@ -32,3 +32,8 @@ void TurretLifetime::updateSpecificSkill(float _dt)
 {
 
 }
+
+int TurretLifetime::getCost()
+{
+	return TurretLifetime::COST;
+}

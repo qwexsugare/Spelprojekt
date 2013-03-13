@@ -716,6 +716,11 @@ void World::render()
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
 	}
+	
+	for(int c = 0; c < m_chainEffects.size(); c++)
+	{
+		//DrawChainEffect
+	}
 
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
@@ -723,24 +728,27 @@ void World::render()
 
 	for(int i = 0; i < m_models.size(); i++)
 	{
-		m_forwardRendering->setModelMatrix(m_models[i]->getModelMatrix());
-
-		for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
+		if(!m_models[i]->isNeutral())
 		{
-			if(m_models[i]->getMesh()->isAnimated)
+			m_forwardRendering->setModelMatrix(m_models[i]->getModelMatrix());
+
+			for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
 			{
-				//this->m_deferredSampler->setBoneTexture(m_models[i]->getAnimation()->getResource());
-				//this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				//this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				//this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
-				//this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
-			}
-			else
-			{				
-				m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());				
-				m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
+				if(m_models[i]->getMesh()->isAnimated)
+				{
+				this->m_forwardRendering->setBoneTexture(m_models[i]->getAnimation()->getResource());
+				this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+				this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputAnimationLayout());
+				this->m_forwardRendering->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
 				this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				}
+				else
+				{				
+					m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+					m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				}
 			}
 		}
 	}
@@ -1073,6 +1081,11 @@ void World::update(float dt)
 		pes.top()->Update(dt);
 		/* What do you call a sheep with no legs? A cloud. */
 		pes.pop();
+	}	
+	
+	for(int c = 0; c < m_chainEffects.size(); c++)
+	{
+		m_chainEffects[c]->update(dt);
 	}
 
 	//stack<Model*> models = this->m_quadTree->pullAllModels();
@@ -1323,6 +1336,28 @@ bool World::removeSpotLight(SpotLight* _spotLight)
 	return found;
 }
 
+void World::addChainEffect(ChainEffect* _ce)
+{
+	this->m_chainEffects.push_back(_ce);
+}
+
+bool World::removeChainEffect(ChainEffect* _ce)
+{
+	bool found = false;
+
+	for(int i = 0; i < this->m_chainEffects.size() && !found; i++)
+	{
+		if(this->m_chainEffects[i] == _ce)
+		{
+			delete this->m_chainEffects[i];
+			this->m_chainEffects.erase(this->m_chainEffects.begin()+i);
+			found = true;
+		}
+	}
+
+	return found;
+}
+
 Camera *World::getCamera()
 {
 	return this->m_camera;
@@ -1333,4 +1368,39 @@ void World::initQuadTree(FLOAT2 _extents)
 	if(m_quadTree)
 		delete m_quadTree;
 	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y), D3DXVECTOR2(m_camera->getXOffset(), m_camera->getZOffset()));
+}
+
+void World::clear()
+{
+	this->m_mutex.Lock();
+
+	delete m_quadTree;
+	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2(), D3DXVECTOR2()); // Init to something arbitrary, it will be fully initialized later in other function.
+
+	for(int i = 0; i < m_terrains.size(); i++)
+		delete m_terrains[i];
+	m_terrains.clear();
+	for(int i = 0; i < m_models.size(); i++)
+		delete m_models[i];
+	m_models.clear();
+
+	for(int i = 0; i < this->m_pointLights.size(); i++)
+	{
+		delete this->m_pointLights[i];
+	}
+	m_pointLights.clear();
+
+	for(int i = 0; i < this->m_directionalLights.size(); i++)
+	{
+		delete this->m_directionalLights[i];
+	}
+	m_directionalLights.clear();
+
+	for(int i = 0; i < this->m_spotLights.size(); i++)
+	{
+		delete this->m_spotLights[i];
+	}
+	m_spotLights.clear();
+
+	this->m_mutex.Unlock();
 }

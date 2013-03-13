@@ -33,7 +33,6 @@ public:
 		POISON_STRIKE, 
 		TURRET_LIFE,
 		CHAIN_STRIKE,
-		CHAIN_STRIKE_FIRST_EXCEPTION,
 		STUNNING_STRIKE, 
 		CLOUD_OF_DARKNESS, 
 		HEALING_TOUCH,
@@ -61,7 +60,13 @@ public:
 		NR_OF_SKILLS,
 		ENEMY_PURSUE,
 		CHURCH_PENETRATED,
-		RESPAWN
+		RESPAWN,
+		STUNNING_STRIKE_VICTIM,
+		HEALING_FOUNTAIN,
+		CHURCH_REALLY_PENETRATED,
+		WAVE_UPDATE,
+		SELL,
+		LIVES_REMAINING
 		};
 
 	Skill();
@@ -79,4 +84,5 @@ public:
 	void resetCooldown();
 	void update(float _dt);
 	virtual void updateSpecificSkill(float _dt) = 0;
+	virtual int getCost();
 };

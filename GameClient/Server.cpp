@@ -77,6 +77,7 @@ void Server::goThroughSelector()
 					this->m_players[nextEmptyArrayPos]=p;
 					this->clients[nextEmptyArrayPos]=incSocket;
 					this->m_messageQueue->pushOutgoingMessage(new JoinedGameMessage(nextEmptyArrayPos));
+					this->broadcast(NetworkWelcomeMessage("levelone"));
 					this->nrOfPlayers++;
 					this->m_messageHandler->addQueue(p->getMessageQueue());
 				}
@@ -153,6 +154,7 @@ void Server::handleMessages()
 	InitEntityMessage *m8;
 	UpdateEntityMessage *m9;
 	updateEntityHealth *m10;
+	AttributeUpdateMessage *m11;
 
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
@@ -212,7 +214,7 @@ void Server::handleMessages()
 
 			this->m_mutex.Lock();
 			if(this->clients[m7->playerId].IsValid())
-			this->clients[m7->playerId].Send(packet);
+				this->clients[m7->playerId].Send(packet);
 			this->m_mutex.Unlock();
 
 			break;
@@ -228,10 +230,20 @@ void Server::handleMessages()
 			nem = NetworkEntityMessage(m9->id,m9->xPos,m9->zPos,m9->yRot,m9->sx,m9->sz,m9->ex,m9->ez,m9->movementspeed);
 			this->broadcast(nem);
 			break;
+
 		case Message::updateEntityHealth:
 			m10=(updateEntityHealth*)m;
 			nueh = NetworkUpdateEntityHealth(m10->id,m10->health);
 			this->broadcast(nueh);
+			break;
+
+		case Message::AttributeUpdate:
+			m11 = (AttributeUpdateMessage*)m;			
+			cam = NetworkCreateActionMessage(m11->attributeType, m11->attribute, FLOAT3());
+			packet << cam;
+
+			if(this->clients[m11->playerId].IsValid())
+				this->clients[m11->playerId].Send(packet);
 			break;
 		}
 
@@ -262,6 +274,21 @@ void Server::shutDown()
 }
 
 void Server::broadcast(NetworkUpdateEntityHealth networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+void Server::broadcast(NetworkWelcomeMessage networkMessage)
 {
 	sf::Packet packet;
 	packet<<networkMessage;
@@ -485,6 +512,22 @@ void Server::broadcast(NetworkEndGameMessage networkMessage)
 	this->m_mutex.Unlock();
 }
 
+void Server::broadcast(NetworkPlayerJoinedMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
 void Server::Run()
 {
 	__int64 cntsPerSec = 0;
@@ -583,6 +626,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		string pname;
 		packet >> pname;
 		Statistics::getStatisticsPlayer(socketIndex).setPlayerName(pname);
+		this->broadcast(NetworkPlayerJoinedMessage(socketIndex, pname));
 		break;
 	}
 

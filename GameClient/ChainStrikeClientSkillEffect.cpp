@@ -3,7 +3,7 @@
 #include "ChainStrikeEffect.h"
 #include "Graphics.h"
 
-ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(unsigned int _masterId, FLOAT3 _position, bool _playAnimation)
+ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(unsigned int _lastTarget, unsigned int _target, FLOAT3 _position)
 {
 	m_graphicalEffects[0] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.1f, _position.z), "color2");
 	m_graphicalEffects[1] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.2f, _position.z), "color1");
@@ -20,13 +20,10 @@ ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(unsigned int _masterI
 	playSound(sound);
 	deactivateSound(sound);
 
-	if(_playAnimation)
+	Entity *e = ClientEntityHandler::getEntity(_lastTarget);
+	if(e != NULL && e->m_type == ServerEntity::HeroType)
 	{
-		Entity *e = ClientEntityHandler::getEntity(_masterId);
-		if(e != NULL && e->m_type == ServerEntity::HeroType)
-		{
-			e->m_model->getAnimation()->Play("ChainLight");
-		}
+		e->m_model->getAnimation()->Play("ChainLight");
 	}
 }
 

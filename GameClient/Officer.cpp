@@ -7,9 +7,10 @@ Officer::Officer(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::OFFICER, _
 	this->increaseAgility(5);
 	this->increaseWits(1);
 	this->increaseFortitude(3);
+	m_turretConstruction = 2;
 
-	this->m_skills.push_back(new TargetAcquiredPermissionToFire());
 	this->m_skills.push_back(new ReadyAimFire());
+	this->m_skills.push_back(new TargetAcquiredPermissionToFire());
 
 	switch(_weaponType)
 	{

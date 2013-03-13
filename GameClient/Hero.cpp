@@ -22,6 +22,7 @@ Hero::Hero() : UnitEntity()
 	this->m_startPos=FLOAT3(0.0,0.0,0.0);
 	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 	this->m_alive = true;
+	this->m_health = this->m_maxHealth = 400.0f;
 }
 
 Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
@@ -39,6 +40,7 @@ Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 	this->m_startPos=FLOAT3(0.0,0.0,0.0);
 	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 	this->m_alive = true;
+	this->m_health = this->m_maxHealth = 400.0f;
 }
 
 Hero::~Hero()
@@ -242,12 +244,14 @@ void Hero::updateSpecificUnitEntity(float dt)
 		this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 		this->m_messageQueue->pushOutgoingMessage(new HeroDiedMessage(this->m_id, this->m_playerId));
 		this->m_alive = false;
+		int id = Statistics::convertSimonsIdToRealId(this->m_id);
+		Statistics::getStatisticsPlayer(id).increaseDeathCount();
 	}
 }
 
 void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
-	if(this->m_alive == true)
+	if(this->m_alive == true && m_stunTimer == 0.0f)
 	{
 		if(g_pathfinder->sameGridPosition(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z)) == false)
 		{
@@ -361,7 +365,7 @@ void Hero::respawn(FLOAT3 _position)
 	this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::RESPAWN, this->m_id, this->m_position));
-	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->m_id, this->m_health));
+	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->m_id, (this->m_health / this->m_maxHealth) * 1000.0f));
 	this->m_alive = true;
 }
 
