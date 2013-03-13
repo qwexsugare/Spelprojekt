@@ -13,7 +13,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Menu= false;
 	m_Locked = true;
 	m_DontChange = false;
-	m_Resources = 0;
+	m_Resources = 500000;
 	m_Chat = false;
 	m_subTowerModel = NULL;
 	m_towerModel = NULL;
