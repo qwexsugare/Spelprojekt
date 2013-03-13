@@ -33,7 +33,7 @@ void EnhancedDevelopment::updateSpecificSkill(float _dt)
 		{
 			if((turrets[i]->getPosition() - position).length() <= EnhancedDevelopment::RANGE)
 			{
-				((Turret*)turrets[i])->addLifetime(_dt * 0.75f);
+				((Turret*)turrets[i])->addLifetime(_dt * (0.5f + (((UnitEntity*)caster)->getWits() / 20 * 0.25f)));
 			}
 		}
 	}

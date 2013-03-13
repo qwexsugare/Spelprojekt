@@ -51,7 +51,7 @@ sf::Packet& operator<<(sf::Packet& packet,const NetworkEndGameMessage& e)
 
 	for(int i = 0; i < e.m_players.size(); i++)
 	{
-		packet<<e.m_players[i].getPlayerId()<<e.m_players[i].getPlayerName()<<e.m_players[i].getPlayerHero();
+		packet<<e.m_players[i].getPlayerId()<<e.m_players[i].getPlayerName()<<e.m_players[i].getPlayerHero()<<e.m_players[i].getDeamonsKilled()<<e.m_players[i].getMentalDamageDealth()<<e.m_players[i].getMentalDamageRecived()<<e.m_players[i].getPhysicalDamageDealth()<<e.m_players[i].getPhysicalDamageRecived()<<e.m_players[i].getGoldCollected();
 	}
 
 	return packet;
@@ -69,13 +69,24 @@ sf::Packet& operator>>(sf::Packet& packet, NetworkEndGameMessage& e)
 		int id;
 		string name;
 		int heroType;
+		int demonsKilled;
+		int mentalDamageDone;
+		int mentalDamageRecieved;
+		int physicalDamageDone;
+		int physicalDamageRecieved;
+		int goldCollected;
 
-		packet>>id>>name>>heroType;
+		packet>>id>>name>>heroType>>demonsKilled>>mentalDamageDone>>mentalDamageRecieved>>physicalDamageDone>>physicalDamageRecieved>>goldCollected;
 
 		e.m_players.push_back(StatisticsPlayer());
 		e.m_players[i].setId(id);
 		e.m_players[i].setPlayerName(name);
 		e.m_players[i].setHeroType((StatisticsPlayer::HERO_TYPE)heroType);
+		e.m_players[i].setDemonsKilled(demonsKilled);
+		e.m_players[i].setMentalDamageRecieved(mentalDamageRecieved);
+		e.m_players[i].setMentalDamageDone(mentalDamageDone);
+		e.m_players[i].setPhysicalDamageRecieved(physicalDamageRecieved);
+		e.m_players[i].setPhysicalDamageDone(physicalDamageDone);
 	}
 
 	return packet;

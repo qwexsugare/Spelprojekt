@@ -15,6 +15,10 @@ private:
 
 	int m_nrOfPlayers;
 	MyText *m_playerInfo[4];
+	MyText *m_playerMonstersKilled[4];
+	MyText *m_playerDamageDone[4];
+	MyText *m_playerDamageTaken[4];
+	MyText *m_playerResourcesCollected[4];
 
 	Button *m_mainMenuButton;
 public:

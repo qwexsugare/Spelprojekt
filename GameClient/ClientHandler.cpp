@@ -177,9 +177,10 @@ void ClientHandler::update(float _dt)
 			this->m_state = new CreditState();
 			break;
 		case State::END:
+			ClientEntityHandler::removeAllEntities();
+			this->m_client->disconnect();
 			delete this->m_serverThread;
 			this->m_serverThread = NULL;
-			this->m_client->disconnect();
 			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage());
 			break;
 		case State::LOADING:

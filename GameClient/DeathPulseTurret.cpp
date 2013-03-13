@@ -14,7 +14,7 @@ DeathPulseTurret::DeathPulseTurret()
 DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId())
 {
 	this->m_modelId = 4;
-	
+	m_turretUpgrade = _creator->getTurretConstruction();
 	Model* temp = g_graphicsEngine->createModel("DeathTurret", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
 	g_graphicsEngine->removeModel(temp);

@@ -63,7 +63,7 @@ MapHandler::State MapHandler::getState()
 	{
 		return MapHandler::State::DEFEAT;
 	}
-	else if(this->m_currentWave >= this->m_waves.size())
+	else if(this->m_currentWave > this->m_waves.size())
 	{
 		return MapHandler::State::VICTORY;
 	}
@@ -267,9 +267,6 @@ void MapHandler::loadMap(std::string filename)
 		}
 	}
 	file.close();
-
-	
-	createWave(25,5,0,0,0,0,0,0);  
 }
 
 void MapHandler::update(float _dt)
