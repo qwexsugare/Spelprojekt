@@ -221,7 +221,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		
 
 		
-		m_dir = m_dir*7.0 + m_goalDirection+  m_enemyAvDir*2+ m_staticAvDir*5.0f;	
+		m_dir = m_dir*7.0 + m_goalDirection+  m_enemyAvDir*2+ m_staticAvDir*7.0f;	
 		m_dir = (m_prevDir + m_dir)*0.5f;
 			
 		if(m_dir.length() > 0)
@@ -277,7 +277,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 
 
-		if((m_goalPosition-m_position).length() < (this->m_movementSpeed * lastDT)+2 && this->m_currentPoint < this->m_path.nrOfPoints)
+		if((m_goalPosition-m_position).length() < (this->m_movementSpeed * lastDT)+2 && this->m_currentPoint < this->m_path.nrOfPoints-1)
 		{
 			
 			this->m_currentPoint++;
@@ -560,14 +560,23 @@ FLOAT3 Enemy::checkStatic(float dt)
 {
 	FLOAT3 avDir = FLOAT3(0,0,0);
 	
-	ServerEntity *stat = EntityHandler::getClosestStaticWithExtents(m_position+m_dir*m_movementSpeed*lastDT);
+	ServerEntity *stat; 
 
-	float allowedDistance = sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x + stat->getObb()->Extents.z*stat->getObb()->Extents.z)*2.0f+sqrt(this->getObb()->Extents.x*stat->getObb()->Extents.x + stat->getObb()->Extents.z*stat->getObb()->Extents.z);
-	float distance = (m_position+m_dir*m_movementSpeed*lastDT - stat->getPosition()).length();
-	if(distance < allowedDistance)
+	for(int i = 0; i < 5; i++)
 	{
-		avDir = (m_position+m_dir*m_movementSpeed*lastDT - stat->getPosition())*(1.0f - distance/allowedDistance);
-		
+		stat = EntityHandler::getClosestStaticWithExtents(m_position+m_dir*m_movementSpeed*lastDT*i);
+		float allowedDistance = sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x + stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.5f+sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x + this->getObb()->Extents.z*this->getObb()->Extents.z);
+		float distance = (m_position+m_dir*m_movementSpeed*lastDT*i - stat->getPosition()).length();
+		if(distance < allowedDistance)
+		{
+			avDir = (m_position+m_dir*m_movementSpeed*lastDT*i - stat->getPosition())*(1.0f - distance/allowedDistance);
+			//avDir = crossProduct(m_position+m_dir*m_movementSpeed*lastDT*i-m_position, FLOAT3(0,1,0));
+			if((m_position+m_dir*m_movementSpeed*lastDT*i+avDir - stat->getPosition()).length() < (m_position+m_dir*m_movementSpeed*lastDT*i-avDir - stat->getPosition()).length())
+				avDir = avDir*-1;
+
+			//avDir = avDir*(1.0f - distance/allowedDistance);
+			return avDir;
+		}
 	}
 	
 	/*vector<ServerEntity*> allStatic = EntityHandler::getEntitiesByType(ServerEntity::StaticType);
