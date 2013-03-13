@@ -10,6 +10,7 @@ class MainMenuState : public State
 private:
 	MainMenu *m_menu;
 	StateEnum m_nextState;
+	ParticleEngine* troll;
 public:
 	MainMenuState();
 	~MainMenuState();

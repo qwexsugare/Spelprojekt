@@ -10,7 +10,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_spritesMiddle = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	m_quadTree = new QuadTree(0, D3DXVECTOR2(), D3DXVECTOR2(), D3DXVECTOR2()); // Init to something arbitrary, it will be fully initialized later in other function
+	m_quadTree = new QuadTree(1, D3DXVECTOR2(-9000,-9000), D3DXVECTOR2(9000, 9000), D3DXVECTOR2(9000,9000)); // Init to something arbitrary, it will be fully initialized later in other function
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
