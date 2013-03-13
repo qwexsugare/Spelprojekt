@@ -15,7 +15,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	m_currentHeroSelected = Hero::HERO_TYPE::NONE;
 
 	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(0.0f, 1.0f, 4.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
-	dl = g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
+	dl = g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 
 	speed = 2.5f;
 
@@ -37,7 +37,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	this->m_mentalist	= new Room(4, 99, "color", "", FLOAT3(x, y, z), step);
 	this->m_emtyRoom	= new Room(5, "color", FLOAT3(x, y, z), step);
 
-	this->m_officer->getCharacter()->getAnimation()->PlayLoop("idle");
+	this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerIdle");
 	this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("idle");
 	this->m_engi->getCharacter()->getAnimation()->PlayLoop("idle");
 	this->m_doctor->getCharacter()->getAnimation()->PlayLoop("idle");
@@ -119,7 +119,7 @@ void LobbyState::update(float _dt)
 	
 	float mouseX = (g_mouse->getPos().x / float(g_graphicsEngine->getScreenSize().x))*2-1;
 
-	if(g_mouse->isLButtonReleased() && mouseX >= -0.45f && mouseX <= 0.45f)
+	if(g_mouse->isLButtonReleased() && mouseX >= -0.58f && mouseX <= 0.58f)
 	{
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
@@ -129,6 +129,7 @@ void LobbyState::update(float _dt)
 		{
 			this->m_currentHeroSelected = Hero::OFFICER;
 			m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
+			this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
 		}
 		else if(m_redKnight->getRoom()->intersects(dist, pickOrig, pickDir))
 		{

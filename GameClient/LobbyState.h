@@ -25,7 +25,6 @@ private:
 	Room* m_mentalist;
 	Room* m_emtyRoom;
 	DirectionalLight* dl;
-	Model* boll;
 	float step;
 	float speed;
 	float cameraRealPos;
