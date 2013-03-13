@@ -129,6 +129,13 @@ int Slider::GetSliderReaction()
 {
 	return this->m_SliderReaction;
 }
+
+void Slider::setValue(float _value)
+{
+	this->setPosition(m_Min + _value);
+	this->m_Value = _value;
+}
+
 int Slider::Clicked()
 {
 	if (this->m_SliderReaction==1 && this->m_Delay > this->m_DelayTime )

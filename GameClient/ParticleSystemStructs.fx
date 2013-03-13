@@ -19,6 +19,15 @@ struct VS_OUT
 	uint type	: TYPE;
 };
 
+struct VS_OUT2
+{
+	float3 pos	: POSITION;
+	float2 size	: SIZE;
+	float4 color: COLOR;
+	uint type	: TYPE;
+	uint tex	: TEX;
+};
+
 struct GS_OUT
 {
 	float4 pos	: SV_POSITION;

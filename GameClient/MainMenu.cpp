@@ -11,16 +11,16 @@ MainMenu::MainMenu() : Menu()
 	//m_size.y = g_graphicsEngine->getRealScreenSize().y;
 	m_size.x = 1920;
 	m_size.y = 1080;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-MainBack.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-	m_side.x = (122.0f/m_size.x)*2.0f;
-	m_side.y = (1920.0f/m_size.y)*2.0f;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Left.png", FLOAT2(-0.94f,0),  FLOAT2(m_side.x,m_side.y),3));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
-	m_side.x = (1920.0f/m_size.x)*2.0f;
-	m_side.y = (122.0f/m_size.y)*2.0f;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-MainFront.dds", FLOAT2(0,0), FLOAT2(2,2),2));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-MainBack.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	//m_side.x = (122.0f/m_size.x)*2.0f;
+	//m_side.y = (1920.0f/m_size.y)*2.0f;
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Left.png", FLOAT2(-0.94f,0),  FLOAT2(m_side.x,m_side.y),3));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
+	//m_side.x = (1920.0f/m_size.x)*2.0f;
+	//m_side.y = (122.0f/m_size.y)*2.0f;
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-MainFront.dds", FLOAT2(0,0), FLOAT2(2,2),2));
 
 
 	this->m_Buttons.resize(6);

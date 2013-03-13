@@ -12,7 +12,7 @@ Texture2D randomTex;
 float aoScale = 2;
 float aoRadius = 0.01f;
 float aoBias = 0;
-float aoIntensity = 1;
+float aoIntensity = 0.5;
 
 SamplerState linearSampler 
 {

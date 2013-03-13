@@ -44,7 +44,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("idle");
 	
 	this->cameraRealPos = 0;
-	distToSlider=0.0f;
+	distToSlider = 0.0f;
 	this->m_playerId = -1;
 }
 
@@ -90,7 +90,6 @@ void LobbyState::update(float _dt)
 	float max = step*3;
 	float min = 0;
 
-	float slice = 1/(max-min);
 
 	float value = this->m_menu->getSlider()->GetValue();
 
@@ -99,12 +98,12 @@ void LobbyState::update(float _dt)
 	//distance from the real camera pos to the slider pos
 	distToSlider=abs(cameraRealPos-this->m_menu->getSlider()->GetValue() * max)*3;
 	//if you are close enough, it will keep a constant speed before it stops
-	if(distToSlider<1.0)
-		distToSlider=1.0;
+	if(distToSlider < 1.0)
+		distToSlider = 1.0;
 
 	//camera real pos is the camera position, which tries to reach the position from the slider
 	//if the real pos is inside a certain value, it wont move
-	if(cameraRealPos > this->m_menu->getSlider()->GetValue() * max-0.1&&cameraRealPos < this->m_menu->getSlider()->GetValue() * max+0.1)
+	if(cameraRealPos > this->m_menu->getSlider()->GetValue() * max-0.05 && cameraRealPos < this->m_menu->getSlider()->GetValue() * max + 0.05)
 	{
 	}
 	else
@@ -124,38 +123,50 @@ void LobbyState::update(float _dt)
 	{
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
+		float alve = 1.0f/5.0f;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 		float dist;
 		if(m_officer->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::OFFICER;
 			m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
+			this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
 			this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
-			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.2)/max);
+			//this->m_menu->getSlider()->setValue(alve*0);
+			//this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.2)/max);
+			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x));
 		}
 		else if(m_redKnight->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::RED_KNIGHT;
 			m_network->sendMessage(NetworkSelectHeroMessage(1, this->m_menu->getCombat()));
-			this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x-step*2)/max);
+			//this->m_menu->getSlider()->setValue(alve*0);
+			//this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x-step*2)/max);
+			this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x));
 		}
 		else if(m_engi->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::ENGINEER;
 			m_network->sendMessage(NetworkSelectHeroMessage(2, this->m_menu->getCombat()));
-			this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x-step)/max);
+			//this->m_menu->getSlider()->setValue(alve*2);
+			//this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x-step)/max);
+			this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x));
 		}
 		else if(m_doctor->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::DOCTOR;
 			m_network->sendMessage(NetworkSelectHeroMessage(3, this->m_menu->getCombat()));
-			this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x-step)/max);
+			//this->m_menu->getSlider()->setValue(alve*3);
+			//this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x-step)/max);
+			this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x));
 		}
 		else if(m_mentalist->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::THE_MENTALIST;
 			m_network->sendMessage(NetworkSelectHeroMessage(4, this->m_menu->getCombat()));
-			this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x-step)/max);
+			//this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x-step)/max);
+			//this->m_menu->getSlider()->setValue(alve*4);
+			this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x));
 		}
 	}
 	
