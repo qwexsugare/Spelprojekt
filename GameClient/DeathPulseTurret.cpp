@@ -6,12 +6,8 @@
 
 const float DeathPulseTurret::ATTACK_COOLDOWN = 2.0f;
 
-DeathPulseTurret::DeathPulseTurret()
-{
-
-}
-
-DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) : Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId())
+DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) :
+	Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId(), _creator->getTurretConstruction())
 {
 	this->m_modelId = 4;
 	m_turretUpgrade = _creator->getTurretConstruction();
@@ -34,7 +30,8 @@ void DeathPulseTurret::target(ServerEntity* _target)
 
 	int damage = random(2, 20);
 	int healthBefore = _target->getHealth();
-	_target->takeDamage(this->m_ownerId, 0, damage);
+	//if(random(1, 100) <= this->getTurretUpgrade()
+	_target->takeDamage(this->m_ownerId, 0, damage, random(1, 6));
 
 	// dbg
 	stringstream ss;

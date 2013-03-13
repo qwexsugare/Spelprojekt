@@ -58,7 +58,7 @@ public:
 	bool intersects(const BoundingSphere& _bs)const;
 	bool intersects(float& _dist, D3DXVECTOR3 _origin, D3DXVECTOR3 _direction)const;
 
-	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage);
+	virtual void takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage, int _extraDivinePower = 0);
 	virtual void dealDamage(ServerEntity* target, int physicalDamage, int mentalDamage);
 	virtual FLOAT3 getDirection();
 	virtual FLOAT3 getEndPos();

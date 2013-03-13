@@ -12,7 +12,6 @@ public:
 	static const float ATTACK_COOLDOWN;
 	static const int RANGE = 5;
 
-	FrostTurret();
 	FrostTurret(FLOAT3 _pos, UnitEntity *_creator);
 	~FrostTurret();
 
