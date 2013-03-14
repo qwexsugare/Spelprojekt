@@ -29,6 +29,7 @@
 #include "NetworkWelcomeMessage.h"
 #include "NetworkEndGameMessage.h"
 #include "NetworkPlayerJoinedMessage.h"
+#include "NetworkTextMessage.h"
 
 using namespace std;
 
@@ -64,6 +65,7 @@ private:
 	queue<NetworkEndGameMessage> m_endGameMessageQueue;
 	queue<NetworkPlayerJoinedMessage> m_playerJoinedMessageQueue;
 	queue<NetworkReadyMessageToClient> m_readyMessageToClientQueue;
+	queue<NetworkTextMessage> m_textMessageQueue;
 public:
 	Client();
 	~Client();
@@ -81,6 +83,7 @@ public:
 	void sendMessage(NetworkHeroInitMessage _usm);
 	void sendMessage(NetworkEndGameMessage _negm);
 	void sendMessage(NetworkPlayerJoinedMessage _msg);
+	void sendMessage(NetworkTextMessage _msg);
 	void sendPacket(sf::Packet p);
 
 	NetworkEntityMessage entityQueueFront();
@@ -100,7 +103,9 @@ public:
 	NetworkEndGameMessage endGameQueueFront();
 	NetworkPlayerJoinedMessage playerJoinedMessageQueueFront();
 	NetworkReadyMessageToClient readyMessageToClientQueueFront();
+	NetworkTextMessage networkTextMessageFront();
 
+	bool networkTextMessageQueueEmpty();
 	bool updateEntityHealthEmpty();
 	bool entityQueueEmpty();
 	bool removeEntityQueueEmpty();

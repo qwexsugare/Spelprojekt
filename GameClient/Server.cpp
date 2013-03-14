@@ -143,6 +143,7 @@ void Server::handleMessages()
 	NetworkInitEntityMessage iem;
 	NetworkEntityMessage nem;
 	NetworkUpdateEntityHealth nueh;
+	
 
 	RemoveServerEntityMessage *m1;
 	CreateActionMessage *m2;
@@ -245,6 +246,7 @@ void Server::handleMessages()
 			if(this->clients[m11->playerId].IsValid())
 				this->clients[m11->playerId].Send(packet);
 			break;
+		
 		}
 
 		delete m;
@@ -303,6 +305,22 @@ void Server::broadcast(NetworkWelcomeMessage networkMessage)
 
 			this->clients[i].Send(packet);
 		}
+	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(NetworkTextMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
 	}
 
 	this->m_mutex.Unlock();
@@ -602,6 +620,9 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 	NetworkBuySkillMessage bs;
 	NetworkReadyMessage nrm;
 	NetworkSelectHeroMessage nshm;
+	NetworkTextMessage ntm;
+	string pname="";
+	string msg;
 
 	switch(type)
 	{
@@ -655,8 +676,16 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		this->m_players[socketIndex]=0;
 		this->nrOfPlayers--;
 		break;
+	case NetworkMessage::TXTMSG:
+		pname = Statistics::getStatisticsPlayer(socketIndex).getPlayerName()+": ";
+		packet >> msg;
+		pname+=msg;
+		this->m_mutex.Lock();
+		this->broadcast(NetworkTextMessage(pname));
+		this->m_mutex.Unlock();
+	break;
 	case NetworkMessage::setPlayerName:
-		string pname;
+
 		packet >> pname;
 		Statistics::getStatisticsPlayer(socketIndex).setPlayerName(pname);
 		this->broadcast(NetworkPlayerJoinedMessage(socketIndex, pname));

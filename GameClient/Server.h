@@ -24,6 +24,7 @@
 #include "NetworkWelcomeMessage.h"
 #include "NetworkEndGameMessage.h"
 #include "NetworkPlayerJoinedMessage.h"
+#include "NetworkTextMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -77,6 +78,7 @@ public:
 	void broadcast(NetworkEndGameMessage networkMessage);
 	void broadcast(NetworkPlayerJoinedMessage networkMessage);
 	void broadcast(NetworkReadyMessageToClient networkMessage);
+	void broadcast(NetworkTextMessage networkMessage);
 
 	bool isRunning();
 

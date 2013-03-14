@@ -3,6 +3,7 @@
 
 LobbyMenu::LobbyMenu(void)
 {
+	enterPressed=false;
 	m_Counter = 0;
 	m_Character0 = false;
 	m_Character1 = false;
@@ -143,6 +144,28 @@ LobbyMenu::~LobbyMenu(void)
 		delete m_playerNames[i];
 	}
 }
+
+void LobbyMenu::addStringToChat(string t)
+{
+	for(int i = m_Chattext.size()-1; i > 0;i--)
+		{
+			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+		}
+		this->m_Chattext[0]->setText(t);
+			
+}
+void LobbyMenu::resetEnterPressed()
+{
+	this->enterPressed=false;
+}
+bool LobbyMenu::wasEnterPressed()
+{
+	return this->enterPressed;
+}
+string LobbyMenu::getChatString()
+{
+	return this->m_String;
+}
 void LobbyMenu::Update(float _dt)
 {
 	int Change = 0;
@@ -228,18 +251,14 @@ void LobbyMenu::Update(float _dt)
 		}
 	}
 	this->m_LabelInput->update(_dt);
+	//if the enter key is pressed, the string is saved
 	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
 	{
-
-		for(int i = m_Chattext.size()-1; i > 0;i--)
-		{
-			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
-		}
 			m_String = this->m_LabelInput->getText();
 			m_String.erase(m_String.end());
-			this->m_Chattext[0]->setText(m_String);
 			this->m_LabelInput->setText(""); 
 			this->m_Chattext[5]->setText("");
+			enterPressed=true;
 	}
 	
 	//this->m_Label[3]->setText(m_String);
