@@ -461,6 +461,11 @@ void UnitEntity::stun(float _time)
 
 void UnitEntity::update(float dt)
 {
+	if(this->m_attackSpeed <= 0.0f)
+	{
+		int hoxit = 0;
+	}
+
 	this->m_mutex.Lock();
 
 	for(int i = 0; i < this->m_skills.size(); i++)

@@ -150,6 +150,7 @@ struct AnimationFile
 	float time;
 	float overlapTime;
 	float animationWeight;
+	float speedMultiplier;
 	AnimationFile()
 	{
 		this->currentKey = 0;
@@ -158,6 +159,7 @@ struct AnimationFile
 		this->time = 0.0f;
 		this->overlapTime = 0.5f;
 		this->animationWeight = 1.0f;
+		this->speedMultiplier = 1.0f;
 	}
 	~AnimationFile()
 	{

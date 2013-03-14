@@ -172,19 +172,19 @@ void Server::handleMessages()
 
 		case Message::CreateAction:
 			m2 = (CreateActionMessage*)m;			
-			cam = NetworkCreateActionMessage(m2->actionId, m2->senderId, m2->position);
+			cam = NetworkCreateActionMessage(m2->actionId, m2->senderId, m2->position, m2->animationSpeed);
 			this->broadcast(cam);
 			break;
 
 		case Message::CreateActionPosition:
 			m3 = (CreateActionPositionMessage*)m;			
-			capm = NetworkCreateActionPositionMessage(m3->actionId, m3->senderId, m3->position);
+			capm = NetworkCreateActionPositionMessage(m3->actionId, m3->senderId, m3->position, m3->animationSpeed);
 			this->broadcast(capm);
 			break;
 
 		case Message::CreateActionTarget:
 			m4 = (CreateActionTargetMessage*)m;			
-			catm = NetworkCreateActionTargetMessage(m4->actionId, m4->senderId, m4->targetId, m4->position);
+			catm = NetworkCreateActionTargetMessage(m4->actionId, m4->senderId, m4->targetId, m4->position, m4->animationSpeed);
 			this->broadcast(catm);		
 			break;
 

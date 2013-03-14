@@ -16,4 +16,3 @@ public:
 	friend sf::Packet& operator<<(sf::Packet& packet,const NetworkUseActionMessage& e);
 	friend sf::Packet& operator>>(sf::Packet& packet, NetworkUseActionMessage& e);	
 };
-

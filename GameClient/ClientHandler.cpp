@@ -121,6 +121,14 @@ void ClientHandler::update(float _dt)
 			this->m_state = new IntroState();
 			break;
 		case State::MAIN_MENU:
+			if(tempState->getType() == State::LOBBY)
+			{
+				ClientEntityHandler::removeAllEntities();
+				this->m_client->disconnect();
+				delete this->m_serverThread;
+				this->m_serverThread = NULL;
+			}
+
 			this->m_state = new MainMenuState();
 			break;
 		case State::CREATE_GAME:

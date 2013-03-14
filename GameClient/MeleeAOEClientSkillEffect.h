@@ -9,7 +9,7 @@ private:
 	static const int TIME_BETWEEN_DAMAGE_SOUNDS = 5;
 	static float timeToNextDamageSound;
 public:
-	MeleeAOEClientSkillEffect(unsigned int masterId, unsigned int _targetId, PLAYER_INFO _playerInfo);
+	MeleeAOEClientSkillEffect(unsigned int masterId, unsigned int _targetId, PLAYER_INFO _playerInfo, float _animationSpeed);
 	~MeleeAOEClientSkillEffect();
 	
 	static void decreaseTimeBetweenDamageSounds(float _dt);

@@ -373,9 +373,6 @@
     <ClCompile Include="NetworkInitEntityMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkUpdateEntityHealth.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Server\Enemies</Filter>
     </ClCompile>
@@ -546,6 +543,9 @@
     </ClCompile>
     <ClCompile Include="EndState.cpp">
       <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkUpdateEntityHealth.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -953,9 +953,6 @@
     <ClInclude Include="NetworkUpdateEntityHealth.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkUpdateEntityHealth.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Server\Enemies</Filter>
     </ClInclude>
@@ -1129,6 +1126,9 @@
     </ClInclude>
     <ClInclude Include="EndState.h">
       <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUpdateEntityHealth.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

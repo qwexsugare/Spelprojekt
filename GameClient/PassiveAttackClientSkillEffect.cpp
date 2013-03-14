@@ -1,6 +1,6 @@
 #include "PassiveAttackClientSkillEffect.h"
 
-PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _masterId)
+PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _masterId, unsigned int _skillId)
 {
 	Entity* e = ClientEntityHandler::getEntity(_masterId);
 
@@ -19,6 +19,17 @@ PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _mas
 			break;
 		}
 	}
+
+	//switch(_skillId)
+	//{
+	//case Skill::LIFESTEALING_STRIKE:
+
+	//	break;
+	//case Skill::DEADLY_STRIKE:
+
+	//	break;
+	//	case
+	//}
 }
 
 PassiveAttackClientSkillEffect::~PassiveAttackClientSkillEffect()

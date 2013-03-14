@@ -7,7 +7,7 @@
 class PassiveAttackClientSkillEffect : public ClientSkillEffect
 {
 public:
-	PassiveAttackClientSkillEffect(unsigned int _masterId);
+	PassiveAttackClientSkillEffect(unsigned int _masterId, unsigned int _skillId);
 	~PassiveAttackClientSkillEffect();
 
 	void update(float dt);
