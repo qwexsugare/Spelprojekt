@@ -468,7 +468,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			// Find yourself in the entity vector
 			for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
 			{
-				if(_entities[entityIndex]->m_id == _heroId)
+				if(_entities[entityIndex]->m_id == _heroId && _entities[entityIndex]->m_health > 0)
 				{
 					g_graphicsEngine->getCamera()->set(_entities[entityIndex]->m_model->getPosition2DAsFloat2() - FLOAT2(0.0f, g_graphicsEngine->getCamera()->getZOffset()));
 

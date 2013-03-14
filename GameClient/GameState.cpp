@@ -96,7 +96,7 @@ GameState::GameState(Client *_network, string mapName)
 	m_cameraFollowingHero = false;
 	this->m_endText = NULL;
 	
-	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 0), 40, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
+	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 30), 20, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 

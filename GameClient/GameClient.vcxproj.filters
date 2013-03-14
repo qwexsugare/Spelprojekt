@@ -551,6 +551,9 @@
     <ClCompile Include="NetworkTextMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkUpdateEntityHealth.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1198,5 +1201,6 @@
       <UniqueIdentifier>{c974c764-1ddd-4c83-8702-17ef1d7a54fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Network">
+    </Filter>
   </ItemGroup>
 </Project>

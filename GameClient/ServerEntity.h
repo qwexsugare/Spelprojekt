@@ -3,6 +3,7 @@
 
 #include "MessageQueue.h"
 #include "NetworkEntityMessage.h"
+#include "NetworkInitEntityMessage.h"
 #include "DataStructures.h"
 #include "DirectXMath.h"
 #include "DirectXCollision.h"
