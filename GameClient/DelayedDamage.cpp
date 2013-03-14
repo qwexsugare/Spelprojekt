@@ -1,6 +1,6 @@
 #include "DelayedDamage.h"
 
-DelayedDamage::DelayedDamage(unsigned int _caster, unsigned int _target, float _timeToImpact, int _physicalDamage, int _mentalDamage, Skill::SKILLS skillId)
+DelayedDamage::DelayedDamage(unsigned int _caster, unsigned int _target, float _timeToImpact, int _physicalDamage, int _mentalDamage, Skill::SKILLS skillId, float _animationSpeed)
 {
 	this->m_timeToImpact = _timeToImpact;
 	this->m_caster = _caster;
@@ -13,7 +13,7 @@ DelayedDamage::DelayedDamage(unsigned int _caster, unsigned int _target, float _
 	this->m_bs = NULL;
 
 	ServerEntity *caster = EntityHandler::getServerEntity(_caster);
-	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(skillId, _caster, _target, caster->getPosition()));
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(skillId, _caster, _target, caster->getPosition(), _animationSpeed));
 }
 
 DelayedDamage::~DelayedDamage()
