@@ -744,7 +744,7 @@ void GameState::update(float _dt)
 	{
 		m_cameraFollowingHero = !m_cameraFollowingHero;
 	}
-	if(m_cameraFollowingHero)
+	if(m_cameraFollowingHero && ClientEntityHandler::getEntity(this->m_playerInfos[this->m_yourId].id)->m_health > 0)
 	{
 		g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().x);
 		g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());

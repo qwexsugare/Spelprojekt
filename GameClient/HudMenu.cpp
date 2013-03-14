@@ -585,7 +585,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 						{
 							g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
 							Model *temp = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3());
-							this->m_targetModel->setScale(temp->getBs()->Radius * 0.5f, temp->getBs()->Radius * 0.5f, temp->getBs()->Radius * 0.5f);
+							this->m_targetModel->setScale(temp->getBs()->Radius * 0.5f * 2, temp->getBs()->Radius * 0.5f * 2, temp->getBs()->Radius * 0.5f * 2);
 							g_graphicsEngine->removeModel(temp);
 							this->m_targetModel->setAlpha(0.999f);
 							this->m_placingTargetedSkill = true;
@@ -608,7 +608,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 						break;
 					case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
 						g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
-						this->m_targetModel->setScale(TargetAcquiredPermissionToFire::RANGE, TargetAcquiredPermissionToFire::RANGE, TargetAcquiredPermissionToFire::RANGE);
+						this->m_targetModel->setScale(TargetAcquiredPermissionToFire::RANGE * 2, TargetAcquiredPermissionToFire::RANGE * 2, TargetAcquiredPermissionToFire::RANGE * 2);
 						this->m_targetModel->setAlpha(0.999f);
 						this->m_placingTargetedSkill = true;
 						break;
@@ -656,7 +656,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					break;
 				case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
 					g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
-					this->m_targetModel->setScale(TargetAcquiredPermissionToFire::RANGE, TargetAcquiredPermissionToFire::RANGE, TargetAcquiredPermissionToFire::RANGE);
+					this->m_targetModel->setScale(TargetAcquiredPermissionToFire::RANGE * 2, TargetAcquiredPermissionToFire::RANGE * 2, TargetAcquiredPermissionToFire::RANGE * 2);
 					this->m_targetModel->setAlpha(0.999f);
 					this->m_placingTargetedSkill = true;
 					break;
