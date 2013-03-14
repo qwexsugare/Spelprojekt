@@ -1,8 +1,72 @@
 Game statistics: 
 ----------------
-Time played: 0
-Life remaining: 50
+Time played: 8.15896
+Life remaining: 10
 Reached wave: 0
 
 Player Statistics:
 ------------------
+Player name: PlayeCOCK
+Hero played: Officer
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 0
+
+Damage statistics: 
+Total damage dealt: 0
+Physical damage taken: 0
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+991410270
+0
+0
+0
+0
+0
+0
+0
+1936876886
+222198124
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+827404526
+903165340
+16345
+944977993
+1050164870
+36864
+888943758
+943470573
+987708084
+1014381612
+846738028
+921777847
+994458372
+860435259
+1041513998
+843657756
+915027588
+1030503703
+861942553
+---------------
