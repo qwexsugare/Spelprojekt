@@ -219,6 +219,13 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_towerButtons[1]->Init(FLOAT2(0.073f,	-0.67f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::FROST_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::FROST_TURRET,"menu_textures\\Turret_Text_Frost.png");
 	this->m_towerButtons[2]->Init(FLOAT2(0.104f,	-0.79f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::POISON_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::POISON_TURRET,"menu_textures\\Turret_Text_Poison.png");
 	this->m_towerButtons[3]->Init(FLOAT2(0.086f,	-0.90f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::DEATH_PULSE_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::DEATH_PULSE_TURRET,"menu_textures\\Turret_Text_Death.png");
+
+	//Target
+	this->m_placingTargetedSkill = false;
+	this->m_targetModel = g_graphicsEngine->createModel("Target", FLOAT3(0.0f, 0.0f, 0.0f));
+	this->m_targetModel->setAlpha(0.0f);
+	this->m_targetModel->neutralize();
+	this->m_targetModel->setShadow(false);
 }
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
 {
@@ -456,81 +463,96 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			}
 		}
 
-		if(g_mouse->isLButtonPressed() == true && this->m_skillWaitingForTarget > -1)
+		if(this->m_skillWaitingForTarget > -1)
 		{
-			if(this->m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || this->m_skillWaitingForTarget == Skill::TELEPORT || this->m_skillWaitingForTarget == Skill::WALL || this->m_skillWaitingForTarget == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
-			{
-				D3DXVECTOR3 pickDir;
-				D3DXVECTOR3 pickOrig;
-				g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+			D3DXVECTOR3 pickDir;
+			D3DXVECTOR3 pickOrig;
+			g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 
-				float k = (-pickOrig.y)/pickDir.y;
-				D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
-				this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), this->m_buttonIndex));		
-			}
-			else if(m_skillWaitingForTarget == Skill::HYPNOTIC_STARE || m_skillWaitingForTarget == Skill::CHAIN_STRIKE)
+			float k = (-pickOrig.y)/pickDir.y;
+			D3DXVECTOR3 terrainPos = pickOrig + pickDir*k;
+
+			if(this->m_placingTargetedSkill == true)
 			{
-				// Check if the target is the pic of the target down in the corner
-				if(m_hasTargetEnemy && m_Images[m_currentTargetType]->intersects(FLOAT2(
-					g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
-				{
-					Entity* currentTarget = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
-					this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, currentTarget->m_id, this->m_buttonIndex));
-				}
-				// Else the pick ray is out on the battlefield
-				else
-				{
-					D3DXVECTOR3 pickDir;
-					D3DXVECTOR3 pickOrig;
-					g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
-						
-					float dist;
-					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
-					{
-						if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
-						{
-							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
-							entityIndex = _entities.size();
-						}
-					}
-				}
+				this->m_targetModel->setPosition(FLOAT3(terrainPos.x, 0.1f, terrainPos.z));
 			}
-			else if(m_skillWaitingForTarget == Skill::HEALING_TOUCH)
+
+			if(g_mouse->isLButtonPressed() == true)
 			{
-				// Check if the target is the pic of yourself down in the corner
-				if(m_Images[0]->intersects(FLOAT2(
-					g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
+				if(this->m_skillWaitingForTarget == Skill::CLOUD_OF_DARKNESS || this->m_skillWaitingForTarget == Skill::TELEPORT || this->m_skillWaitingForTarget == Skill::WALL || this->m_skillWaitingForTarget == Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE)
 				{
-					// Find yourself in the entity vector
-					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
-					{
-						if(_entities[entityIndex]->m_id == _heroId)
-						{
-							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
-							entityIndex = _entities.size();
-						}
-					}
+					this->m_network->sendMessage(NetworkUseActionPositionMessage(this->m_skillWaitingForTarget, FLOAT3(terrainPos.x, terrainPos.y, terrainPos.z), this->m_buttonIndex));		
+					this->m_placingTargetedSkill = false;
+					this->m_targetModel->setAlpha(0.0f);
 				}
-				// Else the pick ray is out on the battlefield
-				else
+				else if(m_skillWaitingForTarget == Skill::HYPNOTIC_STARE || m_skillWaitingForTarget == Skill::CHAIN_STRIKE)
 				{
-					D3DXVECTOR3 pickDir;
-					D3DXVECTOR3 pickOrig;
-					g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+					// Check if the target is the pic of the target down in the corner
+					if(m_hasTargetEnemy && m_Images[m_currentTargetType]->intersects(FLOAT2(
+						g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
+					{
+						Entity* currentTarget = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
+						this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, currentTarget->m_id, this->m_buttonIndex));
+					}
+					// Else the pick ray is out on the battlefield
+					else
+					{
+						g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
 						
-					float dist;
-					for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
-					{
-						if(_entities[entityIndex]->m_type == ServerEntity::HeroType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+						float dist;
+						for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
 						{
-							this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
-							entityIndex = _entities.size();
+							if(_entities[entityIndex]->m_type == ServerEntity::EnemyType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+							{
+								this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+								entityIndex = _entities.size();
+							}
 						}
 					}
 				}
+				else if(m_skillWaitingForTarget == Skill::HEALING_TOUCH)
+				{
+					// Check if the target is the pic of yourself down in the corner
+					if(m_Images[0]->intersects(FLOAT2(
+						g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f, g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))
+					{
+						// Find yourself in the entity vector
+						for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
+						{
+							if(_entities[entityIndex]->m_id == _heroId)
+							{
+								this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+								entityIndex = _entities.size();
+							}
+						}
+					}
+					// Else the pick ray is out on the battlefield
+					else
+					{
+						g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());
+						
+						float dist;
+						for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
+						{
+							if(_entities[entityIndex]->m_type == ServerEntity::HeroType && _entities[entityIndex]->m_model->intersects(dist, pickOrig, pickDir))
+							{
+								this->m_network->sendMessage(NetworkUseActionTargetMessage(m_skillWaitingForTarget, _entities[entityIndex]->m_id, this->m_buttonIndex));
+								entityIndex = _entities.size();
+							}
+						}
+					}
+				}
+
+				this->m_skillWaitingForTarget = -1;
+				g_mouse->getCursor()->setPriority(1);
 			}
-			this->m_skillWaitingForTarget = -1;
-			g_mouse->getCursor()->setPriority(1);
+			else if(g_mouse->isRButtonPressed() == true)
+			{
+				this->m_skillWaitingForTarget = -1;
+				g_mouse->getCursor()->setPriority(1);
+				this->m_placingTargetedSkill = false;
+				this->m_targetModel->setAlpha(0.0f);
+			}
 		}
 
 		for(int i = 2; i < m_NumberOfSkills; i++)
@@ -548,7 +570,14 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					switch(this->m_skillWaitingForTarget)
 					{
 					case Skill::CLOUD_OF_DARKNESS:
-						g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
+						{
+							g_mouse->getCursor()->setFrame(Cursor::CLOUD_OF_DARKNESS, 3);
+							Model *temp = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3());
+							this->m_targetModel->setScale(temp->getBs()->Radius * 0.5f, temp->getBs()->Radius * 0.5f, temp->getBs()->Radius * 0.5f);
+							g_graphicsEngine->removeModel(temp);
+							this->m_targetModel->setAlpha(0.999f);
+							this->m_placingTargetedSkill = true;
+						}
 						break;
 					case Skill::HEALING_TOUCH:
 						g_mouse->getCursor()->setFrame(Cursor::HEALING_TOUCH, 3);
@@ -567,6 +596,9 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 						break;
 					case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
 						g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
+						this->m_targetModel->setScale(TargetAcquiredPermissionToFire::RANGE, TargetAcquiredPermissionToFire::RANGE, TargetAcquiredPermissionToFire::RANGE);
+						this->m_targetModel->setAlpha(0.999f);
+						this->m_placingTargetedSkill = true;
 						break;
 					}
 				}
@@ -612,6 +644,9 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					break;
 				case Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE:
 					g_mouse->getCursor()->setFrame(Cursor::TARGET_ACQUIRED, 3);
+					this->m_targetModel->setScale(TargetAcquiredPermissionToFire::RANGE, TargetAcquiredPermissionToFire::RANGE, TargetAcquiredPermissionToFire::RANGE);
+					this->m_targetModel->setAlpha(0.999f);
+					this->m_placingTargetedSkill = true;
 					break;
 				}
 			}
