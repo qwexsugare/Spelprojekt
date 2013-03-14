@@ -504,6 +504,18 @@ NetworkPlayerJoinedMessage Client::playerJoinedMessageQueueFront()
 	return ret;
 }
 
+NetworkReadyMessageToClient Client::readyMessageToClientQueueFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkReadyMessageToClient ret = m_readyMessageToClientQueue.front();
+	this->m_readyMessageToClientQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
@@ -633,4 +645,9 @@ bool Client::endGameQueueEmpty()
 bool Client::playerJoinedMessageQueueEmpty()
 {
 	return m_playerJoinedMessageQueue.empty();
+}
+
+bool Client::readyMessageToClientQueueEmpty()
+{
+	return m_readyMessageToClientQueue.empty();
 }

@@ -15,6 +15,7 @@
 #include "NetworkHeroSelectedMessage.h"
 #include "NetworkSelectHeroMessage.h"
 #include "NetworkReadyMessage.h"
+#include "NetworkReadyMessageToClient.h"
 #include "NetworkStartGameMessage.h"
 #include "NetworkSkillUsedMessage.h"
 #include "NetworkInitEntityMessage.h"
@@ -75,6 +76,7 @@ public:
 	void broadcast(NetworkWelcomeMessage networkMessage);
 	void broadcast(NetworkEndGameMessage networkMessage);
 	void broadcast(NetworkPlayerJoinedMessage networkMessage);
+	void broadcast(NetworkReadyMessageToClient networkMessage);
 
 	bool isRunning();
 

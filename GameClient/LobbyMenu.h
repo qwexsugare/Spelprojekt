@@ -33,6 +33,7 @@ public:
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeText);
 	int getCombat();
 	void setPlayerName(int _playerIndex, string _name);
+	void setReady(int _playerIndex);
 	Hero::HERO_TYPE* getHeroesSelected(){return this->m_currentSelections;};
 private:
 	Hero::HERO_TYPE m_currentSelections[4];

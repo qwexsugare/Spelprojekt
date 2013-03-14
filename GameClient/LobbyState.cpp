@@ -323,6 +323,12 @@ void LobbyState::update(float _dt)
 		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
 		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
 	}
+
+	while(!m_network->readyMessageToClientQueueEmpty())
+	{
+		NetworkReadyMessageToClient msg = m_network->readyMessageToClientQueueFront();
+		this->m_menu->setReady(msg.m_playerIndex);
+	}
 }
 
 State::StateEnum LobbyState::nextState()

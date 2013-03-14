@@ -513,22 +513,22 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	{
 	case 0:
 		buttonIndex = 8;
-		this->m_Buttons[8]->SetTextBoxValue(true);
+		this->m_Buttons[8]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[8]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	case 1:
 		buttonIndex = 9;
-		this->m_Buttons[9]->SetTextBoxValue(true);
+		this->m_Buttons[9]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[9]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	case 2:
 		buttonIndex = 10;
-		this->m_Buttons[10]->SetTextBoxValue(true);
+		this->m_Buttons[10]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	case 3:
 		buttonIndex = 11;
-		this->m_Buttons[11]->SetTextBoxValue(true);
+		this->m_Buttons[11]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	}
@@ -663,4 +663,23 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 		break;
 	}
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
+}
+
+void LobbyMenu::setReady(int _playerIndex)
+{
+	switch(_playerIndex)
+	{
+	case 0:
+		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
+		break;
+	case 1:
+		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
+		break;
+	case 2:
+		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
+		break;
+	case 3:
+		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
+		break;
+	}
 }

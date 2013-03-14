@@ -168,6 +168,7 @@
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="NetworkEndGameMessage.cpp" />
     <ClCompile Include="NetworkPlayerJoinedMessage.cpp" />
+    <ClCompile Include="NetworkReadyMessageToClient.cpp" />
     <ClCompile Include="NetworkWelcomeMessage.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
     <ClCompile Include="Room.cpp" />
@@ -359,6 +360,7 @@
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="NetworkEndGameMessage.h" />
     <ClInclude Include="NetworkPlayerJoinedMessage.h" />
+    <ClInclude Include="NetworkReadyMessageToClient.h" />
     <ClInclude Include="NetworkWelcomeMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />
     <ClInclude Include="Room.h" />

@@ -19,6 +19,7 @@
 #include "NetworkRemoveActionTargetMessage.h"
 #include "NetworkHeroSelectedMessage.h"
 #include "NetworkReadyMessage.h"
+#include "NetworkReadyMessageToClient.h"
 #include "NetworkSelectHeroMessage.h"
 #include "NetworkStartGameMessage.h"
 #include "NetworkSkillUsedMessage.h"
@@ -62,6 +63,7 @@ private:
 	queue<NetworkWelcomeMessage> m_welcomeMessage;
 	queue<NetworkEndGameMessage> m_endGameMessageQueue;
 	queue<NetworkPlayerJoinedMessage> m_playerJoinedMessageQueue;
+	queue<NetworkReadyMessageToClient> m_readyMessageToClientQueue;
 public:
 	Client();
 	~Client();
@@ -97,6 +99,7 @@ public:
 	NetworkWelcomeMessage networkWelcomeMessageFront();
 	NetworkEndGameMessage endGameQueueFront();
 	NetworkPlayerJoinedMessage playerJoinedMessageQueueFront();
+	NetworkReadyMessageToClient readyMessageToClientQueueFront();
 
 	bool updateEntityHealthEmpty();
 	bool entityQueueEmpty();
@@ -114,6 +117,7 @@ public:
 	bool networkWelcomeMessageEmpty();
 	bool endGameQueueEmpty();
 	bool playerJoinedMessageQueueEmpty();
+	bool readyMessageToClientQueueEmpty();
 };
 
 #endif // CLIENT_H
