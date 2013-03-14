@@ -3,33 +3,35 @@
 PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _masterId, unsigned int _skillId)
 {
 	Entity* e = ClientEntityHandler::getEntity(_masterId);
-
-	if(e != NULL && e->m_model->getRightHand() != NULL)
+	if(e != NULL)
 	{
-		switch(e->m_weapon)
+		if(e->m_model->getRightHand() != NULL)
 		{
-		case ModelIdHolder::MELEE:
-			e->m_model->getAnimation()->Play("PassiveAbility_1H_Melee", false, 1);
+			switch(e->m_weapon)
+			{
+			case ModelIdHolder::MELEE:
+				e->m_model->getAnimation()->Play("PassiveAbility_1H_Melee", false, 1);
+				break;
+			case ModelIdHolder::RANGED:
+				e->m_model->getAnimation()->Play("PassiveAbility_1H_Range", false, 1);
+				break;
+			case ModelIdHolder::AOE:
+				e->m_model->getAnimation()->Play("PassiveAbility_2H_Melee", false, 1);
+				break;
+			}
+		}
+
+		switch(_skillId)
+		{
+		case Skill::LIFESTEALING_STRIKE:
 			break;
-		case ModelIdHolder::RANGED:
-			e->m_model->getAnimation()->Play("PassiveAbility_1H_Range", false, 1);
+		case Skill::POISON_STRIKE:
+			e->m_poisonStacks++;
 			break;
-		case ModelIdHolder::AOE:
-			e->m_model->getAnimation()->Play("PassiveAbility_2H_Melee", false, 1);
+		case Skill::DEADLY_STRIKE:
 			break;
 		}
 	}
-
-	//switch(_skillId)
-	//{
-	//case Skill::LIFESTEALING_STRIKE:
-
-	//	break;
-	//case Skill::DEADLY_STRIKE:
-
-	//	break;
-	//	case
-	//}
 }
 
 PassiveAttackClientSkillEffect::~PassiveAttackClientSkillEffect()

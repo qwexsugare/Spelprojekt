@@ -152,7 +152,7 @@ vector<ServerEntity*> EntityHandler::getEntitiesByType(ServerEntity::Type _type)
 	EntityHandler::m_mutex.Lock();
 
 	vector<ServerEntity*> ses;
-	if(_type == ServerEntity::StaticType || _type == ServerEntity::StaticType )
+	if(_type == ServerEntity::StaticType)
 		EntityHandler::m_quadtree->getAllServerEntites(ses);
 	else
 	{
