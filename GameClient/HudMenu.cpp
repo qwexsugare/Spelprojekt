@@ -657,29 +657,28 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			}
 		}
 
-		if (g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED && m_Chat == false)
+		if (g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
 		{
 			m_Chat = true;
+			g_keyboard->setChatMode(m_Chat);
 		}
 	}
 	else
 	{
-		this->m_LabelInput->update(_dt);
+		this->m_LabelInput->update(_dt, true);
 
-		if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
+		if(g_keyboard->getKeyStateChatSuper(VK_RETURN) == Keyboard::KEY_PRESSED)
 		{
 			string m_String = "";
 			m_String.erase(m_String.begin());
-			for(int i = m_Chattext.size()-1; i > 0;i--)
-			{
-				m_Chattext[i]->setText(m_Chattext[i-1]->getText());
-			}
 			m_String = this->m_LabelInput->getText();
 			m_String.erase(m_String.end());
-			this->m_Chattext[0]->setText(m_String);
+			
+			this->m_network->sendMessage(NetworkTextMessage(m_String));
 			this->m_LabelInput->setText(""); 
 			this->m_Chattext[3]->setText("");
 			m_Chat = false;
+			g_keyboard->setChatMode(m_Chat);
 		}
 	}
 
@@ -692,6 +691,15 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		m_leaveButton->Update();
 		if(m_leaveButton->isClicked())
 			m_done = true;
+	}
+	while(!this->m_network->networkTextMessageQueueEmpty())
+	{
+		NetworkTextMessage e = this->m_network->networkTextMessageFront();
+		for(int i = m_Chattext.size()-1; i > 0;i--)
+			{
+				m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+			}
+		this->m_Chattext[0]->setText(e.getTxtMessage());
 	}
 
 	LockIsDown();
