@@ -556,6 +556,11 @@ void Server::broadcast(NetworkPlayerJoinedMessage networkMessage)
 			packet<<message;
 
 			this->clients[networkMessage.getPlayerIndex()].Send(packet);
+			
+			if(this->m_players[i]->getReady())
+			{
+				this->broadcast(NetworkReadyMessageToClient(i));
+			}
 		}
 	}	
 
