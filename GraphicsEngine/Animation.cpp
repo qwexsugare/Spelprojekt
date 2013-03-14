@@ -231,6 +231,12 @@ void Animation::RandomAnimationFunc(float dt)
 
 					float timeInterval = ((nextKeyTime-offset)/fps) - ((currKeyTime-offset)/fps);
 					float timePass = itr->second.time - (currKeyTime-offset)/fps;
+
+					if(timePass > itr->second.skeletons[0].keys[itr->second.skeletons[0].keys.size()-1].time)
+					{
+						timePass = itr->second.skeletons[0].keys[itr->second.skeletons[0].keys.size()-1].time;
+					}
+
 					float lerpValue = timePass/timeInterval;
 
 					for(int i = 0; i < itr->second.skeletons[0].keys[itr->second.currentKey].joints.size(); i++)
