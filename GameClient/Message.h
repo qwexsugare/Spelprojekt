@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame, AttributeUpdate};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame, AttributeUpdate,TXTMSG};
 
 	Type type;
 	int senderId;
@@ -328,5 +328,14 @@ struct AttributeUpdateMessage : Message
 		this->playerId = playerId;
 		this->attribute = attribute;
 		this->attributeType = attributeType;
+	}
+};
+
+struct TextMessage : Message
+{
+	string text;
+	TextMessage(string text)
+	{
+		this->text=text;
 	}
 };

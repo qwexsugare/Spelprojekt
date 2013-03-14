@@ -5,7 +5,12 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 {
 	this->m_network = _network;
 	m_Chat = false;
-
+	m_menuButton = new Button();
+	m_menuButton->Init(FLOAT2(0.5f, 0.75f), FLOAT2(0.25f, 0.25f), "menu_textures/menu_button.png", "");
+	m_leaveButton = new Button();
+	m_leaveButton->Init(FLOAT2(0.0f, 0.75f), FLOAT2(0.25f, 0.25f), "menu_textures/menu_button.png", "");
+	m_leaveButton->setVisible(false);
+	m_done = false;
 	m_SkillHud.push_back(-1.5f);
 	m_SkillHud.push_back(-1.5f);
 	m_SkillHud.push_back(-1.5f);
@@ -235,6 +240,12 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_towerButtons[2]->Init(FLOAT2(0.104f,	-0.79f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::POISON_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::POISON_TURRET,"menu_textures\\Turret_Text_Poison.png");
 	this->m_towerButtons[3]->Init(FLOAT2(0.086f,	-0.90f-0.004f), FLOAT2(0.079166667f/1.5f,0.140740741f/1.5f), this->m_skillHolder.getSkill(Skill::DEATH_PULSE_TURRET), "", 0.0f, 0.0f, 1.0f, 7, 100, 0, INT2(0,0), false, Skill::DEATH_PULSE_TURRET,"menu_textures\\Turret_Text_Death.png");
 }
+
+bool HudMenu::isDone()const
+{
+	return m_done;
+}
+
 void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
 {
 	if(m_hasTargetEnemy)
@@ -247,6 +258,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 	}
 
+	m_menuButton->Update();
 	for(int i = 0; i < this->m_towerButtons.size(); i++)
 	{
 		this->m_towerButtons[i]->Update();
@@ -701,6 +713,17 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 	}
 
+	if(m_menuButton->isClicked())
+	{
+		m_leaveButton->setVisible(!m_leaveButton->isVisible());
+	}
+	if(m_leaveButton->isVisible())
+	{
+		m_leaveButton->Update();
+		if(m_leaveButton->isClicked())
+			m_done = true;
+	}
+
 	LockIsDown();
 }
 void HudMenu::UnInit(int _Type)
@@ -765,6 +788,8 @@ bool HudMenu::MenuIsDown()
 
 HudMenu::~HudMenu(void)
 {
+	delete m_menuButton;
+	delete m_leaveButton;
 	for(int i = 0; i < this->m_shopButtons.size(); i++)
 	{
 		delete this->m_shopButtons[i];

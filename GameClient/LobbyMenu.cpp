@@ -3,6 +3,7 @@
 
 LobbyMenu::LobbyMenu(void)
 {
+	enterPressed=false;
 	m_Counter = 0;
 	m_Character0 = false;
 	m_Character1 = false;
@@ -65,12 +66,16 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[11]->Init(FLOAT2(0.30f,-0.27f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player4.dds","",0,0,1);*/
 	this->m_Buttons[8] = new Button();
 	this->m_Buttons[8]->Init(FLOAT2(0.675f, 0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player1.dds","",0,0,1);
+	this->m_Buttons[8]->setKeep(1);
 	this->m_Buttons[9] = new Button();
 	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player2.dds","",0,0,1);
+	this->m_Buttons[9]->setKeep(1);
 	this->m_Buttons[10] = new Button();
 	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player3.dds","",0,0,1);
+	this->m_Buttons[10]->setKeep(1);
 	this->m_Buttons[11] = new Button();
 	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player4.dds","",0,0,1);
+	this->m_Buttons[11]->setKeep(1);
 	m_doctorPortrait = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 	m_officerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
@@ -99,7 +104,7 @@ LobbyMenu::LobbyMenu(void)
 
 
 	
-	this->m_slider.Init(FLOAT2(-0.5f, -0.30f), 0.0f, FLOAT2(0.2f,0.2f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
+	this->m_slider.Init(FLOAT2(-0.5f, -0.30f), 0.0f, FLOAT2(0.1f,0.2f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
 
 	this->m_Label.resize(5);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
@@ -142,6 +147,28 @@ LobbyMenu::~LobbyMenu(void)
 	{
 		delete m_playerNames[i];
 	}
+}
+
+void LobbyMenu::addStringToChat(string t)
+{
+	for(int i = m_Chattext.size()-1; i > 0;i--)
+		{
+			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+		}
+		this->m_Chattext[0]->setText(t);
+			
+}
+void LobbyMenu::resetEnterPressed()
+{
+	this->enterPressed=false;
+}
+bool LobbyMenu::wasEnterPressed()
+{
+	return this->enterPressed;
+}
+string LobbyMenu::getChatString()
+{
+	return this->m_String;
 }
 void LobbyMenu::Update(float _dt)
 {
@@ -228,18 +255,14 @@ void LobbyMenu::Update(float _dt)
 		}
 	}
 	this->m_LabelInput->update(_dt);
+	//if the enter key is pressed, the string is saved
 	if(g_keyboard->getKeyState(VK_RETURN) == Keyboard::KEY_PRESSED)
 	{
-
-		for(int i = m_Chattext.size()-1; i > 0;i--)
-		{
-			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
-		}
 			m_String = this->m_LabelInput->getText();
 			m_String.erase(m_String.end());
-			this->m_Chattext[0]->setText(m_String);
 			this->m_LabelInput->setText(""); 
 			this->m_Chattext[5]->setText("");
+			enterPressed=true;
 	}
 	
 	//this->m_Label[3]->setText(m_String);
@@ -513,22 +536,22 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	{
 	case 0:
 		buttonIndex = 8;
-		this->m_Buttons[8]->SetTextBoxValue(true);
+		this->m_Buttons[8]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[8]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	case 1:
 		buttonIndex = 9;
-		this->m_Buttons[9]->SetTextBoxValue(true);
+		this->m_Buttons[9]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[9]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	case 2:
 		buttonIndex = 10;
-		this->m_Buttons[10]->SetTextBoxValue(true);
+		this->m_Buttons[10]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	case 3:
 		buttonIndex = 11;
-		this->m_Buttons[11]->SetTextBoxValue(true);
+		this->m_Buttons[11]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	}
@@ -663,4 +686,23 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 		break;
 	}
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
+}
+
+void LobbyMenu::setReady(int _playerIndex)
+{
+	switch(_playerIndex)
+	{
+	case 0:
+		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
+		break;
+	case 1:
+		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
+		break;
+	case 2:
+		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
+		break;
+	case 3:
+		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
+		break;
+	}
 }

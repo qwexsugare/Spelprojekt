@@ -77,9 +77,9 @@ void Mouse::setMouseVisibility(bool _visible)const
 
 void Mouse::update()
 {
-	RECT rc;
-	GetWindowRect(this->m_hWnd, &rc);
-	ClipCursor(&rc);
+	//RECT rc;
+	//GetWindowRect(this->m_hWnd, &rc);
+	//ClipCursor(&rc);
 
 	m_lButtonIsPressed = false;
 	m_lButtonIsReleased = false;

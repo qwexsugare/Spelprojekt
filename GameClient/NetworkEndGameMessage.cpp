@@ -87,6 +87,7 @@ sf::Packet& operator>>(sf::Packet& packet, NetworkEndGameMessage& e)
 		e.m_players[i].setMentalDamageDone(mentalDamageDone);
 		e.m_players[i].setPhysicalDamageRecieved(physicalDamageRecieved);
 		e.m_players[i].setPhysicalDamageDone(physicalDamageDone);
+		e.m_players[i].setGoldCollected(goldCollected);
 	}
 
 	return packet;
