@@ -51,7 +51,7 @@ void EnigmaticPresenceEffect::update(float _dt)
 {
 	ServerEntity* caster = EntityHandler::getServerEntity(m_caster);
 
-	if(caster)
+	if(caster && ((UnitEntity*)caster)->getHealth() > 0)
 	{
 		vector<map<unsigned int, float>::iterator> removeIndices;
 
