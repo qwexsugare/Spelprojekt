@@ -562,6 +562,22 @@ void Server::broadcast(NetworkPlayerJoinedMessage networkMessage)
 	this->m_mutex.Unlock();
 }
 
+void Server::broadcast(NetworkReadyMessageToClient networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
 void Server::Run()
 {
 	__int64 cntsPerSec = 0;
@@ -649,6 +665,7 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		packet >> nrm;
 		this->m_mutex.Lock();
 		this->m_players[socketIndex]->handleReadyMessage(nrm);
+		this->broadcast(NetworkReadyMessageToClient(socketIndex));
 		this->m_mutex.Unlock();
 		break;
 	case NetworkMessage::Disconnect:

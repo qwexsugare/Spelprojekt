@@ -87,6 +87,8 @@ public:
 	int GetID();
 	int LoseAmountOfResources(int _resources);
 	float GetValue();
+	void setCurrentFrame(INT2 _frame);
+	void setKeep(int _keep);
 	void SetTextBoxValue(bool _change);
 	void setVisible(bool _visible);
 	void setText(string _text);

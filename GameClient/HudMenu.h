@@ -44,7 +44,7 @@ private:
 	vector<Sprite*> m_LabelSprite;
 	FLOAT2 m_fullHealthPos;
 	vector<string> m_Attributes;
-	TextLabel*	m_AttributeText;
+	vector<TextLabel*>	m_AttributeText;
 	TextLabel* m_waveText;
 	TextLabel* m_livesRemaining;
 	bool m_canAfford[20];

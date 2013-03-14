@@ -64,6 +64,7 @@ void Client::Run()
 			NetworkInitEntityMessage iem;
 			NetworkHeroInitMessage nhim;
 			NetworkUpdateEntityHealth nueh;
+<<<<<<< HEAD
 			NetworkStartGameMessage nstm;
 			NetworkEndGameMessage negm;
 			NetworkWelcomeMessage nwm;
@@ -675,11 +676,8 @@ bool Client::playerJoinedMessageQueueEmpty()
 }
 
 bool Client::readyMessageToClientQueueEmpty()
-{
-	return m_readyMessageToClientQueue.empty();
-}
-
 bool Client::networkTextMessageQueueEmpty()
 {
+	return m_readyMessageToClientQueue.empty();
 	return this->m_textMessageQueue.empty();
 }
