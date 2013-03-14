@@ -18,6 +18,7 @@ struct Entity
 	float movementSpeed;
 	PointLight *m_lanternLight;
 	unsigned int m_weapon;
+	int m_poisonStacks;
 
 	Sprite *m_healthBack;
 	Sprite *m_healthFront;
@@ -44,6 +45,7 @@ struct Entity
 		m_endPos=this->m_model->getPosition();
 		this->movementSpeed=1;
 		m_health=1000;
+		m_poisonStacks = 0;
 
 		if(this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType)
 		{

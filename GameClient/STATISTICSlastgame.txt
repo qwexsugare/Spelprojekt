@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 15.3735
+Time played: 56.0933
 Life remaining: 50
-Reached wave: 0
+Reached wave: 1
 
 Player Statistics:
 ------------------
 Player name: WaddaPIgotABigCOck
-Resources collected: 41
+Hero played: Officer
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
+Total damage dealt: 18
+Physical damage taken: 50
 Mental damage taken: 0
 Physical damage dealt: 0
-Mental damage dealt: 0
+Mental damage dealt: 18
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -27,7 +27,7 @@ Skills used:
 0
 0
 0
-965451026
+1052173727
 0
 0
 0
@@ -50,48 +50,23 @@ Skills used:
 0
 0
 0
-827863299
-971258315
-1046887995
-905328092
-1035746636
-1058946805
-889206012
-963852576
-1018510488
-828715269
-957233342
-73728
-940193734
-813445230
-136
-810954753
-1049050737
-914765440
-3432086
-3429564
-3434196
-3433602
-3420862
-1497570883
-1497564903
 807743516
-888943786
-1050951318
-927479606
-1018444973
-36864
-45056
-204
-853947062
-961362213
-1013464074
-69632
-976763398
-888681702
-884487334
-264
-98304
-1021983809
-989280993
+884356208
+1055080068
+939079667
+1042955731
+1046232664
+837956024
+869413816
+911226442
+1007434658
+216
+893203767
+937703383
+1072381922
+976566825
+842347046
+858207003
+1000749973
+1073299440
 ---------------

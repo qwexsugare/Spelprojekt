@@ -46,7 +46,7 @@ UnitEntity::UnitEntity() : ServerEntity()
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
-	m_poisonStacks = 0;
+	m_poisonStackDamage = 0;
 	m_extraDivinePower = 0;
 }
 
@@ -93,7 +93,7 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
 	m_frostTurretSlowEffectValue = 0.0f;
-	m_poisonStacks = 0;
+	m_poisonStackDamage = 0;
 	m_extraDivinePower = 0;
 }
 
@@ -107,9 +107,9 @@ UnitEntity::~UnitEntity()
 	delete this->m_regularAttack;
 }
 
-void UnitEntity::addPoisonStack()
+void UnitEntity::addPoisonStack(int _damage)
 {
-	m_poisonStacks++;
+	m_poisonStackDamage+=_damage;
 }
 
 void UnitEntity::applyFrostTurretSlowEffect(float _value)
@@ -332,9 +332,9 @@ int UnitEntity::getTurretConstruction()
 	return this->m_turretConstruction;
 }
 
-int UnitEntity::getPoisonStacks()const
+int UnitEntity::getPoisonStackDamage()const
 {
-	return m_poisonStacks;
+	return m_poisonStackDamage;
 }
 
 int UnitEntity::getHealth()
@@ -461,6 +461,11 @@ void UnitEntity::stun(float _time)
 
 void UnitEntity::update(float dt)
 {
+	if(this->m_attackSpeed <= 0.0f)
+	{
+		int hoxit = 0;
+	}
+
 	this->m_mutex.Lock();
 
 	for(int i = 0; i < this->m_skills.size(); i++)

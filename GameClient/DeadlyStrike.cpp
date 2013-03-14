@@ -21,7 +21,7 @@ bool DeadlyStrike::activate(unsigned int _targetId, unsigned int _senderId)
 	if(deadlyStrike < caster->getAgility() / 2 && target->getType() == ServerEntity::Type::EnemyType)
 	{
 		target->takeDamage(_senderId, INT_MAX, INT_MAX);
-		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, INT_MAX, INT_MAX, Skill::DEADLY_STRIKE));
+		EntityHandler::addEntity(new DelayedDamage(_senderId, _targetId, 0.5f, INT_MAX, INT_MAX, Skill::DEADLY_STRIKE, 2.0f / caster->getAttackSpeed()));
 		triggered = true;
 	}
 

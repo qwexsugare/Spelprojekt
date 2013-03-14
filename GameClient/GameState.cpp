@@ -343,13 +343,13 @@ void GameState::update(float _dt)
 			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		case Skill::LIFESTEALING_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
 			break;
 		case Skill::DEADLY_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
 			break;
 		case Skill::POISON_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId()));
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
 			break;
 		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
@@ -357,6 +357,7 @@ void GameState::update(float _dt)
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+			break;
 		case Skill::STUNNING_STRIKE_VICTIM:
 			m_ClientSkillEffects.push_back(new StunningStrikeVictimClientSkillEffect(e.getSenderId()));
 			break;
@@ -483,7 +484,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getTargetId(), e.getPosition()));
 			break;
 		case Skill::RANGED_ATTACK:
-			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId()));
+			m_ClientSkillEffects.push_back(new ArrowClientSkillEffect(e.getPosition(), e.getTargetId(), e.getSenderId(), e.getAnimationSpeed()));
 			break;
 		case Skill::FROST_TURRET_PROJECTILE:
 			m_ClientSkillEffects.push_back(new FrostTurretProjectileClientSkillEffect(FLOAT3(e.getPosition().x, 0.5f, e.getPosition().z), e.getTargetId()));
@@ -515,10 +516,10 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new SimonsEvilClientSkillEffect(e.getTargetId()));
 			break;
 		case Skill::MELEE_ATTACK:
-			this->m_ClientSkillEffects.push_back(new MeleeAttackClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
+			this->m_ClientSkillEffects.push_back(new MeleeAttackClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId], e.getAnimationSpeed()));
 			break;
 		case Skill::AOE_MELEE_ATTACK:
-			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId]));
+			m_ClientSkillEffects.push_back(new MeleeAOEClientSkillEffect(e.getSenderId(), e.getTargetId(), m_playerInfos[m_yourId], e.getAnimationSpeed()));
 			break;
 		case Skill::CHURCH_PENETRATED:			
 			m_ClientSkillEffects.push_back(new ChurchPenetratedClientSkillEffect(e.getSenderId(), e.getPosition()));		

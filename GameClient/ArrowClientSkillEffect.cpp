@@ -6,21 +6,22 @@
 #include "SpeechManager.h"
 #include "MyAlgorithms.h"
 
-ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, unsigned int _masterId)
+ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, unsigned int _masterId, float _animationSpeed)
 {
 	m_active = true;
 	m_targetId = _targetId;
-	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
-	m_graphicalEffect->setAlpha(0.999f);
 
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
 	if(master != NULL)
 	{
-		master->m_model->getAnimation()->PlayLoop("RangeAttack");
+		m_graphicalEffect = g_graphicsEngine->createModel("Arrow", master->m_model->getRightHandPosition());
+		m_graphicalEffect->setAlpha(0.999f);
+
+		master->m_model->getAnimation()->PlayLoop("RangeAttack", -1, _animationSpeed);
+
+		D3DXVECTOR3 newPos = master->m_model->getRightHandPosition().toD3DXVector();
+		this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
 	}
-	
-	D3DXVECTOR3 newPos = D3DXVECTOR3(_position.x, _position.y, _position.z);
-	this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
 
 	// Play sound
 	int sound;

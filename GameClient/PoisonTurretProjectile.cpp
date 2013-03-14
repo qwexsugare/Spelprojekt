@@ -7,7 +7,7 @@
 
 const float PoisonTurretProjectile::SLOW_EFFECT = -1.5f;
 
-PoisonTurretProjectile::PoisonTurretProjectile(unsigned int _master, unsigned int _target, unsigned int _mentalDamage)
+PoisonTurretProjectile::PoisonTurretProjectile(unsigned int _master, unsigned int _target, int _upgradeLevel)
 {
 	m_master = _master;
 	m_target = _target;
@@ -18,7 +18,7 @@ PoisonTurretProjectile::PoisonTurretProjectile(unsigned int _master, unsigned in
 	m_timeToImpact = (target->getPosition() - master->getPosition()).length()/PoisonTurretProjectile::VELOCITY;
 	this->m_masterOwner = ((Turret*)master)->getOwnerId();
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::POISON_TURRET_PROJECTILE, m_master, m_target, master->getPosition()));
-	this->m_mentalDamage = _mentalDamage;
+	this->m_upgradeLevel = _upgradeLevel;
 }
 
 PoisonTurretProjectile::~PoisonTurretProjectile()
@@ -36,10 +36,11 @@ void PoisonTurretProjectile::update(float _dt)
 		ServerEntity* target = EntityHandler::getServerEntity(m_target);
 		if(target)
 		{
-			int damage = random(1, 25) + (((UnitEntity*)target)->getPoisonStacks()+1) * this->m_mentalDamage;
+			int poisonDamage = (1+m_upgradeLevel/4);
+			((UnitEntity*)target)->addPoisonStack(poisonDamage);
+			int damage = random(0, 25) + ((UnitEntity*)target)->getPoisonStackDamage();
 			int healthBefore = target->getHealth();
 			target->takeDamage(this->m_masterOwner, 0, damage);
-			((UnitEntity*)target)->addPoisonStack();
 
 			// dbg
 			stringstream ss;
