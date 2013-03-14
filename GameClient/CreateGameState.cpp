@@ -16,6 +16,7 @@ void CreateGameState::update(float dt)
 
 	if(this->m_menu->StartGameIsDown() == true)
 	{
+		m_menu->savePlayerName();
 		this->setDone(true);
 		this->m_nextState = State::LOBBY;
 	}

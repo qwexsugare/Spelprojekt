@@ -233,6 +233,16 @@ void Animation::RandomAnimationFunc(float dt)
 					float timePass = itr->second.time - (currKeyTime-offset)/fps;
 					float lerpValue = timePass/timeInterval;
 
+					if(lerpValue > 1)
+					{
+						lerpValue = 1;
+					}
+
+					if(lerpValue < 0)
+					{
+						lerpValue = 0;
+					}
+
 					for(int i = 0; i < itr->second.skeletons[0].keys[itr->second.currentKey].joints.size(); i++)
 					{
 						D3DXMATRIX outMat;
