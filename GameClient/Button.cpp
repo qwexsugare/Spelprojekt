@@ -207,7 +207,7 @@ float Button::GetValue()
 
 void Button::setCurrentFrame(INT2 _frame)
 {
-	this->setCurrentFrame(_frame);
+	m_Button->setCurrentFrame(_frame);
 }
 
 void Button::setKeep(int _keep)
