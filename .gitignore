@@ -2776,6 +2776,8 @@ GameClient/models/Target/Target.BFish
 GameClient/models/Target/Target.png
 GameClient/RolleBoll/ball.dds
 GameClient/RolleBoll/RolleBoll.BFish
+GameClient/menu_textures/Shop_1.png
+GameClient/text/Text6.png
 GameClient/models/Char/RedKnightDeselect.BFishA
 GameClient/menu_textures/menu_button.png
 GameClient/models/rum/Doctor_Diff.png
