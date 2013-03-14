@@ -52,7 +52,7 @@ protected:
 	bool m_swiftAsACatPowerfulAsABear;
 	float m_frostTurretSlowEffectTimer;
 	float m_frostTurretSlowEffectValue;
-	int m_poisonStacks;
+	int m_poisonStackDamage;
 	int m_extraDivinePower;
 public:
 	static const int MAX_STRENGTH = 20;
@@ -65,7 +65,7 @@ public:
 	UnitEntity(FLOAT3 pos);
 	virtual ~UnitEntity();
 
-	void addPoisonStack();
+	void addPoisonStack(int _damage);
 	void applyFrostTurretSlowEffect(float _value);
 	
 	void update(float dt);
@@ -103,7 +103,7 @@ public:
 	int getAgility();
 	int getWits();
 	int getFortitude();
-	int getPoisonStacks()const;
+	int getPoisonStackDamage()const;
 	int getHealth();
 	int getMaxHealth();
 	int getTurretConstruction();

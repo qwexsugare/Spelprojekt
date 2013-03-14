@@ -99,7 +99,7 @@ LobbyMenu::LobbyMenu(void)
 
 
 	
-	this->m_slider.Init(FLOAT2(-0.5f, -0.30f), 0.0f, FLOAT2(0.2f,0.2f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
+	this->m_slider.Init(FLOAT2(-0.5f, -0.30f), 0.0f, FLOAT2(0.1f,0.2f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
 
 	this->m_Label.resize(5);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
