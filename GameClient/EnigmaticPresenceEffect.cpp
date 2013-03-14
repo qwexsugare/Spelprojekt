@@ -9,7 +9,7 @@ EnigmaticPresenceEffect::EnigmaticPresenceEffect(unsigned int _caster)
 	m_caster = _caster;
 
 	this->m_obb = NULL;
-	FLOAT3 pos = EntityHandler::getServerEntity(_caster)->getPosition();
+	FLOAT3 pos = EntityHandler::getServerEntity(m_caster)->getPosition();
 	this->m_bs = new BoundingSphere(XMFLOAT3(pos.x, 0.0f, pos.z), AOE);
 	m_visible = false;
 	m_type = OtherType;
@@ -63,7 +63,6 @@ void EnigmaticPresenceEffect::update(float _dt)
 			if(!se)
 			{
 				removeIndices.push_back(iter);
-				this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::ENIGMATIC_PRESENCE, 0, iter->first));
 			}
 			// Else the affected guys is still alive and might have escaped the aura area and needs to be taken down!
 			else if((caster->getPosition()-se->getPosition()).length() > AOE)
