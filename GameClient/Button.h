@@ -77,6 +77,7 @@ public:
 
 	void Button::RemoveSprite();
 	bool isClicked()const { return m_clicked; }
+	bool isVisible()const { return m_Button->getVisible(); }
 	int Clicked();
 	void Update();
 	int GetButtonReaction();
