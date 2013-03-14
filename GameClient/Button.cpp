@@ -212,7 +212,7 @@ void Button::setCurrentFrame(INT2 _frame)
 
 void Button::setKeep(int _keep)
 {
-
+	m_Keep = _keep;
 }
 
 void Button::SetTextBoxValue(bool _change)
