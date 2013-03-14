@@ -18,7 +18,7 @@ public:
 	string getIP();
 	string getPort();
 	string getPlayerName();
-
+	void savePlayerName();
 private:
 	vector<TextInput*> m_Label;
 	bool	m_WriteIP,

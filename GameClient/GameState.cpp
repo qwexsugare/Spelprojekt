@@ -772,6 +772,10 @@ void GameState::update(float _dt)
 			g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
 		}
 	}
+	if(m_hud->isDone())
+	{
+		this->setDone(true);
+	}
 }
 
 void GameState::importMap(string _map)
@@ -969,7 +973,7 @@ void GameState::importMap(string _map)
 						sscanf(buf, "PLS %f %f %f %f %f %f %f %f %f %f", &position.x, &position.y, &position.z, &rotation.y, &rotation.x, &rotation.z, &color.x, &color.y, &color.z, &radius);
 
 						position.z = -position.z;
-
+						position = position - FLOAT3(0.33f, 0.0f, 0.33f);
 						g_graphicsEngine->createPointLight(position, FLOAT3(0.0f, 0.0f, 0.0f), color, FLOAT3(1.0f, 1.0f, 1.0f), radius, false, true);
 					}
 					else if(strcmp(key, "PL") == 0)

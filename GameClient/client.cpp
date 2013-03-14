@@ -68,6 +68,7 @@ void Client::Run()
 			NetworkEndGameMessage negm;
 			NetworkWelcomeMessage nwm;
 			NetworkPlayerJoinedMessage npjm;
+			NetworkTextMessage ntm;
 			
 			int type;
 			packet >> type;
@@ -262,6 +263,11 @@ void Client::Run()
 				m_playerJoinedMessageQueue.push(npjm);
 				this->m_mutex.Unlock();
 				break;
+			case NetworkMessage::TXTMSG:
+				packet >> ntm;
+				this->m_mutex.Lock();
+				m_textMessageQueue.push(ntm);
+				this->m_mutex.Unlock();
 			}
 		}
 	}
@@ -503,6 +509,17 @@ NetworkPlayerJoinedMessage Client::playerJoinedMessageQueueFront()
 
 	return ret;
 }
+NetworkTextMessage Client::networkTextMessageFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkTextMessage ret = this->m_textMessageQueue.front();
+	this->m_textMessageQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
 
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
@@ -540,6 +557,16 @@ void Client::sendMessage(NetworkBuySkillMessage _usm)
 	{
 		sf::Packet packet;
 		packet << _usm;
+		this->m_hostSocket.Send(packet);
+	}
+}
+
+void Client::sendMessage(NetworkTextMessage _msg)
+{
+	if(this->isConnected())
+	{
+		sf::Packet packet;
+		packet << _msg;
 		this->m_hostSocket.Send(packet);
 	}
 }
@@ -633,4 +660,9 @@ bool Client::endGameQueueEmpty()
 bool Client::playerJoinedMessageQueueEmpty()
 {
 	return m_playerJoinedMessageQueue.empty();
+}
+
+bool Client::networkTextMessageQueueEmpty()
+{
+	return this->m_textMessageQueue.empty();
 }

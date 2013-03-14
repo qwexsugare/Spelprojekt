@@ -15,6 +15,9 @@
 class HudMenu : public Menu
 {
 private:
+	bool m_done;
+	Button* m_menuButton;
+	Button* m_leaveButton;
 	unsigned int m_currentTargetEnemyId;
 	bool m_hasTargetEnemy;
 	Enemy::EnemyType m_currentTargetType;
@@ -84,8 +87,8 @@ public:
 	HudMenu(Client *_network, Hero::HERO_TYPE _heroType);
 	~HudMenu(void);
 
+	bool isDone()const;
 	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId);
-
 	void addSkill(unsigned int _skillId);
 	void removeTargetEnemy();
 	void setResources(unsigned int resources);

@@ -102,6 +102,12 @@ void LobbyState::update(float _dt)
 	if(distToSlider < 1.0)
 		distToSlider = 1.0;
 
+	//ugly solution for if the enterkey was pressed, fetch chat string
+	if(m_menu->wasEnterPressed())
+	{
+		this->m_network->sendMessage(NetworkTextMessage(m_menu->getChatString()));
+		m_menu->resetEnterPressed();
+	}
 	//camera real pos is the camera position, which tries to reach the position from the slider
 	//if the real pos is inside a certain value, it wont move
 	if(cameraRealPos > this->m_menu->getSlider()->GetValue() * max-0.05 && cameraRealPos < this->m_menu->getSlider()->GetValue() * max + 0.05)
@@ -201,6 +207,13 @@ void LobbyState::update(float _dt)
 		this->mapName = e.getMapName();
 		this->setDone(true);
 		this->m_nextState = State::LOADING;
+	}
+
+	//kollar om nån klient skickat ett text medelande
+	while(!m_network->networkTextMessageQueueEmpty())
+	{
+		NetworkTextMessage e = m_network->networkTextMessageFront();
+		m_menu->addStringToChat(e.getTxtMessage());
 	}
 
 	while(!m_network->heroSelectedQueueEmpty())

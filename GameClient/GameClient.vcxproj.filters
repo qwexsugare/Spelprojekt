@@ -376,6 +376,9 @@
     <ClCompile Include="NetworkUpdateEntityHealth.cpp">
       <Filter>Client\Network</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkUpdateEntityHealth.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Server\Enemies</Filter>
     </ClCompile>
@@ -952,6 +955,9 @@
     </ClInclude>
     <ClInclude Include="NetworkUpdateEntityHealth.h">
       <Filter>Client\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkUpdateEntityHealth.h">
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkUpdateEntityHealth.h">
       <Filter>Network</Filter>
