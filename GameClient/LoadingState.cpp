@@ -54,6 +54,11 @@ void LoadingState::update(float _dt)
 		stopSound(m_speech);
 		deactivateSound(m_speech);
 		m_network->sendMessage(NetworkReadyMessage(true));
+	}
+
+	while(!m_network->startGameQueueEmpty())
+	{
+		m_network->startGameQueueFront();
 		this->setDone(true);
 	}
 }
