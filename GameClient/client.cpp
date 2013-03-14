@@ -69,12 +69,26 @@ void Client::Run()
 			NetworkWelcomeMessage nwm;
 			NetworkPlayerJoinedMessage npjm;
 			NetworkTextMessage ntm;
+			NetworkReadyMessageToClient nrmtc;
 			
 			int type;
 			packet >> type;
 
 			switch(type)
 			{
+			case NetworkMessage::READY_TO_CLIENT:
+				packet >> nrmtc;
+				this->m_mutex.Lock();
+
+				this->m_readyMessageToClientQueue.push(nrmtc);
+				if(this->m_readyMessageToClientQueue.size() > 1337)
+				{
+					this->m_readyMessageToClientQueue.pop();
+				}
+
+				this->m_mutex.Unlock();
+				break;
+
 			case NetworkMessage::Entity:
 				packet >> em;
 				this->m_mutex.Lock();
