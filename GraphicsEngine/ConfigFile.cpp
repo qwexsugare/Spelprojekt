@@ -70,7 +70,7 @@ void ConfigFile::load()
 			}
 			else if(strcmp(key, "player_name") == 0)
 			{
-				sscanf(buf, "player_name %s", &m_playerName);
+				stream >> string() >> m_playerName;
 			}
 		}
 	}
