@@ -693,16 +693,16 @@ void LobbyMenu::setReady(int _playerIndex)
 	switch(_playerIndex)
 	{
 	case 0:
-		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[8]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 1:
-		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[9]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 2:
-		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[10]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 3:
-		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[11]->setCurrentFrame(INT2(2, 0));
 		break;
 	}
 }
