@@ -204,6 +204,17 @@ float Button::GetValue()
 {
 	return this->m_Value;
 }
+
+void Button::setCurrentFrame(INT2 _frame)
+{
+	m_Button->setCurrentFrame(_frame);
+}
+
+void Button::setKeep(int _keep)
+{
+
+}
+
 void Button::SetTextBoxValue(bool _change)
 {
 	this->m_TextBox = _change;

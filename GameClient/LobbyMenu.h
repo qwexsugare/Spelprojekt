@@ -34,6 +34,7 @@ public:
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeText);
 	int getCombat();
 	void setPlayerName(int _playerIndex, string _name);
+	void setReady(int _playerIndex);
 	Hero::HERO_TYPE* getHeroesSelected(){return this->m_currentSelections;};
 	void addStringToChat(string t);
 	void resetEnterPressed();

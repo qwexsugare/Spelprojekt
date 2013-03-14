@@ -19,17 +19,17 @@
 #include "NetworkRemoveActionTargetMessage.h"
 #include "NetworkHeroSelectedMessage.h"
 #include "NetworkReadyMessage.h"
+#include "NetworkReadyMessageToClient.h"
 #include "NetworkSelectHeroMessage.h"
 #include "NetworkStartGameMessage.h"
 #include "NetworkSkillUsedMessage.h"
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
 #include "NetworkUpdateEntityHealth.h"
-<<<<<<< HEAD
 #include "NetworkWelcomeMessage.h"
-=======
 #include "NetworkEndGameMessage.h"
->>>>>>> 3479abe437aadd53136c6e761e8693d9efac7650
+#include "NetworkPlayerJoinedMessage.h"
+#include "NetworkTextMessage.h"
 
 using namespace std;
 
@@ -61,11 +61,14 @@ private:
 	queue<NetworkInitEntityMessage> m_initEntityMessage;
 	queue<NetworkHeroInitMessage> m_heroInitQueue;
 	queue<NetworkUpdateEntityHealth> m_updateHealthMessage;
-<<<<<<< HEAD
 	queue<NetworkWelcomeMessage> m_welcomeMessage;
-=======
 	queue<NetworkEndGameMessage> m_endGameMessageQueue;
->>>>>>> 3479abe437aadd53136c6e761e8693d9efac7650
+	queue<NetworkPlayerJoinedMessage> m_playerJoinedMessageQueue;
+<<<<<<< HEAD
+	queue<NetworkReadyMessageToClient> m_readyMessageToClientQueue;
+=======
+	queue<NetworkTextMessage> m_textMessageQueue;
+>>>>>>> 72711c00653dc45d7225ab7df7406b21b529a472
 public:
 	Client();
 	~Client();
@@ -82,6 +85,8 @@ public:
 	void sendMessage(NetworkReadyMessage _usm);
 	void sendMessage(NetworkHeroInitMessage _usm);
 	void sendMessage(NetworkEndGameMessage _negm);
+	void sendMessage(NetworkPlayerJoinedMessage _msg);
+	void sendMessage(NetworkTextMessage _msg);
 	void sendPacket(sf::Packet p);
 
 	NetworkEntityMessage entityQueueFront();
@@ -97,12 +102,16 @@ public:
 	NetworkInitEntityMessage initEntityMessageFront();
 	NetworkHeroInitMessage heroInitQueueFront();
 	NetworkUpdateEntityHealth updateEntityHealthFront();
-<<<<<<< HEAD
 	NetworkWelcomeMessage networkWelcomeMessageFront();
-=======
 	NetworkEndGameMessage endGameQueueFront();
->>>>>>> 3479abe437aadd53136c6e761e8693d9efac7650
+	NetworkPlayerJoinedMessage playerJoinedMessageQueueFront();
+<<<<<<< HEAD
+	NetworkReadyMessageToClient readyMessageToClientQueueFront();
+=======
+	NetworkTextMessage networkTextMessageFront();
+>>>>>>> 72711c00653dc45d7225ab7df7406b21b529a472
 
+	bool networkTextMessageQueueEmpty();
 	bool updateEntityHealthEmpty();
 	bool entityQueueEmpty();
 	bool removeEntityQueueEmpty();
@@ -116,11 +125,10 @@ public:
 	bool heroSelectedQueueEmpty();
 	bool initEntityMessageEmpty();
 	bool heroInitQueueEmpty();
-<<<<<<< HEAD
 	bool networkWelcomeMessageEmpty();
-=======
 	bool endGameQueueEmpty();
->>>>>>> 3479abe437aadd53136c6e761e8693d9efac7650
+	bool playerJoinedMessageQueueEmpty();
+	bool readyMessageToClientQueueEmpty();
 };
 
 #endif // CLIENT_H
