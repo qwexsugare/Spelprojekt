@@ -3,6 +3,7 @@
 
 const float ConfigFile::DEFAULT_SOUND_EFFECTS_VOLUME = 1.0f;
 const float ConfigFile::DEFAULT_MUSIC_VOLUME = 1.0f;
+const string ConfigFile::DEFAULT_PLAYER_NAME = "Player";
 
 ConfigFile::ConfigFile()
 {
@@ -10,11 +11,17 @@ ConfigFile::ConfigFile()
 	this->m_screenSize = INT2(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 	this->m_musicVolume = DEFAULT_MUSIC_VOLUME;
 	this->m_soundVolume = DEFAULT_SOUND_EFFECTS_VOLUME;
+	this->m_playerName = DEFAULT_PLAYER_NAME;
 }
 
 ConfigFile::~ConfigFile()
 {
 
+}
+
+string ConfigFile::getPlayerName()const
+{
+	return m_playerName;
 }
 
 INT2 ConfigFile::getScreenSize()const
@@ -61,6 +68,10 @@ void ConfigFile::load()
 			{
 				sscanf(buf, "sound_volume %f", &this->m_soundVolume);
 			}
+			else if(strcmp(key, "player_name") == 0)
+			{
+				sscanf(buf, "player_name %s", &m_playerName);
+			}
 		}
 	}
 
@@ -75,5 +86,11 @@ void ConfigFile::save()
 	stream << "resolution " << m_screenSize.x << " " << m_screenSize.y << endl
 		<< "windowed " << m_windowed << endl
 		<< "music_volume " << m_musicVolume << endl
-		<< "sound_volume " << m_soundVolume;
+		<< "sound_volume " << m_soundVolume << endl
+		<< "player_name " << m_playerName;
+}
+
+void ConfigFile::setPlayerName(string _name)
+{
+	m_playerName = _name;
 }

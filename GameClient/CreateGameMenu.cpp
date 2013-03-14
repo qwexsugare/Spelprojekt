@@ -1,4 +1,5 @@
 #include "CreateGameMenu.h"
+#include "Graphics.h"
 
 
 CreateGameMenu::CreateGameMenu(void)
@@ -11,7 +12,7 @@ CreateGameMenu::CreateGameMenu(void)
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 860), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 920), 100, 10));
 	this->m_Label[1]->setText("1337");
-	this->m_Label[2]->setText("WaddaPIgotABigCOck");
+	this->m_Label[2]->setText(g_configFile->getPlayerName());
 	this->m_IPLabel = new TextLabel(sf::IPAddress::GetLocalAddress().ToString(),"text2.png", INT2(920, 800), 100);
 
 	m_size.x		=	0;
@@ -142,4 +143,10 @@ string CreateGameMenu::getPort()
 string CreateGameMenu::getPlayerName()
 {
 	return this->m_Label[2]->getText();
+}
+
+void CreateGameMenu::savePlayerName()
+{
+	g_configFile->setPlayerName(this->getPlayerName());
+	g_configFile->save();
 }
