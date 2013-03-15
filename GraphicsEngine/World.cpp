@@ -147,6 +147,42 @@ World::~World()
 		delete this->m_quadTree;
 }
 
+bool World::intersectsWithObject(const BoundingOrientedBox& _obb, Model* _model1, Model* _model2)
+{
+	bool ret = false;
+
+	for(int i = 0; i < m_models.size(); i++)
+	{
+		if(m_models[i] != _model1 && m_models[i] != _model2 && m_models[i]->intersects(_obb))
+		{
+			ret = true;
+			i = m_models.size();
+		}
+	}
+	if(!ret)
+		ret = m_quadTree->intersectsWithObject(_obb);
+
+	return ret;
+}
+
+bool World::intersectsWithObject(const BoundingSphere& _bs, Model* _model1, Model* _model2)
+{
+	bool ret = false;
+
+	for(int i = 0; i < m_models.size(); i++)
+	{
+		if(m_models[i] != _model1 && m_models[i] != _model2 && m_models[i]->intersects(_bs))
+		{
+			ret = true;
+			i = m_models.size();
+		}
+	}
+	if(!ret)
+		ret = m_quadTree->intersectsWithObject(_bs);
+
+	return ret;
+}
+
 bool World::addRoad(Road* _road)
 {
 	return this->m_quadTree->addRoad(_road);
@@ -729,6 +765,7 @@ void World::render()
 	for(int c = 0; c < m_chainEffects.size(); c++)
 	{
 		//DrawChainEffect
+		m_chainEffects[c]->draw(m_chainEffectRendering);
 	}
 
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );

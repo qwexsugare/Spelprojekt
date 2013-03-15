@@ -22,6 +22,8 @@ public:
 	stack<ParticleEngine*> getParticleEngines(D3DXVECTOR2 _focalPoint)const;
 	vector<PointLight*> getPointLights(D3DXVECTOR2 _focalPoint)const;
 	stack<Road*> getRoads(D3DXVECTOR2 _focalPoint)const;
+	bool intersectsWithObject(const BoundingSphere& _bs);
+	bool intersectsWithObject(const BoundingOrientedBox& _obb);
 	stack<Model*> pullAllModels();
 	bool removeModel(Model* _model);
 	bool removeLight(PointLight* _light);

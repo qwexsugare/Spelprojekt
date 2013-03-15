@@ -9,6 +9,7 @@ private:
 	Model* m_room;
 	Model* m_character;
 	Model* m_window;
+	Model* m_door;
 	PointLight* m_frontLight;
 	PointLight* m_inLight;
 	PointLight* m_backLight;
@@ -22,4 +23,5 @@ public:
 	float getWidth(){return m_width;}
 	Model* getRoom(){return this->m_room;}
 	Model* getCharacter(){return this->m_character;}
+	Model* getDoor(){return this->m_door;}
 };

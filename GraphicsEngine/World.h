@@ -104,6 +104,9 @@ public:
 	World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed);
 	~World();
 
+	bool intersectsWithObject(const BoundingOrientedBox& _obb, Model* _model1, Model* _model2 = NULL);
+	bool intersectsWithObject(const BoundingSphere& _bs, Model* _model1, Model* _model2 = NULL);
+
 	void render();
 	void update(float dt);
 	
