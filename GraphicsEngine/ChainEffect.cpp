@@ -1,10 +1,16 @@
 #include "ChainEffect.h"
 
 
-ChainEffect::ChainEffect(ID3D10Device* _device)
+ChainEffect::ChainEffect(ID3D10Device* _device, TextureHolder* _textureHolder)
 {
 	D3DXMatrixIdentity(&this->m_viewProj);
-	this->m_device = m_device;
+	this->m_device = _device;
+	this->m_orig = D3DXVECTOR3(0, 0, 0);
+	this->m_target = D3DXVECTOR3(0, 0, 0);
+
+	m_texture = _textureHolder->getTexture("./particles/textures/lightning.png");
+
+	CreateVertexBuffer();
 }
 
 
@@ -30,6 +36,7 @@ void ChainEffect::CreateVertexBuffer()
 	D3D10_SUBRESOURCE_DATA initData;
 	initData.pSysMem = &v;
 
+	this->m_vertexBuffer = NULL;
 	hr = m_device->CreateBuffer(&vbd, &initData, &this->m_vertexBuffer);
 	if(FAILED(hr))
 		MessageBox(NULL, "( ChainEffect ) Failed to create Vertex Buffer", NULL, NULL);
@@ -51,18 +58,42 @@ void ChainEffect::update(float _dt)
 
 }
 
-void ChainEffect::draw(ChainFXEffectFile* fxFile)
+void ChainEffect::draw(ChainFXEffectFile* _fxFile)
 {
-	//fxFile->setOrig(this->m_orig);
-	//fxFile->setTarget(this->m_target);
-	//fxFile->setViewProj(this->m_viewProj);
-	//this->m_device->IASetInputLayout(fxFile->getInputLayout());
-	//UINT stride = sizeof(ChainVertex);
-	//UINT offset = 0;
-	//this->m_device->IAGetVertexBuffers(0, 1, &this->m_vertexBuffer, &stride, &offset);
+	_fxFile->setOrig(this->m_orig);
+	_fxFile->setTarget(this->m_target);
+	_fxFile->setViewProj(this->m_viewProj);
+	_fxFile->setTexture(m_texture);
+	this->m_device->IASetInputLayout(_fxFile->getInputLayout());
+	UINT stride = sizeof(ChainVertex);
+	UINT offset = 0;
+	this->m_device->IAGetVertexBuffers(0, 1, &this->m_vertexBuffer, &stride, &offset);
+	
+	D3D10_TECHNIQUE_DESC techDesc;
+	_fxFile->getTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_fxFile->getTechnique()->GetPassByIndex(p)->Apply(0);
+		m_device->Draw(1, 0);
+	}
 }
 
 void ChainEffect::setViewProj(D3DXMATRIX _viewProj)
 {
 	this->m_viewProj = _viewProj;
+}
+
+void ChainEffect::setOrig(D3DXVECTOR3 _vec)
+{
+	this->m_orig = _vec;
+}
+
+void ChainEffect::setTarget(D3DXVECTOR3 _vec)
+{
+	this->m_target = _vec;
+}
+
+void ChainEffect::setCamPos(D3DXVECTOR3 _vec)
+{
+	this->m_camPos = _vec;
 }

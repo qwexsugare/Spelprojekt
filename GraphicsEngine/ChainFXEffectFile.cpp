@@ -9,8 +9,9 @@ ChainFXEffectFile::ChainFXEffectFile(ID3D10Device* _device) : EffectFile(_device
 {
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
 	this->m_viewProj = this->m_effect->GetVariableByName("viewProj")->AsMatrix();
-	this->m_orig = this->m_effect->GetVariableByName("orig")->AsVector();
-	this->m_target = this->m_effect->GetVariableByName("target")->AsVector();
+	this->m_orig = this->m_effect->GetVariableByName("origW")->AsVector();
+	this->m_target = this->m_effect->GetVariableByName("targetW")->AsVector();
+	this->m_camPos = this->m_effect->GetVariableByName("camPosW")->AsVector();
 
 
 	D3D10_PASS_DESC passDescription;
@@ -48,4 +49,19 @@ void ChainFXEffectFile::setTexture(ID3D10ShaderResourceView* _texture)
 void ChainFXEffectFile::setOrig(D3DXVECTOR3 _vec)
 {
 	this->m_orig->SetFloatVector((float*)_vec);
+}
+
+void ChainFXEffectFile::setTarget(D3DXVECTOR3 _vec)
+{
+	this->m_target->SetFloatVector((float*)_vec);
+}
+
+void ChainFXEffectFile::setViewProj(D3DXMATRIX _mat)
+{
+	this->m_viewProj->SetMatrix(_mat);
+}
+
+void ChainFXEffectFile::setCamPos(D3DXVECTOR3 _vec)
+{
+	this->m_camPos->SetFloatVector((float*)_vec);
 }

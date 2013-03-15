@@ -30,6 +30,9 @@ private:
 	float cameraRealPos;
 	float distToSlider;
 	int m_playerId;
+	
+	ChainEffect* test;
+
 public:
 	LobbyState();
 	LobbyState(Client* _network);

@@ -759,6 +759,7 @@ void World::render()
 	for(int c = 0; c < m_chainEffects.size(); c++)
 	{
 		//DrawChainEffect
+		m_chainEffects[c]->draw(m_chainEffectRendering);
 	}
 
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
