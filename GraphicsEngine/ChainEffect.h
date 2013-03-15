@@ -13,6 +13,8 @@ private:
 	D3DXMATRIX m_viewProj;
 	ID3D10Device* m_device;
 	ID3D10Buffer* m_vertexBuffer;
+	ID3D10Buffer* drawVB;
+	ID3D10Buffer* streamOutVB;
 	ID3D10ShaderResourceView* m_texture;
 	void CreateVertexBuffer();
 public:

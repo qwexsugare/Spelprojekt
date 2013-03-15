@@ -710,6 +710,7 @@ void World::render()
 	//PP/////AAAAAA//RRRR///////TT/////II//CC//////LL//////EEEE/////SSSSSSS//
 	//PP/////AA//AA//RR//RR/////TT/////II//CCCCCC//LLLLLL//EEEEEEE//SSSSSSS//
 	/////////////////////////////////////////////////////////////////////////
+	
 
 	// Particle Engines (Systems)
 	stack<ParticleEngine*> pes = m_quadTree->getParticleEngines(focalPoint);
@@ -720,6 +721,8 @@ void World::render()
 		pes.pop();
 	}
 	
+	//ChainEffects
+	//
 	for(int c = 0; c < m_chainEffects.size(); c++)
 	{
 		//DrawChainEffect
