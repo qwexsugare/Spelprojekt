@@ -96,7 +96,7 @@ GameState::GameState(Client *_network, string mapName)
 	m_cameraFollowingHero = false;
 	this->m_endText = NULL;
 	
-	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 30), 20, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
+	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 40), 20, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
@@ -615,6 +615,24 @@ void GameState::update(float _dt)
 		
 		// Do something!
 		this->m_hud->skillUsed(e.getActionIndex(), e.getActionId(), e.getCooldown());
+	}
+
+	while(this->m_network->entityAttributeQueueEmpty() == false)
+	{
+		NetworkEntityAttributeMessage e = this->m_network->entityAttributeFront();
+
+		Entity *entity = ClientEntityHandler::getEntity(e.getId());
+
+		if(entity != NULL)
+		{
+			entity->m_maxHealth = e.getMaxHealth();
+			entity->m_mentalDamage = e.getMentalDamage();
+			entity->m_physicalDamage = e.getPhysicalDamage();
+			entity->m_mentalResistance = e.getMentalResistance();
+			entity->m_physicalResistance = e.getPhysicalResistance();
+
+			entity->setHealth(e.getHealth());
+		}
 	}
 
 	while(this->m_network->removeEntityQueueEmpty() == false)

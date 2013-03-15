@@ -9,6 +9,8 @@ class ArrowClientSkillEffect : public ClientSkillEffect
 private:
 	Model* m_graphicalEffect;
 	unsigned int m_targetId;
+	unsigned int m_masterId;
+	float m_aimTime;
 	bool m_active;
 	ParticleEngine* m_particleSystem;
 public:

@@ -37,7 +37,7 @@ ServerThread::~ServerThread()
 
 void ServerThread::Run()
 {
-	Text* fpsText = g_graphicsEngine->createText("", INT2(5, 30), 20, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	Text* fpsText = g_graphicsEngine->createText("", INT2(5, 40), 20, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	float fpsTimer = 0.0f;
 
 	__int64 cntsPerSec = 0;

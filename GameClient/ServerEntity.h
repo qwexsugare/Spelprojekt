@@ -3,7 +3,7 @@
 
 #include "MessageQueue.h"
 #include "NetworkEntityMessage.h"
-#include "NetworkInitEntityMessage.h"
+#include "NetworkEntityAttributeMessage.h"
 #include "DataStructures.h"
 #include "DirectXMath.h"
 #include "DirectXCollision.h"
@@ -37,6 +37,7 @@ public:
 	const BoundingOrientedBox* getObb()const { return this->m_obb; }
 	MessageQueue *getMessageQueue();
 	virtual NetworkEntityMessage getUpdate();
+	virtual NetworkEntityAttributeMessage getAttributeUpdate();
 
 	void setId(unsigned int _id);
 	void setModelId(unsigned int _modelId);
