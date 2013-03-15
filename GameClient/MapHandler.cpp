@@ -265,9 +265,24 @@ void MapHandler::loadMap(std::string filename)
 		while(!file.eof())
 		{
 			int q,w,e,r,t,y,u,i;
+			string type="w";
+			string missionType;
+			float startTime,endTime, posx,posz;
 			q=w=e=r=t=y=u=i=0;
-			file >> q >> w >> e >> r >> t >> y >> u >> i;
-			createWave(q,w,e,r,t,y,u,i);
+			file >> type;
+			if(type[0]=='w')
+			{
+				file >> q >> w >> e >> r >> t >> y >> u >> i;
+				createWave(q,w,e,r,t,y,u,i);
+			}
+			if(type[0]=='m')
+			{
+				file >> missionType >> posx>> posz>> startTime >> endTime;
+				this->missions.push_back(Mission());
+				this->missions[this->missions.size()-1].createMission(missionType, posx, posz, startTime, endTime);
+				//EntityHandler::addEntity(new Mission(this->mission));
+			}
+			
 		}
 	}
 	file.close();

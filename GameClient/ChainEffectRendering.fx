@@ -48,7 +48,7 @@ SamplerState linearSampler
 
 DepthStencilState DisableDepth
 {
-	DepthEnable		= TRUE;
+	DepthEnable		= FALSE;
 	DepthWriteMask	= ZERO;
 };
 
@@ -56,6 +56,19 @@ RasterizerState raster
 {
 	FillMode = Solid;
 	CullMode = NONE;
+};
+
+BlendState AdditiveBlending
+{
+	AlphaToCoverageEnable	= FALSE;
+	BlendEnable[0]			= TRUE;
+	SrcBlend				= SRC_ALPHA;
+	DestBlend				= ONE;
+	BlendOp					= ADD;
+	SrcBlendAlpha			= ZERO;
+	DestBlendAlpha			= ZERO;
+	BlendOpAlpha			= ADD;
+	RenderTargetWriteMask[0]= 0x0F;
 };
 
 
@@ -66,7 +79,7 @@ GSIn VS(VSIn input)
 }
 
 [maxvertexcount(4)]
-void GS(point GSIn input[1], inout TriangleStream<GS_OUT> triStream)
+void GS(point GSIn input[1], inout LineStream<GS_OUT> triStream)
 {
 	float halfWidth = 0.5f;
 	float halfHeight = 0.5f;
@@ -81,25 +94,27 @@ void GS(point GSIn input[1], inout TriangleStream<GS_OUT> triStream)
 
 	float4 v[4];
 	v[0] = float4(origW + (cr0 * halfWidth) , 1);
-	v[1] = float4(origW - (cr0 * halfWidth) , 1);
+	//v[1] = float4(origW - (cr0 * halfWidth) , 1);
+	v[1] = float4(1, 0, 0 , 1);
 	v[2] = float4(targetW + (cr1 * halfWidth) , 1);
-	v[3] = float4(targetW - (cr1 * halfWidth) , 1);
+	//v[3] = float4(targetW - (cr1 * halfWidth) , 1);
+	v[3] = float4(0, 0, 0, 1);
 
-	GS_OUT output = (GS_OUT)0;
+	GS_OUT output = (GS_OUT)0;/*
 
 	output.Pos = mul(v[0], viewProj);
 	output.UVCoord = quadTexC[0];
-	triStream.Append(output);
+	triStream.Append(output);*/
 			
-	output.Pos = mul(v[1], viewProj);
+	output.Pos = v[1];//mul(v[1], viewProj);
 	output.UVCoord = quadTexC[1];
 	triStream.Append(output);
-
+/*
 	output.Pos = mul(v[2], viewProj);
 	output.UVCoord = quadTexC[2];
-	triStream.Append(output);
+	triStream.Append(output);*/
 
-	output.Pos = mul(v[3], viewProj);
+	output.Pos = v[3];//mul(v[3], viewProj);
 	output.UVCoord = quadTexC[3];
 	triStream.Append(output);
 
@@ -108,7 +123,7 @@ void GS(point GSIn input[1], inout TriangleStream<GS_OUT> triStream)
 
 float4 PS(GS_OUT input) : SV_TARGET
 {
-	return tex2D.Sample(linearSampler, input.UVCoord);
+	return float4(1,1,1,1);//tex2D.Sample(linearSampler, input.UVCoord);
 }
 
 technique10 ChainTech
@@ -120,5 +135,6 @@ technique10 ChainTech
 		SetPixelShader ( CompileShader( ps_4_0, PS() ) );
 		SetDepthStencilState( DisableDepth, 0 );
 		SetRasterizerState(raster);
+		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );
 	}
 }
