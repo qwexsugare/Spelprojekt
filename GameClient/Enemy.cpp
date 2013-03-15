@@ -85,6 +85,53 @@ Enemy::Enemy(FLOAT3 _pos, Path _path, EnemyType _type) : UnitEntity(_pos)
 	isGoingToVanish=false;
 }
 
+Enemy::Enemy(FLOAT3 _pos, EnemyType _type) : UnitEntity(_pos)
+{
+	m_enemyType = _type;
+	m_type = Type::EnemyType;
+	
+	//this->m_goalPosition = FLOAT3(5.0f, 0.0f,64.0f);
+	m_targetType = UnitEntity::HeroType;
+	this->m_reachedPosition = true;
+	this->m_modelId = 80;
+	this->m_staticBuffer = 2.00f;
+	this->m_movementSpeed = 2.7f;
+	this->m_aggroRange = 3.0f;
+	this->m_willPursue = false;
+	this->m_closestTargetId = -1;
+	this->m_currClosestStatic = EntityHandler::getClosestEntityByType(this, ServerEntity::StaticType);
+	this->m_prevClosestStatic = this->m_currClosestStatic;
+	this->m_currentPoint = 0;
+	avoidTimer = 0.0f;
+	m_staticAvDir = FLOAT3(0,0,0);
+	m_enemyAvDir = FLOAT3(0,0,0);
+	m_goalDirection = FLOAT3(0,0,0);
+	m_rotationAdding = FLOAT3(0.0f,0,0);
+	m_lowResource = 10;
+	m_highRescource = 10;
+	m_distanceToStatic = 15;
+	//this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->m_goalPosition = FLOAT3(32.0f, 0.0f, 32.0f);
+
+	m_destination = FLOAT3(0,0,0);
+	m_destinationRadius = 0.0f;
+
+	ServerEntity *d = EntityHandler::getClosestEntityByType(this, ServerEntity::GoalType);
+	m_destination = d->getPosition();
+	m_destinationRadius = sqrt(d->getObb()->Extents.x*d->getObb()->Extents.x + d->getObb()->Extents.z*d->getObb()->Extents.z);
+	m_distanceToPoint = 1.0f;
+	FLOAT3 hoxit = FLOAT3(0.0f,0.0f,0.0f);
+	if(this->m_path.nrOfPoints > 0)
+	{
+		this->m_goalPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
+	}
+	lastDT=0;
+	m_nextPosition = m_goalPosition;
+	m_dir = m_nextPosition - m_position;
+	this->vanishTimer=0.0f;
+	isGoingToVanish=false;
+}
+
 Enemy::~Enemy()
 {
 	

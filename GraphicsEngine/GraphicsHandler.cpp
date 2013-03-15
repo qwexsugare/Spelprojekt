@@ -165,6 +165,16 @@ INT2 GraphicsHandler::getScreenSize()
 		return this->m_realScreenSize;
 }
 
+bool GraphicsHandler::intersectsWithObject(const BoundingOrientedBox& _obb, Model* _model1, Model* _model2)
+{
+	return m_world->intersectsWithObject(_obb, _model1, _model2);
+}
+
+bool GraphicsHandler::intersectsWithObject(const BoundingSphere& _bs, Model* _model1, Model* _model2)
+{
+	return m_world->intersectsWithObject(_bs, _model1, _model2);
+}
+
 Model* GraphicsHandler::createModel(Model *_model, bool _static)
 {
 	Model *model = NULL;

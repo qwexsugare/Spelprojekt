@@ -70,6 +70,7 @@ void Client::Run()
 			NetworkPlayerJoinedMessage npjm;
 			NetworkTextMessage ntm;
 			NetworkReadyMessageToClient nrmtc;
+			NetworkEntityAttributeMessage nea;
 			
 			int type;
 			packet >> type;
@@ -282,6 +283,13 @@ void Client::Run()
 				this->m_mutex.Lock();
 				m_textMessageQueue.push(ntm);
 				this->m_mutex.Unlock();
+				break;
+			case NetworkMessage::UpdateEntityAttribute:
+				packet >> nea;
+				this->m_mutex.Lock();
+				this->m_entityAttributeMessageQueue.push(nea);
+				this->m_mutex.Unlock();
+				break;
 			}
 		}
 	}
@@ -547,6 +555,18 @@ NetworkReadyMessageToClient Client::readyMessageToClientQueueFront()
 	return ret;
 }
 
+NetworkEntityAttributeMessage Client::entityAttributeFront()
+{
+	this->m_mutex.Lock();
+
+	NetworkEntityAttributeMessage ret = this->m_entityAttributeMessageQueue.front();
+	this->m_readyMessageToClientQueue.pop();
+
+	this->m_mutex.Unlock();
+
+	return ret;
+}
+
 void Client::sendMessage(NetworkUseActionMessage _usm)
 {
 	if(this->isConnected())
@@ -652,6 +672,11 @@ void Client::sendMessage(NetworkPlayerJoinedMessage _msg)
 		packet << _msg;
 		this->m_hostSocket.Send(packet);
 	}
+}
+
+bool Client::entityAttributeQueueEmpty()
+{
+	return this->m_entityAttributeMessageQueue.empty();
 }
 
 bool Client::startGameQueueEmpty()

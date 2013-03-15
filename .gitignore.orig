@@ -2776,10 +2776,8 @@ GameClient/models/Target/Target.BFish
 GameClient/models/Target/Target.png
 GameClient/RolleBoll/ball.dds
 GameClient/RolleBoll/RolleBoll.BFish
-<<<<<<< HEAD
 GameClient/menu_textures/Shop_1.png
 GameClient/text/Text6.png
-=======
 GameClient/models/Char/RedKnightDeselect.BFishA
 GameClient/menu_textures/menu_button.png
 GameClient/models/rum/Doctor_Diff.png
@@ -2798,4 +2796,10 @@ GameClient/models/rum/RoomCloseDoor.BFishA
 GameClient/models/rum/RoomIdleCloseDoor.BFishA
 GameClient/models/rum/RoomIdleOpenDoor.BFishA
 GameClient/models/rum/RoomOpenDoor.BFishA
->>>>>>> fd674b641da115c4a12ef552887efc249b0b9b62
+<<<<<<< HEAD
+GameClient/menu_textures/Button-Skill-Resource2.psd
+=======
+GameClient/config.ini
+GameClient/models/Char/MentalistIdle.BFishA
+GameClient/models/Target/Target_Glow.png
+>>>>>>> cf0938f0b95e2670e972ba32a776d19d6b21b607

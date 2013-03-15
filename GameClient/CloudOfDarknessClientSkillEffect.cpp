@@ -9,12 +9,15 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(unsigned int 
 	m_graphicalEffects[0] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.1f, _position.z), "color2");
 	m_graphicalEffects[1] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.2f, _position.z), "color1");
 	m_graphicalEffects[2] = g_graphicsEngine->createModel("CloudOfDarkness", FLOAT3(_position.x, 0.3f, _position.z), "color");
-	m_graphicalEffects[0]->setScale(0.5f, 1.0f, 0.5f);
-	m_graphicalEffects[2]->setScale(0.5f, 1.0f, 0.5f);
-	m_graphicalEffects[1]->setScale(0.5f, 1.0f, 0.5f);
+	m_graphicalEffects[0]->setScale(0.5f, 0.5f, 0.5f);
+	m_graphicalEffects[2]->setScale(0.5f, 0.5f, 0.5f);
+	m_graphicalEffects[1]->setScale(0.5f, 0.5f, 0.5f);
 	m_graphicalEffects[0]->setAlpha(0.999f);
 	m_graphicalEffects[1]->setAlpha(0.999f);
 	m_graphicalEffects[2]->setAlpha(0.999f);
+	m_graphicalEffects[0]->neutralize();
+	m_graphicalEffects[1]->neutralize();
+	m_graphicalEffects[2]->neutralize();
 	m_lifetime = 0.0f;
 
 	int sound = createSoundHandle("skills/codWindStartEnd.wav", false, true, _position);

@@ -8,6 +8,8 @@ class TargetAcquiredPermissionToFire : public Skill
 private:
 	static const float COOLDOWN;
 public:
+	static const float RANGE;
+
 	TargetAcquiredPermissionToFire();
 	~TargetAcquiredPermissionToFire();
 

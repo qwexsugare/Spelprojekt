@@ -51,9 +51,9 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[4]->setVisible(false);
 
 	this->m_Buttons[6] = new Button();
-	this->m_Buttons[6]->Init(FLOAT2(-0.8f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,25);
+	this->m_Buttons[6]->Init(FLOAT2(-0.8f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,10);
 	this->m_Buttons[7] = new Button();
-	this->m_Buttons[7]->Init(FLOAT2(-0.65f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,25);
+	this->m_Buttons[7]->Init(FLOAT2(-0.65f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,10);
 
 	// Player stuff
 	/*this->m_Buttons[8] = new Button();
