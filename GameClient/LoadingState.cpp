@@ -11,7 +11,7 @@ LoadingState::LoadingState(Client* _network, string _mapName) : State(State::LOA
 	m_speech = createSoundHandle("lorebook/Level1.wav", false, false);
 	playSound(m_speech);
 	m_img = g_graphicsEngine->createSprite("menu_textures/MENU-LEVEL-0.png", FLOAT2(0.0f, 0.0f), FLOAT2(2.0f, 2.0f), 0);
-
+	g_graphicsEngine->render();
 	Model* temp;
 	for(int i = 0; i < ModelIdHolder::MAX_IDS; i++)
 	{
@@ -54,6 +54,11 @@ void LoadingState::update(float _dt)
 		stopSound(m_speech);
 		deactivateSound(m_speech);
 		m_network->sendMessage(NetworkReadyMessage(true));
+	}
+
+	while(!m_network->startGameQueueEmpty())
+	{
+		m_network->startGameQueueFront();
 		this->setDone(true);
 	}
 }

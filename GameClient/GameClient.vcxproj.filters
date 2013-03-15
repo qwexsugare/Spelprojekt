@@ -83,16 +83,16 @@
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkEntityMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkDisconnectMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkRemoveEntityMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="IntroMenu.cpp">
       <Filter>Client</Filter>
@@ -101,16 +101,16 @@
       <Filter>Client\Controls</Filter>
     </ClCompile>
     <ClCompile Include="NetworkUseActionMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Client\Controls</Filter>
     </ClCompile>
     <ClCompile Include="NetworkUseActionPositionMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkUseActionTargetMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="StunningStrike.cpp">
       <Filter>Server\Skills</Filter>
@@ -125,13 +125,13 @@
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkCreateActionMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkCreateActionPositionMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkCreateActionTargetMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="CloudOfDarknessClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -167,7 +167,7 @@
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkSkillBoughtMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="HealingTouchClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -191,7 +191,7 @@
       <Filter>Server\Skills\Effects</Filter>
     </ClCompile>
     <ClCompile Include="NetworkBuySkillMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Pathfinder.cpp">
       <Filter>Server</Filter>
@@ -209,7 +209,7 @@
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkRemoveActionTargetMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="ClientEntityHandler.cpp">
       <Filter>Client</Filter>
@@ -236,19 +236,19 @@
       <Filter>Server\Heroes</Filter>
     </ClCompile>
     <ClCompile Include="NetworkHeroSelectedMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkReadyMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkSelectHeroMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkStartGameMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkSkillUsedMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="TheMentalist.cpp">
       <Filter>Server\Heroes</Filter>
@@ -365,16 +365,16 @@
       <Filter>Server\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkHeroInitMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="DeathClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkInitEntityMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="NetworkUpdateEntityHealth.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Server\Enemies</Filter>
@@ -482,7 +482,7 @@
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="NetworkEndGameMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="StunningStrikeVictimClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
@@ -524,13 +524,13 @@
       <Filter>Client\States</Filter>
     </ClCompile>
     <ClCompile Include="NetworkWelcomeMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="HealingFountainClientSkillEffect.cpp">
       <Filter>Client\Skills</Filter>
     </ClCompile>
     <ClCompile Include="NetworkPlayerJoinedMessage.cpp">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Room.cpp">
       <Filter>Client</Filter>
@@ -546,6 +546,12 @@
     </ClCompile>
     <ClCompile Include="EndState.cpp">
       <Filter>Client\States</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkReadyMessageToClient.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkTextMessage.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -637,10 +643,10 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="NetworkMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkEntityMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="ChainStrike.h">
       <Filter>Server\Skills</Filter>
@@ -652,7 +658,7 @@
       <Filter>Server\Skill</Filter>
     </ClInclude>
     <ClInclude Include="NetworkDisconnectMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Client\Controls</Filter>
@@ -661,19 +667,19 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="NetworkRemoveEntityMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Client\Controls</Filter>
     </ClInclude>
     <ClInclude Include="NetworkUseActionMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkUseActionPositionMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkUseActionTargetMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="StunningStrike.h">
       <Filter>Server\Skills</Filter>
@@ -688,13 +694,13 @@
       <Filter>Server\Skills</Filter>
     </ClInclude>
     <ClInclude Include="NetworkCreateActionMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkCreateActionPositionMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkCreateActionTargetMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="ClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
@@ -730,10 +736,10 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="NetworkBuySkillMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkSkillBoughtMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="HealingTouch.h">
       <Filter>Server\Skills</Filter>
@@ -778,7 +784,7 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="NetworkRemoveActionTargetMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="ClientEntityHandler.h">
       <Filter>Client</Filter>
@@ -808,19 +814,19 @@
       <Filter>Server\Heroes</Filter>
     </ClInclude>
     <ClInclude Include="NetworkHeroSelectedMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkReadyMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkSelectHeroMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkStartGameMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkSkillUsedMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="TheMentalist.h">
       <Filter>Server\Heroes</Filter>
@@ -936,7 +942,7 @@
       <Filter>Server\Turrets\Tower Placer</Filter>
     </ClInclude>
     <ClInclude Include="NetworkHeroInitMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="MeleeAOEAttack.h">
       <Filter>Server\Skills</Filter>
@@ -948,10 +954,10 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="NetworkInitEntityMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkUpdateEntityHealth.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="NetworkUpdateEntityHealth.h">
       <Filter>Network</Filter>
@@ -1068,13 +1074,13 @@
       <Filter>Server\Turrets</Filter>
     </ClInclude>
     <ClInclude Include="NetworkEndGameMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="StunningStrikeVictimClientSkillEffect.h">
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="NetworkWelcomeMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Client\States</Filter>
@@ -1113,7 +1119,7 @@
       <Filter>Client\Skills</Filter>
     </ClInclude>
     <ClInclude Include="NetworkPlayerJoinedMessage.h">
-      <Filter>Client\Network</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Room.h">
       <Filter>Client</Filter>
@@ -1129,6 +1135,12 @@
     </ClInclude>
     <ClInclude Include="EndState.h">
       <Filter>Client\States</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkReadyMessageToClient.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkTextMessage.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1186,7 +1198,7 @@
     <Filter Include="Client\Text">
       <UniqueIdentifier>{c974c764-1ddd-4c83-8702-17ef1d7a54fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client\Network">
+    <Filter Include="Network">
       <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

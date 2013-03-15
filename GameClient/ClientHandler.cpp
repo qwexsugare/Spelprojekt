@@ -192,10 +192,12 @@ void ClientHandler::update(float _dt)
 			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage());
 			break;
 		case State::LOADING:
-			if(true)
 			{
 				LobbyState *tempLobbyState = (LobbyState*)tempState;
-				this->m_state = new LoadingState(m_client, tempLobbyState->getMapName());
+				string temp = tempLobbyState->getMapName();
+				delete tempState;
+				tempState = NULL;
+				this->m_state = new LoadingState(m_client, temp);
 			}
 			break;
 		case State::EXIT:

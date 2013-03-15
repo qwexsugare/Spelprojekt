@@ -28,12 +28,18 @@ public:
 	bool Character2IsDown();
 	bool Character3IsDown();
 	bool Character4IsDown();
+	bool enterPressed;
 	Slider* getSlider(){return &this->m_slider;}
 
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeText);
 	int getCombat();
 	void setPlayerName(int _playerIndex, string _name);
+	void setReady(int _playerIndex);
 	Hero::HERO_TYPE* getHeroesSelected(){return this->m_currentSelections;};
+	void addStringToChat(string t);
+	void resetEnterPressed();
+	bool wasEnterPressed();
+	string getChatString();
 private:
 	Hero::HERO_TYPE m_currentSelections[4];
 	Sprite* m_doctorPortrait;

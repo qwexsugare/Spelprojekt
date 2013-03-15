@@ -64,8 +64,11 @@ private:
 	queue<NetworkWelcomeMessage> m_welcomeMessage;
 	queue<NetworkEndGameMessage> m_endGameMessageQueue;
 	queue<NetworkPlayerJoinedMessage> m_playerJoinedMessageQueue;
+<<<<<<< HEAD
 	queue<NetworkReadyMessageToClient> m_readyMessageToClientQueue;
+=======
 	queue<NetworkTextMessage> m_textMessageQueue;
+>>>>>>> 72711c00653dc45d7225ab7df7406b21b529a472
 public:
 	Client();
 	~Client();
@@ -102,8 +105,11 @@ public:
 	NetworkWelcomeMessage networkWelcomeMessageFront();
 	NetworkEndGameMessage endGameQueueFront();
 	NetworkPlayerJoinedMessage playerJoinedMessageQueueFront();
+<<<<<<< HEAD
 	NetworkReadyMessageToClient readyMessageToClientQueueFront();
+=======
 	NetworkTextMessage networkTextMessageFront();
+>>>>>>> 72711c00653dc45d7225ab7df7406b21b529a472
 
 	bool networkTextMessageQueueEmpty();
 	bool updateEntityHealthEmpty();

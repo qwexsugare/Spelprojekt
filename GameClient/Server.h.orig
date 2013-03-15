@@ -15,18 +15,16 @@
 #include "NetworkHeroSelectedMessage.h"
 #include "NetworkSelectHeroMessage.h"
 #include "NetworkReadyMessage.h"
+#include "NetworkReadyMessageToClient.h"
 #include "NetworkStartGameMessage.h"
 #include "NetworkSkillUsedMessage.h"
 #include "NetworkInitEntityMessage.h"
 #include "NetworkHeroInitMessage.h"
 #include "NetworkUpdateEntityHealth.h"
-#include "NetworkAttributeUpdateMessage.h"
-<<<<<<< HEAD
-#include "NetworkEndGameMessage.h"
-=======
-#include "NetworkAttributeUpdateMessage.h"
 #include "NetworkWelcomeMessage.h"
->>>>>>> f950d77c91f3918c976b9b34aa341e97f1a4a85e
+#include "NetworkEndGameMessage.h"
+#include "NetworkPlayerJoinedMessage.h"
+#include "NetworkTextMessage.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -76,14 +74,14 @@ public:
 	void broadcast(NetworkSkillBoughtMessage networkMessage);
 	void broadcast(NetworkInitEntityMessage networkMessage);
 	void broadcast(NetworkHeroInitMessage networkMessage);
-	void broadcast(NetworkAttributeUpdateMessage networkMessage);
-<<<<<<< HEAD
 	void broadcast(NetworkWelcomeMessage networkMessage);
-=======
-	void broadcast(NetworkAttributeUpdateMessage networkMessage);
-	void broadcast(NetworkWelcomeMessage networkMessage);
->>>>>>> f950d77c91f3918c976b9b34aa341e97f1a4a85e
 	void broadcast(NetworkEndGameMessage networkMessage);
+	void broadcast(NetworkPlayerJoinedMessage networkMessage);
+<<<<<<< HEAD
+	void broadcast(NetworkReadyMessageToClient networkMessage);
+=======
+	void broadcast(NetworkTextMessage networkMessage);
+>>>>>>> 72711c00653dc45d7225ab7df7406b21b529a472
 
 	bool isRunning();
 

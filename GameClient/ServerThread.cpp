@@ -168,13 +168,13 @@ void ServerThread::update(float dt)
 	else if(this->m_state == State::LOADING)
 	{
 		vector<Player*> players = this->m_network->getPlayers();
-		bool ready = true;
+		bool ready = false;
 
 		for(int i = 0; i < players.size(); i++)
 		{
-			if(players[i]->getReady() == false)
+			if(players[i]->getReady() == true)
 			{
-				ready = false;
+				ready = true;
 			}
 		}
 
@@ -182,8 +182,8 @@ void ServerThread::update(float dt)
 		{
 			this->m_network->broadcast(NetworkCreateActionMessage(Skill::LIVES_REMAINING, this->m_mapHandler->getLivesLeft(), FLOAT3()));
 			this->m_state = State::GAME;
+			this->m_network->broadcast(NetworkStartGameMessage("Trolololol"));
 		}
-
 	}
 	else if(this->m_state == State::GAME)
 	{
