@@ -560,7 +560,7 @@ NetworkEntityAttributeMessage Client::entityAttributeFront()
 	this->m_mutex.Lock();
 
 	NetworkEntityAttributeMessage ret = this->m_entityAttributeMessageQueue.front();
-	this->m_readyMessageToClientQueue.pop();
+	this->m_entityAttributeMessageQueue.pop();
 
 	this->m_mutex.Unlock();
 
