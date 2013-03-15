@@ -5,9 +5,13 @@ class BigBadBoss
 	:public Enemy
 {
 public:
+
+	FLOAT3 m_origPos; 
+	float m_allowedMovement;
 	BigBadBoss(FLOAT3 _pos);
 	~BigBadBoss(void);
 	virtual void attackHero(int heroIndex);
+	void updateSpecificUnitEntity(float dt);
 	void update(float dt);
 };
 
