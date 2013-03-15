@@ -11,7 +11,7 @@ private:
 	static const int TIME_BETWEEN_DAMAGE_SOUNDS = 5;
 	static float timeToNextDamageSound;
 public:
-	MeleeAttackClientSkillEffect(unsigned int masterId, unsigned int _targetId, PLAYER_INFO _playerInfo);
+	MeleeAttackClientSkillEffect(unsigned int masterId, unsigned int _targetId, PLAYER_INFO _playerInfo, float _animationSpeed);
 	~MeleeAttackClientSkillEffect();
 	
 	static void decreaseTimeBetweenDamageSounds(float _dt);

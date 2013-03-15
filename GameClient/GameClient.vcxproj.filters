@@ -547,6 +547,12 @@
     <ClCompile Include="EndState.cpp">
       <Filter>Client\States</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkReadyMessageToClient.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkTextMessage.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1130,6 +1136,12 @@
     <ClInclude Include="EndState.h">
       <Filter>Client\States</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkReadyMessageToClient.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkTextMessage.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -1143,9 +1155,6 @@
     </Filter>
     <Filter Include="Client\Skills">
       <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Network">
-      <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Client\Controls">
       <UniqueIdentifier>{7858784e-5d66-4547-9256-5e2ec0e84fda}</UniqueIdentifier>
@@ -1188,6 +1197,9 @@
     </Filter>
     <Filter Include="Client\Text">
       <UniqueIdentifier>{c974c764-1ddd-4c83-8702-17ef1d7a54fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

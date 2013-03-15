@@ -14,7 +14,7 @@ private:
 	int m_physicalDamage;
 	int m_mentalDamage;
 public:
-	DelayedDamage(unsigned int _caster, unsigned int _target, float _timeToImpact, int _physicalDamage, int _mentalDamage, Skill::SKILLS skillId);
+	DelayedDamage(unsigned int _caster, unsigned int _target, float _timeToImpact, int _physicalDamage, int _mentalDamage, Skill::SKILLS skillId, float _animationSpeed);
 	~DelayedDamage();
 
 	void update(float dt);

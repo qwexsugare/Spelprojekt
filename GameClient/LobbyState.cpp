@@ -39,14 +39,18 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	this->m_emtyRoom	= new Room(5, "color", FLOAT3(x, y, z), step);
 
 	this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerIdle");
-	this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("idle");
+	this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("RedKnightIdle");
 	this->m_engi->getCharacter()->getAnimation()->PlayLoop("idle");
 	this->m_doctor->getCharacter()->getAnimation()->PlayLoop("idle");
-	this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("idle");
+	this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("MentalistIdle");
 	
 	this->cameraRealPos = 0;
 	distToSlider = 0.0f;
 	this->m_playerId = -1;
+
+
+	//test = g_graphicsEngine->createChainEffect();
+
 }
 
 LobbyState::~LobbyState()
@@ -66,6 +70,14 @@ LobbyState::~LobbyState()
 
 void LobbyState::update(float _dt)
 {
+
+	float chainY = 0.3f;
+
+	//test->setOrig(D3DXVECTOR3(m_engi->getCharacter()->getPosition().x, m_officer->getCharacter()->getPosition().y + chainY, m_officer->getCharacter()->getPosition().z));
+	//test->setTarget(D3DXVECTOR3(m_doctor->getCharacter()->getPosition().x, m_redKnight->getCharacter()->getPosition().y + chainY, m_redKnight->getCharacter()->getPosition().z));
+	//test->setCamPos(g_graphicsEngine->getCamera()->getPos());
+	//test->setViewProj(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
+
 	this->m_menu->Update(_dt);
 	// waddapigotabigcock
 
@@ -102,6 +114,12 @@ void LobbyState::update(float _dt)
 	if(distToSlider < 1.0)
 		distToSlider = 1.0;
 
+	//ugly solution for if the enterkey was pressed, fetch chat string
+	if(m_menu->wasEnterPressed())
+	{
+		this->m_network->sendMessage(NetworkTextMessage(m_menu->getChatString()));
+		m_menu->resetEnterPressed();
+	}
 	//camera real pos is the camera position, which tries to reach the position from the slider
 	//if the real pos is inside a certain value, it wont move
 	if(cameraRealPos > this->m_menu->getSlider()->GetValue() * max-0.05 && cameraRealPos < this->m_menu->getSlider()->GetValue() * max + 0.05)
@@ -132,9 +150,9 @@ void LobbyState::update(float _dt)
 			this->m_currentHeroSelected = Hero::OFFICER;
 			m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
 			//this->m_menu->getSlider()->setValue(alve*0);
-			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.2)/max);
+			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.6)/max);
 			//this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x));
-		}
+		} 
 		else if(m_redKnight->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
 			this->m_currentHeroSelected = Hero::RED_KNIGHT;
@@ -203,6 +221,13 @@ void LobbyState::update(float _dt)
 		this->m_nextState = State::LOADING;
 	}
 
+	//kollar om nån klient skickat ett text medelande
+	while(!m_network->networkTextMessageQueueEmpty())
+	{
+		NetworkTextMessage e = m_network->networkTextMessageFront();
+		m_menu->addStringToChat(e.getTxtMessage());
+	}
+
 	while(!m_network->heroSelectedQueueEmpty())
 	{
 
@@ -218,7 +243,7 @@ void LobbyState::update(float _dt)
 		{
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, false);
 		}
-
+		//Select
 		switch(nhsm.getHeroId())
 		{
 			case Hero::HERO_TYPE::OFFICER:
@@ -226,6 +251,43 @@ void LobbyState::update(float _dt)
 				{
 					this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
 					this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
+					this->m_officer->getRoom()->setGlowIndex("glowIntensity");
+					this->m_officer->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+					this->m_officer->getDoor()->getAnimation()->Play("DoorOpen");
+				}
+				break;
+			case Hero::HERO_TYPE::RED_KNIGHT:
+				if(this->m_redKnight->getCharacter()->getAnimation()->getCurrentAnimation() == "RedKnightIdle")
+				{
+					this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("RedKnightSelectIdle");
+					this->m_redKnight->getCharacter()->getAnimation()->Play("RedKnightSelect");
+					this->m_redKnight->getRoom()->setGlowIndex("glowIntensity1");
+					this->m_redKnight->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+					this->m_redKnight->getDoor()->getAnimation()->Play("DoorOpen");
+				}
+				break;
+			case Hero::HERO_TYPE::ENGINEER:
+				if(this->m_engi->getCharacter()->getAnimation()->getCurrentAnimation() == "idle")
+				{
+					this->m_engi->getRoom()->setGlowIndex("glowIntensity2");
+					this->m_engi->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+					this->m_engi->getDoor()->getAnimation()->Play("DoorOpen");
+				}
+				break;
+			case Hero::HERO_TYPE::DOCTOR:
+				if(this->m_doctor->getCharacter()->getAnimation()->getCurrentAnimation() == "idle")
+				{
+					this->m_doctor->getRoom()->setGlowIndex("glowIntensity3");
+					this->m_doctor->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+					this->m_doctor->getDoor()->getAnimation()->Play("DoorOpen");
+				}
+				break;
+			case Hero::HERO_TYPE::THE_MENTALIST:
+				if(this->m_mentalist->getCharacter()->getAnimation()->getCurrentAnimation() == "MentalistIdle")
+				{
+					this->m_mentalist->getRoom()->setGlowIndex("glowIntensity4");
+					this->m_mentalist->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+					this->m_mentalist->getDoor()->getAnimation()->Play("DoorOpen");
 				}
 				break;
 		}
@@ -237,7 +299,9 @@ void LobbyState::update(float _dt)
 				heroesNotSelected[m_menu->getHeroesSelected()[i]] = true;
 			}
 		}
-		for(int i = 0; i < 4; i++)
+
+		//Deselect
+		for(int i = 0; i < numCharacters; i++)
 		{
 			if(heroesNotSelected[i] == false)
 			{
@@ -248,6 +312,45 @@ void LobbyState::update(float _dt)
 					{
 						this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerIdle");
 						this->m_officer->getCharacter()->getAnimation()->Play("OfficerDeselect");
+						this->m_officer->getRoom()->setGlowIndex("");
+						this->m_officer->getDoor()->getAnimation()->PlayLoop("ClosedIdle");
+						this->m_officer->getDoor()->getAnimation()->Play("DoorClose");
+					}
+					break;
+				case Hero::HERO_TYPE::RED_KNIGHT:
+					if(this->m_redKnight->getCharacter()->getAnimation()->getCurrentAnimation() == "RedKnightSelectIdle")
+					{
+						this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("RedKnightIdle");
+						this->m_redKnight->getCharacter()->getAnimation()->Play("RedKnightDeselect");
+						this->m_redKnight->getRoom()->setGlowIndex("");
+						this->m_redKnight->getDoor()->getAnimation()->PlayLoop("ClosedIdle");
+						this->m_redKnight->getDoor()->getAnimation()->Play("DoorClose");
+					}
+					break;
+				case Hero::HERO_TYPE::ENGINEER:
+					if(this->m_engi->getCharacter()->getAnimation()->getCurrentAnimation() == "idle")
+					{
+						this->m_engi->getRoom()->setGlowIndex("");
+						this->m_engi->getDoor()->getAnimation()->PlayLoop("ClosedIdle");
+						this->m_engi->getDoor()->getAnimation()->Play("DoorClose");
+					}
+					break;
+				case Hero::HERO_TYPE::DOCTOR:
+					if(this->m_doctor->getCharacter()->getAnimation()->getCurrentAnimation() == "idle")
+					{
+						this->m_doctor->getRoom()->setGlowIndex("");
+						this->m_doctor->getDoor()->getAnimation()->PlayLoop("ClosedIdle");
+						this->m_doctor->getDoor()->getAnimation()->Play("DoorClose");
+					}
+					break;
+				case Hero::HERO_TYPE::THE_MENTALIST:
+					if(this->m_mentalist->getCharacter()->getAnimation()->getCurrentAnimation() == "MentalistIdle")
+					{
+						//this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("MentalistSelectIdle");
+						//this->m_mentalist->getCharacter()->getAnimation()->Play("MentalistSelect");
+						this->m_mentalist->getRoom()->setGlowIndex("");
+						this->m_mentalist->getDoor()->getAnimation()->PlayLoop("ClosedIdle");
+						this->m_mentalist->getDoor()->getAnimation()->Play("DoorClose");
 					}
 					break;
 				}
@@ -266,6 +369,12 @@ void LobbyState::update(float _dt)
 	{
 		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
 		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
+	}
+
+	while(!m_network->readyMessageToClientQueueEmpty())
+	{
+		NetworkReadyMessageToClient msg = m_network->readyMessageToClientQueueFront();
+		this->m_menu->setReady(msg.m_playerIndex);
 	}
 }
 

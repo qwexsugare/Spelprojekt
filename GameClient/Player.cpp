@@ -5,7 +5,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_resources = 750;
+	this->m_resources = 75000;
 	this->m_messageQueue = new MessageQueue();
 	m_hero = NULL;
 	this->m_ready = false;

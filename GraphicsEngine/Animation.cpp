@@ -202,7 +202,7 @@ void Animation::RandomAnimationFunc(float dt)
 						if(waitAtEnd == false)
 						{
 							itr->second.currentKey = 0;
-							itr->second.time = 0;
+							itr->second.time = 0.0f;
 							itr->second.numLoops--;
 							if(itr->second.numLoops == 0)
 							{
@@ -228,11 +228,20 @@ void Animation::RandomAnimationFunc(float dt)
 					}
 					currKeyTime = itr->second.skeletons[0].keys[itr->second.currentKey].time;
 					nextKeyTime = itr->second.skeletons[0].keys[itr->second.currentKey + 1].time;
-					
 
 					float timeInterval = ((nextKeyTime-offset)/fps) - ((currKeyTime-offset)/fps);
 					float timePass = itr->second.time - (currKeyTime-offset)/fps;
 					float lerpValue = timePass/timeInterval;
+
+					if(lerpValue > 1)
+					{
+						lerpValue = 1;
+					}
+
+					if(lerpValue < 0)
+					{
+						lerpValue = 0;
+					}
 
 					for(int i = 0; i < itr->second.skeletons[0].keys[itr->second.currentKey].joints.size(); i++)
 					{
@@ -297,7 +306,7 @@ void Animation::RandomAnimationFunc(float dt)
 						//outMat = outMat * scale;
 						matrices.push_back(outMat);
 					}
-					itr->second.time += dt;
+					itr->second.time += dt * itr->second.speedMultiplier;
 				}
 			}
 		}
@@ -332,6 +341,7 @@ void Animation::Play(string name, bool waitAtEnd, int priority, float speedMulti
 	{
 		this->animations[name].numLoops = 1;
 		this->animations[name].isAnimating = true;
+		this->animations[name].speedMultiplier = speedMultiplier;
 		this->prioAnimation = name;
 		this->waitAtEnd = waitAtEnd;
 		this->priority = priority;
@@ -343,6 +353,7 @@ void Animation::PlayLoop(string name, int numberOfLoops, float speedMultiplier, 
 	this->animations[name].numLoops = numberOfLoops;
 	this->animations[name].isAnimating = true;
 	this->animations[name].overlapTime = overlapTime;
+	this->animations[name].speedMultiplier = speedMultiplier;
 	this->currentAnimation = name;
 	this->waitAtEnd = false;
 }

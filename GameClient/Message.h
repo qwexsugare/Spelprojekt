@@ -5,7 +5,7 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame, AttributeUpdate};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame, AttributeUpdate,TXTMSG};
 
 	Type type;
 	int senderId;
@@ -85,14 +85,16 @@ struct CreateActionMessage : Message
 	unsigned int actionId;
 	unsigned int senderId;
 	FLOAT3 position;
+	float animationSpeed;
 
-	CreateActionMessage(unsigned int _actionId, unsigned int _senderId, FLOAT3 _position)
+	CreateActionMessage(unsigned int _actionId, unsigned int _senderId, FLOAT3 _position, float _animationSpeed = 1.0f)
 	{
 		this->type = Type::CreateAction;
 		this->reciverId = 1;
 		this->actionId = _actionId;
 		this->senderId = _senderId;
 		this->position = _position;
+		this->animationSpeed = _animationSpeed;
 	}
 };
 
@@ -101,14 +103,16 @@ struct CreateActionPositionMessage : Message
 	unsigned int actionId;
 	unsigned int senderId;
 	FLOAT3 position;
+	float animationSpeed;
 
-	CreateActionPositionMessage(unsigned int _actionId, unsigned int _senderId, FLOAT3 _position)
+	CreateActionPositionMessage(unsigned int _actionId, unsigned int _senderId, FLOAT3 _position, float _animationSpeed = 1.0f)
 	{
 		this->type = Type::CreateActionPosition;
 		this->reciverId = 1;
 		this->actionId = _actionId;
 		this->senderId = _senderId;
 		this->position = _position;
+		this->animationSpeed = _animationSpeed;
 	}
 };
 
@@ -118,8 +122,9 @@ struct CreateActionTargetMessage : Message
 	unsigned int senderId;
 	unsigned int targetId;
 	FLOAT3 position;
+	float animationSpeed;
 
-	CreateActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId, FLOAT3 _position)
+	CreateActionTargetMessage(unsigned int _actionId, unsigned int _senderId, unsigned int _targetId, FLOAT3 _position, float _animationSpeed = 1.0f)
 	{
 		this->type = Type::CreateActionTarget;
 		this->reciverId = 1;
@@ -127,6 +132,7 @@ struct CreateActionTargetMessage : Message
 		this->senderId = _senderId;
 		this->targetId = _targetId;
 		this->position = _position;
+		this->animationSpeed = _animationSpeed;
 	}
 };
 
@@ -322,5 +328,14 @@ struct AttributeUpdateMessage : Message
 		this->playerId = playerId;
 		this->attribute = attribute;
 		this->attributeType = attributeType;
+	}
+};
+
+struct TextMessage : Message
+{
+	string text;
+	TextMessage(string text)
+	{
+		this->text=text;
 	}
 };

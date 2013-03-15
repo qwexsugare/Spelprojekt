@@ -6,6 +6,7 @@ Keyboard::Keyboard()
 		m_keys[i] = KEY_UP;
 
 	this->m_nrOfKeysToReset = 0;
+	this->chatMode=false;
 }
 
 Keyboard::~Keyboard()
@@ -14,6 +15,14 @@ Keyboard::~Keyboard()
 }
 
 int Keyboard::getKeyState(WPARAM _key)const
+{
+	if(this->chatMode)
+		return Keyboard::KEY_UP;
+	else
+		return this->m_keys[_key];
+}
+
+int Keyboard::getKeyStateChatSuper(WPARAM _key)const
 {
 	return this->m_keys[_key];
 }
@@ -42,4 +51,13 @@ void Keyboard::update()
 		this->m_keys[this->m_keysToReset[i]] = KEY_DOWN;
 
 	this->m_nrOfKeysToReset = 0;
+}
+bool Keyboard::isInChatMode()
+{
+	return this->chatMode;
+}
+
+void Keyboard::setChatMode(bool _val)
+{
+	this->chatMode=_val;
 }
