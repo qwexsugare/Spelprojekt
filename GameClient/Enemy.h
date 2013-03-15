@@ -12,8 +12,9 @@ class Enemy : public UnitEntity
 public:
 	static enum EnemyType{BOSS, BRUTE_STEED, FROST_DEMON, HELLFIRE_STEED, IMP, SHADE, SOUL_EATER_STEED, SPITTING_DEMON, THUNDERSTEED, NONE};
 private:
-	float lastDT;
+	
 protected:
+	float lastDT;
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
 	float m_aggroRange; 

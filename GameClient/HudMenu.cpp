@@ -23,6 +23,8 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_Menu= false;
 	m_Locked = true;
 	m_hasTargetEnemy = false;
+	m_health = 100;
+	m_maxHealth = 100;
 
 	m_DontChange.push_back(false);
 	m_DontChange.push_back(false);
@@ -1056,7 +1058,8 @@ void HudMenu::setHealth(int _health)
 	ss << _health;
 	m_Attributes[5] = ss.str();
 
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - _health) / 1000.0f * 0.495555556f));
+	this->m_health = _health;
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - this->m_health / this->m_maxHealth * 0.495555556f));
 }
 
 void HudMenu::setMaxHealth(int _maxHealth)
@@ -1064,6 +1067,9 @@ void HudMenu::setMaxHealth(int _maxHealth)
 	stringstream ss;
 	ss << _maxHealth;
 	m_Attributes[6] = ss.str();
+
+	this->m_maxHealth = _maxHealth;
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - this->m_health / this->m_maxHealth * 0.495555556f));
 }
 
 void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
