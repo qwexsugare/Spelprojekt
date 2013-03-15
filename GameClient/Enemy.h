@@ -72,6 +72,11 @@ public:
 	void updateEnemyAvDir(FLOAT3 _val);
 	FLOAT3 getEndPos();
 	int getSubType()const;
+
+	void updateDirection(float lastDT);
+	void checkAttack(float lastDT);
+	void moveAndRotate(float lastDT);
+	void checkGoal(float lastDT);
 };
 
 #endif

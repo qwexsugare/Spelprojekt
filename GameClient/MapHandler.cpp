@@ -321,7 +321,7 @@ void MapHandler::enemyDied()
 	Statistics::decreaseStartLife();
 }
 
-void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int _souls, int _hell, int _thunder, int _brutes)
+void MapHandler::createWave(int _imps,  int _spits, int _shades, int _frosts, int _souls, int _hell, int _thunder, int _brutes)
 {
 	m_waves.push_back(vector<ServerEntity*>());
 	int totalMonsters = _imps + _shades + _spits + _frosts + _souls + _hell + _thunder + _brutes;
