@@ -166,6 +166,7 @@
     <ClCompile Include="HealingFountain.cpp" />
     <ClCompile Include="HealingFountainClientSkillEffect.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="Mission.cpp" />
     <ClCompile Include="NetworkEndGameMessage.cpp" />
     <ClCompile Include="NetworkPlayerJoinedMessage.cpp" />
     <ClCompile Include="NetworkReadyMessageToClient.cpp" />
@@ -359,6 +360,7 @@
     <ClInclude Include="HealingFountain.h" />
     <ClInclude Include="HealingFountainClientSkillEffect.h" />
     <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="Mission.h" />
     <ClInclude Include="NetworkEndGameMessage.h" />
     <ClInclude Include="NetworkPlayerJoinedMessage.h" />
     <ClInclude Include="NetworkReadyMessageToClient.h" />
