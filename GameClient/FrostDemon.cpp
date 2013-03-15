@@ -49,7 +49,7 @@ void FrostDemon::attackHero(int heroIndex)
 		ServerEntity* e = EntityHandler::getServerEntity(m_closestTargetId);
 		if(e)
 		{
-			((UnitEntity*)e)->stun(4.0f);
+			((UnitEntity*)e)->stun(2.0f);
 		}
 	}
 }

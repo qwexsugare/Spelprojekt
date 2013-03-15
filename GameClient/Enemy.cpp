@@ -172,7 +172,7 @@ void Enemy::moveAndRotate(float lastDT)
 				float f = this->m_dir.length();
 				this->m_dir = this->m_dir / this->m_dir.length();
 				//m_currClosestStatic = EntityHandler::getClosestStatic(this);
-				ServerEntity *stat = EntityHandler::getClosestStaticWithExtents(m_position);
+				ServerEntity *stat = EntityHandler::getClosestStaticOrTurretWithExtents(m_position);
 				if((stat->getPosition() - m_position).length() 
 					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.0f+
 					sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x+this->getObb()->Extents.z*this->getObb()->Extents.z))
@@ -185,13 +185,15 @@ void Enemy::moveAndRotate(float lastDT)
 					m_dir = m_dir/m_dir.length();
 				}
 					
-				this->m_position = this->m_position + this->m_dir * (this->m_movementSpeed-min(m_staticAvDir.length(),1.0f)) * lastDT;
+				this->m_position = this->m_position + this->m_dir * (this->m_movementSpeed-min(m_staticAvDir.length(),m_movementSpeed/2)) * lastDT;
 					
 					
 				if(outOfBounds(m_position,0))
 				{
-					m_position = m_position -m_dir*m_movementSpeed*lastDT*2;
 					m_dir = FLOAT3(g_pathfinder->getWidth()/2,0,g_pathfinder->getHeight()/2) - m_position;
+
+					m_position = m_position +m_dir*m_movementSpeed*lastDT*3;
+					
 					if(m_dir.length()>0)
 						m_dir = m_dir/m_dir.length();
 				}
@@ -564,7 +566,7 @@ FLOAT3 Enemy::checkStatic(float dt)
 
 	for(int i = 1; i < 10; i++)
 	{
-		stat = EntityHandler::getClosestStaticWithExtents(m_position+m_dir*m_movementSpeed*lastDT*i);
+		stat = EntityHandler::getClosestStaticOrTurretWithExtents(m_position+m_dir*m_movementSpeed*lastDT*i);
 		if(stat != NULL)
 		{
 			float allowedDistance = sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x + stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.5f+sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x + this->getObb()->Extents.z*this->getObb()->Extents.z);
