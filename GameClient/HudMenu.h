@@ -26,6 +26,8 @@ private:
 	Client *m_network;
 	int	m_NumberOfSkills;
 	int m_Resources;
+	int m_health;
+	int m_maxHealth;
 
 	vector<float>	m_SkillHud;
 
