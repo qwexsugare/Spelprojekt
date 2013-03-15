@@ -51,6 +51,7 @@ protected:
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path, EnemyType _type);
+	Enemy(FLOAT3 pos, EnemyType type);
 	virtual ~Enemy();
 	void updateSpecificUnitEntity(float dt);
 	//void setNextPosition(FLOAT3 _nextPosition);
@@ -72,6 +73,11 @@ public:
 	void updateEnemyAvDir(FLOAT3 _val);
 	FLOAT3 getEndPos();
 	int getSubType()const;
+
+	void updateDirection(float lastDT);
+	void checkAttack(float lastDT);
+	void moveAndRotate(float lastDT);
+	void checkGoal(float lastDT);
 };
 
 #endif

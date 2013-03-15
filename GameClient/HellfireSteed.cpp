@@ -31,7 +31,7 @@ HellfireSteed::HellfireSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Enemy
 	m_mentalResistance = m_baseMentalResistance;*/
 
 	m_regularAttack = new RangedAttack();
-	m_aggroRange = m_regularAttack->getRange() *2.0f;
+	m_aggroRange = 2.0f + m_regularAttack->getRange() *2.0f;
 
 	Model *m = g_graphicsEngine->createModel("Beast", m_position);
 	this->m_obb = new BoundingOrientedBox(*m->getObb());

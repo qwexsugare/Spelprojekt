@@ -25,5 +25,6 @@ public:
 	static double getTimePlayed();
 	static int getIsAtWave();
 	static int getStartLife();
+	static void resetStatistics();
 };
 
