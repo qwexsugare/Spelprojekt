@@ -75,11 +75,6 @@ NetworkEntityMessage ServerEntity::getUpdate()
 	return e;
 }
 
-NetworkEntityAttributeMessage ServerEntity::getAttributeUpdate()
-{
-	return NetworkEntityAttributeMessage(this->m_id);
-}
-
 ContainmentType ServerEntity::contains(const BoundingSphere& _bs)const
 {
 	if(m_obb)

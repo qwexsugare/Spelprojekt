@@ -68,6 +68,7 @@ public:
 
 	void addPoisonStack(int _damage);
 	void applyFrostTurretSlowEffect(float _value);
+	void sendAttributesToClient()const;
 	
 	void update(float dt);
 	virtual void updateSpecificUnitEntity(float dt) = 0;
