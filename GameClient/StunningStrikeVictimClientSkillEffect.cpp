@@ -6,9 +6,35 @@ StunningStrikeVictimClientSkillEffect::StunningStrikeVictimClientSkillEffect(uns
 	this->m_masterId = _id;
 
 	Entity *entity = ClientEntityHandler::getEntity(_id);
-	if(entity != NULL)
+	if(entity != NULL && entity->m_type == ServerEntity::EnemyType)
 	{
-		entity->m_model->getAnimation()->Stop();
+		switch(entity->m_subtype)
+		{
+		case Enemy::EnemyType::BRUTE_STEED:
+			entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
+			break;
+		case Enemy::EnemyType::FROST_DEMON:
+			entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
+			break;
+		case Enemy::EnemyType::HELLFIRE_STEED:
+			entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
+			break;
+		case Enemy::EnemyType::IMP:
+			entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
+			break;
+		case Enemy::EnemyType::SHADE:
+			entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
+			break;
+		case Enemy::EnemyType::SOUL_EATER_STEED:
+			entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
+			break;
+		case Enemy::EnemyType::SPITTING_DEMON:
+			entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
+			break;
+		case Enemy::EnemyType::THUNDERSTEED:
+			entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
+			break;
+		}
 	}
 }
 

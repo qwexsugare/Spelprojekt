@@ -80,6 +80,7 @@ public:
 	float getCooldown()const { return this->m_cooldown; }
 	float getRange();
 	void setRange(float _range);
+	void setCooldown(float _cooldown);
 	int getId()const { return m_id; }
 	void resetCooldown();
 	void update(float _dt);
