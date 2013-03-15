@@ -161,20 +161,20 @@ void GameState::update(float _dt)
 {
 	// BEGIN SIMULATION
 
-	static float simulationTimer = 0.0f;
-	simulationTimer += _dt;
-	static int lolModder = 0;
-	if(simulationTimer > ChainStrikeEffect::TIME_BETWEEN_JUMPS)
-	{
-		//// Do a chani strike lient skill effect
-		if(lolModder%2 == 0)
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(0.0f, 0.0f, 0.0f)));
-		else
-			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(64.0f, 0.0f, 64.0f)));
+	//static float simulationTimer = 0.0f;
+	//simulationTimer += _dt;
+	//static int lolModder = 0;
+	//if(simulationTimer > ChainStrikeEffect::TIME_BETWEEN_JUMPS)
+	//{
+	//	//// Do a chani strike lient skill effect
+	//	if(lolModder%2 == 0)
+	//		m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(0.0f, 0.0f, 0.0f)));
+	//	else
+	//		m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(64.0f, 0.0f, 64.0f)));
 
-		lolModder++;
-		simulationTimer -= ChainStrikeEffect::TIME_BETWEEN_JUMPS;
-	}
+	//	lolModder++;
+	//	simulationTimer -= ChainStrikeEffect::TIME_BETWEEN_JUMPS;
+	//}
 
 	// END SIMULATION
 
