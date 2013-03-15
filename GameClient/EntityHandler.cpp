@@ -301,7 +301,7 @@ ServerEntity* EntityHandler::getClosestStatic(ServerEntity *entity)
 	}
 }
 
-ServerEntity* EntityHandler::getClosestStaticWithExtents(FLOAT3 _pos)
+ServerEntity* EntityHandler::getClosestStaticOrTurretWithExtents(FLOAT3 _pos)
 {
 	float shortestDistance = 9999999999.3f;
 	int shortestIndex = -1;
@@ -312,7 +312,7 @@ ServerEntity* EntityHandler::getClosestStaticWithExtents(FLOAT3 _pos)
 	for(int i = 0; i < entities.size(); i++)
 	{
 		if( (_pos - entities[i]->getPosition()).length()-sqrt(entities[i]->getObb()->Extents.x*entities[i]->getObb()->Extents.x + entities[i]->getObb()->Extents.z*entities[i]->getObb()->Extents.z)
-			< shortestDistance && entities[i]->getType() == ServerEntity::StaticType)
+			< shortestDistance && (entities[i]->getType() == ServerEntity::StaticType || entities[i]->getType() == ServerEntity::TowerType))
 		{
 			shortestDistance = abs((_pos - entities[i]->getPosition()).length());
 			shortestIndex = i;
