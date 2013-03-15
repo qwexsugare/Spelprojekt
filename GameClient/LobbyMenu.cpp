@@ -102,9 +102,10 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[16] = new Button();
 	this->m_Buttons[16]->Init(FLOAT2(0.445f,  0.73f),FLOAT2(0.178125f*0.5f,0.194444444f*0.5f),"menu_textures\\CharacterMenu-Button-Mentalist.png","",0,0,1);*/
 
-
 	
-	this->m_slider.Init(FLOAT2(-0.5f, -0.30f), 0.0f, FLOAT2(0.1f,0.2f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
+	
+	this->m_slider.Init(FLOAT2(-0.5f, -0.25f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
 
 	this->m_Label.resize(5);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
