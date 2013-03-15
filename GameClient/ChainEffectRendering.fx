@@ -1,6 +1,6 @@
 cbuffer cb
 {
-	matrix viewProj;
+	float4x4 viewProj;
 	float3 camPosW;
 	float3 origW;
 	float3 targetW;
@@ -11,10 +11,10 @@ cbuffer cbFixed
 	//TextureQuad
 	float2 quadTexC[4] =
 	{
-		float2(0.0f, 1.0f),
-		float2(1.1f, 1.0f),
 		float2(0.0f, 0.0f),
-		float2(1.0f, 0.0f)
+		float2(0.0f, 1.0f),
+		float2(1.0f, 0.0f),
+		float2(1.1f, 1.0f),
 	};
 };
 
@@ -48,8 +48,14 @@ SamplerState linearSampler
 
 DepthStencilState DisableDepth
 {
-	DepthEnable		= FALSE;
+	DepthEnable		= TRUE;
 	DepthWriteMask	= ZERO;
+};
+
+RasterizerState raster
+{
+	FillMode = Solid;
+	CullMode = NONE;
 };
 
 
@@ -62,40 +68,47 @@ GSIn VS(VSIn input)
 [maxvertexcount(4)]
 void GS(point GSIn input[1], inout TriangleStream<GS_OUT> triStream)
 {
-	float3 look = normalize(camPosW.xyz - input[0].Pos);
-	float3 right = normalize(cross(float3(0,1,0), look));
-	float3 up = cross(look, right);
+	float halfWidth = 0.5f;
+	float halfHeight = 0.5f;
 
-	float4x4 W;
-	W[0] = float4(right,		0.0f);
-	W[1] = float4(up,			0.0f);
-	W[2] = float4(look,			0.0f);
-	W[3] = float4(input[0].Pos.xyz,	1.0f);
+	float3 look0 = float3(0, 1, 0);//normalize(camPosW.xyz - origW.xyz);
+	float3 look1 = float3(0, 1, 0);//normalize(camPosW.xyz - targetW.xyz);
 
-	// Creating Quad
-	float halfWidth = 1.5f;
-	float halfHeight = 1.5f;
+	float3 a = normalize(origW.xyz - targetW.xyz);
+
+	float3 cr0 = cross(look0, a);
+	float3 cr1 = cross(look1, a);
 
 	float4 v[4];
-	v[0] = float4(-halfWidth, -halfHeight, 0.0f, 1.0f);
-	v[1] = float4(+halfWidth, -halfHeight, 0.0f, 1.0f);
-	v[2] = float4(-halfWidth, +halfHeight, 0.0f, 1.0f);
-	v[3] = float4(+halfWidth, +halfHeight, 0.0f, 1.0f);
+	v[0] = float4(origW + (cr0 * halfWidth) , 1);
+	v[1] = float4(origW - (cr0 * halfWidth) , 1);
+	v[2] = float4(targetW + (cr1 * halfWidth) , 1);
+	v[3] = float4(targetW - (cr1 * halfWidth) , 1);
 
-	GS_OUT output;
-	[unroll]
-	for(int i = 0; i < 4; ++i)
-	{
-		output.Pos = mul(v[i], viewProj);
-		output.UVCoord = quadTexC[i];
-		output.Color = float4(1, 1, 1, 1);
-		triStream.Append(output);
-	}
+	GS_OUT output = (GS_OUT)0;
+
+	output.Pos = mul(v[0], viewProj);
+	output.UVCoord = quadTexC[0];
+	triStream.Append(output);
+			
+	output.Pos = mul(v[1], viewProj);
+	output.UVCoord = quadTexC[1];
+	triStream.Append(output);
+
+	output.Pos = mul(v[2], viewProj);
+	output.UVCoord = quadTexC[2];
+	triStream.Append(output);
+
+	output.Pos = mul(v[3], viewProj);
+	output.UVCoord = quadTexC[3];
+	triStream.Append(output);
+
+
 }
 
 float4 PS(GS_OUT input) : SV_TARGET
 {
-	return float4(1, 1, 1, 1);//tex2D.Sample(linearSampler, input.UVCoord)*input.color;
+	return tex2D.Sample(linearSampler, input.UVCoord);
 }
 
 technique10 ChainTech
@@ -106,5 +119,6 @@ technique10 ChainTech
 		SetGeometryShader( CompileShader( gs_4_0, GS() ) );
 		SetPixelShader ( CompileShader( ps_4_0, PS() ) );
 		SetDepthStencilState( DisableDepth, 0 );
+		SetRasterizerState(raster);
 	}
 }

@@ -171,7 +171,7 @@
 <<<<<<< HEAD
 =======
     <ClCompile Include="NetworkReadyMessageToClient.cpp" />
->>>>>>> e9064eedea4322bfdb4f5d357f961612d6095d1c
+>>>>>>> 7aac8517c034fede407acb3809f662dea8c29da3
     <ClCompile Include="NetworkTextMessage.cpp" />
     <ClCompile Include="NetworkWelcomeMessage.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
@@ -367,7 +367,7 @@
 <<<<<<< HEAD
 =======
     <ClInclude Include="NetworkReadyMessageToClient.h" />
->>>>>>> e9064eedea4322bfdb4f5d357f961612d6095d1c
+>>>>>>> 7aac8517c034fede407acb3809f662dea8c29da3
     <ClInclude Include="NetworkTextMessage.h" />
     <ClInclude Include="NetworkWelcomeMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />

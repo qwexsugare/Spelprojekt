@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "FrostTurretProjectile.h"
 #include "EntityHandler.h"
+#include "MyAlgorithms.h"
 
 const float FrostTurret::ATTACK_COOLDOWN = 1.5f;
 
@@ -14,6 +15,9 @@ FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) :
 	Model* temp = g_graphicsEngine->createModel("FrostGun", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
 	g_graphicsEngine->removeModel(temp);
+
+	this->m_minDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 4;
+	this->m_maxDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 2;
 }
 
 FrostTurret::~FrostTurret()
@@ -23,7 +27,7 @@ FrostTurret::~FrostTurret()
 
 void FrostTurret::target(ServerEntity* _target)
 {
-	EntityHandler::addEntity(new FrostTurretProjectile(this->getId(), _target->getId(), this->m_slowEffect));
+	EntityHandler::addEntity(new FrostTurretProjectile(this->getId(), _target->getId(), this->m_slowEffect, random(this->m_minDamage, this->m_maxDamage)));
 }
 
 void FrostTurret::updateSpecificTurret(float _dt)

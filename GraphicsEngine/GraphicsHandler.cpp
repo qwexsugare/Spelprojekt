@@ -73,7 +73,7 @@ bool GraphicsHandler::removeParticleEngine(ParticleEngine* _particleEngine)
 
 ChainEffect* GraphicsHandler::createChainEffect()
 {
-	ChainEffect* ce = NULL;//new ChainEffect(this->m_deviceHandler->getDevice());
+	ChainEffect* ce = new ChainEffect(this->m_deviceHandler->getDevice(), this->m_resourceHolder->getTextureHolder());
 	m_world->addChainEffect(ce);
 	return ce;
 }
@@ -163,6 +163,16 @@ INT2 GraphicsHandler::getScreenSize()
 		return this->m_configScreenSize;
 	else
 		return this->m_realScreenSize;
+}
+
+bool GraphicsHandler::intersectsWithObject(const BoundingOrientedBox& _obb, Model* _model1, Model* _model2)
+{
+	return m_world->intersectsWithObject(_obb, _model1, _model2);
+}
+
+bool GraphicsHandler::intersectsWithObject(const BoundingSphere& _bs, Model* _model1, Model* _model2)
+{
+	return m_world->intersectsWithObject(_bs, _model1, _model2);
 }
 
 Model* GraphicsHandler::createModel(Model *_model, bool _static)

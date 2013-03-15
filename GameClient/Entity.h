@@ -19,6 +19,11 @@ struct Entity
 	PointLight *m_lanternLight;
 	unsigned int m_weapon;
 	int m_poisonStacks;
+	int m_maxHealth;
+	float m_mentalDamage;
+	float m_physicalDamage;
+	float m_mentalResistance;
+	float m_physicalResistance;
 
 	Sprite *m_healthBack;
 	Sprite *m_healthFront;

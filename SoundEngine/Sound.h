@@ -6,7 +6,7 @@
 class Sound
 {
 private:
-	static const int FALLOFF_START = 15;
+	static const int FALLOFF_START = 10;
 
 	ALuint m_source;
 	bool m_looped;

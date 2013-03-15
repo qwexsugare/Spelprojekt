@@ -583,6 +583,22 @@ void Server::broadcast(NetworkReadyMessageToClient networkMessage)
 	this->m_mutex.Unlock();
 }
 
+void Server::broadcast(NetworkEntityAttributeMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
 void Server::Run()
 {
 	__int64 cntsPerSec = 0;

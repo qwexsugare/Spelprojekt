@@ -28,6 +28,7 @@ private:
 	bool m_static;
 	bool m_shadow;
 	bool m_neutral;
+
 	D3DXVECTOR3 m_screenPosition;
 public:
 	Model();
@@ -82,6 +83,6 @@ public:
 
 	DECLDIR FLOAT3 getLeftHandPosition();
 	DECLDIR FLOAT3 getRightHandPosition();
-	DECLDIR void neutralize();
+	DECLDIR void neutralize(); //Don't draw model behind buildings
 	DECLDIR FLOAT2 getScreenPos(D3DXMATRIX viewProjectionMatrix);
 };

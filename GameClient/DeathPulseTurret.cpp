@@ -13,6 +13,9 @@ DeathPulseTurret::DeathPulseTurret(FLOAT3 _pos, UnitEntity *_creator) :
 	Model* temp = g_graphicsEngine->createModel("DeathTurret", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
 	g_graphicsEngine->removeModel(temp);
+
+	this->m_minDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 4;
+	this->m_maxDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 2;
 }
 
 DeathPulseTurret::~DeathPulseTurret()
@@ -32,7 +35,7 @@ void DeathPulseTurret::target(ServerEntity* _target)
 	if(random(1, 100) <= (1+this->getTurretUpgrade()/4))
 		damage = 9000000;
 	else
-		damage = random(2, 20);
+		damage = random(this->m_minDamage, this->m_maxDamage);
 	_target->takeDamage(this->m_ownerId, 0, damage, (1+this->getTurretUpgrade()/4));
 
 	// dbg

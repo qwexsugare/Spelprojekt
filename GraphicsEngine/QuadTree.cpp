@@ -99,6 +99,16 @@ stack<Road*> QuadTree::getRoads(D3DXVECTOR2 _focalPoint)const
 	return roads;
 }
 
+bool QuadTree::intersectsWithObject(const BoundingSphere& _bs)
+{
+	return m_parent->intersectsWithObject(_bs);
+}
+
+bool QuadTree::intersectsWithObject(const BoundingOrientedBox& _obb)
+{
+	return m_parent->intersectsWithObject(_obb);
+}
+
 stack<Model*> QuadTree::pullAllModels()
 {
 	stack<Model*> models;

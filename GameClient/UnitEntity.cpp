@@ -39,9 +39,10 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_deadlyStrikeChance = 0;
 	this->m_poisonCounter = 0;
 	this->m_greed = 1.0f;
-	this->m_turretDuration = 1;
+	this->m_turretDuration = 1.0f;
 	this->m_attackCooldown = 0.0f;
 	this->m_stunTimer = 0.0f;
+	this->m_turretDamageUpgrade = 1;
 	
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
@@ -87,8 +88,9 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_deadlyStrikeChance = 0;
 	this->m_poisonCounter = 0;
 	this->m_greed = 1.0f;
-	this->m_turretDuration = 10.0f;
+	this->m_turretDuration = 1.0f;
 	this->m_attackCooldown = 0.0f;
+	this->m_turretDamageUpgrade = 1;
 	
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
@@ -307,6 +309,11 @@ void UnitEntity::alterTurretDuration(int _turretDuration)
 	this->m_turretDuration += _turretDuration;
 }
 
+void UnitEntity::alterTurretDamageUpgrade(int _turretDamageUpgrade)
+{
+	this->m_turretDamageUpgrade += _turretDamageUpgrade;
+}
+
 int UnitEntity::getStrength()
 {
 	return this->m_strength;
@@ -330,6 +337,11 @@ int UnitEntity::getFortitude()
 int UnitEntity::getTurretConstruction()
 {
 	return this->m_turretConstruction;
+}
+
+int UnitEntity::getTurretDamageUpgrade()
+{
+	return this->m_turretDamageUpgrade;
 }
 
 int UnitEntity::getPoisonStackDamage()const

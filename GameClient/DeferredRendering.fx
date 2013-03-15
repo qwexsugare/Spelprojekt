@@ -107,6 +107,19 @@ BlendState SrcAlphaBlend
    RenderTargetWriteMask[0] = 0x0F;
 };
 
+BlendState AdditiveBlending
+{
+	AlphaToCoverageEnable	= FALSE;
+	BlendEnable[0]			= TRUE;
+	SrcBlend				= SRC_ALPHA;
+	DestBlend				= ONE;
+	BlendOp					= ADD;
+	SrcBlendAlpha			= ZERO;
+	DestBlendAlpha			= ZERO;
+	BlendOpAlpha			= ADD;
+	RenderTargetWriteMask[0]= 0x0F;
+};
+
 //-----------------------------------------------------------------------------------------
 // Calculate the light intensity for a given point
 //-----------------------------------------------------------------------------------------
