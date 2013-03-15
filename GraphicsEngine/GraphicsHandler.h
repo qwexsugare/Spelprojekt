@@ -35,6 +35,8 @@ public:
 	DECLDIR Camera *getCamera();
 	DECLDIR INT2 getRealScreenSize();
 	DECLDIR INT2 getScreenSize();
+	DECLDIR bool intersectsWithObject(const BoundingOrientedBox& _obb, Model* _model1, Model* _model2 = NULL);
+	DECLDIR bool intersectsWithObject(const BoundingSphere& _bs, Model* _model1, Model* _model2 = NULL);
 	
 	DECLDIR Road* createRoad(string _texture, FLOAT3 _pos, float _rot, float _scale);
 	DECLDIR bool removeRoad(Road* _road);

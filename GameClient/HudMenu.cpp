@@ -414,6 +414,28 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	}
 	if(this->m_placingTower && !switchedTower)
 	{
+		if(m_subTowerModel)
+		{
+			if(g_graphicsEngine->intersectsWithObject(*m_subTowerModel->getObb(), m_towerModel, m_subTowerModel))
+			{
+				m_towerModel->setAlpha(0.1f);
+				m_subTowerModel->setAlpha(0.1f);
+			}
+			else
+			{
+				m_towerModel->setAlpha(0.5f);
+				m_subTowerModel->setAlpha(0.5f);
+			}
+		}
+		else if(g_graphicsEngine->intersectsWithObject(*m_towerModel->getObb(), m_towerModel))
+		{
+			m_towerModel->setAlpha(0.1f);
+		}
+		else
+		{
+			m_towerModel->setAlpha(0.5f);
+		}
+
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
 		g_graphicsEngine->getCamera()->calcPick(pickDir, pickOrig, g_mouse->getPos());

@@ -34,10 +34,12 @@ public:
 	void getAllLights(vector<PointLight*>& _lights);
 	void getAllModels(stack<Model*>& _models);
 	void getAllRoads(stack<Road*>& _roads);
-	bool intersects(const BoundingSphere _bs)const;
+	bool intersects(const BoundingSphere& _bs)const;
 	bool intersects(const Model* _model)const;
 	bool intersects(PointLight* _light)const;
 	bool intersects(Road* _road)const;
+	bool intersectsWithObject(const BoundingSphere& _bs)const;
+	bool intersectsWithObject(const BoundingOrientedBox& _obb)const;
 	void getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)const;
 	void getLights(vector<PointLight*>& _lights, D3DXVECTOR2 _focalPoint)const;
 	void getParticleEngines(stack<ParticleEngine*>& _lights, D3DXVECTOR2 _focalPoint)const;
