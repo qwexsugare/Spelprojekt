@@ -10,6 +10,7 @@ private:
 	Model* m_model;
 	float m_soundTimer;
 	bool m_hasSpoken;
+	bool m_active;
 public:
 	CourageHonorValorClientSkillEffect(unsigned int _masterId, unsigned int _redKnightId);
 	~CourageHonorValorClientSkillEffect();

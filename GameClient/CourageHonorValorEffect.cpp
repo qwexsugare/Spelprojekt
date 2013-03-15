@@ -74,7 +74,6 @@ void CourageHonorValorEffect::update(float _dt)
 				{
 					m_affectedGuys.erase(m_affectedGuys.begin()+i);
 					i--;
-					this->m_messageQueue->pushOutgoingMessage(new RemoveActionTargetMessage(Skill::COURAGE_HONOR_VALOR, 0, se->getId()));
 				}
 				// Else the affected guys is still alive and might have escaped the aura area and needs to be taken down!
 				else if((caster->getPosition()-se->getPosition()).length() > AOE)

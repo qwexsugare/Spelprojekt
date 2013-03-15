@@ -2796,6 +2796,7 @@ GameClient/models/rum/RoomCloseDoor.BFishA
 GameClient/models/rum/RoomIdleCloseDoor.BFishA
 GameClient/models/rum/RoomIdleOpenDoor.BFishA
 GameClient/models/rum/RoomOpenDoor.BFishA
+GameClient/menu_textures/Button-Skill-Resource2.psd
 GameClient/config.ini
 GameClient/models/Char/MentalistIdle.BFishA
 GameClient/models/Target/Target_Glow.png

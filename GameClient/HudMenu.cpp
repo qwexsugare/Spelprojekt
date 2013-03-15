@@ -125,6 +125,8 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_enemyIcons[Enemy::EnemyType::SOUL_EATER_STEED]->setVisible(false);
 	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED]->setVisible(false);
+	m_enemyIcons[Enemy::EnemyType::BOSS] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
+	m_enemyIcons[Enemy::EnemyType::BOSS]->setVisible(false);
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
@@ -183,7 +185,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	}
 
 	this->m_shopButtons[0]->Init(FLOAT2(-0.62f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_CONSTRUCTION),"100",0,0,1,12,100,0,INT2(422,80), false, Skill::TURRET_CONSTRUCTION,"menu_textures\\Skill_0.png");
-	this->m_shopButtons[1]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_DAMAGE),"3500",0,0,1,12,100,3500,INT2(422,200), false, Skill::TURRET_DAMAGE,"menu_textures\\Skill_1.png");
+	this->m_shopButtons[1]->Init(FLOAT2(-0.62f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TURRET_DAMAGE),"3500",0,0,1,12,100,3500,INT2(422,324), false, Skill::TURRET_DAMAGE,"menu_textures\\Skill_1.png");
 	this->m_shopButtons[2]->Init(FLOAT2(-0.34f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::STRENGTH),"100",0,0,1,12,100,0,INT2(692,80), false, Skill::STRENGTH, "menu_textures\\Skill_2.png");
 	this->m_shopButtons[3]->Init(FLOAT2(-0.34f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::PHYSICAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(692,200), false, Skill::PHYSICAL_RESISTANCE,"menu_textures\\Skill_3.png");
 	this->m_shopButtons[4]->Init(FLOAT2(-0.34f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::LIFESTEALING_STRIKE),"2200",0,0,1,12,100,2200,INT2(692,324), false, Skill::LIFESTEALING_STRIKE,"menu_textures\\Skill_4.png");
@@ -198,10 +200,10 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_shopButtons[15]->Init(FLOAT2(0.22f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HEALING_TOUCH),"1700",0,0,1,12,100,1700,INT2(1228,324), false, Skill::HEALING_TOUCH,"menu_textures\\Skill_19.png");
 	this->m_shopButtons[13]->Init(FLOAT2(0.22f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CHAIN_STRIKE),"2500",0,0,1,12,100,2500,INT2(1228,440), false, Skill::CHAIN_STRIKE,"menu_textures\\Skill_13.png");
 	this->m_shopButtons[14]->Init(FLOAT2(0.22f, 0.0f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::CLOUD_OF_DARKNESS),"3500",0,0,1,12,100,3500,INT2(1228,560), false, Skill::CLOUD_OF_DARKNESS,"menu_textures\\Skill_14.png");
-	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::FORTITUDE),"100",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE,"menu_textures\\Skill_16.png");
-	this->m_shopButtons[17]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::GREED),"700",0,0,1,12,100,700,INT2(1498,200), false, Skill::GREED,"menu_textures\\Skill_17.png");
-	this->m_shopButtons[18]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::MENTAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(1498,324), false, Skill::MENTAL_RESISTANCE,"menu_textures\\Skill_18.png");
-	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.2f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WALL),"3000",0,0,1,12,100,3000,INT2(1498,440), false, Skill::WALL,"menu_textures\\Skill_20.png");
+	this->m_shopButtons[16]->Init(FLOAT2(0.49f, 0.8f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::FORTITUDE),"100",0,0,1,12,100,0,INT2(1498,80), false, Skill::FORTITUDE,"menu_textures\\Skill_16.png");	
+	this->m_shopButtons[17]->Init(FLOAT2(-0.62f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::GREED),"300",0,0,1,12,100,700,INT2(422,200), false, Skill::GREED,"menu_textures\\Skill_17.png");
+	this->m_shopButtons[18]->Init(FLOAT2(0.49f, 0.6f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::MENTAL_RESISTANCE),"900",0,0,1,12,100,900,INT2(1498,200), false, Skill::MENTAL_RESISTANCE,"menu_textures\\Skill_18.png");
+	this->m_shopButtons[19]->Init(FLOAT2(0.49f, 0.4f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::WALL),"3000",0,0,1,12,100,3000,INT2(1498,324), false, Skill::WALL,"menu_textures\\Skill_20.png");
 
 	for(int i = 0; i < this->m_shopButtons.size(); i++)
 	{

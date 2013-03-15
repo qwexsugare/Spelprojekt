@@ -1,10 +1,11 @@
 #include "BigBadBoss.h"
 #include "RangedAttack.h"
 #include "StunningStrike.h"
+#include "MyAlgorithms.h"
 
-BigBadBoss::BigBadBoss(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::BOSS)
+BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 {
-	m_modelId = 80;
+		m_modelId = 80;
 
 	this->increaseStrength(10);
 	this->increaseAgility(5);
@@ -32,15 +33,32 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::
 	m_skills.push_back(new StunningStrike());
 	m_regularAttack = new RangedAttack();
 	m_regularAttack->setRange(m_regularAttack->getRange()*1.5);
-	m_aggroRange = m_regularAttack->getRange() *2.0f;
+	m_aggroRange = 2.0f + m_regularAttack->getRange() *2.0f;
 	
 
 	Model *m = g_graphicsEngine->createModel("Imp", m_position);
 	this->m_obb = new BoundingOrientedBox(*m->getObb());
 	g_graphicsEngine->removeModel(m);
 }
-
+void BigBadBoss::attackHero(int heroIndex)
+{
+	this->attack(m_closestTargetId);
+	this->m_attackCooldown = m_attackSpeed;
+	
+	if(random(1, 100) <= 15)
+	{
+		ServerEntity* e = EntityHandler::getServerEntity(m_closestTargetId);
+		if(e)
+		{
+			((UnitEntity*)e)->stun(4.0f);
+		}
+	}
+}
 
 BigBadBoss::~BigBadBoss(void)
 {
+}
+void BigBadBoss::update(float dt)
+{
+	int k=2;
 }
