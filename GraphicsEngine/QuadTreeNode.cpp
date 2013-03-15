@@ -243,7 +243,7 @@ void QuadTreeNode::addRoad(bool& _success, Road* _road)
 	}
 }
 
-bool QuadTreeNode::intersects(const BoundingSphere _bs)const
+bool QuadTreeNode::intersects(const BoundingSphere& _bs)const
 {
 	return m_obb->Contains(_bs) != ContainmentType::DISJOINT;
 }
@@ -261,6 +261,78 @@ bool QuadTreeNode::intersects(PointLight* _light)const
 bool QuadTreeNode::intersects(Road* _road)const
 {
 	return _road->getOBB()->Contains(*this->m_obb) != ContainmentType::DISJOINT;
+}
+
+bool QuadTreeNode::intersectsWithObject(const BoundingSphere& _bs)const
+{
+	bool ret = false;
+
+	if(_bs.Intersects(*m_obb))
+	{
+		for(int i = 0; i < m_models.size(); i++)
+		{
+			if(m_models[i]->intersects(_bs))
+			{
+				ret = true;
+				i = m_models.size();
+			}
+		}
+		
+		if(!ret && this->m_children[0])
+		{
+			ret = this->m_children[0]->intersectsWithObject(_bs);
+			if(!ret)
+			{
+				ret = this->m_children[1]->intersectsWithObject(_bs);
+				if(!ret)
+				{
+					ret = this->m_children[2]->intersectsWithObject(_bs);
+					if(!ret)
+					{
+						ret = this->m_children[3]->intersectsWithObject(_bs);
+					}
+				}
+			}
+		}
+	}
+
+	return ret;
+}
+
+bool QuadTreeNode::intersectsWithObject(const BoundingOrientedBox& _obb)const
+{
+	bool ret = false;
+
+	if(_obb.Intersects(*m_obb))
+	{
+		for(int i = 0; i < m_models.size(); i++)
+		{
+			if(m_models[i]->intersects(_obb))
+			{
+				ret = true;
+				i = m_models.size();
+			}
+		}
+		
+		if(!ret && this->m_children[0])
+		{
+			ret = this->m_children[0]->intersectsWithObject(_obb);
+			if(!ret)
+			{
+				ret = this->m_children[1]->intersectsWithObject(_obb);
+				if(!ret)
+				{
+					ret = this->m_children[2]->intersectsWithObject(_obb);
+					if(!ret)
+					{
+						ret = this->m_children[3]->intersectsWithObject(_obb);
+					}
+				}
+			}
+		}
+	}
+
+	return ret;
 }
 
 void QuadTreeNode::getAllLights(vector<PointLight*>& _lights)

@@ -17,5 +17,5 @@ public:
 
 	string getText();
 	void setText(string _text);
-	void update(float _dt);
+	void update(float _dt, bool _superDuperChatSuper = false);
 };

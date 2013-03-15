@@ -4,7 +4,7 @@
 #include "MyAlgorithms.h"
 #include "Turret.h"
 
-FrostTurretProjectile::FrostTurretProjectile(unsigned int _master, unsigned int _target, float _slowEffect)
+FrostTurretProjectile::FrostTurretProjectile(unsigned int _master, unsigned int _target, float _slowEffect, int _damage)
 {
 	m_master = _master;
 	m_target = _target;
@@ -20,6 +20,7 @@ FrostTurretProjectile::FrostTurretProjectile(unsigned int _master, unsigned int 
 	FLOAT3 distance = target->getPosition() - master->getPosition();
 	distance = distance/distance.length();
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::FROST_TURRET_PROJECTILE, m_master, m_target, master->getPosition()+distance*0.5f));
+	this->m_damage = _damage;
 }
 
 FrostTurretProjectile::~FrostTurretProjectile()

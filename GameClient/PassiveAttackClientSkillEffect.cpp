@@ -20,17 +20,6 @@ PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _mas
 				break;
 			}
 		}
-
-		switch(_skillId)
-		{
-		case Skill::LIFESTEALING_STRIKE:
-			break;
-		case Skill::POISON_STRIKE:
-			e->m_poisonStacks++;
-			break;
-		case Skill::DEADLY_STRIKE:
-			break;
-		}
 	}
 }
 

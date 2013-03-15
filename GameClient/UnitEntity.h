@@ -25,7 +25,7 @@ protected:
 	int m_fortitude;
 	int m_turretConstruction;
 
-	int m_turretDuration;
+	float m_turretDuration;
 	float m_greed;
 	float m_movementSpeedChange;
 	float m_baseMovementSpeed;
@@ -54,6 +54,7 @@ protected:
 	float m_frostTurretSlowEffectValue;
 	int m_poisonStackDamage;
 	int m_extraDivinePower;
+	int m_turretDamageUpgrade;
 public:
 	static const int MAX_STRENGTH = 20;
 	static const int MAX_AGILITY = 20;
@@ -93,6 +94,7 @@ public:
 	void alterMovementSpeed(float _value);
 	void alterPhysicalResistance(float _value);
 	void alterTurretDuration(int _turretDuration);
+	void alterTurretDamageUpgrade(int _turretDamageUpgrade);
 	void setGreed(float _greed);
 	void setMaxHealth(int _maxHealth);
 	void setSwiftAsACatPowerfulAsABear(bool _val) { m_swiftAsACatPowerfulAsABear = _val; }
@@ -107,6 +109,7 @@ public:
 	int getHealth();
 	int getMaxHealth();
 	int getTurretConstruction();
+	int getTurretDamageUpgrade();
 	float getMovementSpeed();
 	float getAttackSpeed();
 	float getPhysicalDamage();

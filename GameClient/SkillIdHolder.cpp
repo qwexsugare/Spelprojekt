@@ -4,7 +4,7 @@ SkillIdHolder::SkillIdHolder()
 {
 	//Textures
 	this->m_SkillId[Skill::TURRET_CONSTRUCTION] = "menu_textures\\Button-Skill-0.png";
-	this->m_SkillId[Skill::TURRET_LIFE] = "menu_textures\\Button-Skill-12.png";
+	this->m_SkillId[Skill::TURRET_DAMAGE] = "menu_textures\\Button-Skill-12.png";
 	this->m_SkillId[Skill::STRENGTH] = "menu_textures\\Button-Skill-1.png";
 	this->m_SkillId[Skill::PHYSICAL_RESISTANCE] = "menu_textures\\Button-Skill-7.png";
 	this->m_SkillId[Skill::LIFESTEALING_STRIKE] = "menu_textures\\Button-Skill-9.png";
@@ -41,7 +41,7 @@ SkillIdHolder::SkillIdHolder()
 
 	//Active
 	this->m_skillActive[Skill::TURRET_CONSTRUCTION] = false;
-	this->m_skillActive[Skill::TURRET_LIFE] = false;
+	this->m_skillActive[Skill::TURRET_DAMAGE] = false;
 	this->m_skillActive[Skill::STRENGTH] = false;
 	this->m_skillActive[Skill::PHYSICAL_RESISTANCE] = false;
 	this->m_skillActive[Skill::LIFESTEALING_STRIKE] = false;
@@ -78,7 +78,7 @@ SkillIdHolder::SkillIdHolder()
 
 	//Description
 	this->m_skillDescription[Skill::TURRET_CONSTRUCTION] = "menu_textures\\Skill_0.png";
-	this->m_skillDescription[Skill::TURRET_LIFE] = "menu_textures\\Skill_1.png";
+	this->m_skillDescription[Skill::TURRET_DAMAGE] = "menu_textures\\Skill_1.png";
 	this->m_skillDescription[Skill::STRENGTH] = "menu_textures\\Skill_2.png";
 	this->m_skillDescription[Skill::PHYSICAL_RESISTANCE] = "menu_textures\\Skill_3.png";
 	this->m_skillDescription[Skill::LIFESTEALING_STRIKE] = "menu_textures\\Skill_4.png";

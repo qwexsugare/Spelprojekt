@@ -556,6 +556,11 @@ void Server::broadcast(NetworkPlayerJoinedMessage networkMessage)
 			packet<<message;
 
 			this->clients[networkMessage.getPlayerIndex()].Send(packet);
+			
+			if(this->m_players[i]->getReady())
+			{
+				this->broadcast(NetworkReadyMessageToClient(i));
+			}
 		}
 	}	
 
@@ -563,6 +568,22 @@ void Server::broadcast(NetworkPlayerJoinedMessage networkMessage)
 }
 
 void Server::broadcast(NetworkReadyMessageToClient networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+
+void Server::broadcast(NetworkEntityAttributeMessage networkMessage)
 {
 	sf::Packet packet;
 	packet<<networkMessage;

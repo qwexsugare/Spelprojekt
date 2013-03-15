@@ -22,7 +22,7 @@ bool RangedAttack::activate(unsigned int _targetId, unsigned int _senderId)
 		ServerEntity* caster = EntityHandler::getServerEntity(_senderId);
 		if(caster)
 		{
-			float timeToImpact = (target->getPosition() - caster->getPosition()).length()/VELOCITY;
+			float timeToImpact = (target->getPosition() - caster->getPosition()).length()/VELOCITY + ((UnitEntity*)caster)->getAttackSpeed() / 2;
 
 			EntityHandler::addEntity(new DelayedDamage(
 				_senderId, _targetId, timeToImpact, ((UnitEntity*)caster)->getPhysicalDamage(), ((UnitEntity*)caster)->getMentalDamage(), Skill::RANGED_ATTACK, 2.0f / ((UnitEntity*)caster)->getAttackSpeed()));

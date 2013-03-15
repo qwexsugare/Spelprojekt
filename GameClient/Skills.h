@@ -22,7 +22,7 @@
 #include "MeleeAttack.h"
 #include "RangedAttack.h"
 #include "EnhancedDevelopment.h"
-#include "TurretLifetime.h"
+#include "TurretDamage.h"
 #include "ReadyAimFire.h"
 #include "TargetAcquiredPermissionToFire.h"
 #include "TimeIsMoney.h"

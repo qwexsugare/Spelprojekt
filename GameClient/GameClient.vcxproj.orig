@@ -166,10 +166,12 @@
     <ClCompile Include="HealingFountain.cpp" />
     <ClCompile Include="HealingFountainClientSkillEffect.cpp" />
     <ClCompile Include="LoadingState.cpp" />
-    <ClCompile Include="NetworkEntityAttributeMessage.cpp" />
     <ClCompile Include="NetworkEndGameMessage.cpp" />
     <ClCompile Include="NetworkPlayerJoinedMessage.cpp" />
+<<<<<<< HEAD
+=======
     <ClCompile Include="NetworkReadyMessageToClient.cpp" />
+>>>>>>> 7aac8517c034fede407acb3809f662dea8c29da3
     <ClCompile Include="NetworkTextMessage.cpp" />
     <ClCompile Include="NetworkWelcomeMessage.cpp" />
     <ClCompile Include="ReadyAimFire.cpp" />
@@ -332,7 +334,7 @@
     <ClCompile Include="TimeIsMoney.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="TowerPlacer.cpp" />
-    <ClCompile Include="TurretDamage.cpp" />
+    <ClCompile Include="TurretLifetime.cpp" />
     <ClCompile Include="UnitEntity.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallClientSkillEffect.cpp" />
@@ -360,10 +362,12 @@
     <ClInclude Include="HealingFountain.h" />
     <ClInclude Include="HealingFountainClientSkillEffect.h" />
     <ClInclude Include="LoadingState.h" />
-    <ClInclude Include="NetworkEntityAttributeMessage.h" />
     <ClInclude Include="NetworkEndGameMessage.h" />
     <ClInclude Include="NetworkPlayerJoinedMessage.h" />
+<<<<<<< HEAD
+=======
     <ClInclude Include="NetworkReadyMessageToClient.h" />
+>>>>>>> 7aac8517c034fede407acb3809f662dea8c29da3
     <ClInclude Include="NetworkTextMessage.h" />
     <ClInclude Include="NetworkWelcomeMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />
@@ -534,7 +538,7 @@
     <ClInclude Include="TimeIsMoney.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="TowerPlacer.h" />
-    <ClInclude Include="TurretDamage.h" />
+    <ClInclude Include="TurretLifetime.h" />
     <ClInclude Include="Turrets.h" />
     <ClInclude Include="UnitEntity.h" />
     <ClInclude Include="Wall.h" />

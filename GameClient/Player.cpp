@@ -170,8 +170,8 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 			a = new DeadlyStrike();
 			break;
 
-		case Skill::TURRET_LIFE:
-			a = new TurretLifetime();
+		case Skill::TURRET_DAMAGE:
+			a = new TurretDamage();
 			a->activate(this->m_hero->getId());
 			break;
 

@@ -56,12 +56,13 @@ FLOAT2 Minimap::getTerrainPos(INT2 _mousePos)const
 	
 	/*return FLOAT2(
 		distanceFromMapStart.x/m_screenSpaceSize.x,
-		-distanceFromMapStart.y/m_screenSpaceSize.y)
+		-distanceFromMapStart.y/m_screenSpaceSize.y+m_screenSpaceSize.y*2)
 		* (m_terrainMax-m_terrainMin) + m_terrainMin;*/
 	
+	float yFromTop = (1.0f-m_screenSpacePos.y)-m_screenSpaceSize.y/2.0f;
 	return FLOAT2(
 		distanceFromMapStart.x/m_screenSpaceSize.x,
-		-distanceFromMapStart.y/m_screenSpaceSize.y+m_screenSpaceSize.y*2)
+		-distanceFromMapStart.y/m_screenSpaceSize.y+m_screenSpaceSize.y*2+yFromTop*1.5f)
 		* (m_terrainMax-m_terrainMin) + m_terrainMin;
 }
 
@@ -171,5 +172,6 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 	
 	screenSpaceX = _cameraPos.x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;
 	screenSpaceY = _cameraPos.y/(m_terrainMax.y-m_terrainMin.y)*2.0f-1.0f;
+	//m_view->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y-m_view->getSize().y/4.0f));
 	m_view->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
 }
