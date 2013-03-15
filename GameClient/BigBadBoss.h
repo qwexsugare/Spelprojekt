@@ -12,6 +12,6 @@ public:
 	~BigBadBoss(void);
 	virtual void attackHero(int heroIndex);
 	void updateSpecificUnitEntity(float dt);
-	void update(float dt);
+	
 };
 
