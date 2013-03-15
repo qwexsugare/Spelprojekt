@@ -143,6 +143,7 @@ void Server::handleMessages()
 	NetworkInitEntityMessage iem;
 	NetworkEntityMessage nem;
 	NetworkUpdateEntityHealth nueh;
+	NetworkEntityAttributeMessage neam;
 	
 
 	RemoveServerEntityMessage *m1;
@@ -240,11 +241,8 @@ void Server::handleMessages()
 
 		case Message::AttributeUpdate:
 			m11 = (AttributeUpdateMessage*)m;			
-			cam = NetworkCreateActionMessage(m11->attributeType, m11->attribute, FLOAT3());
-			packet << cam;
-
-			if(this->clients[m11->playerId].IsValid())
-				this->clients[m11->playerId].Send(packet);
+			neam = NetworkEntityAttributeMessage(m11->id, m11->strength, m11->wits, m11->fortitude, m11->agility, m11->towerConstruction, m11->maxHealth, m11->mentalDamage, m11->physicalDamage, m11->mentalResistance, m11->physicalResistance);
+			this->broadcast(neam);
 			break;
 		
 		}
