@@ -51,6 +51,7 @@ protected:
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path, EnemyType _type);
+	Enemy(FLOAT3 pos, EnemyType type);
 	virtual ~Enemy();
 	void updateSpecificUnitEntity(float dt);
 	//void setNextPosition(FLOAT3 _nextPosition);

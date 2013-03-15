@@ -175,3 +175,24 @@ void StatisticsPlayer::setPhysicalDamageRecieved(int damage)
 {
 	this->physicalDamageRecived = damage;
 }
+
+void StatisticsPlayer::resetPlayer()
+{
+	this->hero=StatisticsPlayer::OFFICER;
+	this->m_id=-1;
+	this->physicalDamageDealth=0;
+	this->mentalDamageDealth=0;
+	this->physicalDamageRecived=0;
+	this->mentalDamageRecived=0;
+	this->deathCounter=0;
+	this->skillMentalDamageDealth=0;
+	this->skillPhysicalDamageDealth=0;
+	this->playerName="NONE";
+	this->deamonsKilled=0;
+	goldCollected=0;
+	this->healedAmount=0;
+	for(int i=0;i<Skill::SKILLS::NR_OF_SKILLS;i++)
+	{
+		this->skillsUsed[i]=0;
+	}
+}
