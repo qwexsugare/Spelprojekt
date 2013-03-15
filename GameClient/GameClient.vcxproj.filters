@@ -550,6 +550,7 @@
     </ClCompile>
     <ClCompile Include="NetworkUpdateEntityHealth.cpp">
       <Filter>Network</Filter>
+	</ClCompile>  
     <ClCompile Include="Mission.cpp">
       <Filter>Server</Filter>
     </ClCompile>
