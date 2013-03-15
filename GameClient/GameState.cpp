@@ -252,14 +252,16 @@ void GameState::update(float _dt)
 
 		if(entity != NULL)
 		{
-			if(e.getYRot() == e.getYRot())
+			if(e.getXPos() == e.getXPos() && e.getZPos() == e.getZPos())
 			{
 				FLOAT3 p;
 				p.x=e.getXPos();
 				p.y=0;
 				p.z=e.getZPos();
 				entity->m_model->setPosition(p);
-
+			}
+			if(e.getYRot() == e.getYRot())
+			{
 				FLOAT3 rot;
 				rot.x=e.getYRot();
 				rot.y=0;
