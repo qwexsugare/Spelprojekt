@@ -81,14 +81,15 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 		m_Attributes.push_back("4");
 		break;
 	}
-	
+	//health 5,6
 	m_Attributes.push_back("400");
 	m_Attributes.push_back("400");
+	//Trait 7
 	m_Attributes.push_back("Immune to physical");
-
+	// Physical res and damage 8,9
 	m_Attributes.push_back("50");
 	m_Attributes.push_back("0-300");
-
+	// Mental res and damage 10, 11
 	m_Attributes.push_back("50");
 	m_Attributes.push_back("0-400");
 
@@ -169,10 +170,10 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
 	
 	this->m_AttributeText[2] = new TextLabel("","text6.png",INT2(505, 2),45);
-	this->m_AttributeText[2]->setText(m_Attributes[8] +"  %"+"_"+ m_Attributes[9]+" DPS");
+	this->m_AttributeText[2]->setText(m_Attributes[8] +"  %"+"_"+ m_Attributes[9]);
 	
 	this->m_AttributeText[3] = new TextLabel("","text6.png",INT2(800, 2),45);
-	this->m_AttributeText[3]->setText(m_Attributes[10] +" %"+ "_"+ m_Attributes[11]+ " DPS");
+	this->m_AttributeText[3]->setText(m_Attributes[10] +" %"+ "_"+ m_Attributes[11]);
 
 	this->m_waveText = new TextLabel("1","text6.png", INT2(g_graphicsEngine->getScreenSize().x - 45, 60), 70);
 	this->m_livesRemaining = new TextLabel("", "text6.png", INT2(g_graphicsEngine->getScreenSize().x - 210, 330), 55);
@@ -409,9 +410,9 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	{
 		this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
 	
-		this->m_AttributeText[2]->setText(m_Attributes[8] +"  %"+"_"+ m_Attributes[9]+" DPS");
+		this->m_AttributeText[2]->setText(m_Attributes[8] +"  %"+"_"+ m_Attributes[9]);
 	
-		this->m_AttributeText[3]->setText(m_Attributes[10] +" %"+ "_"+ m_Attributes[11]+ " DPS");
+		this->m_AttributeText[3]->setText(m_Attributes[10] +" %"+ "_"+ m_Attributes[11]);
 	}
 	else if(m_Buy == true)
 	{
@@ -1049,9 +1050,20 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 	}
 }
 
-void HudMenu::setHealth(float health)
+void HudMenu::setHealth(int _health)
 {
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - health) / 1000.0f * 0.495555556f));
+	stringstream ss;
+	ss << _health;
+	m_Attributes[5] = ss.str();
+
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - (1000.0f - _health) / 1000.0f * 0.495555556f));
+}
+
+void HudMenu::setMaxHealth(int _maxHealth)
+{
+	stringstream ss;
+	ss << _maxHealth;
+	m_Attributes[6] = ss.str();
 }
 
 void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
@@ -1110,6 +1122,34 @@ void HudMenu::setFortitude(int _fortitude)
 	stringstream ss;
 	ss<<this->m_fortitude;
 	this->m_Attributes[4] = ss.str();
+}
+
+void HudMenu::setMentalDamage(int _md)
+{
+	stringstream ss;
+	ss << _md;
+	m_Attributes[11] = ss.str();
+}
+
+void HudMenu::setMentalResistance(float _mr)
+{
+	stringstream ss;
+	ss << _mr;
+	m_Attributes[10] = ss.str();
+}
+
+void HudMenu::setPhysicalDamage(int _pd)
+{
+	stringstream ss;
+	ss << _pd;
+	m_Attributes[9] = ss.str();
+}
+
+void HudMenu::setPhysicalResistance(float _pr)
+{
+	stringstream ss;
+	ss << _pr;
+	m_Attributes[8] = ss.str();
 }
 
 void HudMenu::setTowerConstruction(int _towerConstruction)

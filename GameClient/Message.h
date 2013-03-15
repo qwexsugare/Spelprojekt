@@ -5,7 +5,8 @@
 
 struct Message
 {
-	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought, SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame, AttributeUpdate,TXTMSG};
+	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought,
+		SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame, AttributeUpdate,TXTMSG};
 
 	Type type;
 	int senderId;
@@ -317,17 +318,35 @@ struct JoinedGameMessage : Message
 
 struct AttributeUpdateMessage : Message
 {
-	unsigned int playerId;
-	int attributeType;
-	int attribute;
+	unsigned int id;
+	int strength;
+	int wits;
+	int fortitude;
+	int agility;
+	int towerConstruction;
+	int maxHealth;
+	float mentalDamage;
+	float physicalDamage;
+	float mentalResistance;
+	float physicalResistance;
 
-	AttributeUpdateMessage(unsigned int playerId, int attribute, int attributeType)
+	AttributeUpdateMessage(unsigned int _id, int _strength, int _wits, int _fortitude, int _agility, int _towerConstruction,
+		int _maxHealth, float _mentalDamage, float _physicalDamage, float _mentalResistance, float _physicalResistance)
 	{
 		this->type = Message::Type::AttributeUpdate;
 		this->reciverId = 1;
-		this->playerId = playerId;
-		this->attribute = attribute;
-		this->attributeType = attributeType;
+
+		id = _id;
+		strength = _strength;
+		wits = _wits;
+		fortitude = _fortitude;
+		agility = _agility;
+		towerConstruction = _towerConstruction;
+		maxHealth = _maxHealth;
+		mentalDamage = _mentalDamage;
+		physicalDamage = _physicalDamage;
+		mentalResistance = _mentalResistance;
+		physicalResistance = _physicalResistance;
 	}
 };
 
