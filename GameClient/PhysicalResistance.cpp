@@ -9,6 +9,7 @@ PhysicalResistance::PhysicalResistance(unsigned int _senderId) : Skill(Skill::PH
 	{
 		UnitEntity* ue = (UnitEntity*)e;
 		ue->alterPhysicalResistance(-0.15f);
+		ue->alterPhysicalResistanceUpgrades(1);
 	}	
 }
 
@@ -20,6 +21,7 @@ PhysicalResistance::~PhysicalResistance()
 	{
 		UnitEntity* ue = (UnitEntity*)e;
 		ue->alterPhysicalResistance(0.15f);
+		ue->alterPhysicalResistanceUpgrades(-1);
 	}	
 }
 

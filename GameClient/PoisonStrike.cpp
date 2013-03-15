@@ -18,7 +18,7 @@ bool PoisonStrike::activate(unsigned int _targetId, unsigned int _senderId)
 	UnitEntity *caster = (UnitEntity*)EntityHandler::getServerEntity(_senderId);
 	UnitEntity *target = (UnitEntity*)EntityHandler::getServerEntity(_targetId);
 
-	if(poison < PoisonStrike::POISON_STRIKE_CHANCE)
+	if(poison < PoisonStrike::POISON_STRIKE_CHANCE + caster->getWits())
 	{
 		if(target->getPoisonCounter() < 4)
 		{

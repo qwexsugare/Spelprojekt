@@ -55,6 +55,8 @@ protected:
 	int m_poisonStackDamage;
 	int m_extraDivinePower;
 	int m_turretDamageUpgrade;
+	int m_physicalResistanceUpgrades;
+	int m_mentalResistanceUpgrades;
 public:
 	static const int MAX_STRENGTH = 20;
 	static const int MAX_AGILITY = 20;
@@ -96,7 +98,9 @@ public:
 	void alterPhysicalResistance(float _value);
 	void alterTurretDuration(int _turretDuration);
 	void alterTurretDamageUpgrade(int _turretDamageUpgrade);
-	void setGreed(float _greed);
+	void alterPhysicalResistanceUpgrades(int _physicalResistanceUpgrades);
+	void alterMentalResistanceUpgrades(int _mentalResistanceUpgrades);
+	void setGreed(int _greed);
 	void setMaxHealth(int _maxHealth);
 	void setSwiftAsACatPowerfulAsABear(bool _val) { m_swiftAsACatPowerfulAsABear = _val; }
 	void setPoisonCounter(int _poisonCounter);
@@ -117,7 +121,7 @@ public:
 	float getMentalDamage();
 	float getPhysicalResistance();
 	float getMentalResistance();
-	float getGreed();
+	int getGreed();
 	int getTurretDuration();
 	int getPoisonCounter();
 
