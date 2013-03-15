@@ -39,6 +39,8 @@ LoadingState::~LoadingState()
 {
 	g_graphicsEngine->removeSprite(m_img);
 	delete m_skip;
+	stopSound(m_speech);
+	deactivateSound(m_speech);
 }
 
 State::StateEnum LoadingState::nextState()
@@ -51,8 +53,6 @@ void LoadingState::update(float _dt)
 	m_skip->Update();
 	if(m_skip->isClicked())
 	{
-		stopSound(m_speech);
-		deactivateSound(m_speech);
 		m_network->sendMessage(NetworkReadyMessage(true));
 	}
 
