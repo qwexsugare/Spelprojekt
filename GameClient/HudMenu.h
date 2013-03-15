@@ -64,6 +64,9 @@ private:
 	Model* m_towerModel;
 	Model* m_subTowerModel; // for frost turret base.
 
+	bool m_placingTargetedSkill;
+	Model* m_targetModel;
+
 	int m_strength;
 	int m_agility;
 	int m_wits;

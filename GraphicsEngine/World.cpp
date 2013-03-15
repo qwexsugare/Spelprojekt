@@ -147,6 +147,42 @@ World::~World()
 		delete this->m_quadTree;
 }
 
+bool World::intersectsWithObject(const BoundingOrientedBox& _obb, Model* _model1, Model* _model2)
+{
+	bool ret = false;
+
+	for(int i = 0; i < m_models.size(); i++)
+	{
+		if(m_models[i] != _model1 && m_models[i] != _model2 && m_models[i]->intersects(_obb))
+		{
+			ret = true;
+			i = m_models.size();
+		}
+	}
+	if(!ret)
+		ret = m_quadTree->intersectsWithObject(_obb);
+
+	return ret;
+}
+
+bool World::intersectsWithObject(const BoundingSphere& _bs, Model* _model1, Model* _model2)
+{
+	bool ret = false;
+
+	for(int i = 0; i < m_models.size(); i++)
+	{
+		if(m_models[i] != _model1 && m_models[i] != _model2 && m_models[i]->intersects(_bs))
+		{
+			ret = true;
+			i = m_models.size();
+		}
+	}
+	if(!ret)
+		ret = m_quadTree->intersectsWithObject(_bs);
+
+	return ret;
+}
+
 bool World::addRoad(Road* _road)
 {
 	return this->m_quadTree->addRoad(_road);
@@ -481,93 +517,99 @@ void World::render()
 	this->m_deviceHandler->getDevice()->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 	for(int i = 0; i < transparentStaticModels.size(); i++)
 	{
-		this->m_deferredSampler->setModelMatrix(transparentStaticModels[i]->getModelMatrix());
-		this->m_deferredSampler->setModelAlpha(transparentStaticModels[i]->getAlpha());
-
-		for(int m = 0; m < transparentStaticModels[i]->getMesh()->subMeshes.size(); m++)
+		if(transparentStaticModels[i]->getAlpha() > 0.0f)
 		{
-			this->m_deferredSampler->setTexture(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getTextureIndex()]);
-			this->m_deferredSampler->setNormalMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-			this->m_deferredSampler->setGlowMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getGlowIndex()]);
-			this->m_deferredSampler->setSpecularMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
+			this->m_deferredSampler->setModelMatrix(transparentStaticModels[i]->getModelMatrix());
+			this->m_deferredSampler->setModelAlpha(transparentStaticModels[i]->getAlpha());
 
-			if(transparentStaticModels[i]->getMesh()->isAnimated)
+			for(int m = 0; m < transparentStaticModels[i]->getMesh()->subMeshes.size(); m++)
 			{
-				transparentStaticModels[i]->getAnimation()->UpdateSkeletonTexture();
-				this->m_deferredSampler->setBoneTexture(transparentStaticModels[i]->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(transparentStaticModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
-			}
-			else
-			{
-				this->m_deviceHandler->setVertexBuffer(transparentStaticModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
-				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
-			}
+				this->m_deferredSampler->setTexture(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getTextureIndex()]);
+				this->m_deferredSampler->setNormalMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+				this->m_deferredSampler->setGlowMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures[transparentStaticModels[i]->getGlowIndex()]);
+				this->m_deferredSampler->setSpecularMap(transparentStaticModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
-			this->m_deviceHandler->getDevice()->Draw(transparentStaticModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
+				if(transparentStaticModels[i]->getMesh()->isAnimated)
+				{
+					transparentStaticModels[i]->getAnimation()->UpdateSkeletonTexture();
+					this->m_deferredSampler->setBoneTexture(transparentStaticModels[i]->getAnimation()->getResource());
+					this->m_deviceHandler->setVertexBuffer(transparentStaticModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+				}
+				else
+				{
+					this->m_deviceHandler->setVertexBuffer(transparentStaticModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getSuperInputLayout());
+					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex( 0 )->Apply(0);
+				}
+
+				this->m_deviceHandler->getDevice()->Draw(transparentStaticModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
+			}
 		}
 	}
 
 	for(int i = 0; i < transparentModels.size(); i++)
 	{
-		this->m_deferredSampler->setModelMatrix(transparentModels[i]->getModelMatrix());
-		this->m_deferredSampler->setModelAlpha(transparentModels[i]->getAlpha());
-
-		for(int m = 0; m < transparentModels[i]->getMesh()->subMeshes.size(); m++)
+		if(transparentModels[i]->getAlpha() > 0.0f)
 		{
-			m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
-			m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
-			this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getGlowIndex()]);
-			m_deferredSampler->setSpecularMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
+			this->m_deferredSampler->setModelMatrix(transparentModels[i]->getModelMatrix());
+			this->m_deferredSampler->setModelAlpha(transparentModels[i]->getAlpha());
 
-			if(transparentModels[i]->getMesh()->isAnimated)
+			for(int m = 0; m < transparentModels[i]->getMesh()->subMeshes.size(); m++)
 			{
-				transparentModels[i]->getAnimation()->UpdateSkeletonTexture();
-				this->m_deferredSampler->setBoneTexture(transparentModels[i]->getAnimation()->getResource());
-				this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
-				this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
-				//Draw Props
-				if(transparentModels[i]->getHat())
-				{	
-					this->m_deferredSampler->setTexture(transparentModels[i]->getHat()->subMeshes[m]->textures["color"]);
-					this->m_deferredSampler->setGlowMap(transparentModels[i]->getHat()->subMeshes[m]->textures["glowIntensity"]);
+				m_deferredSampler->setTexture(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getTextureIndex()]);
+				m_deferredSampler->setNormalMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["normalCamera"]);
+				this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[transparentModels[i]->getGlowIndex()]);
+				m_deferredSampler->setSpecularMap(transparentModels[i]->getMesh()->subMeshes[m]->textures["specularColor"]);
 
-					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getHatMatrix());
-					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getHat()->subMeshes[m]->buffer, sizeof(SuperVertex));
-					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
-					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getHat()->subMeshes[m]->numVerts, 0);
-				}
-				if(transparentModels[i]->getRightHand())
+				if(transparentModels[i]->getMesh()->isAnimated)
 				{
-					this->m_deferredSampler->setTexture(transparentModels[i]->getRightHand()->subMeshes[m]->textures["color"]);
+					transparentModels[i]->getAnimation()->UpdateSkeletonTexture();
+					this->m_deferredSampler->setBoneTexture(transparentModels[i]->getAnimation()->getResource());
+					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					this->m_deviceHandler->setInputLayout(this->m_deferredSampler->getInputAnimationLayout());
+					this->m_deferredSampler->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
+					//Draw Props
+					if(transparentModels[i]->getHat())
+					{	
+						this->m_deferredSampler->setTexture(transparentModels[i]->getHat()->subMeshes[m]->textures["color"]);
+						this->m_deferredSampler->setGlowMap(transparentModels[i]->getHat()->subMeshes[m]->textures["glowIntensity"]);
 
-					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getRightHandMatrix());
-					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
-					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
-					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getRightHand()->subMeshes[m]->numVerts, 0);
+						this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getHatMatrix());
+						this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getHat()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getHat()->subMeshes[m]->numVerts, 0);
+					}
+					if(transparentModels[i]->getRightHand())
+					{
+						this->m_deferredSampler->setTexture(transparentModels[i]->getRightHand()->subMeshes[m]->textures["color"]);
+
+						this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getRightHandMatrix());
+						this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getRightHand()->subMeshes[m]->numVerts, 0);
+					}
+					if(transparentModels[i]->getLeftHand())
+					{
+						this->m_deferredSampler->setTexture(transparentModels[i]->getLeftHand()->subMeshes[m]->textures["color"]);
+						this->m_deferredSampler->setGlowMap(transparentModels[i]->getLeftHand()->subMeshes[m]->textures["glowIntensity"]);
+
+						this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getLeftHandMatrix());
+						this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getLeftHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getLeftHand()->subMeshes[m]->numVerts, 0);
+					}
+					this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[""]);
 				}
-				if(transparentModels[i]->getLeftHand())
+				else
 				{
-					this->m_deferredSampler->setTexture(transparentModels[i]->getLeftHand()->subMeshes[m]->textures["color"]);
-					this->m_deferredSampler->setGlowMap(transparentModels[i]->getLeftHand()->subMeshes[m]->textures["glowIntensity"]);
-
-					this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getLeftHandMatrix());
-					this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getLeftHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
-					this->m_deferredSampler->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
-					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getLeftHand()->subMeshes[m]->numVerts, 0);
+					m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
+					m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+					this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
 				}
-				this->m_deferredSampler->setGlowMap(transparentModels[i]->getMesh()->subMeshes[m]->textures[""]);
-			}
-			else
-			{
-				m_deviceHandler->setVertexBuffer(transparentModels[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
-				this->m_deferredSampler->getSuperTechnique()->GetPassByIndex(0)->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(transparentModels[i]->getMesh()->subMeshes[m]->numVerts, 0);
 			}
 		}
 	}

@@ -16,6 +16,7 @@
 #include "MessageHandler.h"
 #include "Statistics.h"
 #include "HealingFountain.h"
+#include "Mission.h"
 
 //Import a map and update it, creating new enemies when needed
 class MapHandler
@@ -39,6 +40,7 @@ private:
 	int m_gridWidth;
 	bool** m_grid;
 	Map map;
+	vector<Mission> missions;
 public:
 	static enum State {RUNNING, VICTORY, DEFEAT};
 

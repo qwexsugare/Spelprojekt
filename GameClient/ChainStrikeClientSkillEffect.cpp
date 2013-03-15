@@ -23,7 +23,7 @@ ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(unsigned int _lastTar
 
 	m_chainEffect = g_graphicsEngine->createChainEffect();
 
-	int sound = createSoundHandle("skills/chain_strike.wav", false, true, _position);
+	int sound = createSoundHandle("skills/chain_strike.wav", false, true, _position, 0.5f);
 	playSound(sound);
 	deactivateSound(sound);
 

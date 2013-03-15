@@ -10,17 +10,15 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 {
 	m_active = true;
 	m_targetId = _targetId;
+	this->m_masterId = _masterId;
+	this->m_aimTime = 1.0f / _animationSpeed;
+	this->m_graphicalEffect = NULL;
+	this->m_particleSystem = NULL;
 
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
 	if(master != NULL)
 	{
-		m_graphicalEffect = g_graphicsEngine->createModel("Arrow", master->m_model->getRightHandPosition());
-		m_graphicalEffect->setAlpha(0.999f);
-
 		master->m_model->getAnimation()->PlayLoop("RangeAttack", -1, _animationSpeed);
-
-		D3DXVECTOR3 newPos = master->m_model->getRightHandPosition().toD3DXVector();
-		this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
 	}
 
 	// Play sound
@@ -43,14 +41,40 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 
 ArrowClientSkillEffect::~ArrowClientSkillEffect()
 {
-	g_graphicsEngine->removeModel(m_graphicalEffect);
-	g_graphicsEngine->removeParticleEngine(this->m_particleSystem);
+	if(m_graphicalEffect)
+	{
+		g_graphicsEngine->removeModel(m_graphicalEffect);
+		g_graphicsEngine->removeParticleEngine(this->m_particleSystem);
+	}
 }
 
 void ArrowClientSkillEffect::update(float _dt)
 {
 	Entity* target = ClientEntityHandler::getEntity(m_targetId);
-	if(target && target->m_health > 0)
+
+	if(this->m_aimTime > 0.0f)
+	{
+		this->m_aimTime -= _dt;
+
+		if(this->m_aimTime <= 0.0f)
+		{
+			Entity* master = ClientEntityHandler::getEntity(this->m_masterId);
+			if(master != NULL && target != NULL)
+			{
+				m_graphicalEffect = g_graphicsEngine->createModel("Arrow", master->m_model->getRightHandPosition());
+				m_graphicalEffect->setAlpha(0.999f);
+
+				FLOAT3 dist = target->m_model->getPosition()-m_graphicalEffect->getPosition();
+				FLOAT3 movement = dist/dist.length();
+
+				this->m_graphicalEffect->move(movement * 0.1f);
+
+				D3DXVECTOR3 newPos = master->m_model->getRightHandPosition().toD3DXVector();
+				this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+			}
+		}
+	}
+	else if(target && target->m_health > 0)
 	{
 		D3DXVECTOR3 newPos = D3DXVECTOR3(m_graphicalEffect->getPosition().x, m_graphicalEffect->getPosition().y, m_graphicalEffect->getPosition().z);
 		this->m_particleSystem->setPosition(newPos);

@@ -9,7 +9,7 @@ Statistics::Statistics(void)
 {
 	this->startLife=10;
 	this->timePlayed=0.0;
-	this->isAtWave=0;
+	this->isAtWave=1;
 }
 
 
@@ -115,4 +115,11 @@ int Statistics::getIsAtWave()
 int Statistics::getStartLife()
 {
 	return Statistics::startLife;
+}
+void Statistics::resetStatistics()
+{
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		Statistics::sPlayers[i].resetPlayer();
+	}
 }

@@ -8,28 +8,33 @@
 CourageHonorValorClientSkillEffect::CourageHonorValorClientSkillEffect(unsigned int _masterId, unsigned int _redKnightId)
 {
 	m_masterId = _masterId;
-	Entity *e = ClientEntityHandler::getEntity(_masterId);
+	Entity *e = ClientEntityHandler::getEntity(m_masterId);
 	if(e != NULL)
 	{
+		m_soundTimer = 3.0f;
+		m_hasSpoken = false;
 		FLOAT3 pos = e->m_model->getPosition();
 		pos.y = 0.01f;
 		m_model = g_graphicsEngine->createModel("Pentagram", pos);
 		m_model->neutralize();
 		m_model->setAlpha(0.75f);
 		m_model->setShadow(false);
+		m_active = true;
 
 		int sound = createSoundHandle("skills/RedKnight_COURAGE.wav", false, true, pos);
 		SpeechManager::speak(_redKnightId, sound);
 		deactivateSound(sound);
 	}
-	m_soundTimer = 3.0f;
-	m_hasSpoken = false;
+	else
+	{
+		m_active = false;
+		m_model = NULL;
+	}
 }
 
 CourageHonorValorClientSkillEffect::~CourageHonorValorClientSkillEffect()
 {
-	Entity *e = ClientEntityHandler::getEntity(m_masterId);
-	if(e)
+	if(m_model)
 		g_graphicsEngine->removeModel(m_model);
 }
 
@@ -72,9 +77,11 @@ void CourageHonorValorClientSkillEffect::update(float _dt)
 			}
 		}
 	}
+	else
+		m_active = false;
 }
 
 bool CourageHonorValorClientSkillEffect::getActive()
 {
-	return true;
+	return m_active;
 }
