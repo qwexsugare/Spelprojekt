@@ -75,6 +75,11 @@ void Skill::setRange(float _range)
 	this->m_range = _range;
 }
 
+void Skill::setCooldown(float _cooldown)
+{
+	this->m_cooldown = _cooldown;
+}
+
 int Skill::getCost()
 {
 	return 0;

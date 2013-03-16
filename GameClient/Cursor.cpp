@@ -3,6 +3,7 @@
 Cursor::Cursor()
 {
 	this->m_sprite = g_graphicsEngine->createSpriteSheet("menu_textures\\MouseCursor.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.075f, 0.15f), INT2(3, 4), 20);
+	this->m_priority = 0;
 }
 
 void Cursor::setPosition(INT2 position)

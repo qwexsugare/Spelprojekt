@@ -28,17 +28,19 @@ UnitEntity::UnitEntity() : ServerEntity()
 	this->m_basePhysicalResistance = 1.0f;
 	this->m_physicalResistanceChange = 0.0f;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
+	this->m_physicalResistanceUpgrades = 0;
 	
 	this->m_baseMentalResistance = 1.0f;
 	this->m_mentalResistanceChange = 0.0f;
 	this->m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
+	this->m_mentalResistanceUpgrades = 0;
 
 	this->m_mentalResistance = 1.0f;
 	this->m_lifeStealChance = 0;
 	this->m_poisonChance = 0;
 	this->m_deadlyStrikeChance = 0;
 	this->m_poisonCounter = 0;
-	this->m_greed = 1.0f;
+	this->m_greed = 0;
 	this->m_turretDuration = 1.0f;
 	this->m_attackCooldown = 0.0f;
 	this->m_stunTimer = 0.0f;
@@ -74,10 +76,12 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_physicalDamage = 1.0f;
 	this->m_physicalResistanceChange = 0.0f;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
+	this->m_physicalResistanceUpgrades = 0;
 	
 	this->m_baseMentalResistance = 1.0f;
 	this->m_mentalResistanceChange = 0.0f;
 	this->m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
+	this->m_mentalResistanceUpgrades = 0;
 	
 	this->m_baseMentalDamage = 1.0f;
 	this->m_mentalDamageChange = 0.0f;
@@ -87,7 +91,7 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_poisonChance = 0;
 	this->m_deadlyStrikeChance = 0;
 	this->m_poisonCounter = 0;
-	this->m_greed = 1.0f;
+	this->m_greed = 0;
 	this->m_turretDuration = 1.0f;
 	this->m_attackCooldown = 0.0f;
 	this->m_turretDamageUpgrade = 1;
@@ -129,6 +133,12 @@ void UnitEntity::applyFrostTurretSlowEffect(float _value)
 	this->alterAttackSpeed(-m_frostTurretSlowEffectValue);
 }
 
+void UnitEntity::sendAttributesToClient()const
+{
+	m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(this->m_id, m_strength, m_wits, m_fortitude, m_agility, m_turretConstruction, m_maxHealth, 
+		m_mentalDamage, m_physicalDamage, m_mentalResistance, m_physicalResistance));
+}
+
 void UnitEntity::addSkill(Skill *_skill)
 {
 	this->m_mutex.Lock();
@@ -156,7 +166,7 @@ void UnitEntity::alterAttackSpeed(float _value)
 void UnitEntity::alterMentalResistance(float _value)
 {
 	m_mentalResistanceChange += _value;
-	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
 }
 
 void UnitEntity::alterMovementSpeed(float _value)
@@ -168,7 +178,7 @@ void UnitEntity::alterMovementSpeed(float _value)
 void UnitEntity::alterPhysicalResistance(float _value)
 {
 	m_physicalResistanceChange += _value;
-	m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
+	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude;
 }
 
 vector<Skill*> UnitEntity::getSkills()
@@ -227,8 +237,15 @@ void UnitEntity::increaseStrength(int _strength)
 	
 	this->m_physicalDamage += _strength * 5;
 	m_basePhysicalResistance -= _strength * 0.02f;
-	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange;
 	this->m_strength += _strength;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
+
+	if(this->m_physicalResistance < 0.0f)
+	{
+		this->m_physicalResistance = 0.0f;
+	}
+	
+	this->sendAttributesToClient();
 }
 
 void UnitEntity::increaseAgility(int _agility)
@@ -242,6 +259,8 @@ void UnitEntity::increaseAgility(int _agility)
 	this->m_baseAttackSpeed -= _agility * 0.05f;
 	this->m_attackSpeed = m_baseAttackSpeed - m_attackSpeedChange;
 	this->m_agility += _agility;
+
+	this->sendAttributesToClient();
 }
 
 void UnitEntity::increaseWits(int _wits)
@@ -254,6 +273,8 @@ void UnitEntity::increaseWits(int _wits)
 	m_mentalDamage = m_baseMentalDamage + m_mentalDamageChange;
 	this->m_turretDuration += _wits * 0.5f;
 	m_wits += _wits;
+
+	this->sendAttributesToClient();
 }
 
 void UnitEntity::increaseFortitude(int _fortitude)
@@ -268,10 +289,15 @@ void UnitEntity::increaseFortitude(int _fortitude)
 	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 	m_fortitude += _fortitude;
 
+	this->m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude;
+
 	if(this->m_mentalResistance < 0.0f)
 	{
 		this->m_mentalResistance = 0.0f;
 	}
+
+	this->sendAttributesToClient();
+	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(), this->m_health));
 }
 
 void UnitEntity::increaseTurretConstruction(int _towerConstruction)
@@ -282,6 +308,8 @@ void UnitEntity::increaseTurretConstruction(int _towerConstruction)
 	}
 
 	this->m_turretConstruction += _towerConstruction;
+
+	this->sendAttributesToClient();
 }
 
 bool UnitEntity::isSlowedByFrostTurret()
@@ -299,7 +327,7 @@ void UnitEntity::setPoisonCounter(int _poisonCounter)
 	this->m_poisonCounter = _poisonCounter;
 }
 
-void UnitEntity::setGreed(float _greed)
+void UnitEntity::setGreed(int _greed)
 {
 	this->m_greed = _greed;
 }
@@ -312,6 +340,18 @@ void UnitEntity::alterTurretDuration(int _turretDuration)
 void UnitEntity::alterTurretDamageUpgrade(int _turretDamageUpgrade)
 {
 	this->m_turretDamageUpgrade += _turretDamageUpgrade;
+}
+
+void UnitEntity::alterPhysicalResistanceUpgrades(int _physicalResistanceUpgrades)
+{
+	this->m_physicalResistanceUpgrades += _physicalResistanceUpgrades;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
+}
+
+void UnitEntity::alterMentalResistanceUpgrades(int _mentalResistanceUpgrades)
+{
+	this->m_mentalResistanceUpgrades += _mentalResistanceUpgrades;
+	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude;
 }
 
 int UnitEntity::getStrength()
@@ -389,7 +429,7 @@ float UnitEntity::getMentalResistance()
 	return this->m_mentalResistance;
 }
 
-float UnitEntity::getGreed()
+int UnitEntity::getGreed()
 {
 	return this->m_greed;
 }
@@ -431,7 +471,7 @@ void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int
 	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
 	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
 	this->m_lastDamageDealer = damageDealerId;
-	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(),(float)((float)this->m_health / (float)this->m_maxHealth) * 1000.0f));
+	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(), this->m_health));
 
 	// Dbg
 	stringstream ss;
@@ -463,7 +503,7 @@ void UnitEntity::heal(int health)
 		Statistics::getStatisticsPlayer(networkId).increaseHealdAmount(health);
 	}
 	this->m_health = min(m_health+health, m_maxHealth);
-	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(),(float)((float)this->m_health / (float)this->m_maxHealth) * 1000.0f));
+	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(), this->m_health));
 }
 
 void UnitEntity::stun(float _time)

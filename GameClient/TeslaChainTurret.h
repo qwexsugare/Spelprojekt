@@ -8,7 +8,8 @@
 class TeslaChainTurret : public Turret
 {
 private:
-	int m_damage;
+	int m_minDamage;
+	int m_maxDamage;
 	int m_numberOfHits;
 public:
 	static const int COST = 150;

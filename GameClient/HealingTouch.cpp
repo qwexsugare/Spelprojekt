@@ -23,7 +23,7 @@ bool HealingTouch::activate(unsigned int _targetId, unsigned int _senderId)
 	{
 		if(this->getCurrentCooldown() == 0 && (caster->getPosition() - target->getPosition()).length() <= RANGE)
 		{
-			((Hero*)target)->heal(((((Hero*)caster)->getWits()*5)+50)*2);
+			((Hero*)target)->heal(((Hero*)caster)->getWits()*10);
 			caster->getMessageQueue()->pushOutgoingMessage(new CreateActionTargetMessage(Skill::HEALING_TOUCH, _senderId, _targetId, caster->getPosition()));
 			this->resetCooldown();
 			return true;

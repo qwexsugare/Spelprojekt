@@ -275,12 +275,12 @@ void MapHandler::loadMap(std::string filename)
 				file >> q >> w >> e >> r >> t >> y >> u >> i;
 				createWave(q,w,e,r,t,y,u,i);
 			}
-			if(type[0]=='m')
+			/*if(type[0]=='m')
 			{
 				file >> missionType >> posx>> posz>> startTime >> endTime;
 				this->missions.push_back(Mission());
 				this->missions[this->missions.size()-1].createMission(missionType, posx, posz, startTime, endTime);
-			}
+			}*/
 			
 		}
 	}

@@ -60,7 +60,7 @@ HRESULT ClientHandler::run()
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
-			
+
 			this->m_messages.push_back(msg);
 		}
 		else
@@ -68,7 +68,7 @@ HRESULT ClientHandler::run()
 			__int64 currTimeStamp = 0;
 			QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
 			float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
-			
+
 			this->update(dt);
 			g_graphicsEngine->update(dt);
 			g_graphicsEngine->render();
@@ -114,7 +114,7 @@ void ClientHandler::update(float _dt)
 	if(this->m_state->isDone())
 	{
 		State* tempState = this->m_state;
-		
+
 		switch(this->m_state->nextState())
 		{
 		case State::INTRO:
@@ -135,7 +135,7 @@ void ClientHandler::update(float _dt)
 			this->m_state = new CreateGameState();
 			break;
 		case State::JOIN_GAME:
-			this->m_state = new JoinGameState();
+			this->m_state = new JoinGameState(this->m_client);
 			break;
 		case State::LOBBY:
 			this->m_state = new LobbyState(this->m_client);
@@ -156,8 +156,6 @@ void ClientHandler::update(float _dt)
 			else
 			{
 				JoinGameState *tempJoinState = (JoinGameState*)tempState;
-				this->m_client->connect(tempJoinState->getIP(), tempJoinState->getPort());
-
 				//sends le player name, code 1337, hardcoreporn
 				sf::Packet playerName;
 				playerName << (int)NetworkMessage::setPlayerName << tempJoinState->getPlayerName();

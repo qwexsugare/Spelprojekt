@@ -1,6 +1,6 @@
 #include "TimeIsMoney.h"
 
-const float TimeIsMoney::COOLDOWN = 20.0f;
+const float TimeIsMoney::COOLDOWN = 30.0f;
 
 TimeIsMoney::TimeIsMoney() : Skill(Skill::TIME_IS_MONEY, TimeIsMoney::COOLDOWN)
 {
@@ -21,11 +21,14 @@ bool TimeIsMoney::activate(unsigned int _senderId)
 {
 	if(this->getCurrentCooldown() == 0 && this->m_active == false)
 	{
-		this->resetCooldown();
 		this->m_active = true;
 		ServerEntity* e = EntityHandler::getServerEntity(_senderId);
 		if(e)
+		{
 			e->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::TIME_IS_MONEY, _senderId, e->getPosition()));
+			this->setCooldown(TimeIsMoney::COOLDOWN - ((UnitEntity*)e)->getTurretConstruction());
+		}
+		this->resetCooldown();
 		return true;
 	}
 	else

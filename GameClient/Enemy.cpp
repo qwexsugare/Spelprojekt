@@ -457,6 +457,8 @@ void Enemy::checkPursue()
 	{	
 		m_willPursue = false;
 	}
+	else 
+		m_willPursue = true;
 
 
 	if(!m_willPursue)
