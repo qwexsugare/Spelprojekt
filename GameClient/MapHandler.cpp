@@ -280,7 +280,6 @@ void MapHandler::loadMap(std::string filename)
 				file >> missionType >> posx>> posz>> startTime >> endTime;
 				this->missions.push_back(Mission());
 				this->missions[this->missions.size()-1].createMission(missionType, posx, posz, startTime, endTime);
-				//EntityHandler::addEntity(new Mission(this->mission));
 			}
 			
 		}
@@ -307,6 +306,14 @@ void MapHandler::update(float _dt)
 				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
 				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
 				this->m_enemySpawnTimer = 2.0f;
+				//EntityHandler::addEntity(new Mission(this->mission));
+				for(int i=0;i<this->missions.size();i++)
+				{
+					if(this->missions[i].startMission())
+					{
+						EntityHandler::addEntity(new Mission(this->missions[i]));
+					}
+				}
 			}
 			else
 			{
