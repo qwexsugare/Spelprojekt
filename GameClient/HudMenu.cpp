@@ -6,9 +6,9 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_network = _network;
 	m_Chat = false;
 	m_menuButton = new Button();
-	m_menuButton->Init(FLOAT2(0.5f, 0.75f), FLOAT2(0.25f, 0.25f), "menu_textures/menu_button.png", "");
+	m_menuButton->Init(FLOAT2(0.7f, 0.80f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-MainMenu.png", "");
 	m_leaveButton = new Button();
-	m_leaveButton->Init(FLOAT2(0.0f, 0.75f), FLOAT2(0.25f, 0.25f), "menu_textures/menu_button.png", "");
+	m_leaveButton->Init(FLOAT2(0.7f, 0.75f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-LeaveGame.png", "");
 	m_leaveButton->setVisible(false);
 	m_done = false;
 	m_SkillHud.push_back(-1.5f);
@@ -164,9 +164,21 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1150,1060),55);
 	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1150,1030),55);
 	
-	this->m_AttributeText.resize(4);
+	this->m_AttributeText.resize(8);
 	this->m_AttributeText[0] = new TextLabel("","text5.png",INT2(90, 987),55);
-	this->m_AttributeText[0]->setText(m_Attributes[0] +"                    "+ m_Attributes[1] +"                    "+ m_Attributes[2]+"                    "+ m_Attributes[3]+"                    "+m_Attributes[4]);
+	this->m_AttributeText[0]->setText(m_Attributes[0]);
+	
+	this->m_AttributeText[4] = new TextLabel("","text5.png",INT2(160, 987),55);
+	this->m_AttributeText[4]->setText(m_Attributes[1]);
+	
+	this->m_AttributeText[5] = new TextLabel("","text5.png",INT2(230, 987),55);
+	this->m_AttributeText[5]->setText(m_Attributes[2]);
+	
+	this->m_AttributeText[6] = new TextLabel("","text5.png",INT2(300, 987),55);
+	this->m_AttributeText[6]->setText(m_Attributes[3]);
+	
+	this->m_AttributeText[7] = new TextLabel("","text5.png",INT2(370, 987),55);
+	this->m_AttributeText[7]->setText(m_Attributes[4]);
 	
 	this->m_AttributeText[1] = new TextLabel("","text6.png",INT2(180, 2),45);
 	this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
@@ -403,11 +415,15 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerModel->setAlpha(0.5f);
 	}
 
-	this->m_AttributeText[0]->setText(	m_Attributes[0] +"           "+ 
-									m_Attributes[1] +"           "+ 
-									m_Attributes[2] +"          "+ 
-									m_Attributes[3] +"          "+
-									m_Attributes[4]);
+	this->m_AttributeText[0]->setText(m_Attributes[0]);
+	
+	this->m_AttributeText[4]->setText(m_Attributes[1]);
+	
+	this->m_AttributeText[5]->setText(m_Attributes[2]);
+	
+	this->m_AttributeText[6]->setText(m_Attributes[3]);
+	
+	this->m_AttributeText[7]->setText(m_Attributes[4]);
 	if(m_Buy == false)
 	{
 		this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
@@ -774,11 +790,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 	}
 
-	if(m_menuButton->isClicked())
+	if(m_menuButton->isClicked() && m_Buy== false)
 	{
 		m_leaveButton->setVisible(!m_leaveButton->isVisible());
 	}
-	if(m_leaveButton->isVisible())
+	if(m_leaveButton->isVisible() && m_Buy==false)
 	{
 		m_leaveButton->Update();
 		if(m_leaveButton->isClicked())

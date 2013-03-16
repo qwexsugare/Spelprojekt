@@ -2843,3 +2843,16 @@ GameClient/models/Char/EngiDeselect.BFishA
 GameClient/models/Char/EngiIdle.BFishA
 GameClient/models/Char/EngiSelect.BFishA
 GameClient/models/Char/EngiSelectIdle.BFishA
+GameClient/maps/levelone.txt
+GameClient/maps/levelonebmp1.png
+GameClient/maps/levelonebmp2.png
+GameClient/maps/levelonegm.png
+GameClient/maps/leveloneminimap(0).png
+GameClient/maps/leveloneminimap.png
+GameClient/maps/levelonewaves.txt
+GameClient/menu_textures/SmallButton-MainMenu-CreateGame.png
+GameClient/menu_textures/SmallButton-MainMenu-LeaveGame.png
+GameClient/models/Beast/Beast_Scaled_DM_HS.png.filepart
+GameClient/models/Beast/Beast_Scaled_Souleater_DM.png.filepart
+GameClient/models/Beast/Beast_Scaled_Thunder_DM.png.filepart
+GameClient/models/Beast/Beast_Scaled_UV.png.filepart
