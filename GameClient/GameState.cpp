@@ -156,8 +156,28 @@ State::StateEnum GameState::nextState()
 	return State::END;
 }
 
+#include "ChainStrikeEffect.h"
 void GameState::update(float _dt)
 {
+	// BEGIN SIMULATION
+
+	//static float simulationTimer = 0.0f;
+	//simulationTimer += _dt;
+	//static int lolModder = 0;
+	//if(simulationTimer > ChainStrikeEffect::TIME_BETWEEN_JUMPS)
+	//{
+	//	//// Do a chani strike lient skill effect
+	//	if(lolModder%2 == 0)
+	//		m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(0.0f, 0.0f, 0.0f)));
+	//	else
+	//		m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(64.0f, 0.0f, 64.0f)));
+
+	//	lolModder++;
+	//	simulationTimer -= ChainStrikeEffect::TIME_BETWEEN_JUMPS;
+	//}
+
+	// END SIMULATION
+
 	while(m_network->endGameQueueEmpty() == false)
 	{
 		this->m_endMessage = m_network->endGameQueueFront();
@@ -232,11 +252,14 @@ void GameState::update(float _dt)
 
 		if(entity != NULL)
 		{
-			FLOAT3 p;
-			p.x=e.getXPos();
-			p.y=0;
-			p.z=e.getZPos();
-			entity->m_model->setPosition(p);
+			if(e.getXPos() == e.getXPos() && e.getZPos() == e.getZPos())
+			{
+				FLOAT3 p;
+				p.x=e.getXPos();
+				p.y=0;
+				p.z=e.getZPos();
+				entity->m_model->setPosition(p);
+			}
 			if(e.getYRot() == e.getYRot())
 			{
 				FLOAT3 rot;
@@ -360,18 +383,6 @@ void GameState::update(float _dt)
 			break;
 		case Skill::STUNNING_STRIKE_VICTIM:
 			m_ClientSkillEffects.push_back(new StunningStrikeVictimClientSkillEffect(e.getSenderId()));
-			break;
-		case Skill::STRENGTH:
-			this->m_hud->setStrength(e.getSenderId());
-			break;
-		case Skill::AGILITY:
-			this->m_hud->setAgility(e.getSenderId());
-			break;
-		case Skill::WITS:
-			this->m_hud->setWits(e.getSenderId());
-			break;
-		case Skill::FORTITUDE:
-			this->m_hud->setFortitude(e.getSenderId());
 			break;
 		case Skill::TURRET_CONSTRUCTION:
 			this->m_hud->setTowerConstruction(e.getSenderId());
@@ -621,17 +632,33 @@ void GameState::update(float _dt)
 	{
 		NetworkEntityAttributeMessage e = this->m_network->entityAttributeFront();
 
-		Entity *entity = ClientEntityHandler::getEntity(e.getId());
+		Entity *entity = ClientEntityHandler::getEntity(e.id);
 
 		if(entity != NULL)
 		{
-			entity->m_maxHealth = e.getMaxHealth();
-			entity->m_mentalDamage = e.getMentalDamage();
-			entity->m_physicalDamage = e.getPhysicalDamage();
-			entity->m_mentalResistance = e.getMentalResistance();
-			entity->m_physicalResistance = e.getPhysicalResistance();
+			if(entity->m_type == ServerEntity::HeroType)
+			{
+				// Omfg its your attributes!!!11
+				if(entity->m_id == m_playerInfos[m_yourId].id)
+				{
+					m_hud->setAgility(e.agility);
+					m_hud->setFortitude(e.fortitude);
+					m_hud->setWits(e.wits);
+					m_hud->setStrength(e.strength);
+					m_hud->setTowerConstruction(e.towerConstruction);
+					m_hud->setMaxHealth(e.maxHealth);
+					m_hud->setPhysicalDamage(e.physicalDamage);
+					m_hud->setPhysicalResistance(e.physicalResistance);
+					m_hud->setMentalDamage(e.mentalDamage);
+					m_hud->setMentalResistance(e.mentalResistance);
+				}
+			}
 
-			entity->setHealth(e.getHealth());
+			entity->m_maxHealth = e.maxHealth;
+			entity->m_mentalDamage = e.mentalDamage;
+			entity->m_physicalDamage = e.physicalDamage;
+			entity->m_mentalResistance = e.mentalResistance;
+			entity->m_physicalResistance = e.physicalResistance;
 		}
 	}
 

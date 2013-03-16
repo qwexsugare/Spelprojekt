@@ -13,11 +13,13 @@ StunningStrikeEffect::StunningStrikeEffect(FLOAT3 _position, unsigned int _maste
 	m_timer = 0.0f;
 	m_type = OtherType;
 
+	UnitEntity *ue = (UnitEntity*)EntityHandler::getServerEntity(_masterId);
+
 	vector<ServerEntity*> enemies = EntityHandler::getAllEnemies();
 
 	for(int i = 0; i < enemies.size(); i++)
 	{
-		if(random(1, 100) <= 50)
+		if(random(1, 100) <= 40 + ue->getStrength())
 		{
 			ServerEntity* enemy = (enemies)[i];
 			if(enemy->getObb())

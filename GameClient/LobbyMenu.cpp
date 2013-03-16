@@ -102,9 +102,10 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[16] = new Button();
 	this->m_Buttons[16]->Init(FLOAT2(0.445f,  0.73f),FLOAT2(0.178125f*0.5f,0.194444444f*0.5f),"menu_textures\\CharacterMenu-Button-Mentalist.png","",0,0,1);*/
 
-
 	
-	this->m_slider.Init(FLOAT2(-0.5f, -0.30f), 0.0f, FLOAT2(0.1f,0.2f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
+	
+	this->m_slider.Init(FLOAT2(-0.5f, -0.25f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
 
 	this->m_Label.resize(5);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
@@ -331,7 +332,7 @@ void LobbyMenu::Update(float _dt)
 		{
 			this->m_Label[2]->setText("Engineer");
 			this->m_Label[0]->setText("Strength: 3_Agility: 3_Wits: 5_Fortitude: 1__Weapon:_Gigantic Wrench_Steampowered Crossbow_________Story:_____Skills:");
-			this->m_Label[1]->setText("HEJ JAG R MAD!");
+			this->m_Label[1]->setText("In the modern society of Chevington, the Engineer is a key figure on the forefront of research and development._In a city where most things run on either steam-power, gunpowder or some innovative cog contraption,_the society of engineer command much power and a lot of wealth. This particular engineer_is exceptionally intuitive and probably understands machinery better than he understands people. Who better to oversee the defense of a city highly reliant on such machines?");
 			this->m_Buttons[6]->setTexture("menu_textures\\E0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
 			if (m_Combat == 1)
@@ -617,7 +618,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		{
 			this->m_Label[2]->setText("Engineer");
 			this->m_Label[0]->setText("Strength: 3_Agility: 3_Wits: 5_Fortitude: 1__Weapon:_Gigantic Wrench_Steampowered Crossbow_________Story:_____Skills:");
-			this->m_Label[1]->setText("Roland is Gay!");
+			this->m_Label[1]->setText("In the modern society of Chevington, the Engineer is a key figure on the forefront of research and development._In a city where most things run on either steam-power, gunpowder or some innovative cog contraption,_the society of engineer command much power and a lot of wealth. This particular engineer is exceptionally_intuitive and probably understands machinery better than he understands people. Who better_to oversee the defense of a city highly reliant on such machines?");
 			this->m_Buttons[6]->setTexture("menu_textures\\E0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
 			if (m_Combat == 1)

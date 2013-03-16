@@ -1,7 +1,7 @@
 #include "TargetAcquiredPermissionToFireEffect.h"
 
 const float TargetAcquiredPermissionToFireEffect::RANGE = 2.0f;
-const float TargetAcquiredPermissionToFireEffect::LIFETIME = 5.0f;
+const float TargetAcquiredPermissionToFireEffect::LIFETIME = 4.0f;
 
 TargetAcquiredPermissionToFireEffect::TargetAcquiredPermissionToFireEffect(unsigned int _casterId, FLOAT3 _position)
 {

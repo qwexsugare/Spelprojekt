@@ -23,7 +23,7 @@ MapHandler::MapHandler()
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
-	this->m_lives = 10;
+	this->m_lives = 100;
 	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
@@ -265,9 +265,24 @@ void MapHandler::loadMap(std::string filename)
 		while(!file.eof())
 		{
 			int q,w,e,r,t,y,u,i;
+			string type="w";
+			string missionType;
+			float startTime,endTime, posx,posz;
 			q=w=e=r=t=y=u=i=0;
-			file >> q >> w >> e >> r >> t >> y >> u >> i;
-			createWave(q,w,e,r,t,y,u,i);
+			file >> type;
+			if(type[0]=='w')
+			{
+				file >> q >> w >> e >> r >> t >> y >> u >> i;
+				createWave(q,w,e,r,t,y,u,i);
+			}
+			/*if(type[0]=='m')
+			{
+				file >> missionType >> posx>> posz>> startTime >> endTime;
+				this->missions.push_back(Mission());
+				this->missions[this->missions.size()-1].createMission(missionType, posx, posz, startTime, endTime);
+				//EntityHandler::addEntity(new Mission(this->mission));
+			}*/
+			
 		}
 	}
 	file.close();
@@ -321,7 +336,7 @@ void MapHandler::enemyDied()
 	Statistics::decreaseStartLife();
 }
 
-void MapHandler::createWave(int _imps, int _shades, int _spits, int _frosts, int _souls, int _hell, int _thunder, int _brutes)
+void MapHandler::createWave(int _imps,  int _spits, int _shades, int _frosts, int _souls, int _hell, int _thunder, int _brutes)
 {
 	m_waves.push_back(vector<ServerEntity*>());
 	int totalMonsters = _imps + _shades + _spits + _frosts + _souls + _hell + _thunder + _brutes;

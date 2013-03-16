@@ -26,6 +26,8 @@ private:
 	Client *m_network;
 	int	m_NumberOfSkills;
 	int m_Resources;
+	int m_health;
+	int m_maxHealth;
 
 	vector<float>	m_SkillHud;
 
@@ -93,13 +95,18 @@ public:
 	void removeTargetEnemy();
 	void setResources(unsigned int resources);
 	void skillUsed(unsigned int index, unsigned int actionId, float cooldown);
-	void setHealth(float health);
+	void setHealth(int _health);
+	void setMaxHealth(int _maxHealth);
 	void setLivesRemaining(int livesRemaing);
 	void setTargetEnemy(unsigned int _currentTargetEnemyId);
 	void setStrength(int _strength);
 	void setAgility(int _agility);
 	void setWits(int _wits);
 	void setFortitude(int _fortitude);
+	void setMentalDamage(int _md);
+	void setMentalResistance(float _mr);
+	void setPhysicalDamage(int _pd);
+	void setPhysicalResistance(float _pr);
 	void setTowerConstruction(int _towerConstruction);
 	void setWave(int _wave);
 };

@@ -12,7 +12,7 @@ Greed::~Greed()
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setGreed(ue->getGreed() - 0.2f);
+		ue->setGreed(ue->getGreed() - 1);
 	}	
 }
 
@@ -24,7 +24,7 @@ bool Greed::activate(unsigned int _senderId)
 	if(e != NULL)
 	{
 		UnitEntity* ue = (UnitEntity*)e;
-		ue->setGreed(ue->getGreed() + 0.2f);
+		ue->setGreed(ue->getGreed() + 1);
 	}
 
 	return true;

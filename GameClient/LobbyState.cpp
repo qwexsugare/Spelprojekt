@@ -40,8 +40,8 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 
 	this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerIdle");
 	this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("RedKnightIdle");
-	this->m_engi->getCharacter()->getAnimation()->PlayLoop("idle");
-	this->m_doctor->getCharacter()->getAnimation()->PlayLoop("idle");
+	this->m_engi->getCharacter()->getAnimation()->PlayLoop("EngiIdle");
+	this->m_doctor->getCharacter()->getAnimation()->PlayLoop("DoctorIdle");
 	this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("MentalistIdle");
 	
 	this->cameraRealPos = 0;
@@ -65,6 +65,7 @@ LobbyState::~LobbyState()
 	delete m_emtyRoom;
 
 	g_graphicsEngine->removeDirectionalLight(dl);
+	//g_graphicsEngine->removeChainEffect(test);
 	
 }
 
@@ -73,8 +74,8 @@ void LobbyState::update(float _dt)
 
 	float chainY = 0.3f;
 
-	//test->setOrig(D3DXVECTOR3(m_engi->getCharacter()->getPosition().x, m_officer->getCharacter()->getPosition().y + chainY, m_officer->getCharacter()->getPosition().z));
-	//test->setTarget(D3DXVECTOR3(m_doctor->getCharacter()->getPosition().x, m_redKnight->getCharacter()->getPosition().y + chainY, m_redKnight->getCharacter()->getPosition().z));
+	//test->setOrig(D3DXVECTOR3(m_mentalist->getCharacter()->getPosition().x, m_mentalist->getCharacter()->getPosition().y + chainY, m_mentalist->getCharacter()->getPosition().z));
+	//test->setTarget(D3DXVECTOR3(m_officer->getCharacter()->getPosition().x, m_officer->getCharacter()->getPosition().y + chainY, m_officer->getCharacter()->getPosition().z));
 	//test->setCamPos(g_graphicsEngine->getCamera()->getPos());
 	//test->setViewProj(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
 
@@ -267,16 +268,20 @@ void LobbyState::update(float _dt)
 				}
 				break;
 			case Hero::HERO_TYPE::ENGINEER:
-				if(this->m_engi->getCharacter()->getAnimation()->getCurrentAnimation() == "idle")
+				if(this->m_engi->getCharacter()->getAnimation()->getCurrentAnimation() == "EngiIdle")
 				{
+					this->m_engi->getCharacter()->getAnimation()->PlayLoop("EngiSelectIdle");
+					this->m_engi->getCharacter()->getAnimation()->Play("EngiSelect");
 					this->m_engi->getRoom()->setGlowIndex("glowIntensity2");
 					this->m_engi->getDoor()->getAnimation()->PlayLoop("OpenIdle");
 					this->m_engi->getDoor()->getAnimation()->Play("DoorOpen");
 				}
 				break;
 			case Hero::HERO_TYPE::DOCTOR:
-				if(this->m_doctor->getCharacter()->getAnimation()->getCurrentAnimation() == "idle")
+				if(this->m_doctor->getCharacter()->getAnimation()->getCurrentAnimation() == "DoctorIdle")
 				{
+					this->m_doctor->getCharacter()->getAnimation()->PlayLoop("DoctorSelectedIdle");
+					this->m_doctor->getCharacter()->getAnimation()->Play("DoctorSelected");
 					this->m_doctor->getRoom()->setGlowIndex("glowIntensity3");
 					this->m_doctor->getDoor()->getAnimation()->PlayLoop("OpenIdle");
 					this->m_doctor->getDoor()->getAnimation()->Play("DoorOpen");
@@ -285,6 +290,8 @@ void LobbyState::update(float _dt)
 			case Hero::HERO_TYPE::THE_MENTALIST:
 				if(this->m_mentalist->getCharacter()->getAnimation()->getCurrentAnimation() == "MentalistIdle")
 				{
+					this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("MentalistSelectIdle");
+					this->m_mentalist->getCharacter()->getAnimation()->Play("MentalistSelect");
 					this->m_mentalist->getRoom()->setGlowIndex("glowIntensity4");
 					this->m_mentalist->getDoor()->getAnimation()->PlayLoop("OpenIdle");
 					this->m_mentalist->getDoor()->getAnimation()->Play("DoorOpen");
@@ -328,26 +335,30 @@ void LobbyState::update(float _dt)
 					}
 					break;
 				case Hero::HERO_TYPE::ENGINEER:
-					if(this->m_engi->getCharacter()->getAnimation()->getCurrentAnimation() == "idle")
+					if(this->m_engi->getCharacter()->getAnimation()->getCurrentAnimation() == "EngiSelectIdle")
 					{
+						this->m_engi->getCharacter()->getAnimation()->PlayLoop("EngiIdle");
+						this->m_engi->getCharacter()->getAnimation()->Play("EngiDeselect");
 						this->m_engi->getRoom()->setGlowIndex("");
 						this->m_engi->getDoor()->getAnimation()->PlayLoop("ClosedIdle");
 						this->m_engi->getDoor()->getAnimation()->Play("DoorClose");
 					}
 					break;
 				case Hero::HERO_TYPE::DOCTOR:
-					if(this->m_doctor->getCharacter()->getAnimation()->getCurrentAnimation() == "idle")
+					if(this->m_doctor->getCharacter()->getAnimation()->getCurrentAnimation() == "DoctorSelectedIdle")
 					{
+						this->m_doctor->getCharacter()->getAnimation()->PlayLoop("DoctorIdle");
+						this->m_doctor->getCharacter()->getAnimation()->Play("DoctorDeselected");
 						this->m_doctor->getRoom()->setGlowIndex("");
 						this->m_doctor->getDoor()->getAnimation()->PlayLoop("ClosedIdle");
 						this->m_doctor->getDoor()->getAnimation()->Play("DoorClose");
 					}
 					break;
 				case Hero::HERO_TYPE::THE_MENTALIST:
-					if(this->m_mentalist->getCharacter()->getAnimation()->getCurrentAnimation() == "MentalistIdle")
+					if(this->m_mentalist->getCharacter()->getAnimation()->getCurrentAnimation() == "MentalistSelectIdle")
 					{
-						//this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("MentalistSelectIdle");
-						//this->m_mentalist->getCharacter()->getAnimation()->Play("MentalistSelect");
+						this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("MentalistIdle");
+						this->m_mentalist->getCharacter()->getAnimation()->Play("MentalistDeselect");
 						this->m_mentalist->getRoom()->setGlowIndex("");
 						this->m_mentalist->getDoor()->getAnimation()->PlayLoop("ClosedIdle");
 						this->m_mentalist->getDoor()->getAnimation()->Play("DoorClose");

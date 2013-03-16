@@ -170,6 +170,8 @@ void ServerThread::update(float dt)
 		vector<Player*> players = this->m_network->getPlayers();
 		bool ready = false;
 
+
+
 		for(int i = 0; i < players.size(); i++)
 		{
 			if(players[i]->getReady() == true)
@@ -255,6 +257,7 @@ void ServerThread::update(float dt)
 		}
 
 		m_network->broadcast(NetworkEndGameMessage(true, Statistics::getTimePlayed(), Statistics::getIsAtWave(), Statistics::getStartLife(), playerStatistics));
+		Statistics::resetStatistics();
 		this->m_state = ServerThread::EXIT;
 	}
 	else if(this->m_state == State::DEFEAT)

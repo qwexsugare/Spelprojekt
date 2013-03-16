@@ -12,8 +12,9 @@ class Enemy : public UnitEntity
 public:
 	static enum EnemyType{BOSS, BRUTE_STEED, FROST_DEMON, HELLFIRE_STEED, IMP, SHADE, SOUL_EATER_STEED, SPITTING_DEMON, THUNDERSTEED, NONE};
 private:
-	float lastDT;
+	
 protected:
+	float lastDT;
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
 	float m_aggroRange; 
@@ -51,6 +52,7 @@ protected:
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path, EnemyType _type);
+	Enemy(FLOAT3 pos, EnemyType type);
 	virtual ~Enemy();
 	void updateSpecificUnitEntity(float dt);
 	//void setNextPosition(FLOAT3 _nextPosition);
@@ -72,6 +74,11 @@ public:
 	void updateEnemyAvDir(FLOAT3 _val);
 	FLOAT3 getEndPos();
 	int getSubType()const;
+
+	void updateDirection(float lastDT);
+	void checkAttack(float lastDT);
+	void moveAndRotate(float lastDT);
+	void checkGoal(float lastDT);
 };
 
 #endif

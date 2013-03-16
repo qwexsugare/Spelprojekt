@@ -551,6 +551,9 @@
     <ClCompile Include="NetworkUpdateEntityHealth.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="Mission.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
     <ClCompile Include="NetworkEntityAttributeMessage.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -1140,6 +1143,9 @@
     </ClInclude>
     <ClInclude Include="NetworkTextMessage.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Mission.h">
+      <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="NetworkEntityAttributeMessage.h">
       <Filter>Network</Filter>

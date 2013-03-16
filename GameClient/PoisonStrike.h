@@ -10,7 +10,7 @@ private:
 	unsigned int m_senderId;
 public:
 	static const unsigned int COST = 1700;
-	static const int POISON_STRIKE_CHANCE = 25;
+	static const int POISON_STRIKE_CHANCE = 10;
 
 	PoisonStrike();
 	~PoisonStrike();

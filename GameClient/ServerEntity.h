@@ -37,7 +37,6 @@ public:
 	const BoundingOrientedBox* getObb()const { return this->m_obb; }
 	MessageQueue *getMessageQueue();
 	virtual NetworkEntityMessage getUpdate();
-	virtual NetworkEntityAttributeMessage getAttributeUpdate();
 
 	void setId(unsigned int _id);
 	void setModelId(unsigned int _modelId);
