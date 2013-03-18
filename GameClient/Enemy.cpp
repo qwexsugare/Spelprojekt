@@ -229,7 +229,7 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 void Enemy::moveAndRotate(float lastDT)
 {
-	if(this->m_health > 0 && (m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
+	if((m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
 		{
 			if(this->m_dir.length()>0)
 			{

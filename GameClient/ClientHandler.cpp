@@ -60,30 +60,6 @@ HRESULT ClientHandler::run()
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
-
-			switch(msg.message)
-			{
-				case WM_KEYDOWN: // Key gets pressed
-					g_keyboard->keyDown(msg.wParam);
-					break;
-				case WM_KEYUP: // Key gets released
-					g_keyboard->keyUp(msg.wParam);
-					break;
-				case WM_LBUTTONDOWN: // Left mouse button down
-					g_mouse->lButtonDown();
-					break;
-				case WM_RBUTTONDOWN: // Right mouse button down
-					g_mouse->rButtonDown();
-					break;
-				case WM_LBUTTONUP: // Left mouse button up
-					g_mouse->lButtonUp();
-					break;
-				case WM_RBUTTONUP: // Right mouse button up
-					g_mouse->rButtonUp();
-					break;
-			}
-
-			this->m_messages.push_back(msg);
 		}
 		else
 		{
@@ -104,15 +80,6 @@ HRESULT ClientHandler::run()
 
 void ClientHandler::update(float _dt)
 {
-	// Update controls
-	for(int i = 0; i < this->m_messages.size(); i++)
-	{
-		switch(this->m_messages[i].message)
-		{
-		}
-	}
-	this->m_messages.clear();
-
 	this->m_state->update(_dt);
 	if(this->m_state->isDone())
 	{
