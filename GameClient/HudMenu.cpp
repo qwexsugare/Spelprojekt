@@ -40,50 +40,12 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	this->m_subTowerModel = NULL;
 	this->m_towerModel = NULL;
 
-	m_heroType = _heroType;
-	switch(_heroType)
-	{
-	case Hero::OFFICER:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("3");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("3");
-		break;
-	case Hero::DOCTOR:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("3");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("3");
-		break;
-	case Hero::ENGINEER:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("2");
-		m_Attributes.push_back("3");
-		m_Attributes.push_back("3");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("1");
-		break;
-	case Hero::THE_MENTALIST:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("4");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("2");
-		break;
-	case Hero::RED_KNIGHT:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("2");
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("4");
-		break;
-	}
+	// Stats (Attributes)
+	m_Attributes.push_back("");
+	m_Attributes.push_back("");
+	m_Attributes.push_back("");
+	m_Attributes.push_back("");
+	m_Attributes.push_back("");
 	//health 5,6
 	m_Attributes.push_back("400");
 	m_Attributes.push_back("400");
@@ -95,6 +57,31 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	// Mental res and damage 10, 11
 	m_Attributes.push_back("50");
 	m_Attributes.push_back("0-400");
+
+	m_heroType = _heroType;
+	switch(_heroType)
+	{
+	case Hero::OFFICER:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "Officer";
+		break;
+	case Hero::DOCTOR:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "Doctor";
+		break;
+	case Hero::ENGINEER:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "Engineer";
+		break;
+	case Hero::THE_MENTALIST:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "The Mentalist";
+		break;
+	case Hero::RED_KNIGHT:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "Red Knight";
+		break;
+	}
 
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Lower.png", FLOAT2(0,0),  FLOAT2(2,2),7));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Minimap.png", FLOAT2(0,0),  FLOAT2(2,2),1));
@@ -1079,9 +1066,14 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 
 void HudMenu::setHealth(int _health)
 {
-	stringstream ss;
-	ss << _health;
-	m_Attributes[5] = ss.str();
+	if(_health > 0)
+	{
+		stringstream ss;
+		ss << _health;
+		m_Attributes[5] = ss.str();
+	}
+	else
+		m_Attributes[5] = "0";
 
 	this->m_health = _health;
 	float h = (1.0f - (float)this->m_health / (float)this->m_maxHealth);
