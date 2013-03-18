@@ -19,24 +19,12 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	m_origPos = _pos;
 	m_allowedMovement = 4.0f;
 
-	/*m_health = 100*m_fortitude; 
-	m_physicalDamage = m_strength*5;
-	m_mentalDamage = m_wits*5;
-	m_baseMovementSpeed = 2.0 + m_agility*0.1f;
-	m_movementSpeed = m_baseMovementSpeed;
-	m_baseAttackSpeed = 2.0 - m_agility* 0.05f;
-	m_attackSpeed = m_baseAttackSpeed;
-
-	m_basePhysicalResistance = 1.00f - m_strength*2*0.01f;
-	m_physicalResistance = m_basePhysicalResistance ; 
-
-	m_baseMentalResistance = 1.00f - m_fortitude*2*0.01f;
-	m_mentalResistance = m_baseMentalResistance;*/
+	
 
 	m_skills.push_back(new StunningStrike());
 	m_regularAttack = new MeleeAttack();
 	m_regularAttack->setRange(m_regularAttack->getRange()*1.5);
-	m_aggroRange = 2.0f + m_regularAttack->getRange() *2.0f;
+	m_aggroRange = 2.0f + m_regularAttack->getRange();
 	
 
 	Model *m = g_graphicsEngine->createModel("Imp", m_position);
@@ -65,8 +53,7 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
 	
-	//if the ai has reached the church, it will tell the server
-	//and starts a timer which makes the ai stand still for x sec
+
 	
 	if(this->lastDT>0.05)
 	{
@@ -83,6 +70,11 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 			if(m_dir.length() > 0)
 				m_dir = m_dir/m_dir.length();
 
+			m_position = m_position + m_dir*lastDT*m_movementSpeed;
+		}
+		else if(!m_willPursue)
+		{
+			m_dir = (m_origPos - m_position)/(m_origPos - m_position).length();
 			m_position = m_position + m_dir*lastDT*m_movementSpeed;
 		}
 		
