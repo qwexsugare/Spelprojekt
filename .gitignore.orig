@@ -2796,10 +2796,34 @@ GameClient/models/rum/RoomCloseDoor.BFishA
 GameClient/models/rum/RoomIdleCloseDoor.BFishA
 GameClient/models/rum/RoomIdleOpenDoor.BFishA
 GameClient/models/rum/RoomOpenDoor.BFishA
-<<<<<<< HEAD
 GameClient/menu_textures/Button-Skill-Resource2.psd
-=======
 GameClient/config.ini
 GameClient/models/Char/MentalistIdle.BFishA
 GameClient/models/Target/Target_Glow.png
->>>>>>> cf0938f0b95e2670e972ba32a776d19d6b21b607
+GameClient/models/Beast/BeastStunned.BFishA
+GameClient/models/Char/DoctorDeselected.BFishA
+GameClient/models/Char/DoctorIdle.BFishA
+GameClient/models/Char/DoctorSelected.BFishA
+GameClient/models/Char/DoctorSelectedIdle.BFishA
+GameClient/models/Char/MentalistDeselect.BFishA
+GameClient/models/Char/MentalistSelect.BFishA
+GameClient/models/Char/MentalistSelectIdle.BFishA
+GameClient/models/Door/ClosedIdle.BFishA
+GameClient/models/Door/Door.BFish
+GameClient/models/Door/DoorClose.BFishA
+GameClient/models/Door/DoorOpen.BFishA
+GameClient/models/Door/Dor.png
+GameClient/models/Door/OpenIdle.BFishA
+GameClient/models/Imp/ImpStunned.BFishA
+GameClient/models/Mace/Mace_UV_GM_GREEN2.png
+GameClient/models/Mace/Mace_UV_GM_Main2.png
+GameClient/models/Mace/Mace_UV_GM_PURPLE2.png
+GameClient/models/Mace/Mace_UV_GM_RED2.png
+<<<<<<< HEAD
+=======
+GameClient/menu_textures/Text6.png
+GameClient/models/Char/EngiDeselect.BFishA
+GameClient/models/Char/EngiIdle.BFishA
+GameClient/models/Char/EngiSelect.BFishA
+GameClient/models/Char/EngiSelectIdle.BFishA
+>>>>>>> e1d315f2c1148073f8a28685b4606c92a0a6d151
