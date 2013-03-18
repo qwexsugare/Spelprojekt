@@ -14,6 +14,7 @@ public:
 private:
 	
 protected:
+	bool bla; 
 	float lastDT;
 	FLOAT3 m_nextPosition;
 	bool m_reachedPosition;
