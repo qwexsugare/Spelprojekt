@@ -1,7 +1,7 @@
 #include "HudMenu.h"
 #include "ClientEntityHandler.h"
 
-HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
+HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos)
 {
 	this->m_network = _network;
 	m_Chat = false;
@@ -40,6 +40,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_subTowerModel = NULL;
 	this->m_towerModel = NULL;
 
+	m_heroType = _heroType;
 	switch(_heroType)
 	{
 	case Hero::OFFICER:
@@ -270,7 +271,7 @@ bool HudMenu::isDone()const
 	return m_done;
 }
 
-void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
+void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos)
 {
 	if(m_hasTargetEnemy)
 	{
@@ -299,11 +300,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			{
 				g_graphicsEngine->removeModel(m_towerModel);
 				m_towerModel = NULL;
-			}
-			if(m_subTowerModel)
-			{
-				g_graphicsEngine->removeModel(m_subTowerModel);
-				m_subTowerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
 			}
 
 			switchedTower = true;
@@ -322,7 +324,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 				break;
 			case Skill::FROST_TURRET:
 				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
 				m_subTowerModel->setAlpha(0.5f);
 				break;
 			case Skill::POISON_TURRET:
@@ -340,11 +342,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(m_towerModel);
 			m_towerModel = NULL;
-		}
-		if(m_subTowerModel)
-		{
-			g_graphicsEngine->removeModel(m_subTowerModel);
-			m_subTowerModel = NULL;
+
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 		}
 		
 		switchedTower = true;
@@ -360,11 +363,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(m_towerModel);
 			m_towerModel = NULL;
-		}
-		if(m_subTowerModel)
-		{
-			g_graphicsEngine->removeModel(m_subTowerModel);
-			m_subTowerModel = NULL;
+
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 		}
 		
 		switchedTower = true;
@@ -373,7 +377,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
 		this->m_towerModel->setAlpha(0.5f);
-		m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+		m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
 		m_subTowerModel->setAlpha(0.5f);
 	}
 	else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
@@ -382,11 +386,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(m_towerModel);
 			m_towerModel = NULL;
-		}
-		if(m_subTowerModel)
-		{
-			g_graphicsEngine->removeModel(m_subTowerModel);
-			m_subTowerModel = NULL;
+
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 		}
 		
 		switchedTower = true;
@@ -402,11 +407,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(m_towerModel);
 			m_towerModel = NULL;
-		}
-		if(m_subTowerModel)
-		{
-			g_graphicsEngine->removeModel(m_subTowerModel);
-			m_subTowerModel = NULL;
+
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 		}
 		
 		switchedTower = true;
@@ -493,6 +499,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		else if(g_mouse->isRButtonPressed() == true)
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
+			m_towerModel = NULL;
 			if(m_subTowerModel)
 			{
 				g_graphicsEngine->removeModel(this->m_subTowerModel);
@@ -1157,9 +1164,10 @@ void HudMenu::setMentalDamage(int _md)
 
 void HudMenu::setMentalResistance(float _mr)
 {
+	_mr = (1.0f-_mr)*100;
 	stringstream ss;
 	ss << _mr;
-	m_Attributes[10] = ss.str();
+	m_Attributes[10] = ss.str() + " o/o";
 }
 
 void HudMenu::setPhysicalDamage(int _pd)
@@ -1171,9 +1179,10 @@ void HudMenu::setPhysicalDamage(int _pd)
 
 void HudMenu::setPhysicalResistance(float _pr)
 {
+	_pr = (1.0f-_pr)*100;
 	stringstream ss;
 	ss << _pr;
-	m_Attributes[8] = ss.str();
+	m_Attributes[8] = ss.str() + " o/o";
 }
 
 void HudMenu::setTowerConstruction(int _towerConstruction)

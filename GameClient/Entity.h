@@ -150,7 +150,7 @@ struct Entity
 		this->m_health = health;
 		if(health > 0.0f)
 		{
-			float width = ((float)this->m_health / 1000.0f) * this->m_healthBack->getSize().x;
+			float width = ((float)this->m_health / (float)this->m_maxHealth) * this->m_healthBack->getSize().x;
 			this->m_healthFront->setSize(FLOAT2(width, this->m_healthBack->getSize().y));
 		}
 	}

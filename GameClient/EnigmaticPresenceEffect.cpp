@@ -2,7 +2,6 @@
 #include "EntityHandler.h"
 
 const float EnigmaticPresenceEffect::MOVEMENT_SPEED_FACTOR = 0.05f;
-map<unsigned int, float> EnigmaticPresenceEffect::m_affectedGuys;
 
 EnigmaticPresenceEffect::EnigmaticPresenceEffect(unsigned int _caster)
 {
@@ -56,7 +55,7 @@ void EnigmaticPresenceEffect::update(float _dt)
 		vector<map<unsigned int, float>::iterator> removeIndices;
 
 		// Check if any of the affected guys have died or escaped the aura area.
-		for(map<unsigned int, float>::iterator iter = m_affectedGuys.begin(); iter != m_affectedGuys.end(); iter++)
+		for(map<unsigned int, float>::iterator iter = m_affectedGuys.begin(); iter != m_affectedGuys.end(); ++iter)
 		{
 			ServerEntity* se = EntityHandler::getServerEntity(iter->first);
 			// Check if the affected guy has died recently then remove it.

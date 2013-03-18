@@ -11,6 +11,7 @@
 #include "Sprite.h"
 #include "ModelIdHolder.h"
 #include "Enemy.h"
+#include "PlayerInfo.h"
 
 class HudMenu : public Menu
 {
@@ -22,6 +23,7 @@ private:
 	bool m_hasTargetEnemy;
 	Enemy::EnemyType m_currentTargetType;
 	map<Enemy::EnemyType, Sprite*> m_enemyIcons;
+	Sprite* m_heroPortraits[5];
 	SkillIdHolder m_skillHolder;
 	Client *m_network;
 	int	m_NumberOfSkills;
@@ -68,7 +70,7 @@ private:
 
 	bool m_placingTargetedSkill;
 	Model* m_targetModel;
-
+	Hero::HERO_TYPE m_heroType;
 	int m_strength;
 	int m_agility;
 	int m_wits;
@@ -86,11 +88,11 @@ private:
 
 	void displayShop(bool _visible);
 public:
-	HudMenu(Client *_network, Hero::HERO_TYPE _heroType);
+	HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos);
 	~HudMenu(void);
 
 	bool isDone()const;
-	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId);
+	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos);
 	void addSkill(unsigned int _skillId);
 	void removeTargetEnemy();
 	void setResources(unsigned int resources);
