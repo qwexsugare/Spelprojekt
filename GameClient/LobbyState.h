@@ -30,6 +30,7 @@ private:
 	float cameraRealPos;
 	float distToSlider;
 	int m_playerId;
+	bool m_sliderMove;
 	
 	ChainEffect* test;
 

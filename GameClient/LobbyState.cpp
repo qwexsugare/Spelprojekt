@@ -12,9 +12,10 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 {
 	this->m_network = _network;
 	this->m_menu = new LobbyMenu();
+	this->m_sliderMove = false;
 	m_currentHeroSelected = Hero::HERO_TYPE::NONE;
 
-	g_graphicsEngine->setSSAO(7, 0.01f, 0, 0.5f);
+	g_graphicsEngine->setSSAO(10, 0.01f, 0, 0.4f);
 	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(0.0f, 1.0f, 4.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
 	dl = g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.0f, 0.0f, 0.0f));
@@ -124,6 +125,7 @@ void LobbyState::update(float _dt)
 	}
 	//camera real pos is the camera position, which tries to reach the position from the slider
 	//if the real pos is inside a certain value, it wont move
+	this->m_sliderMove = false;
 	if(cameraRealPos > this->m_menu->getSlider()->GetValue() * max-0.05 && cameraRealPos < this->m_menu->getSlider()->GetValue() * max + 0.05)
 	{
 	}
@@ -134,13 +136,14 @@ void LobbyState::update(float _dt)
 		else if(cameraRealPos>this->m_menu->getSlider()->GetValue() * max)
 			cameraRealPos-=_dt*camVel*distToSlider;
 		g_graphicsEngine->getCamera()->set(FLOAT2(cameraRealPos, 0));
+		this->m_sliderMove = true;
 	}
 
 
 	
 	float mouseX = (g_mouse->getPos().x / float(g_graphicsEngine->getScreenSize().x))*2-1;
 	 max = step*5;
-	if(g_mouse->isLButtonReleased() && mouseX >= -0.58f && mouseX <= 0.58f)
+	if(g_mouse->isLButtonReleased() && mouseX >= -0.58f && mouseX <= 0.58f && !m_sliderMove)
 	{
 		D3DXVECTOR3 pickDir;
 		D3DXVECTOR3 pickOrig;
