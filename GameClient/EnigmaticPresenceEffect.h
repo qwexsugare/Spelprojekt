@@ -6,7 +6,7 @@
 class EnigmaticPresenceEffect : public ServerEntity
 {
 private:
-	static map<unsigned int, float> m_affectedGuys;
+	map<unsigned int, float> m_affectedGuys;
 	unsigned int m_caster;
 public:
 	static const float MOVEMENT_SPEED_FACTOR;

@@ -75,6 +75,16 @@ void Hero::activateAllPassiveSkills()
 	}
 }
 
+void Hero::alterSpecificUnitEntityMentalResistance()
+{
+	this->sendAttributesToClient();
+}
+
+void Hero::alterSpecificUnitEntityPhysicalResistance()
+{
+	this->sendAttributesToClient();
+}
+
 Hero::HERO_TYPE Hero::getHeroType()const
 {
 	return m_heroType;
