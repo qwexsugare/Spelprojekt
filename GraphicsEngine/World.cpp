@@ -47,6 +47,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_chainEffectRendering = new ChainFXEffectFile(this->m_deviceHandler->getDevice());
 
 	//SSAO
+	this->m_SSAO = D3DXVECTOR4(0, 0, 0, 0);
 	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
 
 	this->m_positionBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -659,6 +660,8 @@ void World::render()
 	this->m_deferredRendering->setNormalsTexture(this->m_normalBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setViewCoordTexture(this->m_ViewCoordBufferTransparant->getShaderResource());
+
+	this->m_deferredRendering->setSSAO(this->m_SSAO);
 
 	for( UINT p = 0; p < techDesc.Passes; p++ )
 	{
@@ -1452,4 +1455,9 @@ void World::clear()
 	m_spotLights.clear();
 
 	this->m_mutex.Unlock();
+}
+
+void World::setSSAO(D3DXVECTOR4 ssao)
+{
+	m_SSAO = ssao;
 }

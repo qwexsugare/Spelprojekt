@@ -70,7 +70,9 @@ void ConfigFile::load()
 			}
 			else if(strcmp(key, "player_name") == 0)
 			{
-				stream >> string() >> m_playerName;
+				char RoalndBuf[1024];
+				sscanf(buf, "player_name %s", &RoalndBuf);
+				m_playerName = string(RoalndBuf);
 			}
 		}
 	}

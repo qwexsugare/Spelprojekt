@@ -9,11 +9,6 @@ Texture2D spotLightShadowMaps[MAX_SPOT_LIGHTS];
 Texture2D pointLightShadowMaps[MAX_POINT_LIGHT_SHADOWS];
 Texture2D randomTex;
 
-float aoScale = 10;
-float aoRadius = 0.01f;
-float aoBias = 0;
-float aoIntensity = 0.5;
-
 SamplerState linearSampler 
 {
 	Filter = MIN_MAG_MIP_LINEAR;
@@ -69,6 +64,7 @@ cbuffer cbEveryFrame
 	float screenHeight = 1080;
 	float2 screenSize;
 	matrix viewMatrix;
+	float4 declSSAO;
 };
 
 // State Structures
@@ -217,13 +213,13 @@ float doAmbientOcclusion(in float2 tcoord, in float2 uv, in float3 pos, in float
 {
 	float3 diff = viewCoordTexture.Sample(linearSampler, tcoord + uv) - pos;
 	const float3 v = normalize(diff);
-	const float d = length(diff) * aoScale;
-	return max(0.0f, dot(vNormal, v) * (1.0f/(1.0f + d))) * aoIntensity;
+	const float d = length(diff) * declSSAO.x;
+	return max(0.0f, (dot(vNormal, v) - declSSAO.z) * (1.0f/(1.0f + d))) * declSSAO.w;
 }
 
 float ssao(float2 uv, float3 pos, float3 normal)
 {
-	float radius = aoRadius; 
+	float radius = declSSAO.y; 
 	const float2 vec[4] = {float2(1,0), float2(-1,0), float2(0,1), float2(0,-1)};
 	float2 rand = normalize(randomTex.Sample(linearSampler, screenSize * uv / (64 * 64)));
 	float ao = 0;
@@ -329,7 +325,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 	//return float4(0, 0, , diffuse.w);
 
-	return ((float4(ambientLight - ao, 0.0f) * diffuse + float4(diffuseLight - ao, 1.0f) * diffuse + float4(specularLight, 0.0f) * viewCoord.w));
+	return ((float4(ambientLight - ao, 0.0f) * diffuse + float4(diffuseLight, 1.0f) * diffuse + float4(specularLight, 0.0f) * viewCoord.w));
 
 	
 	float3 fiskLight = normalize(float3(1, -1, 0));
