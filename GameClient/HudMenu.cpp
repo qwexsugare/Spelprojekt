@@ -242,7 +242,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	this->displayShop(false);
 
 	//Healthbar
-	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.190740741f);
+	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.200740741f);
 	this->m_healthBar = g_graphicsEngine->createSpriteSheet("menu_textures\\HealthBar.dds", this->m_fullHealthPos, FLOAT2(0.079166667f, 0.755555556f), INT2(10,1),2);
 	this->m_healthBar->playAnimation(INT2(0,0),INT2(9,0),true,10);
 
