@@ -6,9 +6,9 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_network = _network;
 	m_Chat = false;
 	m_menuButton = new Button();
-	m_menuButton->Init(FLOAT2(0.7f, 0.70f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-MainMenu.png", "");
+	m_menuButton->Init(FLOAT2(0.4f, 0.96f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-MainMenu.png", "");
 	m_leaveButton = new Button();
-	m_leaveButton->Init(FLOAT2(0.7f, 0.65f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-LeaveGame.png", "");
+	m_leaveButton->Init(FLOAT2(0.4f, 0.88f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-LeaveGame.png", "");
 	m_leaveButton->setVisible(false);
 	m_done = false;
 	m_SkillHud.push_back(-1.5f);
@@ -281,8 +281,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			m_enemyIcons[m_currentTargetType]->setVisible(false);
 		}
 	}
-
-	m_menuButton->Update();
+	if(m_Buy == false)
+	{
+		m_menuButton->Update();
+	}
 	for(int i = 0; i < this->m_towerButtons.size(); i++)
 	{
 		this->m_towerButtons[i]->Update();
@@ -790,11 +792,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 	}
 
-	if(m_menuButton->isClicked() && m_Buy== false)
+	if(m_menuButton->isClicked() && m_Buy == false)
 	{
 		m_leaveButton->setVisible(!m_leaveButton->isVisible());
 	}
-	if(m_leaveButton->isVisible() && m_Buy==false)
+	if(m_leaveButton->isVisible() && m_Buy ==false)
 	{
 		m_leaveButton->Update();
 		if(m_leaveButton->isClicked())
