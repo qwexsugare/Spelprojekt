@@ -26,6 +26,7 @@ private:
 	ID3D10EffectScalarVariable* m_lightRadius;
 	ID3D10EffectMatrixVariable* m_viewMatrix;
 	ID3D10EffectVectorVariable* m_screenSize;
+	ID3D10EffectVectorVariable* m_SSAO;
 
 	ID3D10EffectVectorVariable* m_cameraPosition;
 
@@ -57,4 +58,5 @@ public:
 	void setSpotLightWvps(D3DXMATRIX* _wvps, int _size);
 	void setViewMatrix(D3DXMATRIX* _mat);
 	void setScreenSize(D3DXVECTOR2 _size);
+	void setSSAO(D3DXVECTOR4 _SSAO);
 };

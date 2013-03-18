@@ -78,6 +78,7 @@ private:
 	SpriteEffectFile *m_spriteRendering;
 
 	DeviceHandler* m_deviceHandler;
+	D3DXVECTOR4 m_SSAO;
 	
 	vector<Text*> m_texts;
 	vector<MyText*> m_myTexts;
@@ -142,6 +143,8 @@ public:
 
 	void addSpotLight(SpotLight* _spotLight);
 	bool removeSpotLight(SpotLight* _spotLight);
+
+	void setSSAO(D3DXVECTOR4 ssao);
 
 	Camera *getCamera();
 	void initQuadTree(FLOAT2 _extents);

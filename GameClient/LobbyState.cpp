@@ -14,6 +14,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	this->m_menu = new LobbyMenu();
 	m_currentHeroSelected = Hero::HERO_TYPE::NONE;
 
+	g_graphicsEngine->setSSAO(7, 0.01f, 0, 0.5f);
 	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(0.0f, 1.0f, 4.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
 	dl = g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 1.0f), FLOAT3(0.3f, 0.3f, 0.3f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
 	g_graphicsEngine->getCamera()->set(FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(1.0f, 0.0f, 0.0f));
