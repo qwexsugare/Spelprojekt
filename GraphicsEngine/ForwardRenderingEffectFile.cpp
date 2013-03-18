@@ -12,6 +12,7 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 	this->m_projectionMatrix = this->m_effect->GetVariableByName("projectionMatrix")->AsMatrix();
 	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
 	this->m_boneTexture = this->m_effect->GetVariableByName("boneTex")->AsShaderResource();
+	this->m_color = this->m_effect->GetVariableByName("stencilColor")->AsVector();
 
 	this->m_texture = this->m_effect->GetVariableByName("tex2D")->AsShaderResource();
 	
@@ -110,4 +111,9 @@ ID3D10EffectTechnique *ForwardRenderingEffectFile::getTechniqueRenderModelForwar
 ID3D10InputLayout *ForwardRenderingEffectFile::getInputLayout() const
 {
 	return this->m_vertexLayout;
+}
+
+void ForwardRenderingEffectFile::setColor(D3DXVECTOR4 _color)
+{
+	m_color->SetFloatVector((float*)_color);
 }
