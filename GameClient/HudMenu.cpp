@@ -242,7 +242,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	this->displayShop(false);
 
 	//Healthbar
-	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.140740741f);
+	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.190740741f);
 	this->m_healthBar = g_graphicsEngine->createSpriteSheet("menu_textures\\HealthBar.dds", this->m_fullHealthPos, FLOAT2(0.079166667f, 0.755555556f), INT2(10,1),2);
 	this->m_healthBar->playAnimation(INT2(0,0),INT2(9,0),true,10);
 
@@ -1084,7 +1084,9 @@ void HudMenu::setHealth(int _health)
 	m_Attributes[5] = ss.str();
 
 	this->m_health = _health;
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - this->m_health / this->m_maxHealth * 0.495555556f));
+	float h = (1.0f - (float)this->m_health / (float)this->m_maxHealth);
+	h = min(1.0f, max(h, 0.0f));
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - h * 0.495555556f));
 }
 
 void HudMenu::setMaxHealth(int _maxHealth)
@@ -1094,7 +1096,9 @@ void HudMenu::setMaxHealth(int _maxHealth)
 	m_Attributes[6] = ss.str();
 
 	this->m_maxHealth = _maxHealth;
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - this->m_health / this->m_maxHealth * 0.495555556f));
+	float h = (1.0f - (float)this->m_health / (float)this->m_maxHealth);
+	h = min(1.0f, max(h, 0.0f));
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - h * 0.495555556f));
 }
 
 void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
