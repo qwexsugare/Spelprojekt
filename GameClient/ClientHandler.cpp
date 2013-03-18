@@ -83,7 +83,7 @@ HRESULT ClientHandler::run()
 void ClientHandler::update(float _dt)
 {
 	// Update controls
-	for(int i = 0; i < this->m_messages.size(); i++)
+	for(int i = this->m_messages.size()-1; i > 0; i--)
 	{
 		switch(this->m_messages[i].message)
 		{
@@ -107,8 +107,8 @@ void ClientHandler::update(float _dt)
 				break;
 		}
 	}
-
 	this->m_messages.clear();
+
 	this->m_state->update(_dt);
 
 	if(this->m_state->isDone())
