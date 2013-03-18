@@ -92,7 +92,7 @@ public:
 	~HudMenu(void);
 
 	bool isDone()const;
-	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos);
+	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos, bool _yourHeroIsAlive);
 	void addSkill(unsigned int _skillId);
 	void removeTargetEnemy();
 	void setResources(unsigned int resources);
