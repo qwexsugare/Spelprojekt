@@ -4,7 +4,7 @@ ResourceHolder::ResourceHolder()
 {
 
 }
-	
+
 ResourceHolder::ResourceHolder(ID3D10Device* _device)
 {
 	this->m_device = _device;
@@ -18,14 +18,14 @@ ResourceHolder::~ResourceHolder()
 
 	while(m != this->m_meshes.end())
 	{
-		delete (*m).second;
+		delete m->second;
 		m++;
 	}	
 	map<string, ParticleEffect*>::iterator p = this->m_particleEffects.begin();
 
 	while(p != this->m_particleEffects.end())
 	{
-		delete (*p).second;
+		delete p->second;
 		p++;
 	}
 	int lol = 0;

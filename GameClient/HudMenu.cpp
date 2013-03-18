@@ -1,14 +1,14 @@
 #include "HudMenu.h"
 #include "ClientEntityHandler.h"
 
-HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
+HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos)
 {
 	this->m_network = _network;
 	m_Chat = false;
 	m_menuButton = new Button();
-	m_menuButton->Init(FLOAT2(0.5f, 0.75f), FLOAT2(0.25f, 0.25f), "menu_textures/menu_button.png", "");
+	m_menuButton->Init(FLOAT2(0.4f, 0.96f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-MainMenu.png", "");
 	m_leaveButton = new Button();
-	m_leaveButton->Init(FLOAT2(0.0f, 0.75f), FLOAT2(0.25f, 0.25f), "menu_textures/menu_button.png", "");
+	m_leaveButton->Init(FLOAT2(0.4f, 0.88f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-LeaveGame.png", "");
 	m_leaveButton->setVisible(false);
 	m_done = false;
 	m_SkillHud.push_back(-1.5f);
@@ -40,6 +40,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_subTowerModel = NULL;
 	this->m_towerModel = NULL;
 
+	m_heroType = _heroType;
 	switch(_heroType)
 	{
 	case Hero::OFFICER:
@@ -129,6 +130,8 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED]->setVisible(false);
 	m_enemyIcons[Enemy::EnemyType::BOSS] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::BOSS]->setVisible(false);
+
+	m_heroPortraits[Hero::HERO_TYPE::DOCTOR] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
@@ -164,9 +167,21 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1150,1060),55);
 	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1150,1030),55);
 	
-	this->m_AttributeText.resize(4);
+	this->m_AttributeText.resize(8);
 	this->m_AttributeText[0] = new TextLabel("","text5.png",INT2(90, 987),55);
-	this->m_AttributeText[0]->setText(m_Attributes[0] +"                    "+ m_Attributes[1] +"                    "+ m_Attributes[2]+"                    "+ m_Attributes[3]+"                    "+m_Attributes[4]);
+	this->m_AttributeText[0]->setText(m_Attributes[0]);
+	
+	this->m_AttributeText[4] = new TextLabel("","text5.png",INT2(160, 987),55);
+	this->m_AttributeText[4]->setText(m_Attributes[1]);
+	
+	this->m_AttributeText[5] = new TextLabel("","text5.png",INT2(230, 987),55);
+	this->m_AttributeText[5]->setText(m_Attributes[2]);
+	
+	this->m_AttributeText[6] = new TextLabel("","text5.png",INT2(300, 987),55);
+	this->m_AttributeText[6]->setText(m_Attributes[3]);
+	
+	this->m_AttributeText[7] = new TextLabel("","text5.png",INT2(370, 987),55);
+	this->m_AttributeText[7]->setText(m_Attributes[4]);
 	
 	this->m_AttributeText[1] = new TextLabel("","text6.png",INT2(180, 2),45);
 	this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
@@ -258,7 +273,7 @@ bool HudMenu::isDone()const
 	return m_done;
 }
 
-void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
+void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos)
 {
 	if(m_hasTargetEnemy)
 	{
@@ -269,8 +284,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			m_enemyIcons[m_currentTargetType]->setVisible(false);
 		}
 	}
-
-	m_menuButton->Update();
+	if(m_Buy == false)
+	{
+		m_menuButton->Update();
+	}
 	for(int i = 0; i < this->m_towerButtons.size(); i++)
 	{
 		this->m_towerButtons[i]->Update();
@@ -403,11 +420,15 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerModel->setAlpha(0.5f);
 	}
 
-	this->m_AttributeText[0]->setText(	m_Attributes[0] +"           "+ 
-									m_Attributes[1] +"           "+ 
-									m_Attributes[2] +"          "+ 
-									m_Attributes[3] +"          "+
-									m_Attributes[4]);
+	this->m_AttributeText[0]->setText(m_Attributes[0]);
+	
+	this->m_AttributeText[4]->setText(m_Attributes[1]);
+	
+	this->m_AttributeText[5]->setText(m_Attributes[2]);
+	
+	this->m_AttributeText[6]->setText(m_Attributes[3]);
+	
+	this->m_AttributeText[7]->setText(m_Attributes[4]);
 	if(m_Buy == false)
 	{
 		this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
@@ -774,11 +795,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 	}
 
-	if(m_menuButton->isClicked())
+	if(m_menuButton->isClicked() && m_Buy == false)
 	{
 		m_leaveButton->setVisible(!m_leaveButton->isVisible());
 	}
-	if(m_leaveButton->isVisible())
+	if(m_leaveButton->isVisible() && m_Buy ==false)
 	{
 		m_leaveButton->Update();
 		if(m_leaveButton->isClicked())
@@ -1139,9 +1160,10 @@ void HudMenu::setMentalDamage(int _md)
 
 void HudMenu::setMentalResistance(float _mr)
 {
+	_mr = (1.0f-_mr)*100;
 	stringstream ss;
 	ss << _mr;
-	m_Attributes[10] = ss.str();
+	m_Attributes[10] = ss.str() + " o/o";
 }
 
 void HudMenu::setPhysicalDamage(int _pd)
@@ -1153,9 +1175,10 @@ void HudMenu::setPhysicalDamage(int _pd)
 
 void HudMenu::setPhysicalResistance(float _pr)
 {
+	_pr = (1.0f-_pr)*100;
 	stringstream ss;
 	ss << _pr;
-	m_Attributes[8] = ss.str();
+	m_Attributes[8] = ss.str() + " o/o";
 }
 
 void HudMenu::setTowerConstruction(int _towerConstruction)

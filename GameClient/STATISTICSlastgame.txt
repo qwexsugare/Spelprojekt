@@ -1,88 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 655.837
-Life remaining: 0
-Reached wave: 7
+Time played: 97.0101
+Life remaining: 91
+Reached wave: 2
 
 Player Statistics:
 ------------------
 Player name: Player
-Hero played: Officer
-Deamons killed: 21
-Player deaths: 5
-Resources collected: 2611
-Healed for: 45
-
-Damage statistics: 
-Total damage dealt: 5949
-Physical damage taken: -1860
-Mental damage taken: 604
-Physical damage dealt: 1028
-Mental damage dealt: 4921
-Physical skill damage dealt: 0
-Mental skill damage dealt: 0
-
-Skills used: 
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-1065353216
-1065353216
-1053273620
-0
-1055622431
-0
-0
-1055622431
-1065353216
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-3814180
-3823134
-3820950
-3833280
-3830490
-3828550
-3832874
-3832344
-3818366
-1561103095
-1561113375
-0
----------------
-Player name: Player
-Hero played: Engineer
-Deamons killed: 20
+Hero played: Red knight
+Deamons killed: 1
 Player deaths: 0
-Resources collected: 2467
+Resources collected: 68
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 0
+Total damage dealt: 194
 Physical damage taken: 0
-Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
+Mental damage taken: 174
+Physical damage dealt: 143
+Mental damage dealt: 51
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -91,66 +27,15 @@ Skills used:
 0
 0
 0
+1052173727
 0
 0
 0
 0
 0
 0
-0
-0
-0
-1065353216
-1065353216
-1053273620
-0
-1055622431
-0
-0
-1055622431
-1065353216
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-3814180
-3823134
-3820950
-3833280
-3830490
-3828550
-3832874
-3832344
-3818366
-1561103095
-1561113375
-0
----------------
-Player name: DOKTORN
-Hero played: Doctor
-Deamons killed: 2
-Player deaths: 0
-Resources collected: 1431
-Healed for: 0
-
-Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
-Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
-Physical skill damage dealt: 0
-Mental skill damage dealt: 0
-
-Skills used: 
+2015394156
+1818850921
 0
 0
 0
@@ -164,37 +49,24 @@ Skills used:
 0
 0
 0
-1065353216
-1065353216
-1053273620
 0
-1055622431
-0
-0
-1055622431
-1065353216
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-3814180
-3823134
-3820950
-3833280
-3830490
-3828550
-3832874
-3832344
-3818366
-1561103095
-1561113375
-0
+842740276
+988953322
+1065697142
+990264054
+945698904
+1003109213
+900216184
+950614173
+985348764
+1017265308
+1050820244
+863581032
+915224198
+1061044013
+962738508
+828584238
+835072448
+1035877802
+1043742225
 ---------------
