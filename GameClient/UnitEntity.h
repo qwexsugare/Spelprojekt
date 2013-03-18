@@ -26,7 +26,7 @@ protected:
 	int m_turretConstruction;
 
 	float m_turretDuration;
-	float m_greed;
+	int m_greed;
 	float m_movementSpeedChange;
 	float m_baseMovementSpeed;
 	float m_movementSpeed;
