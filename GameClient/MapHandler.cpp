@@ -243,35 +243,35 @@ void MapHandler::loadMap(std::string filename)
 		m_paths[i] = paths[i];
 
 	//Improve the paths
-	for(int i = 0; i < this->m_nrOfPaths; i++)
-	{
-		FLOAT2 *tempPoints = new FLOAT2[500];
-		int nrOfPoints = 0;
+	//for(int i = 0; i < this->m_nrOfPaths; i++)
+	//{
+	//	FLOAT2 *tempPoints = new FLOAT2[500];
+	//	int nrOfPoints = 0;
 
-		for(int j = 0; j < this->m_paths[i].nrOfPoints - 1; j++)
-		{
-			Path p = g_pathfinder->getPath(this->m_paths[i].points[j], this->m_paths[i].points[j + 1]);
+	//	for(int j = 0; j < this->m_paths[i].nrOfPoints - 1; j++)
+	//	{
+	//		Path p = g_pathfinder->getPath(this->m_paths[i].points[j], this->m_paths[i].points[j + 1]);
 
-			for(int k = 0; k < p.nrOfPoints && nrOfPoints < 500; k++)
-			{
-				tempPoints[nrOfPoints] = p.points[k];
-				nrOfPoints++;
-			}
-		}
+	//		for(int k = 0; k < p.nrOfPoints && nrOfPoints < 500; k++)
+	//		{
+	//			tempPoints[nrOfPoints] = p.points[k];
+	//			nrOfPoints++;
+	//		}
+	//	}
 
-		FLOAT2 *optimizedPoints = new FLOAT2[nrOfPoints];
+	//	FLOAT2 *optimizedPoints = new FLOAT2[nrOfPoints];
 
-		for(int j = 0; j < nrOfPoints; j++)
-		{
-			optimizedPoints[j] = tempPoints[j];
-		}
+	//	for(int j = 0; j < nrOfPoints; j++)
+	//	{
+	//		optimizedPoints[j] = tempPoints[j];
+	//	}
 
-		delete tempPoints;
-		delete this->m_paths[i].points;
+	//	delete tempPoints;
+	//	delete this->m_paths[i].points;
 
-		this->m_paths[i].points = optimizedPoints;
-		this->m_paths[i].nrOfPoints = nrOfPoints;
-	}
+	//	this->m_paths[i].points = optimizedPoints;
+	//	this->m_paths[i].nrOfPoints = nrOfPoints;
+	//}
 	
 	//createWave(0,10,0,0,0,0,0,0); // MÖGs super advanced specified wave with extra cheese
 	

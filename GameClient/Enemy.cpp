@@ -73,7 +73,6 @@ Enemy::Enemy(FLOAT3 _pos, Path _path, EnemyType _type) : UnitEntity(_pos)
 	m_destination = d->getPosition();
 	m_destinationRadius = sqrt(d->getObb()->Extents.x*d->getObb()->Extents.x + d->getObb()->Extents.z*d->getObb()->Extents.z);
 	m_distanceToPoint = 1.0f;
-	FLOAT3 hoxit = FLOAT3(0.0f,0.0f,0.0f);
 	if(this->m_path.nrOfPoints > 0)
 	{
 		this->m_goalPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
@@ -120,7 +119,6 @@ Enemy::Enemy(FLOAT3 _pos, EnemyType _type) : UnitEntity(_pos)
 	m_destination = d->getPosition();
 	m_destinationRadius = sqrt(d->getObb()->Extents.x*d->getObb()->Extents.x + d->getObb()->Extents.z*d->getObb()->Extents.z);
 	m_distanceToPoint = 1.0f;
-	FLOAT3 hoxit = FLOAT3(0.0f,0.0f,0.0f);
 	if(this->m_path.nrOfPoints > 0)
 	{
 		this->m_goalPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);

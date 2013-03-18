@@ -19,7 +19,7 @@ EnigmaticPresenceEffect::EnigmaticPresenceEffect(unsigned int _caster)
 	for(int i = 0; i < enemies.size(); i++)
 	{
 		bool alreadyAffected = false;
-		for(map<unsigned int, float>::iterator iter = EnigmaticPresenceEffect::m_affectedGuys.begin(); iter != EnigmaticPresenceEffect::m_affectedGuys.end(); iter++)
+		for(map<unsigned int, float>::iterator iter = m_affectedGuys.begin(); iter != m_affectedGuys.end(); iter++)
 		{
 			if(enemies[i]->getId() == iter->first)
 			{
@@ -34,7 +34,7 @@ EnigmaticPresenceEffect::EnigmaticPresenceEffect(unsigned int _caster)
 			if((caster->getPosition()-enemies[i]->getPosition()).length() <= AOE)
 			{
 				float movementSpeedImpairment = -((UnitEntity*)caster)->getWits()*MOVEMENT_SPEED_FACTOR;
-				EnigmaticPresenceEffect::m_affectedGuys[enemies[i]->getId()] = movementSpeedImpairment;
+				m_affectedGuys[enemies[i]->getId()] = movementSpeedImpairment;
 				((UnitEntity*)enemies.at(i))->alterMovementSpeed(movementSpeedImpairment);
 				this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::ENIGMATIC_PRESENCE, 0, enemies[i]->getId(), enemies[i]->getPosition()));
 			}
@@ -47,7 +47,6 @@ EnigmaticPresenceEffect::~EnigmaticPresenceEffect()
 
 }
 
-
 void EnigmaticPresenceEffect::update(float _dt)
 {
 	ServerEntity* caster = EntityHandler::getServerEntity(m_caster);
@@ -57,7 +56,7 @@ void EnigmaticPresenceEffect::update(float _dt)
 		vector<map<unsigned int, float>::iterator> removeIndices;
 
 		// Check if any of the affected guys have died or escaped the aura area.
-		for(map<unsigned int, float>::iterator iter = EnigmaticPresenceEffect::m_affectedGuys.begin(); iter != EnigmaticPresenceEffect::m_affectedGuys.end(); iter++)
+		for(map<unsigned int, float>::iterator iter = m_affectedGuys.begin(); iter != m_affectedGuys.end(); iter++)
 		{
 			ServerEntity* se = EntityHandler::getServerEntity(iter->first);
 			// Check if the affected guy has died recently then remove it.
@@ -76,7 +75,7 @@ void EnigmaticPresenceEffect::update(float _dt)
 
 		for(int i = 0; i < removeIndices.size(); i++)
 		{
-			EnigmaticPresenceEffect::m_affectedGuys.erase(removeIndices[i]);
+			m_affectedGuys.erase(removeIndices[i]);
 		}
 
 		// Check if any newcomers want to join in on the oral (aural) fun.
@@ -84,12 +83,12 @@ void EnigmaticPresenceEffect::update(float _dt)
 		for(int i = 0; i < enemies.size(); i++)
 		{
 			bool alreadyAffected = false;
-			for(map<unsigned int, float>::iterator iter = EnigmaticPresenceEffect::m_affectedGuys.begin(); iter != EnigmaticPresenceEffect::m_affectedGuys.end(); iter++)
+			for(map<unsigned int, float>::iterator iter = m_affectedGuys.begin(); iter != m_affectedGuys.end(); iter++)
 			{
 				if(enemies[i]->getId() == iter->first)
 				{
 					alreadyAffected = true;
-					iter = EnigmaticPresenceEffect::m_affectedGuys.end();
+					iter = m_affectedGuys.end();
 					iter--;
 				}
 			}
@@ -99,7 +98,7 @@ void EnigmaticPresenceEffect::update(float _dt)
 				if((caster->getPosition()-enemies[i]->getPosition()).length() <= AOE)
 				{
 					float movementSpeedImpairment = -((UnitEntity*)caster)->getWits()*MOVEMENT_SPEED_FACTOR;
-					EnigmaticPresenceEffect::m_affectedGuys[enemies[i]->getId()] = movementSpeedImpairment;
+					m_affectedGuys[enemies[i]->getId()] = movementSpeedImpairment;
 					((UnitEntity*)enemies.at(i))->alterMovementSpeed(movementSpeedImpairment);
 					this->m_messageQueue->pushOutgoingMessage(new CreateActionTargetMessage(Skill::ENIGMATIC_PRESENCE, 0, enemies[i]->getId(), enemies[i]->getPosition()));
 				}
