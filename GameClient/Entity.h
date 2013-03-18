@@ -8,7 +8,7 @@
 struct Entity
 {
 	unsigned int m_id;
-	unsigned int m_health;
+	int m_health;
 	Model* m_model;
 	FLOAT3 m_direction;
 	ServerEntity::Type m_type;
@@ -119,9 +119,15 @@ struct Entity
 		{		
 			//Update the healthbar position
 			FLOAT2 screenPos = this->m_model->getScreenPos(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
-			float offsetX = (this->m_healthFront->getSize().x - ((float)this->m_health / 1000.0f) * this->m_healthBack->getSize().x) / 2;
+			float offsetX = (this->m_healthFront->getSize().x - ((float)this->m_health / (float)this->m_maxHealth) * this->m_healthBack->getSize().x) / 2;
 			this->m_healthBack->setPosition(screenPos);
 			this->m_healthFront->setPosition(FLOAT2(screenPos.x - offsetX, screenPos.y));
+
+			if(this->m_health > 0.0f)
+			{
+				float width = ((float)this->m_health / (float)this->m_maxHealth) * this->m_healthBack->getSize().x;
+				this->m_healthFront->setSize(FLOAT2(width, this->m_healthBack->getSize().y));
+			}
 		}
 
 	/*
@@ -148,11 +154,6 @@ struct Entity
 	void setHealth(float health)
 	{
 		this->m_health = health;
-		if(health > 0.0f)
-		{
-			float width = ((float)this->m_health / (float)this->m_maxHealth) * this->m_healthBack->getSize().x;
-			this->m_healthFront->setSize(FLOAT2(width, this->m_healthBack->getSize().y));
-		}
 	}
 
 	void healthVisible(bool _visible)
