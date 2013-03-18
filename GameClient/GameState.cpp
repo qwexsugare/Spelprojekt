@@ -18,6 +18,10 @@ GameState::GameState(Client *_network, string mapName)
 
 	this->missionStartedSprite = g_graphicsEngine->createSprite("./textures/missionstarted.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
 	this->missionStartedSprite->setVisible(false);
+	this->missionCompletedSprite = g_graphicsEngine->createSprite("./textures/missioncomplete.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionCompletedSprite->setVisible(false);
+	this->missionFailedSprite = g_graphicsEngine->createSprite("./textures/missionfailed.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionFailedSprite->setVisible(false);
 
 	this->m_network = _network;
 	this->importMap(mapName);
@@ -415,13 +419,26 @@ void GameState::update(float _dt)
 	{
 		NetworkMissionStarted m = this->m_network->missionQueueFront();
 	
+		if(m.getStartOrEnd()=="start")
+		{
+			this->missionStartedSprite->setVisible(true);
+		}
+		if(m.getStartOrEnd()=="failed")
+		{
+			this->missionFailedSprite->setVisible(true);
+		}
+		if(m.getStartOrEnd()=="completed")
+		{
+			this->missionCompletedSprite->setVisible(true);
+		}
 		this->missionTimer=3.0f;
-		this->missionStartedSprite->setVisible(true);
 	}
 	this->missionTimer-=_dt;
 	if(this->missionTimer<0)
 	{
 		this->missionStartedSprite->setVisible(false);
+		this->missionCompletedSprite->setVisible(false);
+		this->missionFailedSprite->setVisible(false);
 	}
 
 	while(this->m_network->createActionPositionQueueEmpty() == false)

@@ -57,11 +57,25 @@ void Mission::createMission(string type, float x, float z, int startwave, int en
 
 bool Mission::handle(int atWave)
 {
+	ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
+
 	if(atWave>=this->startWave&&atWave<=this->endWave&&!this->missionStarted&&!missionRunning)
 	{
 		this->missionStarted=true;
 		this->missionRunning=true;
 		this->startMission();
+	}
+	if(boss != NULL && EntityHandler::getServerEntity(this->bossId)->getHealth()<=0)
+	{
+		this->missionComplete=true;
+		if(boss != NULL)
+		{
+			boss->getMessageQueue()->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), boss->getId()));
+			this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"completed"));
+
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));				
+		
+		}
 	}
 	if(this->missionRunning)
 	{
@@ -70,25 +84,13 @@ bool Mission::handle(int atWave)
 		{
 			this->missionRunning=false;
 			//if the enemy died 
-			if(EntityHandler::getServerEntity(this->bossId)->getHealth()<=0)
+		
+			this->missionTime=0.0f;
+			ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
+			if(boss != NULL)
 			{
-				this->missionComplete=true;
-				ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
-				if(boss != NULL)
-				{
-					boss->getMessageQueue()->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), boss->getId()));
-					this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"completed"));
-				}
-			}
-			else
-			{
-				this->missionTime=0.0f;
-				ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
-				if(boss != NULL)
-				{
-					boss->getMessageQueue()->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), boss->getId()));
-					this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"failed"));
-				}
+				boss->getMessageQueue()->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), boss->getId()));
+				this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"failed"));
 			}
 		}
 	}

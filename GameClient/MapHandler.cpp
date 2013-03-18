@@ -328,7 +328,7 @@ void MapHandler::loadMap(std::string filename)
 
 void MapHandler::update(float _dt)
 {
-	if(m_waveTimer == 0.0f)
+	//if(m_waveTimer == 0.0f)
 	{
 		//EntityHandler::addEntity(new Mission(this->mission));
 		for(int i=0;i<this->missions.size();i++)

@@ -17,6 +17,7 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	m_highRescource = 3000;
 	
 	m_origPos = _pos;
+	m_goalPosition=m_origPos;
 	m_allowedMovement = 4.0f;
 
 	
@@ -53,8 +54,6 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
 	
-
-	
 	if(this->lastDT>0.05)
 	{
 		//Handle incoming messages
@@ -70,17 +69,33 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 			if(m_dir.length() > 0)
 				m_dir = m_dir/m_dir.length();
 
-			m_position = m_position + m_dir*lastDT*m_movementSpeed;
 		}
-		else if(!m_willPursue)
-		{
-			m_dir = (m_origPos - m_position)/(m_origPos - m_position).length();
-			m_position = m_position + m_dir*lastDT*m_movementSpeed;
-		}
-		
-		
-	
 
+
+		if(!m_willPursue)
+		{
+			m_dir = m_nextPosition - m_position;
+			if(m_dir.length() > 0)
+				m_dir = m_dir/m_dir.length();
+
+			if(!m_reachedPosition && (m_position - m_nextPosition).length() > m_movementSpeed*dt)
+			{
+				m_position = m_position + m_dir*lastDT*m_movementSpeed;
+			}
+
+			else if(!m_reachedPosition && !m_willPursue)
+			{
+				m_position = m_nextPosition;
+				m_reachedPosition = false;
+			}
+		
+		}
+
+
+		
+				
+		
+		
 		
 		
 		lastDT=0;
@@ -91,7 +106,7 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 			this->m_oldIsAttacking = this->m_isAttacking;
 		}
 		
-		//if(this->m_dir.x!=m_prevDir.x||this->m_dir.z!=m_prevDir.z)
+		if(this->m_dir.x!=m_prevDir.x||this->m_dir.z!=m_prevDir.z)
 		{
 			if(this->m_reachedPosition)
 				this->m_dir=FLOAT3(0.0f,0.0f,0.0f);
@@ -101,8 +116,6 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 
 		if(this->m_health <= 0) //The enemy has died
 		{
-			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
-			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 			this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource+m_extraDivinePower, m_highRescource+m_extraDivinePower)));
 		}
 	}
