@@ -95,7 +95,6 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_turretDuration = 1.0f;
 	this->m_attackCooldown = 0.0f;
 	this->m_turretDamageUpgrade = 1;
-	this->m_stunTimer = 0.0f;
 	
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
@@ -239,14 +238,17 @@ void UnitEntity::increaseStrength(int _strength)
 	this->m_physicalDamage += _strength * 5;
 	m_basePhysicalResistance -= _strength * 0.02f;
 	this->m_strength += _strength;
+<<<<<<< HEAD
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
 
 	if(this->m_physicalResistance < 0.0f)
 	{
 		this->m_physicalResistance = 0.0f;
 	}
-	
+=======
+
 	this->sendAttributesToClient();
+>>>>>>> 964e253acf9927e2221c9cdcad9b218e233853a8
 }
 
 void UnitEntity::increaseAgility(int _agility)
