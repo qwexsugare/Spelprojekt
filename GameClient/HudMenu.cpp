@@ -6,9 +6,9 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_network = _network;
 	m_Chat = false;
 	m_menuButton = new Button();
-	m_menuButton->Init(FLOAT2(0.7f, 0.80f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-MainMenu.png", "");
+	m_menuButton->Init(FLOAT2(0.7f, 0.70f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-MainMenu.png", "");
 	m_leaveButton = new Button();
-	m_leaveButton->Init(FLOAT2(0.7f, 0.75f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-LeaveGame.png", "");
+	m_leaveButton->Init(FLOAT2(0.7f, 0.65f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-LeaveGame.png", "");
 	m_leaveButton->setVisible(false);
 	m_done = false;
 	m_SkillHud.push_back(-1.5f);
