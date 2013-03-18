@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 17.2338
-Life remaining: 10
-Reached wave: 1
+Time played: 67.1464
+Life remaining: 98
+Reached wave: 2
 
 Player Statistics:
 ------------------
 Player name: Player
-Hero played: Red knight
+Hero played: Mentalist
 Deamons killed: 0
 Player deaths: 0
 Resources collected: 0
 Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
-Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
+Total damage dealt: 10
+Physical damage taken: 11
+Mental damage taken: 339
+Physical damage dealt: 3
+Mental damage dealt: 7
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -27,24 +27,17 @@ Skills used:
 0
 0
 0
+1052173727
 0
 0
 0
 0
 0
 0
+2015394156
+1818850921
 0
 0
-0
-1065353216
-1065353216
-1053273620
-0
-1055622431
-0
-0
-1055622431
-1065353216
 0
 0
 0
@@ -57,16 +50,23 @@ Skills used:
 0
 0
 0
-3764648
-3769544
-3767508
-3779502
-3776446
-3775274
-3779116
-0
-3765136
-1515889829
-1515867749
-0
+839594500
+985807546
+1063010117
+985021052
+940849153
+992819622
+897070408
+946681948
+982202988
+1014119532
+1046756932
+860435256
+911619664
+1056784115
+955857137
+820326615
+832254352
+1032469778
+1030962382
 ---------------
