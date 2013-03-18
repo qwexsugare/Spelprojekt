@@ -1139,9 +1139,10 @@ void HudMenu::setMentalDamage(int _md)
 
 void HudMenu::setMentalResistance(float _mr)
 {
+	_mr = (1.0f-_mr)*100;
 	stringstream ss;
 	ss << _mr;
-	m_Attributes[10] = ss.str();
+	m_Attributes[10] = ss.str() + " o/o";
 }
 
 void HudMenu::setPhysicalDamage(int _pd)
@@ -1153,9 +1154,10 @@ void HudMenu::setPhysicalDamage(int _pd)
 
 void HudMenu::setPhysicalResistance(float _pr)
 {
+	_pr = (1.0f-_pr)*100;
 	stringstream ss;
 	ss << _pr;
-	m_Attributes[8] = ss.str();
+	m_Attributes[8] = ss.str() + " o/o";
 }
 
 void HudMenu::setTowerConstruction(int _towerConstruction)
