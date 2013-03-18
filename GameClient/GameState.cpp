@@ -11,6 +11,14 @@
 
 GameState::GameState(Client *_network, string mapName)
 {
+	this->missionTimer=0.0f;
+	this->missionCompletedSprite=0;
+	this->missionFailedSprite=0;
+	this->missionStartedSprite=0;
+
+	this->missionStartedSprite = g_graphicsEngine->createSprite("./textures/missionstarted.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionStartedSprite->setVisible(false);
+
 	this->m_network = _network;
 	this->importMap(mapName);
 	m_exitButton = NULL;
@@ -397,6 +405,20 @@ void GameState::update(float _dt)
 			this->m_hud->setLivesRemaining(e.getSenderId());
 			break;
 		}
+	}
+
+	//g_graphicsEngine->createMyText(
+	while(!this->m_network->missionQueueEmpty())
+	{
+		NetworkMissionStarted m = this->m_network->missionQueueFront();
+	
+		this->missionTimer=3.0f;
+		this->missionStartedSprite->setVisible(true);
+	}
+	this->missionTimer-=_dt;
+	if(this->missionTimer<0)
+	{
+		this->missionStartedSprite->setVisible(false);
 	}
 
 	while(this->m_network->createActionPositionQueueEmpty() == false)
@@ -1204,6 +1226,19 @@ void GameState::playPursueSound(unsigned int _speakerId)
 				break;
 			}
 			break;
+		case Enemy::BOSS:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
 		}
 
 		SpeechManager::speak(_speakerId, sound);

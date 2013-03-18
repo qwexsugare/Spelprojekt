@@ -56,6 +56,10 @@ private:
 	vector<int> m_timeIsMoneySounds;
 	int m_churchSound;
 	bool m_idling;
+	Sprite *missionStartedSprite;
+	Sprite *missionFailedSprite;
+	Sprite *missionCompletedSprite;
+	float missionTimer;
 
 	void importMap(string _map);
 	void playPursueSound(unsigned int _speakerId);

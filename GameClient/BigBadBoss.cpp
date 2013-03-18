@@ -6,6 +6,7 @@
 BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 {
 	m_modelId = 80;
+	//this->m_type = ServerEntity::BossType;
 
 	this->increaseStrength(10);
 	this->increaseAgility(5);
@@ -33,7 +34,7 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	m_mentalResistance = m_baseMentalResistance;*/
 
 	m_skills.push_back(new StunningStrike());
-	m_regularAttack = new RangedAttack();
+	m_regularAttack = new MeleeAttack();
 	m_regularAttack->setRange(m_regularAttack->getRange()*1.5);
 	m_aggroRange = 2.0f + m_regularAttack->getRange() *2.0f;
 	
@@ -98,7 +99,20 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 			this->m_oldIsAttacking = this->m_isAttacking;
 		}
 		
-		
+		//if(this->m_dir.x!=m_prevDir.x||this->m_dir.z!=m_prevDir.z)
+		{
+			if(this->m_reachedPosition)
+				this->m_dir=FLOAT3(0.0f,0.0f,0.0f);
+
+			this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x+this->m_dir.x, m_position.z+this->m_dir.z,this->getMovementSpeed()));
+		}
+
+		if(this->m_health <= 0) //The enemy has died
+		{
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
+			this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
+			this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource+m_extraDivinePower, m_highRescource+m_extraDivinePower)));
+		}
 	}
 
 

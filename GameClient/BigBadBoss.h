@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 #include "Path.h"
+#include "MeleeAttack.h"
 class BigBadBoss
 	:public Enemy
 {

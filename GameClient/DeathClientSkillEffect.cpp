@@ -145,6 +145,9 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 			case Enemy::BRUTE_STEED:
 				sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
 				break;
+			case Enemy::BOSS:
+				sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
+				break;
 			}
 			break;
 		}
