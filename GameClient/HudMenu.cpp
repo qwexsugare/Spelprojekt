@@ -271,7 +271,7 @@ bool HudMenu::isDone()const
 	return m_done;
 }
 
-void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos)
+void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos, bool _yourHeroIsAlive)
 {
 	if(m_hasTargetEnemy)
 	{
@@ -511,11 +511,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	else if(m_Chat == false)
 	{
 		// YOU MUST ADD ALL WAITING FOR TARGET SKILLS HERE TO NOT EQUAL IF YOU DONT WANT MULTIPLE ACTIONS TO HAPPEN AT THE SAME TIME.
-		if(g_keyboard->getKeyState('Q') != Keyboard::KEY_UP ||
+		if(_yourHeroIsAlive && (g_keyboard->getKeyState('Q') != Keyboard::KEY_UP ||
 		(m_skillWaitingForTarget != Skill::HEALING_TOUCH && g_mouse->isLButtonDown() &&
 			m_Images[0]->intersects(FLOAT2(
 			g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f,
-			g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f))))
+			g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))))
 		{
 			// Find yourself in the entity vector
 			for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
