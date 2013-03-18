@@ -234,7 +234,7 @@ void Enemy::moveAndRotate(float lastDT)
 				float f = this->m_dir.length();
 				this->m_dir = this->m_dir / this->m_dir.length();
 				ServerEntity *stat = EntityHandler::getClosestStaticOrTurretWithExtents(m_position);
-				if((stat->getPosition() - m_position).length() 
+				if(stat != NULL && (stat->getPosition() - m_position).length() 
 					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.0f+
 					sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x+this->getObb()->Extents.z*this->getObb()->Extents.z))
 				{
@@ -243,7 +243,7 @@ void Enemy::moveAndRotate(float lastDT)
 					m_dir = v;//m_dir*-1;// + v+d;
 					m_position = m_position + (v)*m_movementSpeed*lastDT;
 					if(m_dir.length()>0)
-					m_dir = m_dir/m_dir.length();
+						m_dir = m_dir/m_dir.length();
 				}
 					
 				this->m_position = this->m_position + this->m_dir * (this->m_movementSpeed-min(m_staticAvDir.length(),m_movementSpeed/2)) * lastDT;
