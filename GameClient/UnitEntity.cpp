@@ -306,9 +306,9 @@ void UnitEntity::increaseFortitude(int _fortitude)
 	{
 		this->m_mentalResistance = 0.0f;
 	}
-
-	this->sendAttributesToClient();
+	
 	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(), this->m_health));
+	this->sendAttributesToClient();
 }
 
 void UnitEntity::increaseTurretConstruction(int _towerConstruction)

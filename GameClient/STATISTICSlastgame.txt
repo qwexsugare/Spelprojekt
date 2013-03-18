@@ -1,8 +1,72 @@
 Game statistics: 
 ----------------
-Time played: 0
+Time played: 43.2735
 Life remaining: 100
 Reached wave: 1
 
 Player Statistics:
 ------------------
+Player name: PlayeIJIJI
+Hero played: Red knight
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 0
+
+Damage statistics: 
+Total damage dealt: 0
+Physical damage taken: 0
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+1052173727
+0
+0
+0
+0
+0
+0
+1953719654
+1651336563
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+820064449
+876426284
+1048788581
+866464662
+1026964736
+32768
+851980996
+963393788
+972896759
+1018772593
+1035484585
+200
+876950477
+1046363659
+940324417
+957626617
+815673493
+823734536
+1018182738
+1038499173
+---------------
