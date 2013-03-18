@@ -42,10 +42,6 @@ HRESULT ClientHandler::run()
 	//this->m_serverThread->Launch();
 	this->m_state = new MainMenuState();
 
-	// Retarded thread code
-	/*this->update(0.0f);
-	g_graphicsEngine->Launch();*/
-
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
 	float secsPerCnt = 1.0f / (float)cntsPerSec;
