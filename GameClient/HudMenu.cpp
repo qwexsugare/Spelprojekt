@@ -1,7 +1,7 @@
 #include "HudMenu.h"
 #include "ClientEntityHandler.h"
 
-HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
+HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos)
 {
 	this->m_network = _network;
 	m_Chat = false;
@@ -40,6 +40,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_subTowerModel = NULL;
 	this->m_towerModel = NULL;
 
+	m_heroType = _heroType;
 	switch(_heroType)
 	{
 	case Hero::OFFICER:
@@ -129,6 +130,8 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	m_enemyIcons[Enemy::EnemyType::THUNDERSTEED]->setVisible(false);
 	m_enemyIcons[Enemy::EnemyType::BOSS] = g_graphicsEngine->createSprite("menu_textures/Beast-1.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	m_enemyIcons[Enemy::EnemyType::BOSS]->setVisible(false);
+
+	m_heroPortraits[Hero::HERO_TYPE::DOCTOR] = g_graphicsEngine->createSprite("menu_textures/Imp-2.png", FLOAT2(-0.94f,  0.88f), FLOAT2(0.1f,  0.15625f), 9);
 	
 	this->m_Buttons.resize(2);
 	this->m_Buttons[0] = new Button();
@@ -270,7 +273,7 @@ bool HudMenu::isDone()const
 	return m_done;
 }
 
-void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
+void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos)
 {
 	if(m_hasTargetEnemy)
 	{

@@ -97,7 +97,7 @@ GameState::GameState(Client *_network, string mapName)
 	this->m_endText = NULL;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 40), 20, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
-	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType);
+	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType, m_playerInfos);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
 	g_graphicsEngine->getCamera()->set(FLOAT3(50.0f, 7.5f, 50.0f), FLOAT3(0.0f, -1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 1.0f), FLOAT3(1.0f, 0.0f, 0.0f));
@@ -206,7 +206,7 @@ void GameState::update(float _dt)
 	m_ambientSoundsManager.update(_dt);
 	ClientEntityHandler::update(_dt);
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
-	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id);
+	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id, m_playerInfos);
 	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
 	SpeechManager::update();
 
