@@ -281,26 +281,7 @@ void GameState::update(float _dt)
 			}
 		}
 	}
-	while(!this->m_network->updateEntityHealthEmpty())
-	{
-		NetworkUpdateEntityHealth ueh = this->m_network->updateEntityHealthFront();
-		if(ueh.getId() == this->m_playerInfos[this->m_yourId].id)
-		{
-			if(ueh.getHealth() < 200 && m_lowHealthSoundDelayTimer == 0.0f)
-			{
-				SpeechManager::speak(m_playerInfos[m_yourId].id, m_lowHealthSound);
-				m_lowHealthSoundDelayTimer = LOW_HEALTH_SOUND_DELAY;
-			}
-			this->m_hud->setHealth(ueh.getHealth());
-		}
 
-		Entity *e = ClientEntityHandler::getEntity(ueh.getId());
-
-		if(e != NULL)
-		{
-			e->setHealth(ueh.getHealth());
-		}
-	}
 	while(this->m_network->initEntityMessageEmpty()==false)
 	{
 		NetworkInitEntityMessage iem = this->m_network->initEntityMessageFront();
@@ -338,6 +319,28 @@ void GameState::update(float _dt)
 			}
 		}
 	}
+
+	while(!this->m_network->updateEntityHealthEmpty())
+	{
+		NetworkUpdateEntityHealth ueh = this->m_network->updateEntityHealthFront();
+		if(ueh.getId() == this->m_playerInfos[this->m_yourId].id)
+		{
+			if(ueh.getHealth() < 200 && m_lowHealthSoundDelayTimer == 0.0f)
+			{
+				SpeechManager::speak(m_playerInfos[m_yourId].id, m_lowHealthSound);
+				m_lowHealthSoundDelayTimer = LOW_HEALTH_SOUND_DELAY;
+			}
+			this->m_hud->setHealth(ueh.getHealth());
+		}
+
+		Entity *e = ClientEntityHandler::getEntity(ueh.getId());
+
+		if(e != NULL)
+		{
+			e->setHealth(ueh.getHealth());
+		}
+	}
+
 	while(this->m_network->createActionQueueEmpty() == false)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();

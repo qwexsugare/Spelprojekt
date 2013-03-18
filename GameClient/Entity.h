@@ -8,7 +8,7 @@
 struct Entity
 {
 	unsigned int m_id;
-	unsigned int m_health;
+	int m_health;
 	Model* m_model;
 	FLOAT3 m_direction;
 	ServerEntity::Type m_type;
