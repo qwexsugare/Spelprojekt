@@ -234,6 +234,20 @@ MeleeAttackClientSkillEffect::MeleeAttackClientSkillEffect(unsigned int _masterI
 						break;
 					}
 					break;
+				case Enemy::BOSS:
+					switch(random(0, 2))
+					{
+					case 0:
+						sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
+						break;
+					case 1:
+						sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
+						break;
+					case 2:
+						sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
+						break;
+					}
+					break;
 				}
 				break;
 			}

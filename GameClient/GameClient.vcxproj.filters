@@ -560,6 +560,9 @@
     <ClCompile Include="TurretDamage.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkMissionStarted.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1152,6 +1155,9 @@
     </ClInclude>
     <ClInclude Include="TurretDamage.h">
       <Filter>Server\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkMissionStarted.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

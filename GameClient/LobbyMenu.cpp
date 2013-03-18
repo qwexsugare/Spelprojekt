@@ -105,7 +105,7 @@ LobbyMenu::LobbyMenu(void)
 	
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
 	
-	this->m_slider.Init(FLOAT2(-0.5f, -0.25f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
+	this->m_slider.Init(FLOAT2(-0.5f, -0.275f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
 
 	this->m_Label.resize(4);
 	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);

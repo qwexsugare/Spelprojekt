@@ -401,7 +401,7 @@ int EntityHandler::getNrOfEnemies()
 
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{	
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType)
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType && EntityHandler::m_entities[i]->getSubType() != 0)
 		{
 			counter++;
 		}

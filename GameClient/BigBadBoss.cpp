@@ -6,6 +6,7 @@
 BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 {
 	m_modelId = 80;
+	//this->m_type = ServerEntity::BossType;
 
 	this->increaseStrength(10);
 	this->increaseAgility(5);
@@ -16,12 +17,13 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	m_highRescource = 3000;
 	
 	m_origPos = _pos;
+	m_goalPosition=m_origPos;
 	m_allowedMovement = 4.0f;
 
 	
 
 	m_skills.push_back(new StunningStrike());
-	m_regularAttack = new RangedAttack();
+	m_regularAttack = new MeleeAttack();
 	m_regularAttack->setRange(m_regularAttack->getRange()*1.5);
 	m_aggroRange = 2.0f + m_regularAttack->getRange();
 	
@@ -52,8 +54,6 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
 	
-
-	
 	if(this->lastDT>0.05)
 	{
 		//Handle incoming messages
@@ -69,17 +69,33 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 			if(m_dir.length() > 0)
 				m_dir = m_dir/m_dir.length();
 
-			m_position = m_position + m_dir*lastDT*m_movementSpeed;
 		}
-		else if(!m_willPursue)
-		{
-			m_dir = (m_origPos - m_position)/(m_origPos - m_position).length();
-			m_position = m_position + m_dir*lastDT*m_movementSpeed;
-		}
-		
-		
-	
 
+
+		if(!m_willPursue)
+		{
+			m_dir = m_nextPosition - m_position;
+			if(m_dir.length() > 0)
+				m_dir = m_dir/m_dir.length();
+
+			if(!m_reachedPosition && (m_position - m_nextPosition).length() > m_movementSpeed*dt)
+			{
+				m_position = m_position + m_dir*lastDT*m_movementSpeed;
+			}
+
+			else if(!m_reachedPosition && !m_willPursue)
+			{
+				m_position = m_nextPosition;
+				m_reachedPosition = false;
+			}
+		
+		}
+
+
+		
+				
+		
+		
 		
 		
 		lastDT=0;
@@ -90,7 +106,18 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 			this->m_oldIsAttacking = this->m_isAttacking;
 		}
 		
-		
+		if(this->m_dir.x!=m_prevDir.x||this->m_dir.z!=m_prevDir.z)
+		{
+			if(this->m_reachedPosition)
+				this->m_dir=FLOAT3(0.0f,0.0f,0.0f);
+
+			this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x+this->m_dir.x, m_position.z+this->m_dir.z,this->getMovementSpeed()));
+		}
+
+		if(this->m_health <= 0) //The enemy has died
+		{
+			this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource+m_extraDivinePower, m_highRescource+m_extraDivinePower)));
+		}
 	}
 
 
