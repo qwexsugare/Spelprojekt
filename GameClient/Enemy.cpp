@@ -2,7 +2,7 @@
 #include "MyAlgorithms.h"
 #include "MeleeAttack.h"
 #include "Hero.h"
-
+#include "Input.h"
 extern Pathfinder* g_pathfinder;
 
 Enemy::Enemy() : UnitEntity()
@@ -83,6 +83,7 @@ Enemy::Enemy(FLOAT3 _pos, Path _path, EnemyType _type) : UnitEntity(_pos)
 	m_dir = m_nextPosition - m_position;
 	this->vanishTimer=0.0f;
 	isGoingToVanish=false;
+	bla = false;
 }
 
 Enemy::Enemy(FLOAT3 _pos, EnemyType _type) : UnitEntity(_pos)
@@ -130,6 +131,8 @@ Enemy::Enemy(FLOAT3 _pos, EnemyType _type) : UnitEntity(_pos)
 	m_dir = m_nextPosition - m_position;
 	this->vanishTimer=0.0f;
 	isGoingToVanish=false;
+
+	bla = false;
 }
 
 Enemy::~Enemy()
@@ -149,7 +152,7 @@ FLOAT3 Enemy::getEndPos()
 	return FLOAT3(m_position.x+this->m_dir.x,0.0f, m_position.z+this->m_dir.z);
 }
 
-
+#include <fstream>
 void Enemy::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
@@ -204,6 +207,20 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		
 	}
 
+	if(g_keyboard->getKeyState('P') == Keyboard::KEY_PRESSED)
+	{
+		bla = !bla;//true; 
+	}
+
+	if(bla)
+	{
+
+		fstream ss;
+		ss.open("gunnar.txt",ios::out | ios::app);
+		ss << "Type: " << m_modelId << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
+		
+		ss.close();
+	}
 
 
 	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
@@ -218,7 +235,6 @@ void Enemy::moveAndRotate(float lastDT)
 			{
 				float f = this->m_dir.length();
 				this->m_dir = this->m_dir / this->m_dir.length();
-				//m_currClosestStatic = EntityHandler::getClosestStatic(this);
 				ServerEntity *stat = EntityHandler::getClosestStaticOrTurretWithExtents(m_position);
 				if((stat->getPosition() - m_position).length() 
 					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.0f+
@@ -276,21 +292,21 @@ void Enemy::checkAttack(float lastDT)
 					this->attackHero(this->m_closestTargetId);
 				}
 
-				if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
+				/*if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
 				{
 					m_reachedPosition = false; 
 					m_attackCooldown = m_baseAttackSpeed;
 					m_willPursue = false;
 						this->m_nextPosition = m_goalPosition;
-				}
+				}*/
 			}
 			else 
 			{
 				m_reachedPosition = false;
-				this->m_nextPosition = m_goalPosition;
+				
 			}
 
-				if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
+			if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
 			{
 				m_reachedPosition = false; 
 				m_attackCooldown = m_baseAttackSpeed;
@@ -386,6 +402,9 @@ void Enemy::checkGoal(float lastDT)
 
 			this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x+this->m_dir.x, m_position.z+this->m_dir.z,this->getMovementSpeed()));
 		}
+
+	
+
 }
 
 void Enemy::setNextPosition(unsigned int _id, float dt)
