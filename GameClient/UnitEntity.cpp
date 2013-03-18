@@ -95,6 +95,7 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	this->m_turretDuration = 1.0f;
 	this->m_attackCooldown = 0.0f;
 	this->m_turretDamageUpgrade = 1;
+	this->m_stunTimer = 0.0f;
 	
 	m_swiftAsACatPowerfulAsABear = false;
 	m_frostTurretSlowEffectTimer = 0.0f;
