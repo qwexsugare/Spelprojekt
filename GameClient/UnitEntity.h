@@ -94,8 +94,10 @@ public:
 	void alterAttackSpeed(float _value);
 	void alterMentalDamage(float _value);
 	void alterMentalResistance(float _value);
-	void alterMovementSpeed(float _value);
 	void alterPhysicalResistance(float _value);
+	void alterMovementSpeed(float _value);
+	virtual void alterSpecificUnitEntityMentalResistance();
+	virtual void alterSpecificUnitEntityPhysicalResistance();
 	void alterTurretDuration(int _turretDuration);
 	void alterTurretDamageUpgrade(int _turretDamageUpgrade);
 	void alterPhysicalResistanceUpgrades(int _physicalResistanceUpgrades);
