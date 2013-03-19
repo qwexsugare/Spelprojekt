@@ -704,7 +704,9 @@ void GameState::update(float _dt)
 					m_hud->setMentalResistance(e.mentalResistance);
 				}
 			}
-
+			else if(entity->m_type == ServerEntity::TowerType) // Tower exception for lifetime bar
+				entity->m_health = e.maxHealth;
+			
 			entity->m_maxHealth = e.maxHealth;
 			entity->m_mentalDamage = e.mentalDamage;
 			entity->m_physicalDamage = e.physicalDamage;

@@ -9,6 +9,7 @@ private:
 	float m_slowEffect;
 	int m_minDamage;
 	int m_maxDamage;
+	float m_updateRotLimiter;
 public:
 	static const int COST = 100;
 	static const float ATTACK_COOLDOWN;
