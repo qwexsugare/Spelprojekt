@@ -11,6 +11,7 @@ private:
 	Sprite* m_view;
 	vector<Sprite*> m_playerPositions;
 	vector<Sprite*> m_enemyPositions;
+	vector<Sprite*> m_turretPositions;
 	FLOAT2 m_screenSpacePos;
 	FLOAT2 m_screenSpaceSize;
 	FLOAT2 m_terrainMax;
@@ -23,5 +24,5 @@ public:
 	
 	bool isMouseInMap(INT2 _mousePos)const;
 	FLOAT2 getTerrainPos(INT2 _mousePos)const;
-	void update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _terrainWidth, float _terrainHeight);
+	void update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _terrainWidth, float _terrainHeight, unsigned int yourId);
 };

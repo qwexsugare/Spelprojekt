@@ -11,11 +11,26 @@
 
 GameState::GameState(Client *_network, string mapName)
 {
+	this->missionTimer=0.0f;
+	this->missionCompletedSprite=0;
+	this->missionFailedSprite=0;
+	this->missionStartedSprite=0;
+
+	this->missionStartedSprite = g_graphicsEngine->createSprite("./textures/missionstarted.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionStartedSprite->setVisible(false);
+	this->missionCompletedSprite = g_graphicsEngine->createSprite("./textures/missioncomplete.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionCompletedSprite->setVisible(false);
+	this->missionFailedSprite = g_graphicsEngine->createSprite("./textures/missionfailed.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionFailedSprite->setVisible(false);
+
 	this->m_network = _network;
 	this->importMap(mapName);
 	m_exitButton = NULL;
 	//Create particle system
 	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+
+	//SSAO
+	g_graphicsEngine->setSSAO(2, 0.01f, 0, 1);
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -94,6 +109,7 @@ GameState::GameState(Client *_network, string mapName)
 	m_moveSoundTimer = 0.0f;
 	m_idle = false;
 	m_cameraFollowingHero = false;
+	m_yourHeroLives = true;
 	this->m_endText = NULL;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 40), 20, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
@@ -159,25 +175,6 @@ State::StateEnum GameState::nextState()
 #include "ChainStrikeEffect.h"
 void GameState::update(float _dt)
 {
-	// BEGIN SIMULATION
-
-	//static float simulationTimer = 0.0f;
-	//simulationTimer += _dt;
-	//static int lolModder = 0;
-	//if(simulationTimer > ChainStrikeEffect::TIME_BETWEEN_JUMPS)
-	//{
-	//	//// Do a chani strike lient skill effect
-	//	if(lolModder%2 == 0)
-	//		m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(0.0f, 0.0f, 0.0f)));
-	//	else
-	//		m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(64.0f, 0.0f, 64.0f)));
-
-	//	lolModder++;
-	//	simulationTimer -= ChainStrikeEffect::TIME_BETWEEN_JUMPS;
-	//}
-
-	// END SIMULATION
-
 	while(m_network->endGameQueueEmpty() == false)
 	{
 		this->m_endMessage = m_network->endGameQueueFront();
@@ -206,8 +203,8 @@ void GameState::update(float _dt)
 	m_ambientSoundsManager.update(_dt);
 	ClientEntityHandler::update(_dt);
 	MeleeAttackClientSkillEffect::decreaseTimeBetweenDamageSounds(_dt);
-	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id, m_playerInfos);
-	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight());
+	this->m_hud->Update(_dt, this->m_clientEntityHandler->getEntities(), m_playerInfos[m_yourId].id, m_playerInfos, m_yourHeroLives);
+	m_minimap->update(this->m_clientEntityHandler->getEntities(), g_graphicsEngine->getCamera()->getPos2D(), this->m_terrain->getWidth(), this->m_terrain->getHeight(), this->m_playerInfos[this->m_yourId].id);
 	SpeechManager::update();
 
 	// Update sound timers
@@ -281,26 +278,7 @@ void GameState::update(float _dt)
 			}
 		}
 	}
-	while(!this->m_network->updateEntityHealthEmpty())
-	{
-		NetworkUpdateEntityHealth ueh = this->m_network->updateEntityHealthFront();
-		if(ueh.getId() == this->m_playerInfos[this->m_yourId].id)
-		{
-			if(ueh.getHealth() < 200 && m_lowHealthSoundDelayTimer == 0.0f)
-			{
-				SpeechManager::speak(m_playerInfos[m_yourId].id, m_lowHealthSound);
-				m_lowHealthSoundDelayTimer = LOW_HEALTH_SOUND_DELAY;
-			}
-			this->m_hud->setHealth(ueh.getHealth());
-		}
 
-		Entity *e = ClientEntityHandler::getEntity(ueh.getId());
-
-		if(e != NULL)
-		{
-			e->setHealth(ueh.getHealth());
-		}
-	}
 	while(this->m_network->initEntityMessageEmpty()==false)
 	{
 		NetworkInitEntityMessage iem = this->m_network->initEntityMessageFront();
@@ -326,9 +304,9 @@ void GameState::update(float _dt)
 		if(model)
 		{
 			//this->m_entities.push_back(new Entity(model, e.getEntityId()));
+			model->setScale(iem.getScale(),iem.getScale(),iem.getScale());
 			Entity *e = new Entity(model, iem.getID(), (ServerEntity::Type)iem.getType(), iem.getSubtype());
 			this->m_clientEntityHandler->addEntity(e);
-
 			e->m_weapon = iem.getWeaponType();
 
 			if(iem.getID() == m_playerInfos[m_yourId].id)
@@ -338,6 +316,28 @@ void GameState::update(float _dt)
 			}
 		}
 	}
+
+	while(!this->m_network->updateEntityHealthEmpty())
+	{
+		NetworkUpdateEntityHealth ueh = this->m_network->updateEntityHealthFront();
+		if(ueh.getId() == this->m_playerInfos[this->m_yourId].id)
+		{
+			if(ueh.getHealth() < 200 && m_lowHealthSoundDelayTimer == 0.0f)
+			{
+				SpeechManager::speak(m_playerInfos[m_yourId].id, m_lowHealthSound);
+				m_lowHealthSoundDelayTimer = LOW_HEALTH_SOUND_DELAY;
+			}
+			this->m_hud->setHealth(ueh.getHealth());
+		}
+
+		Entity *e = ClientEntityHandler::getEntity(ueh.getId());
+
+		if(e != NULL)
+		{
+			e->setHealth(ueh.getHealth());
+		}
+	}
+
 	while(this->m_network->createActionQueueEmpty() == false)
 	{
 		NetworkCreateActionMessage e = this->m_network->createActionQueueFront();
@@ -364,6 +364,10 @@ void GameState::update(float _dt)
 			break;
 		case Skill::DEATH:
 			this->m_ClientSkillEffects.push_back(new DeathClientSkillEffect(e.getSenderId(), e.getPosition()));
+			if(e.getSenderId() == m_playerInfos[m_yourId].id)
+			{
+				m_yourHeroLives = false;
+			}
 			break;
 		case Skill::LIFESTEALING_STRIKE:
 			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
@@ -379,7 +383,10 @@ void GameState::update(float _dt)
 			break;
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
+			{
 				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+				m_yourHeroLives = true;
+			}
 			break;
 		case Skill::STUNNING_STRIKE_VICTIM:
 			m_ClientSkillEffects.push_back(new StunningStrikeVictimClientSkillEffect(e.getSenderId()));
@@ -397,6 +404,33 @@ void GameState::update(float _dt)
 			this->m_hud->setLivesRemaining(e.getSenderId());
 			break;
 		}
+	}
+
+	//g_graphicsEngine->createMyText(
+	while(!this->m_network->missionQueueEmpty())
+	{
+		NetworkMissionStarted m = this->m_network->missionQueueFront();
+	
+		if(m.getStartOrEnd()=="start")
+		{
+			this->missionStartedSprite->setVisible(true);
+		}
+		if(m.getStartOrEnd()=="failed")
+		{
+			this->missionFailedSprite->setVisible(true);
+		}
+		if(m.getStartOrEnd()=="completed")
+		{
+			this->missionCompletedSprite->setVisible(true);
+		}
+		this->missionTimer=3.0f;
+	}
+	this->missionTimer-=_dt;
+	if(this->missionTimer<0)
+	{
+		this->missionStartedSprite->setVisible(false);
+		this->missionCompletedSprite->setVisible(false);
+		this->missionFailedSprite->setVisible(false);
 	}
 
 	while(this->m_network->createActionPositionQueueEmpty() == false)
@@ -789,7 +823,7 @@ void GameState::update(float _dt)
 	{
 		m_cameraFollowingHero = !m_cameraFollowingHero;
 	}
-	if(m_cameraFollowingHero && ClientEntityHandler::getEntity(this->m_playerInfos[this->m_yourId].id)->m_health > 0)
+	if(m_cameraFollowingHero && m_yourHeroLives)
 	{
 		g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().x);
 		g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
@@ -820,13 +854,33 @@ void GameState::update(float _dt)
 	if(m_hud->isDone())
 	{
 		this->setDone(true);
+		this->m_endMessage = NetworkEndGameMessage(false, -1, -1, -1, vector<StatisticsPlayer>());
 	}
 }
 
 void GameState::importMap(string _map)
 {
-	string path = "maps/" + _map + "/";
-
+	string path = _map;
+	string reversedPath;
+	bool save=false;
+	for(int i=_map.size()-1;i>=0;i--)
+	{
+		if(_map[i]=='/')
+		{
+			save=true;
+		}
+		if(save)
+		{
+			reversedPath+=_map[i];
+		}
+	}
+	string tmppath;
+	while(reversedPath.size()>0)
+	{
+		tmppath+=reversedPath.back();
+		reversedPath.pop_back();
+	}
+	path=tmppath;
 	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f);
 	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
 
@@ -865,7 +919,7 @@ void GameState::importMap(string _map)
 	bool widthLoaded = false;
 	string minimap;
 	ifstream stream;
-	stream.open(path + _map + ".txt");
+	stream.open(_map);
 	while(!stream.eof())
 	{
 		char buf[1024];
@@ -1204,6 +1258,19 @@ void GameState::playPursueSound(unsigned int _speakerId)
 				break;
 			}
 			break;
+		case Enemy::BOSS:
+			switch(random(0, 2))
+			{
+			case 0:
+				sound = createSoundHandle("enemy/Beast_Attack_0.wav", false, true, speaker->m_startPos);
+				break;
+			case 1:
+				sound = createSoundHandle("enemy/Beast_Attack_1.wav", false, true, speaker->m_startPos);
+				break;
+			case 2:
+				sound = createSoundHandle("enemy/Beast_Attack_2.wav", false, true, speaker->m_startPos);
+				break;
+			}
 		}
 
 		SpeechManager::speak(_speakerId, sound);

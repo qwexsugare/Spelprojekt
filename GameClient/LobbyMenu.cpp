@@ -1,8 +1,9 @@
 #include "LobbyMenu.h"
 #include "Input.h"
 
-LobbyMenu::LobbyMenu(void)
+LobbyMenu::LobbyMenu(bool _host)
 {
+	m_host = _host;
 	enterPressed=false;
 	m_Counter = 0;
 	m_Character0 = false;
@@ -43,7 +44,10 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[4] = new Button();
 	this->m_Buttons[4]->Init(FLOAT2(0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-LevelInformation.png","",0,0,2,5);
 	this->m_Buttons[5] = new Button();
-	this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
+	if(m_host)
+		this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,2,5);
+	else
+		this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
 	
 	this->m_Buttons[0]->setVisible(false);
 	this->m_Buttons[1]->setVisible(false);
@@ -76,6 +80,13 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[11] = new Button();
 	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[11]->setKeep(1);
+	this->setReady(0);
+
+	m_doctorPortrait = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_officerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_redKnightPortrait = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_mentalistPortrait = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 
 	this->m_Buttons[12] = new Button();
 	this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100,0,INT2(422,80), false);
@@ -112,7 +123,7 @@ LobbyMenu::LobbyMenu(void)
 	
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
 	
-	this->m_slider.Init(FLOAT2(-0.5f, -0.25f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
+	this->m_slider.Init(FLOAT2(-0.5f, -0.275f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
 
 	this->m_Label.resize(7);
 	this->m_Label[0] = new TextLabel("","text3.png",INT2(110,205),52);
@@ -178,12 +189,21 @@ string LobbyMenu::getChatString()
 {
 	return this->m_String;
 }
-void LobbyMenu::Update(float _dt)
+void LobbyMenu::Update(float _dt, bool _mayPressReady)
 {
+	_mayPressReady = true; // lol
+
 	int Change = 0;
 	for(int i=0; i < this->m_Buttons.size(); i++)
 	{
-		this->m_Buttons[i]->Update();
+		// Special treatment for the ready button
+		if(i == 5)
+		{
+			if(_mayPressReady)
+				this->m_Buttons[i]->Update();
+		}
+		else
+			this->m_Buttons[i]->Update();
 	}
 	if(Character0IsDown())
 	{
@@ -544,7 +564,6 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	{
 	case 0:
 		buttonIndex = 8;
-		this->m_Buttons[8]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[8]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 1:

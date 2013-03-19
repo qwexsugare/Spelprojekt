@@ -5,7 +5,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_resources = 1500;
+	this->m_resources = 150000;
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = NULL;
 	this->m_ready = false;
@@ -420,6 +420,7 @@ void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
 
 void Player::addResources(unsigned int resources)
 {
+	Statistics::getStatisticsPlayer(this->getId()).increaseGoldCollected(resources);
 	this->m_resources += resources + this->m_hero->getGreed();
 	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(999, this->m_id, this->m_resources));
 }

@@ -98,5 +98,6 @@ public:
 	INT2 getTextPos();
 	string getTextureName();
 	void setTexture(string _Image);
+	void setAllSkillSprites(bool _value);
 };
 

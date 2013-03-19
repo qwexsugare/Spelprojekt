@@ -35,6 +35,7 @@ private:
 	Button* m_exitButton;
 	bool m_idle;
 	float m_idleSoundTimer;
+	bool m_yourHeroLives;
 	bool m_cameraFollowingHero;
 	MyText *m_endText;
 	NetworkEndGameMessage m_endMessage;
@@ -56,6 +57,10 @@ private:
 	vector<int> m_timeIsMoneySounds;
 	int m_churchSound;
 	bool m_idling;
+	Sprite *missionStartedSprite;
+	Sprite *missionFailedSprite;
+	Sprite *missionCompletedSprite;
+	float missionTimer;
 
 	void importMap(string _map);
 	void playPursueSound(unsigned int _speakerId);

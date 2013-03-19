@@ -75,6 +75,16 @@ void Hero::activateAllPassiveSkills()
 	}
 }
 
+void Hero::alterSpecificUnitEntityMentalResistance()
+{
+	this->sendAttributesToClient();
+}
+
+void Hero::alterSpecificUnitEntityPhysicalResistance()
+{
+	this->sendAttributesToClient();
+}
+
 Hero::HERO_TYPE Hero::getHeroType()const
 {
 	return m_heroType;
@@ -365,7 +375,7 @@ void Hero::respawn(FLOAT3 _position)
 	this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::RESPAWN, this->m_id, this->m_position));
-	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->m_id, (this->m_health / this->m_maxHealth) * 1000.0f));
+	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->m_id, this->m_health));
 	this->m_alive = true;
 }
 

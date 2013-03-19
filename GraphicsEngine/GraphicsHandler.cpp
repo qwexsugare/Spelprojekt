@@ -365,3 +365,8 @@ void GraphicsHandler::clear()
 {
 	m_world->clear();
 }
+
+void GraphicsHandler::setSSAO(float scale, float radius, float bias, float intensity)
+{
+	m_world->setSSAO(D3DXVECTOR4(scale, radius, bias, intensity));
+}

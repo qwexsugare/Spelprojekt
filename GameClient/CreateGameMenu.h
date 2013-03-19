@@ -17,11 +17,14 @@ public:
 	bool MainWriteIPIsDown();
 	bool MainWriteNameIsDown();
 	bool LevelOneIsDown();
+	bool LevelTwoIsDown();
 	string getIP();
 	string getPort();
 	string getPlayerName();
 	void savePlayerName();
+	string getChoseLevel();
 private:
+	string choseLevel;
 	vector<TextInput*> m_Label;
 	TextLabel* m_IPLabel;
 	bool	m_WriteIP,

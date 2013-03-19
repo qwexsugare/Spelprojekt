@@ -66,7 +66,7 @@ FLOAT2 Minimap::getTerrainPos(INT2 _mousePos)const
 		* (m_terrainMax-m_terrainMin) + m_terrainMin;
 }
 
-void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _terrainWidth, float _terrainHeight)
+void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _terrainWidth, float _terrainHeight, unsigned int yourId)
 {
 	if(g_mouse->isLButtonPressed())
 	{
@@ -119,6 +119,7 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 	float screenSpaceY;
 	int enemyTypeCounter = 0;
 	int heroTypeCounter = 0;
+	int turretTypeCounter = 0;
 	for(int i = 0; i < _entites.size(); i++)
 	{
 		switch(_entites[i]->m_type)
@@ -129,10 +130,20 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 			heroTypeCounter++;
 			if(heroTypeCounter > m_playerPositions.size())
 			{
-				m_playerPositions.push_back(g_graphicsEngine->createSprite("minimap/player_pos.png",
-					FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
-					FLOAT2(0.009f, 0.016f),
-					0));
+				if(_entites[i]->m_id == yourId)
+				{
+					m_playerPositions.push_back(g_graphicsEngine->createSprite("minimap/you_pos.png",
+						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
+						FLOAT2(0.009f, 0.016f),
+						3));
+				}
+				else
+				{
+					m_playerPositions.push_back(g_graphicsEngine->createSprite("minimap/player_pos.png",
+						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
+						FLOAT2(0.009f, 0.016f),
+						2));
+				}
 			}
 			else
 			{
@@ -146,14 +157,41 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 			enemyTypeCounter++;
 			if(enemyTypeCounter > m_enemyPositions.size())
 			{
-				m_enemyPositions.push_back(g_graphicsEngine->createSprite("minimap/enemy_pos.png",
+				if(_entites[i]->m_subtype == Enemy::BOSS)
+				{
+					m_enemyPositions.push_back(g_graphicsEngine->createSprite("minimap/boss_pos.png",
+						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
+						FLOAT2(0.018f, 0.032f),
+						2));
+				}
+				else
+				{
+					m_enemyPositions.push_back(g_graphicsEngine->createSprite("minimap/enemy_pos.png",
+						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
+						FLOAT2(0.009f, 0.016f),
+						1));
+				}
+			}
+			else
+			{
+				m_enemyPositions[enemyTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
+			}
+			break;
+
+		case ServerEntity::TowerType:
+			screenSpaceX = _entites[i]->m_model->getPosition().x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;
+			screenSpaceY = _entites[i]->m_model->getPosition().z/(m_terrainMax.y-m_terrainMin.y)*2.0f-1.0f;
+			turretTypeCounter++;
+			if(turretTypeCounter > m_turretPositions.size())
+			{
+				m_turretPositions.push_back(g_graphicsEngine->createSprite("minimap/turret_pos.png",
 					FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 					FLOAT2(0.009f, 0.016f),
 					0));
 			}
 			else
 			{
-				m_enemyPositions[enemyTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
+				m_turretPositions[turretTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
 			}
 			break;
 		}
@@ -168,6 +206,11 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 	{
 		g_graphicsEngine->removeSprite(m_enemyPositions.back());
 		m_enemyPositions.pop_back();
+	}
+	while(turretTypeCounter < m_turretPositions.size())
+	{
+		g_graphicsEngine->removeSprite(m_turretPositions.back());
+		m_turretPositions.pop_back();
 	}
 	
 	screenSpaceX = _cameraPos.x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;

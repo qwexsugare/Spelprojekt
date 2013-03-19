@@ -87,12 +87,15 @@ private:
 	void UnInit(int _Type);
 
 	void displayShop(bool _visible);
+
+	// Sounds
+	int m_sellSkillsSound;
 public:
 	HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos);
 	~HudMenu(void);
 
 	bool isDone()const;
-	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos);
+	void Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos, bool _yourHeroIsAlive);
 	void addSkill(unsigned int _skillId);
 	void removeTargetEnemy();
 	void setResources(unsigned int resources);

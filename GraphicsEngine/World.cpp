@@ -47,6 +47,7 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_chainEffectRendering = new ChainFXEffectFile(this->m_deviceHandler->getDevice());
 
 	//SSAO
+	this->m_SSAO = D3DXVECTOR4(0, 0, 0, 0);
 	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
 
 	this->m_positionBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -660,6 +661,8 @@ void World::render()
 	this->m_deferredRendering->setDiffuseTexture(this->m_diffuseBufferTransparant->getShaderResource());
 	this->m_deferredRendering->setViewCoordTexture(this->m_ViewCoordBufferTransparant->getShaderResource());
 
+	this->m_deferredRendering->setSSAO(this->m_SSAO);
+
 	for( UINT p = 0; p < techDesc.Passes; p++ )
 	{
 		this->m_deferredRendering->getTechnique()->GetPassByIndex( p )->Apply(0);
@@ -786,6 +789,7 @@ void World::render()
 				if(m_models[i]->getMesh()->isAnimated)
 				{
 				this->m_forwardRendering->setBoneTexture(m_models[i]->getAnimation()->getResource());
+				this->m_forwardRendering->setColor(m_models[i]->getColor());
 				this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 				this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputAnimationLayout());
 				this->m_forwardRendering->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
@@ -1452,4 +1456,9 @@ void World::clear()
 	m_spotLights.clear();
 
 	this->m_mutex.Unlock();
+}
+
+void World::setSSAO(D3DXVECTOR4 ssao)
+{
+	m_SSAO = ssao;
 }

@@ -95,6 +95,28 @@ HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize)
 //--------------------------------------------------------------------------------------
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
+	switch(message)
+	{
+		case WM_KEYDOWN: // Key gets pressed
+			g_keyboard->keyDown(wParam);
+			break;
+		case WM_KEYUP: // Key gets released
+			g_keyboard->keyUp(wParam);
+			break;
+		case WM_LBUTTONDOWN: // Left mouse button down
+			g_mouse->lButtonDown();
+			break;
+		case WM_RBUTTONDOWN: // Right mouse button down
+			g_mouse->rButtonDown();
+			break;
+		case WM_LBUTTONUP: // Left mouse button up
+			g_mouse->lButtonUp();
+			break;
+		case WM_RBUTTONUP: // Right mouse button up
+			g_mouse->rButtonUp();
+			break;
+	}
+
 	PAINTSTRUCT ps;
 	HDC hdc;
 
@@ -110,12 +132,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		break;
 
 	case WM_KEYDOWN:
-		switch(wParam)
+		/*switch(wParam)
 		{
 			case VK_ESCAPE:
-				PostQuitMessage(0);
-				break;
-		}
+			PostQuitMessage(0);
+			break;
+		}*/
 		break;
 
 	default:

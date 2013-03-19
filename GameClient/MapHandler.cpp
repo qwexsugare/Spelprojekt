@@ -243,35 +243,35 @@ void MapHandler::loadMap(std::string filename)
 		m_paths[i] = paths[i];
 
 	//Improve the paths
-	for(int i = 0; i < this->m_nrOfPaths; i++)
-	{
-		FLOAT2 *tempPoints = new FLOAT2[500];
-		int nrOfPoints = 0;
+	//for(int i = 0; i < this->m_nrOfPaths; i++)
+	//{
+	//	FLOAT2 *tempPoints = new FLOAT2[500];
+	//	int nrOfPoints = 0;
 
-		for(int j = 0; j < this->m_paths[i].nrOfPoints - 1; j++)
-		{
-			Path p = g_pathfinder->getPath(this->m_paths[i].points[j], this->m_paths[i].points[j + 1]);
+	//	for(int j = 0; j < this->m_paths[i].nrOfPoints - 1; j++)
+	//	{
+	//		Path p = g_pathfinder->getPath(this->m_paths[i].points[j], this->m_paths[i].points[j + 1]);
 
-			for(int k = 0; k < p.nrOfPoints && nrOfPoints < 500; k++)
-			{
-				tempPoints[nrOfPoints] = p.points[k];
-				nrOfPoints++;
-			}
-		}
+	//		for(int k = 0; k < p.nrOfPoints && nrOfPoints < 500; k++)
+	//		{
+	//			tempPoints[nrOfPoints] = p.points[k];
+	//			nrOfPoints++;
+	//		}
+	//	}
 
-		FLOAT2 *optimizedPoints = new FLOAT2[nrOfPoints];
+	//	FLOAT2 *optimizedPoints = new FLOAT2[nrOfPoints];
 
-		for(int j = 0; j < nrOfPoints; j++)
-		{
-			optimizedPoints[j] = tempPoints[j];
-		}
+	//	for(int j = 0; j < nrOfPoints; j++)
+	//	{
+	//		optimizedPoints[j] = tempPoints[j];
+	//	}
 
-		delete tempPoints;
-		delete this->m_paths[i].points;
+	//	delete tempPoints;
+	//	delete this->m_paths[i].points;
 
-		this->m_paths[i].points = optimizedPoints;
-		this->m_paths[i].nrOfPoints = nrOfPoints;
-	}
+	//	this->m_paths[i].points = optimizedPoints;
+	//	this->m_paths[i].nrOfPoints = nrOfPoints;
+	//}
 	
 	//createWave(0,10,0,0,0,0,0,0); // MÖGs super advanced specified wave with extra cheese
 	
@@ -297,8 +297,10 @@ void MapHandler::loadMap(std::string filename)
 		{
 			int q,w,e,r,t,y,u,i;
 			string type="w";
-			string missionType;
-			float startTime,endTime, posx,posz;
+			string missionType="";
+			string missionName="";
+			int startTime=0,endTime=0;
+			float posx=0.0f,posz=0.0f;
 			q=w=e=r=t=y=u=i=0;
 			file >> type;
 			if(type[0]=='w')
@@ -306,13 +308,17 @@ void MapHandler::loadMap(std::string filename)
 				file >> q >> w >> e >> r >> t >> y >> u >> i;
 				createWave(q,w,e,r,t,y,u,i);
 			}
-			/*if(type[0]=='m')
+			if(type[0]=='m')
 			{
-				file >> missionType >> posx>> posz>> startTime >> endTime;
-				this->missions.push_back(Mission());
-				this->missions[this->missions.size()-1].createMission(missionType, posx, posz, startTime, endTime);
-				//EntityHandler::addEntity(new Mission(this->mission));
-			}*/
+				file >> missionType >> posx>> posz>> startTime >> endTime >> missionName;
+				for(int i=0;i<missionName.size();i++)
+				{
+					if(missionName[i]=='_')
+						missionName[i]=' ';
+				}
+				this->missions.push_back(new Mission());
+				this->missions[this->missions.size()-1]->createMission(missionType, posx, posz, startTime, endTime,missionName);
+			}
 			
 		}
 	}
@@ -322,10 +328,29 @@ void MapHandler::loadMap(std::string filename)
 
 void MapHandler::update(float _dt)
 {
+	//if(m_waveTimer == 0.0f)
+	{
+		//EntityHandler::addEntity(new Mission(this->mission));
+		for(int i=0;i<this->missions.size();i++)
+		{
+			if(this->missions[i]->handle(this->m_currentWave))
+			{
+				if(!this->missions[i]->isAddedToEntityHandler())
+				{
+					this->missions[i]->addToEntityHandler();
+					EntityHandler::addEntity(this->missions[i]);
+					this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missions[i]->getMissionName(),"start"));
+				}
+			}
+		}
+	}
+
 	Statistics::addTime(_dt);
 	if(m_waveTimer > 0.0f)
 	{
 		m_waveTimer = max(m_waveTimer-_dt, 0.0f);
+
+
 	}
 	else if(m_waveTimer == 0.0f && m_currentWave < m_waves.size())
 	{
@@ -338,11 +363,10 @@ void MapHandler::update(float _dt)
 				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
 				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
 				this->m_enemySpawnTimer = 2.0f;
+
 			}
 			else
 			{
-				m_currentWave++;
-				Statistics::waveFinnished();
 				this->m_waveTimer = -1.0f;
 			}
 		}
@@ -351,6 +375,8 @@ void MapHandler::update(float _dt)
 	{	
 		if(this->m_currentWave < m_waves.size())
 		{
+			m_currentWave++;
+			Statistics::waveFinnished();
 			m_waveTimer = 10.0f;
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::WAVE_UPDATE, this->m_currentWave + 1, FLOAT3()));
 		}

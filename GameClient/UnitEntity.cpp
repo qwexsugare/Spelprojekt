@@ -167,19 +167,29 @@ void UnitEntity::alterAttackSpeed(float _value)
 void UnitEntity::alterMentalResistance(float _value)
 {
 	m_mentalResistanceChange += _value;
-	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
+	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude;
 }
 
 void UnitEntity::alterMovementSpeed(float _value)
 {
 	m_movementSpeedChange += _value;
-	m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
+	m_movementSpeed = max(0.1f, m_baseMovementSpeed + m_movementSpeedChange);
 }
 
 void UnitEntity::alterPhysicalResistance(float _value)
 {
 	m_physicalResistanceChange += _value;
-	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
+}
+
+void UnitEntity::alterSpecificUnitEntityMentalResistance()
+{
+
+}
+
+void UnitEntity::alterSpecificUnitEntityPhysicalResistance()
+{
+
 }
 
 vector<Skill*> UnitEntity::getSkills()
@@ -239,7 +249,7 @@ void UnitEntity::increaseStrength(int _strength)
 	this->m_physicalDamage += _strength * 5;
 	m_basePhysicalResistance -= _strength * 0.02f;
 	this->m_strength += _strength;
-	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength * 0.01f;
 
 	if(this->m_physicalResistance < 0.0f)
 	{
@@ -290,15 +300,15 @@ void UnitEntity::increaseFortitude(int _fortitude)
 	m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange;
 	m_fortitude += _fortitude;
 
-	this->m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude;
+	this->m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude * 0.01f;
 
 	if(this->m_mentalResistance < 0.0f)
 	{
 		this->m_mentalResistance = 0.0f;
 	}
-
-	this->sendAttributesToClient();
+	
 	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(), this->m_health));
+	this->sendAttributesToClient();
 }
 
 void UnitEntity::increaseTurretConstruction(int _towerConstruction)
@@ -346,13 +356,15 @@ void UnitEntity::alterTurretDamageUpgrade(int _turretDamageUpgrade)
 void UnitEntity::alterPhysicalResistanceUpgrades(int _physicalResistanceUpgrades)
 {
 	this->m_physicalResistanceUpgrades += _physicalResistanceUpgrades;
-	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * 0.01f * this->m_strength;
+	this->sendAttributesToClient();
 }
 
 void UnitEntity::alterMentalResistanceUpgrades(int _mentalResistanceUpgrades)
 {
 	this->m_mentalResistanceUpgrades += _mentalResistanceUpgrades;
-	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude;
+	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * 0.01f * this->m_fortitude;
+	this->sendAttributesToClient();
 }
 
 int UnitEntity::getStrength()
@@ -514,11 +526,6 @@ void UnitEntity::stun(float _time)
 
 void UnitEntity::update(float dt)
 {
-	if(this->m_attackSpeed <= 0.0f)
-	{
-		int hoxit = 0;
-	}
-
 	this->m_mutex.Lock();
 
 	for(int i = 0; i < this->m_skills.size(); i++)

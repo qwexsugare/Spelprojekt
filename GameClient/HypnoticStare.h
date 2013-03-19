@@ -8,8 +8,6 @@ private:
 	static const float COOLDOWN;
 	static const int RANGE = 10;
 public:
-	static const float TIME_FACTOR;
-
 	HypnoticStare();
 	~HypnoticStare();
 

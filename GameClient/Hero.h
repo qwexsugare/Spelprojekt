@@ -39,6 +39,8 @@ public:
 	virtual ~Hero();
 	
 	void activateAllPassiveSkills();
+	void alterSpecificUnitEntityMentalResistance();
+	void alterSpecificUnitEntityPhysicalResistance();
 	HERO_TYPE getHeroType()const;
 	void updateSpecificUnitEntity(float dt);
 	void setNextPosition(FLOAT3 _nextPosition);

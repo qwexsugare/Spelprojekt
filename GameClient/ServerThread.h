@@ -31,7 +31,8 @@ private:
 
 	void Run();
 	void update(float dt);
+	string mapName;
 public:
-	 ServerThread(int _port);
+	 ServerThread(int _port, string _mapName);
 	 ~ServerThread();
 };

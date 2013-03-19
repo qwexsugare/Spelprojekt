@@ -42,10 +42,6 @@ HRESULT ClientHandler::run()
 	//this->m_serverThread->Launch();
 	this->m_state = new MainMenuState();
 
-	// Retarded thread code
-	/*this->update(0.0f);
-	g_graphicsEngine->Launch();*/
-
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
 	float secsPerCnt = 1.0f / (float)cntsPerSec;
@@ -60,8 +56,6 @@ HRESULT ClientHandler::run()
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
-
-			this->m_messages.push_back(msg);
 		}
 		else
 		{
@@ -82,35 +76,7 @@ HRESULT ClientHandler::run()
 
 void ClientHandler::update(float _dt)
 {
-	// Update controls
-	for(int i = 0; i < this->m_messages.size(); i++)
-	{
-		switch(this->m_messages[i].message)
-		{
-			case WM_KEYDOWN: // Key gets pressed
-				g_keyboard->keyDown(this->m_messages[i].wParam);
-				break;
-			case WM_KEYUP: // Key gets released
-				g_keyboard->keyUp(this->m_messages[i].wParam);
-				break;
-			case WM_LBUTTONDOWN: // Left mouse button down
-				g_mouse->lButtonDown();
-				break;
-			case WM_RBUTTONDOWN: // Right mouse button down
-				g_mouse->rButtonDown();
-				break;
-			case WM_LBUTTONUP: // Left mouse button up
-				g_mouse->lButtonUp();
-				break;
-			case WM_RBUTTONUP: // Right mouse button up
-				g_mouse->rButtonUp();
-				break;
-		}
-	}
-
-	this->m_messages.clear();
 	this->m_state->update(_dt);
-
 	if(this->m_state->isDone())
 	{
 		State* tempState = this->m_state;
@@ -138,12 +104,11 @@ void ClientHandler::update(float _dt)
 			this->m_state = new JoinGameState(this->m_client);
 			break;
 		case State::LOBBY:
-			this->m_state = new LobbyState(this->m_client);
 			if(tempState->getType() == State::CREATE_GAME)
 			{
 				CreateGameState *tempCreateState = (CreateGameState*)tempState;
 
-				this->m_serverThread = new ServerThread(tempCreateState->getPort());
+				this->m_serverThread = new ServerThread(tempCreateState->getPort(), tempCreateState->getMapName());
 				this->m_serverThread->Launch();
 
 				this->m_client->connect(tempCreateState->getIP(), tempCreateState->getPort());
@@ -161,6 +126,8 @@ void ClientHandler::update(float _dt)
 				playerName << (int)NetworkMessage::setPlayerName << tempJoinState->getPlayerName();
 				this->m_client->sendPacket(playerName);
 			}
+
+			this->m_state = new LobbyState(this->m_client);
 			break;
 		case State::LORE:
 			this->m_state = new LoreState();

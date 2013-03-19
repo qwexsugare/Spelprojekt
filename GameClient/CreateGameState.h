@@ -21,6 +21,7 @@ public:
 	string getIP();
 	int getPort();
 	string getPlayerName();
+	string getMapName();
 };
 
 #endif
