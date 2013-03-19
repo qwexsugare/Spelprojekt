@@ -239,7 +239,7 @@ void LobbyState::update(float _dt)
 		this->m_nextState = State::MAIN_MENU;
 	}
 
-	//Kolla om nätverket har sagt att spelet har startat
+	//Kolla om nï¿½tverket har sagt att spelet har startat
 	while(!m_network->startGameQueueEmpty())
 	{
 		NetworkStartGameMessage e = m_network->startGameQueueFront();
@@ -248,7 +248,7 @@ void LobbyState::update(float _dt)
 		this->m_nextState = State::LOADING;
 	}
 
-	//kollar om nån klient skickat ett text medelande
+	//kollar om nï¿½n klient skickat ett text medelande
 	while(!m_network->networkTextMessageQueueEmpty())
 	{
 		NetworkTextMessage e = m_network->networkTextMessageFront();
@@ -421,8 +421,8 @@ void LobbyState::update(float _dt)
 		if(m_playerId == 0)
 		{
 			m_hostsSuperVector.push_back(false);
-			if(msg.getPlayerIndex() != 0)
-				m_hostMayStartGame = false;
+			//if(msg.getPlayerIndex() != 0)
+				//m_hostMayStartGame = false;
 		}
 	}
 	
