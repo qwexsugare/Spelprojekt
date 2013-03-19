@@ -19,7 +19,7 @@ bool Wall::activate(FLOAT3 _position, unsigned int _senderId)
 	{
 		FLOAT3 distance = _position - sender->getPosition();
 		float rotation = atan2(-distance.x, -distance.z);
-		EntityHandler::addEntity(new WallEffect(_senderId, _position, rotation, ((UnitEntity*)sender)->getFortitude() * 30));
+		EntityHandler::addEntity(new WallEffect(_senderId, _position, rotation, 20 + ((UnitEntity*)sender)->getFortitude() * 2));
 
 		this->resetCooldown();
 		return true;
