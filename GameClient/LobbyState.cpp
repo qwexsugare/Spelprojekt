@@ -421,8 +421,8 @@ void LobbyState::update(float _dt)
 		if(m_playerId == 0)
 		{
 			m_hostsSuperVector.push_back(false);
-			//if(msg.getPlayerIndex() != 0)
-				//m_hostMayStartGame = false;
+			if(msg.getPlayerIndex() != 0)
+				m_hostMayStartGame = false;
 		}
 	}
 	
@@ -448,7 +448,7 @@ void LobbyState::update(float _dt)
 			{
 				if(m_heroType != Hero::HERO_TYPE::NONE)
 				{
-					bool m_hostMayStartGame = true;
+					m_hostMayStartGame = true;
 				}
 			}
 		}
