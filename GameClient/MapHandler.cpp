@@ -367,8 +367,6 @@ void MapHandler::update(float _dt)
 			}
 			else
 			{
-				m_currentWave++;
-				Statistics::waveFinnished();
 				this->m_waveTimer = -1.0f;
 			}
 		}
@@ -377,6 +375,8 @@ void MapHandler::update(float _dt)
 	{	
 		if(this->m_currentWave < m_waves.size())
 		{
+			m_currentWave++;
+			Statistics::waveFinnished();
 			m_waveTimer = 10.0f;
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::WAVE_UPDATE, this->m_currentWave + 1, FLOAT3()));
 		}
