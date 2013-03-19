@@ -870,6 +870,10 @@ void GameState::update(float _dt)
 			g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
 		}
 	}
+	if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
+	{
+		g_graphicsEngine->getCamera()->moveY(_dt);
+	}
 	if(m_hud->isDone())
 	{
 		this->setDone(true);
