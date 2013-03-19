@@ -12,6 +12,9 @@ Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lif
 	this->m_type = ServerEntity::TowerType;
 	this->m_ownerId = _ownerId;
 	m_turretUpgrade = _turretUpgrade;
+	m_limiter = 0.0f;
+
+	this->sendAttributesToClient();
 }
 
 Turret::~Turret()
@@ -27,6 +30,11 @@ const BoundingSphere& Turret::getRange()const
 int Turret::getTurretUpgrade()const
 {
 	return m_turretUpgrade;
+}
+
+void Turret::sendAttributesToClient()const
+{
+	m_messageQueue->pushOutgoingMessage(new AttributeUpdateMessage(m_id, 0,0,0,0,0,m_lifeTime,0,0,0,0));
 }
 
 void Turret::update(float _dt)
@@ -59,6 +67,13 @@ void Turret::update(float _dt)
 				}
 			}
 		}
+
+		if(m_limiter <= 0.0f)
+		{
+			this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(m_id, m_lifeTime));
+			m_limiter = 1.0f;
+		}
+		m_limiter-=_dt;
 	}
 }
 
