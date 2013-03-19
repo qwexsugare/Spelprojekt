@@ -138,6 +138,7 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Label[1] = new TextLabel("","text3.png",INT2(415,855),50);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(60,120),75);
 	this->m_Label[3] = new TextLabel("","text3.png",INT2(60,500),75);
+	this->m_Label[4] = new TextLabel("","text3.png",INT2(60,160),75);
 	this->m_Label[5] = new TextLabel("NONE____NONE","text3.png",INT2(200,890),60);
 	this->m_Label[6] = new TextLabel("Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500","text3.png",INT2(1550,120),60);
 	this->m_LabelInput = new TextInput("text3.png",INT2(1040,1040),80);
@@ -778,7 +779,7 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 		break;
 	}
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
-	this->m_Label[4] = new TextLabel(_name,"text3.png",INT2(60,160),75);
+	this->m_Label[4]->setText("text3.png");
 }
 
 void LobbyMenu::setReady(int _playerIndex)
