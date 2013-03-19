@@ -179,6 +179,8 @@ string LobbyMenu::getChatString()
 }
 void LobbyMenu::Update(float _dt, bool _mayPressReady)
 {
+	_mayPressReady = true; // lol
+
 	int Change = 0;
 	for(int i=0; i < this->m_Buttons.size(); i++)
 	{
@@ -187,7 +189,6 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 		{
 			if(_mayPressReady)
 				this->m_Buttons[i]->Update();
-
 		}
 		else
 			this->m_Buttons[i]->Update();
