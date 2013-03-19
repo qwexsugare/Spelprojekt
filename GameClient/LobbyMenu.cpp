@@ -75,10 +75,10 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[9]->setKeep(1);
 	this->m_Buttons[10] = new Button();
-	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
+	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[10]->setKeep(1);
 	this->m_Buttons[11] = new Button();
-	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
+	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[11]->setKeep(1);
 	this->setReady(0);
 
@@ -586,11 +586,11 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		break;
 	case 2:
 		buttonIndex = 10;
-		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.2f);
+		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 3:
 		buttonIndex = 11;
-		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.2f);
+		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	}
 
@@ -758,27 +758,27 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 	{
 	case 0:
 		//pos = INT2(0.675f, 0.2f);
-		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
 		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 1:
 		//pos = INT2(0.8f, 0.2f);
-		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
 		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 2:
 		//pos = INT2(0.675f, -0.2f);
-		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
+		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
 		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 3:
 		//pos = INT2(0.8f, -0.2f);
-		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
 		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
 		break;
 	}
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
-	this->m_Label[4]->setText("text3.png");
+	this->m_Label[4]->setText(_name);
 }
 
 void LobbyMenu::setReady(int _playerIndex)
