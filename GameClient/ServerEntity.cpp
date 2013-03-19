@@ -9,6 +9,7 @@ ServerEntity::ServerEntity()
 	this->m_modelId = 0;
 	this->m_visible = true;
 	this->m_bvOffset = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->m_scale = 1.0f;
 	this->setPosition(FLOAT3(0.0f, 0.0f, 0.0f)); // Do this last.
 }
 
@@ -21,6 +22,7 @@ ServerEntity::ServerEntity(FLOAT3 _pos)
 	this->m_modelId = 0;
 	this->m_visible = true;
 	this->m_bvOffset = FLOAT3(0.0f, 0.0f, 0.0f);
+	this->m_scale = 1.0f;
 	this->setPosition(_pos); // Do this last.
 }
 
@@ -34,6 +36,7 @@ ServerEntity::ServerEntity(FLOAT3 _position, FLOAT3 _rotation, BoundingOrientedB
 	this->m_type = _type;
 	this->m_modelId = 0;
 	this->m_visible = false;
+	this->m_scale = 1.0f;
 	this->setPosition(_position); // Do this last.
 }
 
@@ -66,6 +69,11 @@ void ServerEntity::update(float dt)
 MessageQueue *ServerEntity::getMessageQueue()
 {
 	return this->m_messageQueue;
+}
+
+float ServerEntity::getScale()
+{
+	return this->m_scale;
 }
 
 NetworkEntityMessage ServerEntity::getUpdate()
@@ -170,6 +178,22 @@ void ServerEntity::setModelId(unsigned int _modelId)
 void ServerEntity::setVisible(bool _visible)
 {
 	this->m_visible = _visible;
+}
+
+void ServerEntity::setScale(float _scale)
+{
+	this->m_scale = _scale;
+
+	if(this->m_obb)
+	{
+		this->m_obb->Extents.x = this->m_obb->Extents.x * this->m_scale;
+		this->m_obb->Extents.y = this->m_obb->Extents.y * this->m_scale;
+		this->m_obb->Extents.z = this->m_obb->Extents.z * this->m_scale;
+	}
+	else if(this->m_bs)
+	{
+		this->m_bs->Radius *= m_scale;
+	}
 }
 
 FLOAT3 ServerEntity::getPosition()

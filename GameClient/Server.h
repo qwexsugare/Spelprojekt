@@ -58,6 +58,7 @@ private:
 	void goThroughSelector();
 	void handleMessages();
 	bool handleClientInData(int socketIndex, sf::Packet packet, NetworkMessage::MESSAGE_TYPE type);
+	string mapName;
 public:
 	Server(MessageHandler *_messageHandler);
 	~Server();
@@ -83,7 +84,7 @@ public:
 	void broadcast(NetworkTextMessage networkMessage);
 	void broadcast(NetworkEntityAttributeMessage networkMessage);
 	void broadcast(NetworkMissionStarted networkMessage);
-
+	void setMapName(string n);
 	bool isRunning();
 
 	vector<Player*> getPlayers();

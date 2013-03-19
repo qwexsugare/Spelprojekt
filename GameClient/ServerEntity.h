@@ -20,6 +20,7 @@ protected:
 	FLOAT3 m_position;
 	FLOAT3 m_rotation;
 	FLOAT3 m_bvOffset;
+	float m_scale;
 
 	unsigned int m_modelId;
 	bool m_visible;
@@ -43,6 +44,7 @@ public:
 	void setModelId(unsigned int _modelId);
 	void setPosition(FLOAT3 _position);
 	void setVisible(bool _visible);
+	void setScale(float _scale);
 
 	FLOAT3 getPosition();
 	FLOAT3 getRotation();
@@ -50,6 +52,7 @@ public:
 	unsigned int getModelId();
 	Type getType();
 	bool getVisible();
+	float getScale();
 
 	virtual int getHealth();
 	virtual int getSubType()const;

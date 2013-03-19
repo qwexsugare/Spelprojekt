@@ -109,7 +109,7 @@ void ClientHandler::update(float _dt)
 			{
 				CreateGameState *tempCreateState = (CreateGameState*)tempState;
 
-				this->m_serverThread = new ServerThread(tempCreateState->getPort());
+				this->m_serverThread = new ServerThread(tempCreateState->getPort(), tempCreateState->getMapName());
 				this->m_serverThread->Launch();
 
 				this->m_client->connect(tempCreateState->getIP(), tempCreateState->getPort());
