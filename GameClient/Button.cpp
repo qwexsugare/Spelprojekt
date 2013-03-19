@@ -262,3 +262,10 @@ void  Button::setTexture(string _Image)
 	this->m_TextureName = _Image;
 	m_Button =	g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
 }
+void Button::setAllSkillSprites(bool _value)
+{
+	if(m_Skill != "")
+	{
+		m_SpriteSkill->setVisible(_value);
+	}
+}

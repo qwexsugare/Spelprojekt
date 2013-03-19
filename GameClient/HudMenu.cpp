@@ -762,6 +762,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			{
 				this->displayShop(false);
 				m_Buy = false;
+				for(int i = 0; i < m_shopButtons.size(); i++)
+				{
+					m_shopButtons[i]->setAllSkillSprites(false);
+				}
 			}
 		}
 		else if(m_Buy == false)
