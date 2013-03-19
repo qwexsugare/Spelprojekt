@@ -59,6 +59,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	{
 		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
 		this->mapName = nwm.getMapName();
+		this->m_playerId = nwm.getPlayerId();
 	}
 	
 	if(m_playerId == 0)
