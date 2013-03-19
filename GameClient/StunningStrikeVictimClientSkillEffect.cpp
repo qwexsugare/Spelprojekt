@@ -13,13 +13,13 @@ StunningStrikeVictimClientSkillEffect::StunningStrikeVictimClientSkillEffect(uns
 			switch(entity->m_subtype)
 			{
 			case Enemy::EnemyType::BRUTE_STEED:
-				entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
+				entity->m_model->getAnimation()->PlayLoop("BeastStunned", 4);
 				break;
 			case Enemy::EnemyType::FROST_DEMON:
 				entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
 				break;
 			case Enemy::EnemyType::HELLFIRE_STEED:
-				entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
+				entity->m_model->getAnimation()->PlayLoop("BeastStunned", 4);
 				break;
 			case Enemy::EnemyType::IMP:
 				entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
@@ -28,13 +28,13 @@ StunningStrikeVictimClientSkillEffect::StunningStrikeVictimClientSkillEffect(uns
 				entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
 				break;
 			case Enemy::EnemyType::SOUL_EATER_STEED:
-				entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
+				entity->m_model->getAnimation()->PlayLoop("BeastStunned", 4);
 				break;
 			case Enemy::EnemyType::SPITTING_DEMON:
 				entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
 				break;
 			case Enemy::EnemyType::THUNDERSTEED:
-				entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
+				entity->m_model->getAnimation()->PlayLoop("BeastStunned", 4);
 				break;
 			}
 		}
