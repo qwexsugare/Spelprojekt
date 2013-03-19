@@ -704,7 +704,9 @@ void GameState::update(float _dt)
 					m_hud->setMentalResistance(e.mentalResistance);
 				}
 			}
-
+			else if(entity->m_type == ServerEntity::TowerType) // Tower exception for lifetime bar
+				entity->m_health = e.maxHealth;
+			
 			entity->m_maxHealth = e.maxHealth;
 			entity->m_mentalDamage = e.mentalDamage;
 			entity->m_physicalDamage = e.physicalDamage;
@@ -867,6 +869,10 @@ void GameState::update(float _dt)
 			g_graphicsEngine->getCamera()->setX(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().x);
 			g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
 		}
+	}
+	if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
+	{
+		g_graphicsEngine->getCamera()->moveY(_dt);
 	}
 	if(m_hud->isDone())
 	{

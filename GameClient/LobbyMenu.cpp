@@ -75,10 +75,10 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[9]->setKeep(1);
 	this->m_Buttons[10] = new Button();
-	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
+	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[10]->setKeep(1);
 	this->m_Buttons[11] = new Button();
-	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
+	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[11]->setKeep(1);
 	this->setReady(0);
 
@@ -138,6 +138,7 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Label[1] = new TextLabel("","text3.png",INT2(415,855),50);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(60,120),75);
 	this->m_Label[3] = new TextLabel("","text3.png",INT2(60,500),75);
+	this->m_Label[4] = new TextLabel("","text3.png",INT2(60,160),75);
 	this->m_Label[5] = new TextLabel("NONE____NONE","text3.png",INT2(200,890),60);
 	this->m_Label[6] = new TextLabel("Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500","text3.png",INT2(1550,120),60);
 	this->m_LabelInput = new TextInput("text3.png",INT2(1040,1040),80);
@@ -206,8 +207,6 @@ string LobbyMenu::getChatString()
 }
 void LobbyMenu::Update(float _dt, bool _mayPressReady)
 {
-	_mayPressReady = true; // lol
-
 	int Change = 0;
 	for(int i=0; i < this->m_Buttons.size(); i++)
 	{
@@ -583,18 +582,15 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		break;
 	case 1:
 		buttonIndex = 9;
-		this->m_Buttons[9]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[9]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 2:
 		buttonIndex = 10;
-		this->m_Buttons[10]->setCurrentFrame(INT2(2, 0));
-		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.2f);
+		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 3:
 		buttonIndex = 11;
-		this->m_Buttons[11]->setCurrentFrame(INT2(2, 0));
-		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.2f);
+		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	}
 
@@ -762,23 +758,27 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 	{
 	case 0:
 		//pos = INT2(0.675f, 0.2f);
-		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 1:
 		//pos = INT2(0.8f, 0.2f);
-		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 2:
 		//pos = INT2(0.675f, -0.2f);
-		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
+		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 3:
 		//pos = INT2(0.8f, -0.2f);
-		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
 		break;
 	}
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
-	this->m_Label[4] = new TextLabel(_name,"text3.png",INT2(60,160),75);
+	this->m_Label[4]->setText(_name);
 }
 
 void LobbyMenu::setReady(int _playerIndex)
@@ -786,16 +786,16 @@ void LobbyMenu::setReady(int _playerIndex)
 	switch(_playerIndex)
 	{
 	case 0:
-		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[8]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 1:
-		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[9]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 2:
-		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[10]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 3:
-		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[11]->setCurrentFrame(INT2(2, 0));
 		break;
 	}
 }

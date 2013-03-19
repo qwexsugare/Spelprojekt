@@ -61,7 +61,7 @@ struct Entity
 			this->m_model->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		}
 
-		if(this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType)
+		if(this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType || m_type == ServerEntity::TowerType)
 		{
 			FLOAT2 screenPos = this->m_model->getScreenPos(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
 			this->m_healthBack = g_graphicsEngine->createSprite("menu_textures/Damage.png", screenPos, FLOAT2(75.0f, 5.0f) / FLOAT2(g_graphicsEngine->getScreenSize().x, g_graphicsEngine->getScreenSize().y), 2);
@@ -136,7 +136,7 @@ struct Entity
 			}
 		}
 	
-		if((this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType) && this->m_healthBack->getVisible() == true)
+		if((this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType || m_type == ServerEntity::TowerType) && this->m_healthBack->getVisible() == true)
 		{		
 			//Update the healthbar position
 			FLOAT2 screenPos = this->m_model->getScreenPos(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
