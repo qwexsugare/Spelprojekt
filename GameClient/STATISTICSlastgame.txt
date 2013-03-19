@@ -1,40 +1,8 @@
 Game statistics: 
 ----------------
 Time played: 0
-Time played: 4.41934
-Time played: 199.097
 Life remaining: 100
 Reached wave: 1
 
 Player Statistics:
 ------------------
-Player name: Player
-Hero played: Officer
-Deamons killed: 28
-Resources collected: 0
-Healed for: 0
-965451026
-0
-0
-65536
-1935751789
-930821926
-1014316051
-928855882
-993409770
-1000946587
-983513706
-951466086
-855847668
-1037450685
-1014840376
-1071529937
-827994449
-889337018
-976894496
-842740277
-1045184034
-16314
-920008390
-936392633
-923547308

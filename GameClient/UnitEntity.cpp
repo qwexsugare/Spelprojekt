@@ -491,7 +491,7 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 	if(m_swiftAsACatPowerfulAsABear)
 	{
 		//Gör saacpaab saker
-		if(random(1, 10) == 1)
+		if(random(1, 10) == 1 && ((target->getType() == ServerEntity::EnemyType && target->getSubType() == 0) || target->getType() != ServerEntity::EnemyType))
 			target->takeDamage(this->m_id, INT_MAX, INT_MAX);
 		else
 			physicalDamage*=3;

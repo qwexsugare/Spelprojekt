@@ -273,7 +273,7 @@ void MapHandler::loadMap(std::string filename)
 	//	this->m_paths[i].nrOfPoints = nrOfPoints;
 	//}
 	
-	//createWave(0,0,0,0,0,0,10,0); // MÖGs super advanced specified wave with extra cheese
+	createWave(0,0,0,0,0,0,10,0); // MÖGs super advanced specified wave with extra cheese
 	
 
 	/// This is where all waves are created! 

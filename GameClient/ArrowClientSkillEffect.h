@@ -7,6 +7,7 @@
 class ArrowClientSkillEffect : public ClientSkillEffect
 {
 private:
+	FLOAT3 m_pos;
 	Model* m_graphicalEffect;
 	unsigned int m_targetId;
 	unsigned int m_masterId;

@@ -42,11 +42,11 @@ StunningStrikeVictimClientSkillEffect::StunningStrikeVictimClientSkillEffect(uns
 		{
 			if(entity->m_weapon == ModelIdHolder::AOE)
 			{
-				entity->m_model->getAnimation()->Play("2Hidle");
+				entity->m_model->getAnimation()->Play("Stunn2Hand");
 			}
 			else
 			{
-				entity->m_model->getAnimation()->Play("idle");
+				entity->m_model->getAnimation()->Play("Stunn1Hand");
 			}
 		}
 	}
