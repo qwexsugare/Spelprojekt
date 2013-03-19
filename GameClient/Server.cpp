@@ -144,6 +144,7 @@ void Server::handleMessages()
 	NetworkEntityMessage nem;
 	NetworkUpdateEntityHealth nueh;
 	NetworkEntityAttributeMessage neam;
+	NetworkMissionStarted nm;
 	
 
 	RemoveServerEntityMessage *m1;
@@ -157,6 +158,7 @@ void Server::handleMessages()
 	UpdateEntityMessage *m9;
 	updateEntityHealth *m10;
 	AttributeUpdateMessage *m11;
+	MissionMessage *m12;
 
 
 	while(this->m_messageQueue->incomingQueueEmpty() == false)
@@ -244,6 +246,12 @@ void Server::handleMessages()
 			neam = NetworkEntityAttributeMessage(m11->id, m11->strength, m11->wits, m11->fortitude, m11->agility, m11->towerConstruction, m11->maxHealth, m11->mentalDamage, m11->physicalDamage, m11->mentalResistance, m11->physicalResistance);
 			this->broadcast(neam);
 			break;
+
+		case Message::Mission:
+			m12 = (MissionMessage*)m;
+			nm = NetworkMissionStarted(m12->missionName,m12->missionStartOrEnd);
+			this->broadcast(nm);
+			break;
 		
 		}
 
@@ -309,6 +317,21 @@ void Server::broadcast(NetworkWelcomeMessage networkMessage)
 }
 
 void Server::broadcast(NetworkTextMessage networkMessage)
+{
+	sf::Packet packet;
+	packet<<networkMessage;
+
+	this->m_mutex.Lock();
+
+	for(int i=0;i<MAXPLAYERS;i++)
+	{
+		if(this->clients[i].IsValid())
+			this->clients[i].Send(packet);
+	}
+
+	this->m_mutex.Unlock();
+}
+void Server::broadcast(NetworkMissionStarted networkMessage)
 {
 	sf::Packet packet;
 	packet<<networkMessage;

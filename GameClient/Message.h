@@ -6,7 +6,7 @@
 struct Message
 {
 	enum Type{Start, Ready, Collision, Attack, RemoveEntity, CreateAction, CreateActionPosition, CreateActionTarget, RemoveActionTarget, SkillBought,
-		SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame, AttributeUpdate,TXTMSG};
+		SelectHero, SkillUsed, EnemyDied, EnemyReachedGoal,initEntities,updateEntity,updateEntityHealth, HeroDied, JoinedGame, AttributeUpdate,TXTMSG, Mission};
 
 	Type type;
 	int senderId;
@@ -356,5 +356,17 @@ struct TextMessage : Message
 	TextMessage(string text)
 	{
 		this->text=text;
+	}
+};
+struct MissionMessage : Message
+{
+	string missionName;
+	string missionStartOrEnd;
+	MissionMessage(string s, string n)
+	{
+		this->type = Message::Mission;
+		this->reciverId = 1;
+		this->missionName=s;
+		this->missionStartOrEnd=n;
 	}
 };

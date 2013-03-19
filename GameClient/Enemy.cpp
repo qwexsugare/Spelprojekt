@@ -73,7 +73,6 @@ Enemy::Enemy(FLOAT3 _pos, Path _path, EnemyType _type) : UnitEntity(_pos)
 	m_destination = d->getPosition();
 	m_destinationRadius = sqrt(d->getObb()->Extents.x*d->getObb()->Extents.x + d->getObb()->Extents.z*d->getObb()->Extents.z);
 	m_distanceToPoint = 1.0f;
-	FLOAT3 hoxit = FLOAT3(0.0f,0.0f,0.0f);
 	if(this->m_path.nrOfPoints > 0)
 	{
 		this->m_goalPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
@@ -121,7 +120,6 @@ Enemy::Enemy(FLOAT3 _pos, EnemyType _type) : UnitEntity(_pos)
 	m_destination = d->getPosition();
 	m_destinationRadius = sqrt(d->getObb()->Extents.x*d->getObb()->Extents.x + d->getObb()->Extents.z*d->getObb()->Extents.z);
 	m_distanceToPoint = 1.0f;
-	FLOAT3 hoxit = FLOAT3(0.0f,0.0f,0.0f);
 	if(this->m_path.nrOfPoints > 0)
 	{
 		this->m_goalPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
@@ -229,14 +227,14 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 void Enemy::moveAndRotate(float lastDT)
 {
-	if(this->m_health > 0 && (m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
+	if((m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
 		{
 			if(this->m_dir.length()>0)
 			{
 				float f = this->m_dir.length();
 				this->m_dir = this->m_dir / this->m_dir.length();
 				ServerEntity *stat = EntityHandler::getClosestStaticOrTurretWithExtents(m_position);
-				if((stat->getPosition() - m_position).length() 
+				if(stat != NULL && (stat->getPosition() - m_position).length() 
 					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.0f+
 					sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x+this->getObb()->Extents.z*this->getObb()->Extents.z))
 				{
@@ -245,7 +243,7 @@ void Enemy::moveAndRotate(float lastDT)
 					m_dir = v;//m_dir*-1;// + v+d;
 					m_position = m_position + (v)*m_movementSpeed*lastDT;
 					if(m_dir.length()>0)
-					m_dir = m_dir/m_dir.length();
+						m_dir = m_dir/m_dir.length();
 				}
 					
 				this->m_position = this->m_position + this->m_dir * (this->m_movementSpeed-min(m_staticAvDir.length(),m_movementSpeed/2)) * lastDT;
