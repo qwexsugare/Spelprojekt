@@ -166,6 +166,11 @@ void Skill_Buttons::ChangeButton(string _Number, bool _Active, int id, string _S
 		m_SpriteSkill = g_graphicsEngine->createSprite(m_Skill, FLOAT2(m_Pos.x,-0.804f+0.1f),FLOAT2(0.260416667f,0.185185185f),20);
 		m_SpriteSkill->setVisible(false);
 	}
+	else
+	{
+		m_cooldown->setVisible(false);
+		m_cooldownTime = 0.0f;
+	}
 
 	g_graphicsEngine->removeSpriteSheet(m_SkillButton);
 	m_SkillButton = g_graphicsEngine->createSpriteSheet(this->m_FullName,m_Pos,m_Size,INT2(3,1),m_Layer);

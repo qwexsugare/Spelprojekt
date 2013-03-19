@@ -35,6 +35,7 @@ void ThunderSteed::attackHero(int heroIndex)
 		if(e)
 		{
 			((UnitEntity*)e)->stun(2.0f);
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::STUNNING_STRIKE_VICTIM, e->getId(), FLOAT3(0.0f, 0.0f, 0.0f)));
 		}
 	}
 }
