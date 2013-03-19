@@ -88,13 +88,6 @@ LobbyState::~LobbyState()
 
 void LobbyState::update(float _dt)
 {
-	float chainY = 0.3f;
-
-	//test->setOrig(D3DXVECTOR3(m_mentalist->getCharacter()->getPosition().x, m_mentalist->getCharacter()->getPosition().y + chainY, m_mentalist->getCharacter()->getPosition().z));
-	//test->setTarget(D3DXVECTOR3(m_officer->getCharacter()->getPosition().x, m_officer->getCharacter()->getPosition().y + chainY, m_officer->getCharacter()->getPosition().z));
-	//test->setCamPos(g_graphicsEngine->getCamera()->getPos());
-	//test->setViewProj(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
-
 	if(m_playerId == 0)
 		m_menu->Update(_dt, m_hostMayStartGame);
 	else
