@@ -12,6 +12,7 @@ private:
 	vector<Sprite*> m_playerPositions;
 	vector<Sprite*> m_enemyPositions;
 	vector<Sprite*> m_turretPositions;
+	vector<Sprite*> m_bossPositions;
 	FLOAT2 m_screenSpacePos;
 	FLOAT2 m_screenSpaceSize;
 	FLOAT2 m_terrainMax;
