@@ -173,7 +173,7 @@ void UnitEntity::alterMentalResistance(float _value)
 void UnitEntity::alterMovementSpeed(float _value)
 {
 	m_movementSpeedChange += _value;
-	m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
+	m_movementSpeed = max(0.1f, m_baseMovementSpeed + m_movementSpeedChange);
 }
 
 void UnitEntity::alterPhysicalResistance(float _value)
