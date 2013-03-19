@@ -77,7 +77,8 @@ void ArrowClientSkillEffect::update(float _dt)
 	else if(m_graphicalEffect && target && target->m_health > 0)
 	{
 		D3DXVECTOR3 newPos = D3DXVECTOR3(m_graphicalEffect->getPosition().x, m_graphicalEffect->getPosition().y, m_graphicalEffect->getPosition().z);
-		this->m_particleSystem->setPosition(newPos);
+		D3DXVECTOR3 incY(0, 0.5f, 0);
+		this->m_particleSystem->setPosition(newPos + incY);
 
 		FLOAT3 dist = target->m_model->getPosition()-m_graphicalEffect->getPosition();
 		FLOAT3 movement = dist/dist.length()*RangedAttack::VELOCITY*_dt;
