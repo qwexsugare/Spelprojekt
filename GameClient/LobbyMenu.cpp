@@ -80,10 +80,8 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Buttons[11] = new Button();
 	this->m_Buttons[11]->Init(FLOAT2(0.8f, 0.0f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player4.dds","",0,0,1);
 	this->m_Buttons[11]->setKeep(1);
-	if(m_host)
-	{
-		this->setReady(0);
-	}
+	this->setReady(0);
+
 	m_doctorPortrait = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 	m_officerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
@@ -553,7 +551,6 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	{
 	case 0:
 		buttonIndex = 8;
-		this->m_Buttons[8]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[8]->getPos()+FLOAT2(0.0f, -0.15f);
 		break;
 	case 1:
