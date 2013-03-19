@@ -239,7 +239,9 @@ void Enemy::moveAndRotate(float lastDT)
 					sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x+this->getObb()->Extents.z*this->getObb()->Extents.z))
 				{
 						
-					FLOAT3 v = (m_position - stat->getPosition())/(m_position - stat->getPosition()).length();
+					FLOAT3 v = (m_position - stat->getPosition());
+					if(v.length() > 0)
+						v = v/v.length();
 					m_dir = v;//m_dir*-1;// + v+d;
 					m_position = m_position + (v)*m_movementSpeed*lastDT;
 					if(m_dir.length()>0)
