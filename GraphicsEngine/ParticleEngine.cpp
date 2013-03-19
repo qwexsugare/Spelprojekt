@@ -6,10 +6,16 @@ ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, Textu
 	this->type = _type;
 	this->position = _position;
 	this->rotation = _rotation;
-	this->scale = _scale;
+	this->scale = _scale * _pe->scale;
 	this->textureHolder = _textureHolder;
 
-	this->maxParticles = 100;
+	this->maxParticles = (_pe->lifeTime/_pe->emitRate)*16 + 10;
+
+
+	this->emitRate = _pe->emitRate;
+	this->lifeTime = _pe->lifeTime;
+	this->speed = _pe->speed;
+	this->offset = _pe->offset;
 
 	this->isAlive = true;
 
@@ -154,10 +160,19 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 	_particleRendering->setSize(this->scale);
 	_particleRendering->setDt(this->dt);
 	D3DXMATRIX viewProj = _camera->getViewMatrix() * _camera->getProjectionMatrix();
+	D3DXMATRIX view = _camera->getViewMatrix() * _camera->getViewMatrix();
+	D3DXMATRIX proj = _camera->getViewMatrix() * _camera->getProjectionMatrix();
 	_particleRendering->setViewProj(viewProj);
+	_particleRendering->setView(view);
+	_particleRendering->setProj(proj);
 	_particleRendering->setRandomTexture(randomTex);
 	_particleRendering->setTexture(texture);
 	_particleRendering->setIsAlive(this->isAlive);
+	_particleRendering->setEmitRate(this->emitRate);
+	_particleRendering->setLifeTime(this->lifeTime);
+	_particleRendering->setSpeed(this->speed);
+	_particleRendering->setOffset(this->offset);
+	float rt = this->lifeTime;
 
 
 	device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -190,6 +205,9 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 			break;
 		case ParticleBehavior::Fire:
 			DrawGPUFire(_particleRendering);
+			break;
+		case ParticleBehavior::Electric:
+			DrawGPUElectric(_particleRendering);
 			break;
 	}
 
@@ -396,6 +414,45 @@ void ParticleEngine::DrawGPUFire(ParticleEngineEffectFile* _particleRendering)
 	}
 }
 
+void ParticleEngine::DrawGPUElectric(ParticleEngineEffectFile* _particleRendering)
+{
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
+
+	//StreamOut
+	device->SOSetTargets(1, &streamOutVB, &offset);
+	
+	D3D10_TECHNIQUE_DESC techDesc;
+	_particleRendering->getElectricSOTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getElectricSOTechnique()->GetPassByIndex(p)->Apply(0);
+		if(firstTime)
+		{
+			device->Draw(1, 0);
+			firstTime = false;
+		}
+		else
+		{
+			device->DrawAuto();
+		}
+	}
+	
+	ID3D10Buffer* bufferArray[1] = {0};
+	device->SOSetTargets(1, bufferArray, &offset);
+
+	swap(drawVB, streamOutVB);
+
+	//Draw
+	device->IASetVertexBuffers(0, 1, &drawVB, &stride, &offset);
+
+	_particleRendering->getDrawElectricTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getDrawElectricTechnique()->GetPassByIndex(p)->Apply(0);
+		device->DrawAuto();
+	}
+}
 
 void ParticleEngine::setPosition(D3DXVECTOR3& _pos)
 {
