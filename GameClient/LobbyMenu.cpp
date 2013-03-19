@@ -751,7 +751,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	m_currentSelections[_playerIndex] = _type;
 }
 
-void LobbyMenu::setPlayerName(int _playerIndex, string _name)
+void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
 {
 	INT2 pos;
 	switch(_playerIndex)
@@ -777,8 +777,13 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
 		break;
 	}
+
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
-	this->m_Label[4]->setText(_name);
+	
+	if(changeText == true)
+	{
+		this->m_Label[4]->setText(_name);
+	}
 }
 
 void LobbyMenu::setReady(int _playerIndex)
