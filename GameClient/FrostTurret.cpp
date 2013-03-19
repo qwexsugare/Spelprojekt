@@ -10,7 +10,7 @@ FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) :
 	Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId(), _creator->getTurretConstruction())
 {
 	this->m_modelId = 5;
-	this->m_slowEffect = (1000/*1*/ + _creator->getTurretConstruction() / 4) * -0.1;
+	this->m_slowEffect = (_creator->getTurretConstruction() / 4) * -0.1;
 	
 	Model* temp = g_graphicsEngine->createModel("FrostGun", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
