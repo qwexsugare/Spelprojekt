@@ -69,7 +69,6 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	}
 	else
 		m_menu = new LobbyMenu(false);
-
 }
 
 LobbyState::~LobbyState()
@@ -263,14 +262,15 @@ void LobbyState::update(float _dt)
 
 	while(!m_network->heroSelectedQueueEmpty())
 	{
-
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
 		
 		if(nhsm.getPlayerId() == this->m_playerId)
 		{
-
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
+			// The host must RE-ready cuz he is ALWAYS READY!!111
+			if(m_playerId == 0)
+				m_menu->setReady(m_playerId);
 		}
 		else
 		{
