@@ -11,10 +11,12 @@
 class LobbyState : public State
 {
 private:
+	vector<bool> m_hostsSuperVector; // Used for checking if all players are ready (For the Host only).
+	bool m_hostMayStartGame; // Stores a bool which determines if the host can start the game or not.
+
 	LobbyMenu *m_menu;
 	StateEnum  m_nextState;
 	Client* m_network;
-	int m_currentHeroSelected;
 	Hero::HERO_TYPE m_heroType;
 	string mapName;
 	ModelIdHolder m_modelIdHolder;

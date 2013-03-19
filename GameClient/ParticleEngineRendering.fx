@@ -7,6 +7,7 @@
 #include "CirclePuls.fx"
 #include "Sphere.fx"
 #include "Fire.fx"
+#include "Electric.fx"
 
 Particle StreamOutVS(Particle input)
 {
@@ -18,8 +19,9 @@ void DrawGS(point VS_OUT input[1], inout TriangleStream<GS_OUT> triStream)
 {
 	if(input[0].type =! EMITTER)
 	{
+		float3 normVel = normalize(input[0].vel);
 		float3 look = normalize(camPosW.xyz - input[0].pos);
-		float3 right = normalize(cross(float3(0,1,0), look));
+		float3 right = normalize(cross(normVel, look));
 		float3 up = cross(look, right);
 
 		float4x4 W;
@@ -30,9 +32,11 @@ void DrawGS(point VS_OUT input[1], inout TriangleStream<GS_OUT> triStream)
 		
 		float4x4 WVP = mul(W, viewProj);
 
+
 		// Creating Quad
 		float halfWidth = 0.5f*input[0].size.x;
 		float halfHeight = 0.5f*input[0].size.y;
+
 
 		float4 v[4];
 		v[0] = float4(-halfWidth, -halfHeight, 0.0f, 1.0f);
@@ -55,7 +59,7 @@ void DrawGS(point VS_OUT input[1], inout TriangleStream<GS_OUT> triStream)
 
 float4 DrawPS(GS_OUT input) : SV_TARGET
 {
-	return tex.Sample(triLinearSam, input.texC);
+	return tex.Sample(triLinearSam, input.texC)*input.color;
 }
 
 //Beacon
@@ -179,6 +183,31 @@ technique10 DrawFire
 	pass P0
 	{
 		SetVertexShader(	CompileShader( vs_4_0, FireVS() ) );
+		SetGeometryShader(	CompileShader( gs_4_0, DrawGS() ) );
+		SetPixelShader (	CompileShader( ps_4_0, DrawPS() ) );
+		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );
+		SetDepthStencilState( NoDepthWrites, 0 );
+	}
+}
+
+//Electric
+//
+technique10 ElectricSOTech
+{
+	pass P0
+	{
+		SetVertexShader( CompileShader( vs_4_0, StreamOutVS() ) );
+		SetGeometryShader( gsElectricSO );
+		SetPixelShader ( NULL );
+		SetDepthStencilState( DisableDepth, 0 );
+	}
+}
+
+technique10 DrawElectric
+{
+	pass P0
+	{
+		SetVertexShader(	CompileShader( vs_4_0, ElectricVS() ) );
 		SetGeometryShader(	CompileShader( gs_4_0, DrawGS() ) );
 		SetPixelShader (	CompileShader( ps_4_0, DrawPS() ) );
 		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );

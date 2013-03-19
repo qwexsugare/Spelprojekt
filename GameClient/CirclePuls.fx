@@ -22,6 +22,7 @@ void CirclePulsSO(point Particle input[1], inout PointStream<Particle> pStream)
 			p.size = size;
 			p.age = 0.0f;
 			p.type = PARTICLE;
+
 			float angle = 6.28/nrOfSpawnParticles;
 			[loop]
 			for(int i = 0; i < nrOfSpawnParticles; i++)
@@ -60,7 +61,7 @@ void CirclePulsSO(point Particle input[1], inout PointStream<Particle> pStream)
 
 GeometryShader CirclePulsStreamOut = ConstructGSWithSO(
 	CompileShader( gs_4_0, CirclePulsSO() ),
-	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x");
+	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x;");
 
 //*********
 // DrawTech
@@ -79,13 +80,15 @@ VS_OUT CirclePulsVS(Particle input)
 	output.pos.x = input.pos.x + (velx * t);
 	output.pos.y = input.pos.y;
 	output.pos.z = input.pos.z  + (velz * t);
+	
+	float opacity = 1.0f - smoothstep(0.0f, 1.0f, t/1.5f);
+
+
 
 	output.pos += emitPosW.xyz;
 
-	float opacity = 1.0f - smoothstep(0.0f, 1.0f, t/1.5f);
-
+	output.vel = input.pos.xyz;
 	output.color = float4(1.0f, 1.0f, 0.5f, opacity);
-
 	output.size = input.size;
 	output.type = input.type;
 

@@ -343,5 +343,8 @@
     <FxCompile Include="..\GameClient\ChainEffectRendering.fx">
       <Filter>Shader files</Filter>
     </FxCompile>
+    <FxCompile Include="..\GameClient\Electric.fx">
+      <Filter>Shader files\ParticleBehavior</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

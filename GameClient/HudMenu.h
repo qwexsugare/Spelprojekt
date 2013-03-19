@@ -87,6 +87,9 @@ private:
 	void UnInit(int _Type);
 
 	void displayShop(bool _visible);
+
+	// Sounds
+	int m_sellSkillsSound;
 public:
 	HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos);
 	~HudMenu(void);
