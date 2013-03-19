@@ -258,6 +258,18 @@ void LobbyState::update(float _dt)
 	while(!m_network->heroSelectedQueueEmpty())
 	{
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
+		if(nhsm.getHeroId()== Hero::HERO_TYPE::NONE)
+		{
+			if(nhsm.getPlayerId() == this->m_playerId)
+			{
+				this->m_menu->setPlayerName(nhsm.getPlayerId(), "", true);
+			}
+			else
+			{
+				this->m_menu->setPlayerName(nhsm.getPlayerId(), "", false);
+			}
+		}
+		
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
 		
 		if(nhsm.getPlayerId() == this->m_playerId)
@@ -396,7 +408,16 @@ void LobbyState::update(float _dt)
 	while(!m_network->playerJoinedMessageQueueEmpty())
 	{
 		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
-		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
+
+		if(msg.getPlayerIndex() == this->m_playerId)
+		{
+			this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName(), true);
+		}
+		else
+		{
+			this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName(), false);
+		}
+
 		if(m_playerId == 0)
 		{
 			m_hostsSuperVector.push_back(false);
