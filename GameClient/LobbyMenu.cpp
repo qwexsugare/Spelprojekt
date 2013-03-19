@@ -82,11 +82,11 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Buttons[11]->setKeep(1);
 	this->setReady(0);
 
-	m_doctorPortrait = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_officerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_redKnightPortrait = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_mentalistPortrait = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_doctorPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_officerPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_engineerPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_redKnightPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(-0.68f,0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_mentalistPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 
 	this->m_Buttons[12] = new Button();
 	this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100,0,INT2(422,80), false);
@@ -99,11 +99,19 @@ LobbyMenu::LobbyMenu(bool _host)
 	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
 	m_redKnightPortrait = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
 	m_mentalistPortrait = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
+
 	m_doctorPortrait->setVisible(false);
 	m_officerPortrait->setVisible(false);
 	m_engineerPortrait->setVisible(false);
 	m_redKnightPortrait->setVisible(false);
 	m_mentalistPortrait->setVisible(false);
+
+	m_doctorPortrait2->setVisible(false);
+	m_officerPortrait2->setVisible(false);
+	m_engineerPortrait2->setVisible(false);
+	m_redKnightPortrait2->setVisible(false);
+	m_mentalistPortrait2->setVisible(false);
+
 	m_currentSelections[0] = Hero::HERO_TYPE::NONE;
 	m_currentSelections[1] = Hero::HERO_TYPE::NONE;
 	m_currentSelections[2] = Hero::HERO_TYPE::NONE;
@@ -130,7 +138,9 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Label[1] = new TextLabel("","text3.png",INT2(415,855),50);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(60,120),75);
 	this->m_Label[3] = new TextLabel("","text3.png",INT2(60,500),75);
-	this->m_Label[5] = new TextLabel("NONE","text3.png",INT2(200,890),60);
+	this->m_Label[4] = new TextLabel("","text3.png",INT2(60,160),75);
+	this->m_Label[5] = new TextLabel("NONE____NONE","text3.png",INT2(200,890),60);
+	this->m_Label[6] = new TextLabel("Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500","text3.png",INT2(1550,120),60);
 	this->m_LabelInput = new TextInput("text3.png",INT2(1040,1040),80);
 	this->m_Chattext.resize(5);
 	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1040,980),60);
@@ -162,6 +172,12 @@ LobbyMenu::~LobbyMenu(void)
 	g_graphicsEngine->removeSprite(m_officerPortrait);
 	g_graphicsEngine->removeSprite(m_redKnightPortrait);
 	g_graphicsEngine->removeSprite(m_engineerPortrait);
+
+	g_graphicsEngine->removeSprite(m_doctorPortrait2);
+	g_graphicsEngine->removeSprite(m_mentalistPortrait2);
+	g_graphicsEngine->removeSprite(m_officerPortrait2);
+	g_graphicsEngine->removeSprite(m_redKnightPortrait2);
+	g_graphicsEngine->removeSprite(m_engineerPortrait2);
 	for(int i = 0; i < m_playerNames.size(); i++)
 	{
 		delete m_playerNames[i];
@@ -587,18 +603,23 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	{
 	case Hero::OFFICER:
 		m_officerPortrait->setVisible(false);
+		m_officerPortrait2->setVisible(false);
 		break;
 	case Hero::RED_KNIGHT:
 		m_redKnightPortrait->setVisible(false);
+		m_redKnightPortrait2->setVisible(false);
 		break;
 	case Hero::ENGINEER:
 		m_engineerPortrait->setVisible(false);
+		m_engineerPortrait2->setVisible(false);
 		break;
 	case Hero::DOCTOR:
 		m_doctorPortrait->setVisible(false);
+		m_doctorPortrait2->setVisible(false);
 		break;
 	case Hero::THE_MENTALIST:
 		m_mentalistPortrait->setVisible(false);
+		m_mentalistPortrait2->setVisible(false);
 		break;
 	}
 	
@@ -607,6 +628,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::OFFICER:
 		this->m_officerPortrait->setPosition(pos);
 		this->m_officerPortrait->setVisible(true);
+		this->m_officerPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Officer");
@@ -631,6 +653,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::RED_KNIGHT:
 		this->m_redKnightPortrait->setPosition(pos);
 		this->m_redKnightPortrait->setVisible(true);
+		this->m_redKnightPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Red Knight");
@@ -656,6 +679,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::ENGINEER:
 		this->m_engineerPortrait->setPosition(pos);
 		this->m_engineerPortrait->setVisible(true);
+		this->m_engineerPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Engineer");
@@ -680,6 +704,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::DOCTOR:
 		this->m_doctorPortrait->setPosition(pos);
 		this->m_doctorPortrait->setVisible(true);
+		this->m_doctorPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Doctor");
@@ -704,6 +729,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::THE_MENTALIST:
 		this->m_mentalistPortrait->setPosition(pos);
 		this->m_mentalistPortrait->setVisible(true);
+		this->m_mentalistPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Mentalist");
@@ -753,7 +779,7 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 		break;
 	}
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
-	this->m_Label[4] = new TextLabel(_name,"text3.png",INT2(60,160),75);
+	this->m_Label[4]->setText("text3.png");
 }
 
 void LobbyMenu::setReady(int _playerIndex)
