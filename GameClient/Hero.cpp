@@ -263,7 +263,11 @@ void Hero::setNextPosition(FLOAT3 _nextPosition)
 {
 	if(this->m_alive == true && m_stunTimer == 0.0f)
 	{
-		if(g_pathfinder->sameGridPosition(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z)) == false)
+		if(this->m_path.nrOfPoints > 0 && this->m_reachedPosition == false && g_pathfinder->sameGridPosition(FLOAT2(_nextPosition.x, _nextPosition.z), this->m_path.points[this->m_path.nrOfPoints - 1]) == true)
+		{
+			this->m_path.points[this->m_path.nrOfPoints - 1] = FLOAT2(_nextPosition.x, _nextPosition.z);
+		}
+		else if(g_pathfinder->sameGridPosition(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z)) == false)
 		{
 			this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(_nextPosition.x, _nextPosition.z));
 

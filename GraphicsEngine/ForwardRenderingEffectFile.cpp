@@ -10,6 +10,7 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 	this->m_modelMatrix = this->m_effect->GetVariableByName("modelMatrix")->AsMatrix();
 	this->m_viewMatrix = this->m_effect->GetVariableByName("viewMatrix")->AsMatrix();
 	this->m_projectionMatrix = this->m_effect->GetVariableByName("projectionMatrix")->AsMatrix();
+	this->m_propsMatrix = this->m_effect->GetVariableByName("propsMatrix")->AsMatrix();
 	this->m_modelAlpha = this->m_effect->GetVariableByName("modelAlpha")->AsScalar();
 	this->m_boneTexture = this->m_effect->GetVariableByName("boneTex")->AsShaderResource();
 	this->m_color = this->m_effect->GetVariableByName("stencilColor")->AsVector();
@@ -18,6 +19,7 @@ ForwardRenderingEffectFile::ForwardRenderingEffectFile(ID3D10Device* _device) : 
 	
 	this->m_renderModelForward = this->m_effect->GetTechniqueByName("RenderModelForward");
 	this->m_animationTechnique = this->m_effect->GetTechniqueByName("ForwardAnimation");
+	this->m_propTechnique = this->m_effect->GetTechniqueByName("RenderPropForward");
 	
 	m_forwardGubb = m_effect->GetTechniqueByName("ForwardGubb");
 
@@ -98,6 +100,11 @@ void ForwardRenderingEffectFile::setProjectionMatrix(D3DXMATRIX _matrix)
 	this->m_projectionMatrix->SetMatrix((float*)_matrix);
 }
 
+void ForwardRenderingEffectFile::setPropsMatrix(D3DXMATRIX _matrix)
+{
+	this->m_propsMatrix->SetMatrix((float*)_matrix);
+}
+
 void ForwardRenderingEffectFile::setTexture(ID3D10ShaderResourceView *_texture)
 {
 	this->m_texture->SetResource(_texture);
@@ -106,6 +113,11 @@ void ForwardRenderingEffectFile::setTexture(ID3D10ShaderResourceView *_texture)
 ID3D10EffectTechnique *ForwardRenderingEffectFile::getTechniqueRenderModelForward()
 {
 	return this->m_renderModelForward;
+}
+
+ID3D10EffectTechnique *ForwardRenderingEffectFile::getPropsTechnique()
+{ 
+	return this->m_propTechnique;
 }
 
 ID3D10InputLayout *ForwardRenderingEffectFile::getInputLayout() const

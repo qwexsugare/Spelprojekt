@@ -85,7 +85,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	}
 
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Lower.png", FLOAT2(0,0),  FLOAT2(2,2),7));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Minimap.png", FLOAT2(0,0),  FLOAT2(2,2),1));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Minimap.png", FLOAT2(0,0),  FLOAT2(2,2),2));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Bar.png", FLOAT2(-0.35f,-0.84f),  FLOAT2(0.4625f,0.333333333f),0));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Front.png", FLOAT2(0,0),  FLOAT2(2,2),9));
 

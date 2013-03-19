@@ -172,12 +172,12 @@ bool SettingsMenu::HighIsDownS()
 	// 1920 x 1080
 	if(this->m_Buttons[2]->Clicked() == 1)
 	{
-		this->m_Buttons[0]->SetTextBoxValue(false);
+		/*this->m_Buttons[0]->SetTextBoxValue(false);
 		this->m_Buttons[1]->SetTextBoxValue(false);
 		this->m_Buttons[2]->SetTextBoxValue(true);
 		this->m_Buttons[3]->SetTextBoxValue(false);
 		this->m_Buttons[4]->SetTextBoxValue(false);
-		this->m_Buttons[5]->SetTextBoxValue(false);
+		this->m_Buttons[5]->SetTextBoxValue(false);*/
 		g_configFile->setScreenSize(INT2(1920, 1080));
 		return true;
 	}

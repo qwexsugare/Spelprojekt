@@ -201,6 +201,9 @@ void LobbyState::update(float _dt)
 	
 	if(m_menu->MainMenuIsDown())
 	{
+		sf::Packet dispack;
+		dispack << (int)NetworkMessage::PLAYERDISCONNECTED;
+		this->m_network->sendPacket(dispack);
 		this->m_network->disconnect();
 	}
 
@@ -396,8 +399,9 @@ void LobbyState::update(float _dt)
 		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
 		if(m_playerId == 0)
 		{
-			m_hostMayStartGame = false;
 			m_hostsSuperVector.push_back(false);
+			if(msg.getPlayerIndex() != 0)
+				m_hostMayStartGame = false;
 		}
 	}
 	
