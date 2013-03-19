@@ -311,8 +311,16 @@ void GameState::update(float _dt)
 
 			if(iem.getID() == m_playerInfos[m_yourId].id)
 			{
-				g_graphicsEngine->getCamera()->setX(iem.getXPos());
-				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - g_graphicsEngine->getCamera()->getZOffset());
+				/*g_graphicsEngine->getCamera()->setX(iem.getXPos());
+				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - g_graphicsEngine->getCamera()->getZOffset());*/
+
+				g_graphicsEngine->getCamera()->setX(max(
+					min(iem.getXPos(), m_terrain->getWidth()-g_graphicsEngine->getCamera()->getXOffset()),
+					g_graphicsEngine->getCamera()->getXOffset()));
+
+				g_graphicsEngine->getCamera()->setZ(max(
+					min(iem.getZPos() - g_graphicsEngine->getCamera()->getZOffset(), m_terrain->getHeight()-g_graphicsEngine->getCamera()->getZOffset()*2.0f),
+					0.0f));
 			}
 		}
 	}
@@ -384,7 +392,16 @@ void GameState::update(float _dt)
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 			{
-				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+				//g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+
+				g_graphicsEngine->getCamera()->setX(max(
+					min(e.getPosition().x, m_terrain->getWidth()-g_graphicsEngine->getCamera()->getXOffset()),
+					g_graphicsEngine->getCamera()->getXOffset()));
+
+				g_graphicsEngine->getCamera()->setZ(max(
+					min(e.getPosition().z - g_graphicsEngine->getCamera()->getZOffset(), m_terrain->getHeight()-g_graphicsEngine->getCamera()->getZOffset()*2.0f),
+					0.0f));
+
 				m_yourHeroLives = true;
 			}
 			break;

@@ -836,6 +836,9 @@ bool HudMenu::LockIsDown()
 {
 	if(this->m_Buttons[0]->Clicked() == 1)
 	{
+		if(m_NumberOfSkills > 2)
+			playSound(m_sellSkillsSound);
+
 		this->m_network->sendMessage(NetworkBuySkillMessage(Skill::SELL));
 		m_NumberOfSkills = 2;
 		m_SkillHud[0] = -1.5f;
@@ -854,8 +857,6 @@ bool HudMenu::LockIsDown()
 		{
 			m_DontChange[i] = false;
 		}
-
-		playSound(m_sellSkillsSound);
 
 		return true;
 	}
