@@ -1,8 +1,72 @@
 Game statistics: 
 ----------------
-Time played: 0
+Time played: 4.96653
 Life remaining: 100
 Reached wave: 1
 
 Player Statistics:
 ------------------
+Player name: ELNISCHD
+Hero played: Officer
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 0
+
+Damage statistics: 
+Total damage dealt: 0
+Physical damage taken: 0
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+965451026
+0
+0
+0
+0
+0
+0
+1718580079
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+911160647
+988297854
+922957559
+979253846
+977943101
+975583770
+930494246
+836317588
+1027095816
+1004813278
+1059864320
+816066720
+854209236
+955136224
+810037261
+1006123977
+1032273202
+892876076
+886912213
+863515488
+---------------

@@ -402,7 +402,10 @@ void LobbyState::update(float _dt)
 		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
 		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
 		if(m_playerId == 0)
+		{
+			m_hostMayStartGame = false;
 			m_hostsSuperVector.push_back(false);
+		}
 	}
 	
 	while(!m_network->readyMessageToClientQueueEmpty())
