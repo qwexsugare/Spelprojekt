@@ -2866,3 +2866,6 @@ GameClient/particles/textures/Elec00.png
 GameClient/particles/textures/Elec10.png
 GameClient/particles/textures/Flame_Test.png
 GameClient/particles/textures/lightning.png
+GameClient/models/Imp/Imp_UV_BOSS_DM.png
+GameClient/models/Imp/Imp_UV_BOSS_GM.png
+GameClient/models/Pentagram/Pentagram_2_DM.png
