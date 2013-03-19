@@ -209,6 +209,9 @@ void LobbyState::update(float _dt)
 	
 	if(m_menu->MainMenuIsDown())
 	{
+		sf::Packet dispack;
+		dispack << (int)NetworkMessage::PLAYERDISCONNECTED;
+		this->m_network->sendPacket(dispack);
 		this->m_network->disconnect();
 	}
 
