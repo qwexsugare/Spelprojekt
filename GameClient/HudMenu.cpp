@@ -312,13 +312,15 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			case Skill::FROST_TURRET:
 				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
 				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
+				m_subTowerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 				m_subTowerModel->setAlpha(0.5f);
 				break;
 			case Skill::POISON_TURRET:
 				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
 				break;
 			}
-
+			
+			m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 			this->m_towerModel->setAlpha(0.5f);
 		}
 	}
@@ -342,6 +344,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerId = this->m_towerButtons[0]->GetID();
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		this->m_towerModel->setAlpha(0.5f);
 	}
 	else if(g_keyboard->getKeyState('X') == Keyboard::KEY_PRESSED)
@@ -363,8 +366,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerId = this->m_towerButtons[1]->GetID();
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		this->m_towerModel->setAlpha(0.5f);
 		m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_subTowerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		m_subTowerModel->setAlpha(0.5f);
 	}
 	else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
@@ -386,6 +391,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerId = this->m_towerButtons[2]->GetID();
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		this->m_towerModel->setAlpha(0.5f);
 	}
 	else if(g_keyboard->getKeyState('V') == Keyboard::KEY_PRESSED)
@@ -407,6 +413,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerId = this->m_towerButtons[3]->GetID();
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		this->m_towerModel->setAlpha(0.5f);
 	}
 
@@ -751,6 +758,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 				this->displayShop(false);
 				m_Buy = false;
 			}
+			else if(g_keyboard->getKeyState(VK_ESCAPE) == Keyboard::KEY_PRESSED)
+			{
+				this->displayShop(false);
+				m_Buy = false;
+			}
 		}
 		else if(m_Buy == false)
 		{				
@@ -800,9 +812,9 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	{
 		NetworkTextMessage e = this->m_network->networkTextMessageFront();
 		for(int i = m_Chattext.size()-1; i > 0;i--)
-			{
-				m_Chattext[i]->setText(m_Chattext[i-1]->getText());
-			}
+		{
+			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+		}
 		this->m_Chattext[0]->setText(e.getTxtMessage());
 	}
 

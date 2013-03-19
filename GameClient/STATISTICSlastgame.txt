@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 2558.83
-Life remaining: 62
-Reached wave: 4
+Time played: 11.8693
+Life remaining: 100
+Reached wave: 1
 
 Player Statistics:
 ------------------
-Player name: Player
-Hero played: Doctor
-Deamons killed: 5
-Player deaths: 5
-Resources collected: 262
-Healed for: 45
+Player name: BESTINCLAS
+Hero played: Officer
+Deamons killed: 0
+Player deaths: 0
+Resources collected: 0
+Healed for: 0
 
 Damage statistics: 
-Total damage dealt: -8638407
-Physical damage taken: -880
-Mental damage taken: 1203
-Physical damage dealt: -4319793
-Mental damage dealt: -4318614
+Total damage dealt: 0
+Physical damage taken: 0
+Mental damage taken: 0
+Physical damage dealt: 0
+Mental damage dealt: 0
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -27,21 +27,14 @@ Skills used:
 0
 0
 0
-1052173727
+965451026
 0
 0
 0
 0
 0
 0
-1953719654
-1651336563
-0
-0
-0
-0
-0
-0
+762536301
 0
 0
 0
@@ -49,24 +42,31 @@ Skills used:
 0
 0
 0
-820064449
-876426284
-1048788581
-866464662
-1026964736
-32768
-851980996
-963393788
-980236903
-1029651753
-1047871024
-813576289
-884683957
-1053703803
-980498556
-967063945
-825110821
-833171864
-1026571474
-1046887909
+0
+0
+0
+0
+0
+0
+0
+888550620
+963787063
+912668142
+970668495
+962738516
+934098849
+867578726
+1069825838
+963393884
+946026527
+1001405316
+1039875563
+819081380
+912143952
+1042496955
+953563317
+996424410
+820392089
+866333595
+885994696
 ---------------

@@ -12,7 +12,7 @@ public:
 	LobbyMenu(void);
 	~LobbyMenu(void);
 
-	void Update(float _dt);
+	void Update(float _dt, bool _mayPressReady);
 
 	bool ChatIsDown();
 	bool StoreIsDown();

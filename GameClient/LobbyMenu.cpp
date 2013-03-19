@@ -171,12 +171,20 @@ string LobbyMenu::getChatString()
 {
 	return this->m_String;
 }
-void LobbyMenu::Update(float _dt)
+void LobbyMenu::Update(float _dt, bool _mayPressReady)
 {
 	int Change = 0;
 	for(int i=0; i < this->m_Buttons.size(); i++)
 	{
-		this->m_Buttons[i]->Update();
+		// Special treatment for the ready button
+		if(i == 5)
+		{
+			if(_mayPressReady)
+				this->m_Buttons[i]->Update();
+
+		}
+		else
+			this->m_Buttons[i]->Update();
 	}
 	if(Character0IsDown())
 	{
