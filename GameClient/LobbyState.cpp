@@ -64,7 +64,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	
 	if(m_playerId == 0)
 	{
-		m_hostMayStartGame = false;
+		m_hostMayStartGame = true;
 		m_menu = new LobbyMenu(true);
 	}
 	else
@@ -84,7 +84,6 @@ LobbyState::~LobbyState()
 
 	g_graphicsEngine->removeDirectionalLight(dl);
 	//g_graphicsEngine->removeChainEffect(test);
-	
 }
 
 void LobbyState::update(float _dt)
@@ -226,7 +225,7 @@ void LobbyState::update(float _dt)
 		// The host has some restrictions
 		if(m_playerId == 0)
 		{
-			if(m_hostMayStartGame || true) // lol
+			if(m_hostMayStartGame)
 			{
 				//Skicka ready till servern
 				m_network->sendMessage(NetworkReadyMessage(true));
