@@ -268,14 +268,14 @@ void LobbyState::update(float _dt)
 		if(nhsm.getPlayerId() == this->m_playerId)
 		{
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
-			// The host must RE-ready cuz he is ALWAYS READY!!111
-			if(m_playerId == 0)
-				m_menu->setReady(m_playerId);
 		}
 		else
 		{
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, false);
 		}
+		// The host must RE-ready cuz he is ALWAYS READY!!111
+		if(nhsm.getPlayerId() == 0)
+			m_menu->setReady(nhsm.getPlayerId());
 		//Select
 		switch(nhsm.getHeroId())
 		{
