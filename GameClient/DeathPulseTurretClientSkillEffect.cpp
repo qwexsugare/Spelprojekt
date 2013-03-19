@@ -136,6 +136,20 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 			break;
 		}
 		break;
+	case Enemy::BOSS:
+		switch(random(0, 2))
+		{
+		case 0:
+			sound = createSoundHandle("enemy/Beast_Damage_0.wav", false, true, target->m_model->getPosition());
+			break;
+		case 1:
+			sound = createSoundHandle("enemy/Beast_Damage_1.wav", false, true, target->m_model->getPosition());
+			break;
+		case 2:
+			sound = createSoundHandle("enemy/Beast_Damage_2.wav", false, true, target->m_model->getPosition());
+			break;
+		}
+		break;
 	}
 
 	SpeechManager::speak(_masterId, sound); // The unit must be killed on the client before on the server for this sound solution to actually work.
