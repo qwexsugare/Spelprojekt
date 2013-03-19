@@ -59,11 +59,13 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	{
 		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
 		this->mapName = nwm.getMapName();
-		this->m_playerId = nwm.getPlayerId();
 	}
 	
 	if(m_playerId == 0)
+	{
+		m_hostMayStartGame = false;
 		m_menu = new LobbyMenu(true);
+	}
 	else
 		m_menu = new LobbyMenu(false);
 
@@ -87,7 +89,6 @@ LobbyState::~LobbyState()
 
 void LobbyState::update(float _dt)
 {
-
 	float chainY = 0.3f;
 
 	//test->setOrig(D3DXVECTOR3(m_mentalist->getCharacter()->getPosition().x, m_mentalist->getCharacter()->getPosition().y + chainY, m_mentalist->getCharacter()->getPosition().z));
@@ -95,7 +96,10 @@ void LobbyState::update(float _dt)
 	//test->setCamPos(g_graphicsEngine->getCamera()->getPos());
 	//test->setViewProj(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
 
-	this->m_menu->Update(_dt, m_hostMayStartGame);
+	if(m_playerId == 0)
+		m_menu->Update(_dt, m_hostMayStartGame);
+	else
+		m_menu->Update(_dt, true);
 
 	if(GetKeyState(VK_LEFT) < 0)
 	{
