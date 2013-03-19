@@ -2857,8 +2857,15 @@ GameClient/models/Beast/Beast_Scaled_Souleater_DM.png.filepart
 GameClient/models/Beast/Beast_Scaled_Thunder_DM.png.filepart
 GameClient/models/Beast/Beast_Scaled_UV.png.filepart
 GameClient/menu_textures/SmallButton-MainMenu-MainMenu.png
-<<<<<<< HEAD
-GameClient/menu_textures/Button-LobbyMenu-Player4.png
-=======
 GameClient/menu_textures/LobbyMenuSlider.png
->>>>>>> e385e59659d573006dedae63b0913dc3f5c6e25a
+<<<<<<< HEAD
+GameClient/particles/effects/test.gzp
+GameClient/particles/effects/test2.gzp
+GameClient/particles/effects/test3.gzp
+GameClient/particles/textures/Elec00.png
+GameClient/particles/textures/Elec10.png
+GameClient/particles/textures/Flame_Test.png
+GameClient/particles/textures/lightning.png
+=======
+GameClient/menu_textures/Button-LobbyMenu-Player4.png
+>>>>>>> 90f53e23b7e419b9f68daf2f0f7226e96fe84c22
