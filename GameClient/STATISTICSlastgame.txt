@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 130.959
-Life remaining: 83
-Reached wave: 2
+Time played: 645.689
+Life remaining: 50
+Reached wave: 3
 
 Player Statistics:
 ------------------
 Player name: BESTINCLAS
 Hero played: Red knight
-Deamons killed: 0
-Player deaths: 1
-Resources collected: 0
-Healed for: 0
+Deamons killed: 23
+Player deaths: 4
+Resources collected: 2690
+Healed for: 90
 
 Damage statistics: 
-Total damage dealt: 219
-Physical damage taken: -59
-Mental damage taken: 510
-Physical damage dealt: 194
-Mental damage dealt: 25
+Total damage dealt: 4966
+Physical damage taken: 1066
+Mental damage taken: 3229
+Physical damage dealt: 691
+Mental damage dealt: 4275
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
