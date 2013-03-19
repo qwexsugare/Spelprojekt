@@ -71,6 +71,7 @@ void Client::Run()
 			NetworkTextMessage ntm;
 			NetworkReadyMessageToClient nrmtc;
 			NetworkEntityAttributeMessage nea;
+			NetworkMissionStarted nms;
 			
 			int type;
 			packet >> type;
@@ -290,6 +291,11 @@ void Client::Run()
 				this->m_entityAttributeMessageQueue.push(nea);
 				this->m_mutex.Unlock();
 				break;
+			case NetworkMessage::Mission:
+				packet >> nms;
+				this->m_mutex.Lock();
+				this->m_missionQueue.push(nms);
+				this->m_mutex.Unlock();
 			}
 		}
 	}
@@ -555,6 +561,15 @@ NetworkReadyMessageToClient Client::readyMessageToClientQueueFront()
 	return ret;
 }
 
+NetworkMissionStarted Client::missionQueueFront()
+{
+	this->m_mutex.Lock();
+	NetworkMissionStarted ret = m_missionQueue.front();
+	this->m_missionQueue.pop();
+	this->m_mutex.Unlock();
+	return ret;
+}
+
 NetworkEntityAttributeMessage Client::entityAttributeFront()
 {
 	this->m_mutex.Lock();
@@ -721,4 +736,9 @@ bool Client::readyMessageToClientQueueEmpty()
 bool Client::networkTextMessageQueueEmpty()
 {
 	return this->m_textMessageQueue.empty();
+}
+
+bool Client::missionQueueEmpty()
+{
+	return this->m_missionQueue.empty();
 }

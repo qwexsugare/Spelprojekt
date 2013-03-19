@@ -52,6 +52,15 @@ struct Entity
 		m_health=1000;
 		m_poisonStacks = 0;
 
+		if(this->m_type == ServerEntity::EnemyType)
+		{
+			this->m_model->setColor(D3DXVECTOR4(1, 0, 0, 0.4f));
+		}
+		else
+		{
+			this->m_model->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+		}
+
 		if(this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType)
 		{
 			FLOAT2 screenPos = this->m_model->getScreenPos(g_graphicsEngine->getCamera()->getViewProjectionMatrix());

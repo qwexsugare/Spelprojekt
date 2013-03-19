@@ -789,6 +789,7 @@ void World::render()
 				if(m_models[i]->getMesh()->isAnimated)
 				{
 				this->m_forwardRendering->setBoneTexture(m_models[i]->getAnimation()->getResource());
+				this->m_forwardRendering->setColor(m_models[i]->getColor());
 				this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 				this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputAnimationLayout());
 				this->m_forwardRendering->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);

@@ -3,15 +3,16 @@
 
 Mission::Mission(void)
 {
-	this->startTime=0.0f;
-	this->endTime=0.0f;
+	this->startWave=0;
+	this->endWave=0;
 	this->missionType=MissionType::BBB;
-	this->currentTime=0.0f;
+	this->missionTime=0.0f;
 	this->missionComplete=false;
 	this->missionRunning=false;
 	this->missionStarted=false;
 	this->m_visible = false;
 	this->bossId=0;
+	this->addedToEntityHandler=false;
 }
 
 
@@ -24,11 +25,12 @@ Mission::~Mission(void)
 		EntityHandler::removeEntity(boss);
 	}
 }
-void Mission::createMission(string type, float x, float z, float st, float et)
+void Mission::createMission(string type, float x, float z, int startwave, int endwave,string missionName)
 {
-	this->startTime=st;
-	this->endTime=et;
+	this->startWave=startwave;
+	this->endWave=endwave;
 	this->m_position=FLOAT3(x,0.0f,z);
+	this->missionName=missionName;
 
 	if(EntityHandler::getServerEntity(this->bossId) != NULL)
 	{
@@ -38,31 +40,75 @@ void Mission::createMission(string type, float x, float z, float st, float et)
 		}
 	}
 }
-void Mission::update(float dt)
-{
-	this->currentTime+=dt;
-	this->missionRunning=(this->currentTime>this->startTime && this->currentTime<this->endTime);
 
-	//if the mission is running and the boss is dead, the mission
-	//counts as completed, and the mission stops to run
-	if(this->missionRunning && EntityHandler::getServerEntity(this->bossId) == NULL)
+//void Mission::update(float dt)
+//{
+//	this->currentTime+=dt;
+//	this->missionRunning=(this->currentTime>this->startTime && this->currentTime<this->endTime);
+//
+//	//if the mission is running and the boss is dead, the mission
+//	//counts as completed, and the mission stops to run
+//	if(this->missionRunning && EntityHandler::getServerEntity(this->bossId) == NULL)
+//	{
+//		this->missionComplete=true;
+//		this->missionRunning=false;
+//	}
+//}
+
+bool Mission::handle(int atWave)
+{
+	ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
+
+	if(atWave>=this->startWave&&atWave<=this->endWave&&!this->missionStarted&&!missionRunning)
+	{
+		this->missionStarted=true;
+		this->missionRunning=true;
+		this->startMission();
+	}
+	if(boss != NULL && EntityHandler::getServerEntity(this->bossId)->getHealth()<=0)
 	{
 		this->missionComplete=true;
-		this->missionRunning=false;
+		if(boss != NULL)
+		{
+			boss->getMessageQueue()->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), boss->getId()));
+			this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"completed"));
+
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));				
+		
+		}
 	}
-}
-void Mission::startMission()
-{
-	if(!this->missionStarted&&this->currentTime>this->startTime)
+	if(this->missionRunning)
 	{
+		//missionTime+=dt;
+		if(atWave>=this->endWave)
+		{
+			this->missionRunning=false;
+			//if the enemy died 
+		
+			this->missionTime=0.0f;
+			ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
+			if(boss != NULL)
+			{
+				boss->getMessageQueue()->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), boss->getId()));
+				this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"failed"));
+			}
+		}
+	}
+	return missionStarted;
+}
+bool Mission::startMission()
+{
 		if(this->missionType==MissionType::BBB)
 		{
 			BigBadBoss *boss = new BigBadBoss(this->m_position);
 			EntityHandler::addEntity(boss);
 			this->bossId = boss->getId();
 		}
-		this->missionStarted=true;
-	}
+	return this->missionStarted;
+}
+float Mission::getTheTimeItTookToFinnishTheMission()
+{
+	return this->missionTime;
 }
 bool Mission::isMissionRunning()
 {
@@ -71,4 +117,18 @@ bool Mission::isMissionRunning()
 bool Mission::isMissionComplete()
 {
 	return this->missionComplete;
+}
+
+string Mission::getMissionName()
+{
+	return this->missionName;
+}
+
+bool Mission::isAddedToEntityHandler()
+{
+	return this->addedToEntityHandler;
+}
+void Mission::addToEntityHandler()
+{
+	this->addedToEntityHandler=true;
 }

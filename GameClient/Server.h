@@ -26,6 +26,7 @@
 #include "NetworkPlayerJoinedMessage.h"
 #include "NetworkTextMessage.h"
 #include "NetworkEntityAttributeMessage.h"
+#include "NetworkMissionStarted.h"
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -81,6 +82,7 @@ public:
 	void broadcast(NetworkReadyMessageToClient networkMessage);
 	void broadcast(NetworkTextMessage networkMessage);
 	void broadcast(NetworkEntityAttributeMessage networkMessage);
+	void broadcast(NetworkMissionStarted networkMessage);
 
 	bool isRunning();
 

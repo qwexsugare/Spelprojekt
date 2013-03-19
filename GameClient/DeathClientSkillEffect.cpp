@@ -14,12 +14,8 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 	this->m_lanternLight = NULL;
 
 	Entity *e = ClientEntityHandler::getEntity(this->m_masterId);
-
-	if(e != NULL && e->m_type == ServerEntity::EnemyType)
-	{
-		this->m_sink = true;
-	}
-
+	
+	
 	//g_graphicsEngine->createPointLight(_position, FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false, FLOAT3(0.0f, 1.0f, 0.0f));
 
 	if(e != NULL)
@@ -30,6 +26,14 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 		this->m_model->SetHat(e->m_model->getHat());
 		this->m_model->SetLeftHand(e->m_model->getLeftHand());
 		this->m_model->SetRightHand(e->m_model->getRightHand());
+
+		m_model->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+		if(e->m_type == ServerEntity::EnemyType)
+		{
+			this->m_sink = true;
+			m_model->setColor(D3DXVECTOR4(1, 0, 0, 0.4f));
+		}
+		
 
 		if(e->m_lanternLight != NULL)
 		{
@@ -143,6 +147,9 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 				sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
 				break;
 			case Enemy::BRUTE_STEED:
+				sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
+				break;
+			case Enemy::BOSS:
 				sound = createSoundHandle("enemy/Beast_Dying_0.wav", false, true, e->m_startPos);
 				break;
 			}

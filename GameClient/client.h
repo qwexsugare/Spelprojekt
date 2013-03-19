@@ -31,6 +31,7 @@
 #include "NetworkPlayerJoinedMessage.h"
 #include "NetworkTextMessage.h"
 #include "NetworkEntityAttributeMessage.h"
+#include "NetworkMissionStarted.h"
 
 using namespace std;
 
@@ -68,6 +69,7 @@ private:
 	queue<NetworkReadyMessageToClient> m_readyMessageToClientQueue;
 	queue<NetworkTextMessage> m_textMessageQueue;
 	queue<NetworkEntityAttributeMessage> m_entityAttributeMessageQueue;
+	queue<NetworkMissionStarted> m_missionQueue;
 public:
 	Client();
 	~Client();
@@ -88,6 +90,7 @@ public:
 	void sendMessage(NetworkTextMessage _msg);
 	void sendPacket(sf::Packet p);
 
+	NetworkMissionStarted missionQueueFront();
 	NetworkEntityMessage entityQueueFront();
 	NetworkRemoveEntityMessage removeEntityQueueFront();
 	NetworkCreateActionMessage createActionQueueFront();
@@ -127,6 +130,7 @@ public:
 	bool playerJoinedMessageQueueEmpty();
 	bool readyMessageToClientQueueEmpty();
 	bool entityAttributeQueueEmpty();
+	bool missionQueueEmpty();
 };
 
 #endif // CLIENT_H

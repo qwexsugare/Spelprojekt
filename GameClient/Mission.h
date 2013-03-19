@@ -7,22 +7,29 @@ enum MissionType {BBB};
 class Mission : public ServerEntity
 {
 private:
-	float startTime;
-	float endTime;
-	float currentTime;
+	int startWave;
+	int endWave;
+	float missionTime;
 	MissionType missionType;
 	bool missionRunning;
 	bool missionComplete;
 	unsigned int bossId;
 	bool missionStarted;
+	bool startMission();
+	string missionName;
+	bool addedToEntityHandler;
 public:
 	Mission(void);
 	~Mission(void);
-	void createMission(string type, float x, float z, float startTime, float endTime);
+	void createMission(string type, float x, float z, int startwave, int endwave,string missionName);
 	MissionType getMissionType();
-	void update(float dt);
+	//void update(float dt);
 	bool isMissionRunning();
 	bool isMissionComplete();
-	void startMission();
+	bool handle(int atWave);
+	float getTheTimeItTookToFinnishTheMission();
+	string getMissionName();
+	bool isAddedToEntityHandler();
+	void addToEntityHandler();
 };
 

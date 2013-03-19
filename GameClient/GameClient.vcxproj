@@ -169,6 +169,7 @@
     <ClCompile Include="NetworkEntityAttributeMessage.cpp" />
     <ClCompile Include="Mission.cpp" />
     <ClCompile Include="NetworkEndGameMessage.cpp" />
+    <ClCompile Include="NetworkMissionStarted.cpp" />
     <ClCompile Include="NetworkPlayerJoinedMessage.cpp" />
     <ClCompile Include="NetworkReadyMessageToClient.cpp" />
     <ClCompile Include="NetworkTextMessage.cpp" />
@@ -364,6 +365,7 @@
     <ClInclude Include="NetworkEntityAttributeMessage.h" />
     <ClInclude Include="Mission.h" />
     <ClInclude Include="NetworkEndGameMessage.h" />
+    <ClInclude Include="NetworkMissionStarted.h" />
     <ClInclude Include="NetworkPlayerJoinedMessage.h" />
     <ClInclude Include="NetworkReadyMessageToClient.h" />
     <ClInclude Include="NetworkTextMessage.h" />
