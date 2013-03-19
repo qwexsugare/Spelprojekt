@@ -90,6 +90,7 @@ public:
 	int Skill_Buttons::ReturnClicked();
 	string setID(string _ID);
 	void setCooldown(float cooldown);
+	void setCooldownVisible(bool visible);
 	bool getActiveorPassive();
 };
 

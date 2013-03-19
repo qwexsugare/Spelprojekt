@@ -6,34 +6,48 @@ StunningStrikeVictimClientSkillEffect::StunningStrikeVictimClientSkillEffect(uns
 	this->m_masterId = _id;
 
 	Entity *entity = ClientEntityHandler::getEntity(_id);
-	if(entity != NULL && entity->m_type == ServerEntity::EnemyType)
+	if(entity != NULL)
 	{
-		switch(entity->m_subtype)
+		if(entity->m_type == ServerEntity::EnemyType)
 		{
-		case Enemy::EnemyType::BRUTE_STEED:
-			entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
-			break;
-		case Enemy::EnemyType::FROST_DEMON:
-			entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
-			break;
-		case Enemy::EnemyType::HELLFIRE_STEED:
-			entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
-			break;
-		case Enemy::EnemyType::IMP:
-			entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
-			break;
-		case Enemy::EnemyType::SHADE:
-			entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
-			break;
-		case Enemy::EnemyType::SOUL_EATER_STEED:
-			entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
-			break;
-		case Enemy::EnemyType::SPITTING_DEMON:
-			entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
-			break;
-		case Enemy::EnemyType::THUNDERSTEED:
-			entity->m_model->getAnimation()->PlayLoop("BruteStunned", 4);
-			break;
+			switch(entity->m_subtype)
+			{
+			case Enemy::EnemyType::BRUTE_STEED:
+				entity->m_model->getAnimation()->PlayLoop("BeastStunned", 4);
+				break;
+			case Enemy::EnemyType::FROST_DEMON:
+				entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
+				break;
+			case Enemy::EnemyType::HELLFIRE_STEED:
+				entity->m_model->getAnimation()->PlayLoop("BeastStunned", 4);
+				break;
+			case Enemy::EnemyType::IMP:
+				entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
+				break;
+			case Enemy::EnemyType::SHADE:
+				entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
+				break;
+			case Enemy::EnemyType::SOUL_EATER_STEED:
+				entity->m_model->getAnimation()->PlayLoop("BeastStunned", 4);
+				break;
+			case Enemy::EnemyType::SPITTING_DEMON:
+				entity->m_model->getAnimation()->PlayLoop("ImpStunned", 4);
+				break;
+			case Enemy::EnemyType::THUNDERSTEED:
+				entity->m_model->getAnimation()->PlayLoop("BeastStunned", 4);
+				break;
+			}
+		}
+		else if(entity->m_type == ServerEntity::HeroType)
+		{
+			if(entity->m_weapon == ModelIdHolder::AOE)
+			{
+				entity->m_model->getAnimation()->Play("Stunn2Hand");
+			}
+			else
+			{
+				entity->m_model->getAnimation()->Play("Stunn1Hand");
+			}
 		}
 	}
 }

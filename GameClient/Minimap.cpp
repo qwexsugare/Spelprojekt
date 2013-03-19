@@ -120,6 +120,7 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 	int enemyTypeCounter = 0;
 	int heroTypeCounter = 0;
 	int turretTypeCounter = 0;
+	int bossTypeCounter = 0;
 	for(int i = 0; i < _entites.size(); i++)
 	{
 		switch(_entites[i]->m_type)
@@ -135,14 +136,14 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 					m_playerPositions.push_back(g_graphicsEngine->createSprite("minimap/you_pos.png",
 						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 						FLOAT2(0.009f, 0.016f),
-						3));
+						0));
 				}
 				else
 				{
 					m_playerPositions.push_back(g_graphicsEngine->createSprite("minimap/player_pos.png",
 						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 						FLOAT2(0.009f, 0.016f),
-						2));
+						1));
 				}
 			}
 			else
@@ -154,28 +155,40 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 		case ServerEntity::EnemyType:
 			screenSpaceX = _entites[i]->m_model->getPosition().x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;
 			screenSpaceY = _entites[i]->m_model->getPosition().z/(m_terrainMax.y-m_terrainMin.y)*2.0f-1.0f;
-			enemyTypeCounter++;
-			if(enemyTypeCounter > m_enemyPositions.size())
+			
+			if(_entites[i]->m_subtype == Enemy::BOSS)
 			{
-				if(_entites[i]->m_subtype == Enemy::BOSS)
+				bossTypeCounter++;
+
+				if(bossTypeCounter > m_bossPositions.size())
 				{
-					m_enemyPositions.push_back(g_graphicsEngine->createSprite("minimap/boss_pos.png",
+					m_bossPositions.push_back(g_graphicsEngine->createSprite("minimap/boss_pos.png",
 						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 						FLOAT2(0.018f, 0.032f),
-						2));
+						1));
 				}
 				else
 				{
-					m_enemyPositions.push_back(g_graphicsEngine->createSprite("minimap/enemy_pos.png",
-						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
-						FLOAT2(0.009f, 0.016f),
-						1));
+					m_bossPositions[bossTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
 				}
 			}
 			else
 			{
-				m_enemyPositions[enemyTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
+				enemyTypeCounter++;
+
+				if(enemyTypeCounter > m_enemyPositions.size())
+				{
+					m_enemyPositions.push_back(g_graphicsEngine->createSprite("minimap/enemy_pos.png",
+						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
+						FLOAT2(0.009f, 0.016f),
+						0));
+				}
+				else
+				{
+					m_enemyPositions[enemyTypeCounter-1]->setPosition(FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y));
+				}
 			}
+
 			break;
 
 		case ServerEntity::TowerType:
@@ -211,6 +224,11 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 	{
 		g_graphicsEngine->removeSprite(m_turretPositions.back());
 		m_turretPositions.pop_back();
+	}
+	while(bossTypeCounter < m_bossPositions.size())
+	{
+		g_graphicsEngine->removeSprite(m_bossPositions.back());
+		m_bossPositions.pop_back();
 	}
 	
 	screenSpaceX = _cameraPos.x/(m_terrainMax.x-m_terrainMin.x)*2.0f-1.0f;
