@@ -225,31 +225,47 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 }
 
+/*void Enemy::WriteToAwesomeFile(int number)
+{
+	fstream ss;
+		ss.open("gunnar.txt",ios::out | ios::app);
+		ss << number <<endl << "Id: " << m_id << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
+		ss.close();
+}*/
+
 void Enemy::moveAndRotate(float lastDT)
 {
 	if((m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
 		{
+			
+			
 			if(this->m_dir.length()>0)
 			{
 				float f = this->m_dir.length();
+				
 				this->m_dir = this->m_dir / this->m_dir.length();
+				
+				
 				ServerEntity *stat = EntityHandler::getClosestStaticOrTurretWithExtents(m_position);
+				
 				if(stat != NULL && (stat->getPosition() - m_position).length() 
 					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.0f+
 					sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x+this->getObb()->Extents.z*this->getObb()->Extents.z))
 				{
-						
+					
 					FLOAT3 v = (m_position - stat->getPosition());
 					if(v.length() > 0)
 						v = v/v.length();
 					m_dir = v;//m_dir*-1;// + v+d;
 					m_position = m_position + (v)*m_movementSpeed*lastDT;
-					if(m_dir.length()>0)
-						m_dir = m_dir/m_dir.length();
+					
 				}
-					
+				
+				if(m_dir.length()>0)
+						m_dir = m_dir/m_dir.length();
+				
 				this->m_position = this->m_position + this->m_dir * (this->m_movementSpeed-min(m_staticAvDir.length(),m_movementSpeed/2)) * lastDT;
-					
+				
 					
 				if(outOfBounds(m_position,0))
 				{
@@ -260,6 +276,7 @@ void Enemy::moveAndRotate(float lastDT)
 					if(m_dir.length()>0)
 						m_dir = m_dir/m_dir.length();
 				}
+			
 				
 			}
 		}
