@@ -34,20 +34,20 @@ LobbyMenu::LobbyMenu(bool _host)
 	
 	this->m_Buttons.resize(14);
 	this->m_Buttons[0] = new Button();
-	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
+	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.89f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
 	this->m_Buttons[1] = new Button();
 	this->m_Buttons[1]->Init(FLOAT2(-0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Store.png","",0,0,2,5);
 	this->m_Buttons[2] = new Button();
-	this->m_Buttons[2]->Init(FLOAT2(0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,2,5);
+	this->m_Buttons[2]->Init(FLOAT2(0.140625f,  -0.9f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,2,5);
 	this->m_Buttons[3] = new Button();
 	this->m_Buttons[3]->Init(FLOAT2(0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-CharacterInformation.png","",0,0,2,5);
 	this->m_Buttons[4] = new Button();
 	this->m_Buttons[4]->Init(FLOAT2(0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-LevelInformation.png","",0,0,2,5);
 	this->m_Buttons[5] = new Button();
 	if(m_host)
-		this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,2,5);
+		this->m_Buttons[5]->Init(FLOAT2(-0.140625f,  -0.9f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,2,5);
 	else
-		this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
+		this->m_Buttons[5]->Init(FLOAT2(-0.140625f,  -0.9f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
 	
 	this->m_Buttons[0]->setVisible(false);
 	this->m_Buttons[1]->setVisible(false);
@@ -75,18 +75,18 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[9]->setKeep(1);
 	this->m_Buttons[10] = new Button();
-	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
+	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[10]->setKeep(1);
 	this->m_Buttons[11] = new Button();
-	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
+	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[11]->setKeep(1);
 	this->setReady(0);
 
-	m_doctorPortrait = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_officerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_redKnightPortrait = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_mentalistPortrait = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(0.0f, 0.2f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_doctorPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_officerPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_engineerPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_redKnightPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(-0.68f,0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+	m_mentalistPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 
 	this->m_Buttons[12] = new Button();
 	this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100,0,INT2(422,80), false);
@@ -99,11 +99,19 @@ LobbyMenu::LobbyMenu(bool _host)
 	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
 	m_redKnightPortrait = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
 	m_mentalistPortrait = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
+
 	m_doctorPortrait->setVisible(false);
 	m_officerPortrait->setVisible(false);
 	m_engineerPortrait->setVisible(false);
 	m_redKnightPortrait->setVisible(false);
 	m_mentalistPortrait->setVisible(false);
+
+	m_doctorPortrait2->setVisible(false);
+	m_officerPortrait2->setVisible(false);
+	m_engineerPortrait2->setVisible(false);
+	m_redKnightPortrait2->setVisible(false);
+	m_mentalistPortrait2->setVisible(false);
+
 	m_currentSelections[0] = Hero::HERO_TYPE::NONE;
 	m_currentSelections[1] = Hero::HERO_TYPE::NONE;
 	m_currentSelections[2] = Hero::HERO_TYPE::NONE;
@@ -130,7 +138,9 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Label[1] = new TextLabel("","text3.png",INT2(415,855),50);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(60,120),75);
 	this->m_Label[3] = new TextLabel("","text3.png",INT2(60,500),75);
-	this->m_Label[5] = new TextLabel("NONE","text3.png",INT2(200,890),60);
+	this->m_Label[4] = new TextLabel("","text3.png",INT2(60,160),75);
+	this->m_Label[5] = new TextLabel("NONE____NONE","text3.png",INT2(200,890),60);
+	this->m_Label[6] = new TextLabel("Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500","text3.png",INT2(1550,120),60);
 	this->m_LabelInput = new TextInput("text3.png",INT2(1040,1040),80);
 	this->m_Chattext.resize(5);
 	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1040,980),60);
@@ -162,6 +172,12 @@ LobbyMenu::~LobbyMenu(void)
 	g_graphicsEngine->removeSprite(m_officerPortrait);
 	g_graphicsEngine->removeSprite(m_redKnightPortrait);
 	g_graphicsEngine->removeSprite(m_engineerPortrait);
+
+	g_graphicsEngine->removeSprite(m_doctorPortrait2);
+	g_graphicsEngine->removeSprite(m_mentalistPortrait2);
+	g_graphicsEngine->removeSprite(m_officerPortrait2);
+	g_graphicsEngine->removeSprite(m_redKnightPortrait2);
+	g_graphicsEngine->removeSprite(m_engineerPortrait2);
 	for(int i = 0; i < m_playerNames.size(); i++)
 	{
 		delete m_playerNames[i];
@@ -191,8 +207,6 @@ string LobbyMenu::getChatString()
 }
 void LobbyMenu::Update(float _dt, bool _mayPressReady)
 {
-	_mayPressReady = true; // lol
-
 	int Change = 0;
 	for(int i=0; i < this->m_Buttons.size(); i++)
 	{
@@ -568,18 +582,15 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		break;
 	case 1:
 		buttonIndex = 9;
-		this->m_Buttons[9]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[9]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 2:
 		buttonIndex = 10;
-		this->m_Buttons[10]->setCurrentFrame(INT2(2, 0));
-		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.2f);
+		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 3:
 		buttonIndex = 11;
-		this->m_Buttons[11]->setCurrentFrame(INT2(2, 0));
-		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.2f);
+		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	}
 
@@ -587,18 +598,23 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	{
 	case Hero::OFFICER:
 		m_officerPortrait->setVisible(false);
+		m_officerPortrait2->setVisible(false);
 		break;
 	case Hero::RED_KNIGHT:
 		m_redKnightPortrait->setVisible(false);
+		m_redKnightPortrait2->setVisible(false);
 		break;
 	case Hero::ENGINEER:
 		m_engineerPortrait->setVisible(false);
+		m_engineerPortrait2->setVisible(false);
 		break;
 	case Hero::DOCTOR:
 		m_doctorPortrait->setVisible(false);
+		m_doctorPortrait2->setVisible(false);
 		break;
 	case Hero::THE_MENTALIST:
 		m_mentalistPortrait->setVisible(false);
+		m_mentalistPortrait2->setVisible(false);
 		break;
 	}
 	
@@ -607,6 +623,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::OFFICER:
 		this->m_officerPortrait->setPosition(pos);
 		this->m_officerPortrait->setVisible(true);
+		this->m_officerPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Officer");
@@ -631,6 +648,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::RED_KNIGHT:
 		this->m_redKnightPortrait->setPosition(pos);
 		this->m_redKnightPortrait->setVisible(true);
+		this->m_redKnightPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Red Knight");
@@ -656,6 +674,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::ENGINEER:
 		this->m_engineerPortrait->setPosition(pos);
 		this->m_engineerPortrait->setVisible(true);
+		this->m_engineerPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Engineer");
@@ -680,6 +699,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::DOCTOR:
 		this->m_doctorPortrait->setPosition(pos);
 		this->m_doctorPortrait->setVisible(true);
+		this->m_doctorPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Doctor");
@@ -704,6 +724,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::THE_MENTALIST:
 		this->m_mentalistPortrait->setPosition(pos);
 		this->m_mentalistPortrait->setVisible(true);
+		this->m_mentalistPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Mentalist");
@@ -730,30 +751,39 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	m_currentSelections[_playerIndex] = _type;
 }
 
-void LobbyMenu::setPlayerName(int _playerIndex, string _name)
+void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
 {
 	INT2 pos;
 	switch(_playerIndex)
 	{
 	case 0:
 		//pos = INT2(0.675f, 0.2f);
-		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 1:
 		//pos = INT2(0.8f, 0.2f);
-		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 2:
 		//pos = INT2(0.675f, -0.2f);
-		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
+		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 3:
 		//pos = INT2(0.8f, -0.2f);
-		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.17f));
+		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
 		break;
 	}
+
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
-	this->m_Label[4] = new TextLabel(_name,"text3.png",INT2(60,160),75);
+	
+	if(changeText == true)
+	{
+		this->m_Label[4]->setText(_name);
+	}
 }
 
 void LobbyMenu::setReady(int _playerIndex)
@@ -761,16 +791,16 @@ void LobbyMenu::setReady(int _playerIndex)
 	switch(_playerIndex)
 	{
 	case 0:
-		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[8]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 1:
-		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[9]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 2:
-		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[10]->setCurrentFrame(INT2(2, 0));
 		break;
 	case 3:
-		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
+		m_Buttons[11]->setCurrentFrame(INT2(2, 0));
 		break;
 	}
 }

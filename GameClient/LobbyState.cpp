@@ -64,7 +64,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	
 	if(m_playerId == 0)
 	{
-		m_hostMayStartGame = false;
+		m_hostMayStartGame = true;
 		m_menu = new LobbyMenu(true);
 	}
 	else
@@ -84,18 +84,10 @@ LobbyState::~LobbyState()
 
 	g_graphicsEngine->removeDirectionalLight(dl);
 	//g_graphicsEngine->removeChainEffect(test);
-	
 }
 
 void LobbyState::update(float _dt)
 {
-	float chainY = 0.3f;
-
-	//test->setOrig(D3DXVECTOR3(m_mentalist->getCharacter()->getPosition().x, m_mentalist->getCharacter()->getPosition().y + chainY, m_mentalist->getCharacter()->getPosition().z));
-	//test->setTarget(D3DXVECTOR3(m_officer->getCharacter()->getPosition().x, m_officer->getCharacter()->getPosition().y + chainY, m_officer->getCharacter()->getPosition().z));
-	//test->setCamPos(g_graphicsEngine->getCamera()->getPos());
-	//test->setViewProj(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
-
 	if(m_playerId == 0)
 		m_menu->Update(_dt, m_hostMayStartGame);
 	else
@@ -209,6 +201,9 @@ void LobbyState::update(float _dt)
 	
 	if(m_menu->MainMenuIsDown())
 	{
+		sf::Packet dispack;
+		dispack << (int)NetworkMessage::PLAYERDISCONNECTED;
+		this->m_network->sendPacket(dispack);
 		this->m_network->disconnect();
 	}
 
@@ -226,7 +221,7 @@ void LobbyState::update(float _dt)
 		// The host has some restrictions
 		if(m_playerId == 0)
 		{
-			if(m_hostMayStartGame || true) // lol
+			if(m_hostMayStartGame)
 			{
 				//Skicka ready till servern
 				m_network->sendMessage(NetworkReadyMessage(true));
@@ -244,7 +239,7 @@ void LobbyState::update(float _dt)
 		this->m_nextState = State::MAIN_MENU;
 	}
 
-	//Kolla om nätverket har sagt att spelet har startat
+	//Kolla om nï¿½tverket har sagt att spelet har startat
 	while(!m_network->startGameQueueEmpty())
 	{
 		NetworkStartGameMessage e = m_network->startGameQueueFront();
@@ -253,7 +248,7 @@ void LobbyState::update(float _dt)
 		this->m_nextState = State::LOADING;
 	}
 
-	//kollar om nån klient skickat ett text medelande
+	//kollar om nï¿½n klient skickat ett text medelande
 	while(!m_network->networkTextMessageQueueEmpty())
 	{
 		NetworkTextMessage e = m_network->networkTextMessageFront();
@@ -263,6 +258,18 @@ void LobbyState::update(float _dt)
 	while(!m_network->heroSelectedQueueEmpty())
 	{
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
+		if(nhsm.getHeroId()== Hero::HERO_TYPE::NONE)
+		{
+			if(nhsm.getPlayerId() == this->m_playerId)
+			{
+				this->m_menu->setPlayerName(nhsm.getPlayerId(), "", true);
+			}
+			else
+			{
+				this->m_menu->setPlayerName(nhsm.getPlayerId(), "", false);
+			}
+		}
+		
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
 		
 		if(nhsm.getPlayerId() == this->m_playerId)
@@ -401,9 +408,22 @@ void LobbyState::update(float _dt)
 	while(!m_network->playerJoinedMessageQueueEmpty())
 	{
 		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
-		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
+
+		if(msg.getPlayerIndex() == this->m_playerId)
+		{
+			this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName(), true);
+		}
+		else
+		{
+			this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName(), false);
+		}
+
 		if(m_playerId == 0)
+		{
 			m_hostsSuperVector.push_back(false);
+			if(msg.getPlayerIndex() != 0)
+				m_hostMayStartGame = false;
+		}
 	}
 	
 	while(!m_network->readyMessageToClientQueueEmpty())
@@ -428,7 +448,7 @@ void LobbyState::update(float _dt)
 			{
 				if(m_heroType != Hero::HERO_TYPE::NONE)
 				{
-					bool m_hostMayStartGame = true;
+					m_hostMayStartGame = true;
 				}
 			}
 		}

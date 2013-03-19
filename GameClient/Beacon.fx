@@ -58,7 +58,7 @@ VS_OUT DrawVS(Particle input)
 	//float opacity = 1.0f - smoothstep(0.0f, 1.0f, t/10.0f);
 	
 	float opp = 1.0/lifeTime;
-	float opacity = 1-(opp*t);
+	float opacity = 1;//1-(opp*t);
 	//float opacity = t*2 - t*t;
 	output.color = float4(1.0f, 1.0f, 1.0f, opacity);
 
@@ -67,11 +67,6 @@ VS_OUT DrawVS(Particle input)
 
 	output.vel = input.vel;
 
-
-	GS_OUT gs = (GS_OUT)0;
-
-	gs.pos = float4(0, input.pos.y + (input.age/100), 0, 1);
-	//gs.color = float4(1, 1, 1, 1);//float4(input.age/100, input.age/100, input.age/10, 1);
 
 	return output;
 }

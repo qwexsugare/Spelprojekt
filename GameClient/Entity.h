@@ -61,7 +61,7 @@ struct Entity
 			this->m_model->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		}
 
-		if(this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType)
+		if(this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType || m_type == ServerEntity::TowerType)
 		{
 			FLOAT2 screenPos = this->m_model->getScreenPos(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
 			this->m_healthBack = g_graphicsEngine->createSprite("menu_textures/Damage.png", screenPos, FLOAT2(75.0f, 5.0f) / FLOAT2(g_graphicsEngine->getScreenSize().x, g_graphicsEngine->getScreenSize().y), 2);
@@ -73,9 +73,14 @@ struct Entity
 			this->m_healthFront = NULL;
 		}
 		
-		if(this->m_model->getRightHand() != NULL)
+		if(this->m_model->getLeftHand() != NULL)
 		{
 			this->m_lanternLight = g_graphicsEngine->createPointLight(this->m_model->getPosition() + FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false, FLOAT3(0.0f, 1.0f, 0.0f));
+			this->m_model->setShadow(true);
+		}
+		else if(this->m_model->getRightHand() != NULL)
+		{
+			this->m_lanternLight = g_graphicsEngine->createPointLight(this->m_model->getPosition() + FLOAT3(0.0f, 1.5f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false, FLOAT3(0.0f, 1.5f, 0.0f));
 			this->m_model->setShadow(true);
 		}
 		else
@@ -121,10 +126,17 @@ struct Entity
 
 		if(this->m_lanternLight != NULL)
 		{
-			this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition(), FLOAT3(0.0f, 1.0f, 0.0f));
+			if(this->m_model->getLeftHand() != NULL)
+			{
+				this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition(), FLOAT3(0.0f, 1.0f, 0.0f));
+			}
+			else if(this->m_model->getRightHand() != NULL)
+			{
+				this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition() + FLOAT3(-0.33f, 1.0f, -0.33f), FLOAT3(-0.33f, 1.5f, -0.33f));
+			}
 		}
 	
-		if((this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType) && this->m_healthBack->getVisible() == true)
+		if((this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType || m_type == ServerEntity::TowerType) && this->m_healthBack->getVisible() == true)
 		{		
 			//Update the healthbar position
 			FLOAT2 screenPos = this->m_model->getScreenPos(g_graphicsEngine->getCamera()->getViewProjectionMatrix());

@@ -13,9 +13,9 @@ ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(unsigned int _lastTar
 	this->m_target = _target;
 	this->m_percentToTarget = 0;
 
-	pe[0] = g_graphicsEngine->createParticleEngine("test", D3DXVECTOR4(0, 0, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(2, 2));
-	pe[1] = g_graphicsEngine->createParticleEngine("test2", D3DXVECTOR4(0, 0, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(2, 2));
-	pe[2] = g_graphicsEngine->createParticleEngine("test3", D3DXVECTOR4(0, 0, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(2, 2));
+	pe[0] = g_graphicsEngine->createParticleEngine("test", D3DXVECTOR4(0, 0, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	pe[1] = g_graphicsEngine->createParticleEngine("test2", D3DXVECTOR4(0, 0, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	pe[2] = g_graphicsEngine->createParticleEngine("test3", D3DXVECTOR4(0, 0, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 
 	int sound = createSoundHandle("skills/chain_strike.wav", false, true, _position, 0.5f);
 	playSound(sound);
@@ -25,16 +25,6 @@ ChainStrikeClientSkillEffect::ChainStrikeClientSkillEffect(unsigned int _lastTar
 	if(e != NULL && e->m_type == ServerEntity::HeroType)
 	{
 		e->m_model->getAnimation()->Play("ChainLight");
-
-		stringstream ss;
-		ss << "Dude its a hero that casted chani strike." << endl;
-		OutputDebugString(ss.str().c_str());
-	}
-	if(_lastTarget == _target)
-	{
-		stringstream ss;
-		ss << "Super ultra fail id: " << _target << endl;
-		OutputDebugString(ss.str().c_str());
 	}
 	m_orig = D3DXVECTOR3(0, 0, 0);
 	m_eOrig = NULL;
@@ -61,18 +51,18 @@ void ChainStrikeClientSkillEffect::update(float _dt)
 	if(m_eTarget)
 		myVec = m_eTarget->m_model->getPosition() - FLOAT3(m_orig.x, m_orig.y, m_orig.z);
 
-	D3DXVECTOR3 distanceToTarget = D3DXVECTOR3(myVec.x, myVec.y, myVec.z);
+	D3DXVECTOR3 distanceToTarget(myVec.x, myVec.y, myVec.z);
 
 	float onePercent = 1.0f/(ChainStrikeEffect::TIME_BETWEEN_JUMPS);
 	m_percentToTarget += onePercent * _dt;
 
-
+	D3DXVECTOR3 incY(0, 0.5f, 0);
 	if(m_eOrig)
 		//m_chainEffect->setOrig(D3DXVECTOR3(m_eOrig->m_model->getPosition().x, m_eOrig->m_model->getPosition().y, m_eOrig->m_model->getPosition().z));
 		//m_chainEffect->setOrig(D3DXVECTOR3(m_superPos.x, m_superPos.y + 0.2f,m_superPos.z));
-		pe[0]->setPosition(m_orig + (distanceToTarget*m_percentToTarget));
-		pe[1]->setPosition(m_orig + (distanceToTarget*m_percentToTarget));
-		pe[2]->setPosition(m_orig + (distanceToTarget*m_percentToTarget));
+		pe[0]->setPosition(m_orig + (distanceToTarget*m_percentToTarget) + incY);
+		pe[1]->setPosition(m_orig + (distanceToTarget*m_percentToTarget) + incY);
+		pe[2]->setPosition(m_orig + (distanceToTarget*m_percentToTarget) + incY);
 	//else
 		//m_lifetime = ChainStrikeEffect::TIME_BETWEEN_JUMPS;
 	//if(m_eTarget)

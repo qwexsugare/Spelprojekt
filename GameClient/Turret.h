@@ -8,6 +8,7 @@ private:
 	float m_currentAttackCooldown;
 	BoundingSphere m_range;
 	int m_turretUpgrade;
+	float m_limiter;
 protected:
 	float m_attackRangeProt;
 	float m_attackCooldown;
@@ -21,6 +22,7 @@ public:
 	
 	const BoundingSphere& getRange()const;
 	int getTurretUpgrade()const;
+	void sendAttributesToClient()const;
 	virtual void target(ServerEntity* _target) = 0;
 	void update(float _dt);
 	virtual void updateSpecificTurret(float _dt);

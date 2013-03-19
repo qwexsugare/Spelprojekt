@@ -1,24 +1,24 @@
 Game statistics: 
 ----------------
-Time played: 199.097
-Life remaining: 92
-Reached wave: 3
+Time played: 56.6191
+Life remaining: 100
+Reached wave: 1
 
 Player Statistics:
 ------------------
-Player name: Player
+Player name: GSDNOGVIOW
 Hero played: Officer
-Deamons killed: 28
+Deamons killed: 0
 Player deaths: 0
-Resources collected: 1532
-Healed for: 85
+Resources collected: 0
+Healed for: 0
 
 Damage statistics: 
-Total damage dealt: 7251
-Physical damage taken: 101
-Mental damage taken: 356
-Physical damage dealt: 4469
-Mental damage dealt: 2782
+Total damage dealt: 26
+Physical damage taken: 11
+Mental damage taken: 31
+Physical damage dealt: 22
+Mental damage dealt: 4
 Physical skill damage dealt: 0
 Mental skill damage dealt: 0
 
@@ -27,24 +27,14 @@ Skills used:
 0
 0
 0
+965451026
 0
 0
 0
 0
 0
-0
-0
-0
-0
-1065353216
-1065353216
-1053273620
-0
-1055622431
-0
-0
-1055622431
-1065353216
+778924897
+1718503796
 0
 0
 0
@@ -58,15 +48,25 @@ Skills used:
 0
 0
 0
-3859444
-3858572
-3870072
-3866692
-3866330
-3869716
-0
-0
-1436577630
-1436577025
-0
+4096
+864629619
+812200031
+908146174
+874787862
+888681685
+40960
+1000749928
+865612678
+839725575
+892548390
+987839129
+1039416757
+833106326
+976763365
+94208
+939603950
+816132230
+822161658
+982399570
+1037254026
 ---------------

@@ -34,7 +34,7 @@ public:
 
 	void selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeText);
 	int getCombat();
-	void setPlayerName(int _playerIndex, string _name);
+	void setPlayerName(int _playerIndex, string _name, bool changeText);
 	void setReady(int _playerIndex);
 	Hero::HERO_TYPE* getHeroesSelected(){return this->m_currentSelections;};
 	void addStringToChat(string t);
@@ -49,6 +49,12 @@ private:
 	Sprite* m_engineerPortrait;
 	Sprite* m_redKnightPortrait;
 	Sprite* m_mentalistPortrait;
+
+	Sprite* m_doctorPortrait2;
+	Sprite* m_officerPortrait2;
+	Sprite* m_engineerPortrait2;
+	Sprite* m_redKnightPortrait2;
+	Sprite* m_mentalistPortrait2;
 	vector<TextLabel*> m_playerNames;
 	Slider m_slider;
 	SkillIdHolder m_skillHolder;

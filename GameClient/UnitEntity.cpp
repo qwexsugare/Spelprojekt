@@ -250,11 +250,7 @@ void UnitEntity::increaseStrength(int _strength)
 	m_basePhysicalResistance -= _strength * 0.02f;
 	this->m_strength += _strength;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength * 0.01f;
-
-	if(this->m_physicalResistance < 0.0f)
-	{
-		this->m_physicalResistance = 0.0f;
-	}
+	this->m_physicalResistance = max(this->m_physicalResistance, 0.0f);
 	
 	this->sendAttributesToClient();
 }
@@ -301,11 +297,7 @@ void UnitEntity::increaseFortitude(int _fortitude)
 	m_fortitude += _fortitude;
 
 	this->m_mentalResistance = m_baseMentalResistance + m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude * 0.01f;
-
-	if(this->m_mentalResistance < 0.0f)
-	{
-		this->m_mentalResistance = 0.0f;
-	}
+	this->m_mentalResistance = max(this->m_mentalResistance, 0.0f);
 	
 	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(), this->m_health));
 	this->sendAttributesToClient();
@@ -357,6 +349,7 @@ void UnitEntity::alterPhysicalResistanceUpgrades(int _physicalResistanceUpgrades
 {
 	this->m_physicalResistanceUpgrades += _physicalResistanceUpgrades;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * 0.01f * this->m_strength;
+	this->m_physicalResistance = max(this->m_physicalResistance, 0.0f);
 	this->sendAttributesToClient();
 }
 
@@ -364,6 +357,7 @@ void UnitEntity::alterMentalResistanceUpgrades(int _mentalResistanceUpgrades)
 {
 	this->m_mentalResistanceUpgrades += _mentalResistanceUpgrades;
 	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * 0.01f * this->m_fortitude;
+	this->m_mentalResistance = max(this->m_mentalResistance, 0.0f);
 	this->sendAttributesToClient();
 }
 
@@ -497,7 +491,7 @@ void UnitEntity::dealDamage(ServerEntity* target, int physicalDamage, int mental
 	if(m_swiftAsACatPowerfulAsABear)
 	{
 		//Gör saacpaab saker
-		if(random(1, 10) == 1)
+		if(random(1, 10) == 1 && ((target->getType() == ServerEntity::EnemyType && target->getSubType() == 0) || target->getType() != ServerEntity::EnemyType))
 			target->takeDamage(this->m_id, INT_MAX, INT_MAX);
 		else
 			physicalDamage*=3;

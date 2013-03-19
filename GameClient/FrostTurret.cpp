@@ -18,6 +18,7 @@ FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) :
 
 	this->m_minDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 4;
 	this->m_maxDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 2;
+	m_updateRotLimiter = 0.0f;
 }
 
 FrostTurret::~FrostTurret()
@@ -46,13 +47,12 @@ void FrostTurret::updateSpecificTurret(float _dt)
 			else
 				m_rotation.x = max(m_rotation.x-_dt, desiredRotation);
 
-			static float updateRotLimiter = 0.0f;
-			updateRotLimiter = max(updateRotLimiter-_dt, 0.0f);
-			if(updateRotLimiter == 0.0f)
+			m_updateRotLimiter = max(m_updateRotLimiter-_dt, 0.0f);
+			if(m_updateRotLimiter == 0.0f)
 			{
 				this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(
 					this->m_id, this->m_position.x, this->m_position.z, this->m_rotation.x, this->m_position.x, this->m_position.z, this->m_position.x, this->m_position.z, 0.0f));
-				updateRotLimiter = 0.2f;
+				m_updateRotLimiter = 0.2f;
 			}
 		}
 	}
