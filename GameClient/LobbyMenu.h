@@ -4,6 +4,7 @@
 #include "TextInput.h"
 #include "Hero.h"
 #include "Slider.h"
+#include "SkillIdHolder.h"
 
 class LobbyMenu :
 	public Menu
@@ -49,7 +50,7 @@ private:
 	Sprite* m_mentalistPortrait;
 	vector<TextLabel*> m_playerNames;
 	Slider m_slider;
-
+	SkillIdHolder m_skillHolder;
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Label;
 	vector<TextLabel*> m_Chattext;

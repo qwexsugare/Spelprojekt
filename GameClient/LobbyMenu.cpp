@@ -24,14 +24,14 @@ LobbyMenu::LobbyMenu(void)
 	m_size.y = 1080;
 	m_side.x = (122.0f/m_size.x)*2.0f;
 	m_side.y = (1920.0f/m_size.y)*2.0f;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Left.png", FLOAT2(-0.94f,0),  FLOAT2(m_side.x,m_side.y),3));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Left.png", FLOAT2(-0.94f,0),  FLOAT2(m_side.x,m_side.y),3));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
 	m_side.x = (1920.0f/m_size.x)*2.0f;
 	m_side.y = (122.0f/m_size.y)*2.0f;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
+	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
 	
-	this->m_Buttons.resize(12);
+	this->m_Buttons.resize(14);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
 	this->m_Buttons[1] = new Button();
@@ -51,9 +51,9 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[4]->setVisible(false);
 
 	this->m_Buttons[6] = new Button();
-	this->m_Buttons[6]->Init(FLOAT2(-0.8f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,10);
+	this->m_Buttons[6]->Init(FLOAT2(-0.85f, -0.2f),FLOAT2(0.15625f*0.6f,0.277777778f*0.6f),"","",0,0,2,10,100,0,INT2(0,0),false,0,"");
 	this->m_Buttons[7] = new Button();
-	this->m_Buttons[7]->Init(FLOAT2(-0.65f, -0.1f),FLOAT2(0.15625f*0.8f,0.277777778f*0.8f),"","",0,0,2,10);
+	this->m_Buttons[7]->Init(FLOAT2(-0.70f, -0.2f),FLOAT2(0.15625f*0.6f,0.277777778f*0.6f),"","",0,0,2,10,100,0,INT2(0,0),false,0,"");
 
 	// Player stuff
 	/*this->m_Buttons[8] = new Button();
@@ -65,22 +65,29 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[11] = new Button();
 	this->m_Buttons[11]->Init(FLOAT2(0.30f,-0.27f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player4.dds","",0,0,1);*/
 	this->m_Buttons[8] = new Button();
-	this->m_Buttons[8]->Init(FLOAT2(0.675f, 0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player1.dds","",0,0,1);
+	this->m_Buttons[8]->Init(FLOAT2(0.675f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[8]->setKeep(1);
 	this->m_Buttons[9] = new Button();
-	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player2.dds","",0,0,1);
+	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[9]->setKeep(1);
 	this->m_Buttons[10] = new Button();
-	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player3.dds","",0,0,1);
+	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[10]->setKeep(1);
 	this->m_Buttons[11] = new Button();
-	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.2f),FLOAT2(0.272916667f*0.5f,0.142592593f*0.5f),"menu_textures\\Button-LobbyMenu-Player4.dds","",0,0,1);
+	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[11]->setKeep(1);
-	m_doctorPortrait = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_officerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_redKnightPortrait = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
-	m_mentalistPortrait = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
+
+	this->m_Buttons[12] = new Button();
+	this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100,0,INT2(422,80), false);
+
+	this->m_Buttons[13] = new Button();
+	this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100,0,INT2(422,80), false);
+
+	m_doctorPortrait = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
+	m_officerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-1.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
+	m_engineerPortrait = g_graphicsEngine->createSprite("menu_textures/Character-3.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
+	m_redKnightPortrait = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
+	m_mentalistPortrait = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(0.0f, 0.0f), FLOAT2(0.083333333f*0.9f,0.148148148f*0.9f), 18);
 	m_doctorPortrait->setVisible(false);
 	m_officerPortrait->setVisible(false);
 	m_engineerPortrait->setVisible(false);
@@ -107,20 +114,20 @@ LobbyMenu::LobbyMenu(void)
 	
 	this->m_slider.Init(FLOAT2(-0.5f, -0.25f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
 
-	this->m_Label.resize(5);
-	this->m_Label[0] = new TextLabel("","text2.png",INT2(130,205),75);
-	this->m_Label[1] = new TextLabel("","text2.png",INT2(130,830),60);
-	this->m_Label[2] = new TextLabel("","text3.png",INT2(130,150),100);
-	this->m_Label[3] = new TextLabel("","text4.png",INT2(130,500),75);
-	this->m_LabelInput = new TextInput("text3.png",INT2(1100,1010),80);
-	this->m_Chattext.resize(6);
-	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1100,950),60);
-	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1100,920),60);
-	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1100,890),60);
-	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1100,860),60);
-	this->m_Chattext[4] = new TextLabel("","text2.png",INT2(1100,830),60);
-	this->m_Chattext[5] = new TextLabel("","text2.png",INT2(1100,800),60);
-	this->m_Label[3]->setText("Close combat_Selected");
+	this->m_Label.resize(7);
+	this->m_Label[0] = new TextLabel("","text3.png",INT2(110,205),52);
+	this->m_Label[1] = new TextLabel("","text3.png",INT2(415,855),50);
+	this->m_Label[2] = new TextLabel("","text3.png",INT2(60,120),75);
+	this->m_Label[3] = new TextLabel("","text3.png",INT2(60,500),75);
+	this->m_Label[5] = new TextLabel("NONE","text3.png",INT2(200,890),60);
+	this->m_LabelInput = new TextInput("text3.png",INT2(1040,1040),80);
+	this->m_Chattext.resize(5);
+	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1040,980),60);
+	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1040,950),60);
+	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1040,920),60);
+	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1040,890),60);
+	this->m_Chattext[4] = new TextLabel("","text2.png",INT2(1040,860),60);
+	this->m_Label[3]->setText("Close combat_");
 	this->m_Buttons[6]->SetTextBoxValue(true);
 	this->m_Buttons[7]->SetTextBoxValue(false);
 }
@@ -190,7 +197,7 @@ void LobbyMenu::Update(float _dt)
 		this->m_Buttons[7]->setTexture("menu_textures\\O1.png");
 		if (m_Combat == 1)
 		{
-			this->m_Label[3]->setText("Range combat_Selected");
+			this->m_Label[3]->setText("Range combat_");
 		}
 
 	}
@@ -207,7 +214,7 @@ void LobbyMenu::Update(float _dt)
 		this->m_Label[3]->setText("Close combat_Selected");
 		if (m_Combat == 1)
 		{
-			this->m_Label[3]->setText("Close combat_Selected");
+			this->m_Label[3]->setText("Close combat_");
 		}
 	}
 	if(Character2IsDown())
@@ -222,7 +229,7 @@ void LobbyMenu::Update(float _dt)
 		this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
 		if (m_Combat == 1)
 		{
-			this->m_Label[3]->setText("Range combat_Selected");
+			this->m_Label[3]->setText("Range combat_");
 		}
 	}
 	if(Character3IsDown())
@@ -237,7 +244,7 @@ void LobbyMenu::Update(float _dt)
 		this->m_Buttons[7]->setTexture("menu_textures\\D1.png");
 		if (m_Combat == 1)
 		{
-			this->m_Label[3]->setText("Range combat_Selected");
+			this->m_Label[3]->setText("Range combat_");
 		}
 	}
 	if(Character4IsDown())
@@ -252,7 +259,7 @@ void LobbyMenu::Update(float _dt)
 		this->m_Buttons[7]->setTexture("menu_textures\\M1.png");
 		if (m_Combat == 1)
 		{
-			this->m_Label[3]->setText("Range combat_Selected");
+			this->m_Label[3]->setText("Range combat_");
 		}
 	}
 	this->m_LabelInput->update(_dt);
@@ -262,7 +269,7 @@ void LobbyMenu::Update(float _dt)
 			m_String = this->m_LabelInput->getText();
 			m_String.erase(m_String.end());
 			this->m_LabelInput->setText(""); 
-			this->m_Chattext[5]->setText("");
+			this->m_Chattext[4]->setText("");
 			enterPressed=true;
 	}
 	
@@ -283,19 +290,19 @@ void LobbyMenu::Update(float _dt)
 	}
 	if(CloseCombatIsDown() && m_Combat == 2)
 	{
-		this->m_Label[3]->setText("Close combat_Selected");
+		this->m_Label[3]->setText("Close combat_");
 		this->m_Buttons[6]->SetTextBoxValue(true);
 		this->m_Buttons[7]->SetTextBoxValue(false);
 	}
 	if(RangeCombatIsDown() && m_Combat == 1 && m_Character1 != true)
 	{
-		this->m_Label[3]->setText("Range combat_Selected");
+		this->m_Label[3]->setText("Range combat_");
 		this->m_Buttons[6]->SetTextBoxValue(false);
 		this->m_Buttons[7]->SetTextBoxValue(true);
 	}
 	if(RangeCombatIsDown() && m_Combat == 1 && m_Character1 == true)
 	{
-		this->m_Label[3]->setText("Close combat_Selected");
+		this->m_Label[3]->setText("Close combat_");
 		this->m_Buttons[6]->SetTextBoxValue(false);
 		this->m_Buttons[7]->SetTextBoxValue(true);
 	}
@@ -306,8 +313,8 @@ void LobbyMenu::Update(float _dt)
 		if (m_Character0 == true)
 		{
 			this->m_Label[2]->setText("Officer");
-			this->m_Label[0]->setText("Strength: 3_Agility: 5_Wits: 1_Fortitude: 3__Weapon:_Rapier_Hexagun_________Story:_____Skills:");
-			this->m_Label[1]->setText("A captain of the Royal Airship Brigade, the officer is now commissioned to take charge against the siege_that has befallen Chevington. His leadership skills are a true assets to the brave men and women_stationed in the towers and siege weapons and his skill with blade and rifle makes him a true plague_upon anyone standing in his way.___Active: Target acquired, permission to fire!_Passive: Ready, aim, fire!");
+			this->m_Label[0]->setText("2__3__5__1__3");
+			this->m_Label[1]->setText("A captain of the Royal Airship Brigade, the officer is now commissioned to take charge against the siege_that has befallen Chevington. His leadership skills are a true assets to the brave men and women_stationed in the towers and siege weapons and his skill with blade and rifle makes him a true plague_upon anyone standing in his way.");
 			this->m_Buttons[6]->setTexture("menu_textures\\O0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\O1.png");
 			if (m_Combat == 1)
@@ -318,8 +325,8 @@ void LobbyMenu::Update(float _dt)
 		if (m_Character1 == true)
 		{
 			this->m_Label[2]->setText("Red Knight");
-			this->m_Label[0]->setText("Strength: 5_Agility: 2_Wits: 1_Fortitude: 4__Weapon:_Bastardsword_Twohanded Warhammer_________Story:_____Skills:");
-			this->m_Label[1]->setText("In a city where steam and cogs are the pinnacle of modern civilization, the ancient order of Sword and_Shield wielding knights seem a bit superfluous, but they are fierce warriors and good men. Whenever Dark_Powers show their ugly face, the Red Knights descend upon them without mercy. This particular_Knight is a paragon of his order and instills courage in his comrades as he strikes down enemy after enemy.___Active: Swift as a cat, powerful as a bear_Passive: Courage,Honor,Valor");
+			this->m_Label[0]->setText("1_5_2_1_4");
+			this->m_Label[1]->setText("In a city where steam and cogs are the pinnacle of modern civilization, the ancient order of Sword and_Shield wielding knights seem a bit superfluous, but they are fierce warriors and good men. Whenever Dark_Powers show their ugly face, the Red Knights descend upon them without mercy. This particular_Knight is a paragon of his order and instills courage in his comrades as he strikes down enemy after enemy.");
 			this->m_Buttons[6]->setTexture("menu_textures\\R0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\R1.png");
 			this->m_Label[3]->setText("Close combat_Selected");
@@ -331,37 +338,37 @@ void LobbyMenu::Update(float _dt)
 		if (m_Character2 == true)
 		{
 			this->m_Label[2]->setText("Engineer");
-			this->m_Label[0]->setText("Strength: 3_Agility: 3_Wits: 5_Fortitude: 1__Weapon:_Gigantic Wrench_Steampowered Crossbow_________Story:_____Skills:");
+			this->m_Label[0]->setText("2_3_3_5_1");
 			this->m_Label[1]->setText("In the modern society of Chevington, the Engineer is a key figure on the forefront of research and development._In a city where most things run on either steam-power, gunpowder or some innovative cog contraption,_the society of engineer command much power and a lot of wealth. This particular engineer_is exceptionally intuitive and probably understands machinery better than he understands people. Who better to oversee the defense of a city highly reliant on such machines?");
 			this->m_Buttons[6]->setTexture("menu_textures\\E0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_Selected");
+				this->m_Label[3]->setText("Range combat_");
 			}
 		}
 		if (m_Character3 == true)
 		{
 			this->m_Label[2]->setText("Doctor");
-			this->m_Label[0]->setText("Strength: 1_Agility: 3_Wits: 5_Fortitude: 3__Weapon:_Cleaver_Pistol_________Story:_____Skills:");
-			this->m_Label[1]->setText("A master of surgery, medicine and the art of healing, the Doctor is not only wanted, but needed on the field_of battle. Not only skilled in healing his allies and bringing their spirits back, but also gifted with the_ability to poison his enemies, making them weaker and easier to kill, he is a force to be reckoned with_and not a man you would want to cross.___Active: Healing aura_Passive: Life regain");
+			this->m_Label[0]->setText("1_1_3_5_3");
+			this->m_Label[1]->setText("A master of surgery, medicine and the art of healing, the Doctor is not only wanted, but needed on the field_of battle. Not only skilled in healing his allies and bringing their spirits back, but also gifted with the_ability to poison his enemies, making them weaker and easier to kill, he is a force to be reckoned with_and not a man you would want to cross.");
 			this->m_Buttons[6]->setTexture("menu_textures\\D0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\D1.png");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_Selected");
+				this->m_Label[3]->setText("Range combat_");
 			}
 		}
 		if (m_Character4 == true)
 		{
 			this->m_Label[2]->setText("Mentalist");
-			this->m_Label[0]->setText("Strength: 1_Agility: 4_Wits: 5_Fortitude: 2__Weapon:_Rapier_Pistol_________Story:_____Skills:");
-			this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know more about you than_you do yourself. Some say he is a charlatan, other think it is real magic. Whichever is true,_it is clear that The Mentalist can do incredible things to your mind, often without you even noticing._Be glad he is on your side.___Active: Hypnotic stare_Passive: Enigmatic Presence");
+			this->m_Label[0]->setText("1_1_4_5_2");
+			this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know more about you than_you do yourself. Some say he is a charlatan, other think it is real magic. Whichever is true,_it is clear that The Mentalist can do incredible things to your mind, often without you even noticing._Be glad he is on your side.");
 			this->m_Buttons[6]->setTexture("menu_textures\\M0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\M1.png");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_Selected");
+				this->m_Label[3]->setText("Range combat_");
 			}
 		}
 	}
@@ -538,22 +545,22 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case 0:
 		buttonIndex = 8;
 		this->m_Buttons[8]->setCurrentFrame(INT2(2, 0));
-		pos = m_Buttons[8]->getPos()+FLOAT2(0.0f, -0.15f);
+		pos = m_Buttons[8]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 1:
 		buttonIndex = 9;
 		this->m_Buttons[9]->setCurrentFrame(INT2(2, 0));
-		pos = m_Buttons[9]->getPos()+FLOAT2(0.0f, -0.15f);
+		pos = m_Buttons[9]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 2:
 		buttonIndex = 10;
 		this->m_Buttons[10]->setCurrentFrame(INT2(2, 0));
-		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.15f);
+		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.2f);
 		break;
 	case 3:
 		buttonIndex = 11;
 		this->m_Buttons[11]->setCurrentFrame(INT2(2, 0));
-		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.15f);
+		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.2f);
 		break;
 	}
 
@@ -584,13 +591,21 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Officer");
-			this->m_Label[0]->setText("Strength: 3_Agility: 5_Wits: 1_Fortitude: 3__Weapon:_Rapier_Hexagun_________Story:_____Skills:");
-			this->m_Label[1]->setText("A captain of the Royal Airship Brigade, the officer is now commissioned to take charge against the siege_that has befallen Chevington. His leadership skills are a true assets to the brave men and women_stationed in the towers and siege weapons and his skill with blade and rifle makes him a true plague_upon anyone standing in his way.___Active: Target acquired, permission to fire!_Passive: Ready, aim, fire!");
+			this->m_Label[0]->setText("2__3__5__1__3");
+			this->m_Label[1]->setText("A captain of the Royal Airship Brigade, the officer is now commissioned to take charge_against the siege that has befallen Chevington. His leadership skills are a true_assets to the brave men and women stationed in the towers and siege weapons and his_skill with blade and rifle makes him a true plague upon anyone standing in his way.");
 			this->m_Buttons[6]->setTexture("menu_textures\\O0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\O1.png");
+			delete this->m_Buttons[12];
+			delete this->m_Buttons[13];
+			this->m_Buttons[12] = new Button();
+			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE),"",0,0,1,12,100,0,INT2(422,80), false, Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE,"menu_textures\\Skill_25.png");
+
+			this->m_Buttons[13] = new Button();
+			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::READY_AIM_FIRE),"",0,0,1,12,100,0,INT2(422,80), false, Skill::READY_AIM_FIRE,"menu_textures\\Skill_26.png");
+			this->m_Label[5]->setText("Bombardment____Ready aim fire");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_Selected");
+				this->m_Label[3]->setText("Range combat_");
 			}
 		}
 		break;
@@ -600,14 +615,22 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Red Knight");
-			this->m_Label[0]->setText("Strength: 5_Agility: 2_Wits: 1_Fortitude: 4__Weapon:_Bastardsword_Twohanded Warhammer_________Story:_____Skills:");
-			this->m_Label[1]->setText("In a city where steam and cogs are the pinnacle of modern civilization, the ancient order of Sword and_Shield wielding knights seem a bit superfluous, but they are fierce warriors and good men. Whenever Dark_Powers show their ugly face, the Red Knights descend upon them without mercy. This particular_Knight is a paragon of his order and instills courage in his comrades as he strikes down enemy after enemy.___Active: Swift as a cat, powerful as a bear_Passive: Courage,Honor,Valor");
+			this->m_Label[0]->setText("1__5__2__1__4");
+			this->m_Label[1]->setText("In a city where steam and cogs are the pinnacle of modern civilization, the ancient_order of Sword and Shield wielding knights seem a bit superfluous, but they are fierce_warriors and good men. Whenever Dark Powers show their ugly face, the Red Knights_descend upon them without mercy. This particular Knight is a paragon of his order_and instills courage in his comrades as he strikes down enemy after enemy.");
 			this->m_Buttons[6]->setTexture("menu_textures\\R0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\R1.png");
-			this->m_Label[3]->setText("Close combat_Selected");
+			this->m_Label[3]->setText("Close combat_");
+			delete this->m_Buttons[12];
+			delete this->m_Buttons[13];
+			this->m_Buttons[12] = new Button();
+			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR),"",0,0,1,12,100,0,INT2(422,80), false, Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR,"menu_textures\\Skill_23.png");
+
+			this->m_Buttons[13] = new Button();
+			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::COURAGE_HONOR_VALOR),"",0,0,1,12,100,0,INT2(422,80), false, Skill::COURAGE_HONOR_VALOR,"menu_textures\\Skill_24.png");
+			this->m_Label[5]->setText("Mighty blow____Courage,Honor,Valor");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Close combat_Selected");
+				this->m_Label[3]->setText("Close combat_");
 			}
 		}
 		break;
@@ -617,13 +640,21 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Engineer");
-			this->m_Label[0]->setText("Strength: 3_Agility: 3_Wits: 5_Fortitude: 1__Weapon:_Gigantic Wrench_Steampowered Crossbow_________Story:_____Skills:");
-			this->m_Label[1]->setText("In the modern society of Chevington, the Engineer is a key figure on the forefront of research and development._In a city where most things run on either steam-power, gunpowder or some innovative cog contraption,_the society of engineer command much power and a lot of wealth. This particular engineer is exceptionally_intuitive and probably understands machinery better than he understands people. Who better_to oversee the defense of a city highly reliant on such machines?");
+			this->m_Label[0]->setText("2__3__3__5__1");
+			this->m_Label[1]->setText("In the modern society of Chevington, the Engineer is a key figure on the forefront of_research and development.In a city where most things run on either steampower_, gunpowder or some innovative cog contraption,the society of engineer command much_power and a lot of wealth. This particular engineer is exceptionally intuitive and_probably understands machinery better than he understands people. Who better to_oversee the defense of a city highly reliant on such machines?");
 			this->m_Buttons[6]->setTexture("menu_textures\\E0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
+			delete this->m_Buttons[12];
+			delete this->m_Buttons[13];
+			this->m_Buttons[12] = new Button();
+			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TIME_IS_MONEY),"",0,0,1,12,100,0,INT2(422,80), false, Skill::TIME_IS_MONEY,"menu_textures\\Skill_27.png");
+
+			this->m_Buttons[13] = new Button();
+			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::ENHANCED_DEVELOPMENT),"",0,0,1,12,100,0,INT2(422,80), false, Skill::ENHANCED_DEVELOPMENT,"menu_textures\\Skill_28.png");
+						this->m_Label[5]->setText("Time is money____Enhanced development");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_Selected");
+				this->m_Label[3]->setText("Range combat_");
 			}
 		}
 		break;
@@ -633,13 +664,21 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Doctor");
-			this->m_Label[0]->setText("Strength: 1_Agility: 3_Wits: 5_Fortitude: 3__Weapon:_Cleaver_Pistol_________Story:_____Skills:");
-			this->m_Label[1]->setText("A master of surgery, medicine and the art of healing, the Doctor is not only wanted, but needed on the field_of battle. Not only skilled in healing his allies and bringing their spirits back, but also gifted with the_ability to poison his enemies, making them weaker and easier to kill, he is a force to be reckoned with_and not a man you would want to cross.___Active: Healing aura_Passive: Life regain");
+			this->m_Label[0]->setText("1__1__3__5__3");
+			this->m_Label[1]->setText("A master of surgery, medicine and the art of healing, the Doctor is not only wanted,_but needed on the field of battle. Not only skilled in healing his allies and bringing_their spirits back, but also gifted with the ability to poison his enemies, making them_weaker and easier to kill, he is a force to be reckoned with and not a man you would_want to cross.");
 			this->m_Buttons[6]->setTexture("menu_textures\\D0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\D1.png");
+			delete this->m_Buttons[12];
+			delete this->m_Buttons[13];
+			this->m_Buttons[12] = new Button();
+			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::SIMONS_EVIL),"",0,0,1,12,100,0,INT2(422,80), false, Skill::SIMONS_EVIL,"menu_textures\\Skill_15.png");
+
+			this->m_Buttons[13] = new Button();
+			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::LIFE_REGEN),"",0,0,1,12,100,0,INT2(422,80), false, Skill::LIFE_REGEN,"menu_textures\\Skill_29.png");
+			this->m_Label[5]->setText("Healing aura____Life regen");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_Selected");
+				this->m_Label[3]->setText("Range combat_");
 			}
 		}
 		break;
@@ -649,13 +688,21 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Mentalist");
-			this->m_Label[0]->setText("Strength: 1_Agility: 4_Wits: 5_Fortitude: 2__Weapon:_Rapier_Pistol_________Story:_____Skills:");
-			this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know more about you than_you do yourself. Some say he is a charlatan, other think it is real magic. Whichever is true,_it is clear that The Mentalist can do incredible things to your mind, often without you even noticing._Be glad he is on your side.___Active: Hypnotic stare_Passive: Enigmatic Presence");
+			this->m_Label[0]->setText("1__1__4__5__2");
+			this->m_Label[1]->setText("The Mentalist is an enigmatic, charming character with the stunning ability to know_more about you than you do yourself. Some say he is a charlatan, other think it is_real magic. Whichever is true,it is clear that The Mentalist can do incredible things_to your mind, often without you even noticing.Be glad he is on your side.");
 			this->m_Buttons[6]->setTexture("menu_textures\\M0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\M1.png");
+			delete this->m_Buttons[12];
+			delete this->m_Buttons[13];
+			this->m_Buttons[12] = new Button();
+			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HYPNOTIC_STARE),"",0,0,1,12,100,0,INT2(422,80), false, Skill::HYPNOTIC_STARE,"menu_textures\\Skill_21.png");
+
+			this->m_Buttons[13] = new Button();
+			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::ENIGMATIC_PRESENCE),"",0,0,1,12,100,0,INT2(422,80), false, Skill::ENIGMATIC_PRESENCE,"menu_textures\\Skill_22.png");
+			this->m_Label[5]->setText("Hypnotic stare____Enigmatic presence");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_Selected");
+				this->m_Label[3]->setText("Range combat_");
 			}
 		}
 		break;
@@ -671,22 +718,23 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 	{
 	case 0:
 		//pos = INT2(0.675f, 0.2f);
-		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.2f);
+		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
 		break;
 	case 1:
 		//pos = INT2(0.8f, 0.2f);
-		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.2f);
+		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
 		break;
 	case 2:
 		//pos = INT2(0.675f, -0.2f);
-		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.2f));
+		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
 		break;
 	case 3:
 		//pos = INT2(0.8f, -0.2f);
-		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.2f));
+		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
 		break;
 	}
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
+	this->m_Label[4] = new TextLabel(_name,"text3.png",INT2(60,160),75);
 }
 
 void LobbyMenu::setReady(int _playerIndex)
