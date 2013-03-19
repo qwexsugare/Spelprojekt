@@ -1,8 +1,9 @@
 #include "LobbyMenu.h"
 #include "Input.h"
 
-LobbyMenu::LobbyMenu(void)
+LobbyMenu::LobbyMenu(bool _host)
 {
+	m_host = _host;
 	enterPressed=false;
 	m_Counter = 0;
 	m_Character0 = false;
@@ -43,7 +44,10 @@ LobbyMenu::LobbyMenu(void)
 	this->m_Buttons[4] = new Button();
 	this->m_Buttons[4]->Init(FLOAT2(0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-LevelInformation.png","",0,0,2,5);
 	this->m_Buttons[5] = new Button();
-	this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
+	if(m_host)
+		this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,2,5);
+	else
+		this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
 	
 	this->m_Buttons[0]->setVisible(false);
 	this->m_Buttons[1]->setVisible(false);

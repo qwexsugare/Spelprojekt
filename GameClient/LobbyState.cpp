@@ -11,7 +11,6 @@ LobbyState::LobbyState() : State(State::LOBBY)
 LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 {
 	this->m_network = _network;
-	this->m_menu = new LobbyMenu();
 	this->m_sliderMove = false;
 	m_heroType = Hero::HERO_TYPE::NONE;
 
@@ -31,7 +30,6 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	float inLightY = 1.6f;
 	float frontLightZ = -0.5f;
 	float frontLightY = 0.5f;
-
 	
 	this->m_officer		= new Room(0, 95, "color", "", FLOAT3(x, y, z), step);
 	this->m_redKnight	= new Room(1, 96, "color", "", FLOAT3(x, y, z), step);
@@ -48,10 +46,26 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	
 	this->cameraRealPos = 0;
 	distToSlider = 0.0f;
-	this->m_playerId = -1;
-
-
-	//test = g_graphicsEngine->createChainEffect();
+	
+	sf::Clock mySuperClock;
+	while(m_network->networkWelcomeMessageEmpty() && mySuperClock.GetElapsedTime() < 60.0f){}
+	if(m_network->networkWelcomeMessageEmpty())
+	{
+		this->setDone(true);
+		this->m_nextState = State::MAIN_MENU;
+		m_playerId = -1;
+	}
+	else
+	{
+		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
+		this->mapName = nwm.getMapName();
+		this->m_playerId = nwm.getPlayerId();
+	}
+	
+	if(m_playerId == 0)
+		m_menu = new LobbyMenu(true);
+	else
+		m_menu = new LobbyMenu(false);
 
 }
 
@@ -208,7 +222,29 @@ void LobbyState::update(float _dt)
 
 	if(this->m_menu->StartGameIsDown() == true)
 	{
-		if(m_heroType != Hero::HERO_TYPE::NONE)
+		// The host has some restrictions
+		if(m_playerId == 0)
+		{
+			// Check how many players are ready
+			int notReadyCounter = 0;
+			for(int i = 0; i < m_hostsSuperVector.size(); i++)
+			{
+				if(!m_hostsSuperVector[i])
+				{
+					notReadyCounter++;
+				}
+			}
+			// The host can only ready up if he is the only one not ready.
+			if(notReadyCounter < 2)
+			{
+				if(m_heroType != Hero::HERO_TYPE::NONE)
+				{
+					//Skicka ready till servern
+					m_network->sendMessage(NetworkReadyMessage(true));
+				}
+			}
+		}
+		else if(m_heroType != Hero::HERO_TYPE::NONE)
 		{
 			//Skicka ready till servern
 			m_network->sendMessage(NetworkReadyMessage(true));
@@ -376,23 +412,20 @@ void LobbyState::update(float _dt)
 		}
 	}
 
-	while(!m_network->networkWelcomeMessageEmpty())
-	{
-		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
-		this->mapName = nwm.getMapName();
-		this->m_playerId = nwm.getPlayerId();
-	}
-
 	while(!m_network->playerJoinedMessageQueueEmpty())
 	{
 		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
 		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
+		if(m_playerId == 0)
+			m_hostsSuperVector.push_back(false);
 	}
-
+	
 	while(!m_network->readyMessageToClientQueueEmpty())
 	{
 		NetworkReadyMessageToClient msg = m_network->readyMessageToClientQueueFront();
 		this->m_menu->setReady(msg.m_playerIndex);
+		if(m_playerId == 0)
+			m_hostsSuperVector[msg.m_playerIndex] = true;
 	}
 }
 
