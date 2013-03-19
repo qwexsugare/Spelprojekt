@@ -1,72 +1,40 @@
 Game statistics: 
 ----------------
-Time played: 50.3087
+Time played: 0
+Time played: 4.41934
+Time played: 199.097
 Life remaining: 100
 Reached wave: 1
 
 Player Statistics:
 ------------------
-Player name: BESTINCLAS
-Hero played: Red knight
-Deamons killed: 0
-Player deaths: 0
+Player name: Player
+Hero played: Officer
+Deamons killed: 28
 Resources collected: 0
 Healed for: 0
-
-Damage statistics: 
-Total damage dealt: 0
-Physical damage taken: 0
-Mental damage taken: 0
-Physical damage dealt: 0
-Mental damage dealt: 0
-Physical skill damage dealt: 0
-Mental skill damage dealt: 0
-
-Skills used: 
-0
-0
-0
-0
 965451026
 0
 0
-0
-0
-0
-0
-1718580079
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-911160647
-988297854
-922957559
-979253846
-977943101
-975583770
-930494246
-836317588
-1027095816
-1004813278
-1059864320
-816066720
-854209236
-955136224
-810037261
-1006123977
-1032273202
-892876076
-886912213
-863515488
----------------
+65536
+1935751789
+930821926
+1014316051
+928855882
+993409770
+1000946587
+983513706
+951466086
+855847668
+1037450685
+1014840376
+1071529937
+827994449
+889337018
+976894496
+842740277
+1045184034
+16314
+920008390
+936392633
+923547308

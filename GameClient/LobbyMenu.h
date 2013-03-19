@@ -49,6 +49,12 @@ private:
 	Sprite* m_engineerPortrait;
 	Sprite* m_redKnightPortrait;
 	Sprite* m_mentalistPortrait;
+
+	Sprite* m_doctorPortrait2;
+	Sprite* m_officerPortrait2;
+	Sprite* m_engineerPortrait2;
+	Sprite* m_redKnightPortrait2;
+	Sprite* m_mentalistPortrait2;
 	vector<TextLabel*> m_playerNames;
 	Slider m_slider;
 	SkillIdHolder m_skillHolder;
