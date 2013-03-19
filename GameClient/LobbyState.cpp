@@ -95,8 +95,7 @@ void LobbyState::update(float _dt)
 	//test->setCamPos(g_graphicsEngine->getCamera()->getPos());
 	//test->setViewProj(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
 
-	bool mayPressReady = (m_heroType != Hero::HERO_TYPE::NONE);
-	this->m_menu->Update(_dt, mayPressReady);
+	this->m_menu->Update(_dt, m_hostMayStartGame);
 
 	if(GetKeyState(VK_LEFT) < 0)
 	{
@@ -153,8 +152,6 @@ void LobbyState::update(float _dt)
 		this->m_sliderMove = true;
 	}
 
-
-	
 	float mouseX = (g_mouse->getPos().x / float(g_graphicsEngine->getScreenSize().x))*2-1;
 	 max = step*5;
 	if(g_mouse->isLButtonReleased() && mouseX >= -0.58f && mouseX <= 0.58f && !m_sliderMove)
@@ -220,28 +217,15 @@ void LobbyState::update(float _dt)
 		this->m_network->sendMessage(NetworkSelectHeroMessage(this->m_heroType, this->m_menu->getCombat()));
 	}
 
-	if(this->m_menu->StartGameIsDown() == true)
+	if(this->m_menu->StartGameIsDown())
 	{
 		// The host has some restrictions
 		if(m_playerId == 0)
 		{
-			// Check how many players are ready
-			int notReadyCounter = 0;
-			for(int i = 0; i < m_hostsSuperVector.size(); i++)
+			if(m_hostMayStartGame)
 			{
-				if(!m_hostsSuperVector[i])
-				{
-					notReadyCounter++;
-				}
-			}
-			// The host can only ready up if he is the only one not ready.
-			if(notReadyCounter < 2)
-			{
-				if(m_heroType != Hero::HERO_TYPE::NONE)
-				{
-					//Skicka ready till servern
-					m_network->sendMessage(NetworkReadyMessage(true));
-				}
+				//Skicka ready till servern
+				m_network->sendMessage(NetworkReadyMessage(true));
 			}
 		}
 		else if(m_heroType != Hero::HERO_TYPE::NONE)
@@ -425,7 +409,27 @@ void LobbyState::update(float _dt)
 		NetworkReadyMessageToClient msg = m_network->readyMessageToClientQueueFront();
 		this->m_menu->setReady(msg.m_playerIndex);
 		if(m_playerId == 0)
+		{
 			m_hostsSuperVector[msg.m_playerIndex] = true;
+
+			// Check how many players are ready
+			int notReadyCounter = 0;
+			for(int i = 0; i < m_hostsSuperVector.size(); i++)
+			{
+				if(!m_hostsSuperVector[i])
+				{
+					notReadyCounter++;
+				}
+			}
+			// The host can only ready up if he is the only one not ready.
+			if(notReadyCounter < 2)
+			{
+				if(m_heroType != Hero::HERO_TYPE::NONE)
+				{
+					bool m_hostMayStartGame = true;
+				}
+			}
+		}
 	}
 }
 
