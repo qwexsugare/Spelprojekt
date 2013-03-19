@@ -7,6 +7,7 @@ private:
 	ID3D10EffectMatrixVariable* m_modelMatrix;
 	ID3D10EffectMatrixVariable* m_viewMatrix;
 	ID3D10EffectMatrixVariable* m_projectionMatrix;
+	ID3D10EffectMatrixVariable* m_propsMatrix;
 	ID3D10EffectScalarVariable* m_modelAlpha;
 
 	ID3D10EffectVectorVariable* m_color;
@@ -19,6 +20,8 @@ private:
 	
 	ID3D10EffectTechnique *m_animationTechnique;
 	ID3D10InputLayout *m_vertexAnimationLayout;
+
+	ID3D10EffectTechnique *m_propTechnique;
 public:
 	ID3D10EffectTechnique* m_forwardGubb;
 
@@ -29,6 +32,7 @@ public:
 	void setModelAlpha(float _modelAlpha);
 	void setModelMatrix(D3DXMATRIX _matrix);
 	void setViewMatrix(D3DXMATRIX _matrix);
+	void setPropsMatrix(D3DXMATRIX _matrix);
 	void setProjectionMatrix(D3DXMATRIX _matrix);
 	void setColor(D3DXVECTOR4 _color);
 	
@@ -40,5 +44,6 @@ public:
 
 	ID3D10EffectTechnique *getTechniqueRenderModelForward();
 	ID3D10EffectTechnique *getAnimationTechnique();
+	ID3D10EffectTechnique *getPropsTechnique();
 };
 

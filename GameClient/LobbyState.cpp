@@ -64,7 +64,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	
 	if(m_playerId == 0)
 	{
-		m_hostMayStartGame = false;
+		m_hostMayStartGame = true;
 		m_menu = new LobbyMenu(true);
 	}
 	else
@@ -84,18 +84,10 @@ LobbyState::~LobbyState()
 
 	g_graphicsEngine->removeDirectionalLight(dl);
 	//g_graphicsEngine->removeChainEffect(test);
-	
 }
 
 void LobbyState::update(float _dt)
 {
-	float chainY = 0.3f;
-
-	//test->setOrig(D3DXVECTOR3(m_mentalist->getCharacter()->getPosition().x, m_mentalist->getCharacter()->getPosition().y + chainY, m_mentalist->getCharacter()->getPosition().z));
-	//test->setTarget(D3DXVECTOR3(m_officer->getCharacter()->getPosition().x, m_officer->getCharacter()->getPosition().y + chainY, m_officer->getCharacter()->getPosition().z));
-	//test->setCamPos(g_graphicsEngine->getCamera()->getPos());
-	//test->setViewProj(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
-
 	if(m_playerId == 0)
 		m_menu->Update(_dt, m_hostMayStartGame);
 	else
@@ -209,6 +201,9 @@ void LobbyState::update(float _dt)
 	
 	if(m_menu->MainMenuIsDown())
 	{
+		sf::Packet dispack;
+		dispack << (int)NetworkMessage::PLAYERDISCONNECTED;
+		this->m_network->sendPacket(dispack);
 		this->m_network->disconnect();
 	}
 
@@ -226,7 +221,7 @@ void LobbyState::update(float _dt)
 		// The host has some restrictions
 		if(m_playerId == 0)
 		{
-			if(m_hostMayStartGame || true) // lol
+			if(m_hostMayStartGame)
 			{
 				//Skicka ready till servern
 				m_network->sendMessage(NetworkReadyMessage(true));
@@ -403,7 +398,11 @@ void LobbyState::update(float _dt)
 		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
 		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
 		if(m_playerId == 0)
+		{
 			m_hostsSuperVector.push_back(false);
+			if(msg.getPlayerIndex() != 0)
+				m_hostMayStartGame = false;
+		}
 	}
 	
 	while(!m_network->readyMessageToClientQueueEmpty())
