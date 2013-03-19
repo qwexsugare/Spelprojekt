@@ -73,9 +73,14 @@ struct Entity
 			this->m_healthFront = NULL;
 		}
 		
-		if(this->m_model->getRightHand() != NULL)
+		if(this->m_model->getLeftHand() != NULL)
 		{
 			this->m_lanternLight = g_graphicsEngine->createPointLight(this->m_model->getPosition() + FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false, FLOAT3(0.0f, 1.0f, 0.0f));
+			this->m_model->setShadow(true);
+		}
+		else if(this->m_model->getRightHand() != NULL)
+		{
+			this->m_lanternLight = g_graphicsEngine->createPointLight(this->m_model->getPosition() + FLOAT3(0.0f, 1.5f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false, FLOAT3(0.0f, 1.5f, 0.0f));
 			this->m_model->setShadow(true);
 		}
 		else
@@ -121,7 +126,14 @@ struct Entity
 
 		if(this->m_lanternLight != NULL)
 		{
-			this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition(), FLOAT3(0.0f, 1.0f, 0.0f));
+			if(this->m_model->getLeftHand() != NULL)
+			{
+				this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition(), FLOAT3(0.0f, 1.0f, 0.0f));
+			}
+			else if(this->m_model->getRightHand() != NULL)
+			{
+				this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition() + FLOAT3(-0.33f, 1.0f, -0.33f), FLOAT3(-0.33f, 1.5f, -0.33f));
+			}
 		}
 	
 		if((this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType) && this->m_healthBack->getVisible() == true)

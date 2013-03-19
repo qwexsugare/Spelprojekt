@@ -11,7 +11,7 @@ DemonicPresenceEffect::DemonicPresenceEffect(unsigned int _caster)
 
 	this->m_obb = NULL;
 	FLOAT3 pos = EntityHandler::getServerEntity(_caster)->getPosition();
-	this->m_bs = new BoundingSphere(XMFLOAT3(pos.x, 0.0f, pos.z), AOE);
+	this->m_bs = new BoundingSphere(XMFLOAT3(pos.x, 0.0f, pos.z), 0.01f);
 	m_visible = false;
 	m_timer = 0.0f;
 	m_type = OtherType;

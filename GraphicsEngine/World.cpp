@@ -788,12 +788,34 @@ void World::render()
 			{
 				if(m_models[i]->getMesh()->isAnimated)
 				{
-				this->m_forwardRendering->setBoneTexture(m_models[i]->getAnimation()->getResource());
-				this->m_forwardRendering->setColor(m_models[i]->getColor());
-				this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
-				this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputAnimationLayout());
-				this->m_forwardRendering->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
-				this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+					this->m_forwardRendering->setBoneTexture(m_models[i]->getAnimation()->getResource());
+					this->m_forwardRendering->setColor(m_models[i]->getColor());
+					this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
+					this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputAnimationLayout());
+					this->m_forwardRendering->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
+					this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
+
+					if(m_models[i]->getHat())
+					{	
+						this->m_forwardRendering->setPropsMatrix(*m_models[i]->getAnimation()->getHatMatrix());
+						this->m_deviceHandler->setVertexBuffer(m_models[i]->getHat()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						this->m_forwardRendering->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(m_models[i]->getHat()->subMeshes[m]->numVerts, 0);
+					}
+					if(m_models[i]->getRightHand())
+					{
+						this->m_forwardRendering->setPropsMatrix(*m_models[i]->getAnimation()->getRightHandMatrix());
+						this->m_deviceHandler->setVertexBuffer(m_models[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						this->m_forwardRendering->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(m_models[i]->getRightHand()->subMeshes[m]->numVerts, 0);
+					}
+					if(m_models[i]->getLeftHand())
+					{
+						this->m_forwardRendering->setPropsMatrix(*m_models[i]->getAnimation()->getLeftHandMatrix());
+						this->m_deviceHandler->setVertexBuffer(m_models[i]->getLeftHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
+						this->m_forwardRendering->getPropsTechnique()->GetPassByIndex( 0 )->Apply(0);
+						this->m_deviceHandler->getDevice()->Draw(m_models[i]->getLeftHand()->subMeshes[m]->numVerts, 0);
+					}
 				}
 				else
 				{				

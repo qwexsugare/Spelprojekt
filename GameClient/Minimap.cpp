@@ -136,14 +136,14 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 					m_playerPositions.push_back(g_graphicsEngine->createSprite("minimap/you_pos.png",
 						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 						FLOAT2(0.009f, 0.016f),
-						3));
+						0));
 				}
 				else
 				{
 					m_playerPositions.push_back(g_graphicsEngine->createSprite("minimap/player_pos.png",
 						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 						FLOAT2(0.009f, 0.016f),
-						2));
+						1));
 				}
 			}
 			else
@@ -165,7 +165,7 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 					m_bossPositions.push_back(g_graphicsEngine->createSprite("minimap/boss_pos.png",
 						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 						FLOAT2(0.018f, 0.032f),
-						2));
+						1));
 				}
 				else
 				{
@@ -181,7 +181,7 @@ void Minimap::update(const vector<Entity*>& _entites, FLOAT2 _cameraPos, float _
 					m_enemyPositions.push_back(g_graphicsEngine->createSprite("minimap/enemy_pos.png",
 						FLOAT2(m_screenSpaceSize.x/2.0f*screenSpaceX+m_screenSpacePos.x, m_screenSpaceSize.y/2.0f*screenSpaceY+m_screenSpacePos.y),
 						FLOAT2(0.009f, 0.016f),
-						1));
+						0));
 				}
 				else
 				{
