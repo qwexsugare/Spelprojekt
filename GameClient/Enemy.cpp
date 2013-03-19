@@ -362,10 +362,18 @@ void Enemy::updateDirection(float lastDT)
 
 	
 		m_dir = m_goalDirection + m_enemyAvDir*2+ m_staticAvDir*6;
+
+		if(m_isAttacking)
+		{
+			m_dir = EntityHandler::getServerEntity(m_closestTargetId)->getPosition() - m_position;
+		}
+
 		if(m_dir.length() > 0)
 			m_dir = m_dir/m_dir.length();
 		else 
 			m_dir = m_prevDir;
+
+		
 
 		m_dir = (m_prevDir + m_dir)*0.5f;
 }
