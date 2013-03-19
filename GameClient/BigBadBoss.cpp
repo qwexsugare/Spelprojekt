@@ -5,7 +5,8 @@
 
 BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 {
-	m_modelId = 80;
+	m_modelId = 88;
+	
 	//this->m_type = ServerEntity::BossType;
 
 	this->increaseStrength(10);
@@ -31,6 +32,8 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	Model *m = g_graphicsEngine->createModel("Imp", m_position);
 	this->m_obb = new BoundingOrientedBox(*m->getObb());
 	g_graphicsEngine->removeModel(m);
+
+	this->setScale(2.4f);
 }
 void BigBadBoss::attackHero(int heroIndex)
 {

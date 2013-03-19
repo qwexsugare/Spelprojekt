@@ -3,7 +3,7 @@
 #include "SoundWrapper.h"
 #include "Turret.h"
 
-const FLOAT ChainStrikeEffect::TIME_BETWEEN_JUMPS = 1.5f;
+const FLOAT ChainStrikeEffect::TIME_BETWEEN_JUMPS = 0.5f;
 
 ChainStrikeEffect::ChainStrikeEffect(unsigned int _firstTarget, int _maxJumps, int _baseDamage, unsigned int _masterId)
 {

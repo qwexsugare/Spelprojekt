@@ -38,6 +38,10 @@ private:
 	void CreateRandomTex();
 	float totalTime;
 	float dt;
+	float emitRate;
+	float lifeTime;
+	float speed;
+	float offset;
 
 	bool firstTime;
 
@@ -47,12 +51,14 @@ private:
 	void DrawGPUSphere(ParticleEngineEffectFile* _particleRendering);
 	void DrawGPUUpSideDownTwist(ParticleEngineEffectFile* _particleRendering);
 	void DrawGPUFire(ParticleEngineEffectFile* _particleRendering);
+	void DrawGPUElectric(ParticleEngineEffectFile* _particleRendering);
 	
 	enum ParticleBehavior{	Beacon,
 							CirclePuls, 
 							Sphere, 
 							UpSideDownTwist,
-							Fire};
+							Fire,
+							Electric};
 
 	ParticleBehavior behavior;
 

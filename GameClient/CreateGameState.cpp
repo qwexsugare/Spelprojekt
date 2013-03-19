@@ -46,3 +46,7 @@ string CreateGameState::getPlayerName()
 {
 	return this->m_menu->getPlayerName();
 }
+string CreateGameState::getMapName()
+{
+	return this->m_menu->getChoseLevel();
+}

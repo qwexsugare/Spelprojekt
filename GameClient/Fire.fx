@@ -69,6 +69,8 @@ VS_OUT FireVS(Particle input)
 
 	output.pos = input.pos + input.vel*(t/2);
 
+	output.vel = input.vel;
+
 	float opacity = 1;//t*2 - t*t;
 	output.color = float4(1.0f, 1.0f, 1.0f, opacity);
 

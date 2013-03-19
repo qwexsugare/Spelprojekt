@@ -226,7 +226,7 @@ void LobbyState::update(float _dt)
 		// The host has some restrictions
 		if(m_playerId == 0)
 		{
-			if(m_hostMayStartGame)
+			if(m_hostMayStartGame || true) // lol
 			{
 				//Skicka ready till servern
 				m_network->sendMessage(NetworkReadyMessage(true));

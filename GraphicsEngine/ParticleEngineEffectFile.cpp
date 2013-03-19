@@ -15,7 +15,13 @@ ParticleEngineEffectFile::ParticleEngineEffectFile(ID3D10Device* _device) : Effe
 	this->size = this->m_effect->GetVariableByName("size")->AsVector();
 	this->viewProj = this->m_effect->GetVariableByName("viewProj")->AsMatrix();
 	this->isAlive = this->m_effect->GetVariableByName("isAlive")->AsScalar();
-
+	this->emitRate = this->m_effect->GetVariableByName("emitRate")->AsScalar();
+	this->lifeTime = this->m_effect->GetVariableByName("lifeTime")->AsScalar();
+	this->speed = this->m_effect->GetVariableByName("speed")->AsScalar();
+	this->offset = this->m_effect->GetVariableByName("offset")->AsScalar();
+	this->view = this->m_effect->GetVariableByName("view")->AsMatrix();
+	this->proj = this->m_effect->GetVariableByName("proj")->AsMatrix();
+	
 	this->m_randomTexture = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
 	this->m_texture = this->m_effect->GetVariableByName("tex")->AsShaderResource();
 
@@ -40,6 +46,8 @@ ParticleEngineEffectFile::ParticleEngineEffectFile(ID3D10Device* _device) : Effe
 	this->m_drawSphereTechnique = this->m_effect->GetTechniqueByName("DrawSphere");
 	this->m_fireSOTechnique = this->m_effect->GetTechniqueByName("FireSOTech");
 	this->m_drawFireTechnique = this->m_effect->GetTechniqueByName("DrawFire");
+	this->m_electricSOTechnique = this->m_effect->GetTechniqueByName("ElectricSOTech");
+	this->m_drawElectricTechnique = this->m_effect->GetTechniqueByName("DrawElectric");
 
 
 	this->m_beaconSOTechnique->GetPassByIndex(0)->GetDesc(&passDescription);
@@ -96,9 +104,39 @@ void ParticleEngineEffectFile::setIsAlive(bool _alive)
 	this->isAlive->SetBool(_alive);
 }
 
+void ParticleEngineEffectFile::setEmitRate(float _emitRate)
+{
+	this->emitRate->SetFloat(_emitRate);
+}
+
+void ParticleEngineEffectFile::setLifeTime(float _lifeTime)
+{
+	this->lifeTime->SetFloat(_lifeTime);
+}
+
+void ParticleEngineEffectFile::setSpeed(float _speed)
+{
+	this->speed->SetFloat(_speed);
+}
+
+void ParticleEngineEffectFile::setOffset(float _offset)
+{
+	this->offset->SetFloat(_offset);
+}
+
 void ParticleEngineEffectFile::setSize(D3DXVECTOR2 _size)
 {
 	this->size->SetFloatVector((float*)_size);
+}
+
+void ParticleEngineEffectFile::setView(D3DXMATRIX _matrix)
+{
+	this->view->SetMatrix(_matrix);
+}
+
+void ParticleEngineEffectFile::setProj(D3DXMATRIX _matrix)
+{
+	this->proj->SetMatrix(_matrix);
 }
 
 void ParticleEngineEffectFile::setViewProj(D3DXMATRIX _matrix)
@@ -154,4 +192,14 @@ ID3D10EffectTechnique *ParticleEngineEffectFile::getFireSOTechnique()
 ID3D10EffectTechnique *ParticleEngineEffectFile::getDrawFireTechnique()
 {
 	return this->m_drawFireTechnique;
+}
+
+ID3D10EffectTechnique *ParticleEngineEffectFile::getElectricSOTechnique()
+{
+	return this->m_electricSOTechnique;
+}
+
+ID3D10EffectTechnique *ParticleEngineEffectFile::getDrawElectricTechnique()
+{
+	return this->m_drawElectricTechnique;
 }

@@ -13,7 +13,6 @@ private:
 	int m_startLife;
 
 	vector<StatisticsPlayer> m_players;
-	vector<int> lol;
 public:
 	NetworkEndGameMessage();
 	NetworkEndGameMessage(bool _victory, double _timePlayed, int _isAtWave, int _startLife, vector<StatisticsPlayer> _players);

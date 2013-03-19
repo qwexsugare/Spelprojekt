@@ -35,7 +35,11 @@ struct ParticleEffect
 	float behaviorTime;
 	float endBehaviorTime;
 
-	vector<string> textures;
+	float scale;
+	float emitRate;
+	float lifeTime;
+	float speed;
+	float offset;
 
-	CirclePuls circlePuls;
+	vector<string> textures;
 };
