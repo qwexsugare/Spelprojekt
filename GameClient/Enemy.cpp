@@ -292,13 +292,7 @@ void Enemy::checkAttack(float lastDT)
 					this->attackHero(this->m_closestTargetId);
 				}
 
-				/*if(((Hero*)EntityHandler::getServerEntity(m_closestTargetId))->getAlive() == false)
-				{
-					m_reachedPosition = false; 
-					m_attackCooldown = m_baseAttackSpeed;
-					m_willPursue = false;
-						this->m_nextPosition = m_goalPosition;
-				}*/
+				
 			}
 			else 
 			{
@@ -349,7 +343,7 @@ void Enemy::updateDirection(float lastDT)
 			m_staticAvDir = FLOAT3(0,0,0);
 		}
 
-		//m_dir = m_dir*5.0 + m_goalDirection+  m_enemyAvDir*2+ m_staticAvDir*3.0f;	
+	
 		m_dir = m_goalDirection + m_enemyAvDir*2+ m_staticAvDir*6;
 		if(m_dir.length() > 0)
 			m_dir = m_dir/m_dir.length();
