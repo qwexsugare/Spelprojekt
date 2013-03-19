@@ -43,7 +43,7 @@ EnigmaticPresenceEffect::EnigmaticPresenceEffect(unsigned int _caster)
 
 EnigmaticPresenceEffect::~EnigmaticPresenceEffect()
 {
-
+	 
 }
 
 void EnigmaticPresenceEffect::update(float _dt)

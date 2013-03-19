@@ -173,7 +173,7 @@ void UnitEntity::alterMentalResistance(float _value)
 void UnitEntity::alterMovementSpeed(float _value)
 {
 	m_movementSpeedChange += _value;
-	m_movementSpeed = m_baseMovementSpeed + m_movementSpeedChange;
+	m_movementSpeed = max(0.1f, m_baseMovementSpeed + m_movementSpeedChange);
 }
 
 void UnitEntity::alterPhysicalResistance(float _value)
@@ -350,6 +350,7 @@ void UnitEntity::alterPhysicalResistanceUpgrades(int _physicalResistanceUpgrades
 	this->m_physicalResistanceUpgrades += _physicalResistanceUpgrades;
 	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * 0.01f * this->m_strength;
 	this->m_physicalResistance = max(this->m_physicalResistance, 0.0f);
+	this->sendAttributesToClient();
 }
 
 void UnitEntity::alterMentalResistanceUpgrades(int _mentalResistanceUpgrades)
@@ -357,6 +358,7 @@ void UnitEntity::alterMentalResistanceUpgrades(int _mentalResistanceUpgrades)
 	this->m_mentalResistanceUpgrades += _mentalResistanceUpgrades;
 	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * 0.01f * this->m_fortitude;
 	this->m_mentalResistance = max(this->m_mentalResistance, 0.0f);
+	this->sendAttributesToClient();
 }
 
 int UnitEntity::getStrength()

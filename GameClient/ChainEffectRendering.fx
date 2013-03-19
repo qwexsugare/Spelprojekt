@@ -79,7 +79,7 @@ GSIn VS(VSIn input)
 }
 
 [maxvertexcount(4)]
-void GS(point GSIn input[1], inout LineStream<GS_OUT> triStream)
+void GS(point GSIn input[1], inout TriangleStream<GS_OUT> triStream)
 {
 	float halfWidth = 0.5f;
 	float halfHeight = 0.5f;
@@ -94,27 +94,27 @@ void GS(point GSIn input[1], inout LineStream<GS_OUT> triStream)
 
 	float4 v[4];
 	v[0] = float4(origW + (cr0 * halfWidth) , 1);
-	//v[1] = float4(origW - (cr0 * halfWidth) , 1);
-	v[1] = float4(1, 0, 0 , 1);
+	v[1] = float4(origW - (cr0 * halfWidth) , 1);
+	//v[1] = float4(1, 0, 0 , 1);
 	v[2] = float4(targetW + (cr1 * halfWidth) , 1);
-	//v[3] = float4(targetW - (cr1 * halfWidth) , 1);
-	v[3] = float4(0, 0, 0, 1);
+	v[3] = float4(targetW - (cr1 * halfWidth) , 1);
+	//v[3] = float4(0, 0, 0, 1);
 
-	GS_OUT output = (GS_OUT)0;/*
+	GS_OUT output = (GS_OUT)0;
 
 	output.Pos = mul(v[0], viewProj);
 	output.UVCoord = quadTexC[0];
-	triStream.Append(output);*/
+	triStream.Append(output);
 			
-	output.Pos = v[1];//mul(v[1], viewProj);
+	output.Pos = mul(v[1], viewProj);
 	output.UVCoord = quadTexC[1];
 	triStream.Append(output);
-/*
+
 	output.Pos = mul(v[2], viewProj);
 	output.UVCoord = quadTexC[2];
-	triStream.Append(output);*/
+	triStream.Append(output);
 
-	output.Pos = v[3];//mul(v[3], viewProj);
+	output.Pos = mul(v[3], viewProj);
 	output.UVCoord = quadTexC[3];
 	triStream.Append(output);
 

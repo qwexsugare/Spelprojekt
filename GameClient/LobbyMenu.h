@@ -4,15 +4,16 @@
 #include "TextInput.h"
 #include "Hero.h"
 #include "Slider.h"
+#include "SkillIdHolder.h"
 
 class LobbyMenu :
 	public Menu
 {
 public:
-	LobbyMenu(void);
-	~LobbyMenu(void);
+	LobbyMenu(bool _host);
+	~LobbyMenu();
 
-	void Update(float _dt);
+	void Update(float _dt, bool _mayPressReady);
 
 	bool ChatIsDown();
 	bool StoreIsDown();
@@ -41,6 +42,7 @@ public:
 	bool wasEnterPressed();
 	string getChatString();
 private:
+	bool m_host;
 	Hero::HERO_TYPE m_currentSelections[4];
 	Sprite* m_doctorPortrait;
 	Sprite* m_officerPortrait;
@@ -49,7 +51,7 @@ private:
 	Sprite* m_mentalistPortrait;
 	vector<TextLabel*> m_playerNames;
 	Slider m_slider;
-
+	SkillIdHolder m_skillHolder;
 	TextInput* m_LabelInput;
 	vector<TextLabel*> m_Label;
 	vector<TextLabel*> m_Chattext;

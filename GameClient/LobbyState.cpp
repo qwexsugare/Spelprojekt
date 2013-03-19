@@ -11,9 +11,8 @@ LobbyState::LobbyState() : State(State::LOBBY)
 LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 {
 	this->m_network = _network;
-	this->m_menu = new LobbyMenu();
 	this->m_sliderMove = false;
-	m_currentHeroSelected = Hero::HERO_TYPE::NONE;
+	m_heroType = Hero::HERO_TYPE::NONE;
 
 	g_graphicsEngine->setSSAO(10, 0.01f, 0, 0.4f);
 	//pl[0] = g_graphicsEngine->createPointLight(FLOAT3(0.0f, 1.0f, 4.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false);
@@ -31,7 +30,6 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	float inLightY = 1.6f;
 	float frontLightZ = -0.5f;
 	float frontLightY = 0.5f;
-
 	
 	this->m_officer		= new Room(0, 95, "color", "", FLOAT3(x, y, z), step);
 	this->m_redKnight	= new Room(1, 96, "color", "", FLOAT3(x, y, z), step);
@@ -48,11 +46,29 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	
 	this->cameraRealPos = 0;
 	distToSlider = 0.0f;
-	this->m_playerId = -1;
-
-
-	//test = g_graphicsEngine->createChainEffect();
-
+	
+	sf::Clock mySuperClock;
+	while(m_network->networkWelcomeMessageEmpty() && mySuperClock.GetElapsedTime() < 60.0f){}
+	if(m_network->networkWelcomeMessageEmpty())
+	{
+		this->setDone(true);
+		this->m_nextState = State::MAIN_MENU;
+		m_playerId = -1;
+	}
+	else
+	{
+		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
+		this->mapName = nwm.getMapName();
+		this->m_playerId = nwm.getPlayerId();
+	}
+	
+	if(m_playerId == 0)
+	{
+		m_hostMayStartGame = false;
+		m_menu = new LobbyMenu(true);
+	}
+	else
+		m_menu = new LobbyMenu(false);
 }
 
 LobbyState::~LobbyState()
@@ -73,7 +89,6 @@ LobbyState::~LobbyState()
 
 void LobbyState::update(float _dt)
 {
-
 	float chainY = 0.3f;
 
 	//test->setOrig(D3DXVECTOR3(m_mentalist->getCharacter()->getPosition().x, m_mentalist->getCharacter()->getPosition().y + chainY, m_mentalist->getCharacter()->getPosition().z));
@@ -81,8 +96,10 @@ void LobbyState::update(float _dt)
 	//test->setCamPos(g_graphicsEngine->getCamera()->getPos());
 	//test->setViewProj(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
 
-	this->m_menu->Update(_dt);
-	// waddapigotabigcock
+	if(m_playerId == 0)
+		m_menu->Update(_dt, m_hostMayStartGame);
+	else
+		m_menu->Update(_dt, true);
 
 	if(GetKeyState(VK_LEFT) < 0)
 	{
@@ -139,8 +156,6 @@ void LobbyState::update(float _dt)
 		this->m_sliderMove = true;
 	}
 
-
-	
 	float mouseX = (g_mouse->getPos().x / float(g_graphicsEngine->getScreenSize().x))*2-1;
 	 max = step*5;
 	if(g_mouse->isLButtonReleased() && mouseX >= -0.58f && mouseX <= 0.58f && !m_sliderMove)
@@ -152,7 +167,7 @@ void LobbyState::update(float _dt)
 		float dist;
 		if(m_officer->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
-			this->m_currentHeroSelected = Hero::OFFICER;
+			this->m_heroType = Hero::OFFICER;
 			m_network->sendMessage(NetworkSelectHeroMessage(0, this->m_menu->getCombat()));
 			//this->m_menu->getSlider()->setValue(alve*0);
 			this->m_menu->getSlider()->setPosition((m_officer->getRoom()->getPosition().x-step*2+0.6)/max);
@@ -160,7 +175,7 @@ void LobbyState::update(float _dt)
 		} 
 		else if(m_redKnight->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
-			this->m_currentHeroSelected = Hero::RED_KNIGHT;
+			this->m_heroType = Hero::RED_KNIGHT;
 			m_network->sendMessage(NetworkSelectHeroMessage(1, this->m_menu->getCombat()));
 			//this->m_menu->getSlider()->setValue(alve*0);
 			this->m_menu->getSlider()->setPosition((m_redKnight->getRoom()->getPosition().x-step*2)/max);
@@ -168,7 +183,7 @@ void LobbyState::update(float _dt)
 		}
 		else if(m_engi->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
-			this->m_currentHeroSelected = Hero::ENGINEER;
+			this->m_heroType = Hero::ENGINEER;
 			m_network->sendMessage(NetworkSelectHeroMessage(2, this->m_menu->getCombat()));
 			//this->m_menu->getSlider()->setValue(alve*2);
 			this->m_menu->getSlider()->setPosition((m_engi->getRoom()->getPosition().x-step)/max);
@@ -176,7 +191,7 @@ void LobbyState::update(float _dt)
 		}
 		else if(m_doctor->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
-			this->m_currentHeroSelected = Hero::DOCTOR;
+			this->m_heroType = Hero::DOCTOR;
 			m_network->sendMessage(NetworkSelectHeroMessage(3, this->m_menu->getCombat()));
 			//this->m_menu->getSlider()->setValue(alve*3);
 			this->m_menu->getSlider()->setPosition((m_doctor->getRoom()->getPosition().x-step)/max);
@@ -184,7 +199,7 @@ void LobbyState::update(float _dt)
 		}
 		else if(m_mentalist->getRoom()->intersects(dist, pickOrig, pickDir))
 		{
-			this->m_currentHeroSelected = Hero::THE_MENTALIST;
+			this->m_heroType = Hero::THE_MENTALIST;
 			m_network->sendMessage(NetworkSelectHeroMessage(4, this->m_menu->getCombat()));
 			this->m_menu->getSlider()->setPosition((m_mentalist->getRoom()->getPosition().x-step)/max);
 			//this->m_menu->getSlider()->setValue(alve*4);
@@ -197,19 +212,31 @@ void LobbyState::update(float _dt)
 		this->m_network->disconnect();
 	}
 
-	if(this->m_menu->CloseCombatIsDown() && this->m_currentHeroSelected != Hero::NONE)
+	if(this->m_menu->CloseCombatIsDown() && this->m_heroType != Hero::NONE)
 	{
-		this->m_network->sendMessage(NetworkSelectHeroMessage(this->m_currentHeroSelected, this->m_menu->getCombat()));
+		this->m_network->sendMessage(NetworkSelectHeroMessage(this->m_heroType, this->m_menu->getCombat()));
 	}
-	else if(this->m_menu->RangeCombatIsDown() && this->m_currentHeroSelected != Hero::NONE)
+	else if(this->m_menu->RangeCombatIsDown() && this->m_heroType != Hero::NONE)
 	{
-		this->m_network->sendMessage(NetworkSelectHeroMessage(this->m_currentHeroSelected, this->m_menu->getCombat()));
+		this->m_network->sendMessage(NetworkSelectHeroMessage(this->m_heroType, this->m_menu->getCombat()));
 	}
 
-	if(this->m_menu->StartGameIsDown() == true)
+	if(this->m_menu->StartGameIsDown())
 	{
-		//Skicka ready till servern
-		m_network->sendMessage(NetworkReadyMessage(true));
+		// The host has some restrictions
+		if(m_playerId == 0)
+		{
+			if(m_hostMayStartGame || true) // lol
+			{
+				//Skicka ready till servern
+				m_network->sendMessage(NetworkReadyMessage(true));
+			}
+		}
+		else if(m_heroType != Hero::HERO_TYPE::NONE)
+		{
+			//Skicka ready till servern
+			m_network->sendMessage(NetworkReadyMessage(true));
+		}
 	}
 	else if(this->m_menu->MainMenuIsDown() == true)
 	{
@@ -235,13 +262,11 @@ void LobbyState::update(float _dt)
 
 	while(!m_network->heroSelectedQueueEmpty())
 	{
-
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
 		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
 		
 		if(nhsm.getPlayerId() == this->m_playerId)
 		{
-
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
 		}
 		else
@@ -373,23 +398,40 @@ void LobbyState::update(float _dt)
 		}
 	}
 
-	while(!m_network->networkWelcomeMessageEmpty())
-	{
-		NetworkWelcomeMessage nwm = m_network->networkWelcomeMessageFront();
-		this->mapName = nwm.getMapName();
-		this->m_playerId = nwm.getPlayerId();
-	}
-
 	while(!m_network->playerJoinedMessageQueueEmpty())
 	{
 		NetworkPlayerJoinedMessage msg = m_network->playerJoinedMessageQueueFront();
 		this->m_menu->setPlayerName(msg.getPlayerIndex(), msg.getName());
+		if(m_playerId == 0)
+			m_hostsSuperVector.push_back(false);
 	}
-
+	
 	while(!m_network->readyMessageToClientQueueEmpty())
 	{
 		NetworkReadyMessageToClient msg = m_network->readyMessageToClientQueueFront();
 		this->m_menu->setReady(msg.m_playerIndex);
+		if(m_playerId == 0)
+		{
+			m_hostsSuperVector[msg.m_playerIndex] = true;
+
+			// Check how many players are ready
+			int notReadyCounter = 0;
+			for(int i = 0; i < m_hostsSuperVector.size(); i++)
+			{
+				if(!m_hostsSuperVector[i])
+				{
+					notReadyCounter++;
+				}
+			}
+			// The host can only ready up if he is the only one not ready.
+			if(notReadyCounter < 2)
+			{
+				if(m_heroType != Hero::HERO_TYPE::NONE)
+				{
+					bool m_hostMayStartGame = true;
+				}
+			}
+		}
 	}
 }
 

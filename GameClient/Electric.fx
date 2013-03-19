@@ -1,10 +1,10 @@
-#ifndef BEACON
-#define BEACON
+#ifndef ELECTRIC
+#define ELECTRIC
 
 #include "ParticleSystemStructs.fx"
 
 [maxvertexcount(17)]
-void StreamOutGS(point Particle input[1], inout PointStream<Particle> pStream)
+void ElectricSO(point Particle input[1], inout PointStream<Particle> pStream)
 {
 	input[0].age += dt;
 
@@ -18,6 +18,7 @@ void StreamOutGS(point Particle input[1], inout PointStream<Particle> pStream)
 		
 			Particle p;
 			p.pos = emitPosW.xyz;
+			p.pos.y = 0.5;
 			p.vel = 0.5f*randVe;
 			p.size = size;
 			p.age = 0.0f;
@@ -36,42 +37,40 @@ void StreamOutGS(point Particle input[1], inout PointStream<Particle> pStream)
 	}
 }
 
-GeometryShader gsStreamOut = ConstructGSWithSO(
-	CompileShader( gs_4_0, StreamOutGS() ),
+GeometryShader gsElectricSO = ConstructGSWithSO(
+	CompileShader( gs_4_0, ElectricSO() ),
 	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x;");
 
 //*********
 // DrawTech
 //*********
 
-VS_OUT DrawVS(Particle input)
+VS_OUT ElectricVS(Particle input)
 {
 	VS_OUT output = (VS_OUT)0;
 
 	float t = input.age;
 
-	//output.angle = angle + 3.14;
+
+
+	float3 up = float3(0, 0, 1);
+
+	float angle = atan2(up.z, up.x) - atan2(input.vel.z, input.vel.x);
+
+	//float angle = dot(up, normalize(input.vel)); 
 
 	output.vel = input.vel;
 
-	output.pos = input.pos + (input.vel*(t*speed));//0.5f*(t*t*accel);//0.5f*t*t*accel + t*input.vel + input.pos;
-	//float opacity = 1.0f - smoothstep(0.0f, 1.0f, t/10.0f);
-	
+
+	output.pos.xyz = emitPosW.xyz + (((input.vel)*(offset + (t*speed))));
+	//output.pos.y = emitPosW.y;
+
 	float opp = 1.0/lifeTime;
 	float opacity = 1-(opp*t);
-	//float opacity = t*2 - t*t;
 	output.color = float4(1.0f, 1.0f, 1.0f, opacity);
 
 	output.size = input.size;
 	output.type = input.type;
-
-	output.vel = input.vel;
-
-
-	GS_OUT gs = (GS_OUT)0;
-
-	gs.pos = float4(0, input.pos.y + (input.age/100), 0, 1);
-	//gs.color = float4(1, 1, 1, 1);//float4(input.age/100, input.age/100, input.age/10, 1);
 
 	return output;
 }

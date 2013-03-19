@@ -175,25 +175,6 @@ State::StateEnum GameState::nextState()
 #include "ChainStrikeEffect.h"
 void GameState::update(float _dt)
 {
-	// BEGIN SIMULATION
-
-	//static float simulationTimer = 0.0f;
-	//simulationTimer += _dt;
-	//static int lolModder = 0;
-	//if(simulationTimer > ChainStrikeEffect::TIME_BETWEEN_JUMPS)
-	//{
-	//	//// Do a chani strike lient skill effect
-	//	if(lolModder%2 == 0)
-	//		m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(0.0f, 0.0f, 0.0f)));
-	//	else
-	//		m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(m_playerInfos[m_yourId].id, 19284, FLOAT3(64.0f, 0.0f, 64.0f)));
-
-	//	lolModder++;
-	//	simulationTimer -= ChainStrikeEffect::TIME_BETWEEN_JUMPS;
-	//}
-
-	// END SIMULATION
-
 	while(m_network->endGameQueueEmpty() == false)
 	{
 		this->m_endMessage = m_network->endGameQueueFront();
@@ -323,15 +304,23 @@ void GameState::update(float _dt)
 		if(model)
 		{
 			//this->m_entities.push_back(new Entity(model, e.getEntityId()));
+			model->setScale(iem.getScale(),iem.getScale(),iem.getScale());
 			Entity *e = new Entity(model, iem.getID(), (ServerEntity::Type)iem.getType(), iem.getSubtype());
 			this->m_clientEntityHandler->addEntity(e);
-
 			e->m_weapon = iem.getWeaponType();
 
 			if(iem.getID() == m_playerInfos[m_yourId].id)
 			{
-				g_graphicsEngine->getCamera()->setX(iem.getXPos());
-				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - g_graphicsEngine->getCamera()->getZOffset());
+				/*g_graphicsEngine->getCamera()->setX(iem.getXPos());
+				g_graphicsEngine->getCamera()->setZ(iem.getZPos() - g_graphicsEngine->getCamera()->getZOffset());*/
+
+				g_graphicsEngine->getCamera()->setX(max(
+					min(iem.getXPos(), m_terrain->getWidth()-g_graphicsEngine->getCamera()->getXOffset()),
+					g_graphicsEngine->getCamera()->getXOffset()));
+
+				g_graphicsEngine->getCamera()->setZ(max(
+					min(iem.getZPos() - g_graphicsEngine->getCamera()->getZOffset(), m_terrain->getHeight()-g_graphicsEngine->getCamera()->getZOffset()*2.0f),
+					0.0f));
 			}
 		}
 	}
@@ -403,7 +392,16 @@ void GameState::update(float _dt)
 		case Skill::RESPAWN:
 			if(e.getSenderId() == m_playerInfos[m_yourId].id)
 			{
-				g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+				//g_graphicsEngine->getCamera()->set(FLOAT2(e.getPosition().x, e.getPosition().z-g_graphicsEngine->getCamera()->getZOffset()));
+
+				g_graphicsEngine->getCamera()->setX(max(
+					min(e.getPosition().x, m_terrain->getWidth()-g_graphicsEngine->getCamera()->getXOffset()),
+					g_graphicsEngine->getCamera()->getXOffset()));
+
+				g_graphicsEngine->getCamera()->setZ(max(
+					min(e.getPosition().z - g_graphicsEngine->getCamera()->getZOffset(), m_terrain->getHeight()-g_graphicsEngine->getCamera()->getZOffset()*2.0f),
+					0.0f));
+
 				m_yourHeroLives = true;
 			}
 			break;
@@ -873,13 +871,33 @@ void GameState::update(float _dt)
 	if(m_hud->isDone())
 	{
 		this->setDone(true);
+		this->m_endMessage = NetworkEndGameMessage(false, -1, -1, -1, vector<StatisticsPlayer>());
 	}
 }
 
 void GameState::importMap(string _map)
 {
-	string path = "maps/" + _map + "/";
-
+	string path = _map;
+	string reversedPath;
+	bool save=false;
+	for(int i=_map.size()-1;i>=0;i--)
+	{
+		if(_map[i]=='/')
+		{
+			save=true;
+		}
+		if(save)
+		{
+			reversedPath+=_map[i];
+		}
+	}
+	string tmppath;
+	while(reversedPath.size()>0)
+	{
+		tmppath+=reversedPath.back();
+		reversedPath.pop_back();
+	}
+	path=tmppath;
 	FLOAT3 v1 = FLOAT3(0.0f, 0.0f, 0.0f);
 	FLOAT3 v2 = FLOAT3(100.0f, 0.0f, 100.0f);
 
@@ -918,7 +936,7 @@ void GameState::importMap(string _map)
 	bool widthLoaded = false;
 	string minimap;
 	ifstream stream;
-	stream.open(path + _map + ".txt");
+	stream.open(_map);
 	while(!stream.eof())
 	{
 		char buf[1024];
