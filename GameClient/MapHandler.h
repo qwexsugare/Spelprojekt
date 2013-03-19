@@ -40,7 +40,7 @@ private:
 	int m_gridWidth;
 	bool** m_grid;
 	Map map;
-	vector<Mission> missions;
+	vector<Mission*> missions;
 public:
 	static enum State {RUNNING, VICTORY, DEFEAT};
 

@@ -408,3 +408,8 @@ FLOAT2 Model::getScreenPos(D3DXMATRIX viewProjectionMatrix)
 
 	return FLOAT2(screenPos.x / screenPos.w, screenPos.y / screenPos.w);
 }
+
+void Model::setColor(D3DXVECTOR4 color)
+{
+	this->m_stencilColor = color;
+}

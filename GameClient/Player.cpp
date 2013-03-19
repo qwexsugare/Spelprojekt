@@ -5,11 +5,11 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_resources = 75000;
+	this->m_resources = 150000;
 	this->m_messageQueue = new MessageQueue();
-	m_hero = NULL;
+	this->m_hero = NULL;
 	this->m_ready = false;
-	m_selectedHeroType = Hero::NONE;
+	this->m_selectedHeroType = Hero::NONE;
 	this->m_attributesBought = 0;
 	this->m_nrOfDeaths = 0;
 	this->m_respawnTimer = 0.0f;
@@ -420,6 +420,7 @@ void Player::handleSelectHeroMessage(NetworkSelectHeroMessage shm)
 
 void Player::addResources(unsigned int resources)
 {
+	Statistics::getStatisticsPlayer(this->getId()).increaseGoldCollected(resources);
 	this->m_resources += resources + this->m_hero->getGreed();
 	this->m_messageQueue->pushOutgoingMessage(new SkillBoughtMessage(999, this->m_id, this->m_resources));
 }

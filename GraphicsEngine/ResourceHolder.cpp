@@ -4,7 +4,7 @@ ResourceHolder::ResourceHolder()
 {
 
 }
-	
+
 ResourceHolder::ResourceHolder(ID3D10Device* _device)
 {
 	this->m_device = _device;

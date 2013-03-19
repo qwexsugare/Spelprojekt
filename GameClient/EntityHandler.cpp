@@ -10,6 +10,7 @@ ServerQuadTree* EntityHandler::m_quadtree;
 EntityHandler::EntityHandler()
 {
 	EntityHandler::m_messageQueue = new MessageQueue();
+	EntityHandler::m_nextId = 0;
 }
 
 EntityHandler::EntityHandler(MessageHandler* _messageHandler)
@@ -17,6 +18,7 @@ EntityHandler::EntityHandler(MessageHandler* _messageHandler)
 	EntityHandler::m_messageQueue = new MessageQueue();
 	EntityHandler::m_messageHandler = _messageHandler;
 	_messageHandler->addQueue(EntityHandler::m_messageQueue);
+	EntityHandler::m_nextId = 0;
 }
 
 EntityHandler::~EntityHandler()
@@ -90,11 +92,14 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 		EntityHandler::m_nextId++;
 		EntityHandler::m_messageHandler->addQueue(_entity->getMessageQueue());
 	}
+
 	EntityHandler::m_mutex.Unlock();
 
 	if(_entity->getVisible() == true)
 	{
 		EntityHandler::m_messageQueue->pushOutgoingMessage(new InitEntityMessage(_entity->getType(), _entity->getSubType(),_entity->getModelId(), _entity->getWeaponType(),_entity->getId(),_entity->getPosition().x,_entity->getPosition().z,_entity->getRotation().y,1.0,_entity->getHealth(),_entity->getPosition().x,_entity->getPosition().z,_entity->getEndPos().x,_entity->getEndPos().z,_entity->getMovementSpeed()));
+		EntityHandler::m_messageQueue->pushOutgoingMessage(new updateEntityHealth(_entity->getId(), _entity->getHealth()));
+		_entity->sendAttributesToClient();
 	}	
 }
 
@@ -396,7 +401,7 @@ int EntityHandler::getNrOfEnemies()
 
 	for(int i = 0; i < EntityHandler::m_entities.size(); i++)
 	{	
-		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType)
+		if(EntityHandler::m_entities[i]->getType() == ServerEntity::Type::EnemyType && EntityHandler::m_entities[i]->getSubType() != 0)
 		{
 			counter++;
 		}

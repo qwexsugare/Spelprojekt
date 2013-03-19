@@ -3,7 +3,6 @@
 #include "EntityHandler.h"
 #include "Hero.h"
 
-const float HypnoticStare::TIME_FACTOR = 2.0f;
 const float HypnoticStare::COOLDOWN = 30.0f;
 
 HypnoticStare::HypnoticStare() : Skill(Skill::HYPNOTIC_STARE, COOLDOWN)
@@ -25,7 +24,7 @@ bool HypnoticStare::activate(unsigned int _targetId, unsigned int _senderId)
 	{
 		if(this->getCurrentCooldown() == 0 && (caster->getPosition() - target->getPosition()).length() <= RANGE)
 		{
-			EntityHandler::addEntity(new HypnoticStareEffect(_targetId, _senderId, ((Hero*)caster)->getWits()*TIME_FACTOR));
+			EntityHandler::addEntity(new HypnoticStareEffect(_targetId, _senderId, ((Hero*)caster)->getWits()));
 			this->resetCooldown();
 			return true;
 		}

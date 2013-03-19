@@ -184,6 +184,7 @@ void Animation::RandomAnimationFunc(float dt)
 		map<string, AnimationFile>::iterator itr = animations.begin();
 		for(; itr != animations.end(); itr++)
 		{
+			bool animationEnd = false;
 			if(itr->second.isAnimating)
 			{
 				if(theAni == itr->first)
@@ -199,10 +200,11 @@ void Animation::RandomAnimationFunc(float dt)
 
 					if(itr->second.time >= (itr->second.skeletons[0].keys[itr->second.skeletons[0].keys.size()-1].time-offset)/fps)
 					{
-						if(waitAtEnd == false)
+						if(!waitAtEnd)
 						{
-							itr->second.currentKey = 0;
-							itr->second.time = 0.0f;
+							animationEnd = true;
+							//itr->second.currentKey = 0;
+							//itr->second.time = 0.0f;
 							itr->second.numLoops--;
 							if(itr->second.numLoops == 0)
 							{
@@ -305,6 +307,11 @@ void Animation::RandomAnimationFunc(float dt)
 						//D3DXMatrixScaling(&scale, 1.0f, 1.0f, 1.0f);
 						//outMat = outMat * scale;
 						matrices.push_back(outMat);
+					}
+					if(animationEnd)
+					{
+						itr->second.currentKey = 0;
+						itr->second.time = 0.0f;
 					}
 					itr->second.time += dt * itr->second.speedMultiplier;
 				}

@@ -1,7 +1,7 @@
 #include "Turret.h"
 #include "EntityHandler.h"
 
-Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime, unsigned int _ownerId, int _turretUpgrade)
+Turret::Turret(FLOAT3 _position, float _attackCooldown, float _range, float _lifetime, unsigned int _ownerId, int _turretUpgrade) : ServerEntity()
 {
 	this->m_originalRange =_range; 
 	this->m_range = BoundingSphere(XMFLOAT3(_position.x, _position.y, _position.z), _range);

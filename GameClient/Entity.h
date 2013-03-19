@@ -8,7 +8,7 @@
 struct Entity
 {
 	unsigned int m_id;
-	unsigned int m_health;
+	int m_health;
 	Model* m_model;
 	FLOAT3 m_direction;
 	ServerEntity::Type m_type;
@@ -52,6 +52,15 @@ struct Entity
 		m_health=1000;
 		m_poisonStacks = 0;
 
+		if(this->m_type == ServerEntity::EnemyType)
+		{
+			this->m_model->setColor(D3DXVECTOR4(1, 0, 0, 0.4f));
+		}
+		else
+		{
+			this->m_model->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+		}
+
 		if(this->m_type == ServerEntity::HeroType || this->m_type == ServerEntity::EnemyType)
 		{
 			FLOAT2 screenPos = this->m_model->getScreenPos(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
@@ -64,7 +73,7 @@ struct Entity
 			this->m_healthFront = NULL;
 		}
 		
-		if(this->m_model->getLeftHand() != NULL)
+		if(this->m_model->getRightHand() != NULL)
 		{
 			this->m_lanternLight = g_graphicsEngine->createPointLight(this->m_model->getPosition() + FLOAT3(0.0f, 1.0f, 0.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, true, false, FLOAT3(0.0f, 1.0f, 0.0f));
 			this->m_model->setShadow(true);
@@ -119,9 +128,15 @@ struct Entity
 		{		
 			//Update the healthbar position
 			FLOAT2 screenPos = this->m_model->getScreenPos(g_graphicsEngine->getCamera()->getViewProjectionMatrix());
-			float offsetX = (this->m_healthFront->getSize().x - ((float)this->m_health / 1000.0f) * this->m_healthBack->getSize().x) / 2;
+			float offsetX = (this->m_healthFront->getSize().x - ((float)this->m_health / (float)this->m_maxHealth) * this->m_healthBack->getSize().x) / 2;
 			this->m_healthBack->setPosition(screenPos);
 			this->m_healthFront->setPosition(FLOAT2(screenPos.x - offsetX, screenPos.y));
+
+			if(this->m_health > 0.0f)
+			{
+				float width = ((float)this->m_health / (float)this->m_maxHealth) * this->m_healthBack->getSize().x;
+				this->m_healthFront->setSize(FLOAT2(width, this->m_healthBack->getSize().y));
+			}
 		}
 
 	/*
@@ -148,11 +163,6 @@ struct Entity
 	void setHealth(float health)
 	{
 		this->m_health = health;
-		if(health > 0.0f)
-		{
-			float width = ((float)this->m_health / 1000.0f) * this->m_healthBack->getSize().x;
-			this->m_healthFront->setSize(FLOAT2(width, this->m_healthBack->getSize().y));
-		}
 	}
 
 	void healthVisible(bool _visible)

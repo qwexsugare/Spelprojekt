@@ -25,6 +25,7 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_lightRadius = this->m_effect->GetVariableByName("lightRadius")->AsScalar();
 	this->m_viewMatrix = this->m_effect->GetVariableByName("viewMatrix")->AsMatrix();
 	this->m_screenSize = this->m_effect->GetVariableByName("screenSize")->AsVector();
+	this->m_SSAO = this->m_effect->GetVariableByName("declSSAO")->AsVector();
 
 	this->m_randomTex = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
 	ID3D10ShaderResourceView* resource;
@@ -205,4 +206,9 @@ void DeferredRenderingEffectFile::setViewMatrix(D3DXMATRIX* _mat)
 void DeferredRenderingEffectFile::setScreenSize(D3DXVECTOR2 _size)
 {
 	this->m_screenSize->SetFloatVector((float*)_size);
+}
+
+void DeferredRenderingEffectFile::setSSAO(D3DXVECTOR4 _SSAO)
+{
+	this->m_SSAO->SetFloatVector((float*)_SSAO);
 }

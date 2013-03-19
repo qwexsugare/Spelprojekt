@@ -75,6 +75,11 @@ NetworkEntityMessage ServerEntity::getUpdate()
 	return e;
 }
 
+void ServerEntity::sendAttributesToClient()const
+{
+	//Trolololol
+}
+
 ContainmentType ServerEntity::contains(const BoundingSphere& _bs)const
 {
 	if(m_obb)

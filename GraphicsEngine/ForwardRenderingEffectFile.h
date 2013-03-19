@@ -9,6 +9,8 @@ private:
 	ID3D10EffectMatrixVariable* m_projectionMatrix;
 	ID3D10EffectScalarVariable* m_modelAlpha;
 
+	ID3D10EffectVectorVariable* m_color;
+
 	ID3D10EffectShaderResourceVariable* m_texture;
 	ID3D10EffectShaderResourceVariable* m_boneTexture;
 	
@@ -28,6 +30,7 @@ public:
 	void setModelMatrix(D3DXMATRIX _matrix);
 	void setViewMatrix(D3DXMATRIX _matrix);
 	void setProjectionMatrix(D3DXMATRIX _matrix);
+	void setColor(D3DXVECTOR4 _color);
 	
 	void setBoneTexture(ID3D10ShaderResourceView *_texture);
 

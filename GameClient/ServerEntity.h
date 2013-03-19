@@ -25,7 +25,7 @@ protected:
 	bool m_visible;
 
 public:
-	static enum Type{EnemyType, GoalType, HeroType, OtherType, ProjectileType, StaticType, TowerType, TowerBaseType};
+	static enum Type{EnemyType, GoalType, HeroType, OtherType, ProjectileType, StaticType, TowerType, TowerBaseType, BossType};
 	Type m_type;
 	ServerEntity();
 	ServerEntity(FLOAT3 m_pos);
@@ -37,6 +37,7 @@ public:
 	const BoundingOrientedBox* getObb()const { return this->m_obb; }
 	MessageQueue *getMessageQueue();
 	virtual NetworkEntityMessage getUpdate();
+	virtual void sendAttributesToClient()const;
 
 	void setId(unsigned int _id);
 	void setModelId(unsigned int _modelId);

@@ -43,6 +43,8 @@ cbuffer cbEveryFrame
 	matrix projectionMatrix;
 	matrix modelMatrix;
 
+	float4 stencilColor;
+
 	float modelAlpha;
 };
 
@@ -160,7 +162,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 
 float4 psFuckRoland(PSSceneIn input) : SV_Target
 {	
-	return float4(0.0f, 1.0f, 1.0f, 0.4f);
+	return stencilColor;
 }
 
 DepthStencilState stencilOpKeep

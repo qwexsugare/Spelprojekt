@@ -1,14 +1,14 @@
 #include "HudMenu.h"
 #include "ClientEntityHandler.h"
 
-HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
+HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos)
 {
 	this->m_network = _network;
 	m_Chat = false;
 	m_menuButton = new Button();
-	m_menuButton->Init(FLOAT2(0.5f, 0.75f), FLOAT2(0.25f, 0.25f), "menu_textures/menu_button.png", "");
+	m_menuButton->Init(FLOAT2(0.4f, 0.96f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-MainMenu.png", "");
 	m_leaveButton = new Button();
-	m_leaveButton->Init(FLOAT2(0.0f, 0.75f), FLOAT2(0.25f, 0.25f), "menu_textures/menu_button.png", "");
+	m_leaveButton->Init(FLOAT2(0.4f, 0.88f), FLOAT2(0.272916667f, 0.074074074f), "menu_textures\\SmallButton-MainMenu-LeaveGame.png", "");
 	m_leaveButton->setVisible(false);
 	m_done = false;
 	m_SkillHud.push_back(-1.5f);
@@ -40,49 +40,12 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_subTowerModel = NULL;
 	this->m_towerModel = NULL;
 
-	switch(_heroType)
-	{
-	case Hero::OFFICER:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("3");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("3");
-		break;
-	case Hero::DOCTOR:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("3");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("3");
-		break;
-	case Hero::ENGINEER:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("2");
-		m_Attributes.push_back("3");
-		m_Attributes.push_back("3");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("1");
-		break;
-	case Hero::THE_MENTALIST:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("4");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("2");
-		break;
-	case Hero::RED_KNIGHT:
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("5");
-		m_Attributes.push_back("2");
-		m_Attributes.push_back("1");
-		m_Attributes.push_back("4");
-		break;
-	}
+	// Stats (Attributes)
+	m_Attributes.push_back("");
+	m_Attributes.push_back("");
+	m_Attributes.push_back("");
+	m_Attributes.push_back("");
+	m_Attributes.push_back("");
 	//health 5,6
 	m_Attributes.push_back("400");
 	m_Attributes.push_back("400");
@@ -94,6 +57,31 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	// Mental res and damage 10, 11
 	m_Attributes.push_back("50");
 	m_Attributes.push_back("0-400");
+
+	m_heroType = _heroType;
+	switch(_heroType)
+	{
+	case Hero::OFFICER:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-1.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "Officer";
+		break;
+	case Hero::DOCTOR:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-4.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "Doctor";
+		break;
+	case Hero::ENGINEER:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-3.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "Engineer";
+		break;
+	case Hero::THE_MENTALIST:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-0.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "The Mentalist";
+		break;
+	case Hero::RED_KNIGHT:
+		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Character-2.png", FLOAT2(-0.91f, -0.85f),  FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f),9));
+		m_Attributes[7] = "Red Knight";
+		break;
+	}
 
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Lower.png", FLOAT2(0,0),  FLOAT2(2,2),7));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Minimap.png", FLOAT2(0,0),  FLOAT2(2,2),1));
@@ -164,9 +152,21 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1150,1060),55);
 	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1150,1030),55);
 	
-	this->m_AttributeText.resize(4);
+	this->m_AttributeText.resize(8);
 	this->m_AttributeText[0] = new TextLabel("","text5.png",INT2(90, 987),55);
-	this->m_AttributeText[0]->setText(m_Attributes[0] +"                    "+ m_Attributes[1] +"                    "+ m_Attributes[2]+"                    "+ m_Attributes[3]+"                    "+m_Attributes[4]);
+	this->m_AttributeText[0]->setText(m_Attributes[0]);
+	
+	this->m_AttributeText[4] = new TextLabel("","text5.png",INT2(160, 987),55);
+	this->m_AttributeText[4]->setText(m_Attributes[1]);
+	
+	this->m_AttributeText[5] = new TextLabel("","text5.png",INT2(230, 987),55);
+	this->m_AttributeText[5]->setText(m_Attributes[2]);
+	
+	this->m_AttributeText[6] = new TextLabel("","text5.png",INT2(300, 987),55);
+	this->m_AttributeText[6]->setText(m_Attributes[3]);
+	
+	this->m_AttributeText[7] = new TextLabel("","text5.png",INT2(370, 987),55);
+	this->m_AttributeText[7]->setText(m_Attributes[4]);
 	
 	this->m_AttributeText[1] = new TextLabel("","text6.png",INT2(180, 2),45);
 	this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
@@ -229,7 +229,7 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType)
 	this->displayShop(false);
 
 	//Healthbar
-	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.140740741f);
+	this->m_fullHealthPos = FLOAT2(-0.9375f, -0.200740741f);
 	this->m_healthBar = g_graphicsEngine->createSpriteSheet("menu_textures\\HealthBar.dds", this->m_fullHealthPos, FLOAT2(0.079166667f, 0.755555556f), INT2(10,1),2);
 	this->m_healthBar->playAnimation(INT2(0,0),INT2(9,0),true,10);
 
@@ -258,7 +258,7 @@ bool HudMenu::isDone()const
 	return m_done;
 }
 
-void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId)
+void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _heroId, vector<PLAYER_INFO> m_playerInfos, bool _yourHeroIsAlive)
 {
 	if(m_hasTargetEnemy)
 	{
@@ -269,8 +269,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			m_enemyIcons[m_currentTargetType]->setVisible(false);
 		}
 	}
-
-	m_menuButton->Update();
+	if(m_Buy == false)
+	{
+		m_menuButton->Update();
+	}
 	for(int i = 0; i < this->m_towerButtons.size(); i++)
 	{
 		this->m_towerButtons[i]->Update();
@@ -285,11 +287,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			{
 				g_graphicsEngine->removeModel(m_towerModel);
 				m_towerModel = NULL;
-			}
-			if(m_subTowerModel)
-			{
-				g_graphicsEngine->removeModel(m_subTowerModel);
-				m_subTowerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
 			}
 
 			switchedTower = true;
@@ -308,14 +311,16 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 				break;
 			case Skill::FROST_TURRET:
 				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
+				m_subTowerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 				m_subTowerModel->setAlpha(0.5f);
 				break;
 			case Skill::POISON_TURRET:
 				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
 				break;
 			}
-
+			
+			m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 			this->m_towerModel->setAlpha(0.5f);
 		}
 	}
@@ -326,11 +331,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(m_towerModel);
 			m_towerModel = NULL;
-		}
-		if(m_subTowerModel)
-		{
-			g_graphicsEngine->removeModel(m_subTowerModel);
-			m_subTowerModel = NULL;
+
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 		}
 		
 		switchedTower = true;
@@ -338,6 +344,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerId = this->m_towerButtons[0]->GetID();
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		this->m_towerModel->setAlpha(0.5f);
 	}
 	else if(g_keyboard->getKeyState('X') == Keyboard::KEY_PRESSED)
@@ -346,11 +353,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(m_towerModel);
 			m_towerModel = NULL;
-		}
-		if(m_subTowerModel)
-		{
-			g_graphicsEngine->removeModel(m_subTowerModel);
-			m_subTowerModel = NULL;
+
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 		}
 		
 		switchedTower = true;
@@ -358,8 +366,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerId = this->m_towerButtons[1]->GetID();
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		this->m_towerModel->setAlpha(0.5f);
-		m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f), false);
+		m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_subTowerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		m_subTowerModel->setAlpha(0.5f);
 	}
 	else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
@@ -368,11 +378,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(m_towerModel);
 			m_towerModel = NULL;
-		}
-		if(m_subTowerModel)
-		{
-			g_graphicsEngine->removeModel(m_subTowerModel);
-			m_subTowerModel = NULL;
+
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 		}
 		
 		switchedTower = true;
@@ -380,6 +391,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerId = this->m_towerButtons[2]->GetID();
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		this->m_towerModel->setAlpha(0.5f);
 	}
 	else if(g_keyboard->getKeyState('V') == Keyboard::KEY_PRESSED)
@@ -388,11 +400,12 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			g_graphicsEngine->removeModel(m_towerModel);
 			m_towerModel = NULL;
-		}
-		if(m_subTowerModel)
-		{
-			g_graphicsEngine->removeModel(m_subTowerModel);
-			m_subTowerModel = NULL;
+
+			if(m_subTowerModel)
+			{
+				g_graphicsEngine->removeModel(m_subTowerModel);
+				m_subTowerModel = NULL;
+			}
 		}
 		
 		switchedTower = true;
@@ -400,14 +413,19 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		this->m_towerId = this->m_towerButtons[3]->GetID();
 		ModelIdHolder m;
 		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
 		this->m_towerModel->setAlpha(0.5f);
 	}
 
-	this->m_AttributeText[0]->setText(	m_Attributes[0] +"           "+ 
-									m_Attributes[1] +"           "+ 
-									m_Attributes[2] +"          "+ 
-									m_Attributes[3] +"          "+
-									m_Attributes[4]);
+	this->m_AttributeText[0]->setText(m_Attributes[0]);
+	
+	this->m_AttributeText[4]->setText(m_Attributes[1]);
+	
+	this->m_AttributeText[5]->setText(m_Attributes[2]);
+	
+	this->m_AttributeText[6]->setText(m_Attributes[3]);
+	
+	this->m_AttributeText[7]->setText(m_Attributes[4]);
 	if(m_Buy == false)
 	{
 		this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
@@ -475,6 +493,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		else if(g_mouse->isRButtonPressed() == true)
 		{
 			g_graphicsEngine->removeModel(this->m_towerModel);
+			m_towerModel = NULL;
 			if(m_subTowerModel)
 			{
 				g_graphicsEngine->removeModel(this->m_subTowerModel);
@@ -486,11 +505,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	else if(m_Chat == false)
 	{
 		// YOU MUST ADD ALL WAITING FOR TARGET SKILLS HERE TO NOT EQUAL IF YOU DONT WANT MULTIPLE ACTIONS TO HAPPEN AT THE SAME TIME.
-		if(g_keyboard->getKeyState('Q') != Keyboard::KEY_UP ||
+		if(_yourHeroIsAlive && (g_keyboard->getKeyState('Q') != Keyboard::KEY_UP ||
 		(m_skillWaitingForTarget != Skill::HEALING_TOUCH && g_mouse->isLButtonDown() &&
 			m_Images[0]->intersects(FLOAT2(
 			g_mouse->getPos().x/float(g_graphicsEngine->getRealScreenSize().x)*2.0f-1.0f,
-			g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f))))
+			g_mouse->getPos().y/float(g_graphicsEngine->getRealScreenSize().y)*2.0f-1.0f)))))
 		{
 			// Find yourself in the entity vector
 			for(int entityIndex = 0; entityIndex < _entities.size(); entityIndex++)
@@ -739,6 +758,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 				this->displayShop(false);
 				m_Buy = false;
 			}
+			else if(g_keyboard->getKeyState(VK_ESCAPE) == Keyboard::KEY_PRESSED)
+			{
+				this->displayShop(false);
+				m_Buy = false;
+			}
 		}
 		else if(m_Buy == false)
 		{				
@@ -774,11 +798,11 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		}
 	}
 
-	if(m_menuButton->isClicked())
+	if(m_menuButton->isClicked() && m_Buy == false)
 	{
 		m_leaveButton->setVisible(!m_leaveButton->isVisible());
 	}
-	if(m_leaveButton->isVisible())
+	if(m_leaveButton->isVisible() && m_Buy ==false)
 	{
 		m_leaveButton->Update();
 		if(m_leaveButton->isClicked())
@@ -788,9 +812,9 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	{
 		NetworkTextMessage e = this->m_network->networkTextMessageFront();
 		for(int i = m_Chattext.size()-1; i > 0;i--)
-			{
-				m_Chattext[i]->setText(m_Chattext[i-1]->getText());
-			}
+		{
+			m_Chattext[i]->setText(m_Chattext[i-1]->getText());
+		}
 		this->m_Chattext[0]->setText(e.getTxtMessage());
 	}
 
@@ -1054,12 +1078,19 @@ void HudMenu::skillUsed(unsigned int index, unsigned int actionId, float cooldow
 
 void HudMenu::setHealth(int _health)
 {
-	stringstream ss;
-	ss << _health;
-	m_Attributes[5] = ss.str();
+	if(_health > 0)
+	{
+		stringstream ss;
+		ss << _health;
+		m_Attributes[5] = ss.str();
+	}
+	else
+		m_Attributes[5] = "0";
 
 	this->m_health = _health;
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - this->m_health / this->m_maxHealth * 0.495555556f));
+	float h = (1.0f - (float)this->m_health / (float)this->m_maxHealth);
+	h = min(1.0f, max(h, 0.0f));
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - h * 0.495555556f));
 }
 
 void HudMenu::setMaxHealth(int _maxHealth)
@@ -1069,7 +1100,9 @@ void HudMenu::setMaxHealth(int _maxHealth)
 	m_Attributes[6] = ss.str();
 
 	this->m_maxHealth = _maxHealth;
-	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - this->m_health / this->m_maxHealth * 0.495555556f));
+	float h = (1.0f - (float)this->m_health / (float)this->m_maxHealth);
+	h = min(1.0f, max(h, 0.0f));
+	this->m_healthBar->setPosition(FLOAT2(this->m_fullHealthPos.x, this->m_fullHealthPos.y - h * 0.495555556f));
 }
 
 void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
@@ -1139,9 +1172,10 @@ void HudMenu::setMentalDamage(int _md)
 
 void HudMenu::setMentalResistance(float _mr)
 {
+	_mr = (1.0f-_mr)*100;
 	stringstream ss;
 	ss << _mr;
-	m_Attributes[10] = ss.str();
+	m_Attributes[10] = ss.str() + " o/o";
 }
 
 void HudMenu::setPhysicalDamage(int _pd)
@@ -1153,9 +1187,10 @@ void HudMenu::setPhysicalDamage(int _pd)
 
 void HudMenu::setPhysicalResistance(float _pr)
 {
+	_pr = (1.0f-_pr)*100;
 	stringstream ss;
 	ss << _pr;
-	m_Attributes[8] = ss.str();
+	m_Attributes[8] = ss.str() + " o/o";
 }
 
 void HudMenu::setTowerConstruction(int _towerConstruction)

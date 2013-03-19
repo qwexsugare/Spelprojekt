@@ -560,6 +560,9 @@
     <ClCompile Include="TurretDamage.cpp">
       <Filter>Server\Skills</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkMissionStarted.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1153,6 +1156,9 @@
     <ClInclude Include="TurretDamage.h">
       <Filter>Server\Skills</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkMissionStarted.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -1163,9 +1169,6 @@
     </Filter>
     <Filter Include="Minimap">
       <UniqueIdentifier>{b08932c3-b369-445d-adc6-f32d86c4d95f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\Skills">
-      <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
     </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{f25e6485-cff5-47c1-8838-0782126752fa}</UniqueIdentifier>
@@ -1213,6 +1216,9 @@
       <UniqueIdentifier>{c974c764-1ddd-4c83-8702-17ef1d7a54fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Network">
+    </Filter>
+    <Filter Include="Client\Skills">
+      <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

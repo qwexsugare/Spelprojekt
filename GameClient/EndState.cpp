@@ -56,27 +56,27 @@ EndState::EndState(NetworkEndGameMessage endMessage)
 			break;
 		}
 
-		this->m_playerInfo[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,275 + i * 125), 75);
+		this->m_playerInfo[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,275 + i * 150), 75);
 		ss.clear();
 		ss.str("");
 
 		ss<<"Demons killed: "<<endMessage.getPlayers()[i].getDeamonsKilled();
-		this->m_playerMonstersKilled[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,325 + i * 125), 50);
+		this->m_playerMonstersKilled[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,325 + i * 150), 50);
 		ss.clear();
 		ss.str("");
 
 		ss<<"Damage done: "<<endMessage.getPlayers()[i].getPhysicalDamageDealth() + endMessage.getPlayers()[i].getMentalDamageDealth()<<" (physical: "<<endMessage.getPlayers()[i].getPhysicalDamageDealth()<<", mental: "<<endMessage.getPlayers()[i].getMentalDamageDealth()<<")";
-		this->m_playerDamageDone[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,355 + i * 125), 50);
+		this->m_playerDamageDone[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,355 + i * 150), 50);
 		ss.clear();
 		ss.str("");
 
 		ss<<"Damage taken: "<<endMessage.getPlayers()[i].getPhysicalDamageRecived() + endMessage.getPlayers()[i].getMentalDamageRecived()<<" (physical: "<<endMessage.getPlayers()[i].getPhysicalDamageRecived()<<", mental: "<<endMessage.getPlayers()[i].getMentalDamageRecived()<<")";
-		this->m_playerDamageTaken[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,385 + i * 125), 50);
+		this->m_playerDamageTaken[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,385 + i * 150), 50);
 		ss.clear();
 		ss.str("");
 
 		ss<<"Resources collected: "<<endMessage.getPlayers()[i].getGoldCollected();
-		this->m_playerResourcesCollected[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,415 + i * 125), 50);
+		this->m_playerResourcesCollected[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,415 + i * 150), 50);
 		ss.clear();
 		ss.str("");
 	}
