@@ -23,6 +23,7 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 		this->m_model = g_graphicsEngine->createModel(e->m_model, false);
 		this->m_model->setPosition(_position);
 		this->m_model->getAnimation()->Play("death", true);
+		this->m_model->setGlowIndex("glowIntensity1");
 		this->m_model->SetHat(e->m_model->getHat());
 		this->m_model->SetLeftHand(e->m_model->getLeftHand());
 		this->m_model->SetRightHand(e->m_model->getRightHand());

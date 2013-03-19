@@ -2,18 +2,20 @@
 #include "TowerPlacer.h"
 #include "NetworkHeroInitMessage.h"
 
-ServerThread::ServerThread(int _port) : sf::Thread()
+ServerThread::ServerThread(int _port, string _mapName) : sf::Thread()
 {
+	this->mapName=_mapName;
 	this->m_statistics = Statistics();
 	this->m_port = _port;
 	this->m_messageHandler = new MessageHandler();
 	this->m_messageQueue = new MessageQueue();
 	this->m_messageHandler->addQueue(this->m_messageQueue);
 	this->m_network = new Server(this->m_messageHandler);
+	this->m_network->setMapName(this->mapName);
 	this->m_entityHandler = new EntityHandler(this->m_messageHandler);
 	this->m_mapHandler = new MapHandler();
 	this->m_messageHandler->addQueue(this->m_mapHandler->getMessageQueue());
-	this->m_mapHandler->loadMap("maps/levelone/levelone.txt");
+	this->m_mapHandler->loadMap(_mapName);
 	// I crapped in ass
 	this->m_network->broadcast(NetworkEntityMessage());
 	TowerPlacer::init();
@@ -143,7 +145,7 @@ void ServerThread::update(float dt)
 			if(start == true)
 			{
 				this->m_state = State::LOADING;
-				m_network->broadcast(NetworkStartGameMessage("levelone"));
+				m_network->broadcast(NetworkStartGameMessage(this->mapName));
 				
 				vector<unsigned int> ids;
 				vector<Hero::HERO_TYPE> heroTypes;
@@ -227,7 +229,7 @@ void ServerThread::update(float dt)
 				for(int i = 0; i < this->m_network->getPlayers().size(); i++)
 				{
 					this->m_network->getPlayers()[i]->addResources(edm->resources);
-					Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseGoldCollected(edm->resources);
+					
 
 					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
 					{

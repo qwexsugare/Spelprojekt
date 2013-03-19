@@ -2819,11 +2819,60 @@ GameClient/models/Mace/Mace_UV_GM_GREEN2.png
 GameClient/models/Mace/Mace_UV_GM_Main2.png
 GameClient/models/Mace/Mace_UV_GM_PURPLE2.png
 GameClient/models/Mace/Mace_UV_GM_RED2.png
-<<<<<<< HEAD
-=======
+GameClient/models/Beast/BeastStunned.BFishA
+GameClient/models/Char/DoctorDeselected.BFishA
+GameClient/models/Char/DoctorIdle.BFishA
+GameClient/models/Char/DoctorSelected.BFishA
+GameClient/models/Char/DoctorSelectedIdle.BFishA
+GameClient/models/Char/MentalistDeselect.BFishA
+GameClient/models/Char/MentalistSelect.BFishA
+GameClient/models/Char/MentalistSelectIdle.BFishA
+GameClient/models/Door/ClosedIdle.BFishA
+GameClient/models/Door/Door.BFish
+GameClient/models/Door/DoorClose.BFishA
+GameClient/models/Door/DoorOpen.BFishA
+GameClient/models/Door/Dor.png
+GameClient/models/Door/OpenIdle.BFishA
+GameClient/models/Imp/ImpStunned.BFishA
+GameClient/models/Mace/Mace_UV_GM_GREEN2.png
+GameClient/models/Mace/Mace_UV_GM_Main2.png
+GameClient/models/Mace/Mace_UV_GM_PURPLE2.png
+GameClient/models/Mace/Mace_UV_GM_RED2.png
 GameClient/menu_textures/Text6.png
 GameClient/models/Char/EngiDeselect.BFishA
 GameClient/models/Char/EngiIdle.BFishA
 GameClient/models/Char/EngiSelect.BFishA
 GameClient/models/Char/EngiSelectIdle.BFishA
->>>>>>> e1d315f2c1148073f8a28685b4606c92a0a6d151
+GameClient/maps/levelone.txt
+GameClient/maps/levelonebmp1.png
+GameClient/maps/levelonebmp2.png
+GameClient/maps/levelonegm.png
+GameClient/maps/leveloneminimap(0).png
+GameClient/maps/leveloneminimap.png
+GameClient/maps/levelonewaves.txt
+GameClient/menu_textures/SmallButton-MainMenu-CreateGame.png
+GameClient/menu_textures/SmallButton-MainMenu-LeaveGame.png
+GameClient/models/Beast/Beast_Scaled_DM_HS.png.filepart
+GameClient/models/Beast/Beast_Scaled_Souleater_DM.png.filepart
+GameClient/models/Beast/Beast_Scaled_Thunder_DM.png.filepart
+GameClient/models/Beast/Beast_Scaled_UV.png.filepart
+GameClient/menu_textures/SmallButton-MainMenu-MainMenu.png
+GameClient/menu_textures/LobbyMenuSlider.png
+GameClient/particles/effects/test.gzp
+GameClient/menu_textures/Button-LobbyMenu-Player4.png
+<<<<<<< HEAD
+GameClient/particles/effects/test.gzp
+=======
+>>>>>>> 7b80f2eaa5c7468e13ea27e00eab06ede59cb2a6
+GameClient/particles/effects/test2.gzp
+GameClient/particles/effects/test3.gzp
+GameClient/particles/textures/Elec00.png
+GameClient/particles/textures/Elec10.png
+GameClient/particles/textures/Flame_Test.png
+GameClient/particles/textures/lightning.png
+<<<<<<< HEAD
+=======
+GameClient/models/Imp/Imp_UV_BOSS_DM.png
+GameClient/models/Imp/Imp_UV_BOSS_GM.png
+GameClient/models/Pentagram/Pentagram_2_DM.png
+>>>>>>> 7b80f2eaa5c7468e13ea27e00eab06ede59cb2a6

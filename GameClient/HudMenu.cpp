@@ -1,5 +1,6 @@
 #include "HudMenu.h"
 #include "ClientEntityHandler.h"
+#include "SoundWrapper.h"
 
 HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos)
 {
@@ -251,6 +252,9 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	this->m_targetModel->setAlpha(0.0f);
 	this->m_targetModel->neutralize();
 	this->m_targetModel->setShadow(false);
+
+	// Sounds
+	m_sellSkillsSound = createSoundHandle("buttons/CoinSell_Buy.wav", false, false);
 }
 
 bool HudMenu::isDone()const
@@ -762,6 +766,10 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			{
 				this->displayShop(false);
 				m_Buy = false;
+				for(int i = 0; i < m_shopButtons.size(); i++)
+				{
+					m_shopButtons[i]->setAllSkillSprites(false);
+				}
 			}
 		}
 		else if(m_Buy == false)
@@ -828,6 +836,9 @@ bool HudMenu::LockIsDown()
 {
 	if(this->m_Buttons[0]->Clicked() == 1)
 	{
+		if(m_NumberOfSkills > 2)
+			playSound(m_sellSkillsSound);
+
 		this->m_network->sendMessage(NetworkBuySkillMessage(Skill::SELL));
 		m_NumberOfSkills = 2;
 		m_SkillHud[0] = -1.5f;
@@ -846,8 +857,6 @@ bool HudMenu::LockIsDown()
 		{
 			m_DontChange[i] = false;
 		}
-
-		this->m_NumberOfSkills = 2;
 
 		return true;
 	}
@@ -882,6 +891,8 @@ bool HudMenu::MenuIsDown()
 
 HudMenu::~HudMenu(void)
 {
+	stopSound(m_sellSkillsSound);
+	deactivateSound(m_sellSkillsSound);
 	delete m_menuButton;
 	delete m_leaveButton;
 	for(int i = 0; i < this->m_shopButtons.size(); i++)

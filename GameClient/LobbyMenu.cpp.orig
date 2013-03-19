@@ -586,11 +586,21 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		break;
 	case 2:
 		buttonIndex = 10;
+<<<<<<< HEAD
+		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.2f);
+		break;
+	case 3:
+		buttonIndex = 11;
+		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.2f);
+=======
+		this->m_Buttons[10]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[10]->getPos()+FLOAT2(0.0f, -0.08f);
 		break;
 	case 3:
 		buttonIndex = 11;
+		this->m_Buttons[11]->setCurrentFrame(INT2(2, 0));
 		pos = m_Buttons[11]->getPos()+FLOAT2(0.0f, -0.08f);
+>>>>>>> cecb31ee2bf5f4bd13fd48ad8fce6d6d37ed0d34
 		break;
 	}
 
@@ -758,23 +768,39 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 	{
 	case 0:
 		//pos = INT2(0.675f, 0.2f);
-		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+<<<<<<< HEAD
+		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
 		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 1:
 		//pos = INT2(0.8f, 0.2f);
-		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
 		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 2:
 		//pos = INT2(0.675f, -0.2f);
-		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		pos = INT2(1920/2.0f*0.675f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
 		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 3:
 		//pos = INT2(0.8f, -0.2f);
-		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		pos = INT2(1920/2.0f*0.8f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.15f));
 		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
+=======
+		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		break;
+	case 1:
+		//pos = INT2(0.8f, 0.2f);
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		break;
+	case 2:
+		//pos = INT2(0.675f, -0.2f);
+		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		break;
+	case 3:
+		//pos = INT2(0.8f, -0.2f);
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+>>>>>>> cecb31ee2bf5f4bd13fd48ad8fce6d6d37ed0d34
 		break;
 	}
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
