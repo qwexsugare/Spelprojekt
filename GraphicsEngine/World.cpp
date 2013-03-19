@@ -453,6 +453,7 @@ void World::render()
 						if(m_models[i]->getRightHand())
 						{
 							this->m_deferredSampler->setTexture(m_models[i]->getRightHand()->subMeshes[m]->textures["color"]);
+							this->m_deferredSampler->setGlowMap(m_models[i]->getRightHand()->subMeshes[m]->textures["glowIntensity3"]);
 
 							this->m_deferredSampler->setPropsMatrix(m_models[i]->getAnimation()->getRightHandMatrix());
 							this->m_deviceHandler->setVertexBuffer(m_models[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
