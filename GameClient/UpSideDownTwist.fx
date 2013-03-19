@@ -51,7 +51,7 @@ void UsDTwistSO(point Particle input[1], inout PointStream<Particle> pStream)
 
 GeometryShader USDTwistStreamOut = ConstructGSWithSO(
 	CompileShader( gs_4_0, UsDTwistSO() ),
-	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x");
+	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x;");
 
 //*********
 // DrawTech
@@ -59,7 +59,7 @@ GeometryShader USDTwistStreamOut = ConstructGSWithSO(
 
 VS_OUT UsDTwistVS(Particle input)
 {
-	VS_OUT output;
+	VS_OUT output = (VS_OUT)0;
 
 	float t = input.age;
 
@@ -77,6 +77,8 @@ VS_OUT UsDTwistVS(Particle input)
 	output.pos = input.pos  + float3(0, t*2 , 0);
 
 	float maxAge = 2;
+
+	output.vel = input.vel;
 
 	//t += 2/2;
 

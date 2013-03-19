@@ -57,7 +57,7 @@ void SphereSO(point Particle input[1], inout PointStream<Particle> pStream)
 
 GeometryShader SphereStreamOut = ConstructGSWithSO(
 	CompileShader( gs_4_0, SphereSO() ),
-	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x");
+	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x;");
 
 //*********
 // DrawTech
@@ -78,6 +78,8 @@ VS_OUT SphereVS(Particle input)
 	output.pos.x += input.pos.x + (velx * t);
 	output.pos.y += input.pos.y + (velz * t);
 	output.pos.z += input.pos.z + (velz * t);
+
+	output.vel = input.vel;
 
 	output.pos += emitPosW.xyz;
 

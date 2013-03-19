@@ -17,15 +17,7 @@ struct VS_OUT
 	float2 size	: SIZE;
 	float4 color: COLOR;
 	uint type	: TYPE;
-};
-
-struct VS_OUT2
-{
-	float3 pos	: POSITION;
-	float2 size	: SIZE;
-	float4 color: COLOR;
-	uint type	: TYPE;
-	uint tex	: TEX;
+	float3 vel	: VELOCITY;
 };
 
 struct GS_OUT
@@ -44,7 +36,13 @@ cbuffer cb
 	float2 size;
 	float totalTime;
 	float dt;
+	float lifeTime;
+	float emitRate;
+	float speed;
+	float offset;
 	float4x4 viewProj;
+	float4x4 view;
+	float4x4 proj;
 	bool isAlive;
 
 };
