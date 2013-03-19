@@ -4,6 +4,7 @@
 
 CreateGameMenu::CreateGameMenu(void)
 {
+	this->choseLevel="maps/levelone/levelone.txt";
 	FLOAT2 m_size, m_side; 
 	m_WriteIP		=	false;
 	m_WriteName		=	false;
@@ -33,7 +34,7 @@ CreateGameMenu::CreateGameMenu(void)
 
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
-	this->m_Buttons.resize(6);
+	this->m_Buttons.resize(7);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,1,5);
 	this->m_Buttons[1] = new Button();
@@ -45,7 +46,9 @@ CreateGameMenu::CreateGameMenu(void)
 	this->m_Buttons[4] = new Button();
 	this->m_Buttons[4]->Init(FLOAT2(0.2f,  -0.56f),FLOAT2(0.3125f*2,0.05555555f*1.5f),"menu_textures\\Button-Text.png","",0,0,1,5);
 	this->m_Buttons[5] = new Button();
-	this->m_Buttons[5]->Init(FLOAT2(-0.65f,  -0.1f),FLOAT2(0.364583333f,0.285185185f),"menu_textures\\Level1_Button.png","",0,0,1,5);
+	this->m_Buttons[5]->Init(FLOAT2(-0.65f,  -0.0f),FLOAT2(0.364583333f,0.285185185f),"menu_textures\\Level1_Button.png","",0,0,1,5);
+	this->m_Buttons[6] = new Button();
+	this->m_Buttons[6]->Init(FLOAT2(-0.25f,  -0.0f),FLOAT2(0.364583333f,0.285185185f),"menu_textures\\Level2_Button.png","",0,0,1,5);
 }
 void CreateGameMenu::Update(float _dt)
 {
@@ -55,7 +58,11 @@ void CreateGameMenu::Update(float _dt)
 	}
 	if (LevelOneIsDown())
 	{
-
+		this->choseLevel="maps/levelone/levelone.txt";
+	}
+	if(LevelTwoIsDown())
+	{
+		this->choseLevel="maps/leveltwo/leveltwo.txt";
 	}
 	if (MainWriteGameIsDown() || m_WriteGame == true)
 		this->m_Label[0]->update(_dt);
@@ -113,6 +120,7 @@ bool CreateGameMenu::MainWriteNameIsDown()
 	}
 	return false;
 }
+
 CreateGameMenu::~CreateGameMenu(void)
 {
 	for(int i = 0; i < m_Label.size();i++)
@@ -124,7 +132,15 @@ CreateGameMenu::~CreateGameMenu(void)
 }
 bool CreateGameMenu::LevelOneIsDown()
 {
-	if(this->m_Buttons[1]->Clicked() == 1)
+	if(this->m_Buttons[5]->Clicked() == 1)
+	{
+		return true;
+	}
+	return false;
+}
+bool CreateGameMenu::LevelTwoIsDown()
+{
+	if(this->m_Buttons[6]->Clicked() == 1)
 	{
 		return true;
 	}
@@ -149,4 +165,8 @@ void CreateGameMenu::savePlayerName()
 {
 	g_configFile->setPlayerName(this->getPlayerName());
 	g_configFile->save();
+}
+string CreateGameMenu::getChoseLevel()
+{
+	return this->choseLevel;
 }

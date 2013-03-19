@@ -77,7 +77,7 @@ void Server::goThroughSelector()
 					this->m_players[nextEmptyArrayPos]=p;
 					this->clients[nextEmptyArrayPos]=incSocket;
 					this->m_messageQueue->pushOutgoingMessage(new JoinedGameMessage(nextEmptyArrayPos));
-					this->broadcast(NetworkWelcomeMessage("levelone"));
+					this->broadcast(NetworkWelcomeMessage(this->mapName));
 					this->nrOfPlayers++;
 					this->m_messageHandler->addQueue(p->getMessageQueue());
 				}
@@ -746,4 +746,8 @@ vector<Player*> Server::getPlayers()
 			p.push_back(this->m_players[i]);
 	}
 	return p;
+}
+void Server::setMapName(string n)
+{
+	this->mapName=n;
 }

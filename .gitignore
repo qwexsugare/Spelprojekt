@@ -2859,6 +2859,7 @@ GameClient/models/Beast/Beast_Scaled_UV.png.filepart
 GameClient/menu_textures/SmallButton-MainMenu-MainMenu.png
 GameClient/menu_textures/LobbyMenuSlider.png
 GameClient/particles/effects/test.gzp
+GameClient/menu_textures/Button-LobbyMenu-Player4.png
 GameClient/particles/effects/test2.gzp
 GameClient/particles/effects/test3.gzp
 GameClient/particles/textures/Elec00.png
