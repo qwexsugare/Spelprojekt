@@ -1,8 +1,5 @@
 #include "Camera.h"
 
-const float Camera::X_OFFSET = 6.0f; //8.8f;
-const float Camera::Z_OFFSET = 4.0f; //5.86f;
-
 Camera::Camera()
 {
 
@@ -19,6 +16,9 @@ Camera::Camera(INT2 _configScreenSize, INT2 _actualScreenSize)
 
 	this->updateViewMatrix();
 	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI/4.0f,  float(m_configScreenSize.x) / float(m_configScreenSize.y), 0.1f, 1000000.0f);
+	
+	m_xOffset = 6.0f; //8.8f;
+	m_zOffset = 4.0f; //5.86f;
 }
 
 Camera::~Camera()
@@ -56,12 +56,12 @@ void Camera::calcPick(D3DXVECTOR3& _pickDirOut, D3DXVECTOR3& _pickOrigOut, INT2 
 
 float Camera::getXOffset()const
 {
-	return X_OFFSET;
+	return m_xOffset;
 }
 
 float Camera::getZOffset()const
 {
-	return Z_OFFSET;
+	return m_zOffset;
 }
 
 const D3DXVECTOR3& Camera::getPos()const
@@ -88,6 +88,14 @@ void Camera::updateViewMatrix()
 {
 	D3DXMatrixLookAtLH(&this->m_viewMatrix, &this->m_position, &(this->m_position+m_forward), &this->m_up);
 	D3DXMatrixMultiply(&this->m_viewProjectionMatrix, &this->m_viewMatrix, &this->m_projectionMatrix);
+}
+
+void Camera::moveY(float _val)
+{
+	m_position.y += _val;
+	m_xOffset += _val;
+	m_zOffset += _val;
+	this->updateViewMatrix();
 }
 
 void Camera::moveRelative(float forward, float right, float up)

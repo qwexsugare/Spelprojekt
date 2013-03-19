@@ -16,10 +16,9 @@ private:
 	D3DXMATRIX m_viewProjectionMatrix;
 	INT2 m_configScreenSize;
 	INT2 m_actualScreenSize;
+	float m_xOffset;
+	float m_zOffset;
 public:
-	static const float X_OFFSET;
-	static const float Z_OFFSET;
-
 	D3DXVECTOR3 m_forward;
 
 	Camera();
@@ -37,6 +36,7 @@ public:
 
 	void updateViewMatrix();
 	
+	DECLDIR void moveY(float _val);
 	DECLDIR void moveRelative(float forward, float right, float up);	//Move based on the forward vector
 	DECLDIR void moveStatic(float forward, float right, float up);
 	DECLDIR void rotate(float x, float y, float z);
