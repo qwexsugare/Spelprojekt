@@ -2876,3 +2876,8 @@ GameClient/particles/textures/lightning.png
 GameClient/models/Imp/Imp_UV_BOSS_DM.png
 GameClient/models/Imp/Imp_UV_BOSS_GM.png
 GameClient/models/Pentagram/Pentagram_2_DM.png
+GameClient/menu_textures/Button-LoreMenu-ReadLore.png
+GameClient/menu_textures/Button-MainMenu-StartGame.png
+GameClient/menu_textures/SmallButton-MainMenu-Help.png
+GameClient/menu_textures/SmallButton-MainMenu-Ready.png
+GameClient/menu_textures/SmallButton-MainMenu-StartGame.png

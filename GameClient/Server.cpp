@@ -732,6 +732,9 @@ bool Server::handleClientInData(int socketIndex, sf::Packet packet, NetworkMessa
 		Statistics::getStatisticsPlayer(socketIndex).setPlayerName(pname);
 		this->broadcast(NetworkPlayerJoinedMessage(socketIndex, pname));
 		break;
+	case NetworkMessage::PLAYERDISCONNECTED:
+		this->broadcast(NetworkHeroSelectedMessage(Hero::HERO_TYPE::NONE, socketIndex));
+		break;
 	}
 
 	return protFound;

@@ -44,6 +44,9 @@ ArrowClientSkillEffect::~ArrowClientSkillEffect()
 	if(m_graphicalEffect)
 	{
 		g_graphicsEngine->removeModel(m_graphicalEffect);
+	}
+	if(this->m_particleSystem)
+	{
 		g_graphicsEngine->removeParticleEngine(this->m_particleSystem);
 	}
 }
@@ -59,33 +62,48 @@ void ArrowClientSkillEffect::update(float _dt)
 		if(this->m_aimTime <= 0.0f)
 		{
 			Entity* master = ClientEntityHandler::getEntity(this->m_masterId);
+
 			if(master != NULL && target != NULL)
 			{
-				m_graphicalEffect = g_graphicsEngine->createModel("Arrow", master->m_model->getRightHandPosition());
-				m_graphicalEffect->setAlpha(0.999f);
-
-				FLOAT3 dist = target->m_model->getPosition()-m_graphicalEffect->getPosition();
+				FLOAT3 dist = target->m_model->getPosition()-master->m_model->getRightHandPosition();
 				FLOAT3 movement = dist/dist.length();
+				this->m_pos = master->m_model->getRightHandPosition() + movement;
 
-				this->m_graphicalEffect->move(movement * 0.1f);
-
-				D3DXVECTOR3 newPos = master->m_model->getRightHandPosition().toD3DXVector();
-				this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(newPos, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+				if(master->m_type == ServerEntity::HeroType)
+				{				
+					this->m_graphicalEffect = g_graphicsEngine->createModel("Arrow", this->m_pos);
+					this->m_graphicalEffect->setAlpha(0.999f);
+					this->m_graphicalEffect->move(movement * 0.1f);
+					this->m_graphicalEffect->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+				}
+				else if(master->m_type == ServerEntity::EnemyType)
+				{
+					D3DXVECTOR3 newPos = master->m_model->getRightHandPosition().toD3DXVector();
+					this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+				}
 			}
 		}
 	}
-	else if(m_graphicalEffect && target && target->m_health > 0)
+	else if(target && target->m_health > 0)
 	{
-		D3DXVECTOR3 newPos = D3DXVECTOR3(m_graphicalEffect->getPosition().x, m_graphicalEffect->getPosition().y, m_graphicalEffect->getPosition().z);
-		this->m_particleSystem->setPosition(newPos);
-
-		FLOAT3 dist = target->m_model->getPosition()-m_graphicalEffect->getPosition();
+		FLOAT3 dist = target->m_model->getPosition()-this->m_pos;
 		FLOAT3 movement = dist/dist.length()*RangedAttack::VELOCITY*_dt;
+		this->m_pos = this->m_pos + movement;
 
 		if(dist.length() > movement.length())
 		{
-			m_graphicalEffect->move(movement);
-			m_graphicalEffect->setRotation(FLOAT3(atan2(-movement.x, -movement.z), 0.0f, 0.0f));
+			if(this->m_graphicalEffect)
+			{
+				m_graphicalEffect->move(movement);
+				m_graphicalEffect->setRotation(FLOAT3(atan2(-movement.x, -movement.z), 0.0f, 0.0f));
+			}
+
+			if(this->m_particleSystem)
+			{
+				D3DXVECTOR3 incY(0, 0.5f, 0);
+				D3DXVECTOR3 newPos = D3DXVECTOR3(this->m_particleSystem->getPosition().x,this->m_particleSystem->getPosition().y, this->m_particleSystem->getPosition().z) + movement.toD3DXVector();
+				this->m_particleSystem->setPosition(D3DXVECTOR3(m_pos.x, m_pos.y, m_pos.z) + incY);
+			}
 		}
 		else
 		{

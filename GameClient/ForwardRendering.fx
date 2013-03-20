@@ -42,6 +42,7 @@ cbuffer cbEveryFrame
 	matrix viewMatrix;
 	matrix projectionMatrix;
 	matrix modelMatrix;
+	matrix propsMatrix;
 
 	float4 stencilColor;
 
@@ -152,6 +153,19 @@ PSSceneIn VSAnimScene(VSAnimSceneIn input)
 	return output;
 }
 
+PSSceneIn VSAnimPropScene(VSAnimSceneIn input)
+{
+	PSSceneIn output = (PSSceneIn)0;
+
+	matrix viewProjection = mul(viewMatrix, projectionMatrix);
+	matrix newModelMatrix = mul(propsMatrix, modelMatrix);
+
+	// transform the point into view space
+	output.Pos = mul( float4(input.Pos,1.0), mul(newModelMatrix, viewProjection) );
+
+	return output;
+}
+
 float4 PSScene(PSSceneIn input) : SV_Target
 {	
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
@@ -223,6 +237,21 @@ technique10 ForwardAnimation
 		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
 
         SetVertexShader( CompileShader( vs_4_0, VSAnimScene() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, psFuckRoland() ) );
+
+		SetDepthStencilState( stencilOpKeep, 1 );
+	    SetRasterizerState( rs );
+    }  
+}
+
+technique10 RenderPropForward
+{
+    pass p0
+    {
+		SetBlendState( SrcAlphaBlend, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+
+        SetVertexShader( CompileShader( vs_4_0, VSAnimPropScene()));
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, psFuckRoland() ) );
 

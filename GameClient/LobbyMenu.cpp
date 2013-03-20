@@ -34,20 +34,20 @@ LobbyMenu::LobbyMenu(bool _host)
 	
 	this->m_Buttons.resize(14);
 	this->m_Buttons[0] = new Button();
-	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
+	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.89f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
 	this->m_Buttons[1] = new Button();
 	this->m_Buttons[1]->Init(FLOAT2(-0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Store.png","",0,0,2,5);
 	this->m_Buttons[2] = new Button();
-	this->m_Buttons[2]->Init(FLOAT2(0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,2,5);
+	this->m_Buttons[2]->Init(FLOAT2(0.140625f,  -0.9f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,2,5);
 	this->m_Buttons[3] = new Button();
 	this->m_Buttons[3]->Init(FLOAT2(0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-CharacterInformation.png","",0,0,2,5);
 	this->m_Buttons[4] = new Button();
 	this->m_Buttons[4]->Init(FLOAT2(0.28125f*1.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-LevelInformation.png","",0,0,2,5);
 	this->m_Buttons[5] = new Button();
 	if(m_host)
-		this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,2,5);
+		this->m_Buttons[5]->Init(FLOAT2(-0.140625f,  -0.9f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-CharacterMenu-StartGame.png","",0,0,2,5);
 	else
-		this->m_Buttons[5]->Init(FLOAT2(-0.28125f*2.5f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
+		this->m_Buttons[5]->Init(FLOAT2(-0.140625f,  -0.9f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Ready.png","",0,0,2,5);
 	
 	this->m_Buttons[0]->setVisible(false);
 	this->m_Buttons[1]->setVisible(false);
@@ -751,7 +751,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	m_currentSelections[_playerIndex] = _type;
 }
 
-void LobbyMenu::setPlayerName(int _playerIndex, string _name)
+void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
 {
 	INT2 pos;
 	switch(_playerIndex)
@@ -773,12 +773,17 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name)
 		break;
 	case 3:
 		//pos = INT2(0.8f, -0.2f);
-		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.17f));
 		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
 		break;
 	}
+
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
-	this->m_Label[4]->setText(_name);
+	
+	if(changeText == true)
+	{
+		this->m_Label[4]->setText(_name);
+	}
 }
 
 void LobbyMenu::setReady(int _playerIndex)
