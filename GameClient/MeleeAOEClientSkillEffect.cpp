@@ -13,11 +13,11 @@ MeleeAOEClientSkillEffect::MeleeAOEClientSkillEffect(unsigned int _masterId, uns
 	
 	if(master != NULL)
 	{
-		master->m_model->getAnimation()->PlayLoop("2Hattack", -1, _animationSpeed);
-
 		Entity* target = ClientEntityHandler::getEntity(_targetId);
 		if(target)
 		{
+			master->m_model->getAnimation()->PlayLoop("2Hattack", -1, _animationSpeed);
+
 			if(master->m_type == ServerEntity::HeroType)
 			{
 				// Play impact sound

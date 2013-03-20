@@ -23,7 +23,7 @@ MapHandler::MapHandler()
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
-	this->m_lives = 100;
+	this->m_lives = 2;
 	Statistics::setStartLife(this->m_lives);
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
@@ -237,7 +237,10 @@ void MapHandler::loadMap(std::string filename)
 				optimizedPoints[i] = points[i];
 			}
 
-			paths[m_nrOfPaths++] = Path(nrOfPoints, optimizedPoints);
+			//if there just is one point, it doesnt count as a path, but maybe a spawn point
+			if(nrOfPoints>1)
+				paths[m_nrOfPaths++] = Path(nrOfPoints, optimizedPoints);
+
 			delete []optimizedPoints;
 		}
 	}
@@ -323,6 +326,18 @@ void MapHandler::loadMap(std::string filename)
 				}
 				this->missions.push_back(new Mission());
 				this->missions[this->missions.size()-1]->createMission(missionType, posx, posz, startTime, endTime,missionName);
+			}
+			if(type[0]=='g')
+			{
+				int k=0;
+				file >> k;
+				this->demonCoins=k;
+			}
+			if(type[0]=='l')
+			{
+				int k=0;
+				file >> k;
+				this->m_lives=k;
 			}
 			
 		}
@@ -474,4 +489,8 @@ int MapHandler::getLivesLeft()
 MessageQueue* MapHandler::getMessageQueue()
 {
 	return this->m_messageQueue;
+}
+int MapHandler::getDemonCoins()
+{
+	return this->demonCoins;
 }

@@ -588,7 +588,7 @@ void World::render()
 					if(transparentModels[i]->getRightHand())
 					{
 						this->m_deferredSampler->setTexture(transparentModels[i]->getRightHand()->subMeshes[m]->textures["color"]);
-						this->m_deferredSampler->setGlowMap(m_models[i]->getRightHand()->subMeshes[m]->textures[m_models[i]->getWeaponGlowIndex()]);
+						this->m_deferredSampler->setGlowMap(transparentModels[i]->getRightHand()->subMeshes[m]->textures[m_models[i]->getWeaponGlowIndex()]);
 
 						this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getRightHandMatrix());
 						this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
