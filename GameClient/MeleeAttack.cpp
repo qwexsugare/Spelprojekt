@@ -1,6 +1,7 @@
 #include "MeleeAttack.h"
 
 const float MeleeAttack::RANGE = 1.0f;
+const float MeleeAttack::MINIMUM_DAMAGE_MULTIPLIER = 0.5f;
 
 MeleeAttack::MeleeAttack() : Skill(Skill::MELEE_ATTACK, 0.0f)
 {
@@ -27,4 +28,9 @@ bool MeleeAttack::activate(unsigned int _targetId, unsigned int _senderId)
 void MeleeAttack::updateSpecificSkill(float dt)
 {
 
+}
+
+float MeleeAttack::getMinimumDamageMultiplier()
+{
+	return MeleeAttack::MINIMUM_DAMAGE_MULTIPLIER;
 }

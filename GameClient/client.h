@@ -32,6 +32,7 @@
 #include "NetworkTextMessage.h"
 #include "NetworkEntityAttributeMessage.h"
 #include "NetworkMissionStarted.h"
+#include "NetworkDisconnectMessage.h"
 
 using namespace std;
 

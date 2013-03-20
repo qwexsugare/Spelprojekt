@@ -1,6 +1,6 @@
 #include "TargetAcquiredPermissionToFire.h"
 
-const float TargetAcquiredPermissionToFire::COOLDOWN = 90.0f;
+const float TargetAcquiredPermissionToFire::COOLDOWN = 60.0f;
 const float TargetAcquiredPermissionToFire::RANGE = 2.0f;
 
 TargetAcquiredPermissionToFire::TargetAcquiredPermissionToFire() : Skill(Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE, TargetAcquiredPermissionToFire::COOLDOWN)
