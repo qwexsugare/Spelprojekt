@@ -563,6 +563,9 @@
     <ClCompile Include="NetworkMissionStarted.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="MissionEndMessage.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1158,6 +1161,9 @@
     </ClInclude>
     <ClInclude Include="NetworkMissionStarted.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="MissionEndMessage.h">
+      <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

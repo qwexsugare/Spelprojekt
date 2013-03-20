@@ -747,13 +747,49 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		}
 		break;
 	}
+
+	if(changeText)
+	{
+		switch(m_currentSelections[_playerIndex])
+		{
+		case Hero::OFFICER:
+			m_officerPortrait2->setVisible(false);
+			break;
+		case Hero::RED_KNIGHT:
+			m_redKnightPortrait2->setVisible(false);
+			break;
+		case Hero::ENGINEER:
+			m_engineerPortrait2->setVisible(false);
+			break;
+		case Hero::DOCTOR:
+			m_doctorPortrait2->setVisible(false);
+			break;
+		case Hero::THE_MENTALIST:
+			m_mentalistPortrait2->setVisible(false);
+			break;
+		}
+	
+		switch(_type)
+		{
+		case Hero::OFFICER:
+			this->m_officerPortrait2->setVisible(true);
+			break;
+		case Hero::RED_KNIGHT:
+			this->m_redKnightPortrait2->setVisible(true);
+			break;
+		case Hero::ENGINEER:
+			this->m_engineerPortrait2->setVisible(true);
+			break;
+		case Hero::DOCTOR:
+			this->m_doctorPortrait2->setVisible(true);
+			break;
+		case Hero::THE_MENTALIST:
+			this->m_mentalistPortrait2->setVisible(true);
+			break;
+		}
+	}
 	
 	m_currentSelections[_playerIndex] = _type;
-	
-	if(changeText == true)
-	{
-		this->m_Label[4]->setText("holla din fuling");
-	}
 }
 
 void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
@@ -783,6 +819,11 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
 	}
 
 	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
+	
+	if(changeText == true)
+	{
+		this->m_Label[4]->setText(_name);
+	}
 }
 
 void LobbyMenu::setReady(int _playerIndex)

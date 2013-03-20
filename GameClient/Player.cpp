@@ -5,7 +5,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_resources = 1500;
+	this->m_resources = 1700;
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = NULL;
 	this->m_ready = false;
@@ -91,7 +91,10 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		bool skillBought = false;
 		Skill* a = NULL;
 		int attributeCost = 100 * (pow(1.12f, this->m_attributesBought));
-
+		if (attributeCost >= 5000)
+		{
+			attributeCost = 5000;
+		}
 		switch(bsm.getActionId())
 		{
 		case Skill::STRENGTH:
