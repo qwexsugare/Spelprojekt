@@ -154,7 +154,7 @@ void ClientHandler::update(float _dt)
 			this->m_client->disconnect();
 			delete this->m_serverThread;
 			this->m_serverThread = NULL;
-			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage());
+			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage(),((GameState*)tempState)->getMissionEndMessage());
 			break;
 		case State::LOADING:
 			{

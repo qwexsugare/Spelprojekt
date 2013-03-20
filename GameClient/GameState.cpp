@@ -422,14 +422,18 @@ void GameState::update(float _dt)
 		if(m.getStartOrEnd()=="start")
 		{
 			this->missionStartedSprite->setVisible(true);
+			this->em.addMission(m.getMissionName(),"Running");
+			
 		}
 		if(m.getStartOrEnd()=="failed")
 		{
 			this->missionFailedSprite->setVisible(true);
+			this->em.setStatusForMission(m.getMissionName(),"Failed");
 		}
 		if(m.getStartOrEnd()=="completed")
 		{
 			this->missionCompletedSprite->setVisible(true);
+			this->em.setStatusForMission(m.getMissionName(),"Completed");
 		}
 		this->missionTimer=3.0f;
 	}
@@ -1315,4 +1319,8 @@ void GameState::playWallDeathSound(FLOAT3 _position)
 NetworkEndGameMessage GameState::getEndGameMessage()
 {
 	return this->m_endMessage;
+}
+MissionEndMessage GameState::getMissionEndMessage()
+{
+	return this->em;
 }

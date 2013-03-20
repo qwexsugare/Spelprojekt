@@ -14,11 +14,13 @@
 #include "PlayerInfo.h"
 #include "Text.h"
 #include "AmbientSoundsManager.h"
+#include "MissionEndMessage.h"
 //#include "Cursor.h"
 
 class GameState : public State
 {
 private:
+	MissionEndMessage em;
 	vector<PLAYER_INFO> m_playerInfos;
 	HudMenu *m_hud;
 	Text* m_fpsText;
@@ -75,4 +77,5 @@ public:
 	void update(float _dt);
 
 	NetworkEndGameMessage getEndGameMessage();
+	MissionEndMessage getMissionEndMessage();
 };

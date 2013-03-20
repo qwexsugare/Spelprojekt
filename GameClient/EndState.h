@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "NetworkEndGameMessage.h"
 #include "Button.h"
+#include "MissionEndMessage.h"
 
 class EndState : public State
 {
@@ -19,10 +20,12 @@ private:
 	MyText *m_playerDamageDone[4];
 	MyText *m_playerDamageTaken[4];
 	MyText *m_playerResourcesCollected[4];
-
+	MyText *m_healedFor[4];
+	vector<MyText*> textures;
+	MyText * missionText;
 	Button *m_mainMenuButton;
 public:
-	EndState(NetworkEndGameMessage endMessage);
+	EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem);
 	~EndState();
 
 	StateEnum nextState();

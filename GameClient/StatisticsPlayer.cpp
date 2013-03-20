@@ -175,7 +175,10 @@ void StatisticsPlayer::setPhysicalDamageRecieved(int damage)
 {
 	this->physicalDamageRecived = damage;
 }
-
+void StatisticsPlayer::setHealedFor(int n)
+{
+	this->healedAmount=n;
+}
 void StatisticsPlayer::resetPlayer()
 {
 	this->hero=StatisticsPlayer::OFFICER;
