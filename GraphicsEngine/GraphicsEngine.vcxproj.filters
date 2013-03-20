@@ -346,5 +346,8 @@
     <FxCompile Include="..\GameClient\Electric.fx">
       <Filter>Shader files\ParticleBehavior</Filter>
     </FxCompile>
+    <FxCompile Include="..\GameClient\Aura.fx">
+      <Filter>Shader files\ParticleBehavior</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

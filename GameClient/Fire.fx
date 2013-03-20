@@ -72,7 +72,7 @@ VS_OUT FireVS(Particle input)
 	output.vel = input.vel;
 
 	float opacity = 1;//t*2 - t*t;
-	output.color = float4(1.0f, 1.0f, 1.0f, opacity);
+	output.color = tintColor;//float4(1.0f, 1.0f, 1.0f, opacity);
 
 	output.size = input.size;
 	output.type = input.type;

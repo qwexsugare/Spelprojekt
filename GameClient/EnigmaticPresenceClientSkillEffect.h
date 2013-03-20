@@ -7,8 +7,8 @@ class EnigmaticPresenceClientSkillEffect : public ClientSkillEffect
 {
 private:
 	unsigned int m_masterId;
-	Model* m_model;
 	bool m_active;
+	ParticleEngine* m_aura;
 public:
 	EnigmaticPresenceClientSkillEffect(unsigned int _masterId);
 	~EnigmaticPresenceClientSkillEffect();
