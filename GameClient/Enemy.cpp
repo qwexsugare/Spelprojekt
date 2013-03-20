@@ -225,14 +225,6 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 }
 
-void Enemy::WriteToAwesomeFile(int number, string text, string fileName)
-{
-		fstream ss;
-		ss.open(fileName,ios::out | ios::app);
-		ss << number <<endl << text << endl << endl; // << "Id: " << m_id << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
-		ss.close();
-}
-
 void Enemy::moveAndRotate(float lastDT)
 {
 	if((m_nextPosition - m_position).length() >(this->m_movementSpeed * lastDT) && !m_reachedPosition )
