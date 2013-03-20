@@ -6,7 +6,6 @@
 BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 {
 	m_modelId = 88;
-	
 	//this->m_type = ServerEntity::BossType;
 
 	this->increaseStrength(10);
@@ -123,15 +122,15 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 
 			this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(this->m_id,m_position.x, m_position.z,m_rotation.x, m_position.x, m_position.z, m_position.x+this->m_dir.x, m_position.z+this->m_dir.z,this->getMovementSpeed()));
 		}
-
-		if(this->m_health <= 0) //The enemy has died
-		{
-			this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource+m_extraDivinePower, m_highRescource+m_extraDivinePower)));
-		}
 	}
 
 
 
 	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 
+}
+
+void BigBadBoss::tellBossToDropGold()
+{
+	this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource+m_extraDivinePower, m_highRescource+m_extraDivinePower)));
 }
