@@ -182,8 +182,15 @@ DeathClientSkillEffect::~DeathClientSkillEffect()
 void DeathClientSkillEffect::update(float dt)
 {
 	this->m_lifetime = this->m_lifetime - dt;
-	//if(m_lifetime <= 4);
-	this->m_model->setGlowAlpha((LIFETIME  -  m_lifetime ) * 0.5f);
+	
+	Entity *e = ClientEntityHandler::getEntity(this->m_masterId);
+	if(e != NULL)
+	{
+		if(e->m_type == ServerEntity::HeroType)
+		{
+			this->m_model->setGlowAlpha((LIFETIME  -  m_lifetime ) * 0.5f);
+		}
+	}
 
 	if(this->m_model != NULL)
 	{
