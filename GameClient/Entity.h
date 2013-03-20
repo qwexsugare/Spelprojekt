@@ -37,10 +37,6 @@ struct Entity
 	{
 		m_subtype = _subtype;
 		m_type = _type;
-		if(m_type == ServerEntity::EnemyType && m_subtype == Enemy::SHADE)
-		{
-			_model->setAlpha(0.75f);
-		}
 
 		this->m_model = _model;
 		this->m_id = _id;
@@ -55,6 +51,15 @@ struct Entity
 		if(this->m_type == ServerEntity::EnemyType)
 		{
 			this->m_model->setColor(D3DXVECTOR4(1, 0, 0, 0.4f));
+			switch(m_subtype)
+			{
+			case Enemy::SHADE:
+				_model->setAlpha(0.75f);
+				break;
+			case Enemy::IMP:
+				_model->setScale(0.75f, 0.75f, 0.75f);
+				break;
+			}
 		}
 		else
 		{

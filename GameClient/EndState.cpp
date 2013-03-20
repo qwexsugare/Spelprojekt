@@ -1,13 +1,19 @@
 #include "EndState.h"
 #include "Graphics.h"
+#include "SoundWrapper.h"
+#include "MyAlgorithms.h"
 
 EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 {
+	int music;
 	stringstream ss;
 	if(endMessage.getIsAtWave()<0)
 	{
 		this->m_background = g_graphicsEngine->createSprite("menu_textures\\MENU-END-1.png", FLOAT2(0.0f, 0.0f), FLOAT2(2.0f, 2.0f), 0);
 		this->m_resultText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "YOU LEFT THE GAME, NOOB", INT2(120,100), 150);
+
+		// Music
+		music = createSoundHandle("music/defeat.wav", true, false);
 	}
 	else
 	{
@@ -20,6 +26,17 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 			this->m_resultMoreInfo = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,250), 50);
 			ss.clear();
 			ss.str("");
+
+			// Music
+			switch(random(0, 1))
+			{
+			case 0:
+				music = createSoundHandle("music/win1.wav", true, false);
+				break;
+			case 1:
+				music = createSoundHandle("music/win2.wav", true, false);
+				break;
+			}
 		}
 		else
 		{
@@ -30,6 +47,9 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 			this->m_resultMoreInfo = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,200), 50);
 			ss.clear();
 			ss.str("");
+
+			// Music
+			music = createSoundHandle("music/defeat.wav", true, false);
 		}
 
 		ss<<"Time played: "<<endMessage.getTimePlayed()<<" seconds";
@@ -112,6 +132,8 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 			textures.push_back(g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", fullMissionString, INT2(120,850+i*75), 50));
 		}
 	}
+	playSound(music);
+	deactivateSound(music);
 	this->m_mainMenuButton = new Button();
 	this->m_mainMenuButton->Init(FLOAT2(0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,1,5);
 }
