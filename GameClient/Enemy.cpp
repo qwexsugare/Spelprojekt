@@ -225,13 +225,13 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 }
 
-/*void Enemy::WriteToAwesomeFile(int number)
+void Enemy::WriteToAwesomeFile(int number)
 {
 	fstream ss;
 		ss.open("gunnar.txt",ios::out | ios::app);
-		ss << number <<endl << "Id: " << m_id << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
+		ss << number <<endl;// << "Id: " << m_id << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
 		ss.close();
-}*/
+}
 
 void Enemy::moveAndRotate(float lastDT)
 {
@@ -501,14 +501,33 @@ void Enemy::checkPursue()
 
 	if(!m_willPursue)
 	{
-		ServerEntity* se = EntityHandler::getClosestEntityByType(this, m_targetType);
-		if(se)
+		int attackerID = Statistics::convertSimonsIdToRealId(m_lastDamageDealer);
+		ServerEntity* se;
+		if(attackerID >=0 && attackerID < 4)
 		{
-			if((this->m_position-se->getPosition()).length() <= this->m_aggroRange )
+			se = EntityHandler::getServerEntity(m_lastDamageDealer);
+			WriteToAwesomeFile(attackerID);
+			if(se)
 			{
-				m_willPursue = true;
-				m_closestTargetId = se->getId();
-				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::ENEMY_PURSUE, this->m_id, m_position));
+				
+					m_willPursue = true;
+					m_closestTargetId = se->getId();
+					this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::ENEMY_PURSUE, this->m_id, m_position));
+				
+			}
+		}
+		else
+		{
+			se = EntityHandler::getClosestEntityByType(this, m_targetType);
+
+			if(se)
+			{
+				if((this->m_position-se->getPosition()).length() <= this->m_aggroRange )
+				{
+					m_willPursue = true;
+					m_closestTargetId = se->getId();
+					this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::ENEMY_PURSUE, this->m_id, m_position));
+				}
 			}
 		}
 	}
