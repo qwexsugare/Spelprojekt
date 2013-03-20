@@ -86,7 +86,10 @@ void Player::handleBuySkillMessage(NetworkBuySkillMessage bsm)
 		bool skillBought = false;
 		Skill* a = NULL;
 		int attributeCost = 100 * (pow(1.12f, this->m_attributesBought));
-
+		if (attributeCost >= 5000)
+		{
+			attributeCost = 5000;
+		}
 		switch(bsm.getActionId())
 		{
 		case Skill::STRENGTH:
