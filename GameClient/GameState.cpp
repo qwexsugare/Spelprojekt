@@ -169,12 +169,13 @@ GameState::~GameState()
 	deactivateSound(m_lowHealthSound);
 	stopSound(m_churchSound);
 	deactivateSound(m_churchSound);
+
+	g_graphicsEngine->clear();
 	
 	// Release all music
 	stopSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
-	deactivateSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
-
-	g_graphicsEngine->clear();
+	for(int i = 0; i < NR_OF_SOUNDTRACKS; i++)
+		deactivateSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
 }
 
 State::StateEnum GameState::nextState()

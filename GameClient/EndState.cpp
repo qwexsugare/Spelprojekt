@@ -3,9 +3,8 @@
 #include "SoundWrapper.h"
 #include "MyAlgorithms.h"
 
-EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
+EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem) : State(State::END)
 {
-	int music;
 	stringstream ss;
 	if(endMessage.getIsAtWave()<0)
 	{
@@ -13,7 +12,7 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 		this->m_resultText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "YOU LEFT THE GAME, NOOB", INT2(120,100), 150);
 
 		// Music
-		music = createSoundHandle("music/defeat.wav", true, false);
+		m_music = createSoundHandle("music/defeat.wav", true, false);
 	}
 	else
 	{
@@ -31,10 +30,10 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 			switch(random(0, 1))
 			{
 			case 0:
-				music = createSoundHandle("music/win1.wav", true, false);
+				m_music = createSoundHandle("music/win1.wav", true, false);
 				break;
 			case 1:
-				music = createSoundHandle("music/win2.wav", true, false);
+				m_music = createSoundHandle("music/win2.wav", true, false);
 				break;
 			}
 		}
@@ -49,7 +48,7 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 			ss.str("");
 
 			// Music
-			music = createSoundHandle("music/defeat.wav", true, false);
+			m_music = createSoundHandle("music/defeat.wav", true, false);
 		}
 
 		ss<<"Time played: "<<endMessage.getTimePlayed()<<" seconds";
@@ -132,14 +131,15 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 			textures.push_back(g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", fullMissionString, INT2(120,850+i*75), 50));
 		}
 	}
-	playSound(music);
-	deactivateSound(music);
+	playSound(m_music);
 	this->m_mainMenuButton = new Button();
 	this->m_mainMenuButton->Init(FLOAT2(0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,1,5);
 }
 
 EndState::~EndState()
 {
+	stopSound(m_music);
+	deactivateSound(m_music);
 	g_graphicsEngine->removeSprite(this->m_background);
 	g_graphicsEngine->removeMyText(this->m_resultText);
 	g_graphicsEngine->removeMyText(this->m_resultMoreInfo);

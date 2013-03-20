@@ -24,6 +24,9 @@ private:
 	vector<MyText*> textures;
 	MyText * missionText;
 	Button *m_mainMenuButton;
+
+	// Music
+	int m_music;
 public:
 	EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem);
 	~EndState();
