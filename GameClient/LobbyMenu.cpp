@@ -797,24 +797,11 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 
 	if(changeText)
 	{
-		switch(m_currentSelections[_playerIndex])
-		{
-		case Hero::OFFICER:
-			m_officerPortrait2->setVisible(false);
-			break;
-		case Hero::RED_KNIGHT:
-			m_redKnightPortrait2->setVisible(false);
-			break;
-		case Hero::ENGINEER:
-			m_engineerPortrait2->setVisible(false);
-			break;
-		case Hero::DOCTOR:
-			m_doctorPortrait2->setVisible(false);
-			break;
-		case Hero::THE_MENTALIST:
-			m_mentalistPortrait2->setVisible(false);
-			break;
-		}
+		m_mentalistPortrait2->setVisible(false);
+		m_doctorPortrait2->setVisible(false);
+		m_engineerPortrait2->setVisible(false);
+		m_redKnightPortrait2->setVisible(false);
+		m_officerPortrait2->setVisible(false);
 	
 		switch(_type)
 		{

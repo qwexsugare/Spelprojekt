@@ -2915,3 +2915,11 @@ GameClient/menu_textures/Level2_Button.png
 GameClient/models/MentalistRapier/Rapier_UV_green_GM.png
 GameClient/models/MentalistRapier/Rapier_UV_orange_GM.png
 GameClient/models/MentalistRapier/Rapier_UV_purple_GM.png
+GameClient/Mouse.cpp
+GameClient/text/Text7.png
+GameClient/maps/leveltwo/leveltwowaves.txt
+GameClient/menu_textures/Button-Text.psd
+GameClient/models/Imp/.mayaSwatches/Imp_UV_BOSS_DM.png.swatch
+GameClient/models/Imp/.mayaSwatches/Imp_UV_BOSS_GM.png.swatch
+GameClient/maps/levelone/levelonewavesTest.txt
+GameClient/models/Imp/idle.BFishA

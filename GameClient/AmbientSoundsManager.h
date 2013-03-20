@@ -13,8 +13,6 @@ private:
 	static const int NR_OF_SCREAM_SOUNDS = 5;
 	int m_screamSounds[NR_OF_SCREAM_SOUNDS];
 	float m_screamSoundsTimer;
-
-	int m_music;
 public:
 	AmbientSoundsManager();
 	~AmbientSoundsManager();

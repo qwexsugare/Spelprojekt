@@ -30,6 +30,7 @@ private:
 	bool m_shadow;
 	bool m_neutral;
 	D3DXVECTOR4 m_stencilColor;
+	float m_glowAlpha;
 
 	D3DXVECTOR3 m_screenPosition;
 public:
@@ -45,7 +46,7 @@ public:
 	DECLDIR FLOAT3 getPosition()const;
 	D3DXVECTOR2 getPosition2D()const;
 	DECLDIR FLOAT2 getPosition2DAsFloat2()const;
-	D3DXVECTOR3 getScale()const;
+	DECLDIR D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	DECLDIR Mesh* getMesh()const;
 	DECLDIR Mesh* getHat()const;
@@ -84,6 +85,9 @@ public:
 	DECLDIR void setStatic(bool _static);
 	DECLDIR void setShadow(bool _shadow);
 	bool getShadow();
+
+	DECLDIR void setGlowAlpha(float _glowAlpha);
+	DECLDIR float getGlowAlpha();
 
 	DECLDIR FLOAT3 getLeftHandPosition();
 	DECLDIR FLOAT3 getRightHandPosition();

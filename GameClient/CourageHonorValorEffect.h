@@ -3,10 +3,26 @@
 #include "ServerEntity.h"
 #include "Skill.h"
 
+struct AffectedGuy
+{
+	unsigned int id;
+	float mentalResistanceChange;
+	float movementChange;
+	int mentalDamageChange;
+
+	AffectedGuy(unsigned int _id, float _mentalResistanceChange, float _movementChange, int _mentalDamageChange)
+	{
+		id = _id;
+		mentalResistanceChange = _mentalResistanceChange;
+		movementChange = _movementChange;
+		mentalDamageChange = _mentalDamageChange;
+	}
+};
+
 class CourageHonorValorEffect : public ServerEntity
 {
 private:
-	static vector<unsigned int> m_affectedGuys;
+	vector<AffectedGuy> m_affectedGuys;
 	float m_timer;
 	unsigned int m_caster;
 public:

@@ -75,10 +75,8 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 		
 		if(!m_reachedPosition)
 		{
-			WriteToAwesomeFile(1, "NotreachedPosition", "gunnar.txt");
 			if(m_willPursue && (m_origPos - m_position).length() < m_allowedMovement)
 			{
-					WriteToAwesomeFile(1, "ClosingInOnTarget", "gunnar.txt");
 					m_position = m_position + m_dir*lastDT*m_movementSpeed;
 			}
 			
@@ -90,12 +88,10 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 					m_dir = m_dir/m_dir.length();
 				if((m_goalPosition - m_position).length() > 0.1f)
 				{
-					WriteToAwesomeFile(1, "ClosingInOnOrig", "gunnar.txt");
 					m_position = m_position + m_dir*m_movementSpeed*lastDT;
 				}
 				else
 				{
-					WriteToAwesomeFile(1, "ReachedOrig", "gunnar.txt");
 					m_position = m_goalPosition;
 					m_reachedPosition = true; 
 				}
