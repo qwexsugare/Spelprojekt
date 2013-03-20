@@ -42,6 +42,7 @@ public:
 	void resetEnterPressed();
 	bool wasEnterPressed();
 	string getChatString();
+	void updateMapInfo(string level, string mapsize, string nrwaves, string demoncoins);
 private:
 	bool m_host;
 	Hero::HERO_TYPE m_currentSelections[4];
@@ -50,6 +51,8 @@ private:
 	Sprite* m_engineerPortrait;
 	Sprite* m_redKnightPortrait;
 	Sprite* m_mentalistPortrait;
+	Sprite* miniMap1;
+	Sprite* miniMap2;
 
 	Sprite* m_doctorPortrait2;
 	Sprite* m_officerPortrait2;

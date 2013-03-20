@@ -33,6 +33,7 @@ public:
 	void rButtonUp();
 	void setMousePosition(int _x, int _y);
 	void update();
+	void updateCursorPosMoreFrequently();
 	void setMouseVisibility(bool _visible)const;
 
 	Cursor *getCursor();

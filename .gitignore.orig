@@ -2860,19 +2860,70 @@ GameClient/menu_textures/SmallButton-MainMenu-MainMenu.png
 GameClient/menu_textures/LobbyMenuSlider.png
 GameClient/particles/effects/test.gzp
 GameClient/menu_textures/Button-LobbyMenu-Player4.png
-<<<<<<< HEAD
 GameClient/particles/effects/test.gzp
-=======
->>>>>>> 7b80f2eaa5c7468e13ea27e00eab06ede59cb2a6
 GameClient/particles/effects/test2.gzp
 GameClient/particles/effects/test3.gzp
 GameClient/particles/textures/Elec00.png
 GameClient/particles/textures/Elec10.png
 GameClient/particles/textures/Flame_Test.png
 GameClient/particles/textures/lightning.png
-<<<<<<< HEAD
-=======
+GameClient/particles/effects/test2.gzp
+GameClient/particles/effects/test3.gzp
+GameClient/particles/textures/Elec00.png
+GameClient/particles/textures/Elec10.png
+GameClient/particles/textures/Flame_Test.png
+GameClient/particles/textures/lightning.png
 GameClient/models/Imp/Imp_UV_BOSS_DM.png
 GameClient/models/Imp/Imp_UV_BOSS_GM.png
 GameClient/models/Pentagram/Pentagram_2_DM.png
->>>>>>> 7b80f2eaa5c7468e13ea27e00eab06ede59cb2a6
+GameClient/menu_textures/Button-LoreMenu-ReadLore.png
+GameClient/menu_textures/Button-MainMenu-StartGame.png
+GameClient/menu_textures/SmallButton-MainMenu-Help.png
+GameClient/menu_textures/SmallButton-MainMenu-Ready.png
+GameClient/menu_textures/SmallButton-MainMenu-StartGame.png
+GameClient/audio/turrets/deathTowerAttack.old.wav
+GameClient/models/Char/Character_GM.png
+GameClient/models/Char/Stunn1Hand.BFishA
+GameClient/models/Char/Stunn2Hand.BFishA
+GameClient/models/DeathTurret/Turret_Death_DM_Red.png
+GameClient/models/FrostBase/Turret_Frost_DM_Red.png
+GameClient/models/FrostGun/Turret_Frost_DM_Red.png
+GameClient/models/LightningTurret/Turret_Tesla_DM_Red.png
+GameClient/models/OfficerRapier/OfficeRapierTexture_green_Glow.png
+GameClient/models/OfficerRapier/OfficeRapierTexture_orange_Glow.png
+GameClient/models/OfficerRapier/OfficeRapierTexture_purple_Glow.png
+GameClient/models/PoisonTurret/Turret_Poison_DM_Red.png
+GameClient/models/Sword/Sword2_UV_green_GM.png
+GameClient/models/Sword/Sword2_UV_orange_GM.png
+GameClient/models/Sword/Sword2_UV_purple_GM.png
+GameClient/STATISTICSlastgame.txt
+GameClient/textures/missioncomplete.png
+GameClient/textures/missionfailed.png
+GameClient/textures/missionstarted.png
+GameClient/audio/music/adv.wav
+GameClient/audio/music/defeat.wav
+GameClient/audio/music/defeat2.wav
+GameClient/audio/music/everlasting_march.wav
+GameClient/audio/music/guitar_function.wav
+GameClient/audio/music/menu_screen.wav
+GameClient/audio/music/win.wav
+GameClient/STATISTICSlastgame.txt
+<<<<<<< HEAD
+GameClient/maps/leveltwo/leveltwowaves.txt
+GameClient/menu_textures/Button-Text.psd
+GameClient/models/Imp/.mayaSwatches/Imp_UV_BOSS_DM.png.swatch
+GameClient/models/Imp/.mayaSwatches/Imp_UV_BOSS_GM.png.swatch
+GameClient/models/MentalistRapier/Rapier_UV_green_GM.png
+GameClient/models/MentalistRapier/Rapier_UV_orange_GM.png
+GameClient/models/MentalistRapier/Rapier_UV_purple_GM.png
+GameClient/Mouse.cpp
+GameClient/text/Text7.png
+=======
+GameClient/audio/music/menu.wav
+GameClient/audio/music/win1.wav
+GameClient/audio/music/win2.wav
+GameClient/menu_textures/Level2_Button.png
+GameClient/models/MentalistRapier/Rapier_UV_green_GM.png
+GameClient/models/MentalistRapier/Rapier_UV_orange_GM.png
+GameClient/models/MentalistRapier/Rapier_UV_purple_GM.png
+>>>>>>> ccf1679e94bf3343b0f9e418171ea87acdffc841

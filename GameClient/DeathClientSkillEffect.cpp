@@ -5,10 +5,12 @@
 #include "Hero.h"
 #include "Enemy.h"
 
+const float LIFETIME = 10;
+
 DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
 	this->m_masterId = _masterId;
-	this->m_lifetime = 10.0f;
+	this->m_lifetime = LIFETIME;
 	this->m_sink = false;
 	this->m_model = NULL;
 	this->m_lanternLight = NULL;
@@ -22,6 +24,7 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 	{
 		this->m_model = g_graphicsEngine->createModel(e->m_model, false);
 		this->m_model->setPosition(_position);
+		this->m_model->setScale(e->m_model->getScale());
 		this->m_model->getAnimation()->Play("death", true);
 		this->m_model->setGlowIndex("glowIntensity1");
 		this->m_model->SetHat(e->m_model->getHat());
@@ -164,6 +167,7 @@ DeathClientSkillEffect::DeathClientSkillEffect(unsigned int _masterId, FLOAT3 _p
 
 DeathClientSkillEffect::~DeathClientSkillEffect()
 {
+	this->m_model->setGlowAlpha(1.0f);
 	if(this->m_model != NULL)
 	{
 		g_graphicsEngine->removeModel(this->m_model);
@@ -178,22 +182,35 @@ DeathClientSkillEffect::~DeathClientSkillEffect()
 void DeathClientSkillEffect::update(float dt)
 {
 	this->m_lifetime = this->m_lifetime - dt;
+	//if(m_lifetime <= 4);
+	this->m_model->setGlowAlpha((LIFETIME  -  m_lifetime ) * 0.5f);
 
-	if(this->m_lifetime < 1.5f)
+	if(this->m_model != NULL)
 	{
 		if(this->m_sink == true)
 		{
-			FLOAT3 pos = this->m_model->getPosition();
-			pos.y = pos.y - dt;
-			this->m_model->setPosition(pos);
+			if(this->m_lifetime < 1.5f)
+			{
+				FLOAT3 pos = this->m_model->getPosition();
+				pos.y = pos.y - dt;
+				this->m_model->setPosition(pos);
+			}
 		}
-	}
+		else
+		{
+			this->m_model->move(D3DXVECTOR3(0.0f, dt / 5.0f, 0.0f));
 
-	if(this->m_lanternLight != NULL)
-	{
-		this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition(), FLOAT3(0.0f, 1.0f, 0.0f));
-		this->m_lanternLight->setDiffuseColor(this->m_originalDiffuse - (this->m_originalDiffuse / 5.0f) * dt);
-		this->m_lanternLight->setSpecularColor(this->m_originalSpecular - (this->m_originalSpecular / 5.0f) * dt);
+			if(this->m_lifetime <= 5.0f)
+			{
+				this->m_model->setAlpha(max(this->m_model->getAlpha() - dt / 4.0f, 0.0f));
+			}
+			else if(this->m_lanternLight != NULL)
+			{
+				this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition(), FLOAT3(0.0f, 1.0f, 0.0f));
+				this->m_lanternLight->setDiffuseColor(this->m_lanternLight->getDiffuseColor() - (this->m_originalDiffuse / 5.0f) * dt);
+				this->m_lanternLight->setSpecularColor(this->m_lanternLight->getSpecularColor() - (this->m_originalSpecular / 5.0f) * dt);
+			}
+		}
 	}
 }
 

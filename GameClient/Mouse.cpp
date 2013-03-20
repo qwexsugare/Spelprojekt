@@ -90,6 +90,11 @@ void Mouse::update()
 	//this->m_cursor->setFrame(Cursor::DEFAULT);
 }
 
+void Mouse::updateCursorPosMoreFrequently()
+{
+	this->m_cursor->setPosition(this->getPos());
+}
+
 Cursor *Mouse::getCursor()
 {
 	return this->m_cursor;
