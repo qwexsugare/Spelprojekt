@@ -2,7 +2,7 @@
 #include "GameState.h"
 #include "Input.h"
 
-LoreState::LoreState()
+LoreState::LoreState() : State(State::LORE)
 {
 	this->m_menu = new LoreMenu();
 }

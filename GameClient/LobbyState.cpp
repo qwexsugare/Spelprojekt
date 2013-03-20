@@ -64,7 +64,7 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	
 	if(m_playerId == 0)
 	{
-		m_hostMayStartGame = true;
+		m_hostMayStartGame = false;
 		m_menu = new LobbyMenu(true);
 	}
 	else
@@ -282,7 +282,25 @@ void LobbyState::update(float _dt)
 			if(nhsm.getPlayerId() == this->m_playerId)
 			{
 				m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
-				if(m_playerId != 0)
+				// If its the host that picked a hero, he might now be able to start the game
+				if(m_playerId == 0)
+				{
+					// Check how many players are ready
+					int notReadyCounter = 0;
+					for(map<int, bool>::iterator iter = m_hostsSuperVector.begin(); iter != m_hostsSuperVector.end(); iter++)
+					{
+						if(!iter->second)
+						{
+							notReadyCounter++;
+						}
+					}
+					// The host can only ready up if he is the only one not ready.
+					if(notReadyCounter < 2)
+					{
+						m_hostMayStartGame = true;
+					}
+				}
+				else
 					m_clientMayReady = true;
 			}
 			else
