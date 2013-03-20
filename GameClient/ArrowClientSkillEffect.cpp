@@ -16,7 +16,8 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	this->m_particleSystem = NULL;
 
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
-	if(master != NULL)
+	Entity* target = ClientEntityHandler::getEntity(_targetId);
+	if(master != NULL && target != NULL)
 	{
 		master->m_model->getAnimation()->PlayLoop("RangeAttack", -1, _animationSpeed);
 	}
