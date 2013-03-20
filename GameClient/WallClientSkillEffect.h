@@ -6,7 +6,6 @@
 class WallClientSkillEffect : public ClientSkillEffect
 {
 private:
-	Model *m_model;
 	float m_lifetime;
 	Mesh* m_weapon;
 	UINT m_masterId;

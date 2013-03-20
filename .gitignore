@@ -2908,3 +2908,10 @@ GameClient/audio/music/guitar_function.wav
 GameClient/audio/music/menu_screen.wav
 GameClient/audio/music/win.wav
 GameClient/STATISTICSlastgame.txt
+GameClient/audio/music/menu.wav
+GameClient/audio/music/win1.wav
+GameClient/audio/music/win2.wav
+GameClient/menu_textures/Level2_Button.png
+GameClient/models/MentalistRapier/Rapier_UV_green_GM.png
+GameClient/models/MentalistRapier/Rapier_UV_orange_GM.png
+GameClient/models/MentalistRapier/Rapier_UV_purple_GM.png

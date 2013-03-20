@@ -38,6 +38,7 @@ public:
 	void setReady(int _playerIndex);
 	Hero::HERO_TYPE* getHeroesSelected(){return this->m_currentSelections;};
 	void addStringToChat(string t);
+	void removePlayer(int _playerIndex);
 	void resetEnterPressed();
 	bool wasEnterPressed();
 	string getChatString();
@@ -55,7 +56,7 @@ private:
 	Sprite* m_engineerPortrait2;
 	Sprite* m_redKnightPortrait2;
 	Sprite* m_mentalistPortrait2;
-	vector<TextLabel*> m_playerNames;
+	map<int, TextLabel*> m_playerNames;
 	Slider m_slider;
 	SkillIdHolder m_skillHolder;
 	TextInput* m_LabelInput;

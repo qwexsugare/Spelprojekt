@@ -246,7 +246,7 @@ void Player::update(float _dt)
 		if(m->type == Message::HeroDied)
 		{
 			this->m_nrOfDeaths++;
-			this->m_respawnTimer = this->m_nrOfDeaths * 5.0f;
+			this->m_respawnTimer = this->m_nrOfDeaths * 2.0f + 10;
 		}
 
 		delete m;
