@@ -187,13 +187,17 @@ void DeathClientSkillEffect::update(float dt)
 			pos.y = pos.y - dt;
 			this->m_model->setPosition(pos);
 		}
+		else
+		{
+			this->m_model->setAlpha(this->m_model->getAlpha() - dt / 8.5f);
+		}
 	}
 
 	if(this->m_lanternLight != NULL)
 	{
 		this->m_lanternLight->setPosition(this->m_model->getLeftHandPosition(), FLOAT3(0.0f, 1.0f, 0.0f));
-		this->m_lanternLight->setDiffuseColor(this->m_originalDiffuse - (this->m_originalDiffuse / 5.0f) * dt);
-		this->m_lanternLight->setSpecularColor(this->m_originalSpecular - (this->m_originalSpecular / 5.0f) * dt);
+		this->m_lanternLight->setDiffuseColor(this->m_lanternLight->getDiffuseColor() - (this->m_originalDiffuse / 10.0f) * dt);
+		this->m_lanternLight->setSpecularColor(this->m_lanternLight->getSpecularColor() - (this->m_originalSpecular / 10.0f) * dt);
 	}
 }
 
