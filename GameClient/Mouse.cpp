@@ -88,7 +88,6 @@ void Mouse::update()
 
 	this->m_cursor->setPosition(this->getPos());
 	//this->m_cursor->setFrame(Cursor::DEFAULT);
-adawda
 }
 
 Cursor *Mouse::getCursor()
