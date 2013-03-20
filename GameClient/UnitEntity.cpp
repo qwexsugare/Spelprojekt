@@ -418,12 +418,12 @@ float UnitEntity::getAttackSpeed()
 
 float UnitEntity::getPhysicalDamage()
 {
-	return random(0,m_physicalDamage);
+	return random(this->m_regularAttack->getMinimumDamageMultiplier() * this->m_physicalDamage, m_physicalDamage);
 }
 
 float UnitEntity::getMentalDamage()
 {
-	return random(0, m_mentalDamage);
+	return random(this->m_regularAttack->getMinimumDamageMultiplier() * this->m_mentalDamage, m_mentalDamage);
 }
 
 float UnitEntity::getPhysicalResistance()

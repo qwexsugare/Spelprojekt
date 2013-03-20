@@ -1,6 +1,7 @@
 #include "RangedAttack.h"
 
 const float RangedAttack::RANGE = 4.0f;
+const float RangedAttack::MINIMUM_DAMAGE_MULTIPLIER = 0.25f;
 
 RangedAttack::RangedAttack() : Skill(Skill::RANGED_ATTACK, 0.0f)
 {
@@ -41,4 +42,9 @@ bool RangedAttack::activate(unsigned int _targetId, unsigned int _senderId)
 void RangedAttack::updateSpecificSkill(float dt)
 {
 
+}
+
+float RangedAttack::getMinimumDamageMultiplier()
+{
+	return RangedAttack::MINIMUM_DAMAGE_MULTIPLIER;
 }
