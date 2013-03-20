@@ -183,7 +183,7 @@ void DeathClientSkillEffect::update(float dt)
 {
 	this->m_lifetime = this->m_lifetime - dt;
 	//if(m_lifetime <= 4);
-		this->m_model->setGlowAlpha((LIFETIME  -  m_lifetime ) * 0.5f);
+	this->m_model->setGlowAlpha((LIFETIME  -  m_lifetime ) * 0.5f);
 
 	if(this->m_model != NULL)
 	{
