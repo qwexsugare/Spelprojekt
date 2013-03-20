@@ -94,7 +94,7 @@ void Camera::moveY(float _val)
 {
 	m_position.y += _val;
 	m_xOffset += _val;
-	m_zOffset += _val;
+	m_zOffset += _val*2.0f;
 	this->updateViewMatrix();
 }
 
