@@ -183,7 +183,6 @@ State::StateEnum GameState::nextState()
 	return State::END;
 }
 
-#include "ChainStrikeEffect.h"
 void GameState::update(float _dt)
 {
 	while(m_network->endGameQueueEmpty() == false)
@@ -889,11 +888,11 @@ void GameState::update(float _dt)
 	}
 	if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveY(_dt);
+		g_graphicsEngine->getCamera()->moveY(min(g_graphicsEngine->getCamera()->getPos().y + _dt, 11.0f));
 	}
 	if(g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveY(-_dt);
+		g_graphicsEngine->getCamera()->moveY(max(g_graphicsEngine->getCamera()->getPos().y - _dt, 7.5f));
 	}
 	if(m_hud->isDone())
 	{
