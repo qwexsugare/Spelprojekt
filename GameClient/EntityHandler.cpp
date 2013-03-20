@@ -106,11 +106,11 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 bool EntityHandler::removeEntity(ServerEntity *_entity, bool sendRemoveMessage)
 {
 	bool found = false;
-	unsigned int id = _entity->getId();
 
 	if(_entity != NULL)
 	{
 		EntityHandler::m_mutex.Lock();
+		unsigned int id = _entity->getId();
 
 		if(_entity->getType() == ServerEntity::StaticType ||_entity->getType() == ServerEntity::GoalType )
 		{

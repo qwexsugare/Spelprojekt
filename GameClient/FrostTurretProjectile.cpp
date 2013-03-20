@@ -40,7 +40,7 @@ void FrostTurretProjectile::update(float _dt)
 		{
 			int damage = random(1, 5);
 			int healthBefore = target->getHealth();
-			target->takeDamage(this->m_masterOwner, damage, 0);
+			target->takeDamage(this->m_masterOwner, this->m_damage, 0);
 			((UnitEntity*)target)->applyFrostTurretSlowEffect(this->m_slowEffect);
 
 			// dbg
