@@ -70,6 +70,7 @@ bool Mission::handle(int atWave)
 		this->missionComplete=true;
 		if(boss != NULL)
 		{
+			boss->tellBossToDropGold();
 			boss->getMessageQueue()->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), boss->getId()));
 			this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"completed"));
 

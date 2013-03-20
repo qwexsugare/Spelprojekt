@@ -11,7 +11,6 @@ ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, Textu
 
 	this->maxParticles = (_pe->lifeTime/_pe->emitRate)*16 + 10;
 
-
 	this->emitRate = _pe->emitRate;
 	this->lifeTime = _pe->lifeTime;
 	this->speed = _pe->speed;
@@ -35,6 +34,30 @@ ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, Textu
 
 	this->texture = this->textureHolder->getTexture(texturepath + _pe->textures[0]);
 
+
+
+	this->addBlend = NULL;
+	this->alphBlend = NULL;
+ 
+	D3D10_BLEND_DESC BlendState;
+	ZeroMemory(&BlendState, sizeof(D3D10_BLEND_DESC));
+ 
+	BlendState.BlendEnable[0] = TRUE;
+	BlendState.SrcBlend = D3D10_BLEND_SRC_ALPHA;
+	BlendState.DestBlend = D3D10_BLEND_INV_SRC_ALPHA;
+	BlendState.BlendOp = D3D10_BLEND_OP_ADD;
+	BlendState.SrcBlendAlpha = D3D10_BLEND_ZERO;
+	BlendState.DestBlendAlpha = D3D10_BLEND_ZERO;
+	BlendState.BlendOpAlpha = D3D10_BLEND_OP_ADD;
+	BlendState.RenderTargetWriteMask[0] = D3D10_COLOR_WRITE_ENABLE_ALL;
+ 
+	_device->CreateBlendState(&BlendState, &addBlend);
+
+ 
+	_device->CreateBlendState(&BlendState, &alphBlend);
+
+
+
 	CreateVertexBuffer();
 	CreateRandomTex();
 }
@@ -47,7 +70,10 @@ ParticleEngine::~ParticleEngine()
 	this->streamOutVB->Release();
 	this->drawVB->Release();
 	this->vertexBuffer->Release();
+	this->addBlend->Release();
+	this->alphBlend->Release();
 }
+
 void ParticleEngine::CreateVertexBuffer()
 {
 	HRESULT hr;
