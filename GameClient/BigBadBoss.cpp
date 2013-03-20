@@ -67,53 +67,65 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 		if(!m_willPursue)
 			m_nextPosition = m_goalPosition;
 
-		m_dir = m_nextPosition - m_position;
+		m_dir = m_dir + (m_nextPosition - m_position);
 		
 		if(m_dir.length() > 0)
 			m_dir = m_dir/m_dir.length();
 
 		
-		if(!m_reachedPosition && m_willPursue)
+		if(!m_reachedPosition)
 		{
-			if((m_origPos - m_position).length() < m_allowedMovement)
-				m_position = m_position + m_dir*lastDT*m_movementSpeed;
-		}
-
+			WriteToAwesomeFile(1, "NotreachedPosition", "gunnar.txt");
+			if(m_willPursue && (m_origPos - m_position).length() < m_allowedMovement)
+			{
+					WriteToAwesomeFile(1, "ClosingInOnTarget", "gunnar.txt");
+					m_position = m_position + m_dir*lastDT*m_movementSpeed;
+			}
+			
 		
-		/*if((m_position- m_origPos).length() < m_allowedMovement && !m_reachedPosition)
-		{
-			m_dir = (m_nextPosition - m_position);
-			if(m_dir.length() > 0)
-				m_dir = m_dir/m_dir.length();
-
-			m_position = m_position + m_dir*lastDT*m_movementSpeed;
-
-		}
-
-		else if( !m_willPursue && !m_reachedPosition)
-		{
-			m_dir = m_goalPosition - m_position;
-			if(m_dir.length() > 0)
-				m_dir = m_dir/m_dir.length();
-
-			if((m_position-m_goalPosition).length() > m_movementSpeed*lastDT) 
-				m_position = m_position + m_dir*lastDT*m_movementSpeed;
 			else 
 			{
-				m_reachedPosition = true;
-				m_position = m_goalPosition;
+				m_dir = m_goalPosition - m_position;
+				if(m_dir.length() > 0) 
+					m_dir = m_dir/m_dir.length();
+				if((m_goalPosition - m_position).length() > 0.1f)
+				{
+					WriteToAwesomeFile(1, "ClosingInOnOrig", "gunnar.txt");
+					m_position = m_position + m_dir*m_movementSpeed*lastDT;
+				}
+				else
+				{
+					WriteToAwesomeFile(1, "ReachedOrig", "gunnar.txt");
+					m_position = m_goalPosition;
+					m_reachedPosition = true; 
+				}
 			}
-		}*/
+		}
 
 		
+		
+		if((m_dir).length() > 0.00001f)
+		{			
+			m_rotationAdding = (m_rotationAdding +(m_dir + m_prevDir)*0.5f)*0.5f;
+			m_rotation.x =  (atan2(-( m_rotationAdding).x, -( m_rotationAdding).z));
+		}
 
 		lastDT=0;
 
 		if(this->m_isAttacking == false && this->m_isAttacking != this->m_oldIsAttacking)
 		{
+			
+			
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
+				
+			
 			this->m_oldIsAttacking = this->m_isAttacking;
 		}
+
+		if((m_position -m_origPos).length() < 0.1f)
+			{
+				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
+			}
 		
 		if(this->m_dir.x!=m_prevDir.x||this->m_dir.z!=m_prevDir.z)
 		{

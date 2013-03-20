@@ -9,6 +9,8 @@ class HealingTouchClientSkillEffect : public ClientSkillEffect
 private:
 	FLOAT3 m_position;
 	float m_lifetime;
+	Mesh* m_weapon;
+	UINT m_casterId;
 public:
 	HealingTouchClientSkillEffect(FLOAT3 _position, unsigned int casterId, unsigned int _targetId);
 	~HealingTouchClientSkillEffect();

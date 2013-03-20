@@ -1,7 +1,7 @@
 #include "EndState.h"
 #include "Graphics.h"
 
-EndState::EndState(NetworkEndGameMessage endMessage)
+EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 {
 	stringstream ss;
 	if(endMessage.getIsAtWave()<0)
@@ -87,6 +87,12 @@ EndState::EndState(NetworkEndGameMessage endMessage)
 			this->m_playerResourcesCollected[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,415 + jumpRow * 150), 50);
 			ss.clear();
 			ss.str("");
+
+			ss << "Healed for: " << endMessage.getPlayers()[i].getHealedAmount();
+			this->m_healedFor[i] =  g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,445 + jumpRow * 150), 50);
+			ss.clear();
+			ss.str("");
+
 			jumpRow++;
 			
 			if(jumpRow==2)
@@ -96,6 +102,14 @@ EndState::EndState(NetworkEndGameMessage endMessage)
 			}
 			if(jumpColumn==2)
 				jumpColumn=0;
+		}
+		
+		this->missionText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "Missions", INT2(120,750), 150);
+		
+		for(int i=0;i<mem.nrOfMissions();i++)
+		{
+			string fullMissionString = mem.getMissionName(i)+"                     " +mem.getMissionStatus(i);
+			textures.push_back(g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", fullMissionString, INT2(120,850+i*75), 50));
 		}
 	}
 	this->m_mainMenuButton = new Button();
@@ -108,6 +122,11 @@ EndState::~EndState()
 	g_graphicsEngine->removeMyText(this->m_resultText);
 	g_graphicsEngine->removeMyText(this->m_resultMoreInfo);
 	g_graphicsEngine->removeMyText(this->m_timeplayed);
+	g_graphicsEngine->removeMyText(this->missionText);
+	for(int i=0;i<this->textures.size();i++)
+	{
+		g_graphicsEngine->removeMyText(this->textures[i]);
+	}
 
 	for(int i = 0; i < this->m_nrOfPlayers; i++)
 	{
@@ -116,6 +135,7 @@ EndState::~EndState()
 		g_graphicsEngine->removeMyText(this->m_playerDamageTaken[i]);
 		g_graphicsEngine->removeMyText(this->m_playerMonstersKilled[i]);
 		g_graphicsEngine->removeMyText(this->m_playerResourcesCollected[i]);
+		g_graphicsEngine->removeMyText(this->m_healedFor[i]);
 	}
 
 	delete this->m_mainMenuButton;

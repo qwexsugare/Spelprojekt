@@ -23,20 +23,29 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(unsigned int 
 	int sound = createSoundHandle("skills/codWindStartEnd.wav", false, true, _position);
 	playSound(sound);
 	deactivateSound(sound);
+	m_masterId = _masterId;
 
 	Entity *e = ClientEntityHandler::getEntity(_masterId);
 	if(e != NULL)
 	{
 		e->m_model->getAnimation()->Play("Spell");
+		//hest = e->m_model->getRightHand();
+		//e->m_model->SetRightHand(NULL);
 	}
 }
 
 CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
 {
-	g_graphicsEngine->removePointLight(this->m_light);
+	//g_graphicsEngine->removePointLight(this->m_light);
 	g_graphicsEngine->removeModel(m_graphicalEffects[0]);
 	g_graphicsEngine->removeModel(m_graphicalEffects[1]);
 	g_graphicsEngine->removeModel(m_graphicalEffects[2]);
+
+	//Entity *e = ClientEntityHandler::getEntity(m_masterId);
+	//if(e != NULL)
+	//{
+	//	e->m_model->SetRightHand(m_weapon);
+	//}
 }
 
 void CloudOfDarknessClientSkillEffect::update(float _dt)
