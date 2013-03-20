@@ -54,7 +54,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECT
 	this->animation =  _animation;
 	m_static = false;
 	m_neutral = false;
-	this->m_weaponGlowIndex = "";
+	this->m_weaponGlowIndex = "glowIntensity3";
 }
 
 Model::~Model()

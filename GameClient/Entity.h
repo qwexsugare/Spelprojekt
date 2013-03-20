@@ -144,7 +144,7 @@ struct Entity
 			this->m_healthBack->setPosition(screenPos);
 			this->m_healthFront->setPosition(FLOAT2(screenPos.x - offsetX, screenPos.y));
 
-			if(this->m_health > 0.0f)
+			if(this->m_health >= 0.0f)
 			{
 				float width = ((float)this->m_health / (float)this->m_maxHealth) * this->m_healthBack->getSize().x;
 				this->m_healthFront->setSize(FLOAT2(width, this->m_healthBack->getSize().y));
