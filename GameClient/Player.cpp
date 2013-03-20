@@ -5,7 +5,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_resources = 1700;
+	this->m_resources = 17000;
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = NULL;
 	this->m_ready = false;
@@ -246,7 +246,7 @@ void Player::update(float _dt)
 		if(m->type == Message::HeroDied)
 		{
 			this->m_nrOfDeaths++;
-			this->m_respawnTimer = this->m_nrOfDeaths * 5.0f;
+			this->m_respawnTimer = this->m_nrOfDeaths * 2.0f + 10;
 		}
 
 		delete m;

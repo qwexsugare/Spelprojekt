@@ -29,8 +29,8 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(unsigned int 
 	if(e != NULL)
 	{
 		e->m_model->getAnimation()->Play("Spell");
-		//hest = e->m_model->getRightHand();
-		//e->m_model->SetRightHand(NULL);
+		m_weapon = e->m_model->getRightHand();
+		e->m_model->SetRightHand(NULL);
 	}
 }
 
@@ -40,12 +40,6 @@ CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
 	g_graphicsEngine->removeModel(m_graphicalEffects[0]);
 	g_graphicsEngine->removeModel(m_graphicalEffects[1]);
 	g_graphicsEngine->removeModel(m_graphicalEffects[2]);
-
-	//Entity *e = ClientEntityHandler::getEntity(m_masterId);
-	//if(e != NULL)
-	//{
-	//	e->m_model->SetRightHand(m_weapon);
-	//}
 }
 
 void CloudOfDarknessClientSkillEffect::update(float _dt)
@@ -58,6 +52,15 @@ void CloudOfDarknessClientSkillEffect::update(float _dt)
 	m_graphicalEffects[0]->setAlpha(m_graphicalEffects[0]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
 	m_graphicalEffects[1]->setAlpha(m_graphicalEffects[1]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
 	m_graphicalEffects[2]->setAlpha(m_graphicalEffects[2]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
+
+	if(m_lifetime >= 2)
+	{
+		Entity *e = ClientEntityHandler::getEntity(m_masterId);
+		if(e != NULL)
+		{
+			e->m_model->SetRightHand(m_weapon);
+		}
+	}
 }
 
 bool CloudOfDarknessClientSkillEffect::getActive()

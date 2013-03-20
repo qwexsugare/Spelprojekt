@@ -1130,7 +1130,10 @@ void HudMenu::setTargetEnemy(unsigned int _currentTargetEnemyId)
 	if(m_hasTargetEnemy)
 	{
 		Entity* currentUnit = ClientEntityHandler::getEntity(m_currentTargetEnemyId);
-		m_enemyIcons[Enemy::EnemyType(currentUnit->m_subtype)]->setVisible(false);
+		if(currentUnit != NULL)
+		{
+			m_enemyIcons[Enemy::EnemyType(currentUnit->m_subtype)]->setVisible(false);
+		}
 	}
 	else
 	{
