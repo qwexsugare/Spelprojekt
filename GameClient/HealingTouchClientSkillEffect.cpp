@@ -12,11 +12,12 @@ HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position, u
 	deactivateSound(sound);
 
 	Entity *e = ClientEntityHandler::getEntity(casterId);
-
 	if(e != NULL)
 	{
 		e->m_model->getAnimation()->Play("Spell");
 	}
+
+	// ANDERS DO TARGET IT WITH ABOVE STUFF
 }
 
 HealingTouchClientSkillEffect::~HealingTouchClientSkillEffect()
