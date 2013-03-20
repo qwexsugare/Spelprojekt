@@ -18,6 +18,7 @@ ClientHandler::ClientHandler(HWND _hWnd)
 
 ClientHandler::~ClientHandler()
 {
+	ClientEntityHandler::removeAllEntities();
 	if(this->m_serverThread)
 	{
 		delete this->m_serverThread;
@@ -167,7 +168,7 @@ void ClientHandler::update(float _dt)
 			break;
 		case State::EXIT:
 			this->m_state = NULL;
-			PostQuitMessage(0);
+			PostQuitMessage(WM_QUIT);
 			break;
 		}
 

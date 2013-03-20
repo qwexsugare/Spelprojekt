@@ -84,6 +84,8 @@ void ServerThread::Run()
 		//	sf::Sleep(0.015f - dt);
 		//}
 	}
+
+	g_graphicsEngine->removeText(fpsText);
 }
 
 void ServerThread::update(float dt)

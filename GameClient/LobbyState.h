@@ -11,7 +11,7 @@
 class LobbyState : public State
 {
 private:
-	vector<bool> m_hostsSuperVector; // Used for checking if all players are ready (For the Host only).
+	map<int, bool> m_hostsSuperVector; // Used for checking if all players are ready (For the Host only).
 	bool m_hostMayStartGame; // Stores a bool which determines if the host can start the game or not.
 	bool m_clientMayReady; // Stores a bool which determines if the client can ready up or not.
 
@@ -34,8 +34,6 @@ private:
 	float distToSlider;
 	int m_playerId;
 	bool m_sliderMove;
-	
-	ChainEffect* test;
 
 public:
 	LobbyState();
