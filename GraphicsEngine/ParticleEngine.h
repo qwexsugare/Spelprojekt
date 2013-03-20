@@ -26,6 +26,9 @@ private:
 	ID3D10ShaderResourceView* randomTex;
 	ID3D10ShaderResourceView* texture;
 
+	ID3D10BlendState* addBlend;
+	ID3D10BlendState* alphBlend;
+
 	D3DXMATRIX	worldMatrix;
 	D3DXVECTOR4 position;
 	D3DXQUATERNION rotation;

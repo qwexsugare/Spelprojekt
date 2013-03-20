@@ -25,6 +25,7 @@ private:
 	Animation* animation;
 	string m_textureIndex;
 	string m_glowIndex;
+	string m_weaponGlowIndex;
 	bool m_static;
 	bool m_shadow;
 	bool m_neutral;
@@ -52,6 +53,7 @@ public:
 	DECLDIR Mesh* getRightHand()const;
 	string getTextureIndex()const { return m_textureIndex; }
 	string getGlowIndex()const { return m_glowIndex; }
+	string getWeaponGlowIndex()const { return m_weaponGlowIndex; }
 	bool isNeutral()const;
 	D3DXMATRIX getModelMatrix()const { return this->m_modelMatrix; }
 	DECLDIR void SetHat(Mesh* _hat);
@@ -73,6 +75,7 @@ public:
 	DECLDIR void setScale(D3DXVECTOR3 _scale);
 	DECLDIR void setTextureIndex(string _textureIndex);
 	DECLDIR void setGlowIndex(string _glowIndex);
+	DECLDIR void setWeaponGlowIndex(string _glowIndex);
 	void updateModelMatrix();
 
 	DECLDIR void setPosition(FLOAT3 _position);
