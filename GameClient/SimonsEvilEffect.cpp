@@ -6,7 +6,7 @@
 
 SimonsEvilEffect::SimonsEvilEffect(unsigned int _caster)
 {
-	m_heal = ((Hero*)EntityHandler::getServerEntity(_caster))->getWits()*3;
+	m_heal = ((Hero*)EntityHandler::getServerEntity(_caster))->getWits()*5;
 	m_ticks = 0;
 	m_caster = _caster;
 	m_damage = ((Hero*)EntityHandler::getServerEntity(_caster))->getWits()*DPS;
