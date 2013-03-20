@@ -68,6 +68,7 @@ public:
 	void attackHero();
 	virtual void attackHero(int heroIndex) = 0;
 
+
 	FLOAT3 crossProduct(FLOAT3 _first, FLOAT3 _second);
 	bool outOfBounds(FLOAT3 _pt, int _offset);
 	bool completelyOutOfBounds(FLOAT3 _pt);
@@ -80,6 +81,7 @@ public:
 	void checkAttack(float lastDT);
 	void moveAndRotate(float lastDT);
 	void checkGoal(float lastDT);
+	void WriteToAwesomeFile(int number);
 };
 
 #endif

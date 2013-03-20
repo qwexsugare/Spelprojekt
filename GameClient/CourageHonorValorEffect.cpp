@@ -3,8 +3,8 @@
 
 const float CourageHonorValorEffect::MOVEMENT_SPEED_BASE = 0.05f;
 const float CourageHonorValorEffect::MOVEMENT_SPEED_FACTOR = 0.01f;
-const float CourageHonorValorEffect::MENTAL_RESISTANCE_FACTOR = -0.05f;
-const float CourageHonorValorEffect::MENTAL_RESISTANCE_BASE = -0.04f;
+const float CourageHonorValorEffect::MENTAL_RESISTANCE_FACTOR = -0.01f;
+const float CourageHonorValorEffect::MENTAL_RESISTANCE_BASE = -0.05f;
 const float CourageHonorValorEffect::MENTAL_DAMAGE_FACTOR = 1.5f;
 const float CourageHonorValorEffect::MENTAL_DAMAGE_BASE = 4.0f;
 vector<unsigned int> CourageHonorValorEffect::m_affectedGuys;

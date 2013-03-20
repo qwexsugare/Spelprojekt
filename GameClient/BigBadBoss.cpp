@@ -64,43 +64,50 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 		m_prevDir = m_dir;
 
 		this->checkAttack(lastDT);
-		
-		
-		if((m_position - m_origPos).length() < m_allowedMovement && !m_reachedPosition)
-		{
-			m_dir = (m_goalPosition - m_position);
-			if(m_dir.length() > 0)
-				m_dir = m_dir/m_dir.length();
-
-		}
-
 
 		if(!m_willPursue)
+			m_nextPosition = m_goalPosition;
+
+		m_dir = m_nextPosition - m_position;
+		
+		if(m_dir.length() > 0)
+			m_dir = m_dir/m_dir.length();
+
+		
+		if(!m_reachedPosition && m_willPursue)
 		{
-			m_dir = m_nextPosition - m_position;
+			if((m_origPos - m_position).length() < m_allowedMovement)
+				m_position = m_position + m_dir*lastDT*m_movementSpeed;
+		}
+
+		
+		/*if((m_position- m_origPos).length() < m_allowedMovement && !m_reachedPosition)
+		{
+			m_dir = (m_nextPosition - m_position);
 			if(m_dir.length() > 0)
 				m_dir = m_dir/m_dir.length();
 
-			if(!m_reachedPosition && (m_position - m_nextPosition).length() > m_movementSpeed*dt)
-			{
-				m_position = m_position + m_dir*lastDT*m_movementSpeed;
-			}
+			m_position = m_position + m_dir*lastDT*m_movementSpeed;
 
-			else if(!m_reachedPosition && !m_willPursue)
-			{
-				m_position = m_nextPosition;
-				m_reachedPosition = false;
-			}
-		
 		}
 
+		else if( !m_willPursue && !m_reachedPosition)
+		{
+			m_dir = m_goalPosition - m_position;
+			if(m_dir.length() > 0)
+				m_dir = m_dir/m_dir.length();
+
+			if((m_position-m_goalPosition).length() > m_movementSpeed*lastDT) 
+				m_position = m_position + m_dir*lastDT*m_movementSpeed;
+			else 
+			{
+				m_reachedPosition = true;
+				m_position = m_goalPosition;
+			}
+		}*/
 
 		
-				
-		
-		
-		
-		
+
 		lastDT=0;
 
 		if(this->m_isAttacking == false && this->m_isAttacking != this->m_oldIsAttacking)

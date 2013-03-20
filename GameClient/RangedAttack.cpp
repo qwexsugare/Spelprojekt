@@ -1,6 +1,6 @@
 #include "RangedAttack.h"
 
-const float RangedAttack::RANGE = 5.0f;
+const float RangedAttack::RANGE = 4.0f;
 
 RangedAttack::RangedAttack() : Skill(Skill::RANGED_ATTACK, 0.0f)
 {
