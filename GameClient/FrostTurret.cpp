@@ -16,8 +16,8 @@ FrostTurret::FrostTurret(FLOAT3 _pos, UnitEntity *_creator) :
 	m_obb = new BoundingOrientedBox(*temp->getObb());
 	g_graphicsEngine->removeModel(temp);
 
-	this->m_minDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 4;
-	this->m_maxDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 2;
+	this->m_minDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 4 + 5;
+	this->m_maxDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 2 + 10;
 	m_updateRotLimiter = 0.0f;
 }
 
