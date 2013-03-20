@@ -246,6 +246,10 @@ FLOAT3 ServerEntity::getDirection()
 	f.x=f.y=f.z=0;
 	return f;
 }
+void ServerEntity::tellBossToDropGold()
+{
+
+}
 
 FLOAT3 ServerEntity::getEndPos()
 {

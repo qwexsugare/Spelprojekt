@@ -464,14 +464,18 @@ void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int
 	int networkId=Statistics::convertSimonsIdToRealId(damageDealerId);
 	if(networkId>=0)
 	{
+		if(mentalDamage>=0 &&mentalDamage<999)
 		Statistics::getStatisticsPlayer(networkId).addMentalDamageDealth(min((int)(mentalDamage* this->m_mentalResistance), this->m_health));
+		if(physicalDamage>=0&&physicalDamage<999)
 		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageDealth(min((int)(physicalDamage* this->m_physicalResistance),this->m_health));
 	}
 
 	networkId=Statistics::convertSimonsIdToRealId(this->m_id);
 	if(networkId>=0)
 	{
+		if(mentalDamage>=0 &&mentalDamage<999)
 		Statistics::getStatisticsPlayer(networkId).addMentalDamageRecived(min((int)(mentalDamage* this->m_mentalResistance),this->m_health));
+		if(physicalDamage>=0&&physicalDamage<999)
 		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageRecived(min((int)(physicalDamage* this->m_physicalResistance),this->m_health));
 	}
 

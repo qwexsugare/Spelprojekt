@@ -8,6 +8,7 @@ Model::Model()
 	this->m_rightHand = NULL;
 	this->m_leftHand = NULL;
 	this->m_hat = NULL;
+	this->m_weaponGlowIndex = "";
 	m_static = false;
 	m_neutral = false;
 }
@@ -53,6 +54,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECT
 	this->animation =  _animation;
 	m_static = false;
 	m_neutral = false;
+	this->m_weaponGlowIndex = "";
 }
 
 Model::~Model()
@@ -277,6 +279,11 @@ void Model::setTextureIndex(string _textureIndex)
 void Model::setGlowIndex(string _glowIndex)
 {
 	m_glowIndex = _glowIndex;
+}
+
+void Model::setWeaponGlowIndex(string _glowIndex)
+{
+	m_weaponGlowIndex = _glowIndex;
 }
 
 void Model::Update(float dt)
