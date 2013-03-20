@@ -6,6 +6,7 @@ HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position, u
 {
 	m_position = _position;
 	m_lifetime = 0.0f;
+	m_casterId = casterId;
 	
 	int sound = createSoundHandle("skills/healingTouch.wav", false, true, _position);
 	playSound(sound);
@@ -15,6 +16,8 @@ HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position, u
 	if(e != NULL)
 	{
 		e->m_model->getAnimation()->Play("Spell");
+		this->m_weapon = e->m_model->getRightHand();
+		e->m_model->SetRightHand(NULL);
 	}
 
 	// ANDERS DO TARGET IT WITH ABOVE STUFF
@@ -22,7 +25,11 @@ HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position, u
 
 HealingTouchClientSkillEffect::~HealingTouchClientSkillEffect()
 {
-
+	Entity *e = ClientEntityHandler::getEntity(m_casterId);
+	if(e != NULL)
+	{
+		e->m_model->SetRightHand(this->m_weapon);
+	}
 }
 
 void HealingTouchClientSkillEffect::update(float _dt)
@@ -32,5 +39,8 @@ void HealingTouchClientSkillEffect::update(float _dt)
 
 bool HealingTouchClientSkillEffect::getActive()
 {
-	return false;
+	if(m_lifetime >= 2)
+		return false;
+	else
+		return true;
 }

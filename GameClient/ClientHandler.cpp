@@ -18,6 +18,7 @@ ClientHandler::ClientHandler(HWND _hWnd)
 
 ClientHandler::~ClientHandler()
 {
+	ClientEntityHandler::removeAllEntities();
 	if(this->m_serverThread)
 	{
 		delete this->m_serverThread;
@@ -154,7 +155,7 @@ void ClientHandler::update(float _dt)
 			this->m_client->disconnect();
 			delete this->m_serverThread;
 			this->m_serverThread = NULL;
-			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage());
+			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage(),((GameState*)tempState)->getMissionEndMessage());
 			break;
 		case State::LOADING:
 			{
@@ -167,7 +168,7 @@ void ClientHandler::update(float _dt)
 			break;
 		case State::EXIT:
 			this->m_state = NULL;
-			PostQuitMessage(0);
+			PostQuitMessage(WM_QUIT);
 			break;
 		}
 

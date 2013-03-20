@@ -17,6 +17,4 @@ public:
 	ID3D10EffectTechnique *getTechniqueVert();
 	ID3D10EffectTechnique *getTechniqueHori();
 	ID3D10EffectTechnique *getTechnique();
-
-	void setDepthTexture(ID3D10ShaderResourceView* _depthTexture);
 };

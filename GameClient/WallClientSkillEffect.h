@@ -7,7 +7,8 @@ class WallClientSkillEffect : public ClientSkillEffect
 {
 private:
 	float m_lifetime;
-
+	Mesh* m_weapon;
+	UINT m_masterId;
 public:
 	WallClientSkillEffect(unsigned int _masterId, FLOAT3 _position);
 	~WallClientSkillEffect();

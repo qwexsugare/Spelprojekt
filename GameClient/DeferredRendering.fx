@@ -1,5 +1,5 @@
 static const int MAX_SPOT_LIGHTS = 10;
-static const int MAX_POINT_LIGHT_SHADOWS = 42;
+static const int MAX_POINT_LIGHT_SHADOWS = 50;
 
 Texture2D positionTexture;
 Texture2D normalTexture;

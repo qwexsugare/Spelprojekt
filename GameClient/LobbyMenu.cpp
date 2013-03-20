@@ -71,15 +71,19 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Buttons[8] = new Button();
 	this->m_Buttons[8]->Init(FLOAT2(0.675f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[8]->setKeep(1);
+	this->m_Buttons[8]->setVisible(false);
 	this->m_Buttons[9] = new Button();
 	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[9]->setKeep(1);
+	this->m_Buttons[9]->setVisible(false);
 	this->m_Buttons[10] = new Button();
 	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[10]->setKeep(1);
+	this->m_Buttons[10]->setVisible(false);
 	this->m_Buttons[11] = new Button();
 	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[11]->setKeep(1);
+	this->m_Buttons[11]->setVisible(false);
 	this->setReady(0);
 
 	m_doctorPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
@@ -138,6 +142,7 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Label[1] = new TextLabel("","text3.png",INT2(415,855),50);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(60,120),75);
 	this->m_Label[3] = new TextLabel("","text3.png",INT2(60,500),75);
+	this->m_Label[3]->setText("Close combat_");
 	this->m_Label[4] = new TextLabel("","text3.png",INT2(60,160),75);
 	this->m_Label[5] = new TextLabel("NONE____NONE","text3.png",INT2(200,890),60);
 	this->m_Label[6] = new TextLabel("Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500","text3.png",INT2(1550,120),60);
@@ -148,7 +153,6 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1040,920),60);
 	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1040,890),60);
 	this->m_Chattext[4] = new TextLabel("","text2.png",INT2(1040,860),60);
-	this->m_Label[3]->setText("Close combat_");
 	this->m_Buttons[6]->SetTextBoxValue(true);
 	this->m_Buttons[7]->SetTextBoxValue(false);
 }
@@ -178,10 +182,11 @@ LobbyMenu::~LobbyMenu(void)
 	g_graphicsEngine->removeSprite(m_officerPortrait2);
 	g_graphicsEngine->removeSprite(m_redKnightPortrait2);
 	g_graphicsEngine->removeSprite(m_engineerPortrait2);
-	for(int i = 0; i < m_playerNames.size(); i++)
+	for(map<int, TextLabel*>::iterator iter = m_playerNames.begin(); iter != m_playerNames.end(); iter++)
 	{
-		delete m_playerNames[i];
+		delete iter->second;
 	}
+	//delete m_slider;
 }
 
 void LobbyMenu::addStringToChat(string t)
@@ -197,6 +202,49 @@ void LobbyMenu::resetEnterPressed()
 {
 	this->enterPressed=false;
 }
+
+void LobbyMenu::removePlayer(int _playerIndex)
+{
+	switch(_playerIndex)
+	{
+	case 0:
+		m_Buttons[8]->setVisible(false);
+		break;
+	case 1:
+		m_Buttons[9]->setVisible(false);
+		break;
+	case 2:
+		m_Buttons[10]->setVisible(false);
+		break;
+	case 3:
+		m_Buttons[11]->setVisible(false);
+		break;
+	}
+
+	switch(m_currentSelections[_playerIndex])
+	{
+	case Hero::OFFICER:
+		m_officerPortrait->setVisible(false);
+		break;
+	case Hero::RED_KNIGHT:
+		m_redKnightPortrait->setVisible(false);
+		break;
+	case Hero::ENGINEER:
+		m_engineerPortrait->setVisible(false);
+		break;
+	case Hero::DOCTOR:
+		m_doctorPortrait->setVisible(false);
+		break;
+	case Hero::THE_MENTALIST:
+		m_mentalistPortrait->setVisible(false);
+		break;
+	}
+
+	delete m_playerNames[_playerIndex];
+	m_playerNames.erase(_playerIndex);
+	m_currentSelections[_playerIndex] = Hero::HERO_TYPE::NONE;
+}
+
 bool LobbyMenu::wasEnterPressed()
 {
 	return this->enterPressed;
@@ -598,23 +646,18 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	{
 	case Hero::OFFICER:
 		m_officerPortrait->setVisible(false);
-		m_officerPortrait2->setVisible(false);
 		break;
 	case Hero::RED_KNIGHT:
 		m_redKnightPortrait->setVisible(false);
-		m_redKnightPortrait2->setVisible(false);
 		break;
 	case Hero::ENGINEER:
 		m_engineerPortrait->setVisible(false);
-		m_engineerPortrait2->setVisible(false);
 		break;
 	case Hero::DOCTOR:
 		m_doctorPortrait->setVisible(false);
-		m_doctorPortrait2->setVisible(false);
 		break;
 	case Hero::THE_MENTALIST:
 		m_mentalistPortrait->setVisible(false);
-		m_mentalistPortrait2->setVisible(false);
 		break;
 	}
 	
@@ -623,7 +666,6 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::OFFICER:
 		this->m_officerPortrait->setPosition(pos);
 		this->m_officerPortrait->setVisible(true);
-		this->m_officerPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Officer");
@@ -648,7 +690,6 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::RED_KNIGHT:
 		this->m_redKnightPortrait->setPosition(pos);
 		this->m_redKnightPortrait->setVisible(true);
-		this->m_redKnightPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Red Knight");
@@ -674,7 +715,6 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::ENGINEER:
 		this->m_engineerPortrait->setPosition(pos);
 		this->m_engineerPortrait->setVisible(true);
-		this->m_engineerPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Engineer");
@@ -699,7 +739,6 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::DOCTOR:
 		this->m_doctorPortrait->setPosition(pos);
 		this->m_doctorPortrait->setVisible(true);
-		this->m_doctorPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Doctor");
@@ -724,7 +763,6 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 	case Hero::THE_MENTALIST:
 		this->m_mentalistPortrait->setPosition(pos);
 		this->m_mentalistPortrait->setVisible(true);
-		this->m_mentalistPortrait2->setVisible(true);
 		if(changeText == true)
 		{
 			this->m_Label[2]->setText("Mentalist");
@@ -747,13 +785,49 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		}
 		break;
 	}
+
+	if(changeText)
+	{
+		switch(m_currentSelections[_playerIndex])
+		{
+		case Hero::OFFICER:
+			m_officerPortrait2->setVisible(false);
+			break;
+		case Hero::RED_KNIGHT:
+			m_redKnightPortrait2->setVisible(false);
+			break;
+		case Hero::ENGINEER:
+			m_engineerPortrait2->setVisible(false);
+			break;
+		case Hero::DOCTOR:
+			m_doctorPortrait2->setVisible(false);
+			break;
+		case Hero::THE_MENTALIST:
+			m_mentalistPortrait2->setVisible(false);
+			break;
+		}
+	
+		switch(_type)
+		{
+		case Hero::OFFICER:
+			this->m_officerPortrait2->setVisible(true);
+			break;
+		case Hero::RED_KNIGHT:
+			this->m_redKnightPortrait2->setVisible(true);
+			break;
+		case Hero::ENGINEER:
+			this->m_engineerPortrait2->setVisible(true);
+			break;
+		case Hero::DOCTOR:
+			this->m_doctorPortrait2->setVisible(true);
+			break;
+		case Hero::THE_MENTALIST:
+			this->m_mentalistPortrait2->setVisible(true);
+			break;
+		}
+	}
 	
 	m_currentSelections[_playerIndex] = _type;
-	
-	if(changeText == true)
-	{
-		this->m_Label[4]->setText("holla din fuling");
-	}
 }
 
 void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
@@ -764,25 +838,34 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
 	case 0:
 		//pos = INT2(0.675f, 0.2f);
 		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		m_Buttons[8]->setVisible(true);
 		break;
 	case 1:
 		//pos = INT2(0.8f, 0.2f);
 		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		m_Buttons[9]->setVisible(true);
 		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 2:
 		//pos = INT2(0.675f, -0.2f);
 		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		m_Buttons[10]->setVisible(true);
 		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 3:
 		//pos = INT2(0.8f, -0.2f);
 		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.17f));
+		m_Buttons[11]->setVisible(true);
 		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
 		break;
 	}
 
-	m_playerNames.push_back(new TextLabel(_name, "text2.png", pos, 50, true));
+	m_playerNames[_playerIndex] = new TextLabel(_name, "text2.png", pos, 50, true);
+	
+	if(changeText == true)
+	{
+		this->m_Label[4]->setText(_name);
+	}
 }
 
 void LobbyMenu::setReady(int _playerIndex)
