@@ -20,6 +20,8 @@ private:
 	ID3D10EffectTechnique* m_drawFireTechnique;
 	ID3D10EffectTechnique* m_electricSOTechnique;
 	ID3D10EffectTechnique* m_drawElectricTechnique;
+	ID3D10EffectTechnique* m_auraSOTechnique;
+	ID3D10EffectTechnique* m_drawAuraTechnique;
 	
 
 	ID3D10EffectVectorVariable* camPosW;
@@ -36,6 +38,7 @@ private:
 	ID3D10EffectScalarVariable* lifeTime;
 	ID3D10EffectScalarVariable* speed;
 	ID3D10EffectScalarVariable* offset;
+	ID3D10EffectVectorVariable* color;
 public:
 	ParticleEngineEffectFile();
 	ParticleEngineEffectFile(ID3D10Device* _device);
@@ -53,6 +56,8 @@ public:
 	ID3D10EffectTechnique* getDrawFireTechnique();
 	ID3D10EffectTechnique* getElectricSOTechnique();
 	ID3D10EffectTechnique* getDrawElectricTechnique();
+	ID3D10EffectTechnique* getAuraSOTechnique();
+	ID3D10EffectTechnique* getDrawAuraTechnique();
 
 
 	ID3D10InputLayout* getInputLayout() {return this->m_vertexLayout;}
@@ -73,4 +78,5 @@ public:
 	void setOffset(float _offset);
 	void setView(D3DXMATRIX _matrix);
 	void setProj(D3DXMATRIX _matrix);
+	void setColor(D3DXVECTOR4 _color);
 };

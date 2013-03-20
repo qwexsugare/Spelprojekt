@@ -8,6 +8,7 @@
 CourageHonorValorClientSkillEffect::CourageHonorValorClientSkillEffect(unsigned int _masterId, unsigned int _redKnightId)
 {
 	m_masterId = _masterId;
+	m_aura = NULL;
 	Entity *e = ClientEntityHandler::getEntity(m_masterId);
 	if(e != NULL)
 	{
@@ -15,15 +16,19 @@ CourageHonorValorClientSkillEffect::CourageHonorValorClientSkillEffect(unsigned 
 		m_hasSpoken = false;
 		FLOAT3 pos = e->m_model->getPosition();
 		pos.y = 0.01f;
-		m_model = g_graphicsEngine->createModel("Pentagram", pos);
-		m_model->neutralize();
-		m_model->setAlpha(0.75f);
-		m_model->setShadow(false);
+		//m_model = g_graphicsEngine->createModel("Pentagram", pos);
+		//m_model->neutralize();
+		//m_model->setAlpha(0.75f);
+		//m_model->setShadow(false);
+		m_model = NULL;
 		m_active = true;
 
 		int sound = createSoundHandle("skills/RedKnight_COURAGE.wav", false, true, pos);
 		SpeechManager::speak(_redKnightId, sound);
 		deactivateSound(sound);
+		D3DXVECTOR4 partPos(pos.x, pos.y, pos.z, 1);
+		D3DXQUATERNION partRot(0, 0, 0, 1);
+		m_aura = g_graphicsEngine->createParticleEngine("RedKnightAura", partPos, partRot, D3DXVECTOR2(1, 1));
 	}
 	else
 	{
@@ -36,6 +41,7 @@ CourageHonorValorClientSkillEffect::~CourageHonorValorClientSkillEffect()
 {
 	if(m_model)
 		g_graphicsEngine->removeModel(m_model);
+		g_graphicsEngine->removeParticleEngine(m_aura);
 }
 
 void CourageHonorValorClientSkillEffect::update(float _dt)
@@ -46,9 +52,9 @@ void CourageHonorValorClientSkillEffect::update(float _dt)
 	{
 		FLOAT3 pos = e->m_model->getPosition();
 		pos.y = 0.01f;
-		m_model->setPosition(pos);
-		m_model->rotate(_dt/3.0f, 0.0f, 0.0f);
-
+		//m_model->setPosition(pos);
+		//m_model->rotate(_dt/3.0f, 0.0f, 0.0f);
+		m_aura->setPosition(D3DXVECTOR3(pos.x, pos.y, pos.z));
 		if(e->m_subtype != Hero::RED_KNIGHT && !m_hasSpoken)
 		{
 			m_soundTimer = max(m_soundTimer-_dt, 0.0f);

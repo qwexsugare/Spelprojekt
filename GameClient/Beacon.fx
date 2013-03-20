@@ -60,7 +60,7 @@ VS_OUT DrawVS(Particle input)
 	float opp = 1.0/lifeTime;
 	float opacity = 1;//1-(opp*t);
 	//float opacity = t*2 - t*t;
-	output.color = float4(1.0f, 1.0f, 1.0f, opacity);
+	output.color = tintColor;//float4(tintColor.r, tintColor.g, tintColor.b, tintColor.a);
 
 	output.size = input.size;
 	output.type = input.type;
