@@ -26,13 +26,13 @@ PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _mas
 		switch(_skillId)
 		{
 		case Skill::POISON_STRIKE:
-			m_master->m_model->setGlowIndex("glowIntensity");
+			m_master->m_model->setWeaponGlowIndex("glowIntensity");
 			break;
 		case Skill::DEADLY_STRIKE:
-			m_master->m_model->setGlowIndex("glowIntensity1");
+			m_master->m_model->setWeaponGlowIndex("glowIntensity1");
 			break;
 		case Skill::LIFESTEALING_STRIKE:
-			m_master->m_model->setGlowIndex("glowIntensity2");
+			m_master->m_model->setWeaponGlowIndex("glowIntensity2");
 			break;
 		}
 	}
@@ -42,7 +42,7 @@ PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _mas
 PassiveAttackClientSkillEffect::~PassiveAttackClientSkillEffect()
 {
 	if(m_master != NULL)
-		m_master->m_model->setGlowIndex("");
+		m_master->m_model->setWeaponGlowIndex("");
 }
 
 void PassiveAttackClientSkillEffect::update(float dt)
