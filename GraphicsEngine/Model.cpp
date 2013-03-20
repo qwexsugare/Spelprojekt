@@ -9,6 +9,7 @@ Model::Model()
 	this->m_leftHand = NULL;
 	this->m_hat = NULL;
 	this->m_weaponGlowIndex = "";
+	this->m_glowAlpha = 1;
 	m_static = false;
 	m_neutral = false;
 }
@@ -25,6 +26,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECT
 	this->m_rightHand = NULL;
 	this->m_leftHand = NULL;
 	this->m_hat = NULL;
+	this->m_glowAlpha = 1;
 	this->m_shadow = true;
 
 	if(_mesh->m_bs == NULL)
@@ -419,4 +421,14 @@ FLOAT2 Model::getScreenPos(D3DXMATRIX viewProjectionMatrix)
 void Model::setColor(D3DXVECTOR4 color)
 {
 	this->m_stencilColor = color;
+}
+
+void Model::setGlowAlpha(float _glowAlpha)
+{
+	this->m_glowAlpha = _glowAlpha;
+}
+
+float Model::getGlowAlpha()
+{
+	return this->m_glowAlpha;
 }

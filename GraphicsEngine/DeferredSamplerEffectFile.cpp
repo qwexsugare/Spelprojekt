@@ -21,6 +21,7 @@ DeferredSamplerEffectFile::DeferredSamplerEffectFile(ID3D10Device* _device) : Ef
 	this->m_animationTechnique = this->m_effect->GetTechniqueByName("DeferredAnimationSample");
 	this->m_superTechnique = this->m_effect->GetTechniqueByName("DeferredSuperSample");
 	this->m_propsTechnique = this->m_effect->GetTechniqueByName("DeferredPropsSample");
+	this->m_glowAlpha = this->m_effect->GetVariableByName("glowAlpha")->AsScalar();
 	// Troll ? 
 	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPos")->AsVector();
 
@@ -231,4 +232,9 @@ ID3D10EffectTechnique *DeferredSamplerEffectFile::getShadowAnimationTechnique()
 ID3D10EffectTechnique *DeferredSamplerEffectFile::getShadowPropsTechnique()
 {
 	return this->m_renderShadowMapProps;
+}
+
+void DeferredSamplerEffectFile::setGlowAlpha(float _glowAlpha)
+{
+	this->m_glowAlpha->SetFloat(_glowAlpha);
 }
