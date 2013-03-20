@@ -22,6 +22,9 @@ private:
 
 	ServerThread *m_serverThread;
 	Client *m_client;
+
+	// Music
+	int m_menuMusic;
 public:
 	ClientHandler(HWND _hWnd);
 	~ClientHandler();
