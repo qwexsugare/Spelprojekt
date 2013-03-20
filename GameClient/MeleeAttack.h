@@ -9,6 +9,7 @@ class MeleeAttack : public Skill
 {
 public:
 	static const float RANGE;
+	static const float MINIMUM_DAMAGE_MULTIPLIER;
 
 	MeleeAttack();
 	~MeleeAttack();
@@ -16,4 +17,5 @@ public:
 	virtual bool activate(unsigned int _targetId, unsigned int _senderId);
 
 	void updateSpecificSkill(float dt);
+	float getMinimumDamageMultiplier();
 };

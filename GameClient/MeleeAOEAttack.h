@@ -11,6 +11,7 @@ class MeleeAOEAttack :
 public:
 	static const float RANGE;
 	static const float AOE_RANGE;
+	static const float MINIMUM_DAMAGE_MULTIPLIER;
 
 	MeleeAOEAttack();
 	~MeleeAOEAttack();
@@ -18,5 +19,6 @@ public:
 	virtual bool activate(unsigned int _targetId, unsigned int _senderId);
 
 	void updateSpecificSkill(float dt);
+	float getMinimumDamageMultiplier();
 };
 

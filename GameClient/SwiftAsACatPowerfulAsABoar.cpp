@@ -1,7 +1,7 @@
 #include "SwiftAsACatPowerfulAsABoar.h"
 #include "EntityHandler.h"
 
-const float SwiftAsACatPowerfulAsABoar::COOLDOWN = 45.0f;
+const float SwiftAsACatPowerfulAsABoar::COOLDOWN = 20.0f;
 
 SwiftAsACatPowerfulAsABoar::SwiftAsACatPowerfulAsABoar() : Skill(Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR, COOLDOWN)
 {

@@ -86,4 +86,5 @@ public:
 	void update(float _dt);
 	virtual void updateSpecificSkill(float _dt) = 0;
 	virtual int getCost();
+	virtual float getMinimumDamageMultiplier();
 };
