@@ -11,7 +11,9 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 	Entity* target = ClientEntityHandler::getEntity(_masterId);
 
 	m_masterId = _masterId;
-	FLOAT3 pos = target->m_model->getPosition();
+	FLOAT3 pos(0, 0, 0);
+	if(target)
+		pos	= target->m_model->getPosition();
 	m_model = g_graphicsEngine->createModel("Bench", pos);
 	m_model->setAlpha(0.999f);
 	m_sound = createSoundHandle("turrets/deathTowerAttack.wav", false, true, pos);

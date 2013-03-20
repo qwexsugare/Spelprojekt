@@ -18,6 +18,7 @@ struct VS_OUT
 	float4 color: COLOR;
 	uint type	: TYPE;
 	float3 vel	: VELOCITY;
+	float ang	: ANGLE;
 };
 
 struct GS_OUT
@@ -58,7 +59,7 @@ cbuffer cbFixed
 	float2 quadTexC[4] =
 	{
 		float2(0.0f, 1.0f),
-		float2(1.1f, 1.0f),
+		float2(1.0f, 1.0f),
 		float2(0.0f, 0.0f),
 		float2(1.0f, 0.0f)
 	};
@@ -72,6 +73,13 @@ SamplerState triLinearSam
 	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Wrap;
 	AddressV = Wrap;
+};
+
+SamplerState clampSampler
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 DepthStencilState DisableDepth

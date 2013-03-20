@@ -1,10 +1,10 @@
-#ifndef ELECTRIC
-#define ELECTRIC
+#ifndef AURA
+#define AURA
 
 #include "ParticleSystemStructs.fx"
 
 [maxvertexcount(17)]
-void ElectricSO(point Particle input[1], inout PointStream<Particle> pStream)
+void AuraSO(point Particle input[1], inout PointStream<Particle> pStream)
 {
 	input[0].age += dt;
 
@@ -38,37 +38,32 @@ void ElectricSO(point Particle input[1], inout PointStream<Particle> pStream)
 	}
 }
 
-GeometryShader gsElectricSO = ConstructGSWithSO(
-	CompileShader( gs_4_0, ElectricSO() ),
+GeometryShader gsAuraSO = ConstructGSWithSO(
+	CompileShader( gs_4_0, AuraSO() ),
 	"POSITION.xyz; VELOCITY.xyz; SIZE.xy; AGE.x; TYPE.x;");
 
 //*********
 // DrawTech
 //*********
 
-VS_OUT ElectricVS(Particle input)
+VS_OUT AuraVS(Particle input)
 {
 	VS_OUT output = (VS_OUT)0;
 
 	float t = input.age;
-
-
-
-	float3 up = float3(0, 0, 1);
-
-	float angle = atan2(up.z, up.x) - atan2(input.vel.z, input.vel.x);
-
-	//float angle = dot(up, normalize(input.vel)); 
+	
 
 	output.vel = input.vel;
 
+	output.ang = ((6.28f/lifeTime) * t) * speed;
 
-	output.pos.xyz = emitPosW.xyz + (((input.vel.xyz)*(offset + (t*speed))));
+	output.pos.xyz = emitPosW.xyz;
 	output.pos.y = 0.02f;
+	
+	float opacity = sin((float(180.0f/lifeTime) * t) * 3.14f/180.0f);
 
-	float opp = 1.0/lifeTime;
-	float opacity = 1-(opp*t);
 	output.color = tintColor;
+	output.color.a = opacity * tintColor.a;
 
 	output.size = input.size;
 	output.type = input.type;
