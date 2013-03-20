@@ -425,7 +425,9 @@ void GameState::update(float _dt)
 		}
 	}
 
-	//g_graphicsEngine->createMyText(
+	// random mouse pos update
+	g_mouse->update();
+
 	while(!this->m_network->missionQueueEmpty())
 	{
 		NetworkMissionStarted m = this->m_network->missionQueueFront();
