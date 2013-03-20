@@ -10,12 +10,12 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	this->m_deviceHandler = _deviceHandler;
 	this->m_spritesMiddle = vector<SpriteBase*>();
 	this->m_texts = vector<Text*>();
-	m_quadTree = new QuadTree(1, D3DXVECTOR2(-9000,-9000), D3DXVECTOR2(9000, 9000), D3DXVECTOR2(9000,9000)); // Init to something arbitrary, it will be fully initialized later in other function
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
 	INT2 actualScreenSize = INT2(rc.right-rc.left, rc.bottom-rc.top);
 	this->m_camera = new Camera(this->m_deviceHandler->getScreenSize(), actualScreenSize);
+	m_quadTree = new QuadTree(1, D3DXVECTOR2(-9000,-9000), D3DXVECTOR2(9000, 9000), m_camera); // Init to something arbitrary, it will be fully initialized later in other function
 
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
@@ -143,9 +143,10 @@ World::~World()
 	delete this->m_ViewCoordBufferTransparant;
 	delete this->m_glowBufferTransparant;
 
-	delete this->m_camera;
 	if(m_quadTree)
 		delete this->m_quadTree;
+
+	delete this->m_camera; // Delete this guy last cuz he is so fucking important
 }
 
 bool World::intersectsWithObject(const BoundingOrientedBox& _obb, Model* _model1, Model* _model2)
@@ -1444,7 +1445,7 @@ void World::initQuadTree(FLOAT2 _extents)
 {
 	if(m_quadTree)
 		delete m_quadTree;
-	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y), D3DXVECTOR2(m_camera->getXOffset(), m_camera->getZOffset()));
+	this->m_quadTree = new QuadTree(3, D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(_extents.x, _extents.y), m_camera);
 }
 
 void World::clear()
@@ -1452,7 +1453,7 @@ void World::clear()
 	this->m_mutex.Lock();
 
 	delete m_quadTree;
-	m_quadTree = new QuadTree(1, D3DXVECTOR2(-9000,-9000), D3DXVECTOR2(9000, 9000), D3DXVECTOR2(9000,9000)); // Init to something arbitrary, it will be fully initialized later in other function
+	m_quadTree = new QuadTree(1, D3DXVECTOR2(-9000,-9000), D3DXVECTOR2(9000, 9000), m_camera); // Init to something arbitrary, it will be fully initialized later in other function
 
 	for(int i = 0; i < m_terrains.size(); i++)
 		delete m_terrains[i];

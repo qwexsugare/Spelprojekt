@@ -9,8 +9,8 @@ const float TeslaChainTurret::COOLDOWN = 2.0f;
 TeslaChainTurret::TeslaChainTurret(FLOAT3 _position, UnitEntity *_creator) :
 	Turret(_position, TeslaChainTurret::COOLDOWN, TeslaChainTurret::RANGE, 20 * _creator->getTurretDuration(), _creator->getId(), _creator->getTurretConstruction())
 {
-	this->m_minDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 4 + 1;
-	this->m_maxDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 2 + 1;
+	this->m_minDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 4 + 5;
+	this->m_maxDamage = (_creator->getTurretDamageUpgrade() * _creator->getTurretConstruction()) / 2 + 10;
 	this->m_numberOfHits = 1 + _creator->getTurretConstruction() / 4;
 	this->m_modelId = 3;
 	

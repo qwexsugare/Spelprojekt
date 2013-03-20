@@ -9,7 +9,7 @@ private:
 	unsigned int m_senderId;
 public:
 	static const unsigned int COST = 2200;
-	static const int LIFE_STEAL_CHANCE = 15;
+	static const int LIFE_STEAL_CHANCE = 101;
 
 	LifestealingStrike();
 	~LifestealingStrike();

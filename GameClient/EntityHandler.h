@@ -29,7 +29,7 @@ public:
 	void removeAllEntities();
 
 	static void addEntity(ServerEntity *_entity);
-	static bool removeEntity(ServerEntity *_entity);
+	static bool removeEntity(ServerEntity *_entity, bool sendRemoveMessage = false);
 	
 	static vector<ServerEntity*> getEntities();
 	static vector<ServerEntity*> getEntitiesByType(ServerEntity::Type _type);

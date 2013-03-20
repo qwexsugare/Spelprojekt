@@ -452,22 +452,28 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			if(g_graphicsEngine->intersectsWithObject(*m_subTowerModel->getObb(), m_towerModel, m_subTowerModel))
 			{
-				m_towerModel->setAlpha(0.1f);
-				m_subTowerModel->setAlpha(0.1f);
+				/*m_towerModel->setAlpha(0.1f);
+				m_subTowerModel->setAlpha(0.1f);*/
+				m_towerModel->setTextureIndex("color1");
+				m_subTowerModel->setTextureIndex("color1");
 			}
 			else
 			{
-				m_towerModel->setAlpha(0.5f);
-				m_subTowerModel->setAlpha(0.5f);
+				/*m_towerModel->setAlpha(0.5f);
+				m_subTowerModel->setAlpha(0.5f);*/
+				m_towerModel->setTextureIndex("color");
+				m_subTowerModel->setTextureIndex("color");
 			}
 		}
 		else if(g_graphicsEngine->intersectsWithObject(*m_towerModel->getObb(), m_towerModel))
 		{
-			m_towerModel->setAlpha(0.1f);
+			//m_towerModel->setAlpha(0.1f);
+			m_towerModel->setTextureIndex("color1");
 		}
 		else
 		{
-			m_towerModel->setAlpha(0.5f);
+			//m_towerModel->setAlpha(0.5f);
+			m_towerModel->setTextureIndex("color");
 		}
 
 		D3DXVECTOR3 pickDir;

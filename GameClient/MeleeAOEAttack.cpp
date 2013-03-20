@@ -2,6 +2,7 @@
 
 const float MeleeAOEAttack::RANGE = 1.0f;
 const float MeleeAOEAttack::AOE_RANGE = 2.0f;
+const float MeleeAOEAttack::MINIMUM_DAMAGE_MULTIPLIER = 0.5f;
 
 MeleeAOEAttack::MeleeAOEAttack()
 {
@@ -37,4 +38,9 @@ bool MeleeAOEAttack::activate(unsigned int _targetId, unsigned int _senderId)
 void MeleeAOEAttack::updateSpecificSkill(float dt)
 {
 
+}
+
+float MeleeAOEAttack::getMinimumDamageMultiplier()
+{
+	return MeleeAOEAttack::MINIMUM_DAMAGE_MULTIPLIER;
 }

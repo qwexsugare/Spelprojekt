@@ -9,7 +9,7 @@ private:
 	unsigned int m_masterId;
 	Model* m_model;
 	int m_sound;
-	float m_soundVolume;
+	//float m_soundVolume;
 	float m_timer;
 	bool m_active;
 public:

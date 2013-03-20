@@ -36,7 +36,7 @@ void PoisonTurretProjectile::update(float _dt)
 		ServerEntity* target = EntityHandler::getServerEntity(m_target);
 		if(target)
 		{
-			int poisonDamage = (1+m_upgradeLevel/4);
+			int poisonDamage = m_upgradeLevel;
 			((UnitEntity*)target)->addPoisonStack(poisonDamage);
 			int damage = random(0, 25) + ((UnitEntity*)target)->getPoisonStackDamage();
 			int healthBefore = target->getHealth();
