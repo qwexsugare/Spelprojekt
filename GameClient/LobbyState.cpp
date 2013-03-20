@@ -266,7 +266,14 @@ void LobbyState::update(float _dt)
 		if(nhsm.getHeroId()== Hero::HERO_TYPE::NONE)
 		{
 			m_menu->removePlayer(nhsm.getPlayerId());
-			m_hostsSuperVector.erase(nhsm.getPlayerId());
+			if(m_playerId == 0)
+			{
+				m_hostsSuperVector.erase(nhsm.getPlayerId());
+				if(m_hostsSuperVector.size() < 2)
+				{
+					m_hostMayStartGame = true;
+				}
+			}
 		}
 		else
 		{

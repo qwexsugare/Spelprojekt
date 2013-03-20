@@ -71,15 +71,19 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Buttons[8] = new Button();
 	this->m_Buttons[8]->Init(FLOAT2(0.675f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[8]->setKeep(1);
+	this->m_Buttons[8]->setVisible(false);
 	this->m_Buttons[9] = new Button();
 	this->m_Buttons[9]->Init(FLOAT2(0.8f, 0.12f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[9]->setKeep(1);
+	this->m_Buttons[9]->setVisible(false);
 	this->m_Buttons[10] = new Button();
 	this->m_Buttons[10]->Init(FLOAT2(0.675f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[10]->setKeep(1);
+	this->m_Buttons[10]->setVisible(false);
 	this->m_Buttons[11] = new Button();
 	this->m_Buttons[11]->Init(FLOAT2(0.8f, -0.08f),FLOAT2(0.272916667f*0.3f,0.142592593f*0.3f),"menu_textures\\Button-LobbyMenu-Player4.png","",0,0,1);
 	this->m_Buttons[11]->setKeep(1);
+	this->m_Buttons[11]->setVisible(false);
 	this->setReady(0);
 
 	m_doctorPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-4.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
@@ -201,6 +205,41 @@ void LobbyMenu::resetEnterPressed()
 
 void LobbyMenu::removePlayer(int _playerIndex)
 {
+	switch(_playerIndex)
+	{
+	case 0:
+		m_Buttons[8]->setVisible(false);
+		break;
+	case 1:
+		m_Buttons[9]->setVisible(false);
+		break;
+	case 2:
+		m_Buttons[10]->setVisible(false);
+		break;
+	case 3:
+		m_Buttons[11]->setVisible(false);
+		break;
+	}
+
+	switch(m_currentSelections[_playerIndex])
+	{
+	case Hero::OFFICER:
+		m_officerPortrait->setVisible(false);
+		break;
+	case Hero::RED_KNIGHT:
+		m_redKnightPortrait->setVisible(false);
+		break;
+	case Hero::ENGINEER:
+		m_engineerPortrait->setVisible(false);
+		break;
+	case Hero::DOCTOR:
+		m_doctorPortrait->setVisible(false);
+		break;
+	case Hero::THE_MENTALIST:
+		m_mentalistPortrait->setVisible(false);
+		break;
+	}
+
 	delete m_playerNames[_playerIndex];
 	m_playerNames.erase(_playerIndex);
 	m_currentSelections[_playerIndex] = Hero::HERO_TYPE::NONE;
@@ -799,20 +838,24 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
 	case 0:
 		//pos = INT2(0.675f, 0.2f);
 		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		m_Buttons[8]->setVisible(true);
 		break;
 	case 1:
 		//pos = INT2(0.8f, 0.2f);
 		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
+		m_Buttons[9]->setVisible(true);
 		m_Buttons[9]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 2:
 		//pos = INT2(0.675f, -0.2f);
 		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.175f));
+		m_Buttons[10]->setVisible(true);
 		m_Buttons[10]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 3:
 		//pos = INT2(0.8f, -0.2f);
 		pos = INT2(1920/2.0f*0.796f + 1920/2.0f, 1080/2.0f - 1080/2.0f*(-0.17f));
+		m_Buttons[11]->setVisible(true);
 		m_Buttons[11]->setCurrentFrame(INT2(1, 0));
 		break;
 	}
