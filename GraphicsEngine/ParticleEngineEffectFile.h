@@ -39,6 +39,7 @@ private:
 	ID3D10EffectScalarVariable* speed;
 	ID3D10EffectScalarVariable* offset;
 	ID3D10EffectVectorVariable* color;
+	ID3D10EffectScalarVariable* rotateSpeed;
 public:
 	ParticleEngineEffectFile();
 	ParticleEngineEffectFile(ID3D10Device* _device);
@@ -79,4 +80,5 @@ public:
 	void setView(D3DXMATRIX _matrix);
 	void setProj(D3DXMATRIX _matrix);
 	void setColor(D3DXVECTOR4 _color);
+	void setRotateSpeed(float _speed);
 };

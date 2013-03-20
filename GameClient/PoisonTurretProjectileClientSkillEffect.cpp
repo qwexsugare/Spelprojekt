@@ -11,9 +11,7 @@ PoisonTurretProjectileClientSkillEffect::PoisonTurretProjectileClientSkillEffect
 {
 	m_active = true;
 	m_targetId = _targetId;
-	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
-	m_graphicalEffect->setScale(1.5f, 1.5f, 1.5f);
-	m_graphicalEffect->setAlpha(0.999f);
+	
 
 	int sound = createSoundHandle("turrets/poisonTowerAttack.wav", false, true, _position);
 	playSound(sound);
@@ -22,7 +20,7 @@ PoisonTurretProjectileClientSkillEffect::PoisonTurretProjectileClientSkillEffect
 
 PoisonTurretProjectileClientSkillEffect::~PoisonTurretProjectileClientSkillEffect()
 {
-	g_graphicsEngine->removeModel(m_graphicalEffect);
+	
 }
 
 void PoisonTurretProjectileClientSkillEffect::update(float _dt)
@@ -35,8 +33,8 @@ void PoisonTurretProjectileClientSkillEffect::update(float _dt)
 
 		if(dist.length() > movement.length())
 		{
-			m_graphicalEffect->move(FLOAT3(movement.x, 0.0f, movement.y));
-			m_graphicalEffect->setRotation(FLOAT3(atan2(-movement.x, -movement.y), 0.0f, 0.0f));
+			//m_graphicalEffect->move(FLOAT3(movement.x, 0.0f, movement.y));
+			//m_graphicalEffect->setRotation(FLOAT3(atan2(-movement.x, -movement.y), 0.0f, 0.0f));
 		}
 		else
 		{

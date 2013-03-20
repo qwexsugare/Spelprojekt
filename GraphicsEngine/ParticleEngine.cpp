@@ -18,6 +18,7 @@ ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, Textu
 
 	this->isAlive = true;
 	this->color = _pe->color;
+	this->rotateSpeed = _pe->rotateSpeed;
 
 	this->totalTime = 0;
 	this->dt = 0;
@@ -201,6 +202,7 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 	_particleRendering->setSpeed(this->speed);
 	_particleRendering->setOffset(this->offset);
 	_particleRendering->setColor(this->color);
+	_particleRendering->setRotateSpeed(this->rotateSpeed);
 
 
 	device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);

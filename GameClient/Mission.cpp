@@ -104,6 +104,7 @@ bool Mission::startMission()
 			BigBadBoss *boss = new BigBadBoss(this->m_position);
 			EntityHandler::addEntity(boss);
 			this->bossId = boss->getId();
+			boss->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, boss->getId(), boss->getPosition()));
 		}
 	return this->missionStarted;
 }
