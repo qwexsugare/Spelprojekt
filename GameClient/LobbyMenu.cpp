@@ -747,6 +747,47 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 		}
 		break;
 	}
+
+	if(changeText)
+	{
+		switch(m_currentSelections[_playerIndex])
+		{
+		case Hero::OFFICER:
+			m_officerPortrait2->setVisible(false);
+			break;
+		case Hero::RED_KNIGHT:
+			m_redKnightPortrait2->setVisible(false);
+			break;
+		case Hero::ENGINEER:
+			m_engineerPortrait2->setVisible(false);
+			break;
+		case Hero::DOCTOR:
+			m_doctorPortrait2->setVisible(false);
+			break;
+		case Hero::THE_MENTALIST:
+			m_mentalistPortrait2->setVisible(false);
+			break;
+		}
+	
+		switch(_type)
+		{
+		case Hero::OFFICER:
+			this->m_officerPortrait2->setVisible(true);
+			break;
+		case Hero::RED_KNIGHT:
+			this->m_redKnightPortrait2->setVisible(true);
+			break;
+		case Hero::ENGINEER:
+			this->m_engineerPortrait2->setVisible(true);
+			break;
+		case Hero::DOCTOR:
+			this->m_doctorPortrait2->setVisible(true);
+			break;
+		case Hero::THE_MENTALIST:
+			this->m_mentalistPortrait2->setVisible(true);
+			break;
+		}
+	}
 	
 	m_currentSelections[_playerIndex] = _type;
 }
@@ -759,7 +800,6 @@ void LobbyMenu::setPlayerName(int _playerIndex, string _name, bool changeText)
 	case 0:
 		//pos = INT2(0.675f, 0.2f);
 		pos = INT2(1920/2.0f*0.671f + 1920/2.0f, 1080/2.0f - 1080/2.0f*0.05f);
-		m_Buttons[8]->setCurrentFrame(INT2(1, 0));
 		break;
 	case 1:
 		//pos = INT2(0.8f, 0.2f);
