@@ -2,11 +2,11 @@
 #include "SoundWrapper.h"
 #include "Graphics.h"
 
-HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position, unsigned int casterId)
+HealingTouchClientSkillEffect::HealingTouchClientSkillEffect(FLOAT3 _position, unsigned int casterId, unsigned int _targetId)
 {
 	m_position = _position;
 	m_lifetime = 0.0f;
-
+	
 	int sound = createSoundHandle("skills/healingTouch.wav", false, true, _position);
 	playSound(sound);
 	deactivateSound(sound);
