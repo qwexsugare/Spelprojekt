@@ -8,7 +8,7 @@ QuadTreeNode::QuadTreeNode()
 	this->m_obb = NULL;
 }
 
-QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max, D3DXVECTOR2 _cameraOffset)
+QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max, Camera* _camera)
 {
 	this->m_min = _min;
 	this->m_max = _max;
@@ -17,14 +17,14 @@ QuadTreeNode::QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max, D3DX
 		XMFLOAT3((_max.x-_min.x)/2.0f, 100000.0f, (_max.y-_min.y)/2.0f),
 		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f)
 		);
-	m_cameraOffset = _cameraOffset;
+	m_camera = _camera;
 	
 	if(_levels > 1)
 	{
-		this->m_children[0] = new QuadTreeNode(_levels-1, _min, (_max+_min)/2.0f, _cameraOffset);
-		this->m_children[1] = new QuadTreeNode(_levels-1, D3DXVECTOR2((_max.x+_min.x)/2.0f, _min.y), D3DXVECTOR2(_max.x, (_max.y+_min.y)/2.0f), _cameraOffset);
-		this->m_children[2] = new QuadTreeNode(_levels-1, D3DXVECTOR2(_min.x, (_max.y+_min.y)/2.0f), D3DXVECTOR2((_max.x+_min.x)/2.0f, _max.y), _cameraOffset);
-		this->m_children[3] = new QuadTreeNode(_levels-1, (_max+_min)/2.0f, _max, _cameraOffset);
+		this->m_children[0] = new QuadTreeNode(_levels-1, _min, (_max+_min)/2.0f, m_camera);
+		this->m_children[1] = new QuadTreeNode(_levels-1, D3DXVECTOR2((_max.x+_min.x)/2.0f, _min.y), D3DXVECTOR2(_max.x, (_max.y+_min.y)/2.0f), m_camera);
+		this->m_children[2] = new QuadTreeNode(_levels-1, D3DXVECTOR2(_min.x, (_max.y+_min.y)/2.0f), D3DXVECTOR2((_max.x+_min.x)/2.0f, _max.y), m_camera);
+		this->m_children[3] = new QuadTreeNode(_levels-1, (_max+_min)/2.0f, _max, m_camera);
 	}
 	else
 	{
@@ -392,7 +392,7 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 	nodeDistanceToCamera.x -= greatestExtent;
 	nodeDistanceToCamera.y -= greatestExtent;
 	
-	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+m_cameraOffset.x && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+m_cameraOffset.y)
+	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+m_camera->getXOffset() && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+m_camera->getZOffset())
 	{
 		if(this->m_children[0])
 		{
@@ -433,7 +433,7 @@ void QuadTreeNode::getModels(stack<Model*>& _models, D3DXVECTOR2 _focalPoint)con
 			modelDistanceToCamera.x -= greatestExtent;
 			modelDistanceToCamera.y -= greatestExtent;
 			
-			if(modelDistanceToCamera.x < m_cameraOffset.x && modelDistanceToCamera.y < m_cameraOffset.y)
+			if(modelDistanceToCamera.x < m_camera->getXOffset() && modelDistanceToCamera.y < m_camera->getZOffset())
 				_models.push(this->m_models[i]);
 		}
 	}
@@ -454,7 +454,7 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR2 _focalPoi
 	nodeDistanceToCamera.x -= greatestExtent;
 	nodeDistanceToCamera.y -= greatestExtent;
 	
-	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+m_cameraOffset.x && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+m_cameraOffset.y)
+	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+m_camera->getXOffset() && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+m_camera->getZOffset())
 	{
 		if(this->m_children[0])
 		{
@@ -479,7 +479,7 @@ void QuadTreeNode::getLights(vector<PointLight*>& _lights, D3DXVECTOR2 _focalPoi
 			modelDistanceToCamera.x -= greatestExtent;
 			modelDistanceToCamera.y -= greatestExtent;
 
-			if(modelDistanceToCamera.x < m_cameraOffset.x && modelDistanceToCamera.y < m_cameraOffset.y)
+			if(modelDistanceToCamera.x < m_camera->getXOffset() && modelDistanceToCamera.y < m_camera->getZOffset())
 				_lights.push_back(this->m_lights[i]);
 		}
 	}
@@ -518,7 +518,7 @@ void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR2 _focalPoint)const
 	nodeDistanceToCamera.x -= greatestExtent;
 	nodeDistanceToCamera.y -= greatestExtent;
 	
-	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+m_cameraOffset.x && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+m_cameraOffset.y)
+	if(abs(_focalPoint.x - m_obb->Center.x) < m_obb->Extents.x+m_camera->getXOffset() && abs(_focalPoint.y - m_obb->Center.z) < m_obb->Extents.z+m_camera->getZOffset())
 	{
 		if(this->m_children[0])
 		{
@@ -548,7 +548,7 @@ void QuadTreeNode::getRoads(stack<Road*>& _roads, D3DXVECTOR2 _focalPoint)const
 			modelDistanceToCamera.x -= greatestExtent;
 			modelDistanceToCamera.y -= greatestExtent;
 		
-			if(modelDistanceToCamera.x < m_cameraOffset.x && modelDistanceToCamera.y < m_cameraOffset.y)
+			if(modelDistanceToCamera.x < m_camera->getXOffset() && modelDistanceToCamera.y < m_camera->getZOffset())
 				_roads.push(m_roads[i]);
 		}
 	}

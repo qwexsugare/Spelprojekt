@@ -17,8 +17,8 @@ Camera::Camera(INT2 _configScreenSize, INT2 _actualScreenSize)
 	this->updateViewMatrix();
 	D3DXMatrixPerspectiveFovLH(&this->m_projectionMatrix, D3DX_PI/4.0f,  float(m_configScreenSize.x) / float(m_configScreenSize.y), 0.1f, 1000000.0f);
 	
-	m_xOffset = 6.0f; //8.8f;
-	m_zOffset = 4.0f; //5.86f;
+	m_xOffset = 6.0f; // 8.8f;
+	m_zOffset = 4.0f; // 5.86f;
 }
 
 Camera::~Camera()
@@ -93,8 +93,8 @@ void Camera::updateViewMatrix()
 void Camera::moveY(float _val)
 {
 	m_position.y += _val;
-	m_xOffset += _val*0.8f; // 0.5f
-	m_zOffset += _val*0.53f; // 0.5f
+	m_xOffset += _val*0.8f;
+	m_zOffset += _val*0.53f;
 	this->updateViewMatrix();
 }
 

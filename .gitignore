@@ -2900,3 +2900,11 @@ GameClient/STATISTICSlastgame.txt
 GameClient/textures/missioncomplete.png
 GameClient/textures/missionfailed.png
 GameClient/textures/missionstarted.png
+GameClient/audio/music/adv.wav
+GameClient/audio/music/defeat.wav
+GameClient/audio/music/defeat2.wav
+GameClient/audio/music/everlasting_march.wav
+GameClient/audio/music/guitar_function.wav
+GameClient/audio/music/menu_screen.wav
+GameClient/audio/music/win.wav
+GameClient/STATISTICSlastgame.txt
