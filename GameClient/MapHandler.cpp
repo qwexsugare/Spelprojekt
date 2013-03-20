@@ -24,7 +24,7 @@ MapHandler::MapHandler()
 	this->m_grid = NULL;
 	this->m_paths = NULL;
 	this->m_lives = 2;
-	Statistics::setStartLife(this->m_lives);
+	
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
 	{
@@ -56,10 +56,10 @@ MapHandler::~MapHandler()
 	if(m_paths)
 		delete []m_paths;
 
-	for(int i = 0; i < missions.size(); i++)
-	{
-		delete missions[i];
-	}
+	//for(int i = 0; i < missions.size(); i++)
+	//{
+	//	delete missions[i];
+	//}
 }
 
 MapHandler::State MapHandler::getState()
@@ -338,6 +338,7 @@ void MapHandler::loadMap(std::string filename)
 				int k=0;
 				file >> k;
 				this->m_lives=k;
+				Statistics::setStartLife(this->m_lives);
 			}
 			
 		}
@@ -353,11 +354,12 @@ void MapHandler::update(float _dt)
 		//EntityHandler::addEntity(new Mission(this->mission));
 		for(int i=0;i<this->missions.size();i++)
 		{
-			if(this->missions[i]->handle(this->m_currentWave))
+			(this->missions[i]->handle(this->m_currentWave));
 			{
 				if(!this->missions[i]->isAddedToEntityHandler())
 				{
 					this->missions[i]->addToEntityHandler();
+					EntityHandler::addEntity(this->missions[i]);
 					this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missions[i]->getMissionName(),"start"));
 				}
 			}
