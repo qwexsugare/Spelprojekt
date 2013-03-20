@@ -874,6 +874,10 @@ void GameState::update(float _dt)
 	{
 		g_graphicsEngine->getCamera()->moveY(_dt);
 	}
+	if(g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
+	{
+		g_graphicsEngine->getCamera()->moveY(-_dt);
+	}
 	if(m_hud->isDone())
 	{
 		this->setDone(true);
