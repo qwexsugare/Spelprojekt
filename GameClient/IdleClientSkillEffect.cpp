@@ -18,6 +18,11 @@ IdleClientSkillEffect::IdleClientSkillEffect(unsigned int masterId)
 			master->m_model->getAnimation()->PlayLoop("idle");
 		}
 	}
+	else if(master != NULL && master->m_type == ServerEntity::EnemyType && master->m_subtype == Enemy::BOSS)
+	{
+		master->m_model->getAnimation()->Stop("run");
+		master->m_model->getAnimation()->PlayLoop("idle");
+	}
 }
 
 IdleClientSkillEffect::~IdleClientSkillEffect()
