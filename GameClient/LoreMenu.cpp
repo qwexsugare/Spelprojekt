@@ -48,13 +48,6 @@ void LoreMenu::Update()
 			playSound(m_Reading[2]);
 		}
 	}
-	if ( ThisPage == 2)
-	{
-		if(ReadLoreIsDown())
-		{
-			playSound(m_Reading[2]);
-		}
-	}
 
 	ChangeStates();
 }
@@ -124,6 +117,17 @@ void LoreMenu::ChangeStates()
 
 	if (Change == true)
 	{
+		if(ThisPage != 0 && ThisPage != 1)
+		{
+			m_Buttons[3]->setVisible(false);
+			m_Buttons[3]->setKeep(1);
+		}
+		else
+		{
+			m_Buttons[3]->setVisible(true);
+			m_Buttons[3]->setKeep(0);
+		}
+
 		stringstream ss;
 		ss << ThisPage;
 

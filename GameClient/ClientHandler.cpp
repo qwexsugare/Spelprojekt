@@ -90,7 +90,7 @@ void ClientHandler::update(float _dt)
 			this->m_state = new IntroState();
 			break;
 		case State::MAIN_MENU:
-			if(tempState->getType() == State::END)
+			if(tempState->getType() == State::END || tempState->getType() == State::LORE)
 			{
 				m_menuMusic = createSoundHandle("music/menu.wav", true, false);
 				loopSound(m_menuMusic);
@@ -138,6 +138,8 @@ void ClientHandler::update(float _dt)
 			this->m_state = new LobbyState(this->m_client);
 			break;
 		case State::LORE:
+			stopSound(m_menuMusic);
+			deactivateSound(m_menuMusic);
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:

@@ -316,6 +316,7 @@ void World::render()
 		{
 			this->m_deferredSampler->setModelMatrix(staticModels.top()->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(staticModels.top()->getAlpha());
+			this->m_deferredSampler->setGlowAlpha(staticModels.top()->getGlowAlpha());
 
 			for(int m = 0; m < staticModels.top()->getMesh()->subMeshes.size(); m++)
 			{
@@ -424,6 +425,7 @@ void World::render()
 			{
 				this->m_deferredSampler->setModelMatrix(m_models[i]->getModelMatrix());
 				this->m_deferredSampler->setModelAlpha(m_models[i]->getAlpha());
+				this->m_deferredSampler->setGlowAlpha(m_models[i]->getGlowAlpha());
 
 				for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
 				{
@@ -524,6 +526,7 @@ void World::render()
 		{
 			this->m_deferredSampler->setModelMatrix(transparentStaticModels[i]->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(transparentStaticModels[i]->getAlpha());
+			this->m_deferredSampler->setGlowAlpha(transparentStaticModels[i]->getGlowAlpha());
 
 			for(int m = 0; m < transparentStaticModels[i]->getMesh()->subMeshes.size(); m++)
 			{
@@ -558,6 +561,7 @@ void World::render()
 		{
 			this->m_deferredSampler->setModelMatrix(transparentModels[i]->getModelMatrix());
 			this->m_deferredSampler->setModelAlpha(transparentModels[i]->getAlpha());
+			this->m_deferredSampler->setGlowAlpha(transparentModels[i]->getGlowAlpha());
 
 			for(int m = 0; m < transparentModels[i]->getMesh()->subMeshes.size(); m++)
 			{
@@ -588,7 +592,7 @@ void World::render()
 					if(transparentModels[i]->getRightHand())
 					{
 						this->m_deferredSampler->setTexture(transparentModels[i]->getRightHand()->subMeshes[m]->textures["color"]);
-						this->m_deferredSampler->setGlowMap(m_models[i]->getRightHand()->subMeshes[m]->textures[m_models[i]->getWeaponGlowIndex()]);
+						this->m_deferredSampler->setGlowMap(transparentModels[i]->getRightHand()->subMeshes[m]->textures[m_models[i]->getWeaponGlowIndex()]);
 
 						this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getRightHandMatrix());
 						this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
