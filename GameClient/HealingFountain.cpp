@@ -29,7 +29,7 @@ void HealingFountain::update(float _dt)
 		{
 			if(heroes[i]->intersects(*this->m_bs) == true)
 			{
-				((UnitEntity*)heroes[i])->heal((float)((UnitEntity*)heroes[i])->getMaxHealth() / 100.0f);
+				((UnitEntity*)heroes[i])->heal((float)((UnitEntity*)heroes[i])->getMaxHealth() / 60.0f);
 				this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::HEALING_FOUNTAIN, heroes[i]->getId(), heroes[i]->getPosition()));
 			}
 		}
