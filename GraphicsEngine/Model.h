@@ -30,6 +30,7 @@ private:
 	bool m_shadow;
 	bool m_neutral;
 	D3DXVECTOR4 m_stencilColor;
+	float m_glowAlpha;
 
 	D3DXVECTOR3 m_screenPosition;
 public:
@@ -84,6 +85,9 @@ public:
 	DECLDIR void setStatic(bool _static);
 	DECLDIR void setShadow(bool _shadow);
 	bool getShadow();
+
+	DECLDIR void setGlowAlpha(float _glowAlpha);
+	DECLDIR float getGlowAlpha();
 
 	DECLDIR FLOAT3 getLeftHandPosition();
 	DECLDIR FLOAT3 getRightHandPosition();

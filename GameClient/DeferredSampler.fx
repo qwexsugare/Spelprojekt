@@ -87,6 +87,7 @@ cbuffer cbEveryFrame
 	matrix lightWvp;
 
 	float modelAlpha;
+	float glowAlpha;
 };
 
 // State Structures
@@ -338,7 +339,7 @@ PSSceneOut PSSuperScene(PSSuperSceneIn input)
 	output.Normal = float4(nNormal, 1);
 	output.Diffuse = color;
 	output.ViewCoord = float4(input.ViewCoord.xyz, specularMap.Sample(linearSampler, input.UVCoord).r);
-	output.Glow = glowMap.Sample(linearSampler, input.UVCoord);
+	output.Glow = (glowMap.Sample(linearSampler, input.UVCoord)) * glowAlpha;
 
 	return output;
 }

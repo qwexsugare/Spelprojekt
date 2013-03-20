@@ -33,6 +33,7 @@ private:
 	ID3D10EffectTechnique *m_superTechnique;
 	ID3D10EffectVectorVariable* m_cameraPosition;
 	ID3D10EffectTechnique *m_propsTechnique;
+	ID3D10EffectScalarVariable *m_glowAlpha; 
 
 	// Road
 	ID3D10EffectTechnique* m_renderRoad;
@@ -58,6 +59,7 @@ public:
 	void setNormalMap(ID3D10ShaderResourceView *_texture);
 	void setGlowMap(ID3D10ShaderResourceView *_texture);
 	void setSpecularMap(ID3D10ShaderResourceView *_texture);
+	void setGlowAlpha(float _glowAlpha);
 	void DeferredSamplerEffectFile::setBoneTexture(ID3D10ShaderResourceView *_texture);
 	ID3D10InputLayout *getInputLayout()const;
 	ID3D10InputLayout *getInputAnimationLayout() const;
