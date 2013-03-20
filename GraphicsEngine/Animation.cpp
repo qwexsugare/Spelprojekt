@@ -3,7 +3,7 @@
 Animation::Animation()
 {
 	this->texPack = NULL;
-	this->currentAnimation = "run";
+	this->currentAnimation = "idle";
 	this->prioAnimation = "";
 	D3DXMatrixIdentity(&this->hatMatrix);
 	D3DXMatrixIdentity(&this->rightHandMatrix);
