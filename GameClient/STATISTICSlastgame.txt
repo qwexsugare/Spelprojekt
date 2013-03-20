@@ -1,8 +1,72 @@
 Game statistics: 
 ----------------
-Time played: 0
-Life remaining: 100
-Reached wave: 1
+Time played: 137.82
+Life remaining: 82
+Reached wave: 2
 
 Player Statistics:
 ------------------
+Player name: Player
+Hero played: Engineer
+Deamons killed: 1
+Player deaths: 0
+Resources collected: 68
+Healed for: 50
+
+Damage statistics: 
+Total damage dealt: 193
+Physical damage taken: 0
+Mental damage taken: 186
+Physical damage dealt: 93
+Mental damage dealt: 100
+Physical skill damage dealt: 0
+Mental skill damage dealt: 0
+
+Skills used: 
+0
+0
+0
+0
+965451026
+0
+0
+0
+0
+0
+778924897
+1718503796
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+4096
+865219452
+816394399
+910046760
+878064562
+889599180
+1051213369
+855126758
+928986930
+955398373
+938555349
+975911427
+1027095770
+828715359
+936130425
+1057832593
+931280636
+811872341
+806891538
+969488833
+1017658517
+---------------
