@@ -68,7 +68,10 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 		m_menu = new LobbyMenu(true);
 	}
 	else
+	{
 		m_menu = new LobbyMenu(false);
+		m_clientMayReady = false;
+	}
 }
 
 LobbyState::~LobbyState()
@@ -91,7 +94,7 @@ void LobbyState::update(float _dt)
 	if(m_playerId == 0)
 		m_menu->Update(_dt, m_hostMayStartGame);
 	else
-		m_menu->Update(_dt, true);
+		m_menu->Update(_dt, m_clientMayReady);
 
 	if(GetKeyState(VK_LEFT) < 0)
 	{
@@ -275,6 +278,8 @@ void LobbyState::update(float _dt)
 		if(nhsm.getPlayerId() == this->m_playerId)
 		{
 			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
+			if(m_playerId != 0)
+				m_clientMayReady = true;
 		}
 		else
 		{
