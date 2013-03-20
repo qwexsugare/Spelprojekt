@@ -16,11 +16,11 @@ GameState::GameState(Client *_network, string mapName)
 	this->missionFailedSprite=0;
 	this->missionStartedSprite=0;
 
-	this->missionStartedSprite = g_graphicsEngine->createSprite("./textures/missionstarted.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionStartedSprite = g_graphicsEngine->createSprite("./textures/missionstarted.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
 	this->missionStartedSprite->setVisible(false);
-	this->missionCompletedSprite = g_graphicsEngine->createSprite("./textures/missioncomplete.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionCompletedSprite = g_graphicsEngine->createSprite("./textures/missioncomplete.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
 	this->missionCompletedSprite->setVisible(false);
-	this->missionFailedSprite = g_graphicsEngine->createSprite("./textures/missionfailed.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionFailedSprite = g_graphicsEngine->createSprite("./textures/missionfailed.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
 	this->missionFailedSprite->setVisible(false);
 
 	this->m_network = _network;
