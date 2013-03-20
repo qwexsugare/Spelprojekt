@@ -479,8 +479,8 @@ void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int
 		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageRecived(min((int)(physicalDamage* this->m_physicalResistance),this->m_health));
 	}
 
-	this->m_health = this->m_health - physicalDamage * this->m_physicalResistance;
-	this->m_health = this->m_health - mentalDamage * this->m_mentalResistance;
+	this->m_health = max(this->m_health - physicalDamage * this->m_physicalResistance, 0.0f);
+	this->m_health = max(this->m_health - mentalDamage * this->m_mentalResistance, 0.0f);
 	this->m_lastDamageDealer = damageDealerId;
 	this->m_messageQueue->pushOutgoingMessage(new updateEntityHealth(this->getId(), this->m_health));
 

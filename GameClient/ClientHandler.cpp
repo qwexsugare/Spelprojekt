@@ -14,6 +14,8 @@ ClientHandler::ClientHandler(HWND _hWnd)
 
 	this->m_serverThread = NULL;
 	this->m_client = new Client();
+
+	m_menuMusic = createSoundHandle("music/menu.wav", true, false);
 }
 
 ClientHandler::~ClientHandler()
@@ -40,7 +42,7 @@ ClientHandler::~ClientHandler()
 
 HRESULT ClientHandler::run()
 {
-	//this->m_serverThread->Launch();
+	loopSound(m_menuMusic);
 	this->m_state = new MainMenuState();
 
 	__int64 cntsPerSec = 0;
@@ -88,7 +90,12 @@ void ClientHandler::update(float _dt)
 			this->m_state = new IntroState();
 			break;
 		case State::MAIN_MENU:
-			if(tempState->getType() == State::LOBBY)
+			if(tempState->getType() == State::END || tempState->getType() == State::LORE)
+			{
+				m_menuMusic = createSoundHandle("music/menu.wav", true, false);
+				loopSound(m_menuMusic);
+			}
+			else if(tempState->getType() == State::LOBBY)
 			{
 				ClientEntityHandler::removeAllEntities();
 				this->m_client->disconnect();
@@ -131,6 +138,8 @@ void ClientHandler::update(float _dt)
 			this->m_state = new LobbyState(this->m_client);
 			break;
 		case State::LORE:
+			stopSound(m_menuMusic);
+			deactivateSound(m_menuMusic);
 			this->m_state = new LoreState();
 			break;
 		case State::GAME:
@@ -158,6 +167,9 @@ void ClientHandler::update(float _dt)
 			this->m_state = new EndState(((GameState*)tempState)->getEndGameMessage(),((GameState*)tempState)->getMissionEndMessage());
 			break;
 		case State::LOADING:
+			stopSound(m_menuMusic);
+			deactivateSound(m_menuMusic);
+
 			{
 				LobbyState *tempLobbyState = (LobbyState*)tempState;
 				string temp = tempLobbyState->getMapName();

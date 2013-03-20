@@ -167,7 +167,7 @@ PSSceneIn VSAnimPropScene(VSAnimSceneIn input)
 }
 
 float4 PSScene(PSSceneIn input) : SV_Target
-{	
+{
 	float4 color = tex2D.Sample(linearSampler, input.UVCoord);
 	color.w *= modelAlpha;
 

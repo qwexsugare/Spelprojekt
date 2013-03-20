@@ -46,7 +46,7 @@ public:
 	DECLDIR FLOAT3 getPosition()const;
 	D3DXVECTOR2 getPosition2D()const;
 	DECLDIR FLOAT2 getPosition2DAsFloat2()const;
-	D3DXVECTOR3 getScale()const;
+	DECLDIR D3DXVECTOR3 getScale()const;
 	D3DXVECTOR3 getRotation()const;
 	DECLDIR Mesh* getMesh()const;
 	DECLDIR Mesh* getHat()const;

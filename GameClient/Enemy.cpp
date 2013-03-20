@@ -150,7 +150,6 @@ FLOAT3 Enemy::getEndPos()
 	return FLOAT3(m_position.x+this->m_dir.x,0.0f, m_position.z+this->m_dir.z);
 }
 
-#include <fstream>
 void Enemy::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
@@ -205,32 +204,9 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		
 	}
 
-	if(g_keyboard->getKeyState('P') == Keyboard::KEY_PRESSED)
-	{
-		bla = !bla;//true; 
-	}
-
-	if(bla)
-	{
-
-		fstream ss;
-		ss.open("gunnar.txt",ios::out | ios::app);
-		ss << "Type: " << m_modelId << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
-		
-		ss.close();
-	}
-
 
 	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 
-}
-
-void Enemy::WriteToAwesomeFile(int number, string text, string fileName)
-{
-		fstream ss;
-		ss.open(fileName,ios::out | ios::app);
-		ss << number <<endl << text << endl << endl; // << "Id: " << m_id << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
-		ss.close();
 }
 
 void Enemy::moveAndRotate(float lastDT)
@@ -249,7 +225,7 @@ void Enemy::moveAndRotate(float lastDT)
 				ServerEntity *stat = EntityHandler::getClosestStaticOrTurretWithExtents(m_position);
 				
 				if(stat != NULL && (stat->getPosition() - m_position).length() 
-					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.0f+
+					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.1f+
 					sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x+this->getObb()->Extents.z*this->getObb()->Extents.z))
 				{
 					
@@ -257,7 +233,7 @@ void Enemy::moveAndRotate(float lastDT)
 					if(v.length() > 0)
 						v = v/v.length();
 					m_dir = v;//m_dir*-1;// + v+d;
-					m_position = m_position + (v)*m_movementSpeed*lastDT;
+					m_position = m_position + (v)*1.1f*m_movementSpeed*lastDT;
 					
 				}
 				

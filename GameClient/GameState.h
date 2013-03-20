@@ -64,8 +64,14 @@ private:
 	Sprite *missionCompletedSprite;
 	float missionTimer;
 
+	// Music
+	static const int NR_OF_SOUNDTRACKS = 3;
+	int m_soundtracks[NR_OF_SOUNDTRACKS];
+	int m_currentlyPlayingSoundtrack;
+
 	void importMap(string _map);
 	void playPursueSound(unsigned int _speakerId);
+	void playRandomSoundtrack();
 	void playWallDeathSound(FLOAT3 _position);
 public:
 	static const int IDLE_SOUND_DELAY = 30;

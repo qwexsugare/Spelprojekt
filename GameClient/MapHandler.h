@@ -41,6 +41,7 @@ private:
 	bool** m_grid;
 	Map map;
 	vector<Mission*> missions;
+	int demonCoins;
 public:
 	static enum State {RUNNING, VICTORY, DEFEAT};
 
@@ -56,6 +57,7 @@ public:
 	FLOAT3 getPlayerPosition(int p);
 	int getLivesLeft();
 	MessageQueue* getMessageQueue();
+	int getDemonCoins();
 };
 
 #endif

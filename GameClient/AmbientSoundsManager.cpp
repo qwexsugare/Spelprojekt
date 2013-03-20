@@ -17,18 +17,6 @@ AmbientSoundsManager::AmbientSoundsManager()
 	m_screamSounds[3] = createSoundHandle("ambient/scream1.wav", false, false);
 	m_screamSounds[4] = createSoundHandle("ambient/scream2.wav", false, false);
 	m_screamSoundsTimer = SCREAM_SOUNDS_DELAY;
-
-	switch(random(0, 1))
-	{
-	case 0:
-		m_music = createSoundHandle("ambient/maniacLaugh0.wav", false, false);
-		break;
-	case 1:
-		m_music = createSoundHandle("ambient/maniacLaugh1.wav", false, false);
-		break;
-	}
-	playSound(m_music);
-	deactivateSound(m_music);
 }
 
 AmbientSoundsManager::~AmbientSoundsManager()

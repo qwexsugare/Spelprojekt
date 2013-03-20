@@ -122,6 +122,12 @@ GameState::GameState(Client *_network, string mapName)
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, false);
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
 	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
+	
+	m_soundtracks[0] = createSoundHandle("music/everlasting_march.wav", true, false);
+	m_soundtracks[1] = createSoundHandle("music/guitar_function.wav", true, false);
+	m_soundtracks[2] = createSoundHandle("music/adv.wav", true, false);
+	m_currentlyPlayingSoundtrack = 2; // This index will NEVER be played the first time due to how playRandomSoundtrack() works (it doesnt play the m_curr blalbla var soundtrack)
+	playRandomSoundtrack();
 }
 
 GameState::~GameState()
@@ -165,6 +171,11 @@ GameState::~GameState()
 	deactivateSound(m_churchSound);
 
 	g_graphicsEngine->clear();
+	
+	// Release all music
+	stopSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
+	for(int i = 0; i < NR_OF_SOUNDTRACKS; i++)
+		deactivateSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
 }
 
 State::StateEnum GameState::nextState()
@@ -414,7 +425,9 @@ void GameState::update(float _dt)
 		}
 	}
 
-	//g_graphicsEngine->createMyText(
+	// random mouse pos update
+	g_mouse->update();
+
 	while(!this->m_network->missionQueueEmpty())
 	{
 		NetworkMissionStarted m = this->m_network->missionQueueFront();
@@ -887,6 +900,11 @@ void GameState::update(float _dt)
 		this->setDone(true);
 		this->m_endMessage = NetworkEndGameMessage(false, -1, -1, -1, vector<StatisticsPlayer>());
 	}
+
+	if(!isSoundPlaying(m_soundtracks[m_currentlyPlayingSoundtrack]))
+	{
+		this->playRandomSoundtrack();
+	}
 }
 
 void GameState::importMap(string _map)
@@ -1307,6 +1325,18 @@ void GameState::playPursueSound(unsigned int _speakerId)
 		SpeechManager::speak(_speakerId, sound);
 		deactivateSound(sound);
 	}
+}
+
+void GameState::playRandomSoundtrack()
+{
+	vector<int> possibleSoundtracks;
+	for(int i = 0; i < NR_OF_SOUNDTRACKS; i++)
+	{
+		if(m_currentlyPlayingSoundtrack != i)
+			possibleSoundtracks.push_back(i);
+	}
+	m_currentlyPlayingSoundtrack = possibleSoundtracks[random(0, possibleSoundtracks.size()-1)];
+	playSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
 }
 
 void GameState::playWallDeathSound(FLOAT3 _position)

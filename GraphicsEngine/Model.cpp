@@ -12,6 +12,7 @@ Model::Model()
 	this->m_glowAlpha = 1;
 	m_static = false;
 	m_neutral = false;
+	this->m_stencilColor = D3DXVECTOR4(0.0f, 1.0f, 1.0f, 0.4f);
 }
 
 Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECTOR3 _position, D3DXVECTOR3 _scale, D3DXVECTOR3 _rotation, float _alpha, string _textureIndex, string _glowIndex)
@@ -57,6 +58,7 @@ Model::Model(ID3D10Device* _device, Mesh* _mesh, Animation* _animation, D3DXVECT
 	m_static = false;
 	m_neutral = false;
 	this->m_weaponGlowIndex = "glowIntensity3";
+	this->m_stencilColor = D3DXVECTOR4(0.0f, 1.0f, 1.0f, 0.4f);
 }
 
 Model::~Model()
@@ -112,6 +114,11 @@ FLOAT3 Model::getPosition()const
 D3DXVECTOR3 Model::getRotation()const
 {
 	return this->m_rotation;
+}
+
+D3DXVECTOR3 Model::getScale()const
+{
+	return m_scale;
 }
 
 D3DXVECTOR2 Model::getPosition2D()const
