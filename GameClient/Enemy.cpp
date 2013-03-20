@@ -150,7 +150,6 @@ FLOAT3 Enemy::getEndPos()
 	return FLOAT3(m_position.x+this->m_dir.x,0.0f, m_position.z+this->m_dir.z);
 }
 
-#include <fstream>
 void Enemy::updateSpecificUnitEntity(float dt)
 {
 	this->lastDT+=dt;
@@ -203,21 +202,6 @@ void Enemy::updateSpecificUnitEntity(float dt)
 		}
 		
 		
-	}
-
-	if(g_keyboard->getKeyState('P') == Keyboard::KEY_PRESSED)
-	{
-		bla = !bla;//true; 
-	}
-
-	if(bla)
-	{
-
-		fstream ss;
-		ss.open("gunnar.txt",ios::out | ios::app);
-		ss << "Type: " << m_modelId << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
-		
-		ss.close();
 	}
 
 
