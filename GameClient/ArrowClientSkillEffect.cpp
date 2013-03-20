@@ -100,8 +100,9 @@ void ArrowClientSkillEffect::update(float _dt)
 
 			if(this->m_particleSystem)
 			{
+				D3DXVECTOR3 incY(0, 0.5f, 0);
 				D3DXVECTOR3 newPos = D3DXVECTOR3(this->m_particleSystem->getPosition().x,this->m_particleSystem->getPosition().y, this->m_particleSystem->getPosition().z) + movement.toD3DXVector();
-				this->m_particleSystem->setPosition(newPos);
+				this->m_particleSystem->setPosition(D3DXVECTOR3(m_pos.x, m_pos.y, m_pos.z) + incY);
 			}
 		}
 		else
