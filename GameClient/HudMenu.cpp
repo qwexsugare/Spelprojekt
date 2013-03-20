@@ -995,7 +995,10 @@ void HudMenu::addSkill(unsigned int _skillId)
 		{
 			this->m_nrOfAttributesBought++;
 			int cost = 100 * (pow(1.12f, this->m_nrOfAttributesBought));
-
+			if (cost >= 5000)
+			{
+				cost = 5000;
+			}
 			stringstream ss;
 			ss << cost;
 			this->m_shopButtons[0]->setText(ss.str());
