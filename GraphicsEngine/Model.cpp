@@ -114,6 +114,11 @@ D3DXVECTOR3 Model::getRotation()const
 	return this->m_rotation;
 }
 
+D3DXVECTOR3 Model::getScale()const
+{
+	return m_scale;
+}
+
 D3DXVECTOR2 Model::getPosition2D()const
 {
 	return D3DXVECTOR2(this->m_position.x, this->m_position.z);
