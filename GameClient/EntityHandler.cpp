@@ -103,9 +103,10 @@ void EntityHandler::addEntity(ServerEntity *_entity)
 	}	
 }
 
-bool EntityHandler::removeEntity(ServerEntity *_entity)
+bool EntityHandler::removeEntity(ServerEntity *_entity, bool sendRemoveMessage)
 {
 	bool found = false;
+	unsigned int id = _entity->getId();
 
 	if(_entity != NULL)
 	{
@@ -128,6 +129,11 @@ bool EntityHandler::removeEntity(ServerEntity *_entity)
 					i = EntityHandler::m_entities.size();
 				}
 			}
+		}
+
+		if(found == true && sendRemoveMessage == true)
+		{
+			EntityHandler::m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, 1, id));
 		}
 
 		EntityHandler::m_mutex.Unlock();

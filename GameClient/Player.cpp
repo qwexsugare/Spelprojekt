@@ -18,6 +18,11 @@ Player::Player(unsigned int id)
 Player::~Player()
 {
 	delete this->m_messageQueue;
+
+	if(this->m_hero)
+	{
+		EntityHandler::removeEntity(this->m_hero, true);
+	}
 }
 
 void Player::assignHero(Hero::HERO_TYPE _type, Hero::WEAPON_TYPE _weaponType)
