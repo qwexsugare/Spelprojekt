@@ -155,11 +155,13 @@ void ServerThread::update(float dt)
 				this->m_state = State::LOADING;
 				m_network->broadcast(NetworkStartGameMessage(this->mapName));
 				
+				
 				vector<unsigned int> ids;
 				vector<Hero::HERO_TYPE> heroTypes;
 				for(int i = 0; i < players.size(); i++)
 				{
 					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
+					players[i]->addResources(this->m_mapHandler->getDemonCoins());
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
 					players[i]->setReady(false);

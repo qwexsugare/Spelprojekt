@@ -49,9 +49,12 @@ CreateGameMenu::CreateGameMenu(void)
 	this->m_Buttons[5]->Init(FLOAT2(-0.65f,  -0.0f),FLOAT2(0.364583333f,0.285185185f),"menu_textures\\Level1_Button.png","",0,0,1,5);
 	this->m_Buttons[6] = new Button();
 	this->m_Buttons[6]->Init(FLOAT2(-0.25f,  -0.0f),FLOAT2(0.364583333f,0.285185185f),"menu_textures\\Level2_Button.png","",0,0,1,5);
+	this->m_Buttons[5]->SetTextBoxValue(true);
+	this->m_Buttons[6]->SetTextBoxValue(false);
 }
 void CreateGameMenu::Update(float _dt)
 {
+
 	for(int i=0; i < this->m_Buttons.size(); i++)
 	{
 		this->m_Buttons[i]->Update();
@@ -59,10 +62,14 @@ void CreateGameMenu::Update(float _dt)
 	if (LevelOneIsDown())
 	{
 		this->choseLevel="maps/levelone/levelone.txt";
+		this->m_Buttons[5]->SetTextBoxValue(true);
+		this->m_Buttons[6]->SetTextBoxValue(false);
 	}
 	if(LevelTwoIsDown())
 	{
 		this->choseLevel="maps/leveltwo/leveltwo.txt";
+		this->m_Buttons[5]->SetTextBoxValue(false);
+		this->m_Buttons[6]->SetTextBoxValue(true);
 	}
 	if (MainWriteGameIsDown() || m_WriteGame == true)
 		this->m_Label[0]->update(_dt);

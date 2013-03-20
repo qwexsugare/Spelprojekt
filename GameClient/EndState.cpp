@@ -7,33 +7,33 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 	if(endMessage.getIsAtWave()<0)
 	{
 		this->m_background = g_graphicsEngine->createSprite("menu_textures\\MENU-END-1.png", FLOAT2(0.0f, 0.0f), FLOAT2(2.0f, 2.0f), 0);
-		this->m_resultText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "YOU LEFT THE GAME, NOOB", INT2(120,100), 150);
+		this->m_resultText = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", "YOU LEFT THE GAME, NOOB", INT2(120,100), 150);
 	}
 	else
 	{
 		if(endMessage.getVictory() == true)
 		{
 			this->m_background = g_graphicsEngine->createSprite("menu_textures\\MENU-END-1.png", FLOAT2(0.0f, 0.0f), FLOAT2(2.0f, 2.0f), 0);
-			this->m_resultText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(120,100), 150);
+			this->m_resultText = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", "VICTORY", INT2(120,100), 150);
 
 			ss<<"Lives remaining: "<<endMessage.getStartLife();
-			this->m_resultMoreInfo = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,250), 50);
+			this->m_resultMoreInfo = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120,250), 50);
 			ss.clear();
 			ss.str("");
 		}
 		else
 		{
 			this->m_background = g_graphicsEngine->createSprite("menu_textures\\MENU-END-0.png", FLOAT2(0.0f, 0.0f), FLOAT2(2.0f, 2.0f), 0);
-			this->m_resultText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(120,100), 150);
+			this->m_resultText = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", "DEFEAT", INT2(120,100), 150);
 
 			ss<<"Wave: "<<endMessage.getIsAtWave();
-			this->m_resultMoreInfo = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,200), 50);
+			this->m_resultMoreInfo = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120,200), 50);
 			ss.clear();
 			ss.str("");
 		}
 
 		ss<<"Time played: "<<endMessage.getTimePlayed()<<" seconds";
-		this->m_timeplayed = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120,225), 50);
+		this->m_timeplayed = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120,225), 50);
 		ss.clear();
 		ss.str("");
 
@@ -64,32 +64,32 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 				break;
 			}
 
-			this->m_playerInfo[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,275 + jumpRow * 170), 75);
+			this->m_playerInfo[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,275 + jumpRow * 170), 75);
 			ss.clear();
 			ss.str("");
 
 			ss<<"Demons killed: "<<endMessage.getPlayers()[i].getDeamonsKilled();
-			this->m_playerMonstersKilled[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,325 + jumpRow * 150), 50);
+			this->m_playerMonstersKilled[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,325 + jumpRow * 150), 50);
 			ss.clear();
 			ss.str("");
 
 			ss<<"Damage done: "<<endMessage.getPlayers()[i].getPhysicalDamageDealth() + endMessage.getPlayers()[i].getMentalDamageDealth()<<" (physical: "<<endMessage.getPlayers()[i].getPhysicalDamageDealth()<<", mental: "<<endMessage.getPlayers()[i].getMentalDamageDealth()<<")";
-			this->m_playerDamageDone[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,355 + jumpRow * 150), 50);
+			this->m_playerDamageDone[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,355 + jumpRow * 150), 50);
 			ss.clear();
 			ss.str("");
 
 			ss<<"Damage taken: "<<endMessage.getPlayers()[i].getPhysicalDamageRecived() + endMessage.getPlayers()[i].getMentalDamageRecived()<<" (physical: "<<endMessage.getPlayers()[i].getPhysicalDamageRecived()<<", mental: "<<endMessage.getPlayers()[i].getMentalDamageRecived()<<")";
-			this->m_playerDamageTaken[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,385 + jumpRow * 150), 50);
+			this->m_playerDamageTaken[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,385 + jumpRow * 150), 50);
 			ss.clear();
 			ss.str("");
 
 			ss<<"Resources collected: "<<endMessage.getPlayers()[i].getGoldCollected();
-			this->m_playerResourcesCollected[i] = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,415 + jumpRow * 150), 50);
+			this->m_playerResourcesCollected[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,415 + jumpRow * 150), 50);
 			ss.clear();
 			ss.str("");
 
 			ss << "Healed for: " << endMessage.getPlayers()[i].getHealedAmount();
-			this->m_healedFor[i] =  g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,445 + jumpRow * 150), 50);
+			this->m_healedFor[i] =  g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,445 + jumpRow * 150), 50);
 			ss.clear();
 			ss.str("");
 
@@ -104,12 +104,12 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem)
 				jumpColumn=0;
 		}
 		
-		this->missionText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "Missions", INT2(120,750), 150);
+		this->missionText = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", "Missions", INT2(120,750), 150);
 		
 		for(int i=0;i<mem.nrOfMissions();i++)
 		{
 			string fullMissionString = mem.getMissionName(i)+"                     " +mem.getMissionStatus(i);
-			textures.push_back(g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", fullMissionString, INT2(120,850+i*75), 50));
+			textures.push_back(g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", fullMissionString, INT2(120,850+i*75), 50));
 		}
 	}
 	this->m_mainMenuButton = new Button();
