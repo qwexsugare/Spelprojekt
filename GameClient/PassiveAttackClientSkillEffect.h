@@ -9,6 +9,7 @@ class PassiveAttackClientSkillEffect : public ClientSkillEffect
 private:
 	float m_lifeTime;
 	Entity* m_master;
+	unsigned int m_masterID;
 public:
 	PassiveAttackClientSkillEffect(unsigned int _masterId, unsigned int _skillId);
 	~PassiveAttackClientSkillEffect();

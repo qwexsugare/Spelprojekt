@@ -377,15 +377,6 @@ void GameState::update(float _dt)
 				m_yourHeroLives = false;
 			}
 			break;
-		case Skill::LIFESTEALING_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
-			break;
-		case Skill::DEADLY_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
-			break;
-		case Skill::POISON_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
-			break;
 		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
@@ -542,6 +533,15 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::LIFESTEALING_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
+			break;
+		case Skill::DEADLY_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
+			break;
+		case Skill::POISON_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
+			break;
 		case Skill::CHAIN_STRIKE:
 			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getTargetId(), e.getPosition()));
 			break;

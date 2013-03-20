@@ -3,6 +3,7 @@
 PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _masterId, unsigned int _skillId)
 {
 	m_lifeTime = 0;
+	m_masterID = _masterId;
 	m_master = ClientEntityHandler::getEntity(_masterId);
 	if(m_master != NULL)
 	{
@@ -31,9 +32,6 @@ PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _mas
 		case Skill::DEADLY_STRIKE:
 			m_master->m_model->setWeaponGlowIndex("glowIntensity1");
 			break;
-		case Skill::LIFESTEALING_STRIKE:
-			m_master->m_model->setWeaponGlowIndex("glowIntensity2");
-			break;
 		}
 	}
 
@@ -41,8 +39,9 @@ PassiveAttackClientSkillEffect::PassiveAttackClientSkillEffect(unsigned int _mas
 
 PassiveAttackClientSkillEffect::~PassiveAttackClientSkillEffect()
 {
+	m_master = ClientEntityHandler::getEntity(m_masterID);
 	if(m_master != NULL)
-		m_master->m_model->setWeaponGlowIndex("");
+		m_master->m_model->setWeaponGlowIndex("glowIntensity3");
 }
 
 void PassiveAttackClientSkillEffect::update(float dt)
