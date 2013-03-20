@@ -444,7 +444,7 @@ void GameState::update(float _dt)
 			this->missionCompletedSprite->setVisible(true);
 			this->em.setStatusForMission(m.getMissionName(),"Completed");
 		}
-		this->missionTimer=3.0f;
+		this->missionTimer=4.0f;
 	}
 	this->missionTimer-=_dt;
 	if(this->missionTimer<0)
