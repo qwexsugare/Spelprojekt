@@ -66,11 +66,19 @@ LobbyState::LobbyState(Client* _network) : State(State::LOBBY)
 	{
 		m_hostMayStartGame = false;
 		m_menu = new LobbyMenu(true);
+		if(this->mapName[10]=='o')
+			this->m_menu->updateMapInfo("1","small","10","1500");
+		else
+			this->m_menu->updateMapInfo("2","small","15","2000");
 	}
 	else
 	{
 		m_menu = new LobbyMenu(false);
 		m_clientMayReady = false;
+		if(this->mapName[10]=='o')
+			this->m_menu->updateMapInfo("1","small","10","1500");
+		else
+			this->m_menu->updateMapInfo("2","small","15","2000");
 	}
 }
 
@@ -257,9 +265,6 @@ void LobbyState::update(float _dt)
 		NetworkTextMessage e = m_network->networkTextMessageFront();
 		m_menu->addStringToChat(e.getTxtMessage());
 	}
-
-	// random mouse pos update
-	g_mouse->update();
 
 	while(!m_network->heroSelectedQueueEmpty())
 	{

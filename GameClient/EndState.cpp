@@ -13,6 +13,8 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem) : Sta
 
 		// Music
 		m_music = createSoundHandle("music/defeat.wav", true, false);
+
+		this->m_nrOfPlayers = 0;
 	}
 	else
 	{

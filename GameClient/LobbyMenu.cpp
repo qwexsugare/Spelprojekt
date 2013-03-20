@@ -92,6 +92,13 @@ LobbyMenu::LobbyMenu(bool _host)
 	m_redKnightPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(-0.68f,0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 	m_mentalistPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 
+	this->miniMap1 = g_graphicsEngine->createSprite("maps/levelone/leveloneminimap.png", FLOAT2(0.822916667f, 0.60962963f), FLOAT2(0.266666667*0.7f,0.474074074*0.7f), 18);
+	this->miniMap2 = g_graphicsEngine->createSprite("maps/leveltwo/leveltwominimap.png", FLOAT2(0.822916667f, 0.60962963f), FLOAT2(0.266666667*0.7f,0.474074074*0.7f), 18);
+	this->miniMap1->setVisible(false);
+	this->miniMap2->setVisible(false);
+
+
+
 	this->m_Buttons[12] = new Button();
 	this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100,0,INT2(422,80), false);
 
@@ -171,6 +178,8 @@ LobbyMenu::~LobbyMenu(void)
 		delete this->m_Chattext[i];
 		this->m_Chattext[i] = NULL;
 	}
+	g_graphicsEngine->removeSprite(this->miniMap1);
+	g_graphicsEngine->removeSprite(this->miniMap2);
 	g_graphicsEngine->removeSprite(m_doctorPortrait);
 	g_graphicsEngine->removeSprite(m_mentalistPortrait);
 	g_graphicsEngine->removeSprite(m_officerPortrait);
@@ -872,4 +881,13 @@ void LobbyMenu::setReady(int _playerIndex)
 		m_Buttons[11]->setCurrentFrame(INT2(2, 0));
 		break;
 	}
+}//Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500
+void LobbyMenu::updateMapInfo(string level, string mapsize, string nrwaves, string demoncoins)
+{
+	if(level=="1")
+		this->miniMap1->setVisible(true);
+	else
+		this->miniMap2->setVisible(true);
+	string t = "Level "+level+"__"+"MAPSIZE_"+mapsize+"__"+"WAVES_"+nrwaves+"__STARTING DIVINE POWER_"+demoncoins;
+	this->m_Label[6]->setText(t);
 }
