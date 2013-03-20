@@ -258,9 +258,6 @@ void LobbyState::update(float _dt)
 		m_menu->addStringToChat(e.getTxtMessage());
 	}
 
-	// random mouse pos update
-	g_mouse->update();
-
 	while(!m_network->heroSelectedQueueEmpty())
 	{
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
