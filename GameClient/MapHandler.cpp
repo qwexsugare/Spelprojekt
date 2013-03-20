@@ -55,6 +55,11 @@ MapHandler::~MapHandler()
 
 	if(m_paths)
 		delete []m_paths;
+
+	for(int i = 0; i < missions.size(); i++)
+	{
+		delete missions[i];
+	}
 }
 
 MapHandler::State MapHandler::getState()
@@ -338,7 +343,6 @@ void MapHandler::update(float _dt)
 				if(!this->missions[i]->isAddedToEntityHandler())
 				{
 					this->missions[i]->addToEntityHandler();
-					EntityHandler::addEntity(this->missions[i]);
 					this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missions[i]->getMissionName(),"start"));
 				}
 			}

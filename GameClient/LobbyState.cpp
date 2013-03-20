@@ -261,84 +261,82 @@ void LobbyState::update(float _dt)
 	while(!m_network->heroSelectedQueueEmpty())
 	{
 		NetworkHeroSelectedMessage nhsm = m_network->heroSelectedQueueFront();
+
+		// Check if a player has disconnected (chosen hero NONE)
 		if(nhsm.getHeroId()== Hero::HERO_TYPE::NONE)
 		{
-			if(nhsm.getPlayerId() == this->m_playerId)
-			{
-				this->m_menu->setPlayerName(nhsm.getPlayerId(), "", true);
-			}
-			else
-			{
-				this->m_menu->setPlayerName(nhsm.getPlayerId(), "", false);
-			}
-		}
-		
-		m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
-		
-		if(nhsm.getPlayerId() == this->m_playerId)
-		{
-			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
-			if(m_playerId != 0)
-				m_clientMayReady = true;
+			m_menu->removePlayer(nhsm.getPlayerId());
 		}
 		else
 		{
-			m_menu->selectHero(nhsm.getPlayerId(), m_heroType, false);
+			m_heroType = Hero::HERO_TYPE(nhsm.getHeroId());
+		
+			if(nhsm.getPlayerId() == this->m_playerId)
+			{
+				m_menu->selectHero(nhsm.getPlayerId(), m_heroType, true);
+				if(m_playerId != 0)
+					m_clientMayReady = true;
+			}
+			else
+			{
+				m_menu->selectHero(nhsm.getPlayerId(), m_heroType, false);
+			}
+			//Select
+			switch(nhsm.getHeroId())
+			{
+				case Hero::HERO_TYPE::OFFICER:
+					if(this->m_officer->getCharacter()->getAnimation()->getCurrentAnimation() == "OfficerIdle")
+					{
+						this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
+						this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
+						this->m_officer->getRoom()->setGlowIndex("glowIntensity");
+						this->m_officer->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+						this->m_officer->getDoor()->getAnimation()->Play("DoorOpen");
+					}
+					break;
+				case Hero::HERO_TYPE::RED_KNIGHT:
+					if(this->m_redKnight->getCharacter()->getAnimation()->getCurrentAnimation() == "RedKnightIdle")
+					{
+						this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("RedKnightSelectIdle");
+						this->m_redKnight->getCharacter()->getAnimation()->Play("RedKnightSelect");
+						this->m_redKnight->getRoom()->setGlowIndex("glowIntensity1");
+						this->m_redKnight->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+						this->m_redKnight->getDoor()->getAnimation()->Play("DoorOpen");
+					}
+					break;
+				case Hero::HERO_TYPE::ENGINEER:
+					if(this->m_engi->getCharacter()->getAnimation()->getCurrentAnimation() == "EngiIdle")
+					{
+						this->m_engi->getCharacter()->getAnimation()->PlayLoop("EngiSelectIdle");
+						this->m_engi->getCharacter()->getAnimation()->Play("EngiSelect");
+						this->m_engi->getRoom()->setGlowIndex("glowIntensity2");
+						this->m_engi->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+						this->m_engi->getDoor()->getAnimation()->Play("DoorOpen");
+					}
+					break;
+				case Hero::HERO_TYPE::DOCTOR:
+					if(this->m_doctor->getCharacter()->getAnimation()->getCurrentAnimation() == "DoctorIdle")
+					{
+						this->m_doctor->getCharacter()->getAnimation()->PlayLoop("DoctorSelectedIdle");
+						this->m_doctor->getCharacter()->getAnimation()->Play("DoctorSelected");
+						this->m_doctor->getRoom()->setGlowIndex("glowIntensity3");
+						this->m_doctor->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+						this->m_doctor->getDoor()->getAnimation()->Play("DoorOpen");
+					}
+					break;
+				case Hero::HERO_TYPE::THE_MENTALIST:
+					if(this->m_mentalist->getCharacter()->getAnimation()->getCurrentAnimation() == "MentalistIdle")
+					{
+						this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("MentalistSelectIdle");
+						this->m_mentalist->getCharacter()->getAnimation()->Play("MentalistSelect");
+						this->m_mentalist->getRoom()->setGlowIndex("glowIntensity4");
+						this->m_mentalist->getDoor()->getAnimation()->PlayLoop("OpenIdle");
+						this->m_mentalist->getDoor()->getAnimation()->Play("DoorOpen");
+					}
+					break;
+			}
 		}
-		//Select
-		switch(nhsm.getHeroId())
-		{
-			case Hero::HERO_TYPE::OFFICER:
-				if(this->m_officer->getCharacter()->getAnimation()->getCurrentAnimation() == "OfficerIdle")
-				{
-					this->m_officer->getCharacter()->getAnimation()->PlayLoop("OfficerSelectIdle");
-					this->m_officer->getCharacter()->getAnimation()->Play("OfficerSelect");
-					this->m_officer->getRoom()->setGlowIndex("glowIntensity");
-					this->m_officer->getDoor()->getAnimation()->PlayLoop("OpenIdle");
-					this->m_officer->getDoor()->getAnimation()->Play("DoorOpen");
-				}
-				break;
-			case Hero::HERO_TYPE::RED_KNIGHT:
-				if(this->m_redKnight->getCharacter()->getAnimation()->getCurrentAnimation() == "RedKnightIdle")
-				{
-					this->m_redKnight->getCharacter()->getAnimation()->PlayLoop("RedKnightSelectIdle");
-					this->m_redKnight->getCharacter()->getAnimation()->Play("RedKnightSelect");
-					this->m_redKnight->getRoom()->setGlowIndex("glowIntensity1");
-					this->m_redKnight->getDoor()->getAnimation()->PlayLoop("OpenIdle");
-					this->m_redKnight->getDoor()->getAnimation()->Play("DoorOpen");
-				}
-				break;
-			case Hero::HERO_TYPE::ENGINEER:
-				if(this->m_engi->getCharacter()->getAnimation()->getCurrentAnimation() == "EngiIdle")
-				{
-					this->m_engi->getCharacter()->getAnimation()->PlayLoop("EngiSelectIdle");
-					this->m_engi->getCharacter()->getAnimation()->Play("EngiSelect");
-					this->m_engi->getRoom()->setGlowIndex("glowIntensity2");
-					this->m_engi->getDoor()->getAnimation()->PlayLoop("OpenIdle");
-					this->m_engi->getDoor()->getAnimation()->Play("DoorOpen");
-				}
-				break;
-			case Hero::HERO_TYPE::DOCTOR:
-				if(this->m_doctor->getCharacter()->getAnimation()->getCurrentAnimation() == "DoctorIdle")
-				{
-					this->m_doctor->getCharacter()->getAnimation()->PlayLoop("DoctorSelectedIdle");
-					this->m_doctor->getCharacter()->getAnimation()->Play("DoctorSelected");
-					this->m_doctor->getRoom()->setGlowIndex("glowIntensity3");
-					this->m_doctor->getDoor()->getAnimation()->PlayLoop("OpenIdle");
-					this->m_doctor->getDoor()->getAnimation()->Play("DoorOpen");
-				}
-				break;
-			case Hero::HERO_TYPE::THE_MENTALIST:
-				if(this->m_mentalist->getCharacter()->getAnimation()->getCurrentAnimation() == "MentalistIdle")
-				{
-					this->m_mentalist->getCharacter()->getAnimation()->PlayLoop("MentalistSelectIdle");
-					this->m_mentalist->getCharacter()->getAnimation()->Play("MentalistSelect");
-					this->m_mentalist->getRoom()->setGlowIndex("glowIntensity4");
-					this->m_mentalist->getDoor()->getAnimation()->PlayLoop("OpenIdle");
-					this->m_mentalist->getDoor()->getAnimation()->Play("DoorOpen");
-				}
-				break;
-		}
+
 		bool heroesNotSelected[] = {false, false, false, false, false};
 		for(int i = 0; i < 4; i++)
 		{
