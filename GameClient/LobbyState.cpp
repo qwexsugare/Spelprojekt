@@ -266,6 +266,7 @@ void LobbyState::update(float _dt)
 		if(nhsm.getHeroId()== Hero::HERO_TYPE::NONE)
 		{
 			m_menu->removePlayer(nhsm.getPlayerId());
+			m_hostsSuperVector.erase(nhsm.getPlayerId());
 		}
 		else
 		{
@@ -423,7 +424,7 @@ void LobbyState::update(float _dt)
 
 		if(m_playerId == 0)
 		{
-			m_hostsSuperVector.push_back(false);
+			m_hostsSuperVector[msg.getPlayerIndex()] = false;
 			if(msg.getPlayerIndex() != 0)
 				m_hostMayStartGame = false;
 		}
@@ -439,9 +440,9 @@ void LobbyState::update(float _dt)
 
 			// Check how many players are ready
 			int notReadyCounter = 0;
-			for(int i = 0; i < m_hostsSuperVector.size(); i++)
+			for(map<int, bool>::iterator iter = m_hostsSuperVector.begin(); iter != m_hostsSuperVector.end(); iter++)
 			{
-				if(!m_hostsSuperVector[i])
+				if(!iter->second)
 				{
 					notReadyCounter++;
 				}
