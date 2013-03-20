@@ -535,7 +535,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new TargetAcquiredClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		case Skill::TELEPORT:
-			m_ClientSkillEffects.push_back(new TeleportClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new TeleportClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		}
 	}
