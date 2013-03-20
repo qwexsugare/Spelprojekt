@@ -5,7 +5,7 @@
 Player::Player(unsigned int id)
 {
 	this->m_id = id;
-	this->m_resources = 1500;
+	this->m_resources = 0;
 	this->m_messageQueue = new MessageQueue();
 	this->m_hero = NULL;
 	this->m_ready = false;
@@ -246,7 +246,7 @@ void Player::update(float _dt)
 		if(m->type == Message::HeroDied)
 		{
 			this->m_nrOfDeaths++;
-			this->m_respawnTimer = this->m_nrOfDeaths * 5.0f;
+			this->m_respawnTimer = this->m_nrOfDeaths * 2.0f + 10;
 		}
 
 		delete m;
@@ -453,4 +453,8 @@ TimeIsMoney *Player::getTimeIsMoney()
 void Player::setReady(bool _ready)
 {
 	this->m_ready = _ready;
+}
+void Player::setDemonCoins(int t)
+{
+	this->m_resources=t;
 }

@@ -81,7 +81,7 @@ public:
 	void checkAttack(float lastDT);
 	void moveAndRotate(float lastDT);
 	void checkGoal(float lastDT);
-	void WriteToAwesomeFile(int number);
+	void WriteToAwesomeFile(int number, string text, string fileName);
 };
 
 #endif

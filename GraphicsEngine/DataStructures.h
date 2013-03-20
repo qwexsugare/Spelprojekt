@@ -68,7 +68,9 @@ struct DECLDIR FLOAT3
 
 	FLOAT3()
 	{
-
+		x = 0;
+		y = 0;
+		z = 0;
 	}
 
 	FLOAT3(float _x, float _y, float _z)

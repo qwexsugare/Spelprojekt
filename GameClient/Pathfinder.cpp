@@ -242,8 +242,8 @@ bool Pathfinder::walkableDistance(Position p1, Position p2)
 //first gets the distance between the two nodes
 	float distance = this->distance(p1,p2);
 	//Calulates at what rate the direction changes
-	float xrate = 0.2*(this->diretion(p1.getX(),p2.getX()))/(distance*0.5);
-	float yrate = 0.2*(this->diretion(p1.getY(),p2.getY()))/(distance*0.5);
+	float xrate = 0.05*(this->diretion(p1.getX(),p2.getX()))/(distance*0.5);
+	float yrate = 0.05*(this->diretion(p1.getY(),p2.getY()))/(distance*0.5);
 	bool walkable=true;
 
 	//rate distance

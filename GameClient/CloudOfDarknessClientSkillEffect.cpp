@@ -23,17 +23,20 @@ CloudOfDarknessClientSkillEffect::CloudOfDarknessClientSkillEffect(unsigned int 
 	int sound = createSoundHandle("skills/codWindStartEnd.wav", false, true, _position);
 	playSound(sound);
 	deactivateSound(sound);
+	m_masterId = _masterId;
 
 	Entity *e = ClientEntityHandler::getEntity(_masterId);
 	if(e != NULL)
 	{
 		e->m_model->getAnimation()->Play("Spell");
+		m_weapon = e->m_model->getRightHand();
+		e->m_model->SetRightHand(NULL);
 	}
 }
 
 CloudOfDarknessClientSkillEffect::~CloudOfDarknessClientSkillEffect()
 {
-	g_graphicsEngine->removePointLight(this->m_light);
+	//g_graphicsEngine->removePointLight(this->m_light);
 	g_graphicsEngine->removeModel(m_graphicalEffects[0]);
 	g_graphicsEngine->removeModel(m_graphicalEffects[1]);
 	g_graphicsEngine->removeModel(m_graphicalEffects[2]);
@@ -49,6 +52,15 @@ void CloudOfDarknessClientSkillEffect::update(float _dt)
 	m_graphicalEffects[0]->setAlpha(m_graphicalEffects[0]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
 	m_graphicalEffects[1]->setAlpha(m_graphicalEffects[1]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
 	m_graphicalEffects[2]->setAlpha(m_graphicalEffects[2]->getAlpha()-(_dt/double(CloudOfDarknessEffect::LIFETIME)));
+
+	if(m_lifetime >= 2)
+	{
+		Entity *e = ClientEntityHandler::getEntity(m_masterId);
+		if(e != NULL)
+		{
+			e->m_model->SetRightHand(m_weapon);
+		}
+	}
 }
 
 bool CloudOfDarknessClientSkillEffect::getActive()

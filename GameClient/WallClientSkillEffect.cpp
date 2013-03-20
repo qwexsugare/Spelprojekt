@@ -4,10 +4,13 @@
 WallClientSkillEffect::WallClientSkillEffect(unsigned int _masterId, FLOAT3 _position)
 {
 	Entity *master = ClientEntityHandler::getEntity(_masterId);
+	m_masterId = _masterId;
 
 	if(master != NULL)
 	{
 		master->m_model->getAnimation()->Play("Spell");
+		this->m_weapon = master->m_model->getRightHand();
+		master->m_model->SetRightHand(NULL);
 	}
 
 	// Play sound
@@ -18,15 +21,22 @@ WallClientSkillEffect::WallClientSkillEffect(unsigned int _masterId, FLOAT3 _pos
 
 WallClientSkillEffect::~WallClientSkillEffect()
 {
-
+	Entity *master = ClientEntityHandler::getEntity(m_masterId);
+	if(master != NULL)
+	{
+		master->m_model->SetRightHand(m_weapon);
+	}
 }
 
 void WallClientSkillEffect::update(float _dt)
 {
-
+	m_lifetime += _dt;
 }
 
 bool WallClientSkillEffect::getActive()
 {
-	return false;
+	if(m_lifetime >= 2)
+		return false;
+	else
+		return true;
 }

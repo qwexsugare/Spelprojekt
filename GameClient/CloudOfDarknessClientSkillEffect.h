@@ -13,6 +13,8 @@ private:
 	FLOAT3 m_position;
 	float m_lifetime;
 	ParticleEngine* particleSystem;
+	Mesh* m_weapon;
+	UINT m_masterId;
 public:
 	CloudOfDarknessClientSkillEffect(unsigned int _masterId, FLOAT3 _position);
 	~CloudOfDarknessClientSkillEffect();

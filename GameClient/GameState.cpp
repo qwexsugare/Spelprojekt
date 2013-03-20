@@ -16,11 +16,11 @@ GameState::GameState(Client *_network, string mapName)
 	this->missionFailedSprite=0;
 	this->missionStartedSprite=0;
 
-	this->missionStartedSprite = g_graphicsEngine->createSprite("./textures/missionstarted.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionStartedSprite = g_graphicsEngine->createSprite("./textures/missionstarted.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
 	this->missionStartedSprite->setVisible(false);
-	this->missionCompletedSprite = g_graphicsEngine->createSprite("./textures/missioncomplete.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionCompletedSprite = g_graphicsEngine->createSprite("./textures/missioncomplete.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
 	this->missionCompletedSprite->setVisible(false);
-	this->missionFailedSprite = g_graphicsEngine->createSprite("./textures/missionfailed.png",FLOAT2(0.0,0.0),FLOAT2(1.0f,1.0f),1);
+	this->missionFailedSprite = g_graphicsEngine->createSprite("./textures/missionfailed.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
 	this->missionFailedSprite->setVisible(false);
 
 	this->m_network = _network;
@@ -122,6 +122,12 @@ GameState::GameState(Client *_network, string mapName)
 	g_graphicsEngine->createPointLight(FLOAT3(60.0f, 1.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 10.0f, false, false);
 	g_graphicsEngine->createPointLight(FLOAT3(50.0f, 2.0f, 60.0f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 5.0f, false, false);
 	g_graphicsEngine->createDirectionalLight(FLOAT3(0.0f, 1.0f, 0.25f), FLOAT3(0.1f, 0.1f, 0.1f), FLOAT3(0.01f, 0.01f, 0.01f), FLOAT3(0.0f, 0.0f, 0.0f));
+	
+	m_soundtracks[0] = createSoundHandle("music/everlasting_march.wav", true, false);
+	m_soundtracks[1] = createSoundHandle("music/guitar_function.wav", true, false);
+	m_soundtracks[2] = createSoundHandle("music/adv.wav", true, false);
+	m_currentlyPlayingSoundtrack = 2; // This index will NEVER be played the first time due to how playRandomSoundtrack() works (it doesnt play the m_curr blalbla var soundtrack)
+	playRandomSoundtrack();
 }
 
 GameState::~GameState()
@@ -165,6 +171,11 @@ GameState::~GameState()
 	deactivateSound(m_churchSound);
 
 	g_graphicsEngine->clear();
+	
+	// Release all music
+	stopSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
+	for(int i = 0; i < NR_OF_SOUNDTRACKS; i++)
+		deactivateSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
 }
 
 State::StateEnum GameState::nextState()
@@ -422,14 +433,18 @@ void GameState::update(float _dt)
 		if(m.getStartOrEnd()=="start")
 		{
 			this->missionStartedSprite->setVisible(true);
+			this->em.addMission(m.getMissionName(),"Running");
+			
 		}
 		if(m.getStartOrEnd()=="failed")
 		{
 			this->missionFailedSprite->setVisible(true);
+			this->em.setStatusForMission(m.getMissionName(),"Failed");
 		}
 		if(m.getStartOrEnd()=="completed")
 		{
 			this->missionCompletedSprite->setVisible(true);
+			this->em.setStatusForMission(m.getMissionName(),"Completed");
 		}
 		this->missionTimer=3.0f;
 	}
@@ -883,6 +898,11 @@ void GameState::update(float _dt)
 		this->setDone(true);
 		this->m_endMessage = NetworkEndGameMessage(false, -1, -1, -1, vector<StatisticsPlayer>());
 	}
+
+	if(!isSoundPlaying(m_soundtracks[m_currentlyPlayingSoundtrack]))
+	{
+		this->playRandomSoundtrack();
+	}
 }
 
 void GameState::importMap(string _map)
@@ -1305,6 +1325,18 @@ void GameState::playPursueSound(unsigned int _speakerId)
 	}
 }
 
+void GameState::playRandomSoundtrack()
+{
+	vector<int> possibleSoundtracks;
+	for(int i = 0; i < NR_OF_SOUNDTRACKS; i++)
+	{
+		if(m_currentlyPlayingSoundtrack != i)
+			possibleSoundtracks.push_back(i);
+	}
+	m_currentlyPlayingSoundtrack = possibleSoundtracks[random(0, possibleSoundtracks.size()-1)];
+	playSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
+}
+
 void GameState::playWallDeathSound(FLOAT3 _position)
 {
 	int sound = createSoundHandle("skills/wallEnd.wav", false, true, _position);
@@ -1315,4 +1347,8 @@ void GameState::playWallDeathSound(FLOAT3 _position)
 NetworkEndGameMessage GameState::getEndGameMessage()
 {
 	return this->m_endMessage;
+}
+MissionEndMessage GameState::getMissionEndMessage()
+{
+	return this->em;
 }

@@ -58,6 +58,7 @@ public:
 	void setMentalDamageRecieved(int damage);
 	void setPhysicalDamageDone(int damage);
 	void setPhysicalDamageRecieved(int damage);
+	void setHealedFor(int h);
 
 	void resetPlayer();
 };

@@ -225,11 +225,11 @@ void Enemy::updateSpecificUnitEntity(float dt)
 
 }
 
-void Enemy::WriteToAwesomeFile(int number)
+void Enemy::WriteToAwesomeFile(int number, string text, string fileName)
 {
-	fstream ss;
-		ss.open("gunnar.txt",ios::out | ios::app);
-		ss << number <<endl;// << "Id: " << m_id << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
+		fstream ss;
+		ss.open(fileName,ios::out | ios::app);
+		ss << number <<endl << text << endl << endl; // << "Id: " << m_id << endl << "Dir: " << m_dir.x << " " << m_dir.z << endl << "Pos: " << m_position.x << " " << m_position.z << endl << endl;
 		ss.close();
 }
 
@@ -249,7 +249,7 @@ void Enemy::moveAndRotate(float lastDT)
 				ServerEntity *stat = EntityHandler::getClosestStaticOrTurretWithExtents(m_position);
 				
 				if(stat != NULL && (stat->getPosition() - m_position).length() 
-					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.0f+
+					<sqrt(stat->getObb()->Extents.x*stat->getObb()->Extents.x+stat->getObb()->Extents.z*stat->getObb()->Extents.z)*1.1f+
 					sqrt(this->getObb()->Extents.x*this->getObb()->Extents.x+this->getObb()->Extents.z*this->getObb()->Extents.z))
 				{
 					
@@ -257,7 +257,7 @@ void Enemy::moveAndRotate(float lastDT)
 					if(v.length() > 0)
 						v = v/v.length();
 					m_dir = v;//m_dir*-1;// + v+d;
-					m_position = m_position + (v)*m_movementSpeed*lastDT;
+					m_position = m_position + (v)*1.1f*m_movementSpeed*lastDT;
 					
 				}
 				
@@ -502,19 +502,17 @@ void Enemy::checkPursue()
 	if(!m_willPursue)
 	{
 		int attackerID = Statistics::convertSimonsIdToRealId(m_lastDamageDealer);
-		ServerEntity* se;
-		if(attackerID >=0 && attackerID < 4)
+		ServerEntity* se = EntityHandler::getServerEntity(m_lastDamageDealer);
+		
+		if( se != NULL  &&attackerID >=0 && attackerID < 4 && (se->getPosition() - m_position).length() < m_aggroRange*3.0f)
 		{
-			se = EntityHandler::getServerEntity(m_lastDamageDealer);
-			WriteToAwesomeFile(attackerID);
-			if(se)
-			{
+			
+			
+			m_willPursue = true;
+			m_closestTargetId = se->getId();
+			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::ENEMY_PURSUE, this->m_id, m_position));
 				
-					m_willPursue = true;
-					m_closestTargetId = se->getId();
-					this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::ENEMY_PURSUE, this->m_id, m_position));
-				
-			}
+			
 		}
 		else
 		{

@@ -588,7 +588,7 @@ void World::render()
 					if(transparentModels[i]->getRightHand())
 					{
 						this->m_deferredSampler->setTexture(transparentModels[i]->getRightHand()->subMeshes[m]->textures["color"]);
-						this->m_deferredSampler->setGlowMap(m_models[i]->getRightHand()->subMeshes[m]->textures[m_models[i]->getWeaponGlowIndex()]);
+						this->m_deferredSampler->setGlowMap(transparentModels[i]->getRightHand()->subMeshes[m]->textures[m_models[i]->getWeaponGlowIndex()]);
 
 						this->m_deferredSampler->setPropsMatrix(transparentModels[i]->getAnimation()->getRightHandMatrix());
 						this->m_deviceHandler->setVertexBuffer(transparentModels[i]->getRightHand()->subMeshes[m]->buffer, sizeof(SuperVertex));
@@ -789,10 +789,10 @@ void World::render()
 
 			for(int m = 0; m < m_models[i]->getMesh()->subMeshes.size(); m++)
 			{
+				this->m_forwardRendering->setColor(m_models[i]->getColor());
 				if(m_models[i]->getMesh()->isAnimated)
 				{
 					this->m_forwardRendering->setBoneTexture(m_models[i]->getAnimation()->getResource());
-					this->m_forwardRendering->setColor(m_models[i]->getColor());
 					this->m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(AnimationVertex));
 					this->m_deviceHandler->setInputLayout(this->m_forwardRendering->getInputAnimationLayout());
 					this->m_forwardRendering->getAnimationTechnique()->GetPassByIndex( 0 )->Apply(0);
@@ -823,7 +823,7 @@ void World::render()
 				else
 				{				
 					m_deviceHandler->setVertexBuffer(m_models[i]->getMesh()->subMeshes[m]->buffer, sizeof(SuperVertex));
-				m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
+					m_deviceHandler->setInputLayout(m_deferredSampler->getSuperInputLayout());
 					m_forwardRendering->m_forwardGubb->GetPassByIndex(0)->Apply(0);
 					this->m_deviceHandler->getDevice()->Draw(m_models[i]->getMesh()->subMeshes[m]->numVerts, 0);
 				}

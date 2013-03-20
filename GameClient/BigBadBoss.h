@@ -8,6 +8,7 @@ class BigBadBoss
 public:
 
 	FLOAT3 m_origPos; 
+	bool m_isHeadingBack;
 	float m_allowedMovement;
 	BigBadBoss(FLOAT3 _pos);
 	~BigBadBoss(void);

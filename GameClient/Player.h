@@ -59,6 +59,7 @@ public:
 
 	bool getReady();
 	void setReady(bool _ready);
+	void setDemonCoins(int t);
 };
 
 #endif

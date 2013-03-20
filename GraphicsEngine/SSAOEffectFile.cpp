@@ -35,11 +35,6 @@ SSAOEffectFile::~SSAOEffectFile()
 
 }
 
-void SSAOEffectFile::setDepthTexture(ID3D10ShaderResourceView* _depthTexture)
-{
-	this->m_depthTexture->SetResource(_depthTexture);
-}
-
 ID3D10EffectTechnique *SSAOEffectFile::getTechniqueVert()
 {
 	return this->m_techniqueVert;
