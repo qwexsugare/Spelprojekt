@@ -138,7 +138,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 							//EntityHandler::addEntity(new Arrow((m_position-se->getPosition()).length(), se->getId(), m_id));
 							//this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage); // dont
 							this->attack(this->m_target);
-							this->m_attackCooldown = this->m_attackSpeed;
+							this->m_attackCooldown = this->m_attackSpeed * this->m_weaponAttackSpeedMultiplier;
 							this->m_nextPosition = this->m_position;
 							this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 						}
