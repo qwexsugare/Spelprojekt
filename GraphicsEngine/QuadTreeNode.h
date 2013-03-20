@@ -4,6 +4,7 @@
 #include "PointLight.h"
 #include "Road.h"
 #include "ParticleEngine.h"
+#include "Camera.h"
 #include <stack>
 #include <DirectXMath.h>
 #include <DirectXCollision.h>
@@ -12,7 +13,7 @@ using namespace DirectX;
 class QuadTreeNode
 {
 private:
-	D3DXVECTOR2 m_cameraOffset;
+	Camera* m_camera;
 	D3DXVECTOR2 m_min;
 	D3DXVECTOR2 m_max;
 	vector<Model*> m_models;
@@ -24,7 +25,7 @@ private:
 	BoundingOrientedBox* m_obb;
 public:
 	QuadTreeNode();
-	QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max, D3DXVECTOR2 _cameraOffset);
+	QuadTreeNode(int _levels, D3DXVECTOR2 _min, D3DXVECTOR2 _max, Camera* _camera);
 	~QuadTreeNode();
 	
 	void addParticleEngine(bool& _success, ParticleEngine* _particleEngine);

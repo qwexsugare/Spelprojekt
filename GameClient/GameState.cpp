@@ -377,15 +377,6 @@ void GameState::update(float _dt)
 				m_yourHeroLives = false;
 			}
 			break;
-		case Skill::LIFESTEALING_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
-			break;
-		case Skill::DEADLY_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
-			break;
-		case Skill::POISON_STRIKE:
-			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
-			break;
 		case Skill::SWIFT_AS_A_CAT_POWERFUL_AS_A_BEAR:
 			this->m_ClientSkillEffects.push_back(new SwiftAsACatPowerfulAsABoarClientSkillEffect(e.getSenderId()));
 			break;
@@ -542,6 +533,15 @@ void GameState::update(float _dt)
 		
 		switch(e.getActionId())
 		{
+		case Skill::LIFESTEALING_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
+			break;
+		case Skill::DEADLY_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
+			break;
+		case Skill::POISON_STRIKE:
+			this->m_ClientSkillEffects.push_back(new PassiveAttackClientSkillEffect(e.getSenderId(), e.getActionId()));
+			break;
 		case Skill::CHAIN_STRIKE:
 			m_ClientSkillEffects.push_back(new ChainStrikeClientSkillEffect(e.getSenderId(), e.getTargetId(), e.getPosition()));
 			break;
@@ -558,7 +558,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new DeathPulseTurretClientSkillEffect(e.getTargetId()));
 			break;
 		case Skill::HEALING_TOUCH:
-			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition(), e.getSenderId()));
+			m_ClientSkillEffects.push_back(new HealingTouchClientSkillEffect(e.getPosition(), e.getSenderId(), e.getTargetId()));
 			break;
 		case Skill::HYPNOTIC_STARE:
 			m_ClientSkillEffects.push_back(new HypnoticStareClientSkillEffect(e.getTargetId(), e.getSenderId(), e.getPosition().x));
@@ -873,6 +873,10 @@ void GameState::update(float _dt)
 	if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveY(_dt);
+	}
+	if(g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
+	{
+		g_graphicsEngine->getCamera()->moveY(-_dt);
 	}
 	if(m_hud->isDone())
 	{

@@ -84,3 +84,8 @@ int Skill::getCost()
 {
 	return 0;
 }
+
+float Skill::getMinimumDamageMultiplier()
+{
+	return 1.0f;
+}

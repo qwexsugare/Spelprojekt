@@ -69,6 +69,7 @@ public:
 	virtual FLOAT3 getEndPos();
 	virtual float getMovementSpeed();
 	virtual unsigned short getWeaponType();
+	virtual void tellBossToDropGold();
 };
 
 #endif

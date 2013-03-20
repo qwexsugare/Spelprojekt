@@ -10,7 +10,7 @@ private:
 	FLOAT3 m_position;
 	float m_lifetime;
 public:
-	HealingTouchClientSkillEffect(FLOAT3 _position, unsigned int casterId);
+	HealingTouchClientSkillEffect(FLOAT3 _position, unsigned int casterId, unsigned int _targetId);
 	~HealingTouchClientSkillEffect();
 
 	void update(float _dt);

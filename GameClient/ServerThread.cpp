@@ -23,7 +23,15 @@ ServerThread::ServerThread(int _port, string _mapName) : sf::Thread()
 
 ServerThread::~ServerThread()
 {
-	this->m_state = State::EXIT;
+	if(this->m_state == State::GAME)
+	{
+		this->m_state = State::DEFEAT;
+	}
+	else
+	{
+		this->m_state = State::EXIT;
+	}
+
 	this->Wait();
 
 	this->m_network->shutDown();

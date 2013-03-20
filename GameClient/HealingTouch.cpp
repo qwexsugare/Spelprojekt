@@ -2,7 +2,7 @@
 #include "EntityHandler.h"
 #include "Hero.h"
 
-const float HealingTouch::COOLDOWN = 15.0f;
+const float HealingTouch::COOLDOWN = 10.0f;
 
 HealingTouch::HealingTouch() : Skill(Skill::HEALING_TOUCH, COOLDOWN)
 {

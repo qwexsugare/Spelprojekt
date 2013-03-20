@@ -18,7 +18,7 @@ bool LifestealingStrike::activate(unsigned int _targetId, unsigned int _senderId
 
 	if(lifesteal < LifestealingStrike::LIFE_STEAL_CHANCE)
 	{
-		caster->heal(caster->getPhysicalDamage() * 0.5f);
+		caster->heal(caster->getPhysicalDamage() * ((float)caster->getStrength() / 100.0f));
 		caster->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::LIFESTEALING_STRIKE, _senderId, caster->getPosition()));
 		triggered = true;
 	}

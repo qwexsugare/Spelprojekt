@@ -10,7 +10,7 @@ PoisonTurret::PoisonTurret(FLOAT3 _pos, UnitEntity *_creator) :
 	Turret(_pos, ATTACK_COOLDOWN, RANGE, _creator->getTurretDuration() * 20, _creator->getId(), _creator->getTurretConstruction())
 {
 	this->m_modelId = 2;
-	this->m_mentalDamage = _creator->getTurretConstruction() / 4 + 1;
+	this->m_mentalDamage = _creator->getTurretConstruction() / 4 + 10;
 	
 	Model* temp = g_graphicsEngine->createModel("PoisonTurret", _pos);
 	m_obb = new BoundingOrientedBox(*temp->getObb());
