@@ -7,13 +7,16 @@ class DeathPulseTurretClientSkillEffect : public ClientSkillEffect
 {
 private:
 	unsigned int m_masterId;
-	Model* m_model;
+	unsigned int m_turretId;
+	//Model* m_model;
 	float m_timer;
 	bool m_active;
+	ParticleEngine* m_partOne;
+	ParticleEngine* m_partTwo;
 public:
 	static const int DURATION = 2;
 
-	DeathPulseTurretClientSkillEffect(unsigned int _masterId);
+	DeathPulseTurretClientSkillEffect(unsigned int _masterId, unsigned int _targetId);
 	~DeathPulseTurretClientSkillEffect();
 
 	bool getActive();
