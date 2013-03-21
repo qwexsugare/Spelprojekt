@@ -39,7 +39,7 @@ GameState::GameState(Client *_network, string mapName)
 	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 
 	//SSAO
-	g_graphicsEngine->setSSAO(2, 0.01f, 0, 1);
+	g_graphicsEngine->setSSAO(3, 0.01f, 0, 1);
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
