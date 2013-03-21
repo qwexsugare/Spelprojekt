@@ -39,8 +39,10 @@ int Statistics::convertSimonsIdToRealId(int id)
 	for(int i=0;i<MAXPLAYERS;i++)
 	{
 		if(Statistics::sPlayers[i].getPlayerId()==id)
+		{
 			trueId=i;
-		i=MAXPLAYERS;
+			i=MAXPLAYERS;
+		}
 	}
 	return trueId;
 }

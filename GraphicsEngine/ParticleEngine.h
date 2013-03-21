@@ -45,6 +45,7 @@ private:
 	float lifeTime;
 	float speed;
 	float offset;
+	float rotateSpeed;
 
 	D3DXVECTOR4 color;
 

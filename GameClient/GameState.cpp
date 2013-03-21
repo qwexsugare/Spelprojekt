@@ -302,6 +302,7 @@ void GameState::update(float _dt)
 		if(this->m_modelIdHolder.getHat(iem.getModelID()) != "")
 		{
 			model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(iem.getModelID())));
+			model->getAnimation()->PlayLoop("idle");
 		}
 		if(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType()) != "")
 		{
@@ -444,7 +445,7 @@ void GameState::update(float _dt)
 			this->missionCompletedSprite->setVisible(true);
 			this->em.setStatusForMission(m.getMissionName(),"Completed");
 		}
-		this->missionTimer=3.0f;
+		this->missionTimer=4.0f;
 	}
 	this->missionTimer-=_dt;
 	if(this->missionTimer<0)
@@ -535,7 +536,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new TargetAcquiredClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		case Skill::TELEPORT:
-			m_ClientSkillEffects.push_back(new TeleportClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new TeleportClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		}
 	}

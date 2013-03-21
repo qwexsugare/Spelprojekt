@@ -15,7 +15,6 @@ private:
 	PointLight* m_backLight;
 	ModelIdHolder m_modelIdHolder;
 	float m_width;
-	ParticleEngine* m_fire;
 public:
 	Room(int _index, int _charId, string _roomDiffuse, string _roomGlow, FLOAT3 _pos, float roomWidth);
 	Room(int _index, string _roomDiffuse, FLOAT3 _pos, float _roomWidth);

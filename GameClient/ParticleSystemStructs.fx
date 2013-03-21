@@ -40,6 +40,7 @@ cbuffer cb
 	float lifeTime;
 	float emitRate;
 	float speed;
+	float rotateSpeed;
 	float offset;
 	float4x4 viewProj;
 	float4x4 view;
@@ -107,6 +108,18 @@ BlendState AdditiveBlending
 	RenderTargetWriteMask[0]= 0x0F;
 };
 
+BlendState HudBlending
+{
+	AlphaToCoverageEnable	= FALSE;
+	BlendEnable[0]			= TRUE;
+	SrcBlend				= SRC_ALPHA;
+	DestBlend				= INV_SRC_ALPHA;
+	BlendOp					= ADD;
+	SrcBlendAlpha			= ZERO;
+	DestBlendAlpha			= ZERO;
+	BlendOpAlpha			= ADD;
+	RenderTargetWriteMask[0]= 0x0F;
+};
 float3 RandUnitVec3(float offset)
 {
 	//Use game time plus offset to sample random texture.
