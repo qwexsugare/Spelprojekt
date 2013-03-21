@@ -15,7 +15,6 @@ MindReaver::MindReaver(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 
 	m_health = 1000; 
 	m_maxHealth=m_health;
-	this->increaseStrength(2);
 	this->increaseAgility(10);
 	this->increaseWits(16);    
 	this->increaseFortitude(4);
