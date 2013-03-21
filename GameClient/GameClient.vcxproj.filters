@@ -566,6 +566,9 @@
     <ClCompile Include="MissionEndMessage.cpp">
       <Filter>Client</Filter>
     </ClCompile>
+    <ClCompile Include="MindReaver.cpp">
+      <Filter>Server\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionHandler.h">
@@ -1164,6 +1167,9 @@
     </ClInclude>
     <ClInclude Include="MissionEndMessage.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="MindReaver.h">
+      <Filter>Server\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

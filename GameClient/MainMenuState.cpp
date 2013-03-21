@@ -3,8 +3,8 @@
 MainMenuState::MainMenuState()
 {
 	this->m_menu = new MainMenu();
-	troll = NULL; //g_graphicsEngine->createParticleEngine("blood", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
-	troll1 = NULL;//g_graphicsEngine->createParticleEngine("test2", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	troll = g_graphicsEngine->createParticleEngine("test", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	troll1 = g_graphicsEngine->createParticleEngine("test3", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 	troll2 = NULL;//g_graphicsEngine->createParticleEngine("test3", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 	troll3 = NULL; //g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(0, 1, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 }
@@ -52,8 +52,8 @@ void MainMenuState::update(float dt)
 		}
 	}
 
-	//troll->setPosition(m_kewlPos);
-	//troll1->setPosition(m_kewlPos);
+	troll->setPosition(m_kewlPos);
+	troll1->setPosition(m_kewlPos);
 	//troll2->setPosition(m_kewlPos);
 
 

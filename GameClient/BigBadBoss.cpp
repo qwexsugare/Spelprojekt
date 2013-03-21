@@ -2,12 +2,14 @@
 #include "RangedAttack.h"
 #include "StunningStrike.h"
 #include "MyAlgorithms.h"
+#include "MeleeAOEAttack.h"
 
 BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 {
 	m_modelId = 88;
-	//this->m_type = ServerEntity::BossType;
-
+	//89
+	//this->m_weaponType = WEAPON_TYPE::AOE;
+	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 	this->increaseStrength(10);
 	this->increaseAgility(5);
 	this->increaseWits(8);    
@@ -23,6 +25,7 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	
 
 	m_skills.push_back(new StunningStrike());
+	//m_regularAttack = new MeleeAOEAttack();
 	m_regularAttack = new MeleeAttack();
 	m_regularAttack->setRange(m_regularAttack->getRange()*1.5);
 	m_aggroRange = 2.0f + m_regularAttack->getRange();
@@ -32,7 +35,7 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	this->m_obb = new BoundingOrientedBox(*m->getObb());
 	g_graphicsEngine->removeModel(m);
 
-	this->setScale(2.4f);
+	this->setScale(2.0f);
 }
 void BigBadBoss::attackHero(int heroIndex)
 {
@@ -141,4 +144,9 @@ void BigBadBoss::updateSpecificUnitEntity(float dt)
 void BigBadBoss::tellBossToDropGold()
 {
 	this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource+m_extraDivinePower, m_highRescource+m_extraDivinePower)));
+}
+
+unsigned short BigBadBoss::getWeaponType()
+{
+	return this->m_weaponType;
 }

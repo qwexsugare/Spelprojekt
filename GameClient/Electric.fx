@@ -64,7 +64,7 @@ VS_OUT ElectricVS(Particle input)
 
 
 	output.pos.xyz = emitPosW.xyz + (((input.vel.xyz)*(offset + (t*speed))));
-	output.pos.y = 0.02f;
+	//output.pos.y = 0.02f;
 
 	float opp = 1.0/lifeTime;
 	float opacity = 1-(opp*t);

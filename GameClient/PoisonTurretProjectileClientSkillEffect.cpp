@@ -11,7 +11,11 @@ PoisonTurretProjectileClientSkillEffect::PoisonTurretProjectileClientSkillEffect
 {
 	m_active = true;
 	m_targetId = _targetId;
-	
+	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
+	m_graphicalEffect->setScale(1.5f, 1.5f, 1.5f);
+	m_graphicalEffect->setAlpha(0.0f);
+
+	m_pe = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(_position.toD3DXVector(), 1), D3DXQUATERNION(), D3DXVECTOR2(1, 1));
 
 	int sound = createSoundHandle("turrets/poisonTowerAttack.wav", false, true, _position);
 	playSound(sound);
@@ -20,7 +24,8 @@ PoisonTurretProjectileClientSkillEffect::PoisonTurretProjectileClientSkillEffect
 
 PoisonTurretProjectileClientSkillEffect::~PoisonTurretProjectileClientSkillEffect()
 {
-	
+	g_graphicsEngine->removeModel(m_graphicalEffect);
+	g_graphicsEngine->removeParticleEngine(m_pe);
 }
 
 void PoisonTurretProjectileClientSkillEffect::update(float _dt)
@@ -33,8 +38,9 @@ void PoisonTurretProjectileClientSkillEffect::update(float _dt)
 
 		if(dist.length() > movement.length())
 		{
-			//m_graphicalEffect->move(FLOAT3(movement.x, 0.0f, movement.y));
-			//m_graphicalEffect->setRotation(FLOAT3(atan2(-movement.x, -movement.y), 0.0f, 0.0f));
+			m_graphicalEffect->move(FLOAT3(movement.x, 0.0f, movement.y));
+			m_graphicalEffect->setRotation(FLOAT3(atan2(-movement.x, -movement.y), 0.0f, 0.0f));
+			m_pe->setPosition(m_graphicalEffect->getPosition().toD3DXVector());
 		}
 		else
 		{

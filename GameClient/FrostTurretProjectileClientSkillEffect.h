@@ -10,6 +10,7 @@ private:
 	Model* m_graphicalEffect;
 	unsigned int m_targetId;
 	bool m_active;
+	ParticleEngine* m_pe[2];
 public:
 	FrostTurretProjectileClientSkillEffect(FLOAT3 _position, unsigned int _targetId);
 	~FrostTurretProjectileClientSkillEffect();
