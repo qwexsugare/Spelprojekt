@@ -5,10 +5,12 @@
 class BigBadBoss
 	:public Enemy
 {
-public:
+private:
+	static enum WEAPON_TYPE{NO_WEAPON, RANGED, MELEE, AOE};
 
-	
-	BigBadBoss(FLOAT3 _pos);
+	WEAPON_TYPE m_weaponType;
+public:
+	BigBadBoss::BigBadBoss(FLOAT3 _pos);
 	~BigBadBoss(void);
 	FLOAT3 m_origPos; 
 	bool m_isHeadingBack;
@@ -16,6 +18,6 @@ public:
 	virtual void attackHero(int heroIndex);
 	void updateSpecificUnitEntity(float dt);
 	void tellBossToDropGold();
-	
+	unsigned short getWeaponType();
 };
 

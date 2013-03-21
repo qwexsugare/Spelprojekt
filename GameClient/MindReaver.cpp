@@ -5,14 +5,16 @@
 #include "RangedAttack.h"
 #include "StunningStrike.h"
 #include "MyAlgorithms.h"
+#include "MeleeAOEAttack.h"
 
 MindReaver::MindReaver(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 {
-	m_modelId = 88;
+	m_modelId = 89;
 	//this->m_type = ServerEntity::BossType;
+	this->m_weaponType = WEAPON_TYPE::AOE;
 
 	m_health = 1000; 
-	this->increaseStrength(5);
+	m_maxHealth=m_health;
 	this->increaseAgility(10);
 	this->increaseWits(16);    
 	this->increaseFortitude(4);
@@ -27,16 +29,16 @@ MindReaver::MindReaver(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	
 
 	m_skills.push_back(new StunningStrike());
-	m_regularAttack = new MeleeAttack();
+	m_regularAttack = new MeleeAOEAttack();
 	m_regularAttack->setRange(m_regularAttack->getRange()*1.5);
 	m_aggroRange = 2.0f + m_regularAttack->getRange();
 	
 
-	Model *m = g_graphicsEngine->createModel("Imp", m_position);
+	Model *m = g_graphicsEngine->createModel("Char", m_position);
 	this->m_obb = new BoundingOrientedBox(*m->getObb());
 	g_graphicsEngine->removeModel(m);
 
-	this->setScale(2.2f);
+	this->setScale(1.4f);
 }
 void MindReaver::attackHero(int heroIndex)
 {
@@ -142,9 +144,16 @@ void MindReaver::updateSpecificUnitEntity(float dt)
 
 	this->m_obb->Center = XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z);
 
+
+
 }
 
 void MindReaver::tellBossToDropGold()
 {
+	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::DEATH, this->m_id, this->m_position));
 	this->m_messageQueue->pushOutgoingMessage(new EnemyDiedMessage(this->m_id, this->m_lastDamageDealer, random(m_lowResource+m_extraDivinePower, m_highRescource+m_extraDivinePower)));
+}
+unsigned short MindReaver::getWeaponType()
+{
+	return this->m_weaponType;
 }

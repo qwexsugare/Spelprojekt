@@ -2,8 +2,9 @@
 #include "ServerEntity.h"
 #include "Enemy.h"
 #include "BigBadBoss.h"
+#include "MindReaver.h"
 
-enum MissionType {BBB};
+enum MissionType {BBB,BBC};
 class Mission : public ServerEntity
 {
 private:
