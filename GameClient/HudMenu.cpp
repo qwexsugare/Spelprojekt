@@ -149,10 +149,10 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	string m_TempString = this->m_ResourceLabel->IntToString(m_Resources);
 	this->m_ResourceLabel->setText(m_TempString);
 	this->m_Chattext.resize(4);
-	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1150,1120),55);
-	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1150,1090),55);
-	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1150,1060),55);
-	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1150,1030),55);
+	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1150,1108),55);
+	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1150,1084),55);
+	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1150,1059),55);
+	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1150,1036),55);
 	
 	this->m_AttributeText.resize(8);
 	this->m_AttributeText[0] = new TextLabel("","text5.png",INT2(90, 987),55);
