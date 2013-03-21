@@ -3,7 +3,7 @@
 #include "Enemy.h"
 #include "BigBadBoss.h"
 
-enum MissionType {BBB};
+enum MissionType {BBB,BBC};
 class Mission : public ServerEntity
 {
 private:

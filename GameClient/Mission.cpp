@@ -32,13 +32,18 @@ void Mission::createMission(string type, float x, float z, int startwave, int en
 	this->m_position=FLOAT3(x,0.0f,z);
 	this->missionName=missionName;
 
-	if(EntityHandler::getServerEntity(this->bossId) != NULL)
+	//if(EntityHandler::getServerEntity(this->bossId) != NULL)
 	{
 		if(type=="bigBadBoss")
 		{
 			this->missionType=MissionType::BBB;
 		}
+		if(type=="bigBadChar")
+		{
+			this->missionType=MissionType::BBC;
+		}
 	}
+	int k=0;
 }
 
 //void Mission::update(float dt)
@@ -101,7 +106,13 @@ bool Mission::startMission()
 {
 		if(this->missionType==MissionType::BBB)
 		{
-			BigBadBoss *boss = new BigBadBoss(this->m_position);
+			BigBadBoss *boss = new BigBadBoss(this->m_position,88);
+			EntityHandler::addEntity(boss);
+			this->bossId = boss->getId();
+		}
+		if(this->missionType==MissionType::BBC)
+		{
+			BigBadBoss *boss = new BigBadBoss(this->m_position,89);
 			EntityHandler::addEntity(boss);
 			this->bossId = boss->getId();
 		}
