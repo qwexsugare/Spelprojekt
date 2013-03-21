@@ -2,7 +2,7 @@
 #include "Graphics.h"
 #include "SoundWrapper.h"
 
-SettingsMenu::SettingsMenu(void)
+SettingsMenu::SettingsMenu()
 {
 	m_windowed = g_configFile->getWindowed();
 	FLOAT2 m_size, m_side; 
