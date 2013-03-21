@@ -31,6 +31,7 @@ public:
 	void setPlayerName(string _name);
 	void setSoundVolume(float _val) { m_soundVolume = _val; }
 	void setScreenSize(INT2	_size) { m_screenSize = _size; }
+	void setWindowed(bool _windowed);
 	void load();
 	void save();
 };

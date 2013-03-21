@@ -27,5 +27,6 @@ private:
 		m_Brigtness,
 		m_SoundVolume,
 		m_MusicVolume;
+	bool m_windowed;
 };
 

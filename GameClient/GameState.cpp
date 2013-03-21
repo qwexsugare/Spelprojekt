@@ -190,6 +190,8 @@ GameState::~GameState()
 	stopSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
 	for(int i = 0; i < NR_OF_SOUNDTRACKS; i++)
 		deactivateSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
+
+	g_graphicsEngine->removeText(this->m_fpsText);
 }
 
 State::StateEnum GameState::nextState()
@@ -912,7 +914,7 @@ void GameState::update(float _dt)
 	}
 	if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveY(min(_dt, 10.5f - g_graphicsEngine->getCamera()->getPos().y));
+		g_graphicsEngine->getCamera()->moveY(min(_dt, 10.0f - g_graphicsEngine->getCamera()->getPos().y));
 	}
 	if(g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
 	{
