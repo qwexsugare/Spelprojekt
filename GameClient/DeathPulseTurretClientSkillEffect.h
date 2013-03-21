@@ -9,8 +9,6 @@ private:
 	unsigned int m_masterId;
 	unsigned int m_turretId;
 	//Model* m_model;
-	int m_sound;
-	//float m_soundVolume;
 	float m_timer;
 	bool m_active;
 	ParticleEngine* m_partOne;

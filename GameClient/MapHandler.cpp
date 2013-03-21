@@ -56,6 +56,8 @@ MapHandler::~MapHandler()
 	if(m_paths)
 		delete []m_paths;
 
+	delete this->m_messageQueue;
+
 	//for(int i = 0; i < missions.size(); i++)
 	//{
 	//	delete missions[i];

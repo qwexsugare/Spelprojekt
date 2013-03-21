@@ -1,11 +1,11 @@
 #include "Hero.h"
+#include "Graphics.h"
 
 extern Pathfinder* g_pathfinder;
 
 Hero::Hero() : UnitEntity()
 {
 	this->m_type = Type::HeroType;
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;
 	this->m_attackCooldown = 0.0f;
@@ -27,10 +27,14 @@ Hero::Hero() : UnitEntity()
 
 Hero::Hero(HERO_TYPE _heroType, int _playerId) : UnitEntity()
 {
+	Model* temp = g_graphicsEngine->createModel("Char", FLOAT3(0.0f, 0.0f, 0.0f));
+	this->m_obb = new BoundingOrientedBox(*temp->getObb());
+	m_bvOffset = FLOAT3(m_obb->Center.x, m_obb->Center.y, m_obb->Center.z);
+	g_graphicsEngine->removeModel(temp);
+
 	this->m_heroType = _heroType;
 	this->m_playerId = _playerId;
 	this->m_type = Type::HeroType;
-	this->m_obb = new BoundingOrientedBox(XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f));
 	this->m_position = FLOAT3(0.0f, 0.0f, 0.0f);
 	this->m_nextPosition = this->m_position;
 	this->m_reachedPosition = true;

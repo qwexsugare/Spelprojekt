@@ -8,7 +8,6 @@
 #include "Enemy.h"
 #include "ServerEntity.h"
 #include "MapHandler.h"
-#include "CollisionHandler.h"
 #include "GraphicsHandler.h"
 #include "TeslaChainTurret.h"
 #include <sstream>
