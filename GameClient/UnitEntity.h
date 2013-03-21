@@ -25,6 +25,7 @@ protected:
 	int m_fortitude;
 	int m_turretConstruction;
 
+	float m_weaponAttackSpeedMultiplier;
 	float m_turretDuration;
 	int m_greed;
 	float m_movementSpeedChange;
@@ -126,6 +127,7 @@ public:
 	int getGreed();
 	int getTurretDuration();
 	int getPoisonCounter();
+	float getWeaponAttackSpeedMultiplier();
 
 	unsigned int getLastDamageDealer();
 

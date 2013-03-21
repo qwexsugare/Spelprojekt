@@ -14,6 +14,8 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	this->m_aimTime = 1.0f / _animationSpeed;
 	this->m_graphicalEffect = NULL;
 	this->m_particleSystem = NULL;
+	this->m_particleTail = NULL;
+	this->m_deathTime = 0;
 
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
 	Entity* target = ClientEntityHandler::getEntity(_targetId);
@@ -50,12 +52,16 @@ ArrowClientSkillEffect::~ArrowClientSkillEffect()
 	{
 		g_graphicsEngine->removeParticleEngine(this->m_particleSystem);
 	}
+	if(this->m_particleTail)
+	{
+		g_graphicsEngine->removeParticleEngine(this->m_particleTail);
+	}
 }
 
 void ArrowClientSkillEffect::update(float _dt)
 {
 	Entity* target = ClientEntityHandler::getEntity(m_targetId);
-
+	
 	if(this->m_aimTime > 0.0f)
 	{
 		this->m_aimTime -= _dt;
@@ -69,6 +75,7 @@ void ArrowClientSkillEffect::update(float _dt)
 				FLOAT3 dist = target->m_model->getPosition()-master->m_model->getRightHandPosition();
 				FLOAT3 movement = dist/dist.length();
 				this->m_pos = master->m_model->getRightHandPosition() + movement;
+				this->m_pos.y = 0.5f;
 
 				if(master->m_type == ServerEntity::HeroType)
 				{				
@@ -80,7 +87,26 @@ void ArrowClientSkillEffect::update(float _dt)
 				else if(master->m_type == ServerEntity::EnemyType)
 				{
 					D3DXVECTOR3 newPos = master->m_model->getRightHandPosition().toD3DXVector();
-					this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+					switch(master->m_subtype)
+					{
+					case Enemy::SPITTING_DEMON:
+						this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+						this->m_particleTail = NULL;
+						break;
+					case Enemy::FROST_DEMON:
+						this->m_particleSystem = g_graphicsEngine->createParticleEngine("Frost", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+						this->m_particleTail = g_graphicsEngine->createParticleEngine("FrostTail", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+						break;
+					case Enemy::HELLFIRE_STEED:
+						this->m_particleTail = g_graphicsEngine->createParticleEngine("HellFireTail", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+						break;
+					case Enemy::THUNDERSTEED:
+						this->m_particleSystem = g_graphicsEngine->createParticleEngine("test", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+						this->m_particleTail = g_graphicsEngine->createParticleEngine("test3", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}
@@ -104,6 +130,12 @@ void ArrowClientSkillEffect::update(float _dt)
 				D3DXVECTOR3 incY(0, 0.5f, 0);
 				D3DXVECTOR3 newPos = D3DXVECTOR3(this->m_particleSystem->getPosition().x,this->m_particleSystem->getPosition().y, this->m_particleSystem->getPosition().z) + movement.toD3DXVector();
 				this->m_particleSystem->setPosition(D3DXVECTOR3(m_pos.x, m_pos.y, m_pos.z) + incY);
+			}
+			if(this->m_particleTail)
+			{				
+				D3DXVECTOR3 incY(0, 0.5f, 0);
+				D3DXVECTOR3 newPos = D3DXVECTOR3(this->m_particleTail->getPosition().x,this->m_particleTail->getPosition().y, this->m_particleTail->getPosition().z) + movement.toD3DXVector();
+				this->m_particleTail->setPosition(D3DXVECTOR3(m_pos.x, m_pos.y, m_pos.z) + incY);
 			}
 		}
 		else
