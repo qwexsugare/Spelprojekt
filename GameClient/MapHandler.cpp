@@ -17,7 +17,7 @@ MapHandler::MapHandler()
 	this->m_messageQueue = new MessageQueue();
 	this->m_currentWave = 0;
 	this->m_waveTimer = 30.0f;
-	this->m_enemySpawnTimer = 30.0f;
+	this->m_enemySpawnTimer = 45.0f;
 	this->m_gridHeight = 0;
 	this->m_gridWidth = 0;
 	this->m_nrOfPaths = 0;
@@ -383,7 +383,7 @@ void MapHandler::update(float _dt)
 			{
 				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
 				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
-				this->m_enemySpawnTimer = 2.0f;
+				this->m_enemySpawnTimer = 3.0f;
 
 			}
 			else
@@ -398,7 +398,7 @@ void MapHandler::update(float _dt)
 		{
 			m_currentWave++;
 			Statistics::waveFinnished();
-			m_waveTimer = 10.0f;
+			m_waveTimer = 15.0f;
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::WAVE_UPDATE, this->m_currentWave + 1, FLOAT3()));
 		}
 		else
