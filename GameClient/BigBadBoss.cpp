@@ -4,12 +4,12 @@
 #include "MyAlgorithms.h"
 #include "MeleeAOEAttack.h"
 
-BigBadBoss::BigBadBoss(FLOAT3 _pos,int modelid):Enemy(_pos,EnemyType::BOSS)
+BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 {
-	m_modelId = modelid;
-	this->m_weaponType = WEAPON_TYPE::AOE;
-	//this->m_type = ServerEntity::BossType;
-
+	m_modelId = 88;
+	//89
+	//this->m_weaponType = WEAPON_TYPE::AOE;
+	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
 	this->increaseStrength(10);
 	this->increaseAgility(5);
 	this->increaseWits(8);    
@@ -25,7 +25,8 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos,int modelid):Enemy(_pos,EnemyType::BOSS)
 	
 
 	m_skills.push_back(new StunningStrike());
-	m_regularAttack = new MeleeAOEAttack();
+	//m_regularAttack = new MeleeAOEAttack();
+	m_regularAttack = new MeleeAttack();
 	m_regularAttack->setRange(m_regularAttack->getRange()*1.5);
 	m_aggroRange = 2.0f + m_regularAttack->getRange();
 	

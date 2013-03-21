@@ -5,6 +5,10 @@
 class MindReaver
 	:public Enemy
 {
+private:
+		static enum WEAPON_TYPE{NO_WEAPON, RANGED, MELEE, AOE};
+
+	WEAPON_TYPE m_weaponType;
 public:
 	MindReaver(FLOAT3 _pos);
 	~MindReaver(void);
@@ -15,5 +19,6 @@ public:
 	virtual void attackHero(int heroIndex);
 	void updateSpecificUnitEntity(float dt);
 	void tellBossToDropGold();
+	unsigned short getWeaponType();
 };
 

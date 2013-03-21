@@ -69,6 +69,7 @@ bool Mission::handle(int atWave)
 		this->missionStarted=true;
 		this->missionRunning=true;
 		this->startMission();
+		this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"start"));
 	}
 	if(boss != NULL && EntityHandler::getServerEntity(this->bossId)->getHealth()<=0)
 	{
@@ -106,13 +107,14 @@ bool Mission::startMission()
 {
 		if(this->missionType==MissionType::BBB)
 		{
-			BigBadBoss *boss = new BigBadBoss(this->m_position,88);
+			BigBadBoss *boss = new BigBadBoss(this->m_position);
 			EntityHandler::addEntity(boss);
 			this->bossId = boss->getId();
+			boss->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, boss->getId(), boss->getPosition()));
 		}
 		if(this->missionType==MissionType::BBC)
 		{
-			BigBadBoss *boss = new BigBadBoss(this->m_position,89);
+			MindReaver *boss = new MindReaver(this->m_position);
 			EntityHandler::addEntity(boss);
 			this->bossId = boss->getId();
 			boss->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, boss->getId(), boss->getPosition()));

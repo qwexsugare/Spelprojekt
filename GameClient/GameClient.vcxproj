@@ -166,6 +166,7 @@
     <ClCompile Include="HealingFountain.cpp" />
     <ClCompile Include="HealingFountainClientSkillEffect.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="MindReaver.cpp" />
     <ClCompile Include="MissionEndMessage.cpp" />
     <ClCompile Include="NetworkEntityAttributeMessage.cpp" />
     <ClCompile Include="Mission.cpp" />
@@ -363,6 +364,7 @@
     <ClInclude Include="HealingFountain.h" />
     <ClInclude Include="HealingFountainClientSkillEffect.h" />
     <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="MindReaver.h" />
     <ClInclude Include="MissionEndMessage.h" />
     <ClInclude Include="NetworkEntityAttributeMessage.h" />
     <ClInclude Include="Mission.h" />
