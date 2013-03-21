@@ -360,7 +360,6 @@ void MapHandler::update(float _dt)
 				{
 					this->missions[i]->addToEntityHandler();
 					EntityHandler::addEntity(this->missions[i]);
-					this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missions[i]->getMissionName(),"start"));
 				}
 			}
 		}

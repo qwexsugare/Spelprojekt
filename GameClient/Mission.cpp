@@ -20,7 +20,7 @@ Mission::~Mission(void)
 {
 	ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
 
-	if(boss != NULL)
+	if(boss != NULL && missionStarted == true)
 	{
 		EntityHandler::removeEntity(boss);
 	}

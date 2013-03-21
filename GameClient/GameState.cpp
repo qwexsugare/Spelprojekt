@@ -39,7 +39,7 @@ GameState::GameState(Client *_network, string mapName)
 	testParticleSystem = NULL;//g_graphicsEngine->createParticleEngine(D3DXVECTOR4(0, 1, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 
 	//SSAO
-	g_graphicsEngine->setSSAO(2, 0.01f, 0, 1);
+	g_graphicsEngine->setSSAO(3, 0.01f, 0, 1);
 
 	// Get all hero data from the network
 	while(m_network->heroInitQueueEmpty()){}
@@ -912,11 +912,11 @@ void GameState::update(float _dt)
 	}
 	if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveY(min(g_graphicsEngine->getCamera()->getPos().y + _dt, 11.0f));
+		g_graphicsEngine->getCamera()->moveY(min(_dt, 11.0f - g_graphicsEngine->getCamera()->getPos().y));
 	}
 	if(g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveY(max(g_graphicsEngine->getCamera()->getPos().y - _dt, 7.5f));
+		g_graphicsEngine->getCamera()->moveY(max(-_dt, 7.5f - g_graphicsEngine->getCamera()->getPos().y));
 	}
 	if(m_hud->isDone())
 	{
