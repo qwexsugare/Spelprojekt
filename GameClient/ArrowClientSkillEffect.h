@@ -14,6 +14,8 @@ private:
 	float m_aimTime;
 	bool m_active;
 	ParticleEngine* m_particleSystem;
+	ParticleEngine* m_particleTail;
+	float m_deathTime;
 public:
 	ArrowClientSkillEffect(FLOAT3 _position, unsigned int _targetId, unsigned int _masterId, float _animationSpeed);
 	~ArrowClientSkillEffect();
