@@ -912,7 +912,7 @@ void GameState::update(float _dt)
 	}
 	if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveY(min(_dt, 11.0f - g_graphicsEngine->getCamera()->getPos().y));
+		g_graphicsEngine->getCamera()->moveY(min(_dt, 10.5f - g_graphicsEngine->getCamera()->getPos().y));
 	}
 	if(g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
 	{
