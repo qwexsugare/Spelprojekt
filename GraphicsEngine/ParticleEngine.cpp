@@ -544,5 +544,5 @@ void ParticleEngine::setScale(D3DXVECTOR2& _scale)
 
 void ParticleEngine::setAlive(bool _alive)
 {
-	this->isAlive = false;
+	this->isAlive = _alive;
 }
