@@ -10,7 +10,7 @@ JoinGameMenu::JoinGameMenu(void)
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 803), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 862), 100));
 	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 921), 100, 10));
-	this->m_Label[0]->setText("194.47.155.243");
+	this->m_Label[0]->setText("");
 	this->m_Label[1]->setText("1337");
 	this->m_Label[2]->setText(g_configFile->getPlayerName());
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-JoinGameMenu.png", FLOAT2(0,0),  FLOAT2(2,2),0));
