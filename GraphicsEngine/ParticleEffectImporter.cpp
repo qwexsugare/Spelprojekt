@@ -103,6 +103,12 @@ ParticleEffect*  ParticleEffectImporter::loadParticleEffect(string _filename)
 			sscanf(buff, "Color %f %f %f %f", &r, &g, &b, &a);
 			pe->color = D3DXVECTOR4(r, g, b, a);
 		}
+		else if(strcmp(key, "RotateSpeed") == 0)
+		{
+			float rotateSpeed;
+			sscanf(buff, "RotateSpeed %f", &rotateSpeed);
+			pe->rotateSpeed = rotateSpeed;
+		}
 	}
 
 	stream.close();

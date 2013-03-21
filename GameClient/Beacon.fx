@@ -10,7 +10,7 @@ void StreamOutGS(point Particle input[1], inout PointStream<Particle> pStream)
 
 	if(input[0].type == EMITTER)
 	{
-		if(input[0].age > emitRate)
+		if(input[0].age > emitRate && isAlive)
 		{
 			float3 randVe = RandUnitVec3(0.0f);
 			randVe.x *= 0.5f;

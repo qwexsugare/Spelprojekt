@@ -55,7 +55,7 @@ ModelIdHolder::ModelIdHolder()
 	this->m_modelIds[85] = ModelId("Beast", "color1", "glowIntensity1"); //Brute 
 	this->m_modelIds[86] = ModelId("Beast", "color2", "glowIntensity2"); //Hellfire
 	this->m_modelIds[87] = ModelId("Beast", "color3", "glowIntensity3"); //Thunder
-	this->m_modelIds[88] = ModelId("Imp","color5","glowIntensity5");	//boss
+	this->m_modelIds[88] = ModelId("Imp","color5","glowIntensity4");
 	this->m_modelIds[89] = ModelId("Char","color","","TopHat");	//boss
 
 	this->m_modelIds[95] = ModelId("Char", "color", "", "DECLHatt"); //Officer

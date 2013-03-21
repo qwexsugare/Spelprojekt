@@ -10,7 +10,7 @@ void AuraSO(point Particle input[1], inout PointStream<Particle> pStream)
 
 	if(input[0].type == EMITTER)
 	{
-		if(input[0].age > emitRate)
+		if(input[0].age > emitRate && isAlive)
 		{
 			float3 randVe = RandUnitVec3(0.0f);
 			randVe.x *= 0.5f;
@@ -18,9 +18,8 @@ void AuraSO(point Particle input[1], inout PointStream<Particle> pStream)
 		
 			Particle p;
 			p.pos = emitPosW.xyz;
-			p.pos.y = 0.5;
-			p.vel = 0.5f*randVe;
-			p.vel.y = 0;
+			p.pos.y = 0.2;
+			p.vel = float3(0, 1, 0);
 			p.size = size;
 			p.age = 0.0f;
 			p.type = PARTICLE;
@@ -53,12 +52,11 @@ VS_OUT AuraVS(Particle input)
 	float t = input.age;
 	
 
-	output.vel = input.vel;
+	output.vel = float3(0, 1, 0);
 
-	output.ang = ((6.28f/lifeTime) * t) * speed;
-
-	output.pos.xyz = emitPosW.xyz;
-	output.pos.y = 0.02f;
+	output.ang = ((6.28f/lifeTime) * t) * rotateSpeed;
+	
+	output.pos.xyz = emitPosW.xyz + float3(0, 0.2f, 0) + ((input.vel*speed)*t);
 	
 	float opacity = sin((float(180.0f/lifeTime) * t) * 3.14f/180.0f);
 

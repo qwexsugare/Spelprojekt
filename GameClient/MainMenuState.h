@@ -11,6 +11,10 @@ private:
 	MainMenu *m_menu;
 	StateEnum m_nextState;
 	ParticleEngine* troll;
+	ParticleEngine* troll1;
+	ParticleEngine* troll2;
+	ParticleEngine* troll3;
+	D3DXVECTOR3 m_kewlPos;
 public:
 	MainMenuState();
 	~MainMenuState();

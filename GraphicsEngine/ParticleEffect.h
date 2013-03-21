@@ -41,6 +41,7 @@ struct ParticleEffect
 	float speed;
 	float offset;
 	D3DXVECTOR4 color;
+	float rotateSpeed;
 
 	vector<string> textures;
 
@@ -58,5 +59,6 @@ struct ParticleEffect
 		this->speed = 1;
 		this->offset = 0;
 		this->color = D3DXVECTOR4(1, 1, 1, 1);
+		this->rotateSpeed = 0;
 	}
 };

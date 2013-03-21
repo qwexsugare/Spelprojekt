@@ -29,8 +29,6 @@ Room::Room(int _index, int _charId, string _roomDiffuse, string _roomGlow, FLOAT
 
 	this->m_inLight =	NULL;// g_graphicsEngine->createPointLight(FLOAT3(x + (_roomWidth * _index), y + inLightY, z - 0.5f), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 2.5f, false, false);
 	this->m_frontLight = g_graphicsEngine->createPointLight(FLOAT3(x + (_roomWidth * _index), y + frontLightY, z + frontLightZ), FLOAT3(0.0f, 0.0f, 0.0f), FLOAT3(1.0f, 1.0f, 1.0f), FLOAT3(1.0f, 1.0f, 1.0f), 3.0f, true, false);
-	
-	this->m_fire = g_graphicsEngine->createParticleEngine("fire", D3DXVECTOR4(_pos.x + (_roomWidth*_index) + 1.13f, _pos.y + 0.5f, _pos.z - 1.29f, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 }
 
 Room::Room(int _index, string _roomDiffuse, FLOAT3 _pos, float _roomWidth)
@@ -67,5 +65,4 @@ Room::~Room()
 	g_graphicsEngine->removePointLight(m_frontLight);
 	g_graphicsEngine->removePointLight(m_inLight);
 	g_graphicsEngine->removePointLight(m_backLight);
-	g_graphicsEngine->removeParticleEngine(m_fire);
 }

@@ -10,7 +10,7 @@ void FireSO(point Particle input[1], inout PointStream<Particle> pStream)
 
 	if(input[0].type == EMITTER)
 	{
-		if(input[0].age > 0.07f)
+		if(input[0].age > emitRate && isAlive)
 		{
 			float3 randVe = RandUnitVec3(0.0f);
 			randVe.x *= 0.5f;
@@ -20,7 +20,7 @@ void FireSO(point Particle input[1], inout PointStream<Particle> pStream)
 			p.pos = emitPosW.xyz;
 			p.pos.y = 0.5;
 			p.vel = 0.5f*randVe;
-			p.size = float2(0.2, 0.2);//float2(15.0f, 15.0f);
+			p.size = size;
 			p.age = 0.0f;
 			p.type = PARTICLE;
 
@@ -48,7 +48,7 @@ void FireSO(point Particle input[1], inout PointStream<Particle> pStream)
 	}
 	else
 	{
-		if(input[0].age <= 0.5f)
+		if(input[0].age <= lifeTime)
 			pStream.Append(input[0]);
 	}
 }
