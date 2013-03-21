@@ -12,7 +12,7 @@ MindReaver::MindReaver(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	//this->m_type = ServerEntity::BossType;
 
 	m_health = 1000; 
-	this->increaseStrength(2);
+	this->increaseStrength(5);
 	this->increaseAgility(10);
 	this->increaseWits(16);    
 	this->increaseFortitude(4);
