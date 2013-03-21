@@ -13,7 +13,7 @@ public:
 	FLOAT3 m_origPos; 
 	bool m_isHeadingBack;
 	float m_allowedMovement;
-	BigBadBoss(FLOAT3 _pos,int modelId);
+	BigBadBoss(FLOAT3 _pos);
 	~BigBadBoss(void);
 	virtual void attackHero(int heroIndex);
 	void updateSpecificUnitEntity(float dt);
