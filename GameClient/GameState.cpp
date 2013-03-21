@@ -912,14 +912,14 @@ void GameState::update(float _dt)
 			g_graphicsEngine->getCamera()->setZ(ClientEntityHandler::getEntity(m_playerInfos[closestIndex].id)->m_model->getPosition().z-g_graphicsEngine->getCamera()->getZOffset());
 		}
 	}
-	if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
+	/*if(g_keyboard->getKeyState(VK_DOWN) != Keyboard::KEY_UP)
 	{
-		g_graphicsEngine->getCamera()->moveY(min(_dt, 10.0f - g_graphicsEngine->getCamera()->getPos().y));
+		g_graphicsEngine->getCamera()->moveY(min(_dt, 9.0f - g_graphicsEngine->getCamera()->getPos().y));
 	}
 	if(g_keyboard->getKeyState(VK_UP) != Keyboard::KEY_UP)
 	{
 		g_graphicsEngine->getCamera()->moveY(max(-_dt, 7.5f - g_graphicsEngine->getCamera()->getPos().y));
-	}
+	}*/
 	if(m_hud->isDone())
 	{
 		this->setDone(true);
