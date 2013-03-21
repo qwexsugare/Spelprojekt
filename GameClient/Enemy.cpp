@@ -251,6 +251,8 @@ void Enemy::moveAndRotate(float lastDT)
 					
 					if(m_dir.length()>0)
 						m_dir = m_dir/m_dir.length();
+
+					m_position = m_nextPosition;
 				}
 			
 				

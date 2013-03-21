@@ -21,6 +21,8 @@ ParticleEngineEffectFile::ParticleEngineEffectFile(ID3D10Device* _device) : Effe
 	this->offset = this->m_effect->GetVariableByName("offset")->AsScalar();
 	this->view = this->m_effect->GetVariableByName("view")->AsMatrix();
 	this->proj = this->m_effect->GetVariableByName("proj")->AsMatrix();
+	this->color = this->m_effect->GetVariableByName("tintColor")->AsVector();
+	this->rotateSpeed = this->m_effect->GetVariableByName("rotateSpeed")->AsScalar();
 	
 	this->m_randomTexture = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
 	this->m_texture = this->m_effect->GetVariableByName("tex")->AsShaderResource();
@@ -48,6 +50,8 @@ ParticleEngineEffectFile::ParticleEngineEffectFile(ID3D10Device* _device) : Effe
 	this->m_drawFireTechnique = this->m_effect->GetTechniqueByName("DrawFire");
 	this->m_electricSOTechnique = this->m_effect->GetTechniqueByName("ElectricSOTech");
 	this->m_drawElectricTechnique = this->m_effect->GetTechniqueByName("DrawElectric");
+	this->m_auraSOTechnique = this->m_effect->GetTechniqueByName("AuraSOTech");
+	this->m_drawAuraTechnique = this->m_effect->GetTechniqueByName("DrawAura");
 
 
 	this->m_beaconSOTechnique->GetPassByIndex(0)->GetDesc(&passDescription);
@@ -89,6 +93,11 @@ void ParticleEngineEffectFile::setEmitDir(D3DXVECTOR4 _emitDir)
 	this->emitDirW->SetFloatVector((float*)_emitDir);
 }
 
+void ParticleEngineEffectFile::setColor(D3DXVECTOR4 _color)
+{
+	this->color->SetFloatVector((float*)_color);
+}
+
 void ParticleEngineEffectFile::setTotalTime(float _time)
 {
 	this->totalTime->SetFloat((float)_time);
@@ -122,6 +131,11 @@ void ParticleEngineEffectFile::setSpeed(float _speed)
 void ParticleEngineEffectFile::setOffset(float _offset)
 {
 	this->offset->SetFloat(_offset);
+}
+
+void ParticleEngineEffectFile::setRotateSpeed(float _speed)
+{
+	this->rotateSpeed->SetFloat(_speed);
 }
 
 void ParticleEngineEffectFile::setSize(D3DXVECTOR2 _size)
@@ -202,4 +216,14 @@ ID3D10EffectTechnique *ParticleEngineEffectFile::getElectricSOTechnique()
 ID3D10EffectTechnique *ParticleEngineEffectFile::getDrawElectricTechnique()
 {
 	return this->m_drawElectricTechnique;
+}
+
+ID3D10EffectTechnique *ParticleEngineEffectFile::getAuraSOTechnique()
+{
+	return this->m_auraSOTechnique;
+}
+
+ID3D10EffectTechnique *ParticleEngineEffectFile::getDrawAuraTechnique()
+{
+	return this->m_drawAuraTechnique;
 }

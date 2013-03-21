@@ -3,17 +3,61 @@
 MainMenuState::MainMenuState()
 {
 	this->m_menu = new MainMenu();
-	troll = g_graphicsEngine->createParticleEngine("fire", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	troll = g_graphicsEngine->createParticleEngine("test", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	troll1 = g_graphicsEngine->createParticleEngine("test3", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	troll2 = NULL;//g_graphicsEngine->createParticleEngine("test3", D3DXVECTOR4(0, 0, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	troll3 = NULL; //g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(0, 1, 4, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
 }
 
 MainMenuState::~MainMenuState()
 {
 	delete this->m_menu;
 	g_graphicsEngine->removeParticleEngine(troll);
+	g_graphicsEngine->removeParticleEngine(troll1);
+	g_graphicsEngine->removeParticleEngine(troll2);
+	g_graphicsEngine->removeParticleEngine(troll3);
 }
 
 void MainMenuState::update(float dt)
 {
+	float speed = 2.5f;
+	m_kewlPos.z = 4;
+	if(GetKeyState(VK_LEFT) < 0)
+	{
+		if(m_kewlPos.x >= -1)
+		{			
+			m_kewlPos.x += -speed*dt;
+		}
+	}
+	if(GetKeyState(VK_RIGHT) < 0)
+	{
+		if(m_kewlPos.x <= 1)
+		{
+			m_kewlPos.x += speed*dt;
+		}
+	}
+
+	if(GetKeyState(VK_DOWN) < 0)
+	{
+		if(m_kewlPos.y >= -1)
+		{			
+			m_kewlPos.y += -speed*dt;
+		}
+	}
+	if(GetKeyState(VK_UP) < 0)
+	{
+		if(m_kewlPos.y <= 1)
+		{
+			m_kewlPos.y += speed*dt;
+		}
+	}
+
+	troll->setPosition(m_kewlPos);
+	troll1->setPosition(m_kewlPos);
+	//troll2->setPosition(m_kewlPos);
+
+
+
 	this->m_menu->Update();
 
 	if(this->m_menu->createGameIsDown() == true)

@@ -11,24 +11,22 @@ EnigmaticPresenceClientSkillEffect::EnigmaticPresenceClientSkillEffect(unsigned 
 	{
 		FLOAT3 pos = unit->m_model->getPosition();
 		pos.y = 0.01f;
-		m_model = g_graphicsEngine->createModel("Pentagram", pos);
-		m_model->neutralize();
-		m_model->setAlpha(0.75f);
-		m_model->setShadow(false);
+		
+		D3DXVECTOR4 partPos(pos.x, pos.y, pos.z, 1);
+		D3DXQUATERNION partRot(0, 0, 0, 1);
+		m_aura = g_graphicsEngine->createParticleEngine("EnigmaticPresence", partPos, partRot, D3DXVECTOR2(1, 1));
 
 		m_active = true;
 	}
 	else
 	{
-		m_model = NULL;
 		m_active = false;
 	}
 }
 
 EnigmaticPresenceClientSkillEffect::~EnigmaticPresenceClientSkillEffect()
 {
-	if(m_model)
-		g_graphicsEngine->removeModel(m_model);
+	g_graphicsEngine->removeParticleEngine(m_aura);
 }
 
 void EnigmaticPresenceClientSkillEffect::update(float _dt)
@@ -38,8 +36,7 @@ void EnigmaticPresenceClientSkillEffect::update(float _dt)
 	{
 		FLOAT3 pos = unit->m_model->getPosition();
 		pos.y = 0.01f;
-		m_model->setPosition(pos);
-		m_model->rotate(_dt/3.0f, 0.0f, 0.0f);
+		m_aura->setPosition(D3DXVECTOR3(pos.x, pos.y, pos.z));
 	}
 	else
 		m_active = false;

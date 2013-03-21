@@ -51,6 +51,8 @@ UnitEntity::UnitEntity() : ServerEntity()
 	m_frostTurretSlowEffectValue = 0.0f;
 	m_poisonStackDamage = 0;
 	m_extraDivinePower = 0;
+
+	this->m_weaponAttackSpeedMultiplier = 1.0f;
 }
 
 UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
@@ -102,6 +104,8 @@ UnitEntity::UnitEntity(FLOAT3 pos) : ServerEntity(pos)
 	m_frostTurretSlowEffectValue = 0.0f;
 	m_poisonStackDamage = 0;
 	m_extraDivinePower = 0;
+
+	this->m_weaponAttackSpeedMultiplier = 1.0f;
 }
 
 UnitEntity::~UnitEntity()
@@ -456,6 +460,11 @@ int UnitEntity::getPoisonCounter()
 	return this->m_poisonCounter;
 }
 
+float UnitEntity::getWeaponAttackSpeedMultiplier()
+{
+	return this->m_weaponAttackSpeedMultiplier;
+}
+
 #include <sstream>
 void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage, int _extraDivinePower)
 {
@@ -477,6 +486,11 @@ void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int
 		Statistics::getStatisticsPlayer(networkId).addMentalDamageRecived(min((int)(mentalDamage* this->m_mentalResistance),this->m_health));
 		if(physicalDamage>=0&&physicalDamage<999)
 		Statistics::getStatisticsPlayer(networkId).addPhysicalDamageRecived(min((int)(physicalDamage* this->m_physicalResistance),this->m_health));
+	}
+
+	if(physicalDamage < 0 || mentalDamage < 0)
+	{
+		int hoxit = 0;
 	}
 
 	this->m_health = max(this->m_health - physicalDamage * this->m_physicalResistance, 0.0f);

@@ -17,6 +17,8 @@ ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, Textu
 	this->offset = _pe->offset;
 
 	this->isAlive = true;
+	this->color = _pe->color;
+	this->rotateSpeed = _pe->rotateSpeed;
 
 	this->totalTime = 0;
 	this->dt = 0;
@@ -44,7 +46,7 @@ ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, Textu
  
 	BlendState.BlendEnable[0] = TRUE;
 	BlendState.SrcBlend = D3D10_BLEND_SRC_ALPHA;
-	BlendState.DestBlend = D3D10_BLEND_INV_SRC_ALPHA;
+	BlendState.DestBlend = D3D10_BLEND_ONE;
 	BlendState.BlendOp = D3D10_BLEND_OP_ADD;
 	BlendState.SrcBlendAlpha = D3D10_BLEND_ZERO;
 	BlendState.DestBlendAlpha = D3D10_BLEND_ZERO;
@@ -53,6 +55,7 @@ ParticleEngine::ParticleEngine(ParticleEffect* _pe, ID3D10Device* _device, Textu
  
 	_device->CreateBlendState(&BlendState, &addBlend);
 
+	BlendState.DestBlend = D3D10_BLEND_INV_SRC_ALPHA;
  
 	_device->CreateBlendState(&BlendState, &alphBlend);
 
@@ -198,7 +201,8 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 	_particleRendering->setLifeTime(this->lifeTime);
 	_particleRendering->setSpeed(this->speed);
 	_particleRendering->setOffset(this->offset);
-	float rt = this->lifeTime;
+	_particleRendering->setColor(this->color);
+	_particleRendering->setRotateSpeed(this->rotateSpeed);
 
 
 	device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -234,6 +238,9 @@ void ParticleEngine::DrawGPUBased(ParticleEngineEffectFile* _particleRendering, 
 			break;
 		case ParticleBehavior::Electric:
 			DrawGPUElectric(_particleRendering);
+			break;
+		case ParticleBehavior::Aura:
+			DrawGPUAura(_particleRendering);
 			break;
 	}
 
@@ -480,6 +487,46 @@ void ParticleEngine::DrawGPUElectric(ParticleEngineEffectFile* _particleRenderin
 	}
 }
 
+void ParticleEngine::DrawGPUAura(ParticleEngineEffectFile* _particleRendering)
+{
+	UINT stride = sizeof(Particle);
+	UINT offset = 0;
+
+	//StreamOut
+	device->SOSetTargets(1, &streamOutVB, &offset);
+	
+	D3D10_TECHNIQUE_DESC techDesc;
+	_particleRendering->getAuraSOTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getAuraSOTechnique()->GetPassByIndex(p)->Apply(0);
+		if(firstTime)
+		{
+			device->Draw(1, 0);
+			firstTime = false;
+		}
+		else
+		{
+			device->DrawAuto();
+		}
+	}
+	
+	ID3D10Buffer* bufferArray[1] = {0};
+	device->SOSetTargets(1, bufferArray, &offset);
+
+	swap(drawVB, streamOutVB);
+
+	//Draw
+	device->IASetVertexBuffers(0, 1, &drawVB, &stride, &offset);
+
+	_particleRendering->getDrawAuraTechnique()->GetDesc(&techDesc);
+	for(UINT p = 0; p < techDesc.Passes; p++)
+	{
+		_particleRendering->getDrawAuraTechnique()->GetPassByIndex(p)->Apply(0);
+		device->DrawAuto();
+	}
+}
+
 void ParticleEngine::setPosition(D3DXVECTOR3& _pos)
 {
 	this->position = D3DXVECTOR4(_pos, 1);
@@ -497,5 +544,5 @@ void ParticleEngine::setScale(D3DXVECTOR2& _scale)
 
 void ParticleEngine::setAlive(bool _alive)
 {
-	this->isAlive = false;
+	this->isAlive = _alive;
 }

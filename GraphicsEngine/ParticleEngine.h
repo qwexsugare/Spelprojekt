@@ -45,6 +45,9 @@ private:
 	float lifeTime;
 	float speed;
 	float offset;
+	float rotateSpeed;
+
+	D3DXVECTOR4 color;
 
 	bool firstTime;
 
@@ -55,13 +58,15 @@ private:
 	void DrawGPUUpSideDownTwist(ParticleEngineEffectFile* _particleRendering);
 	void DrawGPUFire(ParticleEngineEffectFile* _particleRendering);
 	void DrawGPUElectric(ParticleEngineEffectFile* _particleRendering);
+	void DrawGPUAura(ParticleEngineEffectFile* _particleRendering);
 	
 	enum ParticleBehavior{	Beacon,
 							CirclePuls, 
 							Sphere, 
 							UpSideDownTwist,
 							Fire,
-							Electric};
+							Electric,
+							Aura};
 
 	ParticleBehavior behavior;
 

@@ -11,6 +11,8 @@ private:
 	float m_lifetime;
 	Mesh* m_weapon;
 	UINT m_casterId;
+	UINT m_targetId;
+	ParticleEngine* m_heal;
 public:
 	HealingTouchClientSkillEffect(FLOAT3 _position, unsigned int casterId, unsigned int _targetId);
 	~HealingTouchClientSkillEffect();

@@ -92,6 +92,13 @@ LobbyMenu::LobbyMenu(bool _host)
 	m_redKnightPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-2.png", FLOAT2(-0.68f,0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 	m_mentalistPortrait2 = g_graphicsEngine->createSprite("menu_textures/Character-0.png", FLOAT2(-0.68f, 0.7f), FLOAT2(0.083333333f*1.5f,0.148148148f*1.5f), 18);
 
+	this->miniMap1 = g_graphicsEngine->createSprite("maps/levelone/leveloneminimap.png", FLOAT2(0.822916667f, 0.60962963f), FLOAT2(0.266666667*0.7f,0.474074074*0.7f), 18);
+	this->miniMap2 = g_graphicsEngine->createSprite("maps/leveltwo/leveltwominimap.png", FLOAT2(0.822916667f, 0.60962963f), FLOAT2(0.266666667*0.7f,0.474074074*0.7f), 18);
+	this->miniMap1->setVisible(false);
+	this->miniMap2->setVisible(false);
+
+
+
 	this->m_Buttons[12] = new Button();
 	this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),"menu_textures\\Button-Skill-30.png","",0,0,1,12,100,0,INT2(422,80), false);
 
@@ -137,7 +144,7 @@ LobbyMenu::LobbyMenu(bool _host)
 	
 	this->m_slider.Init(FLOAT2(-0.5f, -0.275f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
 
-	this->m_Label.resize(7);
+	this->m_Label.resize(8);
 	this->m_Label[0] = new TextLabel("","text3.png",INT2(110,205),52);
 	this->m_Label[1] = new TextLabel("","text3.png",INT2(415,855),50);
 	this->m_Label[2] = new TextLabel("","text3.png",INT2(60,120),75);
@@ -146,6 +153,7 @@ LobbyMenu::LobbyMenu(bool _host)
 	this->m_Label[4] = new TextLabel("","text3.png",INT2(60,160),75);
 	this->m_Label[5] = new TextLabel("NONE____NONE","text3.png",INT2(200,890),60);
 	this->m_Label[6] = new TextLabel("Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500","text3.png",INT2(1550,120),60);
+	this->m_Label[7] = new TextLabel("","text3.png",INT2(60,550),50);
 	this->m_LabelInput = new TextInput("text3.png",INT2(1040,1040),80);
 	this->m_Chattext.resize(5);
 	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1040,980),60);
@@ -171,6 +179,8 @@ LobbyMenu::~LobbyMenu(void)
 		delete this->m_Chattext[i];
 		this->m_Chattext[i] = NULL;
 	}
+	g_graphicsEngine->removeSprite(this->miniMap1);
+	g_graphicsEngine->removeSprite(this->miniMap2);
 	g_graphicsEngine->removeSprite(m_doctorPortrait);
 	g_graphicsEngine->removeSprite(m_mentalistPortrait);
 	g_graphicsEngine->removeSprite(m_officerPortrait);
@@ -280,6 +290,7 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 		if (m_Combat == 1)
 		{
 			this->m_Label[3]->setText("Range combat_");
+			this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 		}
 
 	}
@@ -297,6 +308,8 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 		if (m_Combat == 1)
 		{
 			this->m_Label[3]->setText("Close combat_");
+			this->m_Label[7]->setText("Armed with a two-handed weapon you are_able to strike multiple enemies with a blow._The heavy weight of the weapon does however_restrict your speed, making your strikes slower.");
+			
 		}
 	}
 	if(Character2IsDown())
@@ -312,6 +325,7 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 		if (m_Combat == 1)
 		{
 			this->m_Label[3]->setText("Range combat_");
+			this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 		}
 	}
 	if(Character3IsDown())
@@ -327,6 +341,7 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 		if (m_Combat == 1)
 		{
 			this->m_Label[3]->setText("Range combat_");
+			this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 		}
 	}
 	if(Character4IsDown())
@@ -342,6 +357,7 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 		if (m_Combat == 1)
 		{
 			this->m_Label[3]->setText("Range combat_");
+			this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 		}
 	}
 	this->m_LabelInput->update(_dt);
@@ -402,6 +418,7 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 			if (m_Combat == 1)
 			{
 				this->m_Label[3]->setText("Range combat_Selected");
+				this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 			}
 		}
 		if (m_Character1 == true)
@@ -415,6 +432,8 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 			if (m_Combat == 1)
 			{
 				this->m_Label[3]->setText("Close combat_Selected");
+				
+				this->m_Label[7]->setText("Armed with a two-handed weapon you are_able to strike multiple enemies with a blow._The heavy weight of the weapon does however_restrict your speed, making your strikes slower.");
 			}
 		}
 		if (m_Character2 == true)
@@ -426,7 +445,8 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 			this->m_Buttons[7]->setTexture("menu_textures\\E1.png");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_");
+				this->m_Label[3]->setText("Range combat");
+				this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 			}
 		}
 		if (m_Character3 == true)
@@ -439,6 +459,7 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 			if (m_Combat == 1)
 			{
 				this->m_Label[3]->setText("Range combat_");
+				this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 			}
 		}
 		if (m_Character4 == true)
@@ -451,6 +472,7 @@ void LobbyMenu::Update(float _dt, bool _mayPressReady)
 			if (m_Combat == 1)
 			{
 				this->m_Label[3]->setText("Range combat_");
+				this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 			}
 		}
 	}
@@ -677,13 +699,14 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 			delete this->m_Buttons[13];
 			this->m_Buttons[12] = new Button();
 			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE),"",0,0,1,12,100,0,INT2(422,80), false, Skill::TARGET_ACQUIRED_PERMISSION_TO_FIRE,"menu_textures\\Skill_25.png");
-
+			this->m_Label[7]->setText("In melee, you need to get close to your enemy,_but are guaranteed to land every strike with_greater precision, effectively dealing more_damage.");
 			this->m_Buttons[13] = new Button();
 			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::READY_AIM_FIRE),"",0,0,1,12,100,0,INT2(422,80), false, Skill::READY_AIM_FIRE,"menu_textures\\Skill_26.png");
 			this->m_Label[5]->setText("Bombardment____Ready aim fire");
 			if (m_Combat == 1)
 			{
 				this->m_Label[3]->setText("Range combat_");
+				this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 			}
 		}
 		break;
@@ -697,7 +720,7 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 			this->m_Label[1]->setText("In a city where steam and cogs are the pinnacle of modern civilization, the ancient_order of Sword and Shield wielding knights seem a bit superfluous, but they are fierce_warriors and good men. Whenever Dark Powers show their ugly face, the Red Knights_descend upon them without mercy. This particular Knight is a paragon of his order_and instills courage in his comrades as he strikes down enemy after enemy.");
 			this->m_Buttons[6]->setTexture("menu_textures\\R0.png");
 			this->m_Buttons[7]->setTexture("menu_textures\\R1.png");
-			this->m_Label[3]->setText("Close combat_");
+			this->m_Label[7]->setText("In melee, you need to get close to your enemy,_but are guaranteed to land every strike with_greater precision, effectively dealing more_damage.");
 			delete this->m_Buttons[12];
 			delete this->m_Buttons[13];
 			this->m_Buttons[12] = new Button();
@@ -708,7 +731,9 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 			this->m_Label[5]->setText("Mighty blow____Courage,Honor,Valor");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Close combat_");
+				this->m_Label[3]->setText("Two-handed combat_");
+				this->m_Label[7]->setText("Armed with a two-handed weapon you are_able to strike multiple enemies with a blow._The heavy weight of the weapon does however_restrict your speed, making your strikes slower.");
+			
 			}
 		}
 		break;
@@ -726,13 +751,14 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 			delete this->m_Buttons[13];
 			this->m_Buttons[12] = new Button();
 			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::TIME_IS_MONEY),"",0,0,1,12,100,0,INT2(422,80), false, Skill::TIME_IS_MONEY,"menu_textures\\Skill_27.png");
-
+			this->m_Label[7]->setText("In melee, you need to get close to your enemy,_but are guaranteed to land every strike with_greater precision, effectively dealing more_damage.");
 			this->m_Buttons[13] = new Button();
 			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::ENHANCED_DEVELOPMENT),"",0,0,1,12,100,0,INT2(422,80), false, Skill::ENHANCED_DEVELOPMENT,"menu_textures\\Skill_28.png");
 						this->m_Label[5]->setText("Time is money____Enhanced development");
 			if (m_Combat == 1)
 			{
-				this->m_Label[3]->setText("Range combat_");
+				this->m_Label[3]->setText("Range combat");
+				this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 			}
 		}
 		break;
@@ -750,13 +776,14 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 			delete this->m_Buttons[13];
 			this->m_Buttons[12] = new Button();
 			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::SIMONS_EVIL),"",0,0,1,12,100,0,INT2(422,80), false, Skill::SIMONS_EVIL,"menu_textures\\Skill_15.png");
-
+			this->m_Label[7]->setText("In melee, you need to get close to your enemy,_but are guaranteed to land every strike with_greater precision, effectively dealing more_damage.");
 			this->m_Buttons[13] = new Button();
 			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::LIFE_REGEN),"",0,0,1,12,100,0,INT2(422,80), false, Skill::LIFE_REGEN,"menu_textures\\Skill_29.png");
-			this->m_Label[5]->setText("Healing aura____Life regen");
+			this->m_Label[5]->setText("Holy aura____Life regen");
 			if (m_Combat == 1)
 			{
 				this->m_Label[3]->setText("Range combat_");
+				this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 			}
 		}
 		break;
@@ -774,13 +801,14 @@ void LobbyMenu::selectHero(int _playerIndex, Hero::HERO_TYPE _type, bool changeT
 			delete this->m_Buttons[13];
 			this->m_Buttons[12] = new Button();
 			this->m_Buttons[12]->Init(FLOAT2(-0.85f, -0.5f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::HYPNOTIC_STARE),"",0,0,1,12,100,0,INT2(422,80), false, Skill::HYPNOTIC_STARE,"menu_textures\\Skill_21.png");
-
+			this->m_Label[7]->setText("In melee, you need to get close to your enemy,_but are guaranteed to land every strike with_greater precision, effectively dealing more_damage.");
 			this->m_Buttons[13] = new Button();
 			this->m_Buttons[13]->Init(FLOAT2(-0.85f, -0.7f),FLOAT2(0.079166667f,0.140740741f),m_skillHolder.getSkill(Skill::ENIGMATIC_PRESENCE),"",0,0,1,12,100,0,INT2(422,80), false, Skill::ENIGMATIC_PRESENCE,"menu_textures\\Skill_22.png");
 			this->m_Label[5]->setText("Hypnotic stare____Enigmatic presence");
 			if (m_Combat == 1)
 			{
 				this->m_Label[3]->setText("Range combat_");
+				this->m_Label[7]->setText("With ranged combat, you can rain damage_on your enemies from afar, but with distance_comes less accuracy and damage.");
 			}
 		}
 		break;
@@ -872,4 +900,13 @@ void LobbyMenu::setReady(int _playerIndex)
 		m_Buttons[11]->setCurrentFrame(INT2(2, 0));
 		break;
 	}
+}//Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500
+void LobbyMenu::updateMapInfo(string level, string mapsize, string nrwaves, string demoncoins)
+{
+	if(level=="1")
+		this->miniMap1->setVisible(true);
+	else
+		this->miniMap2->setVisible(true);
+	string t = "Level "+level+"__"+"MAPSIZE_"+mapsize+"__"+"WAVES_"+nrwaves+"__STARTING DIVINE POWER_"+demoncoins;
+	this->m_Label[6]->setText(t);
 }

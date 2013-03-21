@@ -18,6 +18,7 @@ struct VS_OUT
 	float4 color: COLOR;
 	uint type	: TYPE;
 	float3 vel	: VELOCITY;
+	float ang	: ANGLE;
 };
 
 struct GS_OUT
@@ -39,6 +40,7 @@ cbuffer cb
 	float lifeTime;
 	float emitRate;
 	float speed;
+	float rotateSpeed;
 	float offset;
 	float4x4 viewProj;
 	float4x4 view;
@@ -58,7 +60,7 @@ cbuffer cbFixed
 	float2 quadTexC[4] =
 	{
 		float2(0.0f, 1.0f),
-		float2(1.1f, 1.0f),
+		float2(1.0f, 1.0f),
 		float2(0.0f, 0.0f),
 		float2(1.0f, 0.0f)
 	};
@@ -72,6 +74,13 @@ SamplerState triLinearSam
 	Filter = MIN_MAG_MIP_LINEAR;
 	AddressU = Wrap;
 	AddressV = Wrap;
+};
+
+SamplerState clampSampler
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 DepthStencilState DisableDepth
@@ -99,6 +108,18 @@ BlendState AdditiveBlending
 	RenderTargetWriteMask[0]= 0x0F;
 };
 
+BlendState HudBlending
+{
+	AlphaToCoverageEnable	= FALSE;
+	BlendEnable[0]			= TRUE;
+	SrcBlend				= SRC_ALPHA;
+	DestBlend				= INV_SRC_ALPHA;
+	BlendOp					= ADD;
+	SrcBlendAlpha			= ZERO;
+	DestBlendAlpha			= ZERO;
+	BlendOpAlpha			= ADD;
+	RenderTargetWriteMask[0]= 0x0F;
+};
 float3 RandUnitVec3(float offset)
 {
 	//Use game time plus offset to sample random texture.

@@ -32,11 +32,8 @@ bool Teleport::activate(FLOAT3 _position, unsigned int _senderId)
 		{
 			if(g_pathfinder->isValidPos(FLOAT2(_position.x, _position.z)))
 			{
-				((Hero*)caster)->setPosition(_position);
-				((Hero*)caster)->setNextPosition(((Hero*)caster)->getPosition());
-				((Hero*)caster)->getMessageQueue()->pushOutgoingMessage(((Hero*)caster)->getUpdateEntityMessage());
 				this->resetCooldown();
-				EntityHandler::addEntity(new TeleportEffect(_senderId));
+				EntityHandler::addEntity(new TeleportEffect(_senderId, _position));
 			}
 
 			return true;

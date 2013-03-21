@@ -13,7 +13,10 @@ FrostTurretProjectileClientSkillEffect::FrostTurretProjectileClientSkillEffect(F
 	m_targetId = _targetId;
 	m_graphicalEffect = g_graphicsEngine->createModel("Arrow", _position);
 	m_graphicalEffect->setScale(1.5f, 1.5f, 1.5f);
-	m_graphicalEffect->setAlpha(0.999f);
+	m_graphicalEffect->setAlpha(0.0f);
+
+	m_pe[0] = g_graphicsEngine->createParticleEngine("Frost", D3DXVECTOR4(_position.toD3DXVector(), 1), D3DXQUATERNION(), D3DXVECTOR2(1, 1));
+	m_pe[1] = g_graphicsEngine->createParticleEngine("FrostTail", D3DXVECTOR4(_position.toD3DXVector(), 1), D3DXQUATERNION(), D3DXVECTOR2(1, 1));
 
 	int sound = createSoundHandle("turrets/frost_turret_attack.wav", false, true, _position);
 	playSound(sound);
@@ -23,6 +26,8 @@ FrostTurretProjectileClientSkillEffect::FrostTurretProjectileClientSkillEffect(F
 FrostTurretProjectileClientSkillEffect::~FrostTurretProjectileClientSkillEffect()
 {
 	g_graphicsEngine->removeModel(m_graphicalEffect);
+	g_graphicsEngine->removeParticleEngine(m_pe[0]);
+	g_graphicsEngine->removeParticleEngine(m_pe[1]);
 }
 
 void FrostTurretProjectileClientSkillEffect::update(float _dt)
@@ -37,6 +42,8 @@ void FrostTurretProjectileClientSkillEffect::update(float _dt)
 		{
 			m_graphicalEffect->move(FLOAT3(movement.x, 0.0f, movement.y));
 			m_graphicalEffect->setRotation(FLOAT3(atan2(-movement.x, -movement.y), 0.0f, 0.0f));
+			m_pe[0]->setPosition(m_graphicalEffect->getPosition().toD3DXVector());
+			m_pe[1]->setPosition(m_graphicalEffect->getPosition().toD3DXVector());
 		}
 		else
 		{

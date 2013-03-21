@@ -8,7 +8,7 @@ RedKnight::RedKnight(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::RED_KN
 	this->increaseWits(1);
 	this->increaseFortitude(4);
 	m_turretConstruction = 1;
-	
+
 	this->m_skills.push_back(new CourageHonorValor());
 	this->m_skills.push_back(new SwiftAsACatPowerfulAsABoar());
 
@@ -22,6 +22,7 @@ RedKnight::RedKnight(int _playerId, WEAPON_TYPE _weaponType) : Hero(Hero::RED_KN
 	case WEAPON_TYPE::RANGED:
 		this->m_regularAttack = new MeleeAOEAttack();
 		this->m_weaponType = WEAPON_TYPE::AOE;
+		this->m_weaponAttackSpeedMultiplier = 1.2f;
 		break;
 	}
 }

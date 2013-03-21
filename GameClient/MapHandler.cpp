@@ -17,14 +17,14 @@ MapHandler::MapHandler()
 	this->m_messageQueue = new MessageQueue();
 	this->m_currentWave = 0;
 	this->m_waveTimer = 30.0f;
-	this->m_enemySpawnTimer = 30.0f;
+	this->m_enemySpawnTimer = 45.0f;
 	this->m_gridHeight = 0;
 	this->m_gridWidth = 0;
 	this->m_nrOfPaths = 0;
 	this->m_grid = NULL;
 	this->m_paths = NULL;
 	this->m_lives = 2;
-	Statistics::setStartLife(this->m_lives);
+	
 	this->nrOfSpawnPoints=0;
 	for(int i=0;i<5;i++)
 	{
@@ -56,10 +56,10 @@ MapHandler::~MapHandler()
 	if(m_paths)
 		delete []m_paths;
 
-	for(int i = 0; i < missions.size(); i++)
-	{
-		delete missions[i];
-	}
+	//for(int i = 0; i < missions.size(); i++)
+	//{
+	//	delete missions[i];
+	//}
 }
 
 MapHandler::State MapHandler::getState()
@@ -338,6 +338,7 @@ void MapHandler::loadMap(std::string filename)
 				int k=0;
 				file >> k;
 				this->m_lives=k;
+				Statistics::setStartLife(this->m_lives);
 			}
 			
 		}
@@ -353,12 +354,12 @@ void MapHandler::update(float _dt)
 		//EntityHandler::addEntity(new Mission(this->mission));
 		for(int i=0;i<this->missions.size();i++)
 		{
-			if(this->missions[i]->handle(this->m_currentWave))
+			(this->missions[i]->handle(this->m_currentWave));
 			{
 				if(!this->missions[i]->isAddedToEntityHandler())
 				{
 					this->missions[i]->addToEntityHandler();
-					this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missions[i]->getMissionName(),"start"));
+					EntityHandler::addEntity(this->missions[i]);
 				}
 			}
 		}
@@ -381,7 +382,7 @@ void MapHandler::update(float _dt)
 			{
 				EntityHandler::addEntity(this->m_waves[this->m_currentWave].front());
 				this->m_waves[this->m_currentWave].erase(this->m_waves[this->m_currentWave].begin());
-				this->m_enemySpawnTimer = 2.0f;
+				this->m_enemySpawnTimer = 3.0f;
 
 			}
 			else
@@ -396,7 +397,7 @@ void MapHandler::update(float _dt)
 		{
 			m_currentWave++;
 			Statistics::waveFinnished();
-			m_waveTimer = 10.0f;
+			m_waveTimer = 15.0f;
 			this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::WAVE_UPDATE, this->m_currentWave + 1, FLOAT3()));
 		}
 		else

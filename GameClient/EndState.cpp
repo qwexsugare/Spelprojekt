@@ -85,32 +85,32 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem) : Sta
 				break;
 			}
 
-			this->m_playerInfo[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,275 + jumpRow * 170), 75);
+			this->m_playerInfo[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,325 + jumpRow * 200), 75);
 			ss.clear();
 			ss.str("");
 
 			ss<<"Demons killed: "<<endMessage.getPlayers()[i].getDeamonsKilled();
-			this->m_playerMonstersKilled[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,325 + jumpRow * 150), 50);
+			this->m_playerMonstersKilled[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,375 + jumpRow * 200), 50);
 			ss.clear();
 			ss.str("");
 
 			ss<<"Damage done: "<<endMessage.getPlayers()[i].getPhysicalDamageDealth() + endMessage.getPlayers()[i].getMentalDamageDealth()<<" (physical: "<<endMessage.getPlayers()[i].getPhysicalDamageDealth()<<", mental: "<<endMessage.getPlayers()[i].getMentalDamageDealth()<<")";
-			this->m_playerDamageDone[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,355 + jumpRow * 150), 50);
+			this->m_playerDamageDone[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,405 + jumpRow * 200), 50);
 			ss.clear();
 			ss.str("");
 
 			ss<<"Damage taken: "<<endMessage.getPlayers()[i].getPhysicalDamageRecived() + endMessage.getPlayers()[i].getMentalDamageRecived()<<" (physical: "<<endMessage.getPlayers()[i].getPhysicalDamageRecived()<<", mental: "<<endMessage.getPlayers()[i].getMentalDamageRecived()<<")";
-			this->m_playerDamageTaken[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,385 + jumpRow * 150), 50);
+			this->m_playerDamageTaken[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,435 + jumpRow * 200), 50);
 			ss.clear();
 			ss.str("");
 
 			ss<<"Resources collected: "<<endMessage.getPlayers()[i].getGoldCollected();
-			this->m_playerResourcesCollected[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,415 + jumpRow * 150), 50);
+			this->m_playerResourcesCollected[i] = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,465 + jumpRow * 200), 50);
 			ss.clear();
 			ss.str("");
 
 			ss << "Healed for: " << endMessage.getPlayers()[i].getHealedAmount();
-			this->m_healedFor[i] =  g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,445 + jumpRow * 150), 50);
+			this->m_healedFor[i] =  g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120+jumpColumn*400,495 + jumpRow * 200), 50);
 			ss.clear();
 			ss.str("");
 
@@ -129,7 +129,7 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem) : Sta
 		
 		for(int i=0;i<mem.nrOfMissions();i++)
 		{
-			string fullMissionString = mem.getMissionName(i)+"                     " +mem.getMissionStatus(i);
+			string fullMissionString = mem.getMissionName(i)+":  " +mem.getMissionStatus(i);
 			textures.push_back(g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", fullMissionString, INT2(120,850+i*75), 50));
 		}
 	}
