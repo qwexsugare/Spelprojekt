@@ -14,7 +14,7 @@ class Menu
 {
 public:
 	Menu();
-	~Menu();
+	virtual ~Menu();
 
 protected:
 	vector<Button*>			m_Buttons;
