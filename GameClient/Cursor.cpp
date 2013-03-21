@@ -6,6 +6,11 @@ Cursor::Cursor()
 	this->m_priority = 0;
 }
 
+Cursor::~Cursor()
+{
+
+}
+
 void Cursor::setPosition(INT2 position)
 {
 	INT2 screenSize = g_graphicsEngine->getRealScreenSize();

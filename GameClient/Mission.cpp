@@ -18,12 +18,12 @@ Mission::Mission(void)
 
 Mission::~Mission(void)
 {
-	ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
+	//ServerEntity *boss = EntityHandler::getServerEntity(this->bossId);
 
-	if(boss != NULL && missionStarted == true)
-	{
-		EntityHandler::removeEntity(boss);
-	}
+	//if(boss != NULL && missionStarted == true && bossId > 0)
+	//{
+	//	EntityHandler::removeEntity(boss);
+	//}
 }
 void Mission::createMission(string type, float x, float z, int startwave, int endwave,string missionName)
 {
