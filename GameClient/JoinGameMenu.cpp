@@ -7,9 +7,9 @@ JoinGameMenu::JoinGameMenu(void)
 	m_WriteIP		=	false;
 	m_WriteName		=	false;
 	m_WriteGame		=	false;
-	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 800), 100));
-	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 860), 100));
-	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 920), 100, 10));
+	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 803), 100));
+	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 862), 100));
+	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 921), 100, 10));
 	this->m_Label[0]->setText("194.47.155.243");
 	this->m_Label[1]->setText("1337");
 	this->m_Label[2]->setText(g_configFile->getPlayerName());

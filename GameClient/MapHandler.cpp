@@ -286,7 +286,7 @@ void MapHandler::loadMap(std::string filename)
 
 	/// This is where all waves are created! 
 	///
-	/// createWave(imps, shades, spitting, Frost, SoulEater, Hellfire, Thunder, Brute)
+	/// createWave(Imps, Spitting, shades, Frost, SoulEater, Hellfire, Thunder, Brute)
 	///
 	///
 	string waveName="";
