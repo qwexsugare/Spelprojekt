@@ -80,9 +80,11 @@ void ArrowClientSkillEffect::update(float _dt)
 				if(master->m_type == ServerEntity::HeroType)
 				{				
 					this->m_graphicalEffect = g_graphicsEngine->createModel("Arrow", this->m_pos);
-					this->m_graphicalEffect->setAlpha(0.999f);
+					this->m_graphicalEffect->setAlpha(0.0f);
 					this->m_graphicalEffect->move(movement * 0.1f);
 					this->m_graphicalEffect->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+
+					this->m_particleSystem = g_graphicsEngine->createParticleEngine("Bullet", D3DXVECTOR4(m_graphicalEffect->getPosition().toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
 				}
 				else if(master->m_type == ServerEntity::EnemyType)
 				{
@@ -91,7 +93,6 @@ void ArrowClientSkillEffect::update(float _dt)
 					{
 					case Enemy::SPITTING_DEMON:
 						this->m_particleSystem = g_graphicsEngine->createParticleEngine("DeamonSpit", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));
-						this->m_particleTail = NULL;
 						break;
 					case Enemy::FROST_DEMON:
 						this->m_particleSystem = g_graphicsEngine->createParticleEngine("Frost", D3DXVECTOR4(this->m_pos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1.0f, 1.0f));

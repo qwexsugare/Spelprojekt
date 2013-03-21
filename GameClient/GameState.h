@@ -20,6 +20,7 @@
 class GameState : public State
 {
 private:
+	Sprite* m_leaveGameSprite;
 	MissionEndMessage em;
 	vector<PLAYER_INFO> m_playerInfos;
 	HudMenu *m_hud;
@@ -39,7 +40,6 @@ private:
 	float m_idleSoundTimer;
 	bool m_yourHeroLives;
 	bool m_cameraFollowingHero;
-	MyText *m_endText;
 	NetworkEndGameMessage m_endMessage;
 
 	// Sounds
