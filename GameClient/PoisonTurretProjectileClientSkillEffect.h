@@ -10,6 +10,8 @@ private:
 	Model* m_graphicalEffect;
 	unsigned int m_targetId;
 	bool m_active;
+	ParticleEngine* m_pe;
+	FLOAT3 m_position;
 public:
 	PoisonTurretProjectileClientSkillEffect(FLOAT3 _position, unsigned int _targetId);
 	~PoisonTurretProjectileClientSkillEffect();

@@ -138,7 +138,7 @@ void Hero::updateSpecificUnitEntity(float dt)
 							//EntityHandler::addEntity(new Arrow((m_position-se->getPosition()).length(), se->getId(), m_id));
 							//this->dealDamage(se, this->m_physicalDamage, this->m_mentalDamage); // dont
 							this->attack(this->m_target);
-							this->m_attackCooldown = this->m_attackSpeed;
+							this->m_attackCooldown = this->m_attackSpeed * this->m_weaponAttackSpeedMultiplier;
 							this->m_nextPosition = this->m_position;
 							this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 						}
@@ -153,14 +153,79 @@ void Hero::updateSpecificUnitEntity(float dt)
 					{
 						if(this->m_reachedPosition == true)
 						{
-							this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(se->getPosition().x, se->getPosition().z));
+							//this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(se->getPosition().x, se->getPosition().z));
 
-							if(this->m_path.nrOfPoints > 0)
+							//if(this->m_path.nrOfPoints > 0)
+							//{
+							//	this->m_pathCounter = 1;
+							//	this->m_nextPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
+							//	this->m_reachedPosition = false;
+							//	this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
+							//	this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+							//}
+
+							if(this->m_path.nrOfPoints > 0 && this->m_reachedPosition == false && g_pathfinder->sameGridPosition(FLOAT2(se->getPosition().x, se->getPosition().z), this->m_path.points[this->m_path.nrOfPoints - 1]) == true)
 							{
-								this->m_pathCounter = 1;
-								this->m_nextPosition = FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
-								this->m_reachedPosition = false;
-								this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
+								this->m_path.points[this->m_path.nrOfPoints - 1] = FLOAT2(se->getPosition().x, se->getPosition().z);
+							}
+							else if(g_pathfinder->sameGridPosition(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(se->getPosition().x, se->getPosition().z)) == false)
+							{
+								if(g_pathfinder->isValidPos(FLOAT2(this->m_position.x, this->m_position.z)) == true)
+								{
+									this->m_path = g_pathfinder->getPath(FLOAT2(this->m_position.x, this->m_position.z), FLOAT2(se->getPosition().x, se->getPosition().z));
+								}
+								else
+								{
+									this->m_path = g_pathfinder->getPath(FLOAT2(this->m_nextPosition.x, this->m_nextPosition.z), FLOAT2(se->getPosition().x, se->getPosition().z));
+								}
+			
+
+								if(this->m_path.nrOfPoints > 1)
+								{
+									this->m_nextPosition = FLOAT3(this->m_path.points[1].x, 0.0f, this->m_path.points[1].y);
+									//this->m_startPos= FLOAT3(this->m_path.points[0].x, 0.0f, this->m_path.points[0].y);
+									this->m_goalPosition = se->getPosition();
+									this->m_pathCounter = 2;
+									this->m_reachedPosition = false;
+									this->m_reallyReachedPosition = false;
+
+									this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+									this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
+								}
+								else if(this->m_path.nrOfPoints == 1)
+								{
+									//this->m_startPos= this->m_nextPosition;
+									this->m_nextPosition = se->getPosition();
+									this->m_goalPosition = se->getPosition();
+									this->m_pathCounter = 1;
+									this->m_reachedPosition = false;
+									this->m_reallyReachedPosition = false;
+
+									this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+									this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::MOVE, this->m_id, this->m_position));
+								}
+								else
+								{
+									this->m_path = Path();
+									this->m_pathCounter = 0;
+									this->m_reachedPosition = true;
+									this->m_reallyReachedPosition = true;
+									this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
+									//this->m_startPos= m_nextPosition;
+
+									this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
+								} 
+							}
+							else
+							{
+								this->m_path = Path();
+								this->m_pathCounter = 0;
+								this->m_reachedPosition = true;
+								this->m_nextPosition = m_position;
+								this->m_reallyReachedPosition = true;
+								this->m_messageQueue->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, this->m_id, this->m_position));
+								//this->m_startPos= m_nextPosition;
+
 								this->m_messageQueue->pushOutgoingMessage(this->getUpdateEntityMessage());
 							}
 						}

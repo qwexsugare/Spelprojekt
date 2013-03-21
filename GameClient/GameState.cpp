@@ -12,16 +12,25 @@
 GameState::GameState(Client *_network, string mapName)
 {
 	this->missionTimer=0.0f;
-	this->missionCompletedSprite=0;
-	this->missionFailedSprite=0;
-	this->missionStartedSprite=0;
+	this->missionCompletedSpriteB=0;
+	this->missionCompletedSpriteC=0;
+	this->missionFailedSpriteB=0;
+	this->missionFailedSpriteC=0;
+	this->missionStartedSpriteB=0;
+	this->missionStartedSpriteC=0;
 
-	this->missionStartedSprite = g_graphicsEngine->createSprite("./textures/missionstarted.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
-	this->missionStartedSprite->setVisible(false);
-	this->missionCompletedSprite = g_graphicsEngine->createSprite("./textures/missioncomplete.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
-	this->missionCompletedSprite->setVisible(false);
-	this->missionFailedSprite = g_graphicsEngine->createSprite("./textures/missionfailed.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),1);
-	this->missionFailedSprite->setVisible(false);
+	this->missionStartedSpriteB = g_graphicsEngine->createSprite("./menu_textures/missionstartedB.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),3);
+	this->missionStartedSpriteB->setVisible(false);
+	this->missionStartedSpriteC = g_graphicsEngine->createSprite("./menu_textures/missionstartedC.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),3);
+	this->missionStartedSpriteC->setVisible(false);
+	this->missionCompletedSpriteB = g_graphicsEngine->createSprite("./menu_textures/missioncompleteB.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),3);
+	this->missionCompletedSpriteB->setVisible(false);
+	this->missionFailedSpriteB = g_graphicsEngine->createSprite("./menu_textures/missionfailedB.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),3);
+	this->missionFailedSpriteB->setVisible(false);
+	this->missionCompletedSpriteC = g_graphicsEngine->createSprite("./menu_textures/missioncompleteC.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),3);
+	this->missionCompletedSpriteC->setVisible(false);
+	this->missionFailedSpriteC = g_graphicsEngine->createSprite("./menu_textures/missionfailedC.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),3);
+	this->missionFailedSpriteC->setVisible(false);
 
 	this->m_network = _network;
 	this->importMap(mapName);
@@ -148,7 +157,12 @@ GameState::~GameState()
 	{
 		g_graphicsEngine->removeMyText(this->m_endText);
 	}
-
+	g_graphicsEngine->removeSprite(this->missionCompletedSpriteB);
+	g_graphicsEngine->removeSprite(this->missionCompletedSpriteC);
+	g_graphicsEngine->removeSprite(this->missionFailedSpriteB);
+	g_graphicsEngine->removeSprite(this->missionFailedSpriteC);
+	g_graphicsEngine->removeSprite(this->missionStartedSpriteB);
+	g_graphicsEngine->removeSprite(this->missionStartedSpriteC);
 	// Release all sounds
 	for(int i = 0; i < GameState::NR_OF_ATTACK_SOUNDS; i++)
 	{
@@ -302,6 +316,7 @@ void GameState::update(float _dt)
 		if(this->m_modelIdHolder.getHat(iem.getModelID()) != "")
 		{
 			model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(iem.getModelID())));
+			model->getAnimation()->PlayLoop("idle");
 		}
 		if(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType()) != "")
 		{
@@ -430,28 +445,40 @@ void GameState::update(float _dt)
 	
 		if(m.getStartOrEnd()=="start")
 		{
-			this->missionStartedSprite->setVisible(true);
+			if(m.getMissionName()[0]=='I')
+				this->missionStartedSpriteB->setVisible(true);
+			if(m.getMissionName()[0]=='M')
+				this->missionStartedSpriteC->setVisible(true);
 			this->em.addMission(m.getMissionName(),"Running");
-			
+			int k=0;
 		}
 		if(m.getStartOrEnd()=="failed")
 		{
-			this->missionFailedSprite->setVisible(true);
+			if(m.getMissionName()[0]=='I')
+				this->missionFailedSpriteB->setVisible(true);
+			if(m.getMissionName()[0]=='M')
+				this->missionFailedSpriteC->setVisible(true);
 			this->em.setStatusForMission(m.getMissionName(),"Failed");
 		}
 		if(m.getStartOrEnd()=="completed")
 		{
-			this->missionCompletedSprite->setVisible(true);
+			if(m.getMissionName()[0]=='I')
+				this->missionCompletedSpriteB->setVisible(true);
+			if(m.getMissionName()[0]=='M')
+				this->missionCompletedSpriteC->setVisible(true);
 			this->em.setStatusForMission(m.getMissionName(),"Completed");
 		}
-		this->missionTimer=3.0f;
+		this->missionTimer=4.0f;
 	}
 	this->missionTimer-=_dt;
 	if(this->missionTimer<0)
 	{
-		this->missionStartedSprite->setVisible(false);
-		this->missionCompletedSprite->setVisible(false);
-		this->missionFailedSprite->setVisible(false);
+		this->missionStartedSpriteB->setVisible(false);
+		this->missionStartedSpriteC->setVisible(false);
+		this->missionCompletedSpriteB->setVisible(false);
+		this->missionFailedSpriteB->setVisible(false);
+		this->missionCompletedSpriteC->setVisible(false);
+		this->missionFailedSpriteC->setVisible(false);
 	}
 
 	while(this->m_network->createActionPositionQueueEmpty() == false)
@@ -535,7 +562,7 @@ void GameState::update(float _dt)
 			m_ClientSkillEffects.push_back(new TargetAcquiredClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		case Skill::TELEPORT:
-			m_ClientSkillEffects.push_back(new TeleportClientSkillEffect(e.getPosition()));
+			m_ClientSkillEffects.push_back(new TeleportClientSkillEffect(e.getSenderId(), e.getPosition()));
 			break;
 		}
 	}

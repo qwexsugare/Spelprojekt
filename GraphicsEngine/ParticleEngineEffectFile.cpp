@@ -22,6 +22,7 @@ ParticleEngineEffectFile::ParticleEngineEffectFile(ID3D10Device* _device) : Effe
 	this->view = this->m_effect->GetVariableByName("view")->AsMatrix();
 	this->proj = this->m_effect->GetVariableByName("proj")->AsMatrix();
 	this->color = this->m_effect->GetVariableByName("tintColor")->AsVector();
+	this->rotateSpeed = this->m_effect->GetVariableByName("rotateSpeed")->AsScalar();
 	
 	this->m_randomTexture = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
 	this->m_texture = this->m_effect->GetVariableByName("tex")->AsShaderResource();
@@ -130,6 +131,11 @@ void ParticleEngineEffectFile::setSpeed(float _speed)
 void ParticleEngineEffectFile::setOffset(float _offset)
 {
 	this->offset->SetFloat(_offset);
+}
+
+void ParticleEngineEffectFile::setRotateSpeed(float _speed)
+{
+	this->rotateSpeed->SetFloat(_speed);
 }
 
 void ParticleEngineEffectFile::setSize(D3DXVECTOR2 _size)

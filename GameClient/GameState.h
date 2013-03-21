@@ -59,9 +59,12 @@ private:
 	vector<int> m_timeIsMoneySounds;
 	int m_churchSound;
 	bool m_idling;
-	Sprite *missionStartedSprite;
-	Sprite *missionFailedSprite;
-	Sprite *missionCompletedSprite;
+	Sprite *missionStartedSpriteB;
+	Sprite *missionStartedSpriteC;
+	Sprite *missionFailedSpriteB;
+	Sprite *missionFailedSpriteC;
+	Sprite *missionCompletedSpriteB;
+	Sprite *missionCompletedSpriteC;
 	float missionTimer;
 
 	// Music

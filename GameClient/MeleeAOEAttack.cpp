@@ -27,7 +27,7 @@ bool MeleeAOEAttack::activate(unsigned int _targetId, unsigned int _senderId)
 		{
 			if(entities[i]->getType() == target->getType() && (entities[i]->getPosition() - caster->getPosition()).length() <= MeleeAOEAttack::AOE_RANGE)
 			{
-				EntityHandler::addEntity(new DelayedDamage(_senderId, entities[i]->getId(), caster->getAttackSpeed() / 2, caster->getPhysicalDamage(), caster->getMentalDamage(), Skill::AOE_MELEE_ATTACK, 2.0f / caster->getAttackSpeed()));
+				EntityHandler::addEntity(new DelayedDamage(_senderId, entities[i]->getId(), caster->getAttackSpeed() / 2, caster->getPhysicalDamage(), caster->getMentalDamage(), Skill::AOE_MELEE_ATTACK, 2.0f / (caster->getAttackSpeed() * caster->getWeaponAttackSpeedMultiplier())));
 			}
 		}
 	}

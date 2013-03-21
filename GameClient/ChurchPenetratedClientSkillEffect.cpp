@@ -5,7 +5,7 @@ ChurchPenetratedClientSkillEffect::ChurchPenetratedClientSkillEffect(unsigned in
 {
 	timer = 0.0f;
 	D3DXVECTOR4 newPos = D3DXVECTOR4(_position.x, _position.y, _position.z, 1);
-	pe = g_graphicsEngine->createParticleEngine("HealingAura",newPos,D3DXQUATERNION(0, 0, 0, 1),D3DXVECTOR2(1, 1));
+	pe = g_graphicsEngine->createParticleEngine("ChurchPen",newPos,D3DXQUATERNION(0, 0, 0, 1),D3DXVECTOR2(1, 1));
 	this->id = _id;
 }
 
