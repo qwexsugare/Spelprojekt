@@ -47,7 +47,7 @@ ServerThread::~ServerThread()
 
 void ServerThread::Run()
 {
-	Text* fpsText = g_graphicsEngine->createText("", INT2(5, 40), 20, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	//Text* fpsText = g_graphicsEngine->createText("", INT2(5, 40), 20, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	float fpsTimer = 0.0f;
 
 	__int64 cntsPerSec = 0;
@@ -67,15 +67,15 @@ void ServerThread::Run()
 		float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
 		prevTimeStamp = currTimeStamp;
 
-		fpsTimer = fpsTimer + dt;
+		//fpsTimer = fpsTimer + dt;
 
-		if(fpsTimer > 1.0f)
-		{
-			stringstream ss;
-			ss << "Server fps:" << 1.0f / dt << " Entities: " << EntityHandler::getEntities().size();
-			fpsTimer = 0.0f;
-			fpsText->setString(ss.str());
-		}
+		//if(fpsTimer > 1.0f)
+		//{
+		//	stringstream ss;
+		//	ss << "Server fps:" << 1.0f / dt << " Entities: " << EntityHandler::getEntities().size();
+		//	fpsTimer = 0.0f;
+		//	fpsText->setString(ss.str());
+		//}
 
 		this->update(dt);
 
@@ -85,7 +85,7 @@ void ServerThread::Run()
 		//}
 	}
 
-	g_graphicsEngine->removeText(fpsText);
+	//g_graphicsEngine->removeText(fpsText);
 }
 
 void ServerThread::update(float dt)
