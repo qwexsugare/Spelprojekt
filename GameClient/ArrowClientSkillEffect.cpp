@@ -15,7 +15,7 @@ ArrowClientSkillEffect::ArrowClientSkillEffect(FLOAT3 _position, unsigned int _t
 	this->m_graphicalEffect = NULL;
 	this->m_particleSystem = NULL;
 	this->m_particleTail = NULL;
-	this->m_deathTime = 0;
+	this->m_deathTime = 1;
 
 	Entity* master = ClientEntityHandler::getEntity(_masterId);
 	Entity* target = ClientEntityHandler::getEntity(_targetId);
@@ -140,8 +140,16 @@ void ArrowClientSkillEffect::update(float _dt)
 			}
 		}
 		else
-		{
-			m_active = false;
+		{	
+			if(m_particleSystem)
+				m_particleSystem->setAlive(false);
+			if(m_particleTail)
+				m_particleTail->setAlive(false);
+
+			m_deathTime -= _dt;
+			if(m_deathTime <= 0)
+				m_active = false;
+
 			if(target->m_type == UnitEntity::EnemyType)
 			{
 				int sound;
