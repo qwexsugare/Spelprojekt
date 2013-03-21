@@ -119,7 +119,7 @@ GameState::GameState(Client *_network, string mapName)
 	m_idle = false;
 	m_cameraFollowingHero = false;
 	m_yourHeroLives = true;
-	this->m_endText = NULL;
+	m_leaveGameSprite = NULL;
 	
 	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 40), 20, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType, m_playerInfos);
@@ -153,10 +153,6 @@ GameState::~GameState()
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 	if(m_exitButton)
 		delete m_exitButton;
-	if(this->m_endText != NULL)
-	{
-		g_graphicsEngine->removeMyText(this->m_endText);
-	}
 	g_graphicsEngine->removeSprite(this->missionCompletedSpriteB);
 	g_graphicsEngine->removeSprite(this->missionCompletedSpriteC);
 	g_graphicsEngine->removeSprite(this->missionFailedSpriteB);
@@ -190,6 +186,8 @@ GameState::~GameState()
 	stopSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
 	for(int i = 0; i < NR_OF_SOUNDTRACKS; i++)
 		deactivateSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
+	if(m_leaveGameSprite)
+		g_graphicsEngine->removeSprite(m_leaveGameSprite);
 }
 
 State::StateEnum GameState::nextState()
@@ -204,14 +202,16 @@ void GameState::update(float _dt)
 		this->m_endMessage = m_network->endGameQueueFront();
 		m_victory = this->m_endMessage.getVictory();
 		m_exitButton = new Button();
-		m_exitButton->Init(FLOAT2(0.0f, 0.0f), FLOAT2(0.2f, 0.1f), "menu_textures/Button-MainMenu-ExitGame.png", "");
+		m_exitButton->Init(FLOAT2(0.0f, 0.0f), FLOAT2(0.520833333, 0.37037037), "menu_textures/LeaveGame_Button.png", "");
 		if(m_victory == true)
 		{
-			this->m_endText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "VICTORY", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2), 100, true);
+			m_leaveGameSprite = g_graphicsEngine->createSprite("menu_textures/LeaveGame_LevelCompleted.png",
+				FLOAT2(0.0f, 0.0f), FLOAT2(0.520833333, 0.37037037), 1);
 		}
 		else
 		{
-			this->m_endText = g_graphicsEngine->createMyText("text1.png", "text/", "offsets.txt", "DEFEAT", INT2(g_configFile->getScreenSize().x / 2, g_configFile->getScreenSize().y / 2 - 75), 100, true);
+			m_leaveGameSprite = g_graphicsEngine->createSprite("menu_textures/LeaveGame_LevelFailed.png",
+				FLOAT2(0.0f, 0.0f), FLOAT2(0.520833333, 0.37037037), 1);
 		}
 	}
 

@@ -41,7 +41,7 @@ SettingsMenu::SettingsMenu(void)
 	//this->m_Buttons[5] = new Button();
 	//this->m_Buttons[5]->Init(FLOAT2(-0.708333333f, 0.262962963f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);
 	this->m_Buttons[3] = new Button();
-	this->m_Buttons[3]->Init(FLOAT2(-0.6f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\RadioButton.png","",0,0.4f,2,1);
+	this->m_Buttons[3]->Init(FLOAT2(-0.65f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\RadioButton.png","",0,0.4f,2,1);
 	this->m_Buttons[4] = new Button();
 	this->m_Buttons[4]->Init(FLOAT2(-0.5f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\RadioButton.png","",0,0.4f,2,1);
 	if(m_windowed)
