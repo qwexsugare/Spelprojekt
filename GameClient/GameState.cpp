@@ -190,6 +190,8 @@ GameState::~GameState()
 	stopSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
 	for(int i = 0; i < NR_OF_SOUNDTRACKS; i++)
 		deactivateSound(m_soundtracks[m_currentlyPlayingSoundtrack]);
+
+	g_graphicsEngine->removeText(this->m_fpsText);
 }
 
 State::StateEnum GameState::nextState()
