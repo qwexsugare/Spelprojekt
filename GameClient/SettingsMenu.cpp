@@ -4,6 +4,7 @@
 
 SettingsMenu::SettingsMenu(void)
 {
+	m_windowed = g_configFile->getWindowed();
 	FLOAT2 m_size, m_side; 
 	m_size.x = 0;
 	m_size.y = 0;
@@ -40,9 +41,13 @@ SettingsMenu::SettingsMenu(void)
 	//this->m_Buttons[5] = new Button();
 	//this->m_Buttons[5]->Init(FLOAT2(-0.708333333f, 0.262962963f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);
 	this->m_Buttons[3] = new Button();
-	this->m_Buttons[3]->Init(FLOAT2(-0.708333333f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);
+	this->m_Buttons[3]->Init(FLOAT2(-0.6f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\RadioButton.png","",0,0.4f,2,1);
 	this->m_Buttons[4] = new Button();
-	this->m_Buttons[4]->Init(FLOAT2(-0.708333333f, 0.018518519f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0,0.4f,2,1);
+	this->m_Buttons[4]->Init(FLOAT2(-0.5f, 0.138888889f),FLOAT2(0.026041667f,0.051851852f),"menu_textures\\RadioButton.png","",0,0.4f,2,1);
+	if(m_windowed)
+		m_Buttons[3]->SetTextBoxValue(true);
+	else
+		m_Buttons[4]->SetTextBoxValue(true);
 	
 	/*this->m_soundVolumeSlider.Init(FLOAT2(-0.177083333f+g_configFile->getSoundVolume()*0.4f, 0.262962963f),FLOAT2(0.026041667f,0.051851852f),
 		"menu_textures\\Arrow-Up.png","",-g_configFile->getSoundVolume()*0.4f,0.4f-g_configFile->getSoundVolume()*0.4f,2,1);
@@ -50,7 +55,7 @@ SettingsMenu::SettingsMenu(void)
 		"menu_textures\\Arrow-Up.png","",-g_configFile->getMusicVolume()*0.4f,0.4f-g_configFile->getMusicVolume()*0.4f,2,1);*/
 	this->m_soundVolumeSlider.Init(FLOAT2(-0.177083333f, 0.262962963f), g_configFile->getSoundVolume()*0.4f,FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0.0f,0.4f,2,1);
 	this->m_musicVolumeSlider.Init(FLOAT2(-0.177083333f, 0.138888889f), g_configFile->getMusicVolume()*0.4f, FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0.0f,0.4f,2,1);
-
+	
 	int graphics = g_configFile->getScreenSize().y;
 	/*if (graphics == 720)
 	{
@@ -118,6 +123,20 @@ void SettingsMenu::Update()
 	{
 		this->m_Buttons[i]->Update();
 	}
+	// Windowed Mode clicked
+	if(m_Buttons[3]->isClicked())
+	{
+		m_Buttons[3]->SetTextBoxValue(true);
+		m_Buttons[4]->SetTextBoxValue(false);
+		m_windowed = true;
+	}
+	// Fullscreen mode
+	else if(m_Buttons[4]->isClicked())
+	{
+		m_Buttons[3]->SetTextBoxValue(false);
+		m_Buttons[4]->SetTextBoxValue(true);
+		m_windowed = false;
+	}
 	m_soundVolumeSlider.Update();
 	m_musicVolumeSlider.Update();
 	/*LowIsDownS();
@@ -132,6 +151,7 @@ void SettingsMenu::Update()
 	{
 		g_configFile->setMusicVolume(m_musicVolumeSlider.GetValue());
 		g_configFile->setSoundVolume(m_soundVolumeSlider.GetValue());
+		g_configFile->setWindowed(m_windowed);
 		g_configFile->save();
 	}
 }

@@ -1,6 +1,7 @@
 #include "HudMenu.h"
 #include "ClientEntityHandler.h"
 #include "SoundWrapper.h"
+#include "TowerPlacer.h"
 
 HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos)
 {
@@ -448,9 +449,15 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 	}
 	if(this->m_placingTower && !switchedTower)
 	{
+		Entity* caster = ClientEntityHandler::getEntity(_heroId);
+		bool heroWithinPlacingRange;
+		if((caster->m_model->getPosition() - m_towerModel->getPosition()).length() <= TowerPlacer::PLACE_RANGE)
+			heroWithinPlacingRange = true;
+		else
+			heroWithinPlacingRange = false;
 		if(m_subTowerModel)
 		{
-			if(g_graphicsEngine->intersectsWithObject(*m_subTowerModel->getObb(), m_towerModel, m_subTowerModel))
+			if(g_graphicsEngine->intersectsWithObject(*m_subTowerModel->getObb(), m_towerModel, m_subTowerModel) || !heroWithinPlacingRange)
 			{
 				/*m_towerModel->setAlpha(0.1f);
 				m_subTowerModel->setAlpha(0.1f);*/
@@ -465,7 +472,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 				m_subTowerModel->setTextureIndex("color");
 			}
 		}
-		else if(g_graphicsEngine->intersectsWithObject(*m_towerModel->getObb(), m_towerModel))
+		else if(g_graphicsEngine->intersectsWithObject(*m_towerModel->getObb(), m_towerModel) || !heroWithinPlacingRange)
 		{
 			//m_towerModel->setAlpha(0.1f);
 			m_towerModel->setTextureIndex("color1");

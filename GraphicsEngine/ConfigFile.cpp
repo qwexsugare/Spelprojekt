@@ -88,8 +88,14 @@ void ConfigFile::save()
 	ofstream stream;
 	stream.open("config.ini");
 	
+	int windowedToFile;
+	if(m_windowed)
+		windowedToFile = 1;
+	else
+		windowedToFile = 0;
+
 	stream << "resolution " << m_screenSize.x << " " << m_screenSize.y << endl
-		<< "windowed " << m_windowed << endl
+		<< "windowed " << windowedToFile << endl
 		<< "music_volume " << m_musicVolume << endl
 		<< "sound_volume " << m_soundVolume << endl
 		<< "player_name " << m_playerName;
@@ -98,4 +104,9 @@ void ConfigFile::save()
 void ConfigFile::setPlayerName(string _name)
 {
 	m_playerName = _name;
+}
+
+void ConfigFile::setWindowed(bool _windowed)
+{
+	m_windowed = _windowed;
 }
