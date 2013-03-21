@@ -6,20 +6,35 @@
 #include "MyAlgorithms.h"
 #include "SpeechManager.h"
 
-DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned int _masterId)
+DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned int _masterId, unsigned int _turretId)
 {
 	Entity* target = ClientEntityHandler::getEntity(_masterId);
+	Entity* turret = ClientEntityHandler::getEntity(_turretId);
 
 	m_masterId = _masterId;
+	m_turretId = _turretId;
 	FLOAT3 pos(0, 0, 0);
 	if(target)
 		pos	= target->m_model->getPosition();
-	m_model = g_graphicsEngine->createModel("Bench", pos);
-	m_model->setAlpha(0.999f);
+	//m_model = g_graphicsEngine->createModel("Bench", pos);
+	//m_model->setAlpha(0.999f);
 	m_sound = createSoundHandle("turrets/deathTowerAttack.wav", false, true, pos);
 	playSound(m_sound);
 	m_timer = 0.0f;
 	m_active = true;
+
+	m_partOne = NULL;
+	m_partTwo = NULL;
+	
+	if(target)
+	{
+		m_partOne = g_graphicsEngine->createParticleEngine("DeathPulsOne", D3DXVECTOR4(0, 0, 0, 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(1, 1));
+	}
+	if(turret)
+	{
+		FLOAT3 tPos = turret->m_model->getPosition();;
+		m_partTwo = g_graphicsEngine->createParticleEngine("DeathPulsOne", D3DXVECTOR4(tPos.toD3DXVector(), 1), D3DXQUATERNION(0, 0, 0, 1), D3DXVECTOR2(0.7f, 0.7f));
+	}
 	
 	// Play damage sound.
 	int sound;
@@ -159,7 +174,8 @@ DeathPulseTurretClientSkillEffect::DeathPulseTurretClientSkillEffect(unsigned in
 
 DeathPulseTurretClientSkillEffect::~DeathPulseTurretClientSkillEffect()
 {
-	g_graphicsEngine->removeModel(m_model);
+	g_graphicsEngine->removeParticleEngine(m_partOne);
+	g_graphicsEngine->removeParticleEngine(m_partTwo);
 	deactivateSound(m_sound);
 }
 
@@ -170,13 +186,22 @@ void DeathPulseTurretClientSkillEffect::update(float _dt)
 		m_timer += _dt;
 		if(m_timer > DeathPulseTurretClientSkillEffect::DURATION)
 			m_active = false;
+		if(m_timer > DeathPulseTurretClientSkillEffect::DURATION-1)
+		{
+			if(m_partOne)
+				m_partOne->setAlive(false);
+			if(m_partTwo)
+				m_partTwo->setAlive(false);
+		}
 		else
 		{
 			Entity* master = ClientEntityHandler::getEntity(m_masterId);
 			if(master)
 			{
 				FLOAT3 pos = ClientEntityHandler::getEntity(m_masterId)->m_model->getPosition();
-				m_model->setPosition(pos);
+				if(m_partOne)
+					m_partOne->setPosition(pos.toD3DXVector());
+				//m_model->setPosition(pos);
 			}
 			else
 				m_active = false;

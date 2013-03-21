@@ -73,8 +73,8 @@ VS_OUT CirclePulsVS(Particle input)
 
 	float t = input.age;
 	
-	float velx = cos(t)*input.vel.x - sin(t)*input.vel.z;
-	float velz = sin(t)*input.vel.x + cos(t)*input.vel.z;
+	float velx = cos(t*rotateSpeed)*input.vel.x - sin(t*rotateSpeed)*input.vel.z;
+	float velz = sin(t*rotateSpeed)*input.vel.x + cos(t*rotateSpeed)*input.vel.z;
 
 
 	output.pos.x = input.pos.x + (velx * t);
@@ -88,7 +88,8 @@ VS_OUT CirclePulsVS(Particle input)
 	output.pos += emitPosW.xyz;
 
 	output.vel = input.pos.xyz;
-	output.color = float4(1.0f, 1.0f, 0.5f, opacity);
+	output.color = tintColor;
+	output.color.a = opacity * tintColor.a;
 	output.size = input.size;
 	output.type = input.type;
 
