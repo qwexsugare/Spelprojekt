@@ -3,6 +3,7 @@
 
 Mission::Mission(void)
 {
+	this->m_type = ServerEntity::OtherType;
 	this->startWave=0;
 	this->endWave=0;
 	this->missionType=MissionType::BBB;
@@ -68,8 +69,8 @@ bool Mission::handle(int atWave)
 	{
 		this->missionStarted=true;
 		this->missionRunning=true;
-		this->startMission();
 		this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missionName,"start"));
+		this->startMission();
 	}
 	if(boss != NULL && EntityHandler::getServerEntity(this->bossId)->getHealth()<=0)
 	{
@@ -105,20 +106,20 @@ bool Mission::handle(int atWave)
 }
 bool Mission::startMission()
 {
-		if(this->missionType==MissionType::BBB)
-		{
-			BigBadBoss *boss = new BigBadBoss(this->m_position);
-			EntityHandler::addEntity(boss);
-			this->bossId = boss->getId();
-			boss->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, boss->getId(), boss->getPosition()));
-		}
-		if(this->missionType==MissionType::BBC)
-		{
-			MindReaver *boss = new MindReaver(this->m_position);
-			EntityHandler::addEntity(boss);
-			this->bossId = boss->getId();
-			boss->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, boss->getId(), boss->getPosition()));
-		}
+	if(this->missionType==MissionType::BBB)
+	{
+		BigBadBoss *boss = new BigBadBoss(this->m_position);
+		EntityHandler::addEntity(boss);
+		this->bossId = boss->getId();
+		boss->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, boss->getId(), boss->getPosition()));
+	}
+	if(this->missionType==MissionType::BBC)
+	{
+		MindReaver *boss = new MindReaver(this->m_position);
+		EntityHandler::addEntity(boss);
+		this->bossId = boss->getId();
+		boss->getMessageQueue()->pushOutgoingMessage(new CreateActionMessage(Skill::IDLE, boss->getId(), boss->getPosition()));
+	}
 	return this->missionStarted;
 }
 float Mission::getTheTimeItTookToFinnishTheMission()

@@ -10,7 +10,7 @@ private:
 
 	WEAPON_TYPE m_weaponType;
 public:
-	BigBadBoss::BigBadBoss(FLOAT3 _pos);
+	BigBadBoss(FLOAT3 _pos);
 	~BigBadBoss(void);
 	FLOAT3 m_origPos; 
 	bool m_isHeadingBack;
