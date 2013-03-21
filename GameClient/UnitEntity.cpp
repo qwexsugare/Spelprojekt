@@ -460,6 +460,11 @@ int UnitEntity::getPoisonCounter()
 	return this->m_poisonCounter;
 }
 
+float UnitEntity::getWeaponAttackSpeedMultiplier()
+{
+	return this->m_weaponAttackSpeedMultiplier;
+}
+
 #include <sstream>
 void UnitEntity::takeDamage(unsigned int damageDealerId, int physicalDamage, int mentalDamage, int _extraDivinePower)
 {

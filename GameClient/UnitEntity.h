@@ -127,6 +127,7 @@ public:
 	int getGreed();
 	int getTurretDuration();
 	int getPoisonCounter();
+	float getWeaponAttackSpeedMultiplier();
 
 	unsigned int getLastDamageDealer();
 
