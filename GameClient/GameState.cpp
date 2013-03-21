@@ -302,6 +302,7 @@ void GameState::update(float _dt)
 		if(this->m_modelIdHolder.getHat(iem.getModelID()) != "")
 		{
 			model->SetHat(g_graphicsEngine->getMesh(this->m_modelIdHolder.getHat(iem.getModelID())));
+			model->getAnimation()->PlayLoop("idle");
 		}
 		if(this->m_modelIdHolder.getRightHand(iem.getModelID(), iem.getWeaponType()) != "")
 		{
