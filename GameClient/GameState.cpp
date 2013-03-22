@@ -927,11 +927,15 @@ void GameState::update(float _dt)
 		{
 			if(i != m_yourId)
 			{
-				float dist = (ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition() - ClientEntityHandler::getEntity(m_playerInfos[i].id)->m_model->getPosition()).length();
-				if(dist < closestDistance)
+				Entity* hero = ClientEntityHandler::getEntity(m_playerInfos[i].id);
+				if(hero)
 				{
-					closestIndex = i;
-					closestDistance = dist;
+					float dist = (ClientEntityHandler::getEntity(m_playerInfos[m_yourId].id)->m_model->getPosition() - ClientEntityHandler::getEntity(m_playerInfos[i].id)->m_model->getPosition()).length();
+					if(dist < closestDistance)
+					{
+						closestIndex = i;
+						closestDistance = dist;
+					}
 				}
 			}
 		}
