@@ -2,6 +2,7 @@
 #include "ClientEntityHandler.h"
 #include "SoundWrapper.h"
 #include "TowerPlacer.h"
+#include "Turrets.h"
 
 HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO> m_playerInfos)
 {
@@ -299,9 +300,7 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 					m_subTowerModel = NULL;
 				}
 			}
-
-			switchedTower = true;
-			this->m_placingTower = true;
+			
 			this->m_towerId = this->m_towerButtons[i]->GetID();
 
 			ModelIdHolder m;
@@ -309,117 +308,219 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 			switch(this->m_towerId)
 			{
 			case Skill::DEATH_PULSE_TURRET:
-				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+				if(m_Resources >= DeathPulseTurret::COST)
+				{
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+					m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+					this->m_towerModel->setAlpha(0.5f);
+					this->m_placingTower = true;
+					switchedTower = true;
+				}
 				break;
 			case Skill::TESLA_CHAIN_TURRET:
-				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+				if(m_Resources >= TeslaChainTurret::COST)
+				{
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+					m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+					this->m_towerModel->setAlpha(0.5f);
+					this->m_placingTower = true;
+					switchedTower = true;
+				}
 				break;
 			case Skill::FROST_TURRET:
-				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-				m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
-				m_subTowerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
-				m_subTowerModel->setAlpha(0.5f);
+				if(m_Resources >= FrostTurret::COST)
+				{
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+					m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+					this->m_towerModel->setAlpha(0.5f);
+					m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
+					m_subTowerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+					m_subTowerModel->setAlpha(0.5f);
+					this->m_placingTower = true;
+					switchedTower = true;
+				}
 				break;
 			case Skill::POISON_TURRET:
-				this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+				if(m_Resources >= PoisonTurret::COST)
+				{
+					this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+					m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+					this->m_towerModel->setAlpha(0.5f);
+					this->m_placingTower = true;
+					switchedTower = true;
+				}
 				break;
 			}
 			
-			m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
-			this->m_towerModel->setAlpha(0.5f);
 		}
 	}
 
 	if(g_keyboard->getKeyState('Z') == Keyboard::KEY_PRESSED)
 	{
-		if(m_towerModel)
+		if(m_Resources >= TeslaChainTurret::COST)
 		{
-			g_graphicsEngine->removeModel(m_towerModel);
-			m_towerModel = NULL;
-
-			if(m_subTowerModel)
+			if(m_towerModel)
 			{
-				g_graphicsEngine->removeModel(m_subTowerModel);
-				m_subTowerModel = NULL;
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
 			}
-		}
 		
-		switchedTower = true;
-		this->m_placingTower = true;
-		this->m_towerId = this->m_towerButtons[0]->GetID();
-		ModelIdHolder m;
-		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
-		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
-		this->m_towerModel->setAlpha(0.5f);
+			switchedTower = true;
+			this->m_placingTower = true;
+			this->m_towerId = this->m_towerButtons[0]->GetID();
+			ModelIdHolder m;
+			this->m_towerModel = g_graphicsEngine->createModel(m.getModel(3), FLOAT3(0.0f, 0.0f, 0.0f));
+			m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+			this->m_towerModel->setAlpha(0.5f);
+		}
+		else
+		{
+			if(m_towerModel)
+			{
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
+			}
+
+			m_placingTower = false;
+		}
 	}
 	else if(g_keyboard->getKeyState('X') == Keyboard::KEY_PRESSED)
 	{
-		if(m_towerModel)
+		if(m_Resources >= FrostTurret::COST)
 		{
-			g_graphicsEngine->removeModel(m_towerModel);
-			m_towerModel = NULL;
-
-			if(m_subTowerModel)
+			if(m_towerModel)
 			{
-				g_graphicsEngine->removeModel(m_subTowerModel);
-				m_subTowerModel = NULL;
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
 			}
-		}
 		
-		switchedTower = true;
-		this->m_placingTower = true;
-		this->m_towerId = this->m_towerButtons[1]->GetID();
-		ModelIdHolder m;
-		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
-		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
-		this->m_towerModel->setAlpha(0.5f);
-		m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
-		m_subTowerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
-		m_subTowerModel->setAlpha(0.5f);
+			switchedTower = true;
+			this->m_placingTower = true;
+			this->m_towerId = this->m_towerButtons[1]->GetID();
+			ModelIdHolder m;
+			this->m_towerModel = g_graphicsEngine->createModel(m.getModel(5), FLOAT3(0.0f, 0.0f, 0.0f));
+			m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+			this->m_towerModel->setAlpha(0.5f);
+			m_subTowerModel = g_graphicsEngine->createModel(m.getModel(6), FLOAT3(0.0f, 0.0f, 0.0f));
+			m_subTowerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+			m_subTowerModel->setAlpha(0.5f);
+		}
+		else
+		{
+			if(m_towerModel)
+			{
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
+			}
+
+			m_placingTower = false;
+		}
 	}
 	else if(g_keyboard->getKeyState('C') == Keyboard::KEY_PRESSED)
 	{
-		if(m_towerModel)
+		if(m_Resources >= PoisonTurret::COST)
 		{
-			g_graphicsEngine->removeModel(m_towerModel);
-			m_towerModel = NULL;
-
-			if(m_subTowerModel)
+			if(m_towerModel)
 			{
-				g_graphicsEngine->removeModel(m_subTowerModel);
-				m_subTowerModel = NULL;
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
 			}
-		}
 		
-		switchedTower = true;
-		this->m_placingTower = true;
-		this->m_towerId = this->m_towerButtons[2]->GetID();
-		ModelIdHolder m;
-		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
-		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
-		this->m_towerModel->setAlpha(0.5f);
+			switchedTower = true;
+			this->m_placingTower = true;
+			this->m_towerId = this->m_towerButtons[2]->GetID();
+			ModelIdHolder m;
+			this->m_towerModel = g_graphicsEngine->createModel(m.getModel(2), FLOAT3(0.0f, 0.0f, 0.0f));
+			m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+			this->m_towerModel->setAlpha(0.5f);
+		}
+		else
+		{
+			if(m_towerModel)
+			{
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
+			}
+
+			m_placingTower = false;
+		}
 	}
 	else if(g_keyboard->getKeyState('V') == Keyboard::KEY_PRESSED)
 	{
-		if(m_towerModel)
+		if(m_Resources >= DeathPulseTurret::COST)
 		{
-			g_graphicsEngine->removeModel(m_towerModel);
-			m_towerModel = NULL;
-
-			if(m_subTowerModel)
+			if(m_towerModel)
 			{
-				g_graphicsEngine->removeModel(m_subTowerModel);
-				m_subTowerModel = NULL;
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
 			}
-		}
 		
-		switchedTower = true;
-		this->m_placingTower = true;
-		this->m_towerId = this->m_towerButtons[3]->GetID();
-		ModelIdHolder m;
-		this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
-		m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
-		this->m_towerModel->setAlpha(0.5f);
+			switchedTower = true;
+			this->m_placingTower = true;
+			this->m_towerId = this->m_towerButtons[3]->GetID();
+			ModelIdHolder m;
+			this->m_towerModel = g_graphicsEngine->createModel(m.getModel(4), FLOAT3(0.0f, 0.0f, 0.0f));
+			m_towerModel->setColor(D3DXVECTOR4(0, 1, 1, 0.4f));
+			this->m_towerModel->setAlpha(0.5f);
+		}
+		else
+		{
+			if(m_towerModel)
+			{
+				g_graphicsEngine->removeModel(m_towerModel);
+				m_towerModel = NULL;
+
+				if(m_subTowerModel)
+				{
+					g_graphicsEngine->removeModel(m_subTowerModel);
+					m_subTowerModel = NULL;
+				}
+			}
+
+			m_placingTower = false;
+		}
 	}
 
 	this->m_AttributeText[0]->setText(m_Attributes[0]);
@@ -459,28 +560,27 @@ void HudMenu::Update(float _dt, const vector<Entity*>& _entities, unsigned int _
 		{
 			if(g_graphicsEngine->intersectsWithObject(*m_subTowerModel->getObb(), m_towerModel, m_subTowerModel) || !heroWithinPlacingRange)
 			{
-				/*m_towerModel->setAlpha(0.1f);
-				m_subTowerModel->setAlpha(0.1f);*/
 				m_towerModel->setTextureIndex("color1");
 				m_subTowerModel->setTextureIndex("color1");
+				this->m_towerModel->setAlpha(0.9f);
 			}
 			else
 			{
-				/*m_towerModel->setAlpha(0.5f);
-				m_subTowerModel->setAlpha(0.5f);*/
 				m_towerModel->setTextureIndex("color");
 				m_subTowerModel->setTextureIndex("color");
+				this->m_towerModel->setAlpha(0.5f);
+				this->m_subTowerModel->setAlpha(0.5f);
 			}
 		}
 		else if(g_graphicsEngine->intersectsWithObject(*m_towerModel->getObb(), m_towerModel) || !heroWithinPlacingRange)
 		{
-			//m_towerModel->setAlpha(0.1f);
 			m_towerModel->setTextureIndex("color1");
+			this->m_towerModel->setAlpha(0.9f);
 		}
 		else
 		{
-			//m_towerModel->setAlpha(0.5f);
 			m_towerModel->setTextureIndex("color");
+			this->m_towerModel->setAlpha(0.5f);
 		}
 
 		D3DXVECTOR3 pickDir;

@@ -2994,3 +2994,7 @@ GameClient/particles/effects/Bullet.gzp
 GameClient/particles/effects/DeathPulsOne.gzp
 GameClient/particles/textures/DeathTurret.png
 GameClient/particles/textures/skull.png
+GameClient/menu_textures/RadioButton.png
+GameClient/particles/effects/CloudOfDarkness.gzp
+GameClient/particles/effects/Target.gzp
+GameClient/particles/textures/cloud.png
