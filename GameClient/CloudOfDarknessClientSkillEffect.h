@@ -12,7 +12,7 @@ private:
 	PointLight* m_light;
 	FLOAT3 m_position;
 	float m_lifetime;
-	ParticleEngine* particleSystem;
+	ParticleEngine* m_cloud;
 	Mesh* m_weapon;
 	UINT m_masterId;
 public:

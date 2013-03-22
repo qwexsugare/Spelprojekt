@@ -43,7 +43,7 @@ ClientHandler::~ClientHandler()
 HRESULT ClientHandler::run()
 {
 	loopSound(m_menuMusic);
-	this->m_state = new IntroState();
+	this->m_state = new MainMenuState();
 
 	__int64 cntsPerSec = 0;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
