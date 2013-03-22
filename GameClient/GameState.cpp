@@ -32,6 +32,11 @@ GameState::GameState(Client *_network, string mapName)
 	this->missionFailedSpriteC = g_graphicsEngine->createSprite("./menu_textures/missionfailedC.png",FLOAT2(0.0,0.0),FLOAT2(0.520833333f,0.37037037f),3);
 	this->missionFailedSpriteC->setVisible(false);
 
+	m_missionButton = new Button();
+	m_missionButton->Init(FLOAT2(0.0f, 0.0f), FLOAT2(0.520833333, 0.37037037), "menu_textures/LeaveGame_Button.png", "");
+	m_missionButton->setVisible(false);
+	m_missionButton->setKeep(1);
+
 	this->m_network = _network;
 	this->importMap(mapName);
 	m_exitButton = NULL;
@@ -153,6 +158,7 @@ GameState::~GameState()
 		g_graphicsEngine->removeParticleEngine(this->testParticleSystem);
 	if(m_exitButton)
 		delete m_exitButton;
+	delete m_missionButton;
 	g_graphicsEngine->removeSprite(this->missionCompletedSpriteB);
 	g_graphicsEngine->removeSprite(this->missionCompletedSpriteC);
 	g_graphicsEngine->removeSprite(this->missionFailedSpriteB);
@@ -445,6 +451,7 @@ void GameState::update(float _dt)
 	{
 		NetworkMissionStarted m = this->m_network->missionQueueFront();
 	
+		
 		if(m.getStartOrEnd()=="start")
 		{
 			if(m.getMissionName()[0]=='I')
@@ -452,7 +459,8 @@ void GameState::update(float _dt)
 			if(m.getMissionName()[0]=='M')
 				this->missionStartedSpriteC->setVisible(true);
 			this->em.addMission(m.getMissionName(),"Running");
-			int k=0;
+			this->m_missionButton->setVisible(true);
+			this->m_missionButton->setKeep(0);
 		}
 		if(m.getStartOrEnd()=="failed")
 		{
@@ -461,6 +469,8 @@ void GameState::update(float _dt)
 			if(m.getMissionName()[0]=='M')
 				this->missionFailedSpriteC->setVisible(true);
 			this->em.setStatusForMission(m.getMissionName(),"Failed");
+			this->m_missionButton->setVisible(true);
+			this->m_missionButton->setKeep(0);
 		}
 		if(m.getStartOrEnd()=="completed")
 		{
@@ -469,8 +479,10 @@ void GameState::update(float _dt)
 			if(m.getMissionName()[0]=='M')
 				this->missionCompletedSpriteC->setVisible(true);
 			this->em.setStatusForMission(m.getMissionName(),"Completed");
+			this->m_missionButton->setVisible(true);
+			this->m_missionButton->setKeep(0);
 		}
-		this->missionTimer=4.0f;
+		this->missionTimer=10.0f;
 	}
 	this->missionTimer-=_dt;
 	if(this->missionTimer<0)
@@ -481,7 +493,24 @@ void GameState::update(float _dt)
 		this->missionFailedSpriteB->setVisible(false);
 		this->missionCompletedSpriteC->setVisible(false);
 		this->missionFailedSpriteC->setVisible(false);
+		this->m_missionButton->setVisible(false);
+		this->m_missionButton->setKeep(1);
 	}
+
+	m_missionButton->Update();
+		if(m_missionButton->isClicked())
+		{
+			m_missionButton->setVisible(false);
+			m_missionButton->setKeep(1);
+
+		this->missionStartedSpriteB->setVisible(false);
+		this->missionStartedSpriteC->setVisible(false);
+		this->missionCompletedSpriteB->setVisible(false);
+		this->missionFailedSpriteB->setVisible(false);
+		this->missionCompletedSpriteC->setVisible(false);
+		this->missionFailedSpriteC->setVisible(false);
+		this->m_missionButton->setVisible(false);
+		}
 
 	while(this->m_network->createActionPositionQueueEmpty() == false)
 	{
