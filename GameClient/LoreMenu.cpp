@@ -132,7 +132,7 @@ void LoreMenu::ChangeStates()
 		ss << ThisPage;
 
 		g_graphicsEngine->removeSprite( m_Images[0]);
-		this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-" +ss.str()+ ".png", FLOAT2(0,0),  FLOAT2(2,2),0));
+		this->m_Images[0] = g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-" +ss.str()+ ".png", FLOAT2(0,0),  FLOAT2(2,2),0);
 	}
 	Change = false;
 }

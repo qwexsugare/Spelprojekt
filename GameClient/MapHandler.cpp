@@ -56,6 +56,8 @@ MapHandler::~MapHandler()
 	if(m_paths)
 		delete []m_paths;
 
+	delete this->m_messageQueue;
+
 	//for(int i = 0; i < missions.size(); i++)
 	//{
 	//	delete missions[i];
@@ -286,7 +288,7 @@ void MapHandler::loadMap(std::string filename)
 
 	/// This is where all waves are created! 
 	///
-	/// createWave(imps, shades, spitting, Frost, SoulEater, Hellfire, Thunder, Brute)
+	/// createWave(Imps, Spitting, shades, Frost, SoulEater, Hellfire, Thunder, Brute)
 	///
 	///
 	string waveName="";
@@ -360,7 +362,6 @@ void MapHandler::update(float _dt)
 				{
 					this->missions[i]->addToEntityHandler();
 					EntityHandler::addEntity(this->missions[i]);
-					this->m_messageQueue->pushOutgoingMessage(new MissionMessage(this->missions[i]->getMissionName(),"start"));
 				}
 			}
 		}
