@@ -375,6 +375,7 @@
     <ClInclude Include="NetworkTextMessage.h" />
     <ClInclude Include="NetworkWelcomeMessage.h" />
     <ClInclude Include="ReadyAimFire.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="StunningStrikeVictimClientSkillEffect.h" />
     <ClInclude Include="SwiftAsACatPowerfulAsABoarClientSkillEffect.h" />
@@ -549,6 +550,14 @@
     <ClInclude Include="WallClientSkillEffect.h" />
     <ClInclude Include="WallEffect.h" />
     <ClInclude Include="EndState.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameClient.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
+    <Image Include="icon1.ico" />
+    <Image Include="sota.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

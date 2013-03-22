@@ -1171,6 +1171,7 @@
     <ClInclude Include="MindReaver.h">
       <Filter>Server\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -1232,5 +1233,13 @@
     <Filter Include="Client\Skills">
       <UniqueIdentifier>{bcf62a0d-076f-457f-b377-2fd40d116510}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameClient.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="icon.ico" />
+    <Image Include="sota.ico" />
   </ItemGroup>
 </Project>
