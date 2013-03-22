@@ -4,8 +4,8 @@ Texture2D tex2D;
 SamplerState linearSampler
 {
 	Filter = MIN_MAG_MIP_LINEAR;
-	AddressU = Clamp;
-	AddressV = Clamp;
+	AddressU = Wrap;
+	AddressV = Wrap;
 };
 
 struct VSSceneIn
