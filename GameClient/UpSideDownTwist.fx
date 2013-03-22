@@ -53,7 +53,7 @@ VS_OUT UsDTwistVS(Particle input)
 	input.vel = normalize(input.vel);
 	float maxScale = 3;
 	float radScale = (lifeTime/2.5f) - (t/2.5f);
-	float angle = t*4;
+	float angle = t*4*speed;
 
 
 	float4x4 RY;
@@ -64,15 +64,16 @@ VS_OUT UsDTwistVS(Particle input)
 
 
 
-	output.pos = mul(float4((input.vel*radScale), 1), RY);
+	output.pos = mul(float4(((input.vel*speed)*radScale), 1), RY);
 	output.pos += input.pos;
-	output.pos.y = 0.3f;
+	output.pos.y = 0.3f + (t/lifeTime);
 
 	output.vel = mul(input.vel, RY);
 
 
 	float opacity = sin((float(180.0f/lifeTime) * t) * 3.14f/180.0f) + (input.vel.x);
 
+	opacity *= tintColor.a;
 
 	output.color = float4(input.vel.x, 0, 0, opacity);
 
