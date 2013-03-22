@@ -22,7 +22,7 @@ ScoreMenu::ScoreMenu(void)
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
 	this->m_Buttons.resize(1);
 	this->m_Buttons[0] = new Button();
-	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.933333333f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,2);
+	this->m_Buttons[0]->Init(FLOAT2(-0.5f,  -0.933333333f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,2);
 }
 void ScoreMenu::Update()
 {

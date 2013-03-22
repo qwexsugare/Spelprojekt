@@ -7,7 +7,7 @@ LoadingState::LoadingState(Client* _network, string _mapName) : State(State::LOA
 	m_mapName = _mapName;
 	m_network = _network;
 	m_skip = new Button();
-	m_skip->Init(FLOAT2(0.5f, -0.8f), FLOAT2(0.3f, 0.15f), "menu_textures/Button-LoadingMenu-Skip.png", "");
+	m_skip->Init(FLOAT2(0.45f, -0.8f), FLOAT2(0.3f, 0.15f), "menu_textures/Button-LoadingMenu-Skip.png", "");
 	if(this->m_mapName[10]=='o')
 	{
 		m_speech = createSoundHandle("lorebook/Level1.wav", false, false);

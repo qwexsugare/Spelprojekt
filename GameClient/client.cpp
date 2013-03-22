@@ -2,10 +2,12 @@
 
 Client::Client()
 {
+
 }
 
 Client::~Client()
 {
+
 }
 
 bool Client::connect(sf::IPAddress ip, int port)
