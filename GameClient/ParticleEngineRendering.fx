@@ -155,7 +155,7 @@ technique10 DrawUsDTwist
 		SetVertexShader(	CompileShader( vs_4_0, UsDTwistVS() ) );
 		SetGeometryShader(	CompileShader( gs_4_0, DrawGS() ) );
 		SetPixelShader (	CompileShader( ps_4_0, DrawPS() ) );
-		SetBlendState( AdditiveBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );
+		SetBlendState( HudBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xffffffff );
 		SetDepthStencilState( NoDepthWrites, 0 );
 	}
 }
