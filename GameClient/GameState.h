@@ -36,6 +36,7 @@ private:
 	unsigned int m_yourId;
 	bool m_victory;
 	Button* m_exitButton;
+	Button* m_missionButton;
 	bool m_idle;
 	float m_idleSoundTimer;
 	bool m_yourHeroLives;
