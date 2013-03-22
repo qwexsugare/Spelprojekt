@@ -2961,3 +2961,17 @@ GameClient/particles/textures/ChurchDamage3.png
 GameClient/particles/textures/ChurchDamage4.png
 GameClient/particles/textures/snowFlake.png
 GameClient/audio/music/sick.wav
+GameClient/menu_textures/LeaveGame_Button.png
+GameClient/menu_textures/LeaveGame_LevelCompleted.png
+GameClient/menu_textures/LeaveGame_LevelFailed.png
+GameClient/menu_textures/MENU-LEVEL-1.png
+GameClient/menu_textures/Mission_Completed_1.png
+GameClient/menu_textures/Mission_Completed_2.png
+GameClient/menu_textures/Mission_Failed_1.png
+GameClient/menu_textures/Mission_Failed_2.png
+GameClient/menu_textures/Mission_New_1.png
+GameClient/menu_textures/Mission_New_2.png
+GameClient/particles/effects/Bullet.gzp
+GameClient/particles/effects/DeathPulsOne.gzp
+GameClient/particles/textures/DeathTurret.png
+GameClient/particles/textures/skull.png
