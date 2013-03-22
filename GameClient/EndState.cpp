@@ -135,7 +135,7 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem) : Sta
 	}
 	playSound(m_music);
 	this->m_mainMenuButton = new Button();
-	this->m_mainMenuButton->Init(FLOAT2(0.140625f,  -0.875f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,1,5);
+	this->m_mainMenuButton->Init(FLOAT2(0.45f,  -0.8f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-MainMenu.png","",0,0,1,5);
 }
 
 EndState::~EndState()
