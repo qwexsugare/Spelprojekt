@@ -68,7 +68,7 @@ VS_OUT UsDTwistVS(Particle input)
 	output.pos += input.pos;
 	output.pos.y = 0.3f;
 
-	output.vel = input.vel;
+	output.vel = mul(input.vel, RY);
 
 
 	float opacity = sin((float(180.0f/lifeTime) * t) * 3.14f/180.0f) + (input.vel.x);
