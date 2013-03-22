@@ -90,7 +90,7 @@ void LoreMenu::ChangeStates()
 		ThisPage += 1;
 		Change = true;
 		m_Play = false;
-		if (ThisPage > 16)
+		if (ThisPage > 12)
 		{
 			ThisPage = 0;
 		}
@@ -107,7 +107,7 @@ void LoreMenu::ChangeStates()
 		m_Play = false;
 		if(ThisPage < 0)
 		{
-			ThisPage = 16;
+			ThisPage = 12;
 		}
 		for(int i = 0; i < m_Reading.size();i++)
 		{
