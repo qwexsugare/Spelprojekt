@@ -53,7 +53,7 @@ EndState::EndState(NetworkEndGameMessage endMessage,MissionEndMessage mem) : Sta
 			m_music = createSoundHandle("music/defeat.wav", true, false);
 		}
 
-		ss<<"Time played: "<<endMessage.getTimePlayed()<<" seconds";
+		ss<<"Time played: "<<(int)endMessage.getTimePlayed()/60<<" minutes "<<(int)endMessage.getTimePlayed()%60<<" seconds";
 		this->m_timeplayed = g_graphicsEngine->createMyText("text3.png", "text/", "offsets.txt", ss.str(), INT2(120,225), 50);
 		ss.clear();
 		ss.str("");
