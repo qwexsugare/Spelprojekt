@@ -24,7 +24,9 @@ private:
 	vector<MyText*> textures;
 	MyText * missionText;
 	Button *m_mainMenuButton;
-
+	float m_changePosY;
+	float m_fontsize;
+	string m_graphicstext;
 	// Music
 	int m_music;
 public:

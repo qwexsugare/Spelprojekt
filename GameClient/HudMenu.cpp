@@ -18,7 +18,50 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	m_SkillHud.push_back(-1.5f);
 	m_SkillHud.push_back(-1.5f);
 	m_SkillHud.push_back(-1.5f);
-
+	int graphics = g_configFile->getScreenSize().y;
+	int windowed = g_configFile->getWindowed();
+	m_graphicstext = "1080";
+	m_changePosY	= 1.0f;
+	m_fontsize		= 1.0f;
+	if (graphics == 1080)
+	{
+		m_changePosY= 1.0f;
+			m_graphicstext = "1080";
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =1;
+		}
+	}
+	if (graphics == 900)
+	{
+		m_changePosY= 0.833333333334f;
+		m_graphicstext = "900";
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =1;
+		}
+	}
+	if (graphics == 720)
+	{
+		m_changePosY= 0.66666666666667f;
+		m_graphicstext = "720";
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =1;
+		}
+	}
 	m_NumberOfSkills = 0;
 	int TmpPos = m_NumberOfSkills * 98;
 
@@ -86,10 +129,10 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 		break;
 	}
 
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Lower.png", FLOAT2(0,0),  FLOAT2(2,2),7));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Minimap.png", FLOAT2(0,0),  FLOAT2(2,2),2));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext +"\\HUD_Lower.png", FLOAT2(0,0),  FLOAT2(2,2),7));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext +"\\HUD_Minimap.png", FLOAT2(0,0),  FLOAT2(2,2),2));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Bar.png", FLOAT2(-0.35f,-0.84f),  FLOAT2(0.4625f,0.333333333f),0));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\1080HUD_Front.png", FLOAT2(0,0),  FLOAT2(2,2),9));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext +"\\HUD_Front.png", FLOAT2(0,0),  FLOAT2(2,2),9));
 
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Tower.png", FLOAT2(-0.56f,1.8f),  FLOAT2(0.260416667f,1.451851852f),10));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Upgradebar_Strength.png", FLOAT2(-0.28f,1.8f),  FLOAT2(0.260416667f,1.451851852f),10));
@@ -145,44 +188,45 @@ HudMenu::HudMenu(Client *_network, Hero::HERO_TYPE _heroType, vector<PLAYER_INFO
 	this->m_SkillButtons[0]->ChangAbleBind(false);
 	this->m_SkillButtons[1]->ChangAbleBind(false);
 
-	this->m_LabelInput = new TextInput("text4.png",INT2(1150,1150),55);
-	this->m_ResourceLabel = new TextLabel("","text3.png",INT2(900,1050),100);
+	this->m_LabelInput = new TextInput("text4.png",INT2(1150*m_changePosY,1150),55*m_fontsize);
+	this->m_ResourceLabel = new TextLabel("","text3.png",INT2(900*m_changePosY,1050),100*m_fontsize);
 	string m_TempString = this->m_ResourceLabel->IntToString(m_Resources);
 	this->m_ResourceLabel->setText(m_TempString);
 	this->m_Chattext.resize(4);
-	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1150,1108),55);
-	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1150,1084),55);
-	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1150,1059),55);
-	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1150,1036),55);
+	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1150*m_changePosY,1108),55*m_fontsize);
+	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1150*m_changePosY,1084),55*m_fontsize);
+	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1150*m_changePosY,1059),55*m_fontsize);
+	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1150*m_changePosY,1036),55*m_fontsize);
 	
 	this->m_AttributeText.resize(8);
-	this->m_AttributeText[0] = new TextLabel("","text5.png",INT2(90, 987),55);
+	this->m_AttributeText[0] = new TextLabel("","text5.png",INT2(90*m_changePosY, 987),55*m_fontsize);
 	this->m_AttributeText[0]->setText(m_Attributes[0]);
 	
-	this->m_AttributeText[4] = new TextLabel("","text5.png",INT2(160, 987),55);
+	this->m_AttributeText[4] = new TextLabel("","text5.png",INT2(160*m_changePosY, 987),55*m_fontsize);
 	this->m_AttributeText[4]->setText(m_Attributes[1]);
 	
-	this->m_AttributeText[5] = new TextLabel("","text5.png",INT2(230, 987),55);
+	this->m_AttributeText[5] = new TextLabel("","text5.png",INT2(230*m_changePosY, 987),55*m_fontsize);
 	this->m_AttributeText[5]->setText(m_Attributes[2]);
 	
-	this->m_AttributeText[6] = new TextLabel("","text5.png",INT2(300, 987),55);
+	this->m_AttributeText[6] = new TextLabel("","text5.png",INT2(300*m_changePosY, 987),55*m_fontsize);
 	this->m_AttributeText[6]->setText(m_Attributes[3]);
 	
-	this->m_AttributeText[7] = new TextLabel("","text5.png",INT2(370, 987),55);
+	this->m_AttributeText[7] = new TextLabel("","text5.png",INT2(370*m_changePosY, 987),55*m_fontsize);
 	this->m_AttributeText[7]->setText(m_Attributes[4]);
 	
-	this->m_AttributeText[1] = new TextLabel("","text6.png",INT2(180, 2),45);
+	this->m_AttributeText[1] = new TextLabel("","text6.png",INT2(180*m_changePosY, 2),45*m_fontsize);
 	this->m_AttributeText[1]->setText("  "+m_Attributes[5] +" / "+ m_Attributes[6]+ "_"+ m_Attributes[7]);
 	
-	this->m_AttributeText[2] = new TextLabel("","text6.png",INT2(505, 2),45);
+	this->m_AttributeText[2] = new TextLabel("","text6.png",INT2(505*m_changePosY, 2),45*m_fontsize);
 	this->m_AttributeText[2]->setText(m_Attributes[8] +"  %"+"_"+ m_Attributes[9]);
 	
-	this->m_AttributeText[3] = new TextLabel("","text6.png",INT2(800, 2),45);
+	this->m_AttributeText[3] = new TextLabel("","text6.png",INT2(800*m_changePosY, 2),45*m_fontsize);
 	this->m_AttributeText[3]->setText(m_Attributes[10] +" %"+ "_"+ m_Attributes[11]);
 
-	this->m_waveText = new TextLabel("1","text6.png", INT2(g_graphicsEngine->getScreenSize().x - 45, 60), 70);
-	this->m_livesRemaining = new TextLabel("", "text6.png", INT2(g_graphicsEngine->getScreenSize().x - 210, 330), 55);
+	this->m_waveText = new TextLabel("1","text6.png", INT2(g_graphicsEngine->getScreenSize().x - 45*m_changePosY, 60), 70*m_fontsize);
+	this->m_livesRemaining = new TextLabel("", "text6.png", INT2(g_graphicsEngine->getScreenSize().x - 210*m_changePosY, 330), 55*m_fontsize);
 
+	//}
 	//Shop buttons
 	for(int i = 0; i < 20; i++)
 	{

@@ -53,7 +53,47 @@ void Button::Init(FLOAT2 _ScreenPos,
 	this->m_TextPos.y		=	_TextPos.y;
 	this->m_ID				=	_id;
 	this->m_TextBox			=	_TextBox;
-	this->m_Label			=	new TextLabel(_TextName, "text1.png",INT2(m_TextPos.x, m_TextPos.y),100);
+	int graphics = g_configFile->getScreenSize().y;
+	int windowed = g_configFile->getWindowed();
+	float m_changePosY= 1.0f;
+	float m_fontsize = 1.0f;
+	if (graphics == 1080)
+	{
+		m_changePosY= 1.0f;
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =1.0f;
+		}
+	}
+	if (graphics == 900)
+	{
+		m_changePosY= 0.833333333334f;
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =0.833333333334f;
+		}
+	}
+	if (graphics == 720)
+	{
+		m_changePosY= 0.66666666666667f;
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =0.66666666666667f;
+		}
+	}
+	this->m_Label			=	new TextLabel(_TextName, "text1.png",INT2(m_TextPos.x*m_changePosY, m_TextPos.y),100*m_fontsize);
 	m_Button				=	g_graphicsEngine->createSpriteSheet(this->m_TextureName,m_Pos,m_Size,INT2(3,1),m_Layer);
 	this->m_clickSound		=	createSoundHandle("buttons/PushButton.wav", false, false);
 	this->m_Skill			=	_Skill;

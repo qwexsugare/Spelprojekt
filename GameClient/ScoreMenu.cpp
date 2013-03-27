@@ -11,7 +11,21 @@ ScoreMenu::ScoreMenu(void)
 	m_side.y = 0;
 	m_size.x = g_graphicsEngine->getRealScreenSize().x;
 	m_size.y = g_graphicsEngine->getRealScreenSize().y;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-Settings.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	int graphics = g_configFile->getScreenSize().y;
+	m_graphicstext = "1080";
+	if (graphics == 1080)
+	{
+		m_graphicstext = "1080";
+	}
+	if (graphics == 900)
+	{
+		m_graphicstext = "900";
+	}
+	if (graphics == 720)
+	{
+		m_graphicstext = "720";
+	}
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext+"\\MENU-Settings.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 	m_side.x = (122.0f/m_size.x)*2.0f;
 	m_side.y = (1920.0f/m_size.y)*2.0f;
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Left.png", FLOAT2(-0.94f,0),  FLOAT2(m_side.x,m_side.y),3));

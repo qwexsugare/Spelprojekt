@@ -9,5 +9,7 @@ public:
 		
 	void Update();
 	bool MainMenuGameIsDown();
+private:
+	string m_graphicstext;
 };
 

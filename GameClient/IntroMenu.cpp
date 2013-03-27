@@ -9,9 +9,23 @@ IntroMenu::IntroMenu(void)
 	forthRun	=	false;
 	m_time		=	0;
 	m_counter	=	1;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-INTRO-0.png", FLOAT2(0,  0),  FLOAT2(2, 2),0));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-INTRO-1.png", FLOAT2(0,  0),  FLOAT2(2, 2),0));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-INTRO-2.png", FLOAT2(0,  0),  FLOAT2(2, 2),0));
+	int graphics = g_configFile->getScreenSize().y;
+	m_graphicstext = "1080";
+	if (graphics == 1080)
+	{
+		m_graphicstext = "1080";
+	}
+	if (graphics == 900)
+	{
+		m_graphicstext = "900";
+	}
+	if (graphics == 720)
+	{
+		m_graphicstext = "720";
+	}
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext+"\\MENU-INTRO-0.png", FLOAT2(0,  0),  FLOAT2(2, 2),0));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext+"\\MENU-INTRO-1.png", FLOAT2(0,  0),  FLOAT2(2, 2),0));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext+"\\MENU-INTRO-2.png", FLOAT2(0,  0),  FLOAT2(2, 2),0));
 	this->m_Images[0]->setVisible(false);
 	this->m_Images[1]->setVisible(false);
 	this->m_Images[2]->setVisible(false);

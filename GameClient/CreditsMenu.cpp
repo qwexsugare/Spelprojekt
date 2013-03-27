@@ -4,7 +4,21 @@
 CreditsMenu::CreditsMenu(void)
 {
 	FLOAT2 m_size, m_side; 
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-Credits.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	int graphics = g_configFile->getScreenSize().y;
+	m_graphicstext = "1080";
+	if (graphics == 1080)
+	{
+		m_graphicstext = "1080";
+	}
+	if (graphics == 900)
+	{
+		m_graphicstext = "900";
+	}
+	if (graphics == 720)
+	{
+		m_graphicstext = "720";
+	}
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext+"\\MENU-Credits.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 	m_size.x		=	0;
 	m_size.y		=	0;
 	m_side.x		=	0;

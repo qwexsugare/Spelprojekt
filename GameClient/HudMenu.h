@@ -17,6 +17,7 @@ class HudMenu : public Menu
 {
 private:
 	bool m_done;
+	float m_changePosY;
 	Button* m_menuButton;
 	Button* m_leaveButton;
 	unsigned int m_currentTargetEnemyId;
@@ -87,6 +88,8 @@ private:
 	void UnInit(int _Type);
 
 	void displayShop(bool _visible);
+	float m_fontsize;
+	string m_graphicstext;
 
 	// Sounds
 	int m_sellSkillsSound;

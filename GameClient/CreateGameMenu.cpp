@@ -9,12 +9,57 @@ CreateGameMenu::CreateGameMenu(void)
 	m_WriteIP		=	false;
 	m_WriteName		=	false;
 	m_WriteGame		=	false;
-	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 803), 100));
-	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 862), 100));
-	this->m_Label.push_back(new TextInput("text2.png", INT2(920, 921), 100, 10));
+	int graphics = g_configFile->getScreenSize().y;
+	int windowed = g_configFile->getWindowed();
+	m_changePosY= 1.0f;
+	m_fontsize = 1.0f;
+	m_graphicstext = "1080";
+	if (graphics == 1080)
+	{
+		m_changePosY= 1.0f;
+		m_graphicstext = "1080";
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =1;
+		}
+	}
+	if (graphics == 900)
+	{
+		m_changePosY= 0.833333333334f;
+		m_graphicstext = "900";
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize = 0.833333333334f;
+		}
+	}
+	if (graphics == 720)
+	{
+		m_changePosY = 0.66666666666667f;
+		m_graphicstext = "720";
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize = 0.66666666666667f;
+		}
+	}
+
+	this->m_Label.push_back(new TextInput("text2.png", INT2(920*m_changePosY, 803), 100*m_fontsize));
+	this->m_Label.push_back(new TextInput("text2.png", INT2(920*m_changePosY, 862), 100*m_fontsize));
+	this->m_Label.push_back(new TextInput("text2.png", INT2(920*m_changePosY, 921), 100*m_fontsize, 10));
 	this->m_Label[1]->setText("1337");
 	this->m_Label[2]->setText(g_configFile->getPlayerName());
-	this->m_IPLabel = new TextLabel(sf::IPAddress::GetLocalAddress().ToString(),"text2.png", INT2(920, 800), 100);
+	this->m_IPLabel = new TextLabel(sf::IPAddress::GetLocalAddress().ToString(),"text2.png", INT2(920*m_changePosY, 800), 100*m_fontsize);
 
 	m_size.x		=	0;
 	m_size.y		=	0;
@@ -25,7 +70,7 @@ CreateGameMenu::CreateGameMenu(void)
 	m_side.x		=	(122.0f/m_size.x)*2.0f;
 	m_side.y		=	(1920.0f/m_size.y)*2.0f;
 
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CreateGameMenu.png", FLOAT2(0,  0),  FLOAT2(2, 2),0));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext+"\\MENU-CreateGameMenu.png", FLOAT2(0,  0),  FLOAT2(2, 2),0));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Left.png", FLOAT2(-0.94f,0),  FLOAT2(m_side.x,m_side.y),3));
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
 

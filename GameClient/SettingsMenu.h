@@ -28,5 +28,6 @@ private:
 		m_SoundVolume,
 		m_MusicVolume;
 	bool m_windowed;
+	string m_graphicstext;
 };
 

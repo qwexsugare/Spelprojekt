@@ -12,7 +12,21 @@ SettingsMenu::SettingsMenu()
 	m_side.y = 0;
 	m_size.x = 1920;
 	m_size.y = 1080;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-Settings.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	int graphics = g_configFile->getScreenSize().y;
+	m_graphicstext = "1080";
+	if (graphics == 1080)
+	{
+		m_graphicstext = "1080";
+	}
+	if (graphics == 900)
+	{
+		m_graphicstext = "900";
+	}
+	if (graphics == 720)
+	{
+		m_graphicstext = "720";
+	}
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext+"\\MENU-Settings.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 	m_side.x = (122.0f/m_size.x)*2.0f;
 	m_side.y = (1920.0f/m_size.y)*2.0f;
 	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Left.png", FLOAT2(-0.94f,0),  FLOAT2(m_side.x,m_side.y),3));
@@ -56,7 +70,6 @@ SettingsMenu::SettingsMenu()
 	this->m_soundVolumeSlider.Init(FLOAT2(-0.177083333f, 0.262962963f), g_configFile->getSoundVolume()*0.4f,FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0.0f,0.4f,2,1);
 	this->m_musicVolumeSlider.Init(FLOAT2(-0.177083333f, 0.138888889f), g_configFile->getMusicVolume()*0.4f, FLOAT2(0.026041667f,0.051851852f),"menu_textures\\Arrow-Up.png","",0.0f,0.4f,2,1);
 	
-	int graphics = g_configFile->getScreenSize().y;
 	/*if (graphics == 720)
 	{
 		this->m_Buttons[0]->SetTextBoxValue(true);

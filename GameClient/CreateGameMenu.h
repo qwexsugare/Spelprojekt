@@ -30,5 +30,8 @@ private:
 	bool	m_WriteIP,
 			m_WriteName,
 			m_WriteGame;
+	float	m_changePosY;
+	float	m_fontsize;
+	string	m_graphicstext;
 };
 

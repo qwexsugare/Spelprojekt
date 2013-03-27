@@ -15,5 +15,7 @@ public:
 	bool LoreIsDown();
 	bool CreditsIsDown();
 	bool ExitIsDown();
+private:
+	string m_graphicstext;
 };
 

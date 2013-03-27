@@ -13,8 +13,22 @@ LobbyMenu::LobbyMenu(bool _host)
 	m_Character4 = false;
 	m_String = "";
 	m_Combat = 2;
+	int graphics = g_configFile->getScreenSize().y;
+	m_graphicstext = "1080";
+	if (graphics == 1080)
+	{
+		m_graphicstext = "1080";
+	}
+	if (graphics == 900)
+	{
+		m_graphicstext = "900";
+	}
+	if (graphics == 720)
+	{
+		m_graphicstext = "720";
+	}
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Background2.png", FLOAT2(0,0),  FLOAT2(2,2),0));
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-CharacterMenu-Middleground.png", FLOAT2(0,0), FLOAT2(2,2),1));
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext+"\\MENU-CharacterMenu-Middleground.png", FLOAT2(0,0), FLOAT2(2,2),1));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LobbyMenu-Foreground.dds", FLOAT2(0,0), FLOAT2(2,2),4));
 	FLOAT2 m_size, m_side; 
 	m_size.x = 0;
@@ -31,7 +45,7 @@ LobbyMenu::LobbyMenu(bool _host)
 	m_side.y = (122.0f/m_size.y)*2.0f;
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_UP.png", FLOAT2(0,0.89f),  FLOAT2(m_side.x,m_side.y),4));
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Bottom.png", FLOAT2(0,-0.89f),  FLOAT2(-m_side.x,m_side.y),4));
-	
+
 	this->m_Buttons.resize(14);
 	this->m_Buttons[0] = new Button();
 	this->m_Buttons[0]->Init(FLOAT2(-0.140625f,  -0.89f),FLOAT2(0.272916667f,0.142592593f),"menu_textures\\Button-LobbyMenu-Chat.png","",0,0,2,5);
@@ -143,24 +157,63 @@ LobbyMenu::LobbyMenu(bool _host)
 	//this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\Frame_Right.png", FLOAT2(0.94f,0),  FLOAT2(m_side.x,-m_side.y),3));
 	
 	this->m_slider.Init(FLOAT2(-0.5f, -0.275f), 0.0f, FLOAT2(0.15f,0.3f),"menu_textures\\LobbyMenuSlider.png","", 0.0f, 1.0f, 1, 15);
+	int windowed = g_configFile->getWindowed();
+	m_changePosY= 1.0f;
+	m_fontsize = 1.0f;
+	if (graphics == 1080)
+	{
+		m_changePosY= 1.0f;
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =1;
+		}
+	}
+	if (graphics == 900)
+	{
+		m_changePosY= 0.833333333334f;
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =0.833333333334f;
+		}
+	}
+	if (graphics == 720)
+	{
+		m_changePosY= 0.66666666666667f;
+		if (windowed == 1)
+		{
+			m_fontsize = 1;
+		}
+		else
+		{
+			m_fontsize =0.66666666666667f;
+		}
+	}
 
 	this->m_Label.resize(8);
-	this->m_Label[0] = new TextLabel("","text3.png",INT2(110,205),52);
-	this->m_Label[1] = new TextLabel("","text3.png",INT2(415,855),50);
-	this->m_Label[2] = new TextLabel("","text3.png",INT2(60,120),75);
-	this->m_Label[3] = new TextLabel("","text3.png",INT2(60,500),75);
+	this->m_Label[0] = new TextLabel("","text3.png",INT2(110*m_changePosY,205),52*m_fontsize);
+	this->m_Label[1] = new TextLabel("","text3.png",INT2(415*m_changePosY,855),50*m_fontsize);
+	this->m_Label[2] = new TextLabel("","text3.png",INT2(60*m_changePosY,120),75*m_fontsize);
+	this->m_Label[3] = new TextLabel("","text3.png",INT2(60*m_changePosY,500),75*m_fontsize);
 	this->m_Label[3]->setText("Close combat_");
-	this->m_Label[4] = new TextLabel("","text3.png",INT2(60,160),75);
-	this->m_Label[5] = new TextLabel("NONE____NONE","text3.png",INT2(200,890),60);
-	this->m_Label[6] = new TextLabel("Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500","text3.png",INT2(1550,120),60);
-	this->m_Label[7] = new TextLabel("","text3.png",INT2(60,550),50);
-	this->m_LabelInput = new TextInput("text3.png",INT2(1040,1040),80);
+	this->m_Label[4] = new TextLabel("","text3.png",INT2(60*m_changePosY,160),75*m_fontsize);
+	this->m_Label[5] = new TextLabel("NONE____NONE","text3.png",INT2(200*m_changePosY,890),60*m_fontsize);
+	this->m_Label[6] = new TextLabel("Level 1__MAPSIZE_SMALL__WAVES_20__STARTING DIVINE POWER_1500","text3.png",INT2(1550*m_changePosY,120),60*m_fontsize);
+	this->m_Label[7] = new TextLabel("","text3.png",INT2(60*m_changePosY,550),50*m_fontsize);
+	this->m_LabelInput = new TextInput("text3.png",INT2(1040*m_changePosY,1040),80*m_fontsize);
 	this->m_Chattext.resize(5);
-	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1040,980),60);
-	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1040,950),60);
-	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1040,920),60);
-	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1040,890),60);
-	this->m_Chattext[4] = new TextLabel("","text2.png",INT2(1040,860),60);
+	this->m_Chattext[0] = new TextLabel("","text2.png",INT2(1040*m_changePosY,980),60*m_fontsize);
+	this->m_Chattext[1] = new TextLabel("","text2.png",INT2(1040*m_changePosY,950),60*m_fontsize);
+	this->m_Chattext[2] = new TextLabel("","text2.png",INT2(1040*m_changePosY,920),60*m_fontsize);
+	this->m_Chattext[3] = new TextLabel("","text2.png",INT2(1040*m_changePosY,890),60*m_fontsize);
+	this->m_Chattext[4] = new TextLabel("","text2.png",INT2(1040*m_changePosY,860),60*m_fontsize);
 	this->m_Buttons[6]->SetTextBoxValue(true);
 	this->m_Buttons[7]->SetTextBoxValue(false);
 }

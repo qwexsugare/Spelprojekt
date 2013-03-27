@@ -6,7 +6,21 @@ LoreMenu::LoreMenu(void)
 	ThisPage = 0;
 	Change = false;
 	m_Play = false;
-	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-0.png", FLOAT2(0,0),  FLOAT2(2,2),0));
+	int graphics = g_configFile->getScreenSize().y;
+	m_graphicstext = "1080";
+	if (graphics == 1080)
+	{
+		m_graphicstext = "1080";
+	}
+	if (graphics == 900)
+	{
+		m_graphicstext = "900";
+	}
+	if (graphics == 720)
+	{
+		m_graphicstext = "720";
+	}
+	this->m_Images.push_back(g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext +"\\MENU-LORE-0.png", FLOAT2(0,0),  FLOAT2(2,2),0));
 	this->m_Reading.push_back(createSoundHandle("lorebook/Introduction.wav", false, false));
 	this->m_Reading.push_back(createSoundHandle("lorebook/Gathering.wav", false, false));
 	this->m_Reading.push_back(createSoundHandle("lorebook/TheWorld.wav", false, false));
@@ -132,7 +146,7 @@ void LoreMenu::ChangeStates()
 		ss << ThisPage;
 
 		g_graphicsEngine->removeSprite( m_Images[0]);
-		this->m_Images[0] = g_graphicsEngine->createSprite("menu_textures\\MENU-LORE-" +ss.str()+ ".png", FLOAT2(0,0),  FLOAT2(2,2),0);
+		this->m_Images[0] = g_graphicsEngine->createSprite("menu_textures\\"+m_graphicstext +"\\MENU-LORE-" +ss.str()+ ".png", FLOAT2(0,0),  FLOAT2(2,2),0);
 	}
 	Change = false;
 }

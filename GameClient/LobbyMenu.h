@@ -73,6 +73,8 @@ private:
 	int m_Counter,
 		m_Combat;
 	string m_String;
-	
+	float m_changePosY;
+	float m_fontsize;
+	string m_graphicstext;
 };
 

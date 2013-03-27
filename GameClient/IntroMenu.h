@@ -17,5 +17,6 @@ private:
 	bool firstRun;
 	bool secondRun;
 	bool thirdRun;
+	string m_graphicstext;
 };
 

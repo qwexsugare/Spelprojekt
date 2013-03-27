@@ -18,7 +18,7 @@ public:
 	bool ReadLoreIsDown();
 	void Update();
 	void ChangeStates();
-
+	string m_graphicstext;
 private:
 	vector<TextLabel*> m_Label;
 };
