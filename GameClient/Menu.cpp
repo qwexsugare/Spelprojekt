@@ -33,3 +33,11 @@ Menu::~Menu()
 	}
 	this->m_Images.clear();
 }
+void Menu::deleteImages()
+{
+	for(int i = 0; i < this->m_Images.size(); i++)
+	{
+		g_graphicsEngine->removeSprite(this->m_Images[i]);
+	}
+	this->m_Images.clear();
+}

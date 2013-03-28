@@ -15,6 +15,7 @@ class Menu
 public:
 	Menu();
 	virtual ~Menu();
+	void deleteImages();
 
 protected:
 	vector<Button*>			m_Buttons;
