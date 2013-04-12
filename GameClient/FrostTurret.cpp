@@ -52,7 +52,7 @@ void FrostTurret::updateSpecificTurret(float _dt)
 			{
 				this->m_messageQueue->pushOutgoingMessage(new UpdateEntityMessage(
 					this->m_id, this->m_position.x, this->m_position.z, this->m_rotation.x, this->m_position.x, this->m_position.z, this->m_position.x, this->m_position.z, 0.0f));
-				m_updateRotLimiter = 0.2f;
+				m_updateRotLimiter = 0.1f;
 			}
 		}
 	}
