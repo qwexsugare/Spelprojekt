@@ -9,9 +9,10 @@ GraphicsHandler::GraphicsHandler()
 GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 {
 	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile->getWindowed(), _configFile->getScreenSize());
-	this->m_world = new World(this->m_deviceHandler, _hWnd, _configFile->getWindowed());
+	this->m_world = new World(this->m_deviceHandler, _hWnd, _configFile->getWindowed(), _configFile->getShadowMapResolution());
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
 	this->m_windowed = _configFile->getWindowed();
+	this->m_shadowMapResolution = _configFile->getShadowMapResolution();
 	
 	this->m_configScreenSize = _configFile->getScreenSize();
 
@@ -267,7 +268,16 @@ bool GraphicsHandler::removeSpriteSheet(SpriteSheet *spriteSheet)
 
 PointLight *GraphicsHandler::createPointLight(FLOAT3 position, FLOAT3 la, FLOAT3 ld, FLOAT3 ls, float radius, bool shadow, bool _static, FLOAT3 _shadowOffset)
 {
-	PointLight *l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, shadow, _shadowOffset);
+	PointLight *l;
+
+	if(shadow == true)
+	{
+		l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, this->m_shadowMapResolution, _shadowOffset);
+	}
+	else
+	{
+		l = new PointLight(this->m_deviceHandler->getDevice(), position, la, ld, ls, radius, 0, _shadowOffset);
+	}
 
 	if(this->m_world->addPointLight(l, _static) == false)
 	{

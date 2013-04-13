@@ -23,6 +23,7 @@ private:
 	INT2 m_configScreenSize;
 	INT2 m_realScreenSize;
 	bool m_windowed;
+	int m_shadowMapResolution;
 	Text* m_fpsText;
 
 	bool m_running;

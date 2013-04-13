@@ -12,6 +12,7 @@ ConfigFile::ConfigFile()
 	this->m_musicVolume = DEFAULT_MUSIC_VOLUME;
 	this->m_soundVolume = DEFAULT_SOUND_EFFECTS_VOLUME;
 	this->m_playerName = DEFAULT_PLAYER_NAME;
+	this->m_shadowMapResolution = DEFAULT_SHADOW_MAP_RESOLUTION;
 }
 
 ConfigFile::~ConfigFile()
@@ -32,6 +33,11 @@ INT2 ConfigFile::getScreenSize()const
 bool ConfigFile::getWindowed()const
 {
 	return this->m_windowed;
+}
+
+int ConfigFile::getShadowMapResolution()const
+{
+	return this->m_shadowMapResolution;
 }
 
 void ConfigFile::load()
@@ -77,6 +83,12 @@ void ConfigFile::load()
 				string pn(buf);
 				m_playerName = pn.substr(12, string::npos);
 			}
+			else if(strcmp(key, "shadow_map") == 0)
+			{
+				int s;
+				sscanf(buf, "shadow_map %d", &s);
+				this->m_shadowMapResolution = s;
+			}
 		}
 	}
 
@@ -98,7 +110,8 @@ void ConfigFile::save()
 		<< "windowed " << windowedToFile << endl
 		<< "music_volume " << m_musicVolume << endl
 		<< "sound_volume " << m_soundVolume << endl
-		<< "player_name " << m_playerName;
+		<< "player_name " << m_playerName << endl
+		<< "shadow_map " << this->m_shadowMapResolution;
 }
 
 void ConfigFile::setPlayerName(string _name)
@@ -109,4 +122,9 @@ void ConfigFile::setPlayerName(string _name)
 void ConfigFile::setWindowed(bool _windowed)
 {
 	m_windowed = _windowed;
+}
+
+void ConfigFile::setShadowMapResolution(int _shadowMapResolution)
+{
+	this->m_shadowMapResolution = _shadowMapResolution;
 }

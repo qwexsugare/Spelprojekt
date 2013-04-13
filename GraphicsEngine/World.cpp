@@ -5,7 +5,7 @@ World::World()
 	m_quadTree = NULL;
 }
 
-World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
+World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed, int _shadowMapResolution)
 {
 	this->m_deviceHandler = _deviceHandler;
 	this->m_spritesMiddle = vector<SpriteBase*>();
@@ -67,8 +67,8 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed)
 	m_glowViewport.TopLeftX = 0;
 	m_glowViewport.TopLeftY = 0;
 	
-	m_shadowMapViewport.Width = 512;
-	m_shadowMapViewport.Height = 512;
+	m_shadowMapViewport.Width = _shadowMapResolution;
+	m_shadowMapViewport.Height = _shadowMapResolution;
 	m_shadowMapViewport.MinDepth = 0.0f;
 	m_shadowMapViewport.MaxDepth = 1.0f;
 	m_shadowMapViewport.TopLeftX = 0;
