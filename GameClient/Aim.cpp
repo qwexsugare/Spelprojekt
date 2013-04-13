@@ -10,8 +10,6 @@ Aim::Aim(unsigned int _senderId) : Skill(Skill::AIM, 0.0f)
 		UnitEntity* ue = (UnitEntity*)e;
 		ue->alterAttackSpeed(0.15f);
 	}
-	
-	int i = 0;
 }
 
 Aim::~Aim()
