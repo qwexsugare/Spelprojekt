@@ -9,10 +9,10 @@ Shade::Shade(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::SHADE)
 
 	m_basePhysicalResistance = 0.02f;
 	m_mentalResistance = m_baseMentalResistance;
-	this->increaseStrength(4);
-	this->increaseAgility(3);
+	this->increaseStrength(4+(g_configFile->getLevelMode()));
+	this->increaseAgility(3+(g_configFile->getLevelMode()-1));
 	this->increaseWits(0);
-	this->increaseFortitude(1);
+	this->increaseFortitude(1+(g_configFile->getLevelMode()-1));
 
 
 	m_lowResource = 30+20;

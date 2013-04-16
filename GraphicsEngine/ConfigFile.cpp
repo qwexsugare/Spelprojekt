@@ -3,6 +3,7 @@
 
 const float ConfigFile::DEFAULT_SOUND_EFFECTS_VOLUME = 1.0f;
 const float ConfigFile::DEFAULT_MUSIC_VOLUME = 1.0f;
+const float ConfigFile::DEFAULT_SPEECH_VOLUME = 1.0f;
 const string ConfigFile::DEFAULT_PLAYER_NAME = "Player";
 
 ConfigFile::ConfigFile()
@@ -11,7 +12,14 @@ ConfigFile::ConfigFile()
 	this->m_screenSize = INT2(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 	this->m_musicVolume = DEFAULT_MUSIC_VOLUME;
 	this->m_soundVolume = DEFAULT_SOUND_EFFECTS_VOLUME;
+	this->m_speechVolume = DEFAULT_SPEECH_VOLUME;
 	this->m_playerName = DEFAULT_PLAYER_NAME;
+	this->m_emilMode = DEFAULT_EMILMODE;
+	this->m_levelMode = DEFAULT_LEVELMODE;
+	this->m_diffuse = DEFAULT_DIFFUSE;
+	this->m_shadowmap = DEFAULT_SHADOWMAP;
+	this->m_SSAO = DEFAULT_SSAO;
+	this->m_textureQuality = DEFAULT_TEXTUREQUALITY;
 }
 
 ConfigFile::~ConfigFile()
@@ -53,6 +61,30 @@ void ConfigFile::load()
 				sscanf(buf, "windowed %d", &temp);
 				this->m_windowed = temp;
 			}
+			if(strcmp(key, "texture_quality") == 0)
+			{
+				int temp;
+				sscanf(buf, "texture_quality %d", &temp);
+				this->m_textureQuality = temp;
+			}
+			if(strcmp(key, "ssao") == 0)
+			{
+				int temp;
+				sscanf(buf, "ssao %d", &temp);
+				this->m_SSAO = temp;
+			}
+			if(strcmp(key, "shadowmap") == 0)
+			{
+				int temp;
+				sscanf(buf, "shadowmap %d", &temp);
+				this->m_shadowmap = temp;
+			}
+			if(strcmp(key, "diffuse") == 0)
+			{
+				int temp;
+				sscanf(buf, "diffuse %d", &temp);
+				this->m_diffuse = temp;
+			}
 			else if(strcmp(key, "resolution") == 0)
 			{
 				int x, y;
@@ -67,6 +99,22 @@ void ConfigFile::load()
 			else if(strcmp(key, "sound_volume") == 0)
 			{
 				sscanf(buf, "sound_volume %f", &this->m_soundVolume);
+			}
+			else if(strcmp(key, "speech_volume") == 0)
+			{
+				sscanf(buf, "speech_volume %f", &this->m_speechVolume);
+			}
+			if(strcmp(key, "level_mode") == 0)
+			{
+				int temp;
+				sscanf(buf, "level_mode %d", &temp);
+				this->m_levelMode = temp;
+			}
+			if(strcmp(key, "emil_mode") == 0)
+			{
+				int temp;
+				sscanf(buf, "emil_mode %d", &temp);
+				this->m_emilMode = temp;
 			}
 			else if(strcmp(key, "player_name") == 0)
 			{
@@ -96,8 +144,15 @@ void ConfigFile::save()
 
 	stream << "resolution " << m_screenSize.x << " " << m_screenSize.y << endl
 		<< "windowed " << windowedToFile << endl
+		<< "texture_quality " << m_textureQuality << endl
+		<< "ssao " << m_SSAO << endl
+		<< "shadowmap " << m_shadowmap << endl
+		<< "diffuse " << m_diffuse << endl
 		<< "music_volume " << m_musicVolume << endl
 		<< "sound_volume " << m_soundVolume << endl
+		<< "speech_volume " << m_speechVolume << endl
+		<< "level_mode " << m_levelMode << endl
+		<< "emil_mode " << m_emilMode << endl
 		<< "player_name " << m_playerName;
 }
 
@@ -109,4 +164,28 @@ void ConfigFile::setPlayerName(string _name)
 void ConfigFile::setWindowed(bool _windowed)
 {
 	m_windowed = _windowed;
+}
+void ConfigFile::setSSAO(bool _SSAO)
+{
+	m_SSAO = _SSAO;
+}
+void ConfigFile::setShadowmap(int _shadowmap)
+{
+	m_shadowmap = _shadowmap;
+}
+void ConfigFile::setTextureQuality(int _textureQuality)
+{
+	m_textureQuality = _textureQuality;
+}
+void ConfigFile::setLevelMode(int _levelMode)
+{
+	m_levelMode = _levelMode;
+}
+void ConfigFile::setEmilMode(bool _emilMode)
+{
+	m_emilMode = _emilMode;
+}
+void ConfigFile::setDiffuseMode(bool _diffuse)
+{
+	m_diffuse = _diffuse;
 }

@@ -19,6 +19,8 @@ ServerThread::ServerThread(int _port, string _mapName) : sf::Thread()
 	// I crapped in ass
 	this->m_network->broadcast(NetworkEntityMessage());
 	TowerPlacer::init();
+	this->m_EMILMODE = g_configFile->getEmilMode();
+	this->m_levelMode = g_configFile->getLevelMode();
 }
 
 ServerThread::~ServerThread()
@@ -163,7 +165,14 @@ void ServerThread::update(float dt)
 				for(int i = 0; i < players.size(); i++)
 				{
 					players[i]->spawnHero(this->m_mapHandler->getPlayerPosition(players[i]->getSelectedHeroType()));
-					players[i]->addResources(this->m_mapHandler->getDemonCoins());
+					if (m_EMILMODE == TRUE)
+					{
+						players[i]->addResources(this->m_mapHandler->getDemonCoins()*(4/players.size())+1);
+					}
+					if (m_EMILMODE == FALSE)
+					{
+						players[i]->addResources(this->m_mapHandler->getDemonCoins());
+					}
 					ids.push_back(players[i]->getHero()->getId());
 					heroTypes.push_back(players[i]->getHero()->getHeroType());
 					players[i]->setReady(false);
@@ -240,9 +249,14 @@ void ServerThread::update(float dt)
 
 				for(int i = 0; i < this->m_network->getPlayers().size(); i++)
 				{
-					this->m_network->getPlayers()[i]->addResources(edm->resources);
-					
-
+					if (m_EMILMODE == TRUE)
+					{
+						this->m_network->getPlayers()[i]->addResources(edm->resources*(4/this->m_network->getPlayers().size())+1);
+					}
+					if (m_EMILMODE == FALSE)
+					{
+						this->m_network->getPlayers()[i]->addResources(edm->resources);
+					}
 					if(this->m_network->getPlayers()[i]->getHero()->getId() == edm->killerId)
 					{
 						Statistics::getStatisticsPlayer(this->m_network->getPlayers()[i]->getId()).increaseDeamonsKilled();

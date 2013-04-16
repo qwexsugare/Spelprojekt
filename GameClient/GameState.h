@@ -46,16 +46,16 @@ private:
 	// Sounds
 	AmbientSoundsManager m_ambientSoundsManager;
 	int m_lowHealthSound;
-	static const int LOW_HEALTH_SOUND_DELAY = 10;
+	static const int LOW_HEALTH_SOUND_DELAY = 15;
 	float m_lowHealthSoundDelayTimer;
 	int m_idleSound;
 	static const int NR_OF_ATTACK_SOUNDS = 3;
 	int m_attackSounds[NR_OF_ATTACK_SOUNDS];
-	static const int ATTACK_SOUND_DELAY = 5;
+	static const int ATTACK_SOUND_DELAY = 30;
 	float m_attackSoundTimer;
 	static const int NR_OF_MOVE_SOUNDS = 4;
 	int m_moveSounds[NR_OF_MOVE_SOUNDS];
-	static const int MOVE_SOUND_DELAY = 10;
+	static const int MOVE_SOUND_DELAY = 30;
 	float m_moveSoundTimer;
 	vector<int> m_timeIsMoneySounds;
 	int m_churchSound;

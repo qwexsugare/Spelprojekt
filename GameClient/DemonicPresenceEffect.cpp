@@ -1,7 +1,7 @@
 #include "DemonicPresenceEffect.h"
 #include "EntityHandler.h"
 
-const float DemonicPresenceEffect::ATTACK_SPEED_BOOST = 0.75f;
+const float DemonicPresenceEffect::ATTACK_SPEED_BOOST = 0.25f;
 const float DemonicPresenceEffect::MOVEMENT_SPEED_BOOST = 0.5f;
 vector<unsigned int> DemonicPresenceEffect::m_affectedGuys;
 

@@ -8,10 +8,10 @@ BruteSteed::BruteSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::
 				    
 	m_baseMentalResistance =1.00f - 0.50f;
 	m_mentalResistance = m_baseMentalResistance;
-	this->increaseStrength(2);
-	this->increaseAgility(2);
+	this->increaseStrength(2+(g_configFile->getLevelMode()-1));
+	this->increaseAgility(2+(g_configFile->getLevelMode()*2));
 	this->increaseWits(1);
-	this->increaseFortitude(8);
+	this->increaseFortitude(8+(g_configFile->getLevelMode()*2));
 				    
 	m_lowResource    = 90+20;
 	m_highRescource  = 100+20;

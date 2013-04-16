@@ -259,8 +259,29 @@ bool Pathfinder::walkableDistance(Position p1, Position p2)
 	{
 		Position p;
 		p.setXY(xr+p1.getX()+0.5,yr+p1.getY()+0.5);
-		if(this->map.getNode(p)->isWall())
-			walkable=false;
+		if(this->map.isValidPosition(p))
+			if(this->map.getNode(p)->isWall())
+				walkable=false;
+
+		p.setXY(xr+p1.getX()+1.5,yr+p1.getY()+1.5);
+		if(this->map.isValidPosition(p))
+			if(this->map.getNode(p)->isWall())
+				walkable=false;
+
+		p.setXY(xr+p1.getX()+1.5,yr+p1.getY()-0.5);
+		if(this->map.isValidPosition(p))
+			if(this->map.getNode(p)->isWall())
+				walkable=false;
+
+		p.setXY(xr+p1.getX()-0.5,yr+p1.getY()-0.5);
+		if(this->map.isValidPosition(p))
+			if(this->map.getNode(p)->isWall())
+				walkable=false;
+
+		p.setXY(xr+p1.getX()-0.5,yr+p1.getY()+1.5);
+		if(this->map.isValidPosition(p))
+			if(this->map.getNode(p)->isWall())
+				walkable=false;
 
 		limiter+=rDistance;
 

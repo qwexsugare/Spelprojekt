@@ -27,7 +27,8 @@ private:
 	MessageQueue *m_messageQueue;
 	State m_state;
 	int m_port;
-
+	bool m_EMILMODE;
+	int m_levelMode;
 	void Run();
 	void update(float dt);
 	string mapName;

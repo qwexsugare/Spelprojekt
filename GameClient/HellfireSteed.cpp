@@ -7,10 +7,10 @@ HellfireSteed::HellfireSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Enemy
 	m_modelId        = 86;
 
 	
-	this->increaseStrength(4);
-	this->increaseAgility(3);
+	this->increaseStrength(4+(g_configFile->getLevelMode()*2));
+	this->increaseAgility(3+(g_configFile->getLevelMode()-1));
 	this->increaseWits(1);
-	this->increaseFortitude(3);
+	this->increaseFortitude(3+(g_configFile->getLevelMode()-1));
 
 	m_lowResource    = 70+20;
 	m_highRescource  = 80+20;

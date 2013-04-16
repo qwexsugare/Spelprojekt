@@ -7,10 +7,10 @@ SoulEaterSteed::SoulEaterSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Ene
 {
 	m_modelId        = 84;
 				     
-	this->increaseStrength(6);
+	this->increaseStrength(6+(g_configFile->getLevelMode()-1));
 	this->increaseAgility(1);
-	this->increaseWits(0);
-	this->increaseFortitude(3);
+	this->increaseWits(0+(g_configFile->getLevelMode()));
+	this->increaseFortitude(3+(g_configFile->getLevelMode()*2));
 
 	m_lowResource    = 60+20;
 	m_highRescource  = 70+20;

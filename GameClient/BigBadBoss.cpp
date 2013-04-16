@@ -10,10 +10,10 @@ BigBadBoss::BigBadBoss(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 	//89
 	//this->m_weaponType = WEAPON_TYPE::AOE;
 	this->m_weaponType = WEAPON_TYPE::NO_WEAPON;
-	this->increaseStrength(10);
-	this->increaseAgility(5);
-	this->increaseWits(8);    
-	this->increaseFortitude(12);
+	this->increaseStrength(10+(g_configFile->getLevelMode()*2));
+	this->increaseAgility(5+(g_configFile->getLevelMode()*2));
+	this->increaseWits(8+(g_configFile->getLevelMode()*2));    
+	this->increaseFortitude(12+(g_configFile->getLevelMode()*3));
 
 	m_lowResource = 2000;
 	m_highRescource = 3000;
