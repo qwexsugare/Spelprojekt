@@ -15,6 +15,7 @@ ConfigFile::ConfigFile()
 	this->m_speechVolume = DEFAULT_SPEECH_VOLUME;
 	this->m_playerName = DEFAULT_PLAYER_NAME;
 	this->m_emilMode = DEFAULT_EMILMODE;
+	this->m_shadowMapResolution = DEFAULT_SHADOW_MAP_RESOLUTION;
 	this->m_levelMode = DEFAULT_LEVELMODE;
 	this->m_diffuse = DEFAULT_DIFFUSE;
 	this->m_shadowmap = DEFAULT_SHADOWMAP;
@@ -40,6 +41,11 @@ INT2 ConfigFile::getScreenSize()const
 bool ConfigFile::getWindowed()const
 {
 	return this->m_windowed;
+}
+
+int ConfigFile::getShadowMapResolution()const
+{
+	return this->m_shadowMapResolution;
 }
 
 void ConfigFile::load()
@@ -125,6 +131,12 @@ void ConfigFile::load()
 				string pn(buf);
 				m_playerName = pn.substr(12, string::npos);
 			}
+			else if(strcmp(key, "shadow_map") == 0)
+			{
+				int s;
+				sscanf(buf, "shadow_map %d", &s);
+				this->m_shadowMapResolution = s;
+			}
 		}
 	}
 
@@ -150,10 +162,11 @@ void ConfigFile::save()
 		<< "diffuse " << m_diffuse << endl
 		<< "music_volume " << m_musicVolume << endl
 		<< "sound_volume " << m_soundVolume << endl
+		<< "player_name " << m_playerName << endl
+		<< "shadow_map " << this->m_shadowMapResolution;
 		<< "speech_volume " << m_speechVolume << endl
 		<< "level_mode " << m_levelMode << endl
 		<< "emil_mode " << m_emilMode << endl
-		<< "player_name " << m_playerName;
 }
 
 void ConfigFile::setPlayerName(string _name)
@@ -169,6 +182,10 @@ void ConfigFile::setSSAO(bool _SSAO)
 {
 	m_SSAO = _SSAO;
 }
+
+void ConfigFile::setShadowMapResolution(int _shadowMapResolution)
+{
+	this->m_shadowMapResolution = _shadowMapResolution;
 void ConfigFile::setShadowmap(int _shadowmap)
 {
 	m_shadowmap = _shadowmap;

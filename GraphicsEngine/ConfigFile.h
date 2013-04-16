@@ -18,6 +18,7 @@ private:
 	float m_soundVolume;
 	float m_speechVolume;
 	string m_playerName;
+	int m_shadowMapResolution;
 public:
 	static const int DEFAULT_SCREEN_WIDTH = 1920;
 	static const int DEFAULT_SCREEN_HEIGHT = 1080;
@@ -32,6 +33,7 @@ public:
 	static const int DEFAULT_TEXTUREQUALITY = 2;
 	static const int DEFAULT_SHADOWMAP = 2;
 	static const string DEFAULT_PLAYER_NAME;
+	static const int DEFAULT_SHADOW_MAP_RESOLUTION = 512;
 
 	ConfigFile();
 	~ConfigFile();
@@ -42,6 +44,7 @@ public:
 	string getPlayerName()const;
 	float getSoundVolume()const { return this->m_soundVolume; }
 	float getSpeechVolume()const { return this->m_speechVolume; }
+	int getShadowMapResolution()const;
 	bool getSSAO()const {return this->m_SSAO;}
 	bool getDiffuseMode()const {return this->m_diffuse;}
 	bool getEmilMode()const {return this->m_emilMode;}
@@ -55,6 +58,7 @@ public:
 	void setScreenSize(INT2	_size) { m_screenSize = _size; }
 	void setWindowed(bool _windowed);
 	void setSSAO(bool _SSAO);
+	void setShadowMapResolution(int _shadowMapResolution);
 	void setShadowmap(int _shadowmap);
 	void setTextureQuality(int _textureQuality);
 	void setLevelMode(int _levelMode);

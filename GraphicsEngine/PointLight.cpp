@@ -8,9 +8,8 @@ PointLight::PointLight()
 	this->m_ls = FLOAT3(0.0f, 0.0f, 0.0f);
 }
 
-PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius, bool _shadow, FLOAT3 _shadowOffset)
-{
-	this->m_shadow = _shadow;
+PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOAT3 _ld, FLOAT3 _ls, float _radius, int _shadowMapResolution, FLOAT3 _shadowOffset)
+{	 
 	this->m_position = _position;
 	this->m_la = _la;
 	this->m_ld = _ld;
@@ -20,10 +19,23 @@ PointLight::PointLight(ID3D10Device* _device, FLOAT3 _position, FLOAT3 _la, FLOA
 	this->m_boundingSphere = new DirectX::BoundingSphere(DirectX::XMFLOAT3(this->m_position.x, this->m_position.y, this->m_position.z), this->m_radius);
 
 	//Create shadowmaps
-
-	for(int i = 0; i < 6; i++)
+	if(_shadowMapResolution > 0)
 	{
-		this->m_shadowMaps[i] = new DepthStencil(_device, INT2(512, 512), false);
+		this->m_shadow = true;
+
+		for(int i = 0; i < 6; i++)
+		{
+			this->m_shadowMaps[i] = new DepthStencil(_device, INT2(_shadowMapResolution, _shadowMapResolution), false);
+		}
+	}
+	else
+	{
+		this->m_shadow = false;
+
+		for(int i = 0; i < 6; i++)
+		{
+			this->m_shadowMaps[i] = NULL;
+		}
 	}
 
 	this->setPosition(this->m_position, _shadowOffset);
