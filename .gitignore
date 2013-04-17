@@ -4114,3 +4114,12 @@ GameClient/menu_textures/900/MENU-LORE-8.png
 GameClient/menu_textures/900/MENU-LORE-9.png
 GameClient/menu_textures/900/MENU-MainBack.png
 GameClient/menu_textures/900/MENU-Settings.png
+GameClient/menu_textures/Button_EASY.png
+GameClient/menu_textures/Button_HARD.png
+GameClient/menu_textures/Button_HIGH.png
+GameClient/menu_textures/Button_LOW.png
+GameClient/menu_textures/Button_MEDIUM.png
+GameClient/menu_textures/Button_NORMAL.png
+GameClient/models/Beast/idle.BFishA
+GameClient/software/msvs2012_redist_x86.exe
+GameClient/software/oalinst.exe
