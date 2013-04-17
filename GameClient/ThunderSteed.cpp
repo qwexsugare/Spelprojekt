@@ -8,9 +8,9 @@ ThunderSteed::ThunderSteed(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyTy
 	m_modelId        = 87;
 
 	this->increaseStrength(0);
-	this->increaseAgility(5);
-	this->increaseWits(2);
-	this->increaseFortitude(5);
+	this->increaseAgility(5+(g_configFile->getLevelMode()*2));
+	this->increaseWits(2+(g_configFile->getLevelMode()*2));
+	this->increaseFortitude(5+(g_configFile->getLevelMode()-1));
 
 	m_lowResource    = 80+20;
 	m_highRescource  = 90+20;

@@ -7,9 +7,9 @@ SpittingDemon::SpittingDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, Enemy
 	m_modelId        = 83;
 	
 	this->increaseStrength(0);
-	this->increaseAgility(7);
-	this->increaseWits(4);
-	this->increaseFortitude(1);
+	this->increaseAgility(7+(g_configFile->getLevelMode()-1));
+	this->increaseWits(4+(g_configFile->getLevelMode()-1));
+	this->increaseFortitude(1+g_configFile->getLevelMode());
 
 	m_lowResource    = 40+20;
 	m_highRescource  = 50+20;

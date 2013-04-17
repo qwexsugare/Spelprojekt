@@ -47,6 +47,11 @@ void setSoundVolume(float _value)
 {
 	g_soundEngine->setSoundVolume(_value);
 }
+void setSpeechVolume(float _value)
+{
+	// till Markus från Emil ha kul =)
+	//g_soundEngine->setSpeechVolume(_value);
+}
 
 void setSoundVolume(int _handle, float _volume)
 {

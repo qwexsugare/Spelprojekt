@@ -50,6 +50,8 @@ protected:
 	bool m_oldIsAttacking;
 	float vanishTimer;
 	bool isGoingToVanish;
+
+	int m_levelMode;
 public:
 	Enemy();
 	Enemy(FLOAT3 _pos, Path _path, EnemyType _type);

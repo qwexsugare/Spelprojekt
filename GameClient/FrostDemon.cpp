@@ -8,9 +8,9 @@ FrostDemon::FrostDemon(FLOAT3 _pos, Path _path) : Enemy(_pos, _path, EnemyType::
 	m_modelId = 80;
 
 	this->increaseStrength(1);
-	this->increaseAgility(3);
-	this->increaseWits(3);    
-	this->increaseFortitude(2);
+	this->increaseAgility(3+(g_configFile->getLevelMode()-1));
+	this->increaseWits(3+(g_configFile->getLevelMode()-1));    
+	this->increaseFortitude(2+(g_configFile->getLevelMode()-1));
 
 	m_lowResource = 50+20;
 	m_highRescource = 60+20;

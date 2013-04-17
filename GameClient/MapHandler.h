@@ -33,9 +33,9 @@ private:
 	float m_waveTimer;
 	float m_enemySpawnTimer;
 	int m_currentWave;
-
+	int m_levelMode;
 	int m_lives;
-
+	bool m_EMILMODE;
 	int m_gridHeight;
 	int m_gridWidth;
 	bool** m_grid;

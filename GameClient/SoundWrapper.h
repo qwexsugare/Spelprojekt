@@ -22,6 +22,8 @@ void setMusicVolume(float _value);
 
 void setSoundVolume(float _value);
 
+void setSpeechVolume(float _value);
+
 void setSoundVolume(int _handle, float _volume);
 
 void stopSound(int _handle);

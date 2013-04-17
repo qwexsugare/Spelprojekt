@@ -15,9 +15,9 @@ MindReaver::MindReaver(FLOAT3 _pos):Enemy(_pos,EnemyType::BOSS)
 
 	m_health = 1000; 
 	m_maxHealth=m_health;
-	this->increaseAgility(10);
-	this->increaseWits(16);    
-	this->increaseFortitude(4);
+	this->increaseAgility(10+(g_configFile->getLevelMode()*2));
+	this->increaseWits(16+(g_configFile->getLevelMode()*2));    
+	this->increaseFortitude(4+g_configFile->getLevelMode()*2);
 
 	m_lowResource = 2000;
 	m_highRescource = 3000;

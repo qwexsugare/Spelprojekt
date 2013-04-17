@@ -8,9 +8,9 @@ Imp::Imp(FLOAT3 _pos, Path _path) : Enemy(_pos,_path, EnemyType::IMP)
 	
 	
 	m_baseMentalResistance = 1.00f - 0.5f;
-	this->increaseStrength(2);
-	this->increaseAgility(7);
-	this->increaseWits(0);
+	this->increaseStrength(2+(g_configFile->getLevelMode()-1));
+	this->increaseAgility(7+(g_configFile->getLevelMode()));
+	this->increaseWits(0+(g_configFile->getLevelMode()));
 	this->increaseFortitude(1);
 
 
