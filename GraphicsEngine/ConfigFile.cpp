@@ -198,14 +198,17 @@ void ConfigFile::setTextureQuality(int _textureQuality)
 {
 	m_textureQuality = _textureQuality;
 }
+
 void ConfigFile::setLevelMode(int _levelMode)
 {
 	m_levelMode = _levelMode;
 }
+
 void ConfigFile::setEmilMode(bool _emilMode)
 {
 	m_emilMode = _emilMode;
 }
+
 void ConfigFile::setDiffuseMode(bool _diffuse)
 {
 	m_diffuse = _diffuse;
