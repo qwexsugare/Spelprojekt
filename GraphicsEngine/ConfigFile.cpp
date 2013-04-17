@@ -25,7 +25,7 @@ ConfigFile::ConfigFile()
 
 ConfigFile::~ConfigFile()
 {
-	//
+
 }
 
 string ConfigFile::getPlayerName()const
