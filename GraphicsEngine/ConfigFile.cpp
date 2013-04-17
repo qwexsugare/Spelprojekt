@@ -25,7 +25,7 @@ ConfigFile::ConfigFile()
 
 ConfigFile::~ConfigFile()
 {
-
+	// random comment delete if you want
 }
 
 string ConfigFile::getPlayerName()const
