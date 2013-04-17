@@ -54,6 +54,7 @@ DeviceHandler::~DeviceHandler()
 {
 	if(this->m_swapChain)
 	{
+		m_swapChain->SetFullscreenState(FALSE, NULL);
 		this->m_swapChain->Release();
 	}
 	if(this->m_device)
