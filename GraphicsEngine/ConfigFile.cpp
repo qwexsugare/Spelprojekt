@@ -178,6 +178,7 @@ void ConfigFile::setWindowed(bool _windowed)
 {
 	m_windowed = _windowed;
 }
+
 void ConfigFile::setSSAO(bool _SSAO)
 {
 	m_SSAO = _SSAO;
@@ -187,10 +188,12 @@ void ConfigFile::setShadowMapResolution(int _shadowMapResolution)
 {
 	this->m_shadowMapResolution = _shadowMapResolution;
 }
+
 void ConfigFile::setShadowmap(int _shadowmap)
 {
 	m_shadowmap = _shadowmap;
 }
+
 void ConfigFile::setTextureQuality(int _textureQuality)
 {
 	m_textureQuality = _textureQuality;
