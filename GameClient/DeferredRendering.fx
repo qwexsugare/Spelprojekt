@@ -336,8 +336,6 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float trolly = saturate(normal.y);
 	float trollz = saturate(normal.z);
 
-	//had to do this to commiut
-
 	//return float4(trollx, trolly, trollz, normal.w);
 	//return float4(fiskDiff, fiskDiff, fiskDiff, diffuse.w);
 	return float4(diffuse.xyz, diffuse.w);
