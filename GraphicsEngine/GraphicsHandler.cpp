@@ -9,7 +9,7 @@ GraphicsHandler::GraphicsHandler()
 GraphicsHandler::GraphicsHandler(HWND _hWnd, ConfigFile* _configFile)
 {
 	this->m_deviceHandler = new DeviceHandler(_hWnd, _configFile->getWindowed(), _configFile->getScreenSize());
-	this->m_world = new World(this->m_deviceHandler, _hWnd, _configFile->getWindowed(), _configFile->getShadowMapResolution());
+	this->m_world = new World(this->m_deviceHandler, _hWnd, _configFile->getWindowed(), _configFile->getShadowMapResolution(), _configFile->getSSAO());
 	this->m_resourceHolder = new ResourceHolder(this->m_deviceHandler->getDevice());
 	this->m_windowed = _configFile->getWindowed();
 	this->m_shadowMapResolution = _configFile->getShadowMapResolution();

@@ -349,5 +349,8 @@
     <FxCompile Include="..\GameClient\Aura.fx">
       <Filter>Shader files\ParticleBehavior</Filter>
     </FxCompile>
+    <FxCompile Include="..\GameClient\DeferredRenderingWithoutSSAO.fx">
+      <Filter>Shader files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

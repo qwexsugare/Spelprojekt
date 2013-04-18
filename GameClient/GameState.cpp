@@ -126,7 +126,7 @@ GameState::GameState(Client *_network, string mapName)
 	m_yourHeroLives = true;
 	m_leaveGameSprite = NULL;
 	
-	//this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 40), 20, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
+	this->m_fpsText = g_graphicsEngine->createText("", INT2(300, 40), 20, D3DXCOLOR(0.5f, 0.2f, 0.8f, 1.0f));
 	this->m_hud = new HudMenu(this->m_network, m_playerInfos[m_yourId].heroType, m_playerInfos);
 	this->m_clientEntityHandler = new ClientEntityHandler();
 
@@ -195,7 +195,7 @@ GameState::~GameState()
 	if(m_leaveGameSprite)
 		g_graphicsEngine->removeSprite(m_leaveGameSprite);
 
-	//g_graphicsEngine->removeText(this->m_fpsText);
+	g_graphicsEngine->removeText(this->m_fpsText);
 }
 
 State::StateEnum GameState::nextState()
@@ -257,15 +257,15 @@ void GameState::update(float _dt)
 	}
 
 	// Update FRAMES PER SECOND (FPS) text
-	//static float lol = 0.0f;
-	//lol += _dt;
-	//if(lol > 1.0f)
-	//{
-	//	stringstream ss;
-	//	ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f;
-	//	this->m_fpsText->setString(ss.str());
-	//	lol = -0.5f;
-	//}
+	static float lol = 0.0f;
+	lol += _dt;
+	if(lol > 1.0f)
+	{
+		stringstream ss;
+		ss << "FPS: " << 1.0f/_dt << "            Dt*1000: " << _dt*1000.0f;
+		this->m_fpsText->setString(ss.str());
+		lol = -0.5f;
+	}
 
 	while(this->m_network->entityQueueEmpty() == false)
 	{

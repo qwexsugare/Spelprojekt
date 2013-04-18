@@ -40,7 +40,7 @@ private:
 	ID3D10EffectMatrixVariable* m_spotLightWvps;
 public:
 	DeferredRenderingEffectFile();
-	DeferredRenderingEffectFile(ID3D10Device* _device);
+	DeferredRenderingEffectFile(ID3D10Device* _device, string _ssaoFileEndingCheatVariableOfReallyFuckingUglyCode = "");
 	~DeferredRenderingEffectFile();
 
 	void setPositionsTexture(ID3D10ShaderResourceView* _positionTexture);

@@ -5,7 +5,8 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile()
 
 }
 
-DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) : EffectFile(_device, "DeferredRendering.fx")
+DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device, string _ssaoFileEndingCheatVariableOfReallyFuckingUglyCode) :
+	EffectFile(_device, "DeferredRendering" + _ssaoFileEndingCheatVariableOfReallyFuckingUglyCode + ".fx")
 {
 	this->m_positionTexture = this->m_effect->GetVariableByName("positionTexture")->AsShaderResource();
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
