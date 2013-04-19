@@ -380,3 +380,8 @@ void GraphicsHandler::setSSAO(float scale, float radius, float bias, float inten
 {
 	m_world->setSSAO(D3DXVECTOR4(scale, radius, bias, intensity));
 }
+
+void GraphicsHandler::setSsaoEnabled(bool _val)
+{
+	m_world->setSsaoEnabled(_val);
+}

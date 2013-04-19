@@ -28,10 +28,13 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device, 
 	this->m_screenSize = this->m_effect->GetVariableByName("screenSize")->AsVector();
 	this->m_SSAO = this->m_effect->GetVariableByName("declSSAO")->AsVector();
 
-	this->m_randomTex = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
-	ID3D10ShaderResourceView* resource;
-	D3DX10CreateShaderResourceViewFromFile(_device, "./textures/randNormal.jpg", NULL, NULL, &resource, NULL);
-	this->m_randomTex->SetResource(resource);
+	if(_ssaoFileEndingCheatVariableOfReallyFuckingUglyCode == "")
+	{
+		this->m_randomTex = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
+		ID3D10ShaderResourceView* resource;
+		D3DX10CreateShaderResourceViewFromFile(_device, "./textures/randNormal.jpg", NULL, NULL, &resource, NULL);
+		this->m_randomTex->SetResource(resource);
+	}
 
 	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPosition")->AsVector();
 

@@ -8,8 +8,9 @@ World::World()
 World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed, int _shadowMapResolution, bool _ssao)
 {
 	this->m_deviceHandler = _deviceHandler;
+	m_ssaoEnabled = _ssao;
 	// Init the deferred rendering depending on if ssao is enabled or not.
-	if(_ssao)
+	if(m_ssaoEnabled)
 		m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice());
 	else
 		m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice(), "WithoutSSAO");
@@ -1488,4 +1489,25 @@ void World::clear()
 void World::setSSAO(D3DXVECTOR4 ssao)
 {
 	m_SSAO = ssao;
+}
+
+// This function is only used by the settings menu to enable or disable SSAO during runtime.
+void World::setSsaoEnabled(bool _val)
+{
+	// Only do anything at all if the new value is different from the old one
+	if(_val != m_ssaoEnabled)
+	{
+		delete m_deferredRendering;
+
+		// SSAO ON
+		if(_val)
+		{
+			m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice());
+		}
+		// SSAO OFF
+		else
+		{
+			m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice(), "WithoutSSAO");
+		}
+	}
 }

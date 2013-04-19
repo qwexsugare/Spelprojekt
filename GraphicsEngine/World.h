@@ -79,6 +79,7 @@ private:
 
 	DeviceHandler* m_deviceHandler;
 	D3DXVECTOR4 m_SSAO;
+	bool m_ssaoEnabled;
 	
 	vector<Text*> m_texts;
 	vector<MyText*> m_myTexts;
@@ -145,6 +146,7 @@ public:
 	bool removeSpotLight(SpotLight* _spotLight);
 
 	void setSSAO(D3DXVECTOR4 ssao);
+	void setSsaoEnabled(bool _val);
 
 	Camera *getCamera();
 	void initQuadTree(FLOAT2 _extents);
