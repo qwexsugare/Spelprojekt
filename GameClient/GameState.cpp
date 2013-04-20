@@ -864,7 +864,7 @@ void GameState::update(float _dt)
 	{
 
 	}
-	if(g_mouse->isRButtonPressed())
+	if(g_mouse->isLButtonDown())
 	{
 		if(m_minimap->isMouseInMap(g_mouse->getPos()))
 		{
