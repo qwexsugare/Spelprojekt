@@ -256,7 +256,7 @@ float4 PSScene(PSSceneIn input) : SV_Target
 	float attenuation;
 	int nrOfPointAndDirectionalLights = nrOfPointLights + nrOfShadowedPointLights + nrOfDirectionalLights;
 
-	for(i = 0; i < nrOfShadowedPointLights; i++)
+	for(i = 0; i < 4; i++)
 	{
 		distVector = (lightPosition[i] - position);
 		distance = length(distVector);
