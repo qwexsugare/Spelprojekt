@@ -5,7 +5,8 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile()
 
 }
 
-DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) : EffectFile(_device, "DeferredRendering.fx")
+DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device, string _ssaoFileEndingCheatVariableOfReallyFuckingUglyCode) :
+	EffectFile(_device, "DeferredRendering" + _ssaoFileEndingCheatVariableOfReallyFuckingUglyCode + ".fx")
 {
 	this->m_positionTexture = this->m_effect->GetVariableByName("positionTexture")->AsShaderResource();
 	this->m_normalTexture = this->m_effect->GetVariableByName("normalTexture")->AsShaderResource();
@@ -27,10 +28,13 @@ DeferredRenderingEffectFile::DeferredRenderingEffectFile(ID3D10Device* _device) 
 	this->m_screenSize = this->m_effect->GetVariableByName("screenSize")->AsVector();
 	this->m_SSAO = this->m_effect->GetVariableByName("declSSAO")->AsVector();
 
-	this->m_randomTex = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
-	ID3D10ShaderResourceView* resource;
-	D3DX10CreateShaderResourceViewFromFile(_device, "./textures/randNormal.jpg", NULL, NULL, &resource, NULL);
-	this->m_randomTex->SetResource(resource);
+	if(_ssaoFileEndingCheatVariableOfReallyFuckingUglyCode == "")
+	{
+		this->m_randomTex = this->m_effect->GetVariableByName("randomTex")->AsShaderResource();
+		ID3D10ShaderResourceView* resource;
+		D3DX10CreateShaderResourceViewFromFile(_device, "./textures/randNormal.jpg", NULL, NULL, &resource, NULL);
+		this->m_randomTex->SetResource(resource);
+	}
 
 	this->m_cameraPosition = this->m_effect->GetVariableByName("cameraPosition")->AsVector();
 

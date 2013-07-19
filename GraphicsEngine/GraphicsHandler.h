@@ -82,6 +82,7 @@ public:
 
 	DECLDIR void initQuadTree(FLOAT2 _extents);
 	DECLDIR void render();
+	DECLDIR void setSsaoEnabled(bool _val);
 	DECLDIR void update(float dt);
 	DECLDIR HWND InitWindow(HINSTANCE _hInstance, int _nCmdShow, INT2 _screenSize);
 	DECLDIR void clear();

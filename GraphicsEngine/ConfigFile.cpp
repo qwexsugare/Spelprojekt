@@ -178,6 +178,7 @@ void ConfigFile::setWindowed(bool _windowed)
 {
 	m_windowed = _windowed;
 }
+
 void ConfigFile::setSSAO(bool _SSAO)
 {
 	m_SSAO = _SSAO;
@@ -187,22 +188,28 @@ void ConfigFile::setShadowMapResolution(int _shadowMapResolution)
 {
 	this->m_shadowMapResolution = _shadowMapResolution;
 }
+}
+
 void ConfigFile::setShadowmap(int _shadowmap)
 {
 	m_shadowmap = _shadowmap;
 }
+
 void ConfigFile::setTextureQuality(int _textureQuality)
 {
 	m_textureQuality = _textureQuality;
 }
+
 void ConfigFile::setLevelMode(int _levelMode)
 {
 	m_levelMode = _levelMode;
 }
+
 void ConfigFile::setEmilMode(bool _emilMode)
 {
 	m_emilMode = _emilMode;
 }
+
 void ConfigFile::setDiffuseMode(bool _diffuse)
 {
 	m_diffuse = _diffuse;

@@ -171,7 +171,7 @@ void UnitEntity::alterAttackSpeed(float _value)
 void UnitEntity::alterMentalResistance(float _value)
 {
 	m_mentalResistanceChange += _value;
-	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude;
+	this->m_mentalResistance = this->m_baseMentalResistance + this->m_mentalResistanceChange - this->m_mentalResistanceUpgrades * this->m_fortitude * 0.01f;
 }
 
 void UnitEntity::alterMovementSpeed(float _value)
@@ -183,7 +183,7 @@ void UnitEntity::alterMovementSpeed(float _value)
 void UnitEntity::alterPhysicalResistance(float _value)
 {
 	m_physicalResistanceChange += _value;
-	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength;
+	this->m_physicalResistance = m_basePhysicalResistance + m_physicalResistanceChange - this->m_physicalResistanceUpgrades * this->m_strength * 0.01f;
 }
 
 void UnitEntity::alterSpecificUnitEntityMentalResistance()

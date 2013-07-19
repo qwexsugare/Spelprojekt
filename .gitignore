@@ -4123,6 +4123,15 @@ GameClient/menu_textures/Button_HIGH.png
 GameClient/menu_textures/Button_LOW.png
 GameClient/menu_textures/Button_MEDIUM.png
 GameClient/menu_textures/Button_NORMAL.png
+GameClient/menu_textures/Button_EASY.png
+GameClient/menu_textures/Button_HARD.png
+GameClient/menu_textures/Button_HIGH.png
+GameClient/menu_textures/Button_LOW.png
+GameClient/menu_textures/Button_MEDIUM.png
+GameClient/menu_textures/Button_NORMAL.png
+GameClient/models/Beast/idle.BFishA
+GameClient/software/msvs2012_redist_x86.exe
+GameClient/software/oalinst.exe
 GameClient/x64/64-bit/cl.command.1.tlog
 GameClient/x64/64-bit/CL.read.1.tlog
 GameClient/x64/64-bit/CL.write.1.tlog

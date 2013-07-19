@@ -5,7 +5,7 @@
 
 CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage, unsigned int _masterId)
 {
-	m_damage = _damage;
+	m_damage = _damage/LIFETIME; // /LIFETIME is a cheat so that the programmer defining the damage doesnt need to think about dividing it into per second
 	m_position = _position;
 
 	this->m_obb = NULL;
@@ -16,27 +16,6 @@ CloudOfDarknessEffect::CloudOfDarknessEffect(FLOAT3 _position, int _damage, unsi
 	m_timer = 0.0f;
 	m_type = OtherType;
 
-	vector<ServerEntity*> enemies = EntityHandler::getAllEnemies();
-
-	for(int i = 0; i < enemies.size(); i++)
-	{
-		ServerEntity* enemy = enemies[i];
-		if(enemy->getObb())
-		{
-			if(enemy->getObb()->Intersects(*m_bs))
-			{
-				enemies[i]->takeDamage(this->getId(), m_damage, 0);
-			}
-		}
-		else if(enemy->getBs())
-		{
-			if(enemy->getBs()->Intersects(*m_bs))
-			{
-				enemies[i]->takeDamage(this->getId(), m_damage, 0);
-			}
-		}
-	}
-
 	this->m_messageQueue->pushOutgoingMessage(new CreateActionPositionMessage(Skill::CLOUD_OF_DARKNESS, _masterId, _position));
 }
 
@@ -45,12 +24,36 @@ CloudOfDarknessEffect::~CloudOfDarknessEffect()
 
 }
 
+void CloudOfDarknessEffect::tick()
+{
+	vector<ServerEntity*> enemies = EntityHandler::getEntitiesByType(Type::EnemyType);
+	for(int i = 0; i < enemies.size(); i++)
+	{
+		ServerEntity* enemy = enemies[i];
+		if(enemy->intersects(*m_bs))
+		{
+			enemy->takeDamage(this->getId(), m_damage*0.5f, 0);
+		}
+	}
+}
+
 void CloudOfDarknessEffect::update(float _dt)
 {
 	m_timer += _dt;
 
-	if(m_timer >= LIFETIME)
+	if(m_timer < LIFETIME)
 	{
+		m_ticker += _dt;
+		if(m_ticker >= 0.5f)
+		{
+			tick();
+			m_ticker-=0.5f;
+		}
+	}
+	else
+	{
+		tick();
+
 		this->m_messageQueue->pushOutgoingMessage(new RemoveServerEntityMessage(0, EntityHandler::getId(), this->m_id));
 	}
 }

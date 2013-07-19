@@ -5,11 +5,15 @@ World::World()
 	m_quadTree = NULL;
 }
 
-World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed, int _shadowMapResolution)
+World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed, int _shadowMapResolution, bool _ssao)
 {
 	this->m_deviceHandler = _deviceHandler;
-	this->m_spritesMiddle = vector<SpriteBase*>();
-	this->m_texts = vector<Text*>();
+	m_ssaoEnabled = _ssao;
+	// Init the deferred rendering depending on if ssao is enabled or not.
+	if(m_ssaoEnabled)
+		m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice());
+	else
+		m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice(), "WithoutSSAO");
 
 	RECT rc;
 	GetWindowRect(_hWnd, &rc);
@@ -20,11 +24,9 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed, int _sha
 	this->m_forwardRendering = new ForwardRenderingEffectFile(this->m_deviceHandler->getDevice());
 	this->m_forwardRenderTarget = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getBackBuffer());
 	this->m_forwardDepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize(), true);
-	this->m_SSAODepthStencil = new DepthStencil(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize(), true);
 
 	this->m_deferredSampler = new DeferredSamplerEffectFile(this->m_deviceHandler->getDevice());
 	this->m_deferredSampler->setProjectionMatrix(this->m_camera->getProjectionMatrix());
-	this->m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice());
 	m_forwardRendering->setProjectionMatrix(m_camera->getProjectionMatrix());
 
 	this->m_positionBuffer = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -48,7 +50,6 @@ World::World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed, int _sha
 
 	//SSAO
 	this->m_SSAO = D3DXVECTOR4(0, 0, 0, 0);
-	this->m_SSAORendering = new SSAOEffectFile(this->m_deviceHandler->getDevice());
 
 	this->m_positionBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
 	this->m_normalBufferTransparant = new RenderTarget(this->m_deviceHandler->getDevice(), this->m_deviceHandler->getScreenSize());
@@ -118,14 +119,12 @@ World::~World()
 	delete this->m_forwardRendering;
 	delete this->m_forwardRenderTarget;
 	delete this->m_forwardDepthStencil;
-	delete this->m_SSAODepthStencil;
 	delete this->m_spriteRendering;
 
 	delete this->m_deferredPlane;
 	delete this->m_deferredSampler;
 	delete this->m_deferredRendering;
 	delete this->m_glowRendering;
-	delete this->m_SSAORendering;
 	delete this->m_particleRendering;
 
 	delete this->m_positionBuffer;
@@ -679,7 +678,7 @@ void World::render()
 	this->m_deviceHandler->setVertexBuffer(this->m_deferredPlane->getMesh()->buffer, sizeof(Vertex));
 
 	
-	/////SSAO START
+	///// OLD SSAO START
 	////this->m_forwardDepthStencil->clear(m_deviceHandler->getDevice());
 	//this->m_SSAORendering->setDepthTexture(this->m_forwardDepthStencil->getShaderResource());
 	//this->m_deviceHandler->getDevice()->RSSetViewports( 1, &this->m_deviceHandler->getViewport());
@@ -693,7 +692,7 @@ void World::render()
 	//	this->m_SSAORendering->getTechnique()->GetPassByIndex( p )->Apply(0);
 	//	this->m_deviceHandler->getDevice()->Draw(this->m_deferredPlane->getMesh()->nrOfVertices, 0);
 	//}
-	////SSAO END
+	////OLD SSAO END
 
 
 	//Glow
@@ -1490,4 +1489,25 @@ void World::clear()
 void World::setSSAO(D3DXVECTOR4 ssao)
 {
 	m_SSAO = ssao;
+}
+
+// This function is only used by the settings menu to enable or disable SSAO during runtime.
+void World::setSsaoEnabled(bool _val)
+{
+	// Only do anything at all if the new value is different from the old one
+	if(_val != m_ssaoEnabled)
+	{
+		delete m_deferredRendering;
+
+		// SSAO ON
+		if(_val)
+		{
+			m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice());
+		}
+		// SSAO OFF
+		else
+		{
+			m_deferredRendering = new DeferredRenderingEffectFile(this->m_deviceHandler->getDevice(), "WithoutSSAO");
+		}
+	}
 }

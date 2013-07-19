@@ -40,7 +40,6 @@ private:
 	ForwardRenderingEffectFile* m_forwardRendering;
 	RenderTarget *m_forwardRenderTarget;
 	DepthStencil *m_forwardDepthStencil;
-	DepthStencil *m_SSAODepthStencil;
 
 	//Deferred sampling
 	DeferredSamplerEffectFile *m_deferredSampler;
@@ -68,8 +67,9 @@ private:
 	//Particle Rendering
 	ParticleEngineEffectFile* m_particleRendering;
 
-	//SSAO
-	SSAOEffectFile* m_SSAORendering;
+	// Old SSAO
+	//SSAOEffectFile* m_SSAORendering;
+	//DepthStencil *m_SSAODepthStencil;
 
 	//ChainEffectRendering
 	ChainFXEffectFile* m_chainEffectRendering;
@@ -79,6 +79,7 @@ private:
 
 	DeviceHandler* m_deviceHandler;
 	D3DXVECTOR4 m_SSAO;
+	bool m_ssaoEnabled;
 	
 	vector<Text*> m_texts;
 	vector<MyText*> m_myTexts;
@@ -102,7 +103,7 @@ public:
 	static const int TEXT_LAYER = 10;
 
 	World();
-	World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed, int _shadowMapResolution);
+	World(DeviceHandler* _deviceHandler, HWND _hWnd, bool _windowed, int _shadowMapResolution, bool _ssao);
 	~World();
 
 	bool intersectsWithObject(const BoundingOrientedBox& _obb, Model* _model1, Model* _model2 = NULL);
@@ -145,6 +146,7 @@ public:
 	bool removeSpotLight(SpotLight* _spotLight);
 
 	void setSSAO(D3DXVECTOR4 ssao);
+	void setSsaoEnabled(bool _val);
 
 	Camera *getCamera();
 	void initQuadTree(FLOAT2 _extents);

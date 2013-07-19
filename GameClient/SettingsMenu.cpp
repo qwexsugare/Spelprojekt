@@ -391,6 +391,7 @@ void SettingsMenu::Update()
 		g_configFile->setSSAO(m_SSAO);
 		g_configFile->setTextureQuality(m_textureQuality);
 		g_configFile->save();
+		g_graphicsEngine->setSsaoEnabled(m_SSAO);
 	}
 }
 bool SettingsMenu::LowIsDownS()
