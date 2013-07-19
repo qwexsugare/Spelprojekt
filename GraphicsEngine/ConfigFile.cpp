@@ -163,10 +163,10 @@ void ConfigFile::save()
 		<< "music_volume " << m_musicVolume << endl
 		<< "sound_volume " << m_soundVolume << endl
 		<< "player_name " << m_playerName << endl
-		<< "shadow_map " << this->m_shadowMapResolution;
+		<< "shadow_map " << this->m_shadowMapResolution<<endl
 		<< "speech_volume " << m_speechVolume << endl
 		<< "level_mode " << m_levelMode << endl
-		<< "emil_mode " << m_emilMode << endl
+		<< "emil_mode " << m_emilMode << endl;
 }
 
 void ConfigFile::setPlayerName(string _name)
@@ -186,6 +186,7 @@ void ConfigFile::setSSAO(bool _SSAO)
 void ConfigFile::setShadowMapResolution(int _shadowMapResolution)
 {
 	this->m_shadowMapResolution = _shadowMapResolution;
+}
 void ConfigFile::setShadowmap(int _shadowmap)
 {
 	m_shadowmap = _shadowmap;
